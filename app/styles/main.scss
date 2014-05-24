@@ -48,6 +48,13 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
   min-height: 800px;
   border: 1px solid #ddd;
 }
+
+.gridStyle a {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .ngTopPanel, {
   background-color: #ffffff;
 }

@@ -20,6 +20,15 @@ angular
                     }]
                 }
             })
+            .when("/edit/:entity/:id", {
+                templateUrl: "views/edit.html",
+                controller: 'EditCtrl',
+                resolve: {
+                    data: ['$route', 'editBuilder', function($route, editBuilder) {
+                        return editBuilder.getEditData($route.current.params.entity, $route.current.params.id);
+                    }]
+                }
+            })
             .when('/', {
                 templateUrl: 'views/home.html',
                 controller: 'HomeCtrl',

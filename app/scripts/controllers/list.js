@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularAdminApp').controller('ListCtrl', function ($scope, data) {
+angular.module('angularAdminApp').controller('ListCtrl', function ($scope, $location, data) {
 
     var gridOptions = data.gridOptions;
 
@@ -8,5 +8,9 @@ angular.module('angularAdminApp').controller('ListCtrl', function ($scope, data)
     gridOptions.data = 'elements';
 
     $scope.gridOptions = gridOptions;
-    $scope.entityName = data.entityName;
+    $scope.entityLabel = data.entityLabel;
+
+    $scope.edit = function(row) {
+        $location.path('/edit/' + data.entityName + '/' + row.entity.id);
+    }
 });

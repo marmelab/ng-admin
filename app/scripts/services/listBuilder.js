@@ -34,12 +34,14 @@ angular
                     angular.forEach(entity.list, function(field, fieldName) {
                         gridOptions.columnDefs.push({
                             field: fieldName,
-                            displayName: field.label
+                            displayName: field.label,
+                            cellTemplate: '<a ng-click="edit(row)">{{row.getProperty(col.field)}}</a>'
                         });
                     });
 
                     deferred.resolve({
-                        entityName: entity.label,
+                        entityName: entityName,
+                        entityLabel: entity.label,
                         gridOptions: gridOptions
                     })
                 });
