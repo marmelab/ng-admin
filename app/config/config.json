@@ -1,0 +1,81 @@
+{
+    "config": {
+        "name": "Backend",
+        "baseApiUrl": "http://jsonplaceholder.typicode.com/"
+    },
+    "entities": {
+        "users" : {
+            "label": "Users",
+            "list": {
+                "id": {
+                    "type": "integer",
+                    "label": "ID",
+                    "panel" : true
+                 },
+                "name": {
+                    "type": "string",
+                    "label": "Name",
+                    "panel" : true
+                },
+                "email": {
+                    "type": "email",
+                    "label": "Email",
+                    "panel" : true
+                }
+            },
+            "edit": {
+                "name": {
+                    "type": "string",
+                    "label": "Name"
+                },
+                "email": {
+                    "type": "email",
+                    "label": "Email"
+                }
+            }
+        },
+        "albums" : {
+            "label": "Albums",
+            "list": {
+                "id": {
+                    "type": "string",
+                    "label": "ID",
+                    "panel" : true
+                },
+                "title": {
+                    "type": "string",
+                    "label": "Title",
+                    "panel" : true
+                },
+                "userId": {
+                    "type": "string",
+                    "label": "User"
+                }
+            },
+            "edit": {
+                "title": {
+                    "type": "string",
+                    "label": "Title"
+                },
+                "age": {
+                    "type": "number",
+                    "label": "Age"
+                },
+                "userId": {
+                    "type": "string",
+                    "label": "User"
+                }
+            }
+        }
+    },
+    "dashboard" : {
+        "users" : {
+            "label" : "Users",
+            "number" : 5
+        },
+        "albums" : {
+            "label" : "Albums",
+            "number" : 5
+        }
+    }
+}
