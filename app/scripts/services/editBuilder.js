@@ -5,11 +5,11 @@ angular
     .service('editBuilder', ['$q', 'Restangular', 'configRetriever', function($q, Restangular, configRetriever) {
 
         /**
-         * Return the list data
+         * Return the edition data
          *
          * @returns {promise}
          */
-        function getEditData(entityName, id) {
+        function getEditData(entityName, entityId) {
             var deferred = $q.defer();
 
             configRetriever.getConfig().then(function(data) {
@@ -17,9 +17,24 @@ angular
                     return;
                 }
 
-                var entity = data.entities[entityName];
+                var entityConfig = data.entities[entityName],
+                    fields = entityConfig.edit;
+                Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                deferred.resolve('ok');
+                // Get element data
+                Restangular.one(entityName, entityId).get().then(function (entity) {
+
+                    angular.forEach(entityConfig.edit, function(field, fieldName) {
+                        if (typeof(entity[fieldName]) !== "undefined") {
+                            fields[fieldName].value = entity[fieldName];
+                        }
+                    });
+
+                    deferred.resolve({
+                        fields: fields,
+                        entityLabel: entityConfig.label
+                    });
+                });
 
             });
 

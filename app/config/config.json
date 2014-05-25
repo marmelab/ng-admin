@@ -25,12 +25,14 @@
             },
             "edit": {
                 "name": {
-                    "type": "string",
-                    "label": "Name"
+                    "type": "text",
+                    "label": "Name",
+                    "required" : true
                 },
                 "email": {
                     "type": "email",
-                    "label": "Email"
+                    "label": "Email",
+                    "required" : true
                 }
             }
         },
@@ -54,16 +56,14 @@
             },
             "edit": {
                 "title": {
-                    "type": "string",
-                    "label": "Title"
-                },
-                "age": {
-                    "type": "number",
-                    "label": "Age"
+                    "type": "text",
+                    "label": "Title",
+                    "required" : true
                 },
                 "userId": {
-                    "type": "string",
-                    "label": "User"
+                    "type": "text",
+                    "label": "User",
+                    "required" : true
                 }
             }
         }

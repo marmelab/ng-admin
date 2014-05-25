@@ -2,6 +2,14 @@
     <h1 class="page-header">Edit {{ entityLabel }}</h1>
 </div>
 
-<div class="row" id="grid-container">
-    
+<div class="row" id="edit-container">
+    <form class="form-horizontal" role="form">
+        <div class="form-field form-group" ng-include="'views/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
 </div>

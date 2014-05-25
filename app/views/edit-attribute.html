@@ -1,0 +1,17 @@
+<label for="{{ name }}" class="col-sm-2 control-label">{{ field.label }}</label>
+
+<div class="col-sm-10" ng-switch="field.type">
+    <input id="{{ name }}" class="form-control" ng-switch-when="text" type="text" ng-model="field.value" />
+
+    <input id="{{ name }}" class="form-control" ng-switch-when="email" type="email" ng-model="field.value" />
+
+    <input id="{{ name }}" class="form-control" ng-switch-when="number" type="number" ng-model="field.value" />
+
+    <select id="{{ name }}" class="form-control" ng-switch-when="link" ng-model="values[name]" ng-options="option as option for option in componentNames"></select>
+
+    <select id="{{ name }}" class="form-control" ng-switch-when="links" ng-model="values[name]" multiple ng-multiple="true" ng-options="option as option for option in componentNames"></select>
+
+    <select id="{{ name }}" class="form-control" ng-switch-when="choice" ng-model="values[name]" ng-options="option as option for option in field.choices"></select>
+
+    <select id="{{ name }}" class="form-control" ng-switch-when="choices" ng-model="values[name]" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices"></select>
+</div>
