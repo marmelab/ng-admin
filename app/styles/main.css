@@ -5203,15 +5203,19 @@ button.close {
   padding: 10px 15px;
   color: #777777; }
 
+#header {
+  padding: 30px 0; }
+  #header h1 {
+    margin: 0; }
+
 /**
 * Dashboard
 */
-.panel-default {
-  padding: 0;
-  margin: 0 1%; }
-
 .dashboard-content .gridStyle {
   height: 333px; }
+.dashboard-content .panel-default {
+  padding: 0;
+  margin: 0 1%; }
 
 /**
 * Grid
@@ -5225,22 +5229,24 @@ button.close {
   position: relative;
   width: 100%;
   height: 100%; }
+  #grid-container .gridStyle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    min-height: 800px;
+    border: 1px solid #ddd; }
+    #grid-container .gridStyle a {
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; }
 
-#grid-container .gridStyle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  min-height: 800px;
-  border: 1px solid #ddd; }
-
-.gridStyle a {
-  display: block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden; }
-
+.gridStyle
 .ngTopPanel {
   background-color: #ffffff; }
+
+.controls {
+  text-align: right; }

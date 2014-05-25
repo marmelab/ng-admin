@@ -15,8 +15,8 @@ angular
                 templateUrl: "views/list.html",
                 controller: 'ListCtrl',
                 resolve: {
-                    data: ['$route', 'listBuilder', function($route, listBuilder) {
-                        return listBuilder.getListData($route.current.params.entity);
+                    data: ['$route', 'crudManager', function($route, crudManager) {
+                        return crudManager.getAll($route.current.params.entity);
                     }]
                 }
             })
@@ -24,8 +24,17 @@ angular
                 templateUrl: "views/edit.html",
                 controller: 'EditCtrl',
                 resolve: {
-                    data: ['$route', 'editBuilder', function($route, editBuilder) {
-                        return editBuilder.getEditData($route.current.params.entity, $route.current.params.id);
+                    data: ['$route', 'crudManager', function($route, crudManager) {
+                        return crudManager.getOne($route.current.params.entity, $route.current.params.id);
+                    }]
+                }
+            })
+            .when("/delete/:entity/:id", {
+                controller: 'DeleteCtrl',
+                templateUrl: "views/delete.html",
+                resolve: {
+                    params: ['$route', function($route) {
+                        return $route.current.params;
                     }]
                 }
             })

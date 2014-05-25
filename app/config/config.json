@@ -1,80 +1,45 @@
 {
     "config": {
         "name": "Backend",
-        "baseApiUrl": "http://jsonplaceholder.typicode.com/"
+        "baseApiUrl": "http://192.168.56.10:8080/"
     },
     "entities": {
-        "users" : {
-            "label": "Users",
+        "book" : {
+            "label": "Book",
             "list": {
                 "id": {
                     "type": "integer",
                     "label": "ID",
                     "panel" : true
                  },
-                "name": {
-                    "type": "string",
-                    "label": "Name",
-                    "panel" : true
-                },
-                "email": {
-                    "type": "email",
-                    "label": "Email",
-                    "panel" : true
-                }
-            },
-            "edit": {
-                "name": {
-                    "type": "text",
-                    "label": "Name",
-                    "required" : true
-                },
-                "email": {
-                    "type": "email",
-                    "label": "Email",
-                    "required" : true
-                }
-            }
-        },
-        "albums" : {
-            "label": "Albums",
-            "list": {
-                "id": {
-                    "type": "string",
-                    "label": "ID",
-                    "panel" : true
-                },
                 "title": {
-                    "type": "string",
+                    "type": "text",
                     "label": "Title",
                     "panel" : true
                 },
-                "userId": {
-                    "type": "string",
-                    "label": "User"
+                "summary": {
+                    "type": "text",
+                    "label": "Summary",
+                    "panel" : true
                 }
             },
             "edit": {
                 "title": {
                     "type": "text",
-                    "label": "Title",
+                    "label": "Name",
                     "required" : true
                 },
-                "userId": {
+                "summary": {
                     "type": "text",
-                    "label": "User",
+                    "label": "Summary",
                     "required" : true
                 }
             }
         }
     },
     "dashboard" : {
-        "users" : {
-            "label" : "Users",
-            "number" : 5
-        },
-        "albums" : {
-            "label" : "Albums",
+        "book" : {
+            "label" : "Book",
             "number" : 5
         }
     }

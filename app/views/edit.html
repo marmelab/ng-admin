@@ -1,5 +1,13 @@
-<div class="row">
-    <h1 class="page-header">Edit {{ entityLabel }}</h1>
+<div class="row" id="header">
+    <div class="col-sm-5">
+        <h1>Edit {{ entityLabel }}</h1>
+    </div>
+
+    <div class="controls col-sm-7">
+        <a class="btn btn-default">Add new</a>
+        <a class="btn btn-default" data-ng-click="return()">Back to list</a>
+        <a class="btn btn-danger" data-ng-click="delete()">Delete</a>
+    </div>
 </div>
 
 <div class="row" id="edit-container">
