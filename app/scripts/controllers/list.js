@@ -10,7 +10,11 @@ angular.module('angularAdminApp').controller('ListCtrl', function ($scope, $loca
     $scope.gridOptions = gridOptions;
     $scope.entityLabel = data.entityLabel;
 
+    $scope.create = function() {
+        $location.path('/create/' + data.entityName);
+    }
+
     $scope.edit = function(row) {
         $location.path('/edit/' + data.entityName + '/' + row.entity.id);
-    }
+    };
 });

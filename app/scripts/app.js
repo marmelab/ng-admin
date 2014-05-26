@@ -20,6 +20,15 @@ angular
                     }]
                 }
             })
+            .when("/create/:entity", {
+                templateUrl: "views/create.html",
+                controller: 'CreateCtrl',
+                resolve: {
+                    data: ['$route', 'crudManager', function($route, crudManager) {
+                        return crudManager.getFields($route.current.params.entity);
+                    }]
+                }
+            })
             .when("/edit/:entity/:id", {
                 templateUrl: "views/edit.html",
                 controller: 'EditCtrl',

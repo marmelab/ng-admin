@@ -49,17 +49,68 @@ angular
          *
          * @returns {promise}
          */
-        function createOne(entityName) {
+        function getFields(entityName) {
             var deferred = $q.defer();
 
-            var entityConfig = data.entities[entityName],
-                fields = entityConfig.edit;
+            configRetriever.getConfig().then(function(data) {
+                if (!(entityName in data.entities)) {
+                    return;
+                }
 
-            deferred.resolve({
-                fields: fields,
-                entityLabel: entityConfig.label,
-                entityName: entityName,
-                entityId : entityId
+                var entityConfig = data.entities[entityName],
+                    fields = entityConfig.edit;
+
+                deferred.resolve({
+                    fields: fields,
+                    entityLabel: entityConfig.label,
+                    entityName: entityName
+                });
+            });
+
+            return deferred.promise;
+        }
+
+        /**
+         * Create en entity
+         * @param entity
+         */
+        function createOne(entityName, entity) {
+            var deferred = $q.defer();
+
+            configRetriever.getConfig().then(function(data) {
+                if (!(entityName in data.entities)) {
+                    return;
+                }
+
+                Restangular.setBaseUrl(data.config.baseApiUrl);
+
+                // Get element data
+                Restangular.restangularizeElement(null, entity, entityName).post().then(function (entity) {
+                    deferred.resolve(true);
+                }, deferred.reject);
+            });
+
+            return deferred.promise;
+        }
+
+        /**
+         * Create en entity
+         * @param entity
+         */
+        function updateOne(entityName, entity) {
+            var deferred = $q.defer();
+
+            configRetriever.getConfig().then(function(data) {
+                if (!(entityName in data.entities)) {
+                    return;
+                }
+
+                Restangular.setBaseUrl(data.config.baseApiUrl);
+
+                // Get element data
+                Restangular.restangularizeElement(null, entity, entityName).put().then(function (entity) {
+                    deferred.resolve(true);
+                }, deferred.reject);
             });
 
             return deferred.promise;
@@ -134,6 +185,8 @@ angular
 
         return {
             getOne: getOne,
+            getFields: getFields,
+            updateOne: updateOne,
             createOne: createOne,
             deleteOne: deleteOne,
             getAll: getAll
