@@ -86,7 +86,7 @@ angular
 
                 // Get element data
                 Restangular.restangularizeElement(null, entity, entityName).post().then(function (entity) {
-                    deferred.resolve(true);
+                    deferred.resolve(entity.id);
                 }, deferred.reject);
             });
 

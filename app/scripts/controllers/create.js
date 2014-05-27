@@ -12,10 +12,13 @@ angular.module('angularAdminApp').controller('CreateCtrl', function ($scope, $lo
         var object = {};
 
         angular.forEach(data.fields, function(field, name){
-            object[name] = field.value;
+            field.value = null;
         });
 
-        crudManager.createOne(data.entityName, object);
+        crudManager.createOne(data.entityName, object).then(function(entityId) {
+            humane.log('The object has been created.');
+            $location.path('/edit/' + data.entityName + '/' + entityId);
+        });
     };
 
     $scope.return = function() {

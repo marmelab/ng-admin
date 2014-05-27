@@ -15,7 +15,9 @@ angular.module('angularAdminApp').controller('EditCtrl', function ($scope, $loca
 
         object.id = data.entityId;
 
-        crudManager.updateOne(data.entityName, object);
+        if (crudManager.updateOne(data.entityName, object)) {
+            humane.log('The object has been updated.');
+        }
     };
 
     $scope.create = function() {

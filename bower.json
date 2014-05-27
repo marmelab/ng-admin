@@ -16,7 +16,8 @@
     "angular-ui-router": "~0.2.10",
     "bootstrap": "~3.1.1",
     "fontawesome": "~4.1.0",
-    "async": "~0.9.0"
+    "async": "~0.9.0",
+    "humane": "~3.2.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
