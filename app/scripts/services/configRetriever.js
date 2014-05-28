@@ -17,16 +17,16 @@ angular
             if (config !== null) {
                 deferred.resolve(config);
             } else {
-                $http.get('/config/config.json').then(function(response) {
-                    config = response.data;
-                    deferred.resolve(response.data);
-                });
+                $http
+                    .get('/config/config.json')
+                    .then(function(response) {
+                        config = response.data;
+                        deferred.resolve(response.data);
+                    });
             }
 
             return deferred.promise;
         }
 
-        return {
-            getConfig: getConfig
-        };
+        return getConfig;
     });

@@ -12,33 +12,36 @@ angular
         function getOne(entityName, entityId) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                if (!(entityName in data.entities)) {
-                    return;
-                }
+            configRetriever()
+                .then(function(data) {
+                    if (!(entityName in data.entities)) {
+                        return;
+                    }
 
-                var entityConfig = data.entities[entityName],
-                    fields = entityConfig.edit;
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+                    var entityConfig = data.entities[entityName],
+                        fields = entityConfig.edit;
+                    Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                // Get element data
-                Restangular.one(entityName, entityId).get().then(function (entity) {
+                    // Get element data
+                    Restangular
+                        .one(entityName, entityId)
+                        .get()
+                        .then(function (entity) {
+                            angular.forEach(entityConfig.edit, function(field, fieldName) {
+                                if (typeof(entity[fieldName]) !== "undefined") {
+                                    fields[fieldName].value = entity[fieldName];
+                                }
+                            });
 
-                    angular.forEach(entityConfig.edit, function(field, fieldName) {
-                        if (typeof(entity[fieldName]) !== "undefined") {
-                            fields[fieldName].value = entity[fieldName];
+                            deferred.resolve({
+                                fields: fields,
+                                entityLabel: entityConfig.label,
+                                entityName: entityName,
+                                entityId : entityId
+                            });
                         }
-                    });
-
-                    deferred.resolve({
-                        fields: fields,
-                        entityLabel: entityConfig.label,
-                        entityName: entityName,
-                        entityId : entityId
-                    });
+                    );
                 });
-
-            });
 
             return deferred.promise;
         }
@@ -52,20 +55,21 @@ angular
         function getFields(entityName) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                if (!(entityName in data.entities)) {
-                    return;
-                }
+            configRetriever()
+                .then(function(data) {
+                    if (!(entityName in data.entities)) {
+                        return;
+                    }
 
-                var entityConfig = data.entities[entityName],
-                    fields = entityConfig.edit;
+                    var entityConfig = data.entities[entityName],
+                        fields = entityConfig.edit;
 
-                deferred.resolve({
-                    fields: fields,
-                    entityLabel: entityConfig.label,
-                    entityName: entityName
+                    deferred.resolve({
+                        fields: fields,
+                        entityLabel: entityConfig.label,
+                        entityName: entityName
+                    });
                 });
-            });
 
             return deferred.promise;
         }
@@ -77,18 +81,22 @@ angular
         function createOne(entityName, entity) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                if (!(entityName in data.entities)) {
-                    return;
-                }
+            configRetriever()
+                .then(function(data) {
+                    if (!(entityName in data.entities)) {
+                        return;
+                    }
 
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+                    Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                // Get element data
-                Restangular.restangularizeElement(null, entity, entityName).post().then(function (entity) {
-                    deferred.resolve(entity.id);
-                }, deferred.reject);
-            });
+                    // Get element data
+                    Restangular
+                        .restangularizeElement(null, entity, entityName)
+                        .post()
+                        .then(function (entity) {
+                            deferred.resolve(entity);
+                        }, deferred.reject);
+                });
 
             return deferred.promise;
         }
@@ -100,17 +108,21 @@ angular
         function updateOne(entityName, entity) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                if (!(entityName in data.entities)) {
-                    return;
-                }
+            configRetriever()
+                .then(function(data) {
+                    if (!(entityName in data.entities)) {
+                        return;
+                    }
 
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+                    Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                // Get element data
-                Restangular.restangularizeElement(null, entity, entityName).put().then(function (entity) {
-                    deferred.resolve(true);
-                }, deferred.reject);
+                    // Get element data
+                    Restangular
+                        .restangularizeElement(null, entity, entityName)
+                        .put()
+                        .then(function (entity) {
+                            deferred.resolve(entity);
+                        }, deferred.reject);
             });
 
             return deferred.promise;
@@ -124,13 +136,17 @@ angular
         function deleteOne(entityName, entityId) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+            configRetriever()
+                .then(function(data) {
+                    Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                Restangular.one(entityName, entityId).remove().then(function() {
-                    deferred.resolve(true);
-                }, deferred.reject);
-            });
+                    Restangular
+                        .one(entityName, entityId)
+                        .remove()
+                        .then(function() {
+                            deferred.resolve(true);
+                        }, deferred.reject);
+                });
 
             return deferred.promise;
         }
@@ -144,46 +160,50 @@ angular
         function getAll(entityName) {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
-                if (!(entityName in data.entities)) {
-                    return;
-                }
+            configRetriever()
+                .then(function(data) {
+                    if (!(entityName in data.entities)) {
+                        return;
+                    }
 
-                var entity = data.entities[entityName];
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+                    var entity = data.entities[entityName];
+                    Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                var gridOptions = {
-                    data: {},
-                    rowHeight: 40,
-                    jqueryUITheme: true,
-                    columnDefs: [],
-                    label: entity.label
-                };
+                    var gridOptions = {
+                        data: {},
+                        rowHeight: 40,
+                        jqueryUITheme: true,
+                        columnDefs: [],
+                        label: entity.label
+                    };
 
-                // Get grid data
-                Restangular.all(entityName).getList().then(function (data) {
-                    gridOptions.data = data;
+                    // Get grid data
+                    Restangular
+                        .all(entityName)
+                        .getList()
+                        .then(function (data) {
+                            gridOptions.data = data;
 
-                    // Get grid columns definition
-                    angular.forEach(entity.list, function(field, fieldName) {
+                            // Get grid columns definition
+                            angular.forEach(entity.list, function(field, fieldName) {
 
-                        var width = field.type === 'integer' ? 80 : null;
+                                var width = field.type === 'integer' ? 80 : null;
 
-                        gridOptions.columnDefs.push({
-                            field: fieldName,
-                            displayName: field.label,
-                            cellTemplate: '/views/cells/cell-'+ field.type +'.html',
-                            width: width,
-                            sortable: true
+                                gridOptions.columnDefs.push({
+                                    field: fieldName,
+                                    displayName: field.label,
+                                    cellTemplate: '/views/cells/cell-'+ field.type +'.html',
+                                    width: width,
+                                    sortable: true
+                                });
+                            });
+
+                            deferred.resolve({
+                                entityName: entityName,
+                                entityLabel: entity.label,
+                                gridOptions: gridOptions
+                            })
                         });
-                    });
-
-                    deferred.resolve({
-                        entityName: entityName,
-                        entityLabel: entity.label,
-                        gridOptions: gridOptions
-                    })
-                });
             });
 
             return deferred.promise;

@@ -1,0 +1,46 @@
+{
+    "config": {
+        "name": "Backend",
+        "baseApiUrl": "http://192.168.56.10:8080/"
+    },
+    "entities": {
+        "book" : {
+            "label": "Book",
+            "list": {
+                "id": {
+                    "type": "integer",
+                    "label": "ID",
+                    "panel" : true
+                 },
+                "title": {
+                    "type": "text",
+                    "label": "Title",
+                    "panel" : true
+                },
+                "summary": {
+                    "type": "text",
+                    "label": "Summary",
+                    "panel" : true
+                }
+            },
+            "edit": {
+                "title": {
+                    "type": "text",
+                    "label": "Name",
+                    "required" : true
+                },
+                "summary": {
+                    "type": "text",
+                    "label": "Summary",
+                    "required" : true
+                }
+            }
+        }
+    },
+    "dashboard" : {
+        "book" : {
+            "label" : "Book",
+            "number" : 5
+        }
+    }
+}

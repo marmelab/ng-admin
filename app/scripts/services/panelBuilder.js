@@ -12,7 +12,7 @@ angular
         function getPanelsData() {
             var deferred = $q.defer();
 
-            configRetriever.getConfig().then(function(data) {
+            configRetriever().then(function(data) {
 
                 var panels = {};
                 var entities = data.entities;
@@ -30,24 +30,28 @@ angular
                     };
 
                     // Get grid data
-                    Restangular.all(entityName).getList().then(function (data) {
-                        panels[entityName].data = data;
+                    Restangular
+                        .all(entityName)
+                        .getList()
+                        .then(function (data) {
+                            panels[entityName].data = data;
 
-                        // Get grid columns definition
-                        angular.forEach(entities[entityName].list, function(field, fieldName) {
+                            // Get grid columns definition
+                            angular.forEach(entities[entityName].list, function(field, fieldName) {
 
-                            if(typeof(field.panel) === 'undefined' || !field.panel) {
-                                return;
-                            }
+                                if(typeof(field.panel) === 'undefined' || !field.panel) {
+                                    return;
+                                }
 
-                            panels[entityName].columnDefs.push({
-                                field: fieldName,
-                                displayName: field.label
+                                panels[entityName].columnDefs.push({
+                                    field: fieldName,
+                                    displayName: field.label
+                                });
                             });
+
+                            callback();
                         });
 
-                        callback();
-                    });
                 }, function(err){
                     if (err) {
                         return deferred.reject(err);

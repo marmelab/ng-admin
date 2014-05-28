@@ -2,5 +2,6 @@ node_modules
 dist
 .tmp
 .sass-cache
-app/styles/*.css
 app/bower_components
+app/config/config.json
+app/styles/*.css

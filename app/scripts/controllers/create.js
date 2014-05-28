@@ -15,9 +15,9 @@ angular.module('angularAdminApp').controller('CreateCtrl', function ($scope, $lo
             field.value = null;
         });
 
-        crudManager.createOne(data.entityName, object).then(function(entityId) {
+        crudManager.createOne(data.entityName, object).then(function(entity) {
             humane.log('The object has been created.');
-            $location.path('/edit/' + data.entityName + '/' + entityId);
+            $location.path('/edit/' + data.entityName + '/' + entity.id);
         });
     };
 
