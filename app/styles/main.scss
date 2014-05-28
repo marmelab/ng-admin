@@ -70,20 +70,40 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
+          color: #000;
       }
   }
 
 
 }
 
-.gridStyle
-.ngTopPanel, {
-  background-color: #ffffff;
+.gridStyle .ngTopPanel, {
+    background-color: #ffffff;
 }
 
 .controls {
-  text-align: right;
+    text-align: right;
 }
 
 
+.ngViewport{
+    height:auto !important;
+}
+.ngCanvas, .ngViewport, .ngRow, .ngFooterPanel, .ngTopPanel   {
+    width: 100% !important;
+}
 
+.ngHeaderContainer {
+  text-align: center;
+}
+.ngRow {
+    border-bottom:none !important;
+}
+.ngCellText, .ngCellNumber {
+    display:table-cell;
+    vertical-align:middle;
+    white-space:normal;
+}
+.ngCellNumber {
+    text-align: center;
+}

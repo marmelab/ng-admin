@@ -154,6 +154,8 @@ angular
 
                 var gridOptions = {
                     data: {},
+                    rowHeight: 40,
+                    jqueryUITheme: true,
                     columnDefs: [],
                     label: entity.label
                 };
@@ -164,10 +166,15 @@ angular
 
                     // Get grid columns definition
                     angular.forEach(entity.list, function(field, fieldName) {
+
+                        var width = field.type === 'integer' ? 80 : null;
+
                         gridOptions.columnDefs.push({
                             field: fieldName,
                             displayName: field.label,
-                            cellTemplate: '<a ng-click="edit(row)">{{row.getProperty(col.field)}}</a>'
+                            cellTemplate: '/views/cells/cell-'+ field.type +'.html',
+                            width: width,
+                            sortable: true
                         });
                     });
 
