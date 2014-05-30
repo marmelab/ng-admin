@@ -15,11 +15,11 @@ angular
             configRetriever()
                 .then(function(data) {
                     if (!(entityName in data.entities)) {
-                        return;
+                        return deferred.reject('Entity ' + entityName + ' not found.');
                     }
 
                     var entityConfig = data.entities[entityName],
-                        fields = entityConfig.edit;
+                        fields = entityConfig.fields;
                     Restangular.setBaseUrl(data.config.baseApiUrl);
 
                     // Get element data
@@ -27,7 +27,12 @@ angular
                         .one(entityName, entityId)
                         .get()
                         .then(function (entity) {
-                            angular.forEach(entityConfig.edit, function(field, fieldName) {
+
+                            angular.forEach(fields, function(field, fieldName) {
+                                if(typeof(field.edition) === "undefined") {
+                                    return;
+                                }
+
                                 if (typeof(entity[fieldName]) !== "undefined") {
                                     fields[fieldName].value = entity[fieldName];
                                 }
@@ -52,17 +57,18 @@ angular
          *
          * @returns {promise}
          */
-        function getFields(entityName) {
+        function getFields(entityName, creation) {
             var deferred = $q.defer();
+            creation = typeof(creation) === 'undefined' ? false : creation;
 
             configRetriever()
                 .then(function(data) {
                     if (!(entityName in data.entities)) {
-                        return;
+                        return deferred.reject('Entity ' + entityName + ' not found.');
                     }
 
                     var entityConfig = data.entities[entityName],
-                        fields = entityConfig.edit;
+                        fields = filterFields(entityConfig.fields, creation);
 
                     deferred.resolve({
                         fields: fields,
@@ -72,6 +78,32 @@ angular
                 });
 
             return deferred.promise;
+        }
+
+
+        function filterFields(fields, creation) {
+
+            creation = typeof(creation) === 'undefined' ? false : creation;
+            var filteredFields = {};
+
+            angular.forEach(fields, function(field, fieldName){
+
+                if(creation) {
+                    if(typeof(field.edition) !== 'undefined' && field.edition === 'editable') {
+                        this[fieldName] = field;
+                    }
+                } else {
+                    if (typeof(field.edition) === 'undefined' || !field.edition) {
+                        return;
+                    }
+
+                    if(field.edition === 'read-only' || field.edition === 'editable') {
+                        filteredFields[fieldName] = field;
+                    }
+                }
+            }, filteredFields);
+
+            return filteredFields;
         }
 
         /**
@@ -84,7 +116,7 @@ angular
             configRetriever()
                 .then(function(data) {
                     if (!(entityName in data.entities)) {
-                        return;
+                        return deferred.reject('Entity ' + entityName + ' not found.');
                     }
 
                     Restangular.setBaseUrl(data.config.baseApiUrl);
@@ -111,7 +143,7 @@ angular
             configRetriever()
                 .then(function(data) {
                     if (!(entityName in data.entities)) {
-                        return;
+                        return deferred.reject('Entity ' + entityName + ' not found.');
                     }
 
                     Restangular.setBaseUrl(data.config.baseApiUrl);
@@ -163,7 +195,7 @@ angular
             configRetriever()
                 .then(function(data) {
                     if (!(entityName in data.entities)) {
-                        return;
+                        return deferred.reject('Entity ' + entityName + ' not found.');
                     }
 
                     var entity = data.entities[entityName];
@@ -185,15 +217,16 @@ angular
                             gridOptions.data = data;
 
                             // Get grid columns definition
-                            angular.forEach(entity.list, function(field, fieldName) {
+                            angular.forEach(entity.fields, function(field, fieldName) {
 
-                                var width = field.type === 'integer' ? 80 : null;
+                                if(typeof(field.list) === 'undefined' || field.list !== true) {
+                                    return;
+                                }
 
                                 gridOptions.columnDefs.push({
                                     field: fieldName,
                                     displayName: field.label,
                                     cellTemplate: '/views/cells/cell-'+ field.type +'.html',
-                                    width: width,
                                     sortable: true
                                 });
                             });
@@ -204,7 +237,7 @@ angular
                                 gridOptions: gridOptions
                             })
                         });
-            });
+                });
 
             return deferred.promise;
         }

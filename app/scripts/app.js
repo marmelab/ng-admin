@@ -25,7 +25,7 @@ angular
                 controller: 'CreateCtrl',
                 resolve: {
                     data: ['$route', 'crudManager', function($route, crudManager) {
-                        return crudManager.getFields($route.current.params.entity);
+                        return crudManager.getFields($route.current.params.entity, true);
                     }]
                 }
             })

@@ -6,19 +6,25 @@ angular.module('angularAdminApp').controller('CreateCtrl', function ($scope, $lo
     $scope.fields = data.fields;
     $scope.entityLabel = data.entityLabel;
 
+    angular.forEach(data.fields, function(field, name){
+        field.value = null;
+    });
+
     $scope.create = function(form, $event) {
         $event.preventDefault();
 
         var object = {};
 
         angular.forEach(data.fields, function(field, name){
-            field.value = null;
+            object[name] = field.value;
         });
 
-        crudManager.createOne(data.entityName, object).then(function(entity) {
-            humane.log('The object has been created.');
-            $location.path('/edit/' + data.entityName + '/' + entity.id);
-        });
+        crudManager
+            .createOne(data.entityName, object)
+            .then(function(entity) {
+                humane.log('The object has been created.');
+                 $location.path('/edit/' + data.entityName + '/' + entity.id);
+            });
     };
 
     $scope.return = function() {

@@ -6,41 +6,38 @@
     "entities": {
         "book" : {
             "label": "Book",
-            "list": {
+            "dashboard": 5,
+            "fields": {
                 "id": {
                     "type": "integer",
                     "label": "ID",
-                    "panel" : true
+                    "edition" : "read-only",
+                    "list": true,
+                    "dashboard": true,
+                    "validation": {}
                  },
                 "title": {
                     "type": "text",
                     "label": "Title",
-                    "panel" : true
+                    "edition" : "editable",
+                    "list": true,
+                    "dashboard": true,
+                    "validation": {
+                        "required": true,
+                        "max-length" : 150
+                    }
                 },
                 "summary": {
                     "type": "text",
                     "label": "Summary",
-                    "panel" : true
-                }
-            },
-            "edit": {
-                "title": {
-                    "type": "text",
-                    "label": "Name",
-                    "required" : true
-                },
-                "summary": {
-                    "type": "text",
-                    "label": "Summary",
-                    "required" : true
+                    "edition" : "editable",
+                    "dashboard" : false,
+                    "validation": {
+                        "required": true,
+                        "max-length" : 500
+                    }
                 }
             }
-        }
-    },
-    "dashboard" : {
-        "book" : {
-            "label" : "Book",
-            "number" : 5
         }
     }
 }

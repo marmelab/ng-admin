@@ -18,8 +18,11 @@ angular
                 var entities = data.entities;
                 Restangular.setBaseUrl(data.config.baseApiUrl);
 
-                async.each(Object.keys(data.dashboard), function(entityName, callback) {
-                    if (!(entityName in entities)) {
+                async.each(Object.keys(data.entities), function(entityName, callback) {
+
+                    var entity = data.entities[entityName];
+
+                    if (typeof(entity.dashboard) === 'undefined') {
                         return;
                     }
 
@@ -37,9 +40,9 @@ angular
                             panels[entityName].data = data;
 
                             // Get grid columns definition
-                            angular.forEach(entities[entityName].list, function(field, fieldName) {
+                            angular.forEach(entities[entityName].fields, function(field, fieldName) {
 
-                                if(typeof(field.panel) === 'undefined' || !field.panel) {
+                                if(typeof(field.dashboard) === 'undefined' || field.dashboard !== true) {
                                     return;
                                 }
 
