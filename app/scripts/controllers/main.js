@@ -2,9 +2,9 @@
 
 angular
     .module('angularAdminApp')
-    .controller('MainCtrl', function ($scope, configRetriever) {
+    .controller('MainCtrl', function ($scope, getConfig) {
 
-        configRetriever().then(function(config) {
+        getConfig().then(function(config) {
             $scope.global = config.global;
             $scope.entities = config.entities;
         });

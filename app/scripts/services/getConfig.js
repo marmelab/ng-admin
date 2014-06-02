@@ -2,7 +2,7 @@
 
 angular
     .module('angularAdminApp')
-    .service('configRetriever', function($http, $q) {
+    .service('getConfig', function($http, $q) {
 
         var config = null;
 

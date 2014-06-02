@@ -2,7 +2,7 @@
 
 angular
     .module('angularAdminApp')
-    .service('panelBuilder', ['$q', 'Restangular', 'configRetriever', function($q, Restangular, configRetriever) {
+    .service('panelBuilder', ['$q', 'Restangular', 'getConfig', function($q, Restangular, getConfig) {
 
         /**
          * Return the panels data
@@ -12,15 +12,15 @@ angular
         function getPanelsData() {
             var deferred = $q.defer();
 
-            configRetriever().then(function(data) {
+            getConfig().then(function(config) {
 
                 var panels = {};
-                var entities = data.entities;
-                Restangular.setBaseUrl(data.config.baseApiUrl);
+                var entities = config.entities;
+                Restangular.setBaseUrl(config.global.baseApiUrl);
 
-                async.each(Object.keys(data.entities), function(entityName, callback) {
+                async.each(Object.keys(config.entities), function(entityName, callback) {
 
-                    var entity = data.entities[entityName];
+                    var entity = config.entities[entityName];
 
                     if (typeof(entity.dashboard) === 'undefined') {
                         return;
