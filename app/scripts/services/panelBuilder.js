@@ -10,34 +10,38 @@ angular
          * @returns {promise}
          */
         function getPanelsData() {
-            var deferred = $q.defer();
+            var mainDeferred = $q.defer();
 
             getConfig().then(function(config) {
 
-                var panels = {};
-                var entities = config.entities;
+                var promises = [],
+                    entities = config.entities;
+
                 Restangular.setBaseUrl(config.global.baseApiUrl);
 
-                async.each(Object.keys(config.entities), function(entityName, callback) {
+                angular.forEach(Object.keys(config.entities) , function(entityName) {
 
-                    var entity = config.entities[entityName];
+                    var deferred = $q.defer(),
+                        entity = config.entities[entityName];
 
                     if (typeof(entity.dashboard) === 'undefined') {
                         return;
                     }
 
-                    panels[entityName] = {
-                        data: {},
-                        columnDefs: [],
-                        label: entities[entityName].label
-                    };
+                    var panel = {
+                            name: entityName,
+                            data: {},
+                            columnDefs: [],
+                            label: entities[entityName].label
+                            },
+                        limit = entity.dashboard || 10;
 
                     // Get grid data
                     Restangular
                         .all(entityName)
-                        .getList()
+                        .getList({per_page : limit})
                         .then(function (data) {
-                            panels[entityName].data = data;
+                            panel.data = data;
 
                             // Get grid columns definition
                             angular.forEach(entities[entityName].fields, function(field, fieldName) {
@@ -46,26 +50,26 @@ angular
                                     return;
                                 }
 
-                                panels[entityName].columnDefs.push({
+                                panel.columnDefs.push({
                                     field: fieldName,
                                     displayName: field.label
                                 });
-                            });
 
-                            callback();
+                            },deferred.reject);
+
+                            deferred.resolve(panel);
                         });
 
-                }, function(err){
-                    if (err) {
-                        return deferred.reject(err);
-                    }
+                    promises.push(deferred.promise);
+                })
 
-                    deferred.resolve(panels)
-                });
-            });
+                return $q.all(promises);
+            })
+            .then(mainDeferred.resolve, mainDeferred.reject);
 
-            return deferred.promise;
+            return mainDeferred.promise;
         }
+
 
         return {
             getPanelsData: getPanelsData

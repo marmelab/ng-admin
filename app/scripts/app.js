@@ -49,12 +49,7 @@ angular
             })
             .when('/', {
                 templateUrl: 'views/home.html',
-                controller: 'HomeCtrl',
-                resolve: {
-                    panels: ['panelBuilder', function(panelBuilder) {
-                        return panelBuilder.getPanelsData();
-                    }]
-                }
+                controller: 'HomeCtrl'
             })
             .otherwise({
                 redirectTo: '/'

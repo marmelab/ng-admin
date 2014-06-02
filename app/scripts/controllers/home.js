@@ -2,20 +2,26 @@
 
 angular
     .module('angularAdminApp')
-    .controller('HomeCtrl', function ($scope, panels) {
+    .controller('HomeCtrl', function ($scope, panelBuilder) {
 
-        $scope.panels = {};
+        panelBuilder.getPanelsData().then(function(panels) {
 
-        angular.forEach(panels, function(panel, entity) {
+            console.log(panels);
 
-            $scope[entity + 'data'] = panel.data;
 
-            $scope.panels[entity] = {
-                label: panel.label,
-                gridOptions: {
-                    data: entity + 'data',
-                    columnDefs: panels[entity].columnDefs
-                }
-            };
-        })
+            $scope.panels = {};
+
+            angular.forEach(panels, function(panel) {
+
+                $scope[panel.name + 'data'] = panel.data;
+
+                $scope.panels[panel.name] = {
+                    label: panel.label,
+                    gridOptions: {
+                        data: panel.name + 'data',
+                        columnDefs: panel.columnDefs
+                    }
+                };
+            })
+        });
     });
