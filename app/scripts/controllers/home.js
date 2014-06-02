@@ -6,9 +6,6 @@ angular
 
         panelBuilder.getPanelsData().then(function(panels) {
 
-            console.log(panels);
-
-
             $scope.panels = {};
 
             angular.forEach(panels, function(panel) {
