@@ -72,6 +72,32 @@ describe("Service: getConfig", function() {
 
         $httpBackend.flush();
     });
+
+    it('should returns 3 fields for cat entity', function() {
+        var self = this;
+
+        getConfig()
+            .then(function(data) {
+                expect(Object.keys(data.entities.cat.fields).length).toBe(3);
+            }, function () {
+                self.fail(Error());
+            });
+
+        $httpBackend.flush();
+    });
+
+    it('should returns an error fields for book entity', function() {
+        var self = this;
+
+        getConfig()
+            .then(function(data) {
+                expect(data.entities.book).toBeUndefined();
+            }, function () {
+                self.fail(Error());
+            });
+
+        $httpBackend.flush();
+    });
 })
 
 
