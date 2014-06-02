@@ -1,23 +1,23 @@
 /*global describe,module,beforeEach,inject,it,expect*/
 
-describe("Service: configRetriever", function() {
+describe("Service: getConfig", function() {
     'use strict';
 
-    var configRetriever,
+    var getConfig,
         $httpBackend;
 
     beforeEach(module('angularAdminApp'));
 
     beforeEach(inject(function ($injector) {
-        configRetriever = $injector.get('configRetriever');
+        getConfig = $injector.get('getConfig');
 
         // mock http service responses
         $httpBackend = $injector.get('$httpBackend');
 
         $httpBackend.when('GET', '/config/config.json').respond({
-            "config": {
+            "global": {
                 "name": "Cats",
-                "baseApiUrl": "http://192.168.56.10:8080/"
+                "baseApiUrl": "http://localhost/"
             },
             "entities": {
                 "cat" : {
@@ -60,12 +60,12 @@ describe("Service: configRetriever", function() {
 
     }));
 
-    it('should contain a configRetriever service', function() {
+    it('should contain a getConfig service', function() {
         var self = this;
 
-        configRetriever()
+        getConfig()
             .then(function(data) {
-                expect(data.config.name).toBe("Cats");
+                expect(data.global.name).toBe("Cats");
             }, function () {
                 self.fail(Error());
             });

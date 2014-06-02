@@ -6,19 +6,19 @@ describe("Service: crudManager", function() {
     var $q,
         $rootScope,
         crudManager,
-        configRetriever,
+        getConfig,
         $httpBackend;
 
     beforeEach(module('angularAdminApp'));
 
     beforeEach(function () {
-        configRetriever = function() {
+        getConfig = function() {
             var deferred = $q.defer();
 
             deferred.resolve({
-                "config": {
+                "global": {
                     "name": "Cats",
-                    "baseApiUrl": "http://192.168.56.10:8080/"
+                    "baseApiUrl": "http://fake-host/"
                 },
                 "entities": {
                     "cat" : {
@@ -63,7 +63,7 @@ describe("Service: crudManager", function() {
         };
 
         module(function ($provide) {
-            $provide.value('configRetriever', configRetriever);
+            $provide.value('getConfig', getConfig);
         });
     });
 
@@ -75,7 +75,7 @@ describe("Service: crudManager", function() {
     }));
 
     it('getOne should return an the entity with only the editable fields.', function() {
-        $httpBackend.when('GET', 'http://192.168.56.10:8080/cat/1').respond({
+        $httpBackend.when('GET', 'http://fake-host/cat/1').respond({
             "id":1,
             "name":"Mizoute",
             "summary":"Architecto quos et aut reprehenderit iste."
@@ -94,7 +94,7 @@ describe("Service: crudManager", function() {
     });
 
     it('getFields should return all the entity fields.', function() {
-        crudManager.getFields('cat')
+        crudManager.getEditionFields('cat')
             .then(function(data) {
                 var fields = data.fields;
                 expect(Object.keys(fields)).toEqual([ 'id', 'name', 'summary' ]);
@@ -106,8 +106,8 @@ describe("Service: crudManager", function() {
         $rootScope.$digest();
     });
 
-    it('getFields with second parameter `true` should return only the creation fields.', function() {
-        crudManager.getFields('cat', true)
+    it('getFields with second parameter `editable` should return only the creation fields.', function() {
+        crudManager.getEditionFields('cat', 'editable')
             .then(function(data) {
                 var fields = data.fields;
                 expect(Object.keys(fields)).toEqual([ 'name', 'summary' ]);
@@ -119,7 +119,7 @@ describe("Service: crudManager", function() {
     });
 
     it('getAll should return an error when we call a entity undefined in the config file.', function() {
-        $httpBackend.when('GET', 'http://192.168.56.10:8080/book').respond(404, '');
+        $httpBackend.when('GET', 'http://fake-host/book').respond(404, '');
 
         crudManager.getAll('book')
             .then(function(data) {
@@ -133,7 +133,7 @@ describe("Service: crudManager", function() {
 
     it('getAll should return all objects from API & field definition.', function() {
 
-        $httpBackend.when('GET', 'http://192.168.56.10:8080/cat').respond([
+        $httpBackend.when('GET', 'http://fake-host/cat').respond([
             {"id":1,"title":"Mizu","summary":"Architecto quos et aut reprehenderit iste. Iure nihil maiores nostrum ea est dolorem eos. Sit saepe impedit vero voluptas id. Blanditiis nulla sit cupiditate."},
             {"id":2,"title":"Suna","summary":"Modi quos recusandae magni dolore voluptas assumenda occaecati. Enim culpa soluta laborum incidunt sint."},
             {"id":3,"title":"Nao","summary":"Consequatur praesentium dolorum."}
@@ -154,7 +154,7 @@ describe("Service: crudManager", function() {
     });
 
     it('createOne should create a new object.', function() {
-        $httpBackend.expectPOST('http://192.168.56.10:8080/cat').respond(200);
+        $httpBackend.expectPOST('http://fake-host/cat').respond(200);
 
         crudManager.createOne('cat', {name: 'Mizu'});
 
@@ -162,7 +162,7 @@ describe("Service: crudManager", function() {
     });
 
     it('deleteOne should delete the object.', function() {
-        $httpBackend.expectDELETE('http://192.168.56.10:8080/cat/1').respond(200);
+        $httpBackend.expectDELETE('http://fake-host/cat/1').respond(200);
 
         crudManager.deleteOne('cat', 1);
 

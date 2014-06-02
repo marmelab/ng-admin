@@ -19,7 +19,7 @@ angular
             getConfig()
                 .then(function(config) {
                     if (!(entityName in config.entities)) {
-                        return deferred.reject('Entity ' + entityName + ' not found.');
+                        return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
                     entityConfig = config.entities[entityName],
@@ -80,7 +80,7 @@ angular
             getConfig()
                 .then(function(config) {
                     if (!(entityName in config.entities)) {
-                        return deferred.reject('Entity ' + entityName + ' not found.');
+                        return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
                     var entityConfig = config.entities[entityName],
@@ -145,7 +145,7 @@ angular
             getConfig()
                 .then(function(config) {
                     if (!(entityName in config.entities)) {
-                        return deferred.reject('Entity ' + entityName + ' not found.');
+                        return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
                     Restangular.setBaseUrl(config.global.baseApiUrl);
@@ -176,7 +176,7 @@ angular
             getConfig()
                 .then(function(config) {
                     if (!(entityName in config.entities)) {
-                        return deferred.reject('Entity ' + entityName + ' not found.');
+                        return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
                     Restangular.setBaseUrl(config.global.baseApiUrl);
@@ -240,8 +240,9 @@ angular
 
             getConfig()
                 .then(function(config) {
+
                     if (!(entityName in config.entities)) {
-                        return deferred.reject('Entity ' + entityName + ' not found.');
+                        return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
                     entityConfig = config.entities[entityName];
