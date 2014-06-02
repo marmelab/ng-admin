@@ -7,8 +7,8 @@ angular
         /**
          * Get one entity
          *
-         * @param string entityName  name of the entity
-         * @param int entityId       id of the entity
+         * @param {String} entityName  name of the entity
+         * @param {Number} entityId       id of the entity
          *
          * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
          */
@@ -60,8 +60,8 @@ angular
         /**
          * Get the edition fields of an entity:
          *
-         * @param string entityName        name of the entity
-         * @param string|array filterType  optional filter on the edition type (can be `read-only` or `editable`)
+         * @param {String} entityName        name of the entity
+         * @param {String|Array} filterType  optional filter on the edition type (can be `read-only` or `editable`)
          *
          * @returns {promise} (list of fields & the entity name, label & id)
          */
@@ -101,10 +101,10 @@ angular
         /**
          * Filter a list of field to the edition fields
          *
-         * @param object fields  list of fields
-         * @param array filters  filter on the edition type
+         * @param {Object} fields  list of fields
+         * @param {Array} filters  filter on the edition type
          *
-         * @returns {{}} (list of the filtered fields)
+         * @returns {Object} (list of the filtered fields)
          */
         function filterEditionFields(fields, filters) {
             var filteredFields = {};
@@ -134,8 +134,8 @@ angular
          * Create a new entity
          * Post the data to the API to create the new object
          *
-         * @param string  entityName  the name of the entity
-         * @param {} entity           the entity's object
+         * @param {String}  entityName  the name of the entity
+         * @param {Object}  entity           the entity's object
          *
          * @returns {promise}  the new object
          */
@@ -165,8 +165,8 @@ angular
          * Update an entity
          * Put the data to the API to create the new object
          *
-         * @param string  entityName  the name of the entity
-         * @param {} entity           the entity's object
+         * @param {String}  entityName  the name of the entity
+         * @param {Object} entity           the entity's object
          *
          * @returns {promise} the updated object
          */
@@ -197,8 +197,8 @@ angular
          * Delete an entity
          * Delete the data to the API
          *
-         * @param string  entityName  the name of the entity
-         * @param string  entityid    the entity's id
+         * @param {String}  entityName  the name of the entity
+         * @param {String}  entityid    the entity's id
          *
          * @returns {promise}
          */
@@ -224,7 +224,7 @@ angular
          * Return the list of all object of entityName type
          * Get all the object from the API
          *
-         * @param string  entityName  the name of the entity
+         * @param {String}  entityName  the name of the entity
          *
          * @returns {promise} the list of objects, and the data to build the grid (to be removed)
          */

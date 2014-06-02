@@ -164,9 +164,15 @@ describe("Service: crudManager", function() {
 
     describe('createOne', function() {
         it('should create a new object.', function() {
-            $httpBackend.expectPOST('http://fake-host/cat').respond(200);
 
-            crudManager.createOne('cat', {name: 'Mizu'});
+            var postData = {
+                name: "Mizu",
+                summary: "Cute cat"
+            };
+
+            $httpBackend.expectPOST('http://fake-host/cat', JSON.stringify(postData)).respond(200);
+
+            crudManager.createOne('cat', postData);
 
             $httpBackend.flush();
         });
