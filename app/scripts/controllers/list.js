@@ -34,7 +34,7 @@ angular.module('angularAdminApp').controller('ListCtrl', function ($scope, $loca
     $scope.items = rawItems;
 
     $scope.itemClass = function(index) {
-        return (index % 2 === 0) ? 'odd' : 'even';
+        return (index % 2 === 0) ? 'even' : 'odd';
     }
 
     $scope.create = function() {

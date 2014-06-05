@@ -12,14 +12,14 @@
     <fa-grid-layout fa-options="options.grid">
 
         <div class="item header">
-            <div class="column" ng-repeat="column in columns">
+            <div class="cell" ng-repeat="column in columns">
                 {{ column.label }}
             </div>
         </div>
 
         <fa-surface ng-repeat="item in items">
             <div class="item" ng-class="itemClass($index)">
-                <div class="column" ng-repeat="column in columns">
+                <div class="cell" ng-repeat="column in columns">
                     <a ng-click="edit(item)">{{ item[column.field] }}</a>
                 </div>
             </div>

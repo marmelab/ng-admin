@@ -2,7 +2,7 @@
 
 angular
     .module('angularAdminApp')
-    .controller('HomeCtrl', function ($scope, panelBuilder) {
+    .controller('HomeCtrl', function ($scope, $location, panelBuilder) {
 
         panelBuilder.getPanelsData().then(function(panels) {
 
@@ -35,6 +35,7 @@ angular
                     label: panel.entityConfig.label,
                     columns: columns,
                     items: rawItems,
+                    identifierField: identifierField,
                     options: {
                         grid : {
                             dimensions : [ columns.length, rawItems.length ]
@@ -42,5 +43,9 @@ angular
                     }
                 };
             })
+
+            $scope.edit = function(entityName, identifier, item) {
+                $location.path('/edit/' + entityName + '/' + item[identifier]);
+            };
         });
     });

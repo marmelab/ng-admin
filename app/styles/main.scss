@@ -46,15 +46,15 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 .item.header {
   font-weight: bold;
 }
-.item.odd {
+.item.even {
   background-color: #e7e7e7;
 }
-.column {
+.cell {
   float: left;
   padding-left:10px;
   padding-right:10px;
 }
-.column a {
+.cell a {
   color: #000000;
 }
 

@@ -7,7 +7,6 @@ angular
         'ngRoute',
         'restangular',
         'ui.router',
-        'ngAnimate',
         'famous.angular'
     ])
     .config(function ($routeProvider) {
