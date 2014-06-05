@@ -72,7 +72,7 @@ angular
             if (typeof(filterType) !== 'undefined') {
                 if (typeof(filterType) === 'string') {
                     filters.push(filterType);
-                } else if (filterType.length !== 'undefined') {
+                } else if (filterType.length) {
                     filters = filterType;
                 }
             }
@@ -154,7 +154,6 @@ angular
                     return Restangular
                         .restangularizeElement(null, entity, entityName)
                         .post();
-
                 })
                 .then(deferred.resolve, deferred.reject);
 
@@ -185,7 +184,6 @@ angular
                     return Restangular
                         .restangularizeElement(null, entity, entityName)
                         .put();
-
                 })
                 .then(deferred.resolve, deferred.reject);
 
@@ -212,7 +210,6 @@ angular
                     return Restangular
                         .one(entityName, entityId)
                         .remove();
-
                 })
                 .then(deferred.resolve, deferred.reject);
 
@@ -226,11 +223,14 @@ angular
          *
          * @param {String}  entityName  the name of the entity
          *
-         * @returns {promise} the list of objects, and the data to build the grid (to be removed)
+         * @returns {promise} the entity config & the list of objects
          */
-        function getAll(entityName) {
+        function getAll(entityName, page) {
             var deferred = $q.defer(),
-                entityConfig;
+                entityConfig,
+                perPage;
+
+            page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
             getConfig()
                 .then(function(config) {
@@ -240,20 +240,25 @@ angular
                     }
 
                     entityConfig = config.entities[entityName];
+                    perPage = config.global.per_page || 30;
 
                     Restangular.setBaseUrl(config.global.baseApiUrl);
+                    Restangular.setFullResponse(true);  // To get also the headers
 
                     // Get grid data
                     return Restangular
                         .all(entityName)
-                        .getList();
+                        .getList({ page: page, per_page: perPage});
 
                 })
-                .then(function (items) {
+                .then(function (response) {
                     deferred.resolve({
                         entityName: entityName,
                         entityConfig: entityConfig,
-                        rawItems: items
+                        rawItems: response.data,
+                        currentPage: page,
+                        perPage: perPage,
+                        totalItems: response.headers('X-Count')
                     })
                 }, deferred.reject);
 

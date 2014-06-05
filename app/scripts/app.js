@@ -21,6 +21,15 @@ angular
                     }]
                 }
             })
+            .when("/list/:entity/page/:page", {
+                templateUrl: "views/list.html",
+                controller: 'ListCtrl',
+                resolve: {
+                    data: ['$route', 'crudManager', function($route, crudManager) {
+                        return crudManager.getAll($route.current.params.entity, $route.current.params.page);
+                    }]
+                }
+            })
             .when("/create/:entity", {
                 templateUrl: "views/create.html",
                 controller: 'CreateCtrl',
