@@ -230,13 +230,7 @@ angular
          */
         function getAll(entityName) {
             var deferred = $q.defer(),
-                entityConfig,
-                gridOptions = {
-                    data: {},
-                    rowHeight: 40,
-                    jqueryUITheme: true,
-                    columnDefs: []
-                };
+                entityConfig;
 
             getConfig()
                 .then(function(config) {
@@ -246,7 +240,6 @@ angular
                     }
 
                     entityConfig = config.entities[entityName];
-                    gridOptions.label = entityConfig.label;
 
                     Restangular.setBaseUrl(config.global.baseApiUrl);
 
@@ -256,28 +249,11 @@ angular
                         .getList();
 
                 })
-                .then(function (data) {
-                    gridOptions.data = data;
-
-                    // Get grid columns definition
-                    angular.forEach(entityConfig.fields, function(field, fieldName) {
-
-                        if(typeof(field.list) === 'undefined' || field.list !== true) {
-                            return;
-                        }
-
-                        gridOptions.columnDefs.push({
-                            field: fieldName,
-                            displayName: field.label,
-                            cellTemplate: '/views/cells/cell-'+ field.type +'.html',
-                            sortable: true
-                        });
-                    });
-
+                .then(function (items) {
                     deferred.resolve({
                         entityName: entityName,
-                        entityLabel: entityConfig.label,
-                        gridOptions: gridOptions
+                        entityConfig: entityConfig,
+                        rawItems: items
                     })
                 }, deferred.reject);
 

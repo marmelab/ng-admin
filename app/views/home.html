@@ -10,7 +10,22 @@
             {{ panel.label }}
         </div>
         <div class="panel-body">
-            <div class="gridStyle" ng-grid="panel.gridOptions"></div>
+            <fa-grid-layout fa-options="panel.options.grid">
+
+                <div class="item header">
+                    <div class="column" ng-repeat="column in panel.columns">
+                        {{ column.label }}
+                    </div>
+                </div>
+
+                <fa-surface ng-repeat="item in panel.items">
+                    <div class="item" ng-class="itemClass($index)">
+                        <div class="column" ng-repeat="column in panel.columns">
+                            {{ item[column.field] }}
+                        </div>
+                    </div>
+                </fa-surface>
+            </fa-grid-layout>
         </div>
     </div>
 </div>

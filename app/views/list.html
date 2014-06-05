@@ -8,6 +8,21 @@
     </div>
 </div>
 
-<div class="row" id="grid-container">
-    <div class="gridStyle" ng-grid="gridOptions"></div>
+<div class="row grid">
+    <fa-grid-layout fa-options="options.grid">
+
+        <div class="item header">
+            <div class="column" ng-repeat="column in columns">
+                {{ column.label }}
+            </div>
+        </div>
+
+        <fa-surface ng-repeat="item in items">
+            <div class="item" ng-class="itemClass($index)">
+                <div class="column" ng-repeat="column in columns">
+                    <a ng-click="edit(item)">{{ item[column.field] }}</a>
+                </div>
+            </div>
+        </fa-surface>
+    </fa-grid-layout>
 </div>

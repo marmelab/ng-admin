@@ -14,50 +14,32 @@ angular
 
             getConfig().then(function(config) {
 
-                var promises = [],
-                    entities = config.entities;
+                var promises = [];
 
                 Restangular.setBaseUrl(config.global.baseApiUrl);
 
                 angular.forEach(Object.keys(config.entities) , function(entityName) {
 
                     var deferred = $q.defer(),
-                        entity = config.entities[entityName];
+                        entity = config.entities[entityName],
+                        limit = entity.dashboard || 10;
 
                     if (typeof(entity.dashboard) === 'undefined') {
                         return;
                     }
 
-                    var panel = {
-                            name: entityName,
-                            data: {},
-                            columnDefs: [],
-                            label: entities[entityName].label
-                            },
-                        limit = entity.dashboard || 10;
-
-                    // Get grid data
+                    // Get items
                     Restangular
                         .all(entityName)
                         .getList({per_page : limit})
-                        .then(function (data) {
-                            panel.data = data;
+                        .then(function (items) {
 
-                            // Get grid columns definition
-                            angular.forEach(entities[entityName].fields, function(field, fieldName) {
-
-                                if(typeof(field.dashboard) === 'undefined' || field.dashboard !== true) {
-                                    return;
-                                }
-
-                                panel.columnDefs.push({
-                                    field: fieldName,
-                                    displayName: field.label
-                                });
-
-                            },deferred.reject);
-
-                            deferred.resolve(panel);
+                            deferred.resolve({
+                                entityName: entityName,
+                                entityConfig: entity,
+                                limit: limit,
+                                rawItems: items
+                            });
                         });
 
                     promises.push(deferred.promise);
@@ -69,7 +51,6 @@ angular
 
             return mainDeferred.promise;
         }
-
 
         return {
             getPanelsData: getPanelsData

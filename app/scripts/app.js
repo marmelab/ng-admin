@@ -6,7 +6,9 @@ angular
         'ngSanitize',
         'ngRoute',
         'restangular',
-        'ngGrid'
+        'ui.router',
+        'ngAnimate',
+        'famous.angular'
     ])
     .config(function ($routeProvider) {
 
