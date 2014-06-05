@@ -155,7 +155,7 @@ angular
                         .restangularizeElement(null, entity, entityName)
                         .post();
 
-                }, deferred.reject)
+                })
                 .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;

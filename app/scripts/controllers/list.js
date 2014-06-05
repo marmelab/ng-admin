@@ -23,7 +23,8 @@ angular.module('angularAdminApp').controller('ListCtrl', function ($scope, $loca
         });
     });
 
-    $scope.entityLabel = entityConfig.entityLabel;
+    $scope.entityLabel = entityConfig.label;
+
     $scope.options = {
         grid : {
             dimensions : [ columns.length, rawItems.length ]
