@@ -1,0 +1,100 @@
+$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
+// bower:scss
+@import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+// endbower
+
+
+.nav > li.heading {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  color: #777777;
+}
+
+#header {
+  padding: 30px 0;
+
+  h1 {
+      margin: 0;
+  }
+}
+
+/**
+* Dashboard
+*/
+.dashboard-content {
+    .gridStyle {
+        height: 333px;
+    }
+
+    .panel-default {
+        padding: 0;
+        margin: 0 1%;
+    }
+}
+
+/**
+* Grid
+*/
+
+#main-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#grid-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .gridStyle {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      height: 100%;
+      min-height: 800px;
+      border: 1px solid #ddd;
+
+      a {
+          display: block;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          color: #000;
+      }
+  }
+
+
+}
+
+.gridStyle .ngTopPanel, {
+    background-color: #ffffff;
+}
+
+.controls {
+    text-align: right;
+}
+
+
+.ngViewport{
+    height:auto !important;
+}
+.ngCanvas, .ngViewport, .ngRow, .ngFooterPanel, .ngTopPanel   {
+    width: 100% !important;
+}
+
+.ngHeaderContainer {
+  text-align: center;
+}
+.ngRow {
+    border-bottom:none !important;
+}
+.ngCellText, .ngCellNumber {
+    display:table-cell;
+    vertical-align:middle;
+    white-space:normal;
+}
+.ngCellNumber {
+    text-align: center;
+}
