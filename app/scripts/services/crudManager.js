@@ -30,7 +30,7 @@ angular
                         .one(entityName, entityId)
                         .get();
 
-                }, deferred.reject)
+                })
                 .then(function(entity) {
 
                     var fields = entityConfig.fields;
@@ -51,7 +51,7 @@ angular
                         entityName: entityName,
                         entityId : entityId
                     });
-                });
+                }, deferred.reject);
 
             return deferred.promise;
         }
@@ -186,7 +186,7 @@ angular
                         .restangularizeElement(null, entity, entityName)
                         .put();
 
-                }, deferred.reject)
+                })
                 .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;
@@ -213,7 +213,7 @@ angular
                         .one(entityName, entityId)
                         .remove();
 
-                }, deferred.reject)
+                })
                 .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;
@@ -255,7 +255,7 @@ angular
                         .all(entityName)
                         .getList();
 
-                }, deferred.reject)
+                })
                 .then(function (data) {
                     gridOptions.data = data;
 
