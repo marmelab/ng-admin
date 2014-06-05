@@ -1,4 +1,5 @@
 'use strict';
+require.config({baseUrl: 'bower_components'});
 
 angular
     .module('angularAdminApp', [
