@@ -1,11 +1,12 @@
-'use strict';
+define([
+    'app'
+], function(app) {
+    'use strict';
 
-angular
-    .module('angularAdminApp')
-    .controller('MainCtrl', function ($scope, getConfig) {
-
+    app.controller('MainCtrl', function ($scope, getConfig) {
         getConfig().then(function(config) {
             $scope.global = config.global;
             $scope.entities = config.entities;
         });
     });
+});

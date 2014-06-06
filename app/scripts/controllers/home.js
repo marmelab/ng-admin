@@ -1,8 +1,9 @@
-'use strict';
+define([
+    'app'
+], function(app) {
+    'use strict';
 
-angular
-    .module('angularAdminApp')
-    .controller('HomeCtrl', function ($scope, $location, panelBuilder) {
+    app.controller('HomeCtrl', function ($scope, $location, panelBuilder) {
 
         panelBuilder.getPanelsData().then(function(panels) {
 
@@ -49,3 +50,4 @@ angular
             };
         });
     });
+});

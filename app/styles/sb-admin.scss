@@ -135,7 +135,7 @@ body {
 @media(min-width:768px) {
     .navbar-static-side {
         z-index: 1;
-        position: absolute;
+        position: fixed;
         width: 250px;
         margin-top: 51px;
     }

@@ -1,8 +1,9 @@
-'use strict';
+define([
+    'app'
+], function(app) {
+    'use strict';
 
-angular
-    .module('angularAdminApp')
-    .service('crudManager', ['$q', 'Restangular', 'getConfig', function($q, Restangular, getConfig) {
+    app.service('crudManager', ['$q', 'Restangular', 'getConfig', function($q, Restangular, getConfig) {
 
         /**
          * Get one entity
@@ -275,3 +276,4 @@ angular
             getAll: getAll
         };
     }]);
+});

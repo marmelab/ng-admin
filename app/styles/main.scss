@@ -28,32 +28,46 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
         padding: 0;
         margin: 0 1%;
     }
+
+    .grid {
+        border: none;
+    }
+}
+
+.controls {
+    text-align: right;
 }
 
 /**
 * Grid
 */
-.item {
-    height: 40px;
-    padding: 10px 0;
-    float: none;
-    clear: both;
-}
-.item.header {
-    font-weight: bold;
-}
-.item.even {
-    background-color: #e7e7e7;
-}
-.cell {
-    float: left;
-    padding-left:10px;
-    padding-right:10px;
+.grid {
+    border: 1px solid #e7e7e7;
 
-    a {
-        color: #000000;
+    .item {
+        height: 40px;
+        padding: 10px 0;
+        float: none;
+        clear: both;
+    }
+    .item.header {
+        font-weight: bold;
+        background-color: #f5f5f5;
+    }
+    .item.odd {
+        background-color: #f9f9f9;
+    }
+    .cell {
+        float: left;
+        padding-left:10px;
+        padding-right:10px;
+
+        a {
+            color: #000000;
+        }
     }
 }
+
 
 
 
