@@ -26,6 +26,7 @@ define([
 
                     entityConfig = config.entities[entityName];
                     Restangular.setBaseUrl(config.global.baseApiUrl);
+                    Restangular.setFullResponse(true);  // To get also the headers
 
                     // Get element data
                     return Restangular
@@ -33,9 +34,10 @@ define([
                         .get();
 
                 })
-                .then(function(entity) {
+                .then(function(response) {
 
-                    var fields = entityConfig.fields;
+                    var fields = entityConfig.fields,
+                        entity = response.data;
 
                     angular.forEach(fields, function(field, fieldName) {
                         if(typeof(field.edition) === "undefined") {
