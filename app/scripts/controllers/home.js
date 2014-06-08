@@ -1,5 +1,6 @@
 define([
-    'app'
+    'app',
+    '../../scripts/services/panelBuilder'
 ], function(app) {
     'use strict';
 
@@ -43,7 +44,7 @@ define([
                         }
                     }
                 };
-            })
+            });
 
             $scope.edit = function(entityName, identifier, item) {
                 $location.path('/edit/' + entityName + '/' + item[identifier]);

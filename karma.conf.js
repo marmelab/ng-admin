@@ -1,38 +1,37 @@
 module.exports = function(config) {
     config.set({
-        basePath: '',
+        basePath: 'app/',
         frameworks: ['requirejs', 'jasmine'],
         files: [
-            {pattern: 'app/bower_components/**/*.js', included: false},
-            {pattern: 'app/bower_components/**/**/*.js', included: false},
-            {pattern: 'app/scripts/*.js', included: false},
-            {pattern: 'app/scripts/controllers/*.js', included: false},
-            {pattern: 'app/scripts/services/*.js', included: false},
-            {pattern: 'test/{spec,unit}/**/*.js', included: false},
-            {pattern: 'app/views/*.html', watched: true, included: false, served: true},
-            'test/main-test.js'
+            {pattern: 'bower_components/jquery/dist/jquery.js', included: false},
+            {pattern: 'bower_components/bootstrap/dist/js/bootstrap.js', included: false},
+            {pattern: 'bower_components/humane/humane.js', included: false},
+            {pattern: 'bower_components/angular/angular.js', included: false},
+            {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
+            {pattern: 'bower_components/angular-resource/angular-resource.js', included: false},
+            {pattern: 'bower_components/angular-cookies/angular-cookies.js', included: false},
+            {pattern: 'bower_components/angular-sanitize/angular-sanitize.js', included: false},
+            {pattern: 'bower_components/angular-route/angular-route.js', included: false},
+            {pattern: 'bower_components/angular-ui-router/release/angular-ui-router.js', included: false},
+            {pattern: 'bower_components/lodash/dist/lodash.js', included: false},
+            {pattern: 'bower_components/famous-angular/dist/famous-angular.js', included: false},
+            {pattern: 'bower_components/restangular/dist/restangular.js', included: false},
+            {pattern: 'bower_components/famous/dist/famous.js', included: false},
+            {pattern: 'bower_components/famous/**/*.js', included: false},
 
+            {pattern: 'scripts/app.js', included: false},
+            {pattern: 'scripts/init.js', included: false},
+            {pattern: 'scripts/controllers/*.js', included: false},
+            {pattern: 'scripts/services/*.js', included: false},
 
-//            'app/bower_components/jquery/dist/jquery.js',
-//            'app/bower_components/angular/angular.js',
-//            'app/bower_components/angular-mocks/angular-mocks.js',
-//            'app/bower_components/angular-resource/angular-resource.js',
-//            'app/bower_components/angular-cookies/angular-cookies.js',
-//            'app/bower_components/angular-sanitize/angular-sanitize.js',
-//            'app/bower_components/angular-route/angular-route.js',
-//            'app/bower_components/angular-ui-router/release/angular-ui-router.js',
-//            //'app/bower_components/requirejs/require.js',
-//            'app/bower_components/famous-angular/dist/famous-angular.js',
-//            'app/bower_components/lodash/dist/lodash.compat.js',
-//            'app/bower_components/restangular/dist/restangular.js',
-//            'app/scripts/*.js',
-//            'app/scripts/controllers/*.js',
-//            'app/scripts/services/*.js',
-//            // 'test/mock/**/*.js',
-//            'test/test-main.js',
-//            'test/unit/**/*.js'
+            {pattern: '../test/unit/**/*.js', included: false},
+
+            '../test/main-test.js',
+            // Delay the starting of karma until $famous provider is declared
+            '../test/karma-start.js'
         ],
-        exclude: ['app/scripts/app.js'],
+        exclude: ['app/scripts/main.js', 'app/scripts/init.js'],
+
         port: 8080,
 
         // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG

@@ -1,6 +1,8 @@
 define([
     'app',
-    'humane'
+    'humane',
+    '../../scripts/services/getConfig',
+    '../../scripts/services/crudManager'
 ], function(app, humane) {
     'use strict';
 
@@ -11,13 +13,13 @@ define([
         $scope.edit = function(form, $event) {
             $event.preventDefault();
 
-            var object = {};
+            var object = {
+                id: data.entityId
+            };
 
             angular.forEach(data.fields, function(field, name){
                 object[name] = field.value;
             });
-
-            object.id = data.entityId;
 
             if (crudManager.updateOne(data.entityName, object)) {
                 humane.log('The object has been updated.');
@@ -28,11 +30,11 @@ define([
             $location.path('/create/' + data.entityName);
         };
 
-        $scope.delete = function() {
+        $scope.deleteOne = function() {
             $location.path('/delete/' + data.entityName + '/' + data.entityId);
         };
 
-        $scope.return = function() {
+        $scope.back = function() {
             $location.path('/list/' + data.entityName);
         };
     });

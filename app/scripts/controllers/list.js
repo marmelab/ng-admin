@@ -33,7 +33,7 @@ define([
             items: rawItems
         };
         $scope.currentPage = data.currentPage;
-        $scope.nbPages = data.totalItems / data.perPage|0 + 1;
+        $scope.nbPages = (data.totalItems / (data.perPage | 1)) + 1;
 
 
         /**
@@ -59,19 +59,23 @@ define([
          */
         $scope.range = function(min, max){
             var input = [];
-            for (var i = min; i <= max; i ++) input.push(i);
+
+            for (var i = min; i <= max; i ++) {
+                input.push(i);
+            }
+
             return input;
         };
 
         /**
          * Return 'even'|'odd' based on the index parameter
          *
-         * @param int index
+         * @param {Number} index
          * @returns {string}
          */
         $scope.itemClass = function(index) {
             return (index % 2 === 0) ? 'even' : 'odd';
-        }
+        };
 
         /**
          * Link to entity creation page
@@ -79,7 +83,7 @@ define([
         $scope.create = function() {
             $location.path('/create/' + data.entityName);
             $anchorScroll(0);
-        }
+        };
 
         /**
          * Link to edit entity page

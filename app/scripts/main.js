@@ -11,9 +11,7 @@ require.config({
         "bootstrap": "bootstrap/dist/js/bootstrap",
         "restangular": "restangular/dist/restangular",
         "famous-angular": "famous-angular/dist/famous-angular",
-        "humane": "humane/humane",
-        "app": "/scripts/app",
-        "init": "/scripts/init"
+        "humane": "humane/humane"
     },
     shim: {
         "bootstrap": { deps: ['jquery']},
@@ -23,8 +21,7 @@ require.config({
         "angular-route": { deps: ["angular"] },
         "angular-ui-router": { deps: ["angular"] },
         "restangular": { deps: ["angular", "lodash"] },
-        "famous-angular": { deps: ["angular"] },
-        "app": { exports: "app"}
+        "famous-angular": { deps: ["angular"] }
     },
     priority: [
         'angular', 'app'
@@ -35,6 +32,6 @@ require([
     'jquery',
     'bootstrap',
     'angular',
-    'app',
-    'init'
+    '../scripts/app',
+    '../scripts/init'
 ], function (jquery, bootstrap, angular, app) {});

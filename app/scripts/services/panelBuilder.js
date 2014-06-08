@@ -1,5 +1,6 @@
 define([
-    'app'
+    'app',
+    '../../scripts/services/getConfig'
 ], function(app) {
     'use strict';
 

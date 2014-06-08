@@ -1,48 +1,73 @@
 (function() {
     'use strict';
 
-    var dependencies = ['jquery', 'angular'];
+    var dependencies = ['jquery', 'angular', 'app', 'init'];
     for (var file in window.__karma__.files) {
         if (window.__karma__.files.hasOwnProperty(file)) {
-            if (/^\/base\/test\/(.*)spec\.js$/i.test(file)) {
+            if (/(.*)spec\.js$/i.test(file)) {
                 dependencies.push(file);
             }
         }
     }
 
     var vendor = function(relPath, uncompressed) {
-        return '/base/app/bower_components/' + relPath + (!uncompressed ? '.min' : '');
+        if (typeof(uncompressed) === 'undefined') {
+            uncompressed = true;
+        }
+
+        return 'app/bower_components/' + relPath + (!uncompressed ? '.min' : '');
     };
 
-    requirejs.config({
-        baseUrl: '/base/app/bower_component',
+    requirejs({
+        baseUrl: '/base/bower_components',
 
         paths: {
-            jquery: vendor('jquery/dist/jquery', true),
-            lodash: vendor('lodash/dist/lodash', true),
-            angular: vendor('angular/angular', true),
-            angularUI: vendor('angular-ui/build/angular-ui', true)
+            "jquery": 'jquery/dist/jquery',
+            "angular": ('angular/angular'),
+            "angular-ui": ('angular-ui/build/angular-ui'),
+            "angular-resource": ('angular-resource/angular-resource'),
+            "angular-sanitize": ('angular-sanitize/angular-sanitize'),
+            "angular-route": ('angular-route/angular-route'),
+            "angular-ui-router": ('angular-ui-router/release/angular-ui-router'),
+            "angular-mocks": ('angular-mocks/angular-mocks'),
+            "lodash": ('lodash/dist/lodash'),
+            "bootstrap": ('bootstrap/dist/js/bootstrap'),
+            "restangular": ('restangular/dist/restangular'),
+            "famous-angular": ('famous-angular/dist/famous-angular'),
+            "famous": ('famous'),
+            "humane": ('humane/humane'),
+            "app": ('../scripts/app'),
+            "init": ('../scripts/init'),
+//            "controller-create": ('../scripts/controllers/create'),
+//            "controller-delete": ('../scripts/controllers/delete'),
+//            "controller-edit": ('../scripts/controllers/edit'),
+//            "controller-home": ('../scripts/controllers/home'),
+//            "controller-list": ('../scripts/controllers/list'),
+//            "controller-main": ('../scripts/controllers/main'),
+//            "controller-sidebar": ('../scripts/controllers/sidebar'),
+//            "service-getConfig": ('../scripts/services/getConfig'),
+//            "service-crudManager": ('../scripts/services/crudManager'),
+//            "service-panelBuilder": ('../scripts/services/panelBuilder')
         },
 
         shim: {
-            angularAnimate: ['angular'],
-            angularUI: ['angular'],
-            'lodash': {
-                exports: '_'
-            }
+            "bootstrap": { deps: ['jquery']},
+            "angular": { exports: "angular", deps: ['jquery']},
+            "angular-resource": { deps: ["angular"] },
+            "angular-sanitize": { deps: ["angular"] },
+            "angular-route": { deps: ["angular"] },
+            "angular-ui-router": { deps: ["angular"] },
+            "angular-mocks": { deps: ["angular"] },
+            "lodash": { exports: "_" },
+            "restangular": { deps: ["angular", "lodash"] },
+            "famous-angular": { deps: ["angular"] }
         },
 
+        priority: ['angular', 'app']
 
-        priority: [
-            'angular'
-        ],
-
-        // ask Require.js to load these files (all our tests)
-        deps: dependencies,
-
-        // start test run, once Require.js is done
-        callback: window.__karma__.start
+    }, dependencies, function () {
+        window.addEventListener('$famousModulesLoaded', function() {
+            __karma__.start();
+        });
     });
-
-
 })();

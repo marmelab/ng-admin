@@ -1,16 +1,17 @@
 define([
-    'app'
+    'app',
+    '../../scripts/services/crudManager'
 ], function(app) {
     'use strict';
 
     app.controller('DeleteCtrl', function ($scope, $location, crudManager, params) {
-        $scope.delete = function() {
+        $scope.deleteOne = function() {
             crudManager.deleteOne(params.entity, params.id).then(function() {
                 $location.path('/list/' + params.entity);
             });
-        }
+        };
 
-        $scope.return = function() {
+        $scope.back = function() {
             $location.path('/edit/' + params.entity + '/' + params.id);
         }
     });

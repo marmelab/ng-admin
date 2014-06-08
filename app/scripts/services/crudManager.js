@@ -1,5 +1,6 @@
 define([
-    'app'
+    'app',
+    '../../scripts/services/getConfig'
 ], function(app) {
     'use strict';
 
@@ -23,7 +24,7 @@ define([
                         return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
-                    entityConfig = config.entities[entityName],
+                    entityConfig = config.entities[entityName];
                     Restangular.setBaseUrl(config.global.baseApiUrl);
 
                     // Get element data
@@ -197,7 +198,7 @@ define([
          * Delete the data to the API
          *
          * @param {String}  entityName  the name of the entity
-         * @param {String}  entityid    the entity's id
+         * @param {String}  entityId    the entity's id
          *
          * @returns {promise}
          */
@@ -223,6 +224,7 @@ define([
          * Get all the object from the API
          *
          * @param {String}  entityName  the name of the entity
+         * @param {Number}  page        the page number
          *
          * @returns {promise} the entity config & the list of objects
          */
@@ -265,7 +267,6 @@ define([
 
             return deferred.promise;
         }
-
 
         return {
             getOne: getOne,

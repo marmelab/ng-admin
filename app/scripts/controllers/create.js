@@ -1,8 +1,8 @@
 define([
     'app',
     'humane',
-    '../services/getConfig',
-    '../services/panelBuilder'
+    '../../scripts/services/getConfig',
+    '../../scripts/services/panelBuilder'
 ], function(app, humane) {
     'use strict';
 
@@ -31,7 +31,7 @@ define([
                 });
         };
 
-        $scope.return = function() {
+        $scope.back = function() {
             $location.path('/list/' + data.entityName);
         }
     });

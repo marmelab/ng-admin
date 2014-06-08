@@ -1,7 +1,6 @@
 /*global describe,module,beforeEach,inject,it,expect*/
 
-define(['angular', 'jquery', 'lodash', 'angularUI'], function(angular, $, _, angularUI) {
-
+define(['angular', 'app', 'angular-mocks'], function(angular, app) {
 
     describe("Service: getConfig", function() {
         'use strict';
@@ -63,7 +62,7 @@ define(['angular', 'jquery', 'lodash', 'angularUI'], function(angular, $, _, ang
 
         }));
 
-        iit('should contain a getConfig service', function() {
+        it('should contain a getConfig service', function() {
             var self = this;
 
             getConfig()
@@ -102,6 +101,4 @@ define(['angular', 'jquery', 'lodash', 'angularUI'], function(angular, $, _, ang
             $httpBackend.flush();
         });
     });
-
-
 });
