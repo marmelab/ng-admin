@@ -37,17 +37,7 @@
             "famous": ('famous'),
             "humane": ('humane/humane'),
             "app": ('../scripts/app'),
-            "init": ('../scripts/init'),
-//            "controller-create": ('../scripts/controllers/create'),
-//            "controller-delete": ('../scripts/controllers/delete'),
-//            "controller-edit": ('../scripts/controllers/edit'),
-//            "controller-home": ('../scripts/controllers/home'),
-//            "controller-list": ('../scripts/controllers/list'),
-//            "controller-main": ('../scripts/controllers/main'),
-//            "controller-sidebar": ('../scripts/controllers/sidebar'),
-//            "service-getConfig": ('../scripts/services/getConfig'),
-//            "service-crudManager": ('../scripts/services/crudManager'),
-//            "service-panelBuilder": ('../scripts/services/panelBuilder')
+            "init": ('../scripts/init')
         },
 
         shim: {
