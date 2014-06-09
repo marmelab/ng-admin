@@ -12,6 +12,7 @@
                     "type": "integer",
                     "label": "ID",
                     "edition" : "read-only",
+                    "identifier" : true,
                     "list": true,
                     "dashboard": true,
                     "validation": {}

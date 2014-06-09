@@ -1,8 +1,9 @@
-'use strict';
+define([
+    'app'
+], function(app) {
+    'use strict';
 
-angular
-    .module('angularAdminApp')
-    .service('getConfig', function($http, $q) {
+    app.service('getConfig', function($http, $q) {
 
         var config = null;
 
@@ -30,3 +31,4 @@ angular
 
         return getConfig;
     });
+});

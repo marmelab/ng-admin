@@ -1,8 +1,10 @@
-'use strict';
+define([
+    'app',
+    '../../scripts/services/getConfig'
+], function(app) {
+    'use strict';
 
-angular
-    .module('angularAdminApp')
-    .service('crudManager', ['$q', 'Restangular', 'getConfig', function($q, Restangular, getConfig) {
+    app.service('crudManager', ['$q', 'Restangular', 'getConfig', function($q, Restangular, getConfig) {
 
         /**
          * Get one entity
@@ -22,8 +24,9 @@ angular
                         return $q.reject('Entity ' + entityName + ' not found.');
                     }
 
-                    entityConfig = config.entities[entityName],
+                    entityConfig = config.entities[entityName];
                     Restangular.setBaseUrl(config.global.baseApiUrl);
+                    Restangular.setFullResponse(true);  // To get also the headers
 
                     // Get element data
                     return Restangular
@@ -31,9 +34,10 @@ angular
                         .get();
 
                 })
-                .then(function(entity) {
+                .then(function(response) {
 
-                    var fields = entityConfig.fields;
+                    var fields = entityConfig.fields,
+                        entity = response.data;
 
                     angular.forEach(fields, function(field, fieldName) {
                         if(typeof(field.edition) === "undefined") {
@@ -72,7 +76,7 @@ angular
             if (typeof(filterType) !== 'undefined') {
                 if (typeof(filterType) === 'string') {
                     filters.push(filterType);
-                } else if (filterType.length !== 'undefined') {
+                } else if (filterType.length) {
                     filters = filterType;
                 }
             }
@@ -154,8 +158,7 @@ angular
                     return Restangular
                         .restangularizeElement(null, entity, entityName)
                         .post();
-
-                }, deferred.reject)
+                })
                 .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;
@@ -185,7 +188,6 @@ angular
                     return Restangular
                         .restangularizeElement(null, entity, entityName)
                         .put();
-
                 })
                 .then(deferred.resolve, deferred.reject);
 
@@ -198,7 +200,7 @@ angular
          * Delete the data to the API
          *
          * @param {String}  entityName  the name of the entity
-         * @param {String}  entityid    the entity's id
+         * @param {String}  entityId    the entity's id
          *
          * @returns {promise}
          */
@@ -212,7 +214,6 @@ angular
                     return Restangular
                         .one(entityName, entityId)
                         .remove();
-
                 })
                 .then(deferred.resolve, deferred.reject);
 
@@ -225,18 +226,16 @@ angular
          * Get all the object from the API
          *
          * @param {String}  entityName  the name of the entity
+         * @param {Number}  page        the page number
          *
-         * @returns {promise} the list of objects, and the data to build the grid (to be removed)
+         * @returns {promise} the entity config & the list of objects
          */
-        function getAll(entityName) {
+        function getAll(entityName, page) {
             var deferred = $q.defer(),
                 entityConfig,
-                gridOptions = {
-                    data: {},
-                    rowHeight: 40,
-                    jqueryUITheme: true,
-                    columnDefs: []
-                };
+                perPage;
+
+            page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
             getConfig()
                 .then(function(config) {
@@ -246,44 +245,30 @@ angular
                     }
 
                     entityConfig = config.entities[entityName];
-                    gridOptions.label = entityConfig.label;
+                    perPage = config.global.per_page || 30;
 
                     Restangular.setBaseUrl(config.global.baseApiUrl);
+                    Restangular.setFullResponse(true);  // To get also the headers
 
                     // Get grid data
                     return Restangular
                         .all(entityName)
-                        .getList();
+                        .getList({ page: page, per_page: perPage});
 
                 })
-                .then(function (data) {
-                    gridOptions.data = data;
-
-                    // Get grid columns definition
-                    angular.forEach(entityConfig.fields, function(field, fieldName) {
-
-                        if(typeof(field.list) === 'undefined' || field.list !== true) {
-                            return;
-                        }
-
-                        gridOptions.columnDefs.push({
-                            field: fieldName,
-                            displayName: field.label,
-                            cellTemplate: '/views/cells/cell-'+ field.type +'.html',
-                            sortable: true
-                        });
-                    });
-
+                .then(function (response) {
                     deferred.resolve({
                         entityName: entityName,
-                        entityLabel: entityConfig.label,
-                        gridOptions: gridOptions
+                        entityConfig: entityConfig,
+                        rawItems: response.data,
+                        currentPage: page,
+                        perPage: perPage,
+                        totalItems: response.headers('X-Count')
                     })
                 }, deferred.reject);
 
             return deferred.promise;
         }
-
 
         return {
             getOne: getOne,
@@ -294,3 +279,4 @@ angular
             getAll: getAll
         };
     }]);
+});

@@ -24,77 +24,53 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 * Dashboard
 */
 .dashboard-content {
-    .gridStyle {
-        height: 333px;
-    }
-
     .panel-default {
         padding: 0;
         margin: 0 1%;
     }
-}
 
-/**
-* Grid
-*/
-
-#main-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-#grid-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  .gridStyle {
-      position: absolute;
-      left: 0; top: 0; right: 0; bottom: 0;
-      height: 100%;
-      min-height: 800px;
-      border: 1px solid #ddd;
-
-      a {
-          display: block;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          color: #000;
-      }
-  }
-
-
-}
-
-.gridStyle .ngTopPanel, {
-    background-color: #ffffff;
+    .grid {
+        border: none;
+    }
 }
 
 .controls {
     text-align: right;
 }
 
+/**
+* Grid
+*/
+.grid {
+    border: 1px solid #e7e7e7;
 
-.ngViewport{
-    height:auto !important;
-}
-.ngCanvas, .ngViewport, .ngRow, .ngFooterPanel, .ngTopPanel   {
-    width: 100% !important;
+    .item {
+        height: 40px;
+        padding: 10px 0;
+        float: none;
+        clear: both;
+    }
+    .item.header {
+        font-weight: bold;
+        background-color: #f5f5f5;
+    }
+    .item.odd {
+        background-color: #f9f9f9;
+    }
+    .cell {
+        float: left;
+        padding-left:10px;
+        padding-right:10px;
+
+        a {
+            color: #000000;
+        }
+    }
 }
 
-.ngHeaderContainer {
-  text-align: center;
-}
-.ngRow {
-    border-bottom:none !important;
-}
-.ngCellText, .ngCellNumber {
-    display:table-cell;
-    vertical-align:middle;
-    white-space:normal;
-}
-.ngCellNumber {
-    text-align: center;
-}
+
+
+
+
+
+

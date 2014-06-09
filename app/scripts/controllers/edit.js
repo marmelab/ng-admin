@@ -1,34 +1,41 @@
-'use strict';
+define([
+    'app',
+    'humane',
+    '../../scripts/services/getConfig',
+    '../../scripts/services/crudManager'
+], function(app, humane) {
+    'use strict';
 
-angular.module('angularAdminApp').controller('EditCtrl', function ($scope, $location, crudManager, data) {
-    $scope.fields = data.fields;
-    $scope.entityLabel = data.entityLabel;
+    app.controller('EditCtrl', function ($scope, $location, crudManager, data) {
+        $scope.fields = data.fields;
+        $scope.entityLabel = data.entityLabel;
 
-    $scope.edit = function(form, $event) {
-        $event.preventDefault();
+        $scope.edit = function(form, $event) {
+            $event.preventDefault();
 
-        var object = {};
+            var object = {
+                id: data.entityId
+            };
 
-        angular.forEach(data.fields, function(field, name){
-            object[name] = field.value;
-        });
+            angular.forEach(data.fields, function(field, name){
+                object[name] = field.value;
+            });
 
-        object.id = data.entityId;
+            if (crudManager.updateOne(data.entityName, object)) {
+                humane.log('The object has been updated.');
+            }
+        };
 
-        if (crudManager.updateOne(data.entityName, object)) {
-            humane.log('The object has been updated.');
-        }
-    };
+        $scope.create = function() {
+            $location.path('/create/' + data.entityName);
+        };
 
-    $scope.create = function() {
-        $location.path('/create/' + data.entityName);
-    };
+        $scope.deleteOne = function() {
+            $location.path('/delete/' + data.entityName + '/' + data.entityId);
+        };
 
-    $scope.delete = function() {
-        $location.path('/delete/' + data.entityName + '/' + data.entityId);
-    };
-
-    $scope.return = function() {
-        $location.path('/list/' + data.entityName);
-    };
+        $scope.back = function() {
+            $location.path('/list/' + data.entityName);
+        };
+    });
 });

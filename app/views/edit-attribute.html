@@ -7,6 +7,8 @@
 
     <input id="{{ name }}" class="form-control" ng-switch-when="number" type="number" ng-model="fields[name].value" />
 
+    <input id="{{ name }}" class="form-control" ng-switch-when="date" type="date" ng-model="fields[name].value" />
+
     <select id="{{ name }}" class="form-control" ng-switch-when="link" ng-model="fields[name].value" ng-options="option as option for option in componentNames"></select>
 
     <select id="{{ name }}" class="form-control" ng-switch-when="links" ng-model="fields[name].value" multiple ng-multiple="true" ng-options="option as option for option in componentNames"></select>

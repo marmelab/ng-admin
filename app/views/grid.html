@@ -1,0 +1,19 @@
+hello
+
+<fa-grid-layout fa-options="panel.options.grid">
+
+    <div class="item header">
+        <div class="cell" ng-repeat="column in panel.columns">
+            {{ column.label }}
+        </div>
+    </div>
+
+    <fa-surface ng-repeat="item in panel.items">
+        <div class="item" ng-class="itemClass($index)">
+            <div class="cell" ng-repeat="column in panel.columns">
+                <a ng-click="edit(name, panel.identifierField, item)">{{ item[column.field] }}</a>
+            </div>
+        </div>
+    </fa-surface>
+</fa-grid-layout>
+

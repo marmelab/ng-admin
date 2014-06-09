@@ -5,12 +5,27 @@
 </div>
 
 <div class="row dashboard-content">
-    <div class="panel panel-default col-lg-5" ng-repeat="panel in panels">
+    <div class="panel panel-default col-lg-5" ng-repeat="(name, panel) in panels">
         <div class="panel-heading">
             {{ panel.label }}
         </div>
-        <div class="panel-body">
-            <div class="gridStyle" ng-grid="panel.gridOptions"></div>
+        <div class="panel-body grid">
+            <fa-grid-layout fa-options="panel.options.grid">
+
+                <div class="item header">
+                    <div class="cell" ng-repeat="column in panel.columns">
+                        {{ column.label }}
+                    </div>
+                </div>
+
+                <fa-surface ng-repeat="item in panel.items">
+                    <div class="item" ng-class="itemClass($index)">
+                        <div class="cell" ng-repeat="column in panel.columns">
+                            <a ng-click="edit(name, panel.identifierField, item)">{{ item[column.field] }}</a>
+                        </div>
+                    </div>
+                </fa-surface>
+            </fa-grid-layout>
         </div>
     </div>
 </div>
