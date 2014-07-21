@@ -11,12 +11,12 @@ require(['common', 'common-famous', 'ng-admin'], function () {
             'ng-admin',
 
             // dionysos dependencies
-            ['main', 'crud'],
+            ['main', 'crud']
 
             // global default redirection
-            ['$urlRouterProvider', function($urlRouterProvider) {
-                $urlRouterProvider.otherwise('/dashboard');
-            }]
+//            ['$urlRouterProvider', function($urlRouterProvider) {
+//                $urlRouterProvider.otherwise('/dashboard');
+//            }]
 
         );
 

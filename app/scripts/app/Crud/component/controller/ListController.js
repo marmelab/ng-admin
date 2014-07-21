@@ -1,11 +1,11 @@
 define([], function() {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data) {
+    var ListController = function($scope, $location, $anchorScroll/*, data*/) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
-        this.data = data;
+//        this.data = data;
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;

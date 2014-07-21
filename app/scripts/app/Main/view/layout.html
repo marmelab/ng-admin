@@ -5,12 +5,12 @@
         </div>
     </nav>
 
-    <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController">
+    <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController as sidebarController">
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="heading"><i class="fa fa-list-alt fa-fw"></i> Entities</li>
-                <li class="entities-repeat" ng-repeat="(key, entity) in entities">
-                    <a ng-click="displayList(key, $event)">{{entity.label}}</a>
+                <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities">
+                    <a ng-click="sidebarController.displayList(key, $event)">{{entity.label}}</a>
                 </li>
             </ul>
         </div>

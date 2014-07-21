@@ -15,11 +15,12 @@ define([
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
-                resolve: {
-                    data: ['$route', 'crudManager', function($route, CrudManager) {
-                        return CrudManager.getAll($route.current.params.entity);
-                    }]
-                }
+//                resolve: {
+//                    data: ['$route', 'crudManager', function($route, CrudManager) {
+//                        console.log('ok');
+//                        return CrudManager.getAll($route.current.params.entity);
+//                    }]
+//                }
             });
 
         $stateProvider

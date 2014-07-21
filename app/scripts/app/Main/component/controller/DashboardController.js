@@ -6,6 +6,8 @@ define([], function() {
         this.$location = $location;
         this.PanelBuilder = PanelBuilder;
 
+        console.log('heho')
+
         this.getPanels();
 
         $scope.$on('$destroy', this.destroy.bind(this));

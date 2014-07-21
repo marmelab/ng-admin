@@ -8,7 +8,9 @@ define(
         'app/Crud/component/controller/EditController',
         'app/Crud/component/controller/DeleteController',
 
-        'angular-ui-router', 'famous-angular'
+        'app/Crud/config/routing',
+
+        'angular-ui-router', 'famous-angular', 'angular-sanitize'
     ],
     function (
         angular,
@@ -17,17 +19,21 @@ define(
         ListController,
         CreateController,
         EditController,
-        DeleteController
+        DeleteController,
+
+        routing
         ) {
         "use strict";
 
-        var CrudModule = angular.module('crud', ['ui.router', 'famous.angular']);
+        var CrudModule = angular.module('crud', ['ui.router', 'ngSanitize', 'famous.angular']);
         CrudModule.constant('config', config);
 
         CrudModule.controller('ListController', ListController);
         CrudModule.controller('CreateController', CreateController);
         CrudModule.controller('EditController', EditController);
         CrudModule.controller('DeleteController', DeleteController);
+
+        CrudModule.config(routing);
 
         return CrudModule;
     }
