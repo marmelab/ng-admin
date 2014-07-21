@@ -10,6 +10,7 @@ define([], function() {
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
+        this.identifierField = 'id';
 
         this.computePagination();
 
@@ -20,12 +21,12 @@ define([], function() {
         var entityConfig = this.data.entityConfig,
             rawItems = this.data.rawItems,
             columns = [],
-            identifierField = 'id';
+            self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
         angular.forEach(entityConfig.fields, function(field, fieldName) {
             if(typeof(field.identifier) !== 'undefined') {
-                identifierField = fieldName;
+                self.identifierField = fieldName;
             }
             if(typeof(field.list) === 'undefined' || field.list !== true) {
                 return;
@@ -94,7 +95,7 @@ define([], function() {
      * Link to entity creation page
      */
     ListController.prototype.create = function() {
-        $location.path('/create/' + this.data.entityName);
+        this.$location.path('/create/' + this.data.entityName);
         this.$anchorScroll(0);
     };
 
@@ -104,7 +105,8 @@ define([], function() {
      * @param {Object} item
      */
     ListController.prototype.edit = function(item) {
-        $location.path('/edit/' + this.data.entityName + '/' + item[identifierField]);
+        this.$location.path('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
+        console.log('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
         this.$anchorScroll(0);
     };
 

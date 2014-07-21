@@ -20,7 +20,7 @@
         <fa-surface ng-repeat="item in grid.items">
             <div class="item" ng-class="itemClass($index)">
                 <div class="cell" ng-repeat="column in grid.columns">
-                    <a ng-click="edit(item)">{{ item[column.field] }}</a>
+                    <a ng-click="listController.edit(item)">{{ item[column.field] }}</a>
                 </div>
             </div>
         </fa-surface>

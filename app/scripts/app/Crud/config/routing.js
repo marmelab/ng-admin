@@ -10,14 +10,13 @@ define([
 
         $stateProvider
             .state('list', {
-              parent: 'main',
+                parent: 'main',
                 url: '/list/:entity',
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
 
                 resolve: {
-                    CrudManager: "CrudManager",
                     data: function($stateParams, CrudManager) {
                         return CrudManager.getAll($stateParams.entity);
                     }
@@ -32,8 +31,8 @@ define([
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($route, CrudManager) {
-                        return CrudManager.getAll($route.current.params.entity, $route.current.params.page);
+                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                        return CrudManager.getAll($stateParams.entity, $stateParams.page);
                     }]
                 }
             });
@@ -46,8 +45,8 @@ define([
                 controllerAs: 'createController',
                 template: createTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($route, CrudManager) {
-                        return CrudManager.getEditionFields($route.current.params.entity, 'editable');
+                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                        return CrudManager.getEditionFields($stateParams.entity, 'editable');
                     }]
                 }
             });
@@ -60,8 +59,8 @@ define([
                 controllerAs: 'editController',
                 template: editTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($route, CrudManager) {
-                        return CrudManager.getOne($route.current.params.entity, $route.current.params.id);
+                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                        return CrudManager.getOne($stateParams.entity, $stateParams.id);
                     }]
                 }
             });
@@ -74,8 +73,8 @@ define([
                 controllerAs: 'deleteController',
                 template: deleteTemplate,
                 resolve: {
-                    params: ['$route', function($route) {
-                        return $route.current.params;
+                    params: ['$route', function($stateParams) {
+                        return $stateParams;
                     }]
                 }
             });
