@@ -7,19 +7,22 @@ define([], function() {
         this.CrudManager = CrudManager;
         this.params = params;
 
+        this.entityLabel = this.params.entity;
+        this.entityId = this.params.id;
+
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
     DeleteController.prototype.deleteOne = function() {
         var self = this;
 
-        this.CrudManager.deleteOne(params.entity, params.id).then(function() {
-            self.$location.path('/list/' + params.entity);
+        this.CrudManager.deleteOne(this.params.entity, this.params.id).then(function() {
+            self.$location.path('/list/' + self.params.entity);
         });
     };
 
     DeleteController.prototype.back = function() {
-        this.$location.path('/edit/' + params.entity + '/' + params.id);
+        this.$location.path('/edit/' + this.params.entity + '/' + this.params.id);
     };
 
     DeleteController.prototype.destroy = function() {
@@ -29,7 +32,7 @@ define([], function() {
         this.params = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'CrudManager', 'data'];
+    DeleteController.$inject = ['$scope', '$location', 'CrudManager', 'params'];
 
     return DeleteController;
 });

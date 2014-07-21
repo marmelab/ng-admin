@@ -3,7 +3,7 @@ define([
 ], function(humane) {
     'use strict';
 
-    var CreateController = function($scope, $location, crudManager, data) {
+    var CreateController = function($scope, $location, CrudManager, data) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
@@ -25,12 +25,12 @@ define([
         var object = {},
             self = this;
 
-        angular.forEach(data.fields, function(field, name){
+        angular.forEach(this.data.fields, function(field, name){
             object[name] = field.value;
         });
 
         this.CrudManager
-            .createOne(data.entityName, object)
+            .createOne(this.data.entityName, object)
             .then(function(entity) {
                 humane.log('The object has been created.');
                 self.$location.path('/edit/' + self.data.entityName + '/' + entity.id);
@@ -38,7 +38,7 @@ define([
     };
 
     CreateController.prototype.back = function() {
-        this.$location.path('/list/' + data.entityName);
+        this.$location.path('/list/' + this.data.entityName);
     };
 
     CreateController.prototype.destroy = function() {

@@ -4,7 +4,7 @@
     </div>
 
     <div class="controls col-sm-7">
-        <a class="btn btn-default" ng-click="create()">Add new</a>
+        <a class="btn btn-default" ng-click="listController.create()">Add new</a>
     </div>
 </div>
 
@@ -18,7 +18,7 @@
         </div>
 
         <fa-surface ng-repeat="item in grid.items">
-            <div class="item" ng-class="itemClass($index)">
+            <div class="item" ng-class="listController.itemClass($index)">
                 <div class="cell" ng-repeat="column in grid.columns">
                     <a ng-click="listController.edit(item)">{{ item[column.field] }}</a>
                 </div>
@@ -30,13 +30,13 @@
 <div class="row pull-right">
     <ul class="pagination pagination-sm">
         <li ng-class="{ disabled: currentPage == 1}">
-            <a href ng-click="setPage(currentPage - 1)">« Prev</a>
+            <a href ng-click="listController.setPage(currentPage - 1)">« Prev</a>
         </li>
-        <li ng-repeat="n in range(1, nbPages)" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
+        <li ng-repeat="n in range(1, nbPages)" ng-class="{active: n == currentPage}" ng-click="listController.setPage(n)">
             <a href>{{ n }}</a>
         </li>
         <li ng-class="{disabled: currentPage == nbPages}">
-            <a href ng-click="setPage(currentPage+ 1)">Next »</a>
+            <a href ng-click="listController.setPage(currentPage+ 1)">Next »</a>
         </li>
     </ul>
 </div>

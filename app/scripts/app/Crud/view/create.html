@@ -4,13 +4,13 @@
     </div>
 
     <div class="controls col-sm-7">
-        <a class="btn btn-default" ng-click="back()">Back to list</a>
+        <a class="btn btn-default" ng-click="createController.back()">Back to list</a>
     </div>
 </div>
 
 <div class="row" id="edit-container">
-    <form class="form-horizontal" name="createForm" ng-submit="create(createForm, $event)">
-        <div class="form-field form-group" ng-include="'views/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
+    <form class="form-horizontal" name="createForm" ng-submit="createController.create(createForm, $event)">
+        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

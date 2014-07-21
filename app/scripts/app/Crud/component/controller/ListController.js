@@ -56,11 +56,11 @@ define([], function() {
      * @param {int} number
      */
     ListController.prototype.setPage = function (number) {
-        if(number <= 0 || number > $scope.nbPages) {
+        if(number <= 0 || number > this.$scope.nbPages) {
             return;
         }
 
-        $location.path('/list/' + this.data.entityName + '/page/' + number);
+        this.$location.path('/list/' + this.data.entityName + '/page/' + number);
         this.$anchorScroll(0);
     };
 
@@ -106,7 +106,6 @@ define([], function() {
      */
     ListController.prototype.edit = function(item) {
         this.$location.path('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
-        console.log('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
         this.$anchorScroll(0);
     };
 

@@ -19,35 +19,35 @@ define([
         $event.preventDefault();
 
         var object = {
-            id: data.entityId
+            id: this.data.entityId
         };
 
-        angular.forEach(data.fields, function(field, name){
+        angular.forEach(this.data.fields, function(field, name){
             object[name] = field.value;
         });
 
-        if (crudManager.updateOne(data.entityName, object)) {
+        if (this.CrudManager.updateOne(this.data.entityName, object)) {
             humane.log('The object has been updated.');
         }
     };
 
     EditController.prototype.create = function() {
-        this.$location.path('/create/' + data.entityName);
+        this.$location.path('/create/' + this.data.entityName);
     };
 
     EditController.prototype.deleteOne = function() {
-        this.$location.path('/delete/' + data.entityName + '/' + data.entityId);
+        this.$location.path('/delete/' + this.data.entityName + '/' + this.data.entityId);
     };
 
     EditController.prototype.back = function() {
-        this.$location.path('/list/' + data.entityName);
+        this.$location.path('/list/' + this.data.entityName);
     };
 
     EditController.prototype.destroy = function() {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
-        this.params = undefined;
+        this.data = undefined;
     };
 
 

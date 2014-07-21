@@ -4,14 +4,14 @@
     </div>
 
     <div class="controls col-sm-7">
-        <a class="btn btn-default" ng-click="create()">Add new</a>
-        <a class="btn btn-default" ng-click="back()">Back to list</a>
-        <a class="btn btn-danger" ng-click="deleteOne()">Delete</a>
+        <a class="btn btn-default" ng-click="editController.create()">Add new</a>
+        <a class="btn btn-default" ng-click="editController.back()">Back to list</a>
+        <a class="btn btn-danger" ng-click="editController.deleteOne()">Delete</a>
     </div>
 </div>
 
 <div class="row" id="edit-container">
-    <form class="form-horizontal" name="editForm" ng-submit="edit(editForm, $event)">
+    <form class="form-horizontal" name="editForm" ng-submit="editController.edit(editForm, $event)">
         <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
 
         <div class="form-group">
