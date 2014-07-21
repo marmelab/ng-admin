@@ -5,7 +5,6 @@ define([
     'use strict';
 
     /**
-     * Service dedicated to abstract the storage layer
      * @param {$q} $q
      * @param {Restangular} Restangular
      * @constructor
@@ -19,7 +18,7 @@ define([
         var promises = [],
             self = this;
 
-        Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
 
         angular.forEach(Object.keys(config.entities) , function(entityName) {
 
@@ -53,5 +52,5 @@ define([
 
     PanelBuilder.$inject = ['$q', 'Restangular'];
 
-    return Storage;
+    return PanelBuilder;
 });
