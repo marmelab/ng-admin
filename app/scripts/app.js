@@ -1,19 +1,30 @@
-'use strict';
+require.config({
+    waitSeconds: 30
+});
 
-define("app", [
-    "angular",
-    'famous-angular'
-    ], function(angular) {
+require(['common', 'common-famous', 'ng-admin'], function () {
+    "use strict";
 
+    require(['angular', 'MainModule', 'CrudModule'], function (angular) {
 
-    var app =  angular.module('angularAdminApp', [
-        'ngResource',
-        'ngSanitize',
-        'ngRoute',
-        'restangular',
-        'ui.router',
-       'famous.angular'
-    ]);
+        angular.module(
+            'ng-admin',
 
-    return app;
+            // dionysos dependencies
+            ['main', 'crud'],
+
+            // global default redirection
+            ['$urlRouterProvider', function($urlRouterProvider) {
+                $urlRouterProvider.otherwise('/dashboard');
+            }]
+
+        );
+
+        // async resource download implies async angular app bootstrap
+        angular.bootstrap(document.body, ['ng-admin']);
+
+        // we add the ng-app attribute for pure debugging purposes
+        // historically, it was needed in case angular scenario was used for e2e tests
+        document.body.setAttribute('ng-app', 'ng-admin');
+    });
 });

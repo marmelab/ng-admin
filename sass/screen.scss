@@ -1,23 +1,24 @@
-$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 
 // bower:scss
-@import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+@import "../app/scripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
+@import "sb-admin.scss";
 
 .nav > li.heading {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-  color: #777777;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #777777;
 }
 
 #header {
-  padding: 30px 0;
+    padding: 30px 0;
 
-  h1 {
-      margin: 0;
-  }
+    h1 {
+        margin: 0;
+    }
 }
 
 /**

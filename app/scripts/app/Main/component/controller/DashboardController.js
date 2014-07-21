@@ -1,14 +1,22 @@
-define([
-    'app',
-    '../../scripts/services/panelBuilder'
-], function(app) {
+define([], function() {
     'use strict';
 
-    app.controller('HomeCtrl', function ($scope, $location, panelBuilder) {
+    function DashboardController($scope, $location, PanelBuilder) {
+        this.$scope = $scope;
+        this.$location = $location;
+        this.PanelBuilder = PanelBuilder;
 
-        panelBuilder.getPanelsData().then(function(panels) {
+        this.getPanels();
 
-            $scope.panels = {};
+        $scope.$on('$destroy', this.destroy.bind(this));
+    }
+
+    DashboardController.prototype.getPanels = function() {
+        var self = this;
+
+        this.PanelBuilder.getPanelsData().then(function(panels) {
+
+            self.$scope.panels = {};
 
             angular.forEach(panels, function(panel) {
 
@@ -33,7 +41,7 @@ define([
                     });
                 });
 
-                $scope.panels[panel.entityName] = {
+                self.$scope.panels[panel.entityName] = {
                     label: panel.entityConfig.label,
                     columns: columns,
                     items: rawItems,
@@ -46,9 +54,19 @@ define([
                 };
             });
 
-            $scope.edit = function(entityName, identifier, item) {
+            self.$scope.edit = function(entityName, identifier, item) {
                 $location.path('/edit/' + entityName + '/' + item[identifier]);
             };
         });
-    });
+    };
+
+    DashboardController.prototype.destroy = function() {
+        this.$scope = undefined;
+        this.$location = undefined;
+        this.PanelBuilder = undefined;
+    };
+
+    DashboardController.$inject = ['$scope', '$location', 'PanelBuilder'];
+
+    return DashboardController;
 });

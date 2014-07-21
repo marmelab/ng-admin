@@ -1,0 +1,22 @@
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">Angular Admin</a>
+        </div>
+    </nav>
+
+    <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="heading"><i class="fa fa-list-alt fa-fw"></i> Entities</li>
+                <li class="entities-repeat" ng-repeat="(key, entity) in entities">
+                    <a ng-click="displayList(key, $event)">{{entity.label}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="page-wrapper">
+        <div class="main-container" ng-view=""></div>
+    </div>
+</div>
