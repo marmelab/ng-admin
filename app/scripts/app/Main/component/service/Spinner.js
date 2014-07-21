@@ -2,14 +2,15 @@ define([], function() {
     'use strict';
 
     function Spinner() {
+        this.element = angular.element(document.getElementById('loader'));
     }
 
     Spinner.prototype.start = function() {
-        angular.element(document.getElementById('loader')).addClass('loading');
+        this.element.addClass('loading');
     };
 
     Spinner.prototype.stop = function() {
-        angular.element(document.getElementById('loader')).removeClass('loading');
+        this.element.removeClass('loading');
     };
 
     return Spinner;

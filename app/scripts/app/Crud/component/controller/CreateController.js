@@ -13,7 +13,7 @@ define([
         $scope.fields = data.fields;
         $scope.entityLabel = data.entityLabel;
 
-        angular.forEach(data.fields, function(field, index){
+        angular.forEach(data.fields, function(field){
             field.value = null;
         });
 
@@ -27,7 +27,7 @@ define([
         var object = {},
             self = this;
 
-        angular.forEach(this.data.fields, function(field, index){
+        angular.forEach(this.data.fields, function(field){
             object[field.name] = field.value;
         });
 

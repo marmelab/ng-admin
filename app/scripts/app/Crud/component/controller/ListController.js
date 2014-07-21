@@ -24,7 +24,7 @@ define([], function() {
             self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(entityConfig.fields, function(field, index) {
+        angular.forEach(entityConfig.fields, function(field) {
             if(typeof(field.identifier) !== 'undefined') {
                 self.identifierField = field.name;
             }

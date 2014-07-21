@@ -24,7 +24,7 @@ define([
         var self = this,
             object = { id: this.data.entityId };
 
-        angular.forEach(this.data.fields, function(field, index){
+        angular.forEach(this.data.fields, function(field){
             object[field.name] = field.value;
         });
 

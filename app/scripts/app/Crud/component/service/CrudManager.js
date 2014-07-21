@@ -101,7 +101,7 @@ define([
     CrudManager.prototype.filterEditionFields = function(fields, filters) {
         var filteredFields = {};
 
-        angular.forEach(fields, function(field, index){
+        angular.forEach(fields, function(field){
             // the field is not an edition field - do nothing
             if (typeof(field.edition) === 'undefined') {
                 return;
@@ -137,7 +137,7 @@ define([
         }
 
         this.Restangular.setBaseUrl(config.global.baseApiUrl);
-
+        
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
