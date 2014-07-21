@@ -10,17 +10,18 @@ define([
 
         $stateProvider
             .state('list', {
-                parent: 'main',
+              parent: 'main',
                 url: '/list/:entity',
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
-//                resolve: {
-//                    data: ['$route', 'crudManager', function($route, CrudManager) {
-//                        console.log('ok');
-//                        return CrudManager.getAll($route.current.params.entity);
-//                    }]
-//                }
+
+                resolve: {
+                    CrudManager: "CrudManager",
+                    data: function($stateParams, CrudManager) {
+                        return CrudManager.getAll($stateParams.entity);
+                    }
+                }
             });
 
         $stateProvider

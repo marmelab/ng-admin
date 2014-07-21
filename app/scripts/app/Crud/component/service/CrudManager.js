@@ -204,11 +204,11 @@ define([
         var entityConfig = config.entities[entityName],
             perPage = config.global.per_page || 30;
 
-        Restangular.setBaseUrl(config.global.baseApiUrl);
-        Restangular.setFullResponse(true);  // To get also the headers
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get grid data
-        return Restangular
+        return this.Restangular
             .all(entityName)
             .getList({ page: page, per_page: perPage})
             .then(function (response) {
@@ -224,4 +224,6 @@ define([
     };
 
     CrudManager.$inject = ['$q', 'Restangular'];
+
+    return CrudManager;
 });

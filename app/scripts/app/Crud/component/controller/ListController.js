@@ -1,11 +1,12 @@
 define([], function() {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll/*, data*/) {
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
-//        this.data = data;
+        this.data = data;
+        this.$anchorScroll = $anchorScroll;
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
@@ -16,8 +17,8 @@ define([], function() {
     };
 
     ListController.prototype.computePagination = function () {
-        var entityConfig = data.entityConfig,
-            rawItems = data.rawItems,
+        var entityConfig = this.data.entityConfig,
+            rawItems = this.data.rawItems,
             columns = [],
             identifierField = 'id';
 
@@ -44,8 +45,8 @@ define([], function() {
             items: rawItems
         };
 
-        this.$scope.currentPage = data.currentPage;
-        this.$scope.nbPages = (data.totalItems / (data.perPage | 1)) + 1;
+        this.$scope.currentPage = this.data.currentPage;
+        this.$scope.nbPages = (this.data.totalItems / (this.data.perPage | 1)) + 1;
     };
 
     /**
@@ -58,8 +59,8 @@ define([], function() {
             return;
         }
 
-        $location.path('/list/' + data.entityName + '/page/' + number);
-        $anchorScroll(0);
+        $location.path('/list/' + this.data.entityName + '/page/' + number);
+        this.$anchorScroll(0);
     };
 
     /**
@@ -93,8 +94,8 @@ define([], function() {
      * Link to entity creation page
      */
     ListController.prototype.create = function() {
-        $location.path('/create/' + data.entityName);
-        $anchorScroll(0);
+        $location.path('/create/' + this.data.entityName);
+        this.$anchorScroll(0);
     };
 
     /**
@@ -103,11 +104,15 @@ define([], function() {
      * @param {Object} item
      */
     ListController.prototype.edit = function(item) {
-        $location.path('/edit/' + data.entityName + '/' + item[identifierField]);
-        $anchorScroll(0);
+        $location.path('/edit/' + this.data.entityName + '/' + item[identifierField]);
+        this.$anchorScroll(0);
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data'];
+    ListController.prototype.destroy = function() {
+        this.$scope = undefined;
+    };
+
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
 
     return ListController;
 });
