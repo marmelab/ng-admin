@@ -8,8 +8,11 @@ define(
         'app/Main/component/controller/SidebarController',
 
         'app/Main/component/service/PanelBuilder',
+        'app/Main/component/service/Spinner',
 
         'app/Main/config/routing',
+
+        'app/Main/run/StateSpinner',
 
         'angular-ui-router', 'famous-angular', 'restangular'
     ],
@@ -22,8 +25,11 @@ define(
         SidebarController,
 
         PanelBuilder,
+        Spinner,
 
-        routing
+        routing,
+
+        stateSpinner
         ) {
         "use strict";
 
@@ -35,8 +41,11 @@ define(
         MainModule.controller('SidebarController', SidebarController);
 
         MainModule.service('PanelBuilder', PanelBuilder);
+        MainModule.service('Spinner', Spinner);
 
         MainModule.config(routing);
+
+        MainModule.run(stateSpinner);
 
         return MainModule;
     }

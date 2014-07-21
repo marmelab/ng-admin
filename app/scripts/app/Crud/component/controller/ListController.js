@@ -112,6 +112,7 @@ define([], function() {
     ListController.prototype.destroy = function() {
         this.$scope = undefined;
         this.$location = undefined;
+        this.CrudManager = undefined;
     };
 
     ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
