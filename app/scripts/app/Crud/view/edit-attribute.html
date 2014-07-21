@@ -8,7 +8,13 @@
 
         <input id="{{ field.name }}" class="form-control" ng-switch-when="number" type="number" ng-model="field.value" />
 
-        <input id="{{ field.name }}" class="form-control" ng-switch-when="date" type="date" ng-model="field.value" />
+        <div class="input-group datepicker col-sm-4" ng-switch-when="date">
+            <input id="{{ field.name }}" class="form-control" type="text" datepicker-popup="{{ field.validation.format }}" ng-model="field.value" min-date="field.minDate" max-date="field.maxDate" ng-required="field.validation.required" is-open="editController.openDatepicker[name]" close-text="Close" />
+
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="editController.toggleDatePicker($event, name)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+        </div>
 
         <select id="{{ field.name }}" class="form-control" ng-switch-when="link" ng-model="field.value" ng-options="option as option for option in componentNames"></select>
 

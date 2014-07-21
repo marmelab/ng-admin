@@ -13,7 +13,7 @@ define(
 
         'app/Crud/config/routing',
 
-        'angular-ui-router', 'famous-angular', 'angular-sanitize'
+        'angular-ui-router', 'famous-angular', 'angular-sanitize', 'angular-bootstrap-tpls'
     ],
     function (
         angular,
@@ -30,7 +30,7 @@ define(
         ) {
         "use strict";
 
-        var CrudModule = angular.module('crud', ['ui.router', 'ngSanitize', 'famous.angular']);
+        var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'famous.angular']);
         CrudModule.constant('config', config);
 
         CrudModule.controller('ListController', ListController);
