@@ -4,45 +4,17 @@
         <meta charset="utf-8">
         <title>Angular admin</title>
         <meta name="viewport" content="width=device-width">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css styles/vendor.css -->
-        <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="bower_components/humane/themes/flatty.css" />
-        <link rel="stylesheet" href="bower_components/famous-angular/dist/famous-angular.css">
-        <!-- endbower -->
-        <!-- endbuild -->
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-        <link rel="stylesheet" href="styles/sb-admin.css">
-        <!-- endbuild -->
+
+        <link rel="stylesheet" href="scripts/bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="scripts/bower_components/fontawesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="scripts/bower_components/humane/themes/flatty.css" />
+        <link rel="stylesheet" href="scripts/bower_components/famous-angular/dist/famous-angular.css">
+
+        <link rel="stylesheet" href="css/screen.css">
+
+        <script data-main="scripts/app" src="scripts/bower_components/requirejs/require.js"></script>
     </head>
-    <body ng-app="angularAdminApp">
-
-        <div id="wrapper" ng-controller="MainCtrl">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="navbar-header">
-                    <a href="#" class="navbar-brand">Angular Admin</a>
-                </div>
-            </nav>
-
-            <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarCtrl">
-                <div class="sidebar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="heading"><i class="fa fa-list-alt fa-fw"></i> Entities</li>
-                        <li class="entities-repeat" ng-repeat="(key, entity) in entities">
-                            <a ng-click="displayList(key, $event)">{{entity.label}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="page-wrapper">
-                <div class="main-container" ng-view=""></div>
-            </div>
-        </div>
-
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+    <body>
+        <div ui-view></div>
     </body>
 </html>
