@@ -11,6 +11,7 @@ define([
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
+        this.$scope.order = 'order';
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -22,13 +23,13 @@ define([
             id: this.data.entityId
         };
 
-        angular.forEach(this.data.fields, function(field, name){
-            object[name] = field.value;
+        angular.forEach(this.data.fields, function(field, index){
+            object[field.name] = field.value;
         });
 
-        if (this.CrudManager.updateOne(this.data.entityName, object)) {
+        this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             humane.log('The object has been updated.');
-        }
+        });
     };
 
     EditController.prototype.create = function() {

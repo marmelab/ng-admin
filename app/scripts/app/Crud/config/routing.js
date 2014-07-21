@@ -15,7 +15,6 @@ define([
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
-
                 resolve: {
                     data: function($stateParams, CrudManager) {
                         return CrudManager.getAll($stateParams.entity);

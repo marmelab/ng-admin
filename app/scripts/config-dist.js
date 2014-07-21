@@ -10,20 +10,24 @@ define([], function () {
             "book" : {
                 "label": "Book",
                 "dashboard": 5,
-                "fields": {
-                    "id": {
+                "fields": [
+                    {
+                        "name": "id",
                         "type": "integer",
                         "label": "ID",
                         "edition" : "read-only",
+                        "order": 1,
                         "identifier" : true,
                         "list": true,
                         "dashboard": true,
                         "validation": {}
                     },
-                    "title": {
+                    {
+                        "name": "title",
                         "type": "text",
                         "label": "Title",
                         "edition" : "editable",
+                        "order": 2,
                         "list": true,
                         "dashboard": true,
                         "validation": {
@@ -31,17 +35,32 @@ define([], function () {
                             "max-length" : 150
                         }
                     },
-                    "summary": {
+                    {
+                        "name": "summary",
                         "type": "text",
                         "label": "Summary",
                         "edition" : "editable",
+                        "order": 3,
                         "dashboard" : false,
                         "validation": {
                             "required": true,
                             "max-length" : 500
                         }
+                    },
+                    {
+                        "name": "genre",
+                        "type": "text",
+                        "label": "Genre",
+                        "edition" : "editable",
+                        "order": 4,
+                        "dashboard" : false,
+                        "validation": {
+                            "required": true,
+                            "max-length" : 255
+                        }
                     }
-                }
+
+                ]
             }
         }
     };

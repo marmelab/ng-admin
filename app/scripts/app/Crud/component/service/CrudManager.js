@@ -35,13 +35,13 @@ define([
                 var fields = entityConfig.fields,
                     entity = response.data;
 
-                angular.forEach(fields, function(field, fieldName) {
+                angular.forEach(fields, function(field, index) {
                     if(typeof(field.edition) === "undefined") {
                         return;
                     }
 
-                    if (typeof(entity[fieldName]) !== "undefined") {
-                        fields[fieldName].value = entity[fieldName];
+                    if (typeof(entity[field.name]) !== "undefined") {
+                        fields[index].value = entity[field.name];
                     }
                 });
 
@@ -101,7 +101,7 @@ define([
     CrudManager.prototype.filterEditionFields = function(fields, filters) {
         var filteredFields = {};
 
-        angular.forEach(fields, function(field, fieldName){
+        angular.forEach(fields, function(field, index){
             // the field is not an edition field - do nothing
             if (typeof(field.edition) === 'undefined') {
                 return;
@@ -109,12 +109,12 @@ define([
 
             // if we don't specify a restriction, get all the edition fields
             if (!filters.length) {
-                return this[fieldName] = field;
+                return this[field.name] = field;
             }
 
             // restriction to specified types fields
             if (filters.indexOf(field.edition) !== -1) {
-                return this[fieldName] = field;
+                return this[field.name] = field;
             }
 
         }, filteredFields);
