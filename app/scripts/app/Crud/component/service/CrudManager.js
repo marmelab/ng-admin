@@ -137,6 +137,7 @@ define([
         }
 
         this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setFullResponse(false);
         
         // Get element data
         return this.Restangular
