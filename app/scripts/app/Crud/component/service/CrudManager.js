@@ -23,11 +23,11 @@ define([
         }
 
         var entityConfig = config.entities[entityName];
-        Restangular.setBaseUrl(config.global.baseApiUrl);
-        Restangular.setFullResponse(true);  // To get also the headers
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get element data
-        return Restangular
+        return this.Restangular
             .one(entityName, entityId)
             .get()
             .then(function(response) {
@@ -136,10 +136,10 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
 
         // Get element data
-        return Restangular
+        return this.Restangular
             .restangularizeElement(null, entity, entityName)
             .post();
     };
@@ -158,10 +158,10 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
 
         // Get element data
-        return Restangular
+        return this.Restangular
             .restangularizeElement(null, entity, entityName)
             .put();
     };
@@ -177,9 +177,9 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
-        Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.global.baseApiUrl);
 
-        return Restangular
+        return this.Restangular
             .one(entityName, entityId)
             .remove();
     };

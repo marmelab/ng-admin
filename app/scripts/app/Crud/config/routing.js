@@ -31,9 +31,9 @@ define([
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                    data: function($stateParams, CrudManager) {
                         return CrudManager.getAll($stateParams.entity, $stateParams.page);
-                    }]
+                    }
                 }
             });
 
@@ -45,9 +45,9 @@ define([
                 controllerAs: 'createController',
                 template: createTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                    data: function($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
-                    }]
+                    }
                 }
             });
 
@@ -59,9 +59,9 @@ define([
                 controllerAs: 'editController',
                 template: editTemplate,
                 resolve: {
-                    data: ['$route', 'crudManager', function($stateParams, CrudManager) {
+                    data: function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
-                    }]
+                    }
                 }
             });
 
@@ -73,9 +73,9 @@ define([
                 controllerAs: 'deleteController',
                 template: deleteTemplate,
                 resolve: {
-                    params: ['$route', function($stateParams) {
+                    params: function($stateParams) {
                         return $stateParams;
-                    }]
+                    }
                 }
             });
 

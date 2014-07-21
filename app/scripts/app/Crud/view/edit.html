@@ -12,7 +12,7 @@
 
 <div class="row" id="edit-container">
     <form class="form-horizontal" name="editForm" ng-submit="edit(editForm, $event)">
-        <div class="form-field form-group" ng-include="'views/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
+        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="(name, field) in fields"></div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
