@@ -12,12 +12,6 @@ require(['common', 'common-famous', 'ng-admin'], function () {
 
             // dionysos dependencies
             ['main', 'crud']
-
-            // global default redirection
-//            ['$urlRouterProvider', function($urlRouterProvider) {
-//                $urlRouterProvider.otherwise('/dashboard');
-//            }]
-
         );
 
         // async resource download implies async angular app bootstrap

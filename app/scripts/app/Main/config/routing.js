@@ -4,7 +4,7 @@ define([
 ], function (layoutTemplate, dashboardTemplate) {
     "use strict";
 
-    function routing($stateProvider) {
+    function routing($stateProvider, $urlRouterProvider) {
 
         $stateProvider.state('main', {
             'abstract': true,
@@ -21,9 +21,10 @@ define([
             template: dashboardTemplate
         });
 
+        $urlRouterProvider.otherwise('/dashboard');
     }
 
-    routing.$inject = ['$stateProvider'];
+    routing.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     return routing;
 });
