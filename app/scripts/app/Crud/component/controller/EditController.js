@@ -3,10 +3,11 @@ define([
 ], function(humane) {
     'use strict';
 
-    var EditController = function($scope, $location, CrudManager, data) {
+    var EditController = function($scope, $location, CrudManager, Spinner, data) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
+        this.Spinner = Spinner;
         this.data = data;
 
         this.$scope.fields = data.fields;
@@ -18,16 +19,17 @@ define([
 
     EditController.prototype.edit = function(form, $event) {
         $event.preventDefault();
+        this.Spinner.start();
 
-        var object = {
-            id: this.data.entityId
-        };
+        var self = this,
+            object = { id: this.data.entityId };
 
-        angular.forEach(this.data.fields, function(field, index){
+        angular.forEach(this.data.fields, function(field){
             object[field.name] = field.value;
         });
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
+            self.Spinner.stop();
             humane.log('The object has been updated.');
         });
     };
@@ -51,8 +53,7 @@ define([
         this.data = undefined;
     };
 
-
-    EditController.$inject = ['$scope', '$location', 'CrudManager', 'data'];
+    EditController.$inject = ['$scope', '$location', 'CrudManager', 'Spinner', 'data'];
 
     return EditController;
 });

@@ -24,7 +24,7 @@ define([], function() {
             self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(entityConfig.fields, function(field, index) {
+        angular.forEach(entityConfig.fields, function(field) {
             if(typeof(field.identifier) !== 'undefined') {
                 self.identifierField = field.name;
             }
@@ -112,6 +112,7 @@ define([], function() {
     ListController.prototype.destroy = function() {
         this.$scope = undefined;
         this.$location = undefined;
+        this.CrudManager = undefined;
     };
 
     ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];

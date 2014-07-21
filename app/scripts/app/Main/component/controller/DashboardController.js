@@ -25,17 +25,17 @@ define([], function() {
                     identifierField = 'id';
 
                 // Get identifier field, and build columns array (only field defined with `"list" : true` in config file)
-                angular.forEach(entityConfig.fields, function(field, fieldName) {
+                angular.forEach(entityConfig.fields, function(field) {
 
                     if(typeof(field.identifier) !== 'undefined') {
-                        identifierField = fieldName;
+                        identifierField = field.name;
                     }
                     if(typeof(field.dashboard) === 'undefined' || field.dashboard !== true) {
                         return;
                     }
 
                     columns.push({
-                        field: fieldName,
+                        field: field.name,
                         label: field.label
                     });
                 });
@@ -53,10 +53,12 @@ define([], function() {
                 };
             });
 
-            self.$scope.edit = function(entityName, identifier, item) {
-                $location.path('/edit/' + entityName + '/' + item[identifier]);
-            };
+
         });
+    };
+
+    DashboardController.prototype.edit = function(entityName, identifier, item) {
+        this.$location.path('/edit/' + entityName + '/' + item[identifier]);
     };
 
     DashboardController.prototype.destroy = function() {

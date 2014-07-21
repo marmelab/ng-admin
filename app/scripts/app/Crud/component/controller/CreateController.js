@@ -3,16 +3,17 @@ define([
 ], function(humane) {
     'use strict';
 
-    var CreateController = function($scope, $location, CrudManager, data) {
+    var CreateController = function($scope, $location, CrudManager, Spinner, data) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
+        this.Spinner = Spinner;
         this.data = data;
 
         $scope.fields = data.fields;
         $scope.entityLabel = data.entityLabel;
 
-        angular.forEach(data.fields, function(field, name){
+        angular.forEach(data.fields, function(field){
             field.value = null;
         });
 
@@ -21,17 +22,19 @@ define([
 
     CreateController.prototype.create = function(form, $event) {
         $event.preventDefault();
+        this.Spinner.start();
 
         var object = {},
             self = this;
 
-        angular.forEach(this.data.fields, function(field, name){
-            object[name] = field.value;
+        angular.forEach(this.data.fields, function(field){
+            object[field.name] = field.value;
         });
 
         this.CrudManager
             .createOne(this.data.entityName, object)
             .then(function(entity) {
+                self.Spinner.stop();
                 humane.log('The object has been created.');
                 self.$location.path('/edit/' + self.data.entityName + '/' + entity.id);
             });
@@ -45,10 +48,11 @@ define([
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
+        this.Spinner = undefined;
         this.data = undefined;
     };
 
-    CreateController.$inject = ['$scope', '$location', 'CrudManager', 'data'];
+    CreateController.$inject = ['$scope', '$location', 'CrudManager', 'Spinner', 'data'];
 
     return CreateController;
 });
