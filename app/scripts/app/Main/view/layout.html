@@ -10,7 +10,7 @@
             <ul class="nav" id="side-menu">
                 <li class="heading"><i class="fa fa-list-alt fa-fw"></i> Entities</li>
                 <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities">
-                    <a ng-click="sidebarController.displayList(key, $event)">{{entity.label}}</a>
+                    <a ng-click="sidebarController.displayList(key, $event)">{{ entity.label() }}</a>
                 </li>
             </ul>
         </div>

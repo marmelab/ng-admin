@@ -18,12 +18,12 @@ define([
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     CrudManager.prototype.getOne = function(entityName, entityId) {
-        if (!(entityName in config.entities)) {
+        if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.entities[entityName];
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        var entityConfig = config.getEntity(entityName);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get element data
@@ -32,22 +32,18 @@ define([
             .get()
             .then(function(response) {
 
-                var fields = entityConfig.fields,
+                var fields = entityConfig.getFields(),
                     entity = response.data;
 
                 angular.forEach(fields, function(field, index) {
-                    if(typeof(field.edition) === "undefined") {
-                        return;
-                    }
-
-                    if (typeof(entity[field.name]) !== "undefined") {
-                        fields[index].value = entity[field.name];
+                    if (!(field.getName() in entity)) {
+                        fields[index].value = entity[field.getName()];
                     }
                 });
 
                 return {
                     fields: fields,
-                    entityLabel: entityConfig.label,
+                    entityLabel: entityConfig.label(),
                     entityName: entityName,
                     entityId : entityId
                 };
@@ -74,17 +70,16 @@ define([
             }
         }
 
-
-        if (!(entityName in config.entities)) {
+        if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.entities[entityName],
-            fields = this.filterEditionFields(entityConfig.fields, filters);
+        var entityConfig = config.getEntity(entityName),
+            fields = this.filterEditionFields(entityConfig.getFields(), filters);
 
         return {
             fields: fields,
-            entityLabel: entityConfig.label,
+            entityLabel: entityConfig.label(),
             entityName: entityName
         };
     };
@@ -103,18 +98,18 @@ define([
 
         angular.forEach(fields, function(field){
             // the field is not an edition field - do nothing
-            if (typeof(field.edition) === 'undefined') {
+            if (!field.edition()) {
                 return;
             }
 
             // if we don't specify a restriction, get all the edition fields
             if (!filters.length) {
-                return this[field.name] = field;
+                return this[field.getName()] = field;
             }
 
             // restriction to specified types fields
-            if (filters.indexOf(field.edition) !== -1) {
-                return this[field.name] = field;
+            if (filters.indexOf(field.edition()) !== -1) {
+                return this[field.getName()] = field;
             }
 
         }, filteredFields);
@@ -127,16 +122,16 @@ define([
      * Post the data to the API to create the new object
      *
      * @param {String}  entityName  the name of the entity
-     * @param {Object}  entity           the entity's object
+     * @param {Object}  entity      the entity's object
      *
      * @returns {promise}  the new object
      */
     CrudManager.prototype.createOne = function (entityName, entity) {
-        if (!(entityName in config.entities)) {
+        if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
         this.Restangular.setFullResponse(false);
 
         // Get element data
@@ -155,11 +150,11 @@ define([
      * @returns {promise} the updated object
      */
     CrudManager.prototype.updateOne = function(entityName, entity) {
-        if (!(entityName in config.entities)) {
+        if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
 
         // Get element data
         return this.Restangular
@@ -178,7 +173,7 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
 
         return this.Restangular
             .one(entityName, entityId)
@@ -198,20 +193,21 @@ define([
     CrudManager.prototype.getAll = function (entityName, page) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
-        if (!(entityName in config.entities)) {
+        if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.entities[entityName],
-            perPage = config.global.per_page || 30;
+        var entityConfig = config.getEntity(entityName),
+            pagination = entityConfig.pagination(),
+            perPage = entityConfig.perPage();
 
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get grid data
         return this.Restangular
             .all(entityName)
-            .getList({ page: page, per_page: perPage})
+            .getList(pagination ? { page: page, per_page: perPage} : null)
             .then(function (response) {
                 return {
                     entityName: entityName,

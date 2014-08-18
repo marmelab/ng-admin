@@ -17,17 +17,13 @@ define([
         var promises = [],
             self = this;
 
-        this.Restangular.setBaseUrl(config.global.baseApiUrl);
+        this.Restangular.setBaseUrl(config.baseApiUrl());
 
-        angular.forEach(Object.keys(config.entities) , function(entityName) {
+        angular.forEach(Object.keys(config.getEntities()) , function(entityName) {
 
             var deferred = self.$q.defer(),
-                entity = config.entities[entityName],
-                limit = entity.dashboard || 10;
-
-            if (typeof(entity.dashboard) === 'undefined') {
-                return;
-            }
+                entity = config.getEntity(entityName),
+                limit = entity.dashboard();
 
             // Get items
             self.Restangular
