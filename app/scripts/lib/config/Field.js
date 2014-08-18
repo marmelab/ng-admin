@@ -18,6 +18,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         /**
+         * @param {String} fieldName
          * @constructor
          */
         function Field() {
