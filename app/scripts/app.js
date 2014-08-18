@@ -10,7 +10,6 @@ require(['common', 'common-famous', 'ng-admin'], function () {
         angular.module(
             'ng-admin',
 
-            // dionysos dependencies
             ['main', 'crud']
         );
 
