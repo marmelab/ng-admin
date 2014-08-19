@@ -13,7 +13,7 @@ define([
      * Get one entity
      *
      * @param {String} entityName  name of the entity
-     * @param {Number} entityId       id of the entity
+     * @param {Number} entityId    id of the entity
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
@@ -36,7 +36,7 @@ define([
                     entity = response.data;
 
                 angular.forEach(fields, function(field, index) {
-                    if (!(field.getName() in entity)) {
+                    if (field.getName() in entity) {
                         fields[index].value = entity[field.getName()];
                     }
                 });
@@ -84,6 +84,51 @@ define([
         };
     };
 
+    CrudManager.prototype.getReferencedValues = function(entityName) {
+        var self = this,
+            references = this.getReferences(entityName),
+            calls = [];
+
+        angular.forEach(references, function(reference) {
+            calls.push(self.getAll(reference.targetEntity().getName()))
+        });
+
+        return this.$q.all(calls)
+            .then(function(responses) {
+                var i = 0;
+                angular.forEach(references, function(reference, index) {
+                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].rawItems));
+                });
+
+                return references;
+            });
+    };
+
+    /**
+     * Returns all choices for a reference from values
+     *
+     * @param {Reference} reference
+     * @param {Array} values
+     * @returns {Object}
+     */
+    CrudManager.prototype.getReferenceChoices = function(reference, values) {
+        var result = {},
+            targetEntity = reference.targetEntity(),
+            targetIdentifier = targetEntity.getIdentifier().getName();
+
+        angular.forEach(values, function(value) {
+            result[value[targetIdentifier]] = value[reference.targetLabel()];
+        });
+
+        return result;
+    };
+
+    /**
+     * Returns all references of an entity
+     *
+     * @param {String} entityName
+     * @returns {Array}
+     */
     CrudManager.prototype.getReferences = function(entityName) {
         if (!config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');

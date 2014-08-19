@@ -5,15 +5,17 @@ define(['lib/config/Configurable'], function (Configurable) {
         var availableTypes = ['number', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'reference';
-        var value;
+        var value = null;
+        var choices = {};
 
         var config = {
-            type: 'text',
+            type: 'reference',
             label: 'My reference',
             edition : 'editable',
             order: 1,
             targetEntity : null,
-            targetField : null,
+            targetLabel : null,
+            targetIdentifier : null,
             list: true,
             dashboard: true,
             identifier: false,
@@ -24,7 +26,6 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @constructor
          */
         function Reference() {
-            this.value = null;
         }
 
         Configurable(Reference, config);
@@ -62,6 +63,16 @@ define(['lib/config/Configurable'], function (Configurable) {
 
         Reference.setValue = function(v) {
             value = v;
+
+            return this;
+        };
+
+        Reference.getChoices = function() {
+            return choices;
+        };
+
+        Reference.setChoices = function(c) {
+            choices = c;
 
             return this;
         };

@@ -47,6 +47,19 @@ define(['lib/config/Configurable'], function (Configurable) {
             return fields;
         };
 
+        Entity.getIdentifier = function() {
+            for(var i in fields) {
+                if (!fields.hasOwnProperty(i)){
+                    continue;
+                }
+
+                var field = fields[i];
+                if (field.identifier()) {
+                    return field;
+                }
+            }
+        };
+
         /**
          * Returns all references
          *
