@@ -4,64 +4,46 @@ define(['lib/config/Configurable'], function (Configurable) {
     return function(fieldName) {
         var availableTypes = ['number', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
-        var name = fieldName || 'field';
+        var name = fieldName || 'reference';
         var value;
 
         var config = {
             type: 'text',
-            label: 'My field',
+            label: 'My reference',
             edition : 'editable',
             order: 1,
-            identifier : false,
+            targetEntity : null,
+            targetField : null,
             list: true,
             dashboard: true,
+            identifier: false,
             validation: {}
         };
 
         /**
          * @constructor
          */
-        function Field() {
+        function Reference() {
             this.value = null;
         }
 
-        Configurable(Field, config);
+        Configurable(Reference, config);
 
         /**
          * Object.name is protected, use a getter for it
          *
          * @returns {string}
          */
-        Field.getName = function() {
+        Reference.getName = function() {
             return name;
-        };
-
-        /**
-         * Set of get the type
-         *
-         * @param {String} type
-         * @returns string|Field
-         */
-        Field.type = function(type) {
-            if (arguments.length === 0) {
-                return config.type;
-            }
-
-            if (availableTypes.indexOf(type) === -1) {
-                throw new Exception('Type should be one of ' + availableTypes.join(', '));
-            }
-
-            config.type = type;
-
-            return this;
         };
 
         /**
          *
          * @param {String} edition
-         * @returns string|Field
+         * @returns string|Reference
          */
-        Field.edition = function(edition) {
+        Reference.edition = function(edition) {
             if (arguments.length === 0) {
                 return config.edition;
             }
@@ -74,16 +56,16 @@ define(['lib/config/Configurable'], function (Configurable) {
             return this;
         };
 
-        Field.getValue = function() {
+        Reference.getValue = function() {
             return value;
         };
 
-        Field.setValue = function(v) {
+        Reference.setValue = function(v) {
             value = v;
 
             return this;
         };
 
-        return Field;
+        return Reference;
     }
 });

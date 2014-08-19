@@ -3,12 +3,14 @@ define([
 ], function(humane) {
     'use strict';
 
-    var CreateController = function($scope, $location, CrudManager, Spinner, data) {
+    var CreateController = function($scope, $location, CrudManager, Spinner, data, references) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
         this.Spinner = Spinner;
         this.data = data;
+
+        console.log(references);
 
         $scope.fields = data.fields;
         $scope.entityLabel = data.entityLabel;
@@ -52,7 +54,7 @@ define([
         this.data = undefined;
     };
 
-    CreateController.$inject = ['$scope', '$location', 'CrudManager', 'Spinner', 'data'];
+    CreateController.$inject = ['$scope', '$location', 'CrudManager', 'Spinner', 'data', 'references'];
 
     return CreateController;
 });

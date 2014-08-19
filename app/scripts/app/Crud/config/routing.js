@@ -46,6 +46,9 @@ define([
                 resolve: {
                     data: function($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
+                    },
+                    references: function($stateParams, CrudManager) {
+                        return CrudManager.getReferences($stateParams.entity);
                     }
                 }
             });

@@ -84,6 +84,14 @@ define([
         };
     };
 
+    CrudManager.prototype.getReferences = function(entityName) {
+        if (!config.hasEntity(entityName)) {
+            return this.$q.reject('Entity ' + entityName + ' not found.');
+        }
+
+        return config.getEntity(entityName).getReferences();
+    };
+
 
     /**
      * Filter a list of field to the edition fields
