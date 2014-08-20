@@ -40,6 +40,14 @@ module.exports = function (grunt) {
                     debounceDelay: 500
                 }
             }
+        },
+
+        // Test settings
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js',
+                singleRun: true
+            }
         }
     });
 
@@ -47,6 +55,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
     grunt.registerTask('assets:js', ['requirejs:dev']);
