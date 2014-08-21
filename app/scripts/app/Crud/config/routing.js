@@ -63,6 +63,9 @@ define([
                 resolve: {
                     data: function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
+                    },
+                    referencedValues: function($stateParams, CrudManager) {
+                        return CrudManager.getReferencedValues($stateParams.entity);
                     }
                 }
             });

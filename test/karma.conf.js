@@ -22,6 +22,7 @@ module.exports = function(config) {
             // Test files
             {pattern: 'test/unit/**/**/*.js', included: false},
             {pattern: 'test/unit/lib/**/*.js', included: false},
+            {pattern: 'test/mock/*.js', included: false},
 
             // Test bootstrap
             'test/app-test.js'

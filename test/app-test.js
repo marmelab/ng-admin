@@ -12,7 +12,10 @@ requirejs.config({
     baseUrl: '/base/app/scripts',
 
     paths: {
-        'angular-mocks': 'bower_components/angular-mocks/angular-mocks'
+        'angular-mocks': 'bower_components/angular-mocks/angular-mocks',
+        'mixins': '/base/test/mock/mixins',
+        'mock/q': '/base/test/mock/q',
+        'mock/Restangular': '/base/test/mock/Restangular'
     },
     shim: {
         'angular-mocks': ['angular']

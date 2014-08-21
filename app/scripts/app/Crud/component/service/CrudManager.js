@@ -1,12 +1,13 @@
 define([
-    'app',
+    'angular',
     'config'
-], function(app, config) {
+], function(angular, ApplicationConfig) {
     'use strict';
 
-    function CrudManager($q, Restangular) {
+    function CrudManager($q, Restangular, config) {
         this.$q = $q;
         this.Restangular = Restangular;
+        this.config = config || ApplicationConfig;
     }
 
     /**
@@ -18,12 +19,12 @@ define([
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     CrudManager.prototype.getOne = function(entityName, entityId) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.getEntity(entityName);
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        var entityConfig = this.config.getEntity(entityName);
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get element data
@@ -70,11 +71,11 @@ define([
             }
         }
 
-        if (!config.hasEntity(entityName)) {
-            return this.$q.reject('Entity ' + entityName + ' not found.');
+        if (!this.config.hasEntity(entityName)) {
+            throw 'Entity ' + entityName + ' not found.';
         }
 
-        var entityConfig = config.getEntity(entityName),
+        var entityConfig = this.config.getEntity(entityName),
             fields = this.filterEditionFields(entityConfig.getFields(), filters);
 
         return {
@@ -130,11 +131,11 @@ define([
      * @returns {Array}
      */
     CrudManager.prototype.getReferences = function(entityName) {
-        if (!config.hasEntity(entityName)) {
-            return this.$q.reject('Entity ' + entityName + ' not found.');
+        if (!this.config.hasEntity(entityName)) {
+            throw ('Entity ' + entityName + ' not found.');
         }
 
-        return config.getEntity(entityName).getReferences();
+        return this.config.getEntity(entityName).getReferences();
     };
 
 
@@ -180,11 +181,11 @@ define([
      * @returns {promise}  the new object
      */
     CrudManager.prototype.createOne = function (entityName, entity) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(false);
 
         // Get element data
@@ -203,11 +204,11 @@ define([
      * @returns {promise} the updated object
      */
     CrudManager.prototype.updateOne = function(entityName, entity) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
 
         // Get element data
         return this.Restangular
@@ -226,7 +227,7 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
 
         return this.Restangular
             .one(entityName, entityId)
@@ -246,15 +247,15 @@ define([
     CrudManager.prototype.getAll = function (entityName, page) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.getEntity(entityName),
+        var entityConfig = this.config.getEntity(entityName),
             pagination = entityConfig.pagination(),
             perPage = entityConfig.perPage();
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get grid data
