@@ -7,18 +7,13 @@ define([], function() {
         this.CrudManager = CrudManager;
         this.data = data;
         this.$anchorScroll = $anchorScroll;
+        this.loadingPage = false;
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
         this.identifierField = 'id';
 
         this.computePagination();
-
-        if (this.data.entityConfig.infinitePagination()) {
-            this.scrollView = $famous.find('#main-list')[0].renderNode;
-            this.scrollView.sync.on('update', this.updateInfinitePagination.bind(this));
-            this.scrollView._scroller.on('edgeHit', this.updateInfinitePagination.bind(this));
-        }
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -58,13 +53,19 @@ define([], function() {
         this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
     };
 
-    ListController.prototype.updateInfinitePagination = function() {
-        if (!this.scrollView._node) {
+    ListController.prototype.nextPage = function() {
+        if (this.loadingPage || entityConfig.infinitePagination()) {
             return;
         }
 
-        var index = this.scrollView._node.index;
-        console.log(index);
+        var self = this;
+        this.loadingPage = true;
+        this.$scope.currentPage++;
+
+        this.CrudManager.getAll($stateParams.entity, this.$scope.currentPage).then(function(nextData) {
+            self.$scope.grid.push(nextData.rawItems);
+            self.loadingPage = false;
+        });
     };
 
     /**
