@@ -9,7 +9,7 @@
 </div>
 
 <div class="row grid">
-    <fa-grid-layout fa-options="grid">
+    <fa-grid-layout fa-options="grid" id="main-list" infinite-pagination="infinitePagination">
 
         <div class="item header">
             <div class="cell" ng-repeat="column in grid.columns">
@@ -27,7 +27,7 @@
     </fa-grid-layout>
 </div>
 
-<div class="row pull-right">
+<div class="row pull-right" ng-if="!infinitePagination">
     <ul class="pagination pagination-sm">
         <li ng-class="{ disabled: currentPage == 1}">
             <a href ng-click="listController.setPage(currentPage - 1)">« Prev</a>

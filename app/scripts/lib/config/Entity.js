@@ -16,7 +16,8 @@ define(['lib/config/Configurable'], function (Configurable) {
             label: 'My entity',
             dashboard: 5,
             perPage: 30,
-            pagination: defaultPaginationLink
+            pagination: defaultPaginationLink,
+            infinitePagination: false
         };
 
         /**
