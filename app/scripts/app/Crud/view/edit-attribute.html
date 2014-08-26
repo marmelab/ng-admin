@@ -20,6 +20,8 @@
 
         <select id="{{ field.name }}" class="form-control" ng-switch-when="links" ng-model="field.value" multiple ng-multiple="true" ng-options="option as option for option in componentNames"></select>
 
+        <input id="{{ field.name }}" type="checkbox" class="form-control" ng-switch-when="boolean" ng-model="field.value" />
+
         <select id="{{ field.name }}" class="form-control" ng-switch-when="choice" ng-model="field.value" ng-options="option as option for option in field.choices"></select>
 
         <select id="{{ field.name }}" class="form-control" ng-switch-when="choices" ng-model="field.value" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices"></select>

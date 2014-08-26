@@ -1,7 +1,6 @@
 define([
-    'app',
     'config'
-], function(app, config) {
+], function(config) {
     'use strict';
 
     /**
