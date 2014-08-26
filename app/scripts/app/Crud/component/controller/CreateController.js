@@ -28,7 +28,7 @@ define([
             self = this;
 
         angular.forEach(this.data.fields, function(field){
-            object[field.name] = field.value;
+            object[field.getName()] = field.value;
         });
 
         this.CrudManager

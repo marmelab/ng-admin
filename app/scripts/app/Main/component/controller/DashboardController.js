@@ -25,23 +25,23 @@ define([], function() {
                     identifierField = 'id';
 
                 // Get identifier field, and build columns array (only field defined with `"list" : true` in config file)
-                angular.forEach(entityConfig.fields, function(field) {
-
-                    if(typeof(field.identifier) !== 'undefined') {
-                        identifierField = field.name;
-                    }
-                    if(typeof(field.dashboard) === 'undefined' || field.dashboard !== true) {
+                angular.forEach(entityConfig.getFields(), function(field) {
+                    if(!field.dashboard()) {
                         return;
                     }
 
+                    if(field.identifier()) {
+                        identifierField = field.getName();
+                    }
+
                     columns.push({
-                        field: field.name,
-                        label: field.label
+                        field: field.getName(),
+                        label: field.label()
                     });
                 });
 
                 self.$scope.panels[panel.entityName] = {
-                    label: panel.entityConfig.label,
+                    label: panel.entityConfig.label(),
                     columns: columns,
                     items: rawItems,
                     identifierField: identifierField,

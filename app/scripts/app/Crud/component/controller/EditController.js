@@ -31,11 +31,11 @@ define([
 
         angular.forEach(this.data.fields, function(field){
             value = field.value;
-            if (field.type === 'date') {
-                value = self.$filter('date')(value, field.validation.format);
+            if (field.type() === 'date') {
+                value = self.$filter('date')(value, field.validation().format);
             }
 
-            object[field.name] = value;
+            object[field.getName()] = value;
         });
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {

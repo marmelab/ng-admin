@@ -24,22 +24,23 @@ define([], function() {
             self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(entityConfig.fields, function(field) {
-            if(typeof(field.identifier) !== 'undefined') {
-                self.identifierField = field.name;
-            }
-            if(typeof(field.list) === 'undefined' || field.list !== true) {
+        angular.forEach(entityConfig.getFields(), function(field) {
+            if(!field.list()) {
                 return;
             }
 
+            if(field.identifier()) {
+                self.identifierField = field.getName();
+            }
+
             columns.push({
-                field: field.name,
-                label: field.label
+                field: field.getName(),
+                label: field.label()
             });
         });
 
 
-        this.$scope.entityLabel = entityConfig.label;
+        this.$scope.entityLabel = entityConfig.label();
         this.$scope.grid = {
             dimensions : [ columns.length, rawItems.length ],
             columns: columns,

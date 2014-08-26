@@ -7,7 +7,7 @@ define([
         this.$scope = $scope;
         this.$location = $location;
 
-        this.entities = config.entities;
+        this.entities = config.getEntities();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
