@@ -48,7 +48,7 @@ define([], function() {
         };
 
         this.$scope.currentPage = this.data.currentPage;
-        this.$scope.nbPages = (this.data.totalItems / (this.data.perPage | 1)) + 1;
+        this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
     };
 
     /**

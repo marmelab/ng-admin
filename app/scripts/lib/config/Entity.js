@@ -1,6 +1,13 @@
 define(['lib/config/Configurable'], function (Configurable) {
     'use strict';
 
+    var defaultPaginationLink = function(page, maxPerPage) {
+        return {
+            page: page,
+            per_page: maxPerPage
+        };
+    };
+
     return function(entityName) {
         var name = entityName || 'entity';
         var fields = {};
@@ -9,7 +16,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             label: 'My entity',
             dashboard: 5,
             perPage: 30,
-            pagination: false
+            pagination: defaultPaginationLink
         };
 
         /**

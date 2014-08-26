@@ -258,10 +258,15 @@ define([
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
+        var paginationParams = null;
+        if (pagination) {
+            paginationParams = pagination(page, perPage);
+        }
+
         // Get grid data
         return this.Restangular
             .all(entityName)
-            .getList(pagination ? { page: page, per_page: perPage} : null)
+            .getList(paginationParams)
             .then(function (response) {
                 return {
                     entityName: entityName,
