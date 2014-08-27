@@ -251,9 +251,11 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = this.config.getEntity(entityName),
+        var self = this,
+            entityConfig = this.config.getEntity(entityName),
             pagination = entityConfig.pagination(),
-            perPage = entityConfig.perPage();
+            perPage = entityConfig.perPage(),
+            response;
 
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
@@ -267,16 +269,38 @@ define([
         return this.Restangular
             .all(entityName)
             .getList(paginationParams)
-            .then(function (response) {
+            .then(function (data) {
+                response = data;
+
+                return self.getReferencedValues(entityName);
+            })
+            .then(function(referencedValues) {
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: response.data,
+                    rawItems: self.fillReferencesValuesFromCollection(response.data, referencedValues),
                     currentPage: page,
                     perPage: perPage,
                     totalItems: response.headers('X-Count')
                 };
             });
+    };
+
+    CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues) {
+        angular.forEach(referencedValues, function(reference, referenceField) {
+            var choices = reference.getChoices();
+
+            for (var i = 0, l = collection.length; i < l; i++) {
+                var element = collection[i],
+                    identifier = element[referenceField];
+
+                if (identifier && identifier in choices) {
+                    element[referenceField] = choices[element[referenceField]];
+                }
+            }
+        });
+
+        return collection;
     };
 
     CrudManager.$inject = ['$q', 'Restangular'];
