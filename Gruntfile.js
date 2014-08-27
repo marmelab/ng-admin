@@ -8,11 +8,21 @@ module.exports = function (grunt) {
         requirejs: grunt.file.readJSON('grunt/grunt-requirejs.json'),
         compass: grunt.file.readJSON('grunt/grunt-compass.json'),
 
+        connect: {
+            server: {
+                options: {
+                    port: 8000,
+                    base: 'app/',
+                    keepalive: true
+                }
+            }
+        },
+
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             configFiles: {
                 files: ['Gruntfile.js','grunt/grunt-*.json'],
-                tasks: ['assets:all'],
+                tasks: ['concurrent:assets_all_dev'],
                 options: {
                     // reload watchers since configuration may have changed
                     reload: true
@@ -48,6 +58,12 @@ module.exports = function (grunt) {
                 configFile: 'test/karma.conf.js',
                 singleRun: true
             }
+        },
+
+        concurrent: {
+            assets_all_dev: ['requirejs:dev', 'compass:dev'],
+            assets_all_prod: ['requirejs:prod', 'compass:prod'],
+            connect_watch: ['connect', 'watch']
         }
     });
 
@@ -55,14 +71,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
     grunt.registerTask('assets:js', ['requirejs:dev']);
     grunt.registerTask('assets:css', ['compass:dev']);
-    grunt.registerTask('assets:all', ['requirejs:dev', 'compass:dev']);
-    grunt.registerTask('production', ['requirejs:prod', 'compass:prod']);
 
     // register default task
-    grunt.registerTask('default', ['assets:all', 'watch']);
+    grunt.registerTask('default', ['concurrent:assets_all_dev', 'concurrent:connect_watch']);
 };
