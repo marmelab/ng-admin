@@ -244,7 +244,7 @@ define([
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page) {
+    CrudManager.prototype.getAll = function (entityName, page, limit) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
         if (!this.config.hasEntity(entityName)) {
@@ -254,7 +254,7 @@ define([
         var self = this,
             entityConfig = this.config.getEntity(entityName),
             pagination = entityConfig.pagination(),
-            perPage = entityConfig.perPage(),
+            perPage = limit || entityConfig.perPage(),
             response;
 
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
