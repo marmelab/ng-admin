@@ -1,7 +1,7 @@
 define([], function() {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data, CrudManager, $famous) {
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
@@ -54,7 +54,8 @@ define([], function() {
     };
 
     ListController.prototype.nextPage = function() {
-        if (this.loadingPage || entityConfig.infinitePagination()) {
+        var entityConfig = this.data.entityConfig;
+        if (this.loadingPage || !entityConfig.infinitePagination()) {
             return;
         }
 
@@ -62,8 +63,8 @@ define([], function() {
         this.loadingPage = true;
         this.$scope.currentPage++;
 
-        this.CrudManager.getAll($stateParams.entity, this.$scope.currentPage).then(function(nextData) {
-            self.$scope.grid.push(nextData.rawItems);
+        this.CrudManager.getAll(entityConfig.getName(), this.$scope.currentPage).then(function(nextData) {
+            self.$scope.grid.items = self.$scope.grid.items.concat(nextData.rawItems);
             self.loadingPage = false;
         });
     };
@@ -133,7 +134,7 @@ define([], function() {
         this.CrudManager = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager', '$famous'];
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
 
     return ListController;
 });
