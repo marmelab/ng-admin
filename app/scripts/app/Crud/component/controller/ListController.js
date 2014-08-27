@@ -7,6 +7,7 @@ define([], function() {
         this.CrudManager = CrudManager;
         this.data = data;
         this.$anchorScroll = $anchorScroll;
+        this.loadingPage = false;
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
@@ -47,8 +48,25 @@ define([], function() {
             items: rawItems
         };
 
+        this.$scope.infinitePagination = entityConfig.infinitePagination();
         this.$scope.currentPage = this.data.currentPage;
-        this.$scope.nbPages = (this.data.totalItems / (this.data.perPage | 1)) + 1;
+        this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
+    };
+
+    ListController.prototype.nextPage = function() {
+        var entityConfig = this.data.entityConfig;
+        if (this.loadingPage || !entityConfig.infinitePagination()) {
+            return;
+        }
+
+        var self = this;
+        this.loadingPage = true;
+        this.$scope.currentPage++;
+
+        this.CrudManager.getAll(entityConfig.getName(), this.$scope.currentPage).then(function(nextData) {
+            self.$scope.grid.items = self.$scope.grid.items.concat(nextData.rawItems);
+            self.loadingPage = false;
+        });
     };
 
     /**

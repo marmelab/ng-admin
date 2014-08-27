@@ -8,6 +8,7 @@ define(
         'app/Crud/component/controller/EditController',
         'app/Crud/component/controller/DeleteController',
 
+        'app/Crud/component/directive/InfinitePagination',
 
         'app/Crud/component/service/CrudManager',
 
@@ -24,6 +25,8 @@ define(
         EditController,
         DeleteController,
 
+        InfinitePagination,
+
         CrudManager,
 
         routing
@@ -39,6 +42,8 @@ define(
         CrudModule.controller('DeleteController', DeleteController);
 
         CrudModule.service('CrudManager', CrudManager);
+
+        CrudModule.directive('infinitePagination', InfinitePagination);
 
         CrudModule.config(routing);
 
