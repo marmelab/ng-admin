@@ -47,6 +47,41 @@ define(['lib/config/Configurable'], function (Configurable) {
             return fields;
         };
 
+        Entity.getIdentifier = function() {
+            for(var i in fields) {
+                if (!fields.hasOwnProperty(i)){
+                    continue;
+                }
+
+                var field = fields[i];
+                if (field.identifier()) {
+                    return field;
+                }
+            }
+        };
+
+        /**
+         * Returns all references
+         *
+         * @returns {Object}
+         */
+        Entity.getReferences = function() {
+            var results = {};
+
+            for(var i in fields) {
+                if (!fields.hasOwnProperty(i)) {
+                    continue;
+                }
+
+                var field = fields[i];
+                if (field.name === 'Reference') {
+                    results[i] = field;
+                }
+            }
+
+            return results;
+        };
+
         Configurable(Entity, config);
 
         return Entity;

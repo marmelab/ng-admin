@@ -1,29 +1,30 @@
 define([
-    'app',
+    'angular',
     'config'
-], function(app, config) {
+], function(angular, ApplicationConfig) {
     'use strict';
 
-    function CrudManager($q, Restangular) {
+    function CrudManager($q, Restangular, config) {
         this.$q = $q;
         this.Restangular = Restangular;
+        this.config = config || ApplicationConfig;
     }
 
     /**
      * Get one entity
      *
      * @param {String} entityName  name of the entity
-     * @param {Number} entityId       id of the entity
+     * @param {Number} entityId    id of the entity
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     CrudManager.prototype.getOne = function(entityName, entityId) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.getEntity(entityName);
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        var entityConfig = this.config.getEntity(entityName);
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get element data
@@ -36,7 +37,7 @@ define([
                     entity = response.data;
 
                 angular.forEach(fields, function(field, index) {
-                    if (!(field.getName() in entity)) {
+                    if (field.getName() in entity) {
                         fields[index].value = entity[field.getName()];
                     }
                 });
@@ -70,11 +71,11 @@ define([
             }
         }
 
-        if (!config.hasEntity(entityName)) {
-            return this.$q.reject('Entity ' + entityName + ' not found.');
+        if (!this.config.hasEntity(entityName)) {
+            throw 'Entity ' + entityName + ' not found.';
         }
 
-        var entityConfig = config.getEntity(entityName),
+        var entityConfig = this.config.getEntity(entityName),
             fields = this.filterEditionFields(entityConfig.getFields(), filters);
 
         return {
@@ -82,6 +83,59 @@ define([
             entityLabel: entityConfig.label(),
             entityName: entityName
         };
+    };
+
+    CrudManager.prototype.getReferencedValues = function(entityName) {
+        var self = this,
+            references = this.getReferences(entityName),
+            calls = [];
+
+        angular.forEach(references, function(reference) {
+            calls.push(self.getAll(reference.targetEntity().getName()))
+        });
+
+        return this.$q.all(calls)
+            .then(function(responses) {
+                var i = 0;
+                angular.forEach(references, function(reference, index) {
+                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].rawItems));
+                });
+
+                return references;
+            });
+    };
+
+    /**
+     * Returns all choices for a reference from values
+     *
+     * @param {Reference} reference
+     * @param {Array} values
+     * @returns {Object}
+     */
+    CrudManager.prototype.getReferenceChoices = function(reference, values) {
+        var result = {},
+            targetEntity = reference.targetEntity(),
+            targetIdentifier = targetEntity.getIdentifier().getName();
+
+        angular.forEach(values, function(value) {
+            result[value[targetIdentifier]] = value[reference.targetLabel()];
+        });
+
+        return result;
+    };
+
+    /**
+     * Returns all references of an entity
+     *
+     * @param {String} entityName
+     * @returns {Array}
+     */
+    CrudManager.prototype.getReferences = function(entityName) {
+        if (!this.config.hasEntity(entityName)) {
+            throw ('Entity ' + entityName + ' not found.');
+        }
+
+        return this.config.getEntity(entityName).getReferences();
     };
 
 
@@ -127,11 +181,11 @@ define([
      * @returns {promise}  the new object
      */
     CrudManager.prototype.createOne = function (entityName, entity) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(false);
 
         // Get element data
@@ -150,11 +204,11 @@ define([
      * @returns {promise} the updated object
      */
     CrudManager.prototype.updateOne = function(entityName, entity) {
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
 
         // Get element data
         return this.Restangular
@@ -173,7 +227,7 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
 
         return this.Restangular
             .one(entityName, entityId)
@@ -193,15 +247,15 @@ define([
     CrudManager.prototype.getAll = function (entityName, page) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
 
-        if (!config.hasEntity(entityName)) {
+        if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = config.getEntity(entityName),
+        var entityConfig = this.config.getEntity(entityName),
             pagination = entityConfig.pagination(),
             perPage = entityConfig.perPage();
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get grid data

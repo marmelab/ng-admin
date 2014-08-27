@@ -4,8 +4,7 @@ define(['lib/config/Configurable'], function (Configurable) {
     return function(fieldName) {
         var availableTypes = ['number', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
-        var name = fieldName || 'entity';
-        var value;
+        var name = fieldName || 'field';
 
         var config = {
             type: 'text',
@@ -19,7 +18,6 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         /**
-         * @param {String} fieldName
          * @constructor
          */
         function Field() {
@@ -68,7 +66,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             if (availableEditions.indexOf(edition) === -1) {
-                throw new Exception('Type should be one of ' + availableTypes.join(', '));
+                throw 'Type should be one of ' + availableTypes.join(', ');
             }
 
             config.edition = edition;
@@ -76,11 +74,11 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         Field.getValue = function() {
-            return value;
+            return this.value;
         };
 
         Field.setValue = function(v) {
-            value = v;
+            this.value = v;
 
             return this;
         };

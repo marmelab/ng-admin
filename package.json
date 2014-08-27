@@ -7,15 +7,15 @@
     "grunt-contrib-compass": "~0.7.2",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-watch": "~0.5.2",
+    "grunt-karma": "^0.8.3",
     "jshint-stylish": "~0.1.3",
-    "karma-ng-scenario": "~0.1.0",
     "karma": "~0.12.14",
-    "karma-ng-html2js-preprocessor": "~0.1.0",
-    "grunt-karma": "~0.8.3",
-    "karma-jasmine": "~0.1.5",
     "karma-chrome-launcher": "~0.1.4",
-    "requirejs": "~2.1.14",
-    "karma-requirejs": "~0.2.2"
+    "karma-jasmine": "~0.1.5",
+    "karma-ng-html2js-preprocessor": "~0.1.0",
+    "karma-ng-scenario": "~0.1.0",
+    "karma-requirejs": "~0.2.2",
+    "requirejs": "~2.1.14"
   },
   "engines": {
     "node": ">=0.10.0"
