@@ -23,14 +23,16 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        var entityConfig = this.config.getEntity(entityName);
+        var entityConfig = this.config.getEntity(entityName),
+            params = entityConfig.getExtraParams();
+
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
         // Get element data
         return this.Restangular
             .one(entityName, entityId)
-            .get()
+            .get(params)
             .then(function(response) {
 
                 var fields = entityConfig.getFields(),
@@ -303,20 +305,28 @@ define([
             entityConfig = this.config.getEntity(entityName),
             pagination = entityConfig.pagination(),
             perPage = limit || entityConfig.perPage(),
+            interceptor = entityConfig.interceptor(),
+            params = entityConfig.getExtraParams(),
             response;
+
+        if (pagination) {
+            angular.extend(params, { page: page, per_page: perPage});
+        }
 
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
 
-        var paginationParams = null;
         if (pagination) {
-            paginationParams = pagination(page, perPage);
+            params = angular.extends(params, pagination(page, perPage));
+        }
+        if (interceptor) {
+            this.Restangular.addResponseInterceptor(interceptor);
         }
 
         // Get grid data
         return this.Restangular
-            .all(entityName)
-            .getList(paginationParams)
+            .all(entityConfig.getName())
+            .getList(params)
             .then(function (data) {
                 response = data;
 

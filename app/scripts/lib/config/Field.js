@@ -47,7 +47,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             if (availableTypes.indexOf(type) === -1) {
-                throw new Exception('Type should be one of ' + availableTypes.join(', '));
+                throw 'Type should be one of ' + availableTypes.join(', ') + '. ' + type + 'given.';
             }
 
             config.type = type;
@@ -66,7 +66,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             if (availableEditions.indexOf(edition) === -1) {
-                throw 'Type should be one of ' + availableTypes.join(', ');
+                throw 'Edition should be one of ' + availableEditions.join(', ') + '. ' + edition + 'given.';
             }
 
             config.edition = edition;

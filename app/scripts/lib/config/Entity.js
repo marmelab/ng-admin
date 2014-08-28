@@ -17,7 +17,8 @@ define(['lib/config/Configurable'], function (Configurable) {
             dashboard: 5,
             perPage: 30,
             pagination: defaultPaginationLink,
-            infinitePagination: false
+            extraParams: null,
+            interceptor: null
         };
 
         /**
@@ -112,6 +113,15 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             return results;
+        };
+
+        Entity.getExtraParams = function() {
+            var params = {};
+            if (config.extraParams) {
+                params = typeof (config.extraParams) === 'function' ? config.extraParams() : config.extraParams;
+            }
+
+            return params;
         };
 
         Configurable(Entity, config);
