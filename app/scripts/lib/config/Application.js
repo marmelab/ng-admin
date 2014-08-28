@@ -50,6 +50,15 @@ define(['lib/config/Configurable'], function (Configurable) {
             return entities;
         };
 
+        /**
+         * Returns all entity names
+         *
+         * @returns {Array}
+         */
+        Application.getEntityNames = function() {
+            return Object.keys(entities);
+        };
+
         Configurable(Application, config);
 
         return Application;

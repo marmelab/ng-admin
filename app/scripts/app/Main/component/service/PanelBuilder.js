@@ -5,47 +5,33 @@ define([
 
     /**
      * @param {$q} $q
-     * @param {Restangular} Restangular
+     * @param {CrudManager} CrudManager
      * @constructor
      */
-    function PanelBuilder($q, Restangular) {
+    function PanelBuilder($q, CrudManager) {
         this.$q = $q;
-        this.Restangular = Restangular;
+        this.CrudManager = CrudManager;
     }
 
     PanelBuilder.prototype.getPanelsData = function() {
         var promises = [],
+            entity,
+            limit,
             self = this;
 
-        this.Restangular.setBaseUrl(config.baseApiUrl());
+        angular.forEach(config.getEntityNames(), function(entityName) {
+            entity = config.getEntity(entityName);
+            limit = entity.dashboard();
 
-        angular.forEach(Object.keys(config.getEntities()) , function(entityName) {
-
-            var deferred = self.$q.defer(),
-                entity = config.getEntity(entityName),
-                limit = entity.dashboard();
-
-            // Get items
-            self.Restangular
-                .all(entityName)
-                .getList({per_page : limit})
-                .then(function (items) {
-
-                    deferred.resolve({
-                        entityName: entityName,
-                        entityConfig: entity,
-                        limit: limit,
-                        rawItems: items
-                    });
-                });
-
-            promises.push(deferred.promise);
+            if (limit) {
+                promises.push(self.CrudManager.getAll(entityName, 1, limit));
+            }
         });
 
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', 'Restangular'];
+    PanelBuilder.$inject = ['$q', 'CrudManager'];
 
     return PanelBuilder;
 });
