@@ -21,13 +21,30 @@ define([
 
         beforeEach(function() {
             humanEntity = Entity('human')
+                .extraParams(function () {
+                    return {
+                        key: 'abc'
+                    };
+                })
+                .pagination(function(page, maxPerPage) {
+                    return {
+                        offset: (page - 1) * maxPerPage,
+                        limit: 100
+                    }
+                })
                 .addField(Field('id').identifier(true).label('ID').edition('read-only'))
                 .addField(Field('name').label('Name'));
 
             catEntity = Entity('cat')
+                .interceptor(function(data, operation, what, url, response, deferred){
+                    data.push({id: 9, name: 'ninja', summary: 'Ninja cat !'});
+                    return data;
+                })
                 .addField(Field('id').label('ID').edition('read-only'))
                 .addField(Field('name').label('Name'))
-                .addField(Field('summary').label('Summary'))
+                .addField(Field('summary').label('Summary').valueTransformer(function(value) {
+                    return value + "-test";
+                }))
                 .addField(Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
 
             var config = Application('test')
@@ -37,25 +54,52 @@ define([
             crudManager = new CrudManager($q, Restangular, config);
         });
 
+        describe('extra params', function() {
+            it('should be added to all getOne API calls.', function() {
+                Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({data: {}}));
+
+                crudManager.getOne('human', 1)
+                    .then(function() {
+                        expect(Restangular.one).toHaveBeenCalledWith('human', 1);
+                        expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'});
+                    });
+            });
+
+            it('should be added to all getAll API calls.', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                crudManager.getAll('human')
+                    .then(function() {
+                        expect(Restangular.all).toHaveBeenCalledWith('human');
+                        expect(Restangular.getList).toHaveBeenCalledWith({key: 'abc', limit: 100, offset: 0});
+                    });
+            });
+        });
+
         describe('getOne', function() {
             it('should return an the entity with only the editable fields.', function() {
-
+                Restangular.addResponseInterceptor =  jasmine.createSpy('addResponseInterceptor');
                 Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({
                     data: {
                         "id":1,
                         "name":"Mizoute",
-                        "summary":"Architecto quos et aut reprehenderit iste."
+                        "summary":"A Cat"
                     }
                 }));
 
                 crudManager.getOne('cat', 1)
                     .then(function(data) {
+                        expect(Restangular.addResponseInterceptor).toHaveBeenCalled();
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
 
                         var fields = data.fields;
-                        expect(fields.id.getValue()).toBe(1);
-                        expect(fields.name.getValue()).toBe('Mizoute');
-                        expect(fields.summary.getValue()).toBe('Architecto quos et aut reprehenderit iste.');
+                        expect(fields.id.value).toBe(1);
+                        expect(fields.name.value).toBe('Mizoute');
+                        // Test value transformer
+                        expect(fields.summary.value).toBe('A Cat-test');
                     });
             });
         });
@@ -71,20 +115,22 @@ define([
             });
 
             it('should return all objects from API & field definition.', function() {
-
+                Restangular.addResponseInterceptor =  jasmine.createSpy('addResponseInterceptor');
                 Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
                     data: [
-                        {"id":1,"title":"Mizu","summary":"Architecto quos et aut reprehenderit iste. Iure nihil maiores nostrum ea est dolorem eos. Sit saepe impedit vero voluptas id. Blanditiis nulla sit cupiditate."},
-                        {"id":2,"title":"Suna","summary":"Modi quos recusandae magni dolore voluptas assumenda occaecati. Enim culpa soluta laborum incidunt sint."},
-                        {"id":3,"title":"Nao","summary":"Consequatur praesentium dolorum."}
+                        {"id":1,"title":"Mizu","summary":"First cat"},
+                        {"id":2,"title":"Suna","summary":"Mini cat"},
+                        {"id":3,"title":"Nao","summary":"Black cat"}
                     ],
                     headers: function() {}
                 }));
 
                 crudManager.getAll('cat')
                     .then(function(data) {
+                        expect(Restangular.addResponseInterceptor).toHaveBeenCalled();
                         expect(data.rawItems.length).toBe(3);
                         expect(data.currentPage).toBe(1);
+                        expect(data.rawItems[0].summary).toBe("First cat-test");
                     });
             });
         });
@@ -157,7 +203,6 @@ define([
                 expect(choices[9]).toBe('Joe');
             });
         });
-
 
         describe('getReferencedValues', function() {
             it('should returns all choices for all references of an entity.', function() {
