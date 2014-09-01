@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div infinite-pagination="listController.nextPage()" threshold="100">
+<div infinite-pagination="listController.nextPage()" threshold="100" can-load="!listController.loadingPage">
     <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
 </div>
 

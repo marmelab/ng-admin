@@ -6,12 +6,17 @@ define(['lib/config/Configurable'], function (Configurable) {
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'field';
 
+        var defaultValueTransformer = function(value) {
+            return value;
+        };
+
         var config = {
             type: 'text',
             label: 'My field',
             edition : 'editable',
             order: null,
             identifier : false,
+            valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,
             validation: {}
@@ -70,16 +75,6 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             config.edition = edition;
-            return this;
-        };
-
-        Field.getValue = function() {
-            return this.value;
-        };
-
-        Field.setValue = function(v) {
-            this.value = v;
-
             return this;
         };
 

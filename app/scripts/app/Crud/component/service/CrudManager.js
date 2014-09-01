@@ -8,6 +8,9 @@ define([
         this.$q = $q;
         this.Restangular = Restangular;
         this.config = config || ApplicationConfig;
+
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
+        this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
     /**
@@ -24,10 +27,12 @@ define([
         }
 
         var entityConfig = this.config.getEntity(entityName),
+            interceptor = entityConfig.interceptor(),
             params = entityConfig.getExtraParams();
 
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
-        this.Restangular.setFullResponse(true);  // To get also the headers
+        if (interceptor) {
+            this.Restangular.addResponseInterceptor(interceptor);
+        }
 
         // Get element data
         return this.Restangular
@@ -40,7 +45,7 @@ define([
 
                 angular.forEach(fields, function(field, index) {
                     if (field.getName() in entity) {
-                        fields[index].value = entity[field.getName()];
+                        fields[index].value = field.valueTransformer()(entity[field.getName()]);
                     }
                 });
 
@@ -235,9 +240,6 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
-        this.Restangular.setFullResponse(false);
-
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
@@ -258,8 +260,6 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
-
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
@@ -277,8 +277,6 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
-
         return this.Restangular
             .one(entityName, entityId)
             .remove();
@@ -303,6 +301,7 @@ define([
 
         var self = this,
             entityConfig = this.config.getEntity(entityName),
+            fields = entityConfig.getFields(),
             pagination = entityConfig.pagination(),
             perPage = limit || entityConfig.perPage(),
             interceptor = entityConfig.interceptor(),
@@ -310,14 +309,7 @@ define([
             response;
 
         if (pagination) {
-            angular.extend(params, { page: page, per_page: perPage});
-        }
-
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
-        this.Restangular.setFullResponse(true);  // To get also the headers
-
-        if (pagination) {
-            params = angular.extends(params, pagination(page, perPage));
+            params = angular.extend(params, pagination(page, perPage));
         }
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
@@ -333,13 +325,25 @@ define([
                 return self.getReferencedValues(entityName);
             })
             .then(function(referencedValues) {
+                var entities = response.data;
+
+                for (var i = 0, l = entities.length; i < l; i++) {
+                    var entity = entities[i];
+
+                    angular.forEach(fields, function(field, fieldName) {
+                        if (field.getName() in entity) {
+                            entities[i][fieldName] = field.valueTransformer()(entity[field.getName()]);
+                        }
+                    });
+                }
+
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: self.fillReferencesValuesFromCollection(response.data, referencedValues),
+                    rawItems: self.fillReferencesValuesFromCollection(entities, referencedValues),
                     currentPage: page,
                     perPage: perPage,
-                    totalItems: response.headers('X-Count')
+                    totalItems: entityConfig.totalItems()(response)
                 };
             });
     };
@@ -350,10 +354,12 @@ define([
 
             for (var i = 0, l = collection.length; i < l; i++) {
                 var element = collection[i],
-                    identifier = element[referenceField];
+                    identifier = reference.valueTransformer()(element[referenceField]);
 
                 if (identifier && identifier in choices) {
-                    element[referenceField] = choices[element[referenceField]];
+                    element[referenceField] = choices[identifier];
+                } else {
+                    delete element[referenceField];
                 }
             }
         });

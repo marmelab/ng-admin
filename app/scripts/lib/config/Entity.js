@@ -8,6 +8,10 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
     };
 
+    var defaultTotalItems = function(response) {
+        return response.headers('X-Count');
+    };
+
     return function(entityName) {
         var name = entityName || 'entity';
         var fields = {};
@@ -17,6 +21,8 @@ define(['lib/config/Configurable'], function (Configurable) {
             dashboard: 5,
             perPage: 30,
             pagination: defaultPaginationLink,
+            infinitePagination: false,
+            totalItems: defaultTotalItems,
             extraParams: null,
             interceptor: null
         };
