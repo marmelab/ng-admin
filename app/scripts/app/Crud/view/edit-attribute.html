@@ -37,3 +37,7 @@
         <p ng-switch-when="number">{{ field.value }}</p>
     </div>
 </div>
+
+<div ng-if="field.type() === 'referenced-list'">
+    <div ng-include="'/require/app/Crud/view/grid.html'" onInclude="grid=field.getValues()"></div>
+</div>

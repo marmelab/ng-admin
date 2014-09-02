@@ -74,6 +74,26 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @returns {Object}
          */
         Entity.getReferences = function() {
+            return this.getFieldsOfType('Referenced')
+        };
+
+
+        /**
+         * Returns all referenced lists
+         *
+         * @returns {Object}
+         */
+        Entity.getReferencedLists = function() {
+            return this.getFieldsOfType('ReferencedList')
+        };
+
+        /**
+         * Returns fields by type
+         *
+         * @param {String }type
+         * @returns {Array}
+         */
+        Entity.getFieldsOfType = function(type) {
             var results = {};
 
             for(var i in fields) {
@@ -82,7 +102,7 @@ define(['lib/config/Configurable'], function (Configurable) {
                 }
 
                 var field = fields[i];
-                if (field.name === 'Reference') {
+                if (field.name === type) {
                     results[i] = field;
                 }
             }

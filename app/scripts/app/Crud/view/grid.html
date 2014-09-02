@@ -1,0 +1,16 @@
+<fa-grid-layout fa-options="grid" id="main-list" infinite-pagination="infinitePagination">
+
+    <div class="item header">
+        <div class="cell" ng-repeat="column in grid.columns">
+            {{ column.label }}
+        </div>
+    </div>
+
+    <fa-surface ng-repeat="item in grid.items">
+        <div class="item" ng-class="listController.itemClass($index)">
+            <div class="cell" ng-repeat="column in grid.columns">
+                <a ng-click="listController.edit(item)">{{ item[column.field] }}</a>
+            </div>
+        </div>
+    </fa-surface>
+</fa-grid-layout>

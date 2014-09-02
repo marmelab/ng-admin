@@ -66,6 +66,9 @@ define([
                     },
                     referencedValues: function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
+                    },
+                    referencedListValues: function($stateParams, CrudManager, data) {
+                        return CrudManager.getReferencedListValues($stateParams.entity, data);
                     }
                 }
             });
