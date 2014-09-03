@@ -38,6 +38,6 @@
     </div>
 </div>
 
-<div ng-if="field.type() === 'referenced-list'">
-    <div ng-include="'/require/app/Crud/view/grid.html'" onInclude="grid=field.getValues()"></div>
+<div class="col-sm-10"  ng-if="field.type() === 'referenced-list'">
+    <div ng-include="'/require/app/Crud/view/grid.html'" ng-init="grid=field.getGridParams();entity=field.targetEntity()"></div>
 </div>

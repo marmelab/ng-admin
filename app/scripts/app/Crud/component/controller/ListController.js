@@ -11,6 +11,8 @@ define([], function() {
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
+        this.$scope.itemClass = this.itemClass.bind(this);
+        this.$scope.edit = this.edit.bind(this);
         this.identifierField = 'id';
 
         this.computePagination();

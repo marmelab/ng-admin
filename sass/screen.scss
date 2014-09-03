@@ -6,11 +6,17 @@ $icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor
 
 @import "sb-admin.scss";
 
-.nav > li.heading {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    color: #777777;
+.nav {
+    a {
+        cursor: pointer;
+    }
+
+    > li.heading {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        color: #777777;
+    }
 }
 
 #header {
@@ -65,6 +71,7 @@ $icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor
 
         a {
             color: #000000;
+            cursor: pointer;
         }
     }
 }

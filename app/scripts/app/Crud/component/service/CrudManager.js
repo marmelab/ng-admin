@@ -119,7 +119,7 @@ define([
             .then(function(responses) {
                 var i = 0;
                 angular.forEach(lists, function(list, index) {
-                    lists[index].setValues(self.filterReferencedList(responses[i++].rawItems, list, entityId));
+                    lists[index].setItems(self.filterReferencedList(responses[i++].rawItems, list, entityId));
                 });
 
                 return responses;

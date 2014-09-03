@@ -8,8 +8,8 @@
     </div>
 </div>
 
-<div class="row grid" infinite-pagination="listController.nextPage()" threshold="100">
-    <div ng-include="'/require/app/Crud/view/grid.html'"></div>
+<div infinite-pagination="listController.nextPage()" threshold="100">
+    <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
 </div>
 
 <div class="row pull-right" ng-if="!infinitePagination">

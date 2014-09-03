@@ -14,6 +14,8 @@ define([
 
         this.$scope.fields = data.fields;
         this.$scope.entityLabel = data.entityLabel;
+        this.$scope.itemClass = this.itemClass.bind(this);
+        this.$scope.edit = this.edit.bind(this);
         this.$scope.order = 'order';
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -65,6 +67,25 @@ define([
         } else {
             this.openDatepicker[fieldName] = !this.openDatepicker[fieldName];
         }
+    };
+
+    /**
+     * Return 'even'|'odd' based on the index parameter
+     *
+     * @param {Number} index
+     * @returns {string}
+     */
+    EditController.prototype.itemClass = function(index) {
+        return (index % 2 === 0) ? 'even' : 'odd';
+    };
+
+    /**
+     * Link to edit entity page
+     *
+     * @param {Object} item
+     */
+    EditController.prototype.edit = function(item, entity) {
+        this.$location.path('/edit/' +entity.getName() + '/' + item[entity.getIdentifier().getName()]);
     };
 
     EditController.prototype.destroy = function() {

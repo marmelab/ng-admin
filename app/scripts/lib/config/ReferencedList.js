@@ -3,7 +3,7 @@ define(['lib/config/Configurable'], function (Configurable) {
 
     return function(fieldName) {
         var name = fieldName || 'reference';
-        var values = [];
+        var items = [];
 
         var config = {
             type: 'referenced-list',
@@ -12,7 +12,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             list: false,
             targetEntity : null,
             targetField : null,
-            targetFields : null
+            targetFields : []
         };
 
         /**
@@ -31,15 +31,34 @@ define(['lib/config/Configurable'], function (Configurable) {
             return name;
         };
 
-
-        ReferencedList.getValues = function() {
-            return values;
+        ReferencedList.getItems = function() {
+            return items;
         };
 
-        ReferencedList.setValues = function(v) {
-            values = v;
+        ReferencedList.setItems = function(i) {
+            items = i;
 
             return this;
+        };
+
+        ReferencedList.getGridParams = function() {
+            var items = this.getItems(),
+                columns = [];
+
+            for (var i = 0, l = config.targetFields.length; i < l; i++) {
+                var field = config.targetFields[i];
+
+                columns.push({
+                    field: field.getName(),
+                    label: field.label()
+                });
+            }
+
+            return {
+                dimensions : [ columns.length, items.length ],
+                columns: columns,
+                items: items
+            }
         };
 
         Configurable(ReferencedList, config);
