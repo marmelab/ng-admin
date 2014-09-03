@@ -41,6 +41,10 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @param {Field} field
          */
         Entity.addField = function(field) {
+            if (field.order() === null) {
+                field.order(fields.length);
+            }
+
             fields[field.getName()] = field;
 
             return this;

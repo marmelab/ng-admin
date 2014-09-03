@@ -12,7 +12,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             type: 'reference',
             label: 'My reference',
             edition : 'editable',
-            order: 1,
+            order: null,
             targetEntity : null,
             targetLabel : null,
             targetIdentifier : null,

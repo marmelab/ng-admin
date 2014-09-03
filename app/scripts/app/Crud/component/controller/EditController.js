@@ -16,7 +16,6 @@ define([
         this.$scope.entityLabel = data.entityLabel;
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.order = 'order';
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

@@ -10,7 +10,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             type: 'text',
             label: 'My field',
             edition : 'editable',
-            order: 1,
+            order: null,
             identifier : false,
             list: true,
             dashboard: true,

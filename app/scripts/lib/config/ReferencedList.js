@@ -8,8 +8,8 @@ define(['lib/config/Configurable'], function (Configurable) {
         var config = {
             type: 'referenced-list',
             label: 'My list',
-            order: 1,
             list: false,
+            order: null,
             targetEntity : null,
             targetField : null,
             targetFields : []
