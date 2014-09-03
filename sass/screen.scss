@@ -77,7 +77,22 @@ $icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor
     }
 }
 
+div.bottom-loader {
+    margin-top: 40px;
+    position: inherit;
+    width: auto;
+    height: auto;
 
+    &:after {
+        position: relative;
+        display: inherit;
+        margin: 0 auto;
+    }
+
+    &:before {
+        display: none;
+    }
+}
 /**
 * Edition form
 */
