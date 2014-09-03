@@ -49,7 +49,7 @@ define(['lib/config/Configurable'], function (Configurable) {
          */
         Entity.addField = function(field) {
             if (field.order() === null) {
-                field.order(fields.length);
+                field.order(Object.keys(fields).length);
             }
 
             fields[field.getName()] = field;

@@ -10,6 +10,8 @@ define(
         'app/Main/component/service/PanelBuilder',
         'app/Main/component/service/Spinner',
 
+        'app/Main/component/filter/OrderField',
+
         'app/Main/config/routing',
 
         'app/Main/run/StateSpinner',
@@ -27,6 +29,8 @@ define(
         PanelBuilder,
         Spinner,
 
+        OrderField,
+
         routing,
 
         stateSpinner
@@ -42,6 +46,8 @@ define(
 
         MainModule.service('PanelBuilder', PanelBuilder);
         MainModule.service('Spinner', Spinner);
+
+        MainModule.filter('orderField', OrderField);
 
         MainModule.config(routing);
 
