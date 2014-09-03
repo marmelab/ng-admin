@@ -105,6 +105,40 @@ define([
             });
     };
 
+    CrudManager.prototype.getReferencedListValues = function(entityName, entityData) {
+        var self = this,
+            lists = this.getReferencedLists(entityName),
+            entityId = entityData.entityId,
+            calls = [];
+
+        angular.forEach(lists, function(list) {
+            calls.push(self.getAll(list.targetEntity().getName()))
+        });
+
+        return this.$q.all(calls)
+            .then(function(responses) {
+                var i = 0;
+                angular.forEach(lists, function(list, index) {
+                    lists[index].setItems(self.filterReferencedList(responses[i++].rawItems, list, entityId));
+                });
+
+                return responses;
+            });
+    };
+
+    CrudManager.prototype.filterReferencedList = function(elements, referencedList, entityId) {
+        var results = [],
+            targetField = referencedList.targetField();
+
+        angular.forEach(elements, function(element) {
+            if (element[targetField] == entityId) {
+                results.push(element);
+            }
+        });
+
+        return results;
+    };
+
     /**
      * Returns all choices for a reference from values
      *
@@ -136,6 +170,20 @@ define([
         }
 
         return this.config.getEntity(entityName).getReferences();
+    };
+
+    /**
+     * Returns all referenced lists of an entity
+     *
+     * @param {String} entityName
+     * @returns {Array}
+     */
+    CrudManager.prototype.getReferencedLists = function(entityName) {
+        if (!this.config.hasEntity(entityName)) {
+            throw ('Entity ' + entityName + ' not found.');
+        }
+
+        return this.config.getEntity(entityName).getReferencedLists();
     };
 
 
