@@ -5,7 +5,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         var entities = {};
 
         var config = {
-            title: title || "Backend",
+            title: title || "Angular admin",
             baseApiUrl: "http://localhost:3000/"
         };
 
