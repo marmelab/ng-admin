@@ -1,4 +1,6 @@
-define([], function () {
+define([
+    'config'
+], function(config) {
     "use strict";
 
     /**
@@ -8,6 +10,7 @@ define([], function () {
      */
     var AppController = function ($scope) {
         this.$scope = $scope;
+        this.applicationName = config.title()
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

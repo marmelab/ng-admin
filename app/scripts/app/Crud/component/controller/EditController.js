@@ -12,15 +12,15 @@ define([
         this.data = data;
         this.openDatepicker = {};
 
-        this.$scope.fields = data.fields;
-        this.$scope.entityLabel = data.entityLabel;
+        this.fields = data.fields;
+        this.entityLabel = data.entityLabel;
         this.$scope.itemClass = this.itemClass.bind(this);
-        this.$scope.edit = this.edit.bind(this);
+        this.edit = this.edit.bind(this);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    EditController.prototype.edit = function(form, $event) {
+    EditController.prototype.submitEdition = function(form, $event) {
         $event.preventDefault();
         this.Spinner.start();
 

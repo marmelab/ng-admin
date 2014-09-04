@@ -10,8 +10,8 @@ define([
         this.Spinner = Spinner;
         this.data = data;
 
-        $scope.fields = data.fields;
-        $scope.entityLabel = data.entityLabel;
+        this.fields = data.fields;
+        this.entityLabel = data.entityLabel;
 
         angular.forEach(data.fields, function(field){
             field.value = null;
