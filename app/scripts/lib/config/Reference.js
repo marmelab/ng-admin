@@ -8,6 +8,10 @@ define(['lib/config/Configurable'], function (Configurable) {
         var value = null;
         var choices = {};
 
+        var defaultValueTransformer = function(value) {
+            return value;
+        };
+
         var config = {
             type: 'reference',
             label: 'My reference',
@@ -15,7 +19,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             order: null,
             targetEntity : null,
             targetLabel : null,
-            targetIdentifier : null,
+            valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,
             identifier: false,
@@ -54,16 +58,6 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             config.edition = edition;
-            return this;
-        };
-
-        Reference.getValue = function() {
-            return value;
-        };
-
-        Reference.setValue = function(v) {
-            value = v;
-
             return this;
         };
 

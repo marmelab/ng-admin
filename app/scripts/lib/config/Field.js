@@ -6,12 +6,17 @@ define(['lib/config/Configurable'], function (Configurable) {
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'field';
 
+        var defaultValueTransformer = function(value) {
+            return value;
+        };
+
         var config = {
             type: 'text',
             label: 'My field',
             edition : 'editable',
             order: null,
             identifier : false,
+            valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,
             validation: {}
@@ -47,7 +52,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             if (availableTypes.indexOf(type) === -1) {
-                throw new Exception('Type should be one of ' + availableTypes.join(', '));
+                throw 'Type should be one of ' + availableTypes.join(', ') + '. ' + type + 'given.';
             }
 
             config.type = type;
@@ -66,20 +71,10 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             if (availableEditions.indexOf(edition) === -1) {
-                throw 'Type should be one of ' + availableTypes.join(', ');
+                throw 'Edition should be one of ' + availableEditions.join(', ') + '. ' + edition + 'given.';
             }
 
             config.edition = edition;
-            return this;
-        };
-
-        Field.getValue = function() {
-            return this.value;
-        };
-
-        Field.setValue = function(v) {
-            this.value = v;
-
             return this;
         };
 
