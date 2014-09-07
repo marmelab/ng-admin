@@ -19,7 +19,9 @@ define(['lib/config/Configurable'], function (Configurable) {
             valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,
-            validation: {}
+            validation: {
+                required: false
+            }
         };
 
         /**
