@@ -3,11 +3,12 @@ define([
 ], function(humane) {
     'use strict';
 
-    var EditController = function($scope, $location, $filter, CrudManager, Spinner, data) {
+    var EditController = function($scope, $location, $filter, CrudManager, Spinner, Validator, data) {
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
         this.CrudManager = CrudManager;
+        this.Validator = Validator;
         this.Spinner = Spinner;
         this.data = data;
         this.openDatepicker = {};
@@ -38,6 +39,8 @@ define([
 
             object[field.getName()] = value;
         });
+
+        this.Validator.validate(this.data.entityName, object);
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             self.Spinner.stop();
@@ -96,7 +99,7 @@ define([
         this.openDatepicker = undefined;
     };
 
-    EditController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Spinner', 'data'];
+    EditController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Spinner', 'Validator', 'data'];
 
     return EditController;
 });

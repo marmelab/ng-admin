@@ -9,6 +9,7 @@ define(
 
         'app/Main/component/service/PanelBuilder',
         'app/Main/component/service/Spinner',
+        'app/Main/component/service/Validator',
 
         'app/Main/component/filter/OrderField',
 
@@ -28,6 +29,7 @@ define(
 
         PanelBuilder,
         Spinner,
+        Validator,
 
         OrderField,
 
@@ -46,6 +48,7 @@ define(
 
         MainModule.service('PanelBuilder', PanelBuilder);
         MainModule.service('Spinner', Spinner);
+        MainModule.service('Validator', Validator);
 
         MainModule.filter('orderField', OrderField);
 
