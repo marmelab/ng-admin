@@ -40,7 +40,14 @@ define([
             object[field.getName()] = value;
         });
 
-        this.Validator.validate(this.data.entityName, object);
+        try {
+            this.Validator.validate(this.data.entityName, object);
+        } catch(e) {
+            self.Spinner.stop();
+            humane.log(e);
+            return;
+        }
+
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             self.Spinner.stop();
