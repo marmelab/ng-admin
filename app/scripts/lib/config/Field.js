@@ -16,6 +16,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             edition : 'editable',
             order: null,
             identifier : false,
+            format : 'yyyy-MM-dd',
             valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,

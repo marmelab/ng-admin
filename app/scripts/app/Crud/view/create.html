@@ -1,6 +1,6 @@
 <div class="row" id="header">
     <div class="col-sm-5">
-        <h1>Create {{ createController.entityLabel }}</h1>
+        <h1>Create {{ formController.entityLabel }}</h1>
     </div>
 
     <div class="controls col-sm-7">
@@ -10,7 +10,7 @@
 
 <div class="row" id="edit-container">
     <form class="form-horizontal" name="createForm" ng-submit="formController.create(createForm, $event)">
-        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="field in createController.fields | orderBy:order"></div>
+        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="field in formController.fields | orderBy:order"></div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
