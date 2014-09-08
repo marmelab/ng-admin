@@ -29,6 +29,9 @@
         <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choices" ng-model="field.value" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices" ng-required="field.validation().required"></select>
 
         <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
+
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference_many" ng-model="field.value" ng-multiple="true" multiple ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
+
     </div>
 </div>
 

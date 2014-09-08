@@ -85,7 +85,14 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @returns {Object}
          */
         Entity.getReferences = function() {
-            return this.getFieldsOfType('Referenced')
+            var references = this.getFieldsOfType('Reference');
+            var referencesMany = this.getFieldsOfType('ReferenceMany');
+
+            angular.forEach(referencesMany, function(ref, key) {
+                references[key] = ref;
+            });
+
+            return references;
         };
 
 
