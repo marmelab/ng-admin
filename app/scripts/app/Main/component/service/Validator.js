@@ -14,7 +14,6 @@ define(['config'], function(config) {
 
         entityConfig.fields.forEach(function(field) {
             validation = field.validation;
-            console.log(validation);
         })
     };
 
