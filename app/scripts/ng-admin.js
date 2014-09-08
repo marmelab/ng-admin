@@ -18,8 +18,5 @@ require.config({
                 'common-famous'
             ]
         }
-    ],
-    deps: [
-        './bootstrap'
     ]
 });
