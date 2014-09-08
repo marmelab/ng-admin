@@ -1,7 +1,9 @@
 define([], function() {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager, $famous) {
+        var EventHandler = $famous['famous/core/EventHandler'];
+
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
@@ -14,6 +16,8 @@ define([], function() {
         this.$scope.edit = this.edit.bind(this);
 
         this.computePagination();
+
+        this.$scope.eventHandler = new EventHandler();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -40,15 +44,39 @@ define([], function() {
             });
         });
 
+        var allItems = [],
+            nbLines = rawItems.length;
+
+        angular.forEach(columns, function(column) {
+            allItems.push({
+                column: column
+            })
+        });
+
+        angular.forEach(rawItems, function(rawItem) {
+            angular.forEach(columns, function(column) {
+                allItems.push({
+                    column: false,
+                    item: rawItem,
+                    value: rawItem[column.field]
+                });
+            });
+        });
 
         this.$scope.entityLabel = entityConfig.label();
         this.$scope.grid = {
-            dimensions : [ columns.length, rawItems.length ],
+            dimensions : [ columns.length, nbLines + 1 ],
             columns: columns,
-            items: rawItems
+            items: allItems
+        };
+        this.$scope.scrollViewOptions = {
+            clipSize: (nbLines * 40) / 2,
+            paginated: true,
+            speedLimit: 5
         };
 
         this.$scope.infinitePagination = entityConfig.infinitePagination();
+        this.hasPagination = entityConfig.pagination();
         this.$scope.currentPage = this.data.currentPage;
         this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
     };
@@ -134,7 +162,7 @@ define([], function() {
         this.CrudManager = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager', '$famous'];
 
     return ListController;
 });

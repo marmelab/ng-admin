@@ -12,7 +12,7 @@
     <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
 </div>
 
-<div class="row pull-right" ng-if="!infinitePagination">
+<div class="row pull-right" ng-if="!infinitePagination && listController.hasPagination">
     <ul class="pagination pagination-sm">
         <li ng-class="{ disabled: currentPage == 1}">
             <a href ng-click="listController.setPage(currentPage - 1)">« Prev</a>

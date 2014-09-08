@@ -92,6 +92,7 @@ define([
      * Link to edit entity page
      *
      * @param {Object} item
+     * @param {Entity} entity
      */
     EditController.prototype.edit = function(item, entity) {
         this.$location.path('/edit/' +entity.getName() + '/' + item[entity.getIdentifier().getName()]);

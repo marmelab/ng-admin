@@ -137,9 +137,23 @@ define([
         var results = [],
             targetField = referencedList.targetField();
 
+        angular.forEach(referencedList.targetFields(), function(field) {
+            results.push({
+                column: {
+                    label: field.label()
+                }
+            });
+        });
+
         angular.forEach(elements, function(element) {
             if (element[targetField] == entityId) {
-                results.push(element);
+                angular.forEach(referencedList.targetFields(), function(field) {
+                    results.push({
+                        column: false,
+                        item: element,
+                        value: element[field.getName()]
+                    });
+                });
             }
         });
 
