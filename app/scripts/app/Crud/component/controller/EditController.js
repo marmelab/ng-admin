@@ -48,7 +48,6 @@ define([
             return;
         }
 
-
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             self.Spinner.stop();
             humane.log('The object has been updated.');

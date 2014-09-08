@@ -12,7 +12,10 @@ define(['lib/config/Configurable'], function (Configurable) {
             order: null,
             targetEntity : null,
             targetField : null,
-            targetFields : []
+            targetFields : [],
+            validation: {
+                required: false
+            }
         };
 
         /**
