@@ -17,7 +17,7 @@ define(
 
         'app/Main/run/StateSpinner',
 
-        'angular-ui-router', 'famous-angular', 'restangular'
+        'angular-ui-router', 'restangular'
     ],
     function (
         angular,
