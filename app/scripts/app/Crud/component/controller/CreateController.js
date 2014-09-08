@@ -37,15 +37,15 @@ define([
                 value = self.$filter('date')(value, field.validation.format);
             }
 
-            object[field.name] = value;
+            object[field.getName()] = value;
         });
 
         this.CrudManager
             .createOne(this.data.entityName, object)
-            .then(function(entity) {
+            .then(function(response) {
                 self.Spinner.stop();
                 humane.log('The object has been created.');
-                self.$location.path('/edit/' + self.data.entityName + '/' + entity.id);
+                self.$location.path('/edit/' + self.data.entityName + '/' + response.data.id);
             });
     };
 

@@ -5,16 +5,21 @@ define(['config'], function(config) {
     }
 
     Validator.prototype.validate = function(entityName, entity) {
-        if (typeof (config.entities[entityName]) === 'undefined') {
+        var entityConfig = config.getEntity(entityName);
+
+        if (typeof(entityConfig) === 'undefined') {
             return false;
         }
 
-        var entityConfig = config.entities[entityName],
-            validation;
+        angular.forEach(entityConfig.getFields(), function(field, name) {
+            var validation = field.validation();
 
-        entityConfig.fields.forEach(function(field) {
-            validation = field.validation;
-        })
+            if (typeof(validation.validator) === 'function') {
+                if (!validation.validator(entity[name])) {
+                    throw new Error('Field ' + field.label() + ' is not valid.')
+                }
+            }
+        });
     };
 
     return Validator;
