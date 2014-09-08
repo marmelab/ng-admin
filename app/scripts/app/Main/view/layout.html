@@ -1,5 +1,5 @@
 <div id="wrapper">
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav id="header-nav" class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
             <a href="#" class="navbar-brand">{{ appController.applicationName }}</a>
         </div>
@@ -8,8 +8,7 @@
     <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController as sidebarController">
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="heading"><i class="fa fa-list-alt fa-fw"></i> Entities</li>
-                <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities">
+                <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities" ng-class="{'active': sidebarController.isActive(entity)}">
                     <a ng-click="sidebarController.displayList(key, $event)">{{ entity.label() }}</a>
                 </li>
             </ul>
