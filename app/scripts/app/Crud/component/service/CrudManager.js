@@ -370,7 +370,13 @@ define([
                 var element = collection[i],
                     identifier = reference.valueTransformer()(element[referenceField]);
 
-                if (identifier && identifier in choices) {
+                if (reference.name === 'ReferenceMany') {
+                    element[referenceField] = [];
+
+                    angular.forEach(identifier, function(id) {
+                        element[referenceField].push(choices[id]);
+                    });
+                } else if (identifier && identifier in choices) {
                     element[referenceField] = choices[identifier];
                 } else {
                     delete element[referenceField];
