@@ -23,7 +23,9 @@ define(['lib/config/Configurable'], function (Configurable) {
             list: true,
             dashboard: true,
             identifier: false,
-            validation: {}
+            validation: {
+                required: false
+            }
         };
 
         /**

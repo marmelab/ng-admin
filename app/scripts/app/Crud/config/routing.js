@@ -41,7 +41,7 @@ define([
                 parent: 'main',
                 url: '/create/:entity',
                 controller: 'CreateController',
-                controllerAs: 'createController',
+                controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
                     data: function($stateParams, CrudManager) {
@@ -58,7 +58,7 @@ define([
                 parent: 'main',
                 url: '/edit/:entity/:id',
                 controller: 'EditController',
-                controllerAs: 'editController',
+                controllerAs: 'formController',
                 template: editTemplate,
                 resolve: {
                     data: function($stateParams, CrudManager) {

@@ -3,12 +3,15 @@ define([
 ], function(humane) {
     'use strict';
 
-    var CreateController = function($scope, $location, CrudManager, Spinner, data) {
+    var CreateController = function($scope, $location, $filter, CrudManager, Spinner, data) {
         this.$scope = $scope;
         this.$location = $location;
+        this.$filter = $filter;
         this.CrudManager = CrudManager;
         this.Spinner = Spinner;
         this.data = data;
+        this.openDatepicker = {};
+        this.$scope.order = 'order';
 
         this.fields = data.fields;
         this.entityLabel = data.entityLabel;
@@ -25,10 +28,16 @@ define([
         this.Spinner.start();
 
         var object = {},
-            self = this;
+            self = this,
+            value;
 
         angular.forEach(this.data.fields, function(field){
-            object[field.getName()] = field.value;
+            value = field.value;
+            if (field.type === 'date') {
+                value = self.$filter('date')(value, field.validation.format);
+            }
+
+            object[field.name] = value;
         });
 
         this.CrudManager
@@ -44,6 +53,17 @@ define([
         this.$location.path('/list/' + this.data.entityName);
     };
 
+    CreateController.prototype.toggleDatePicker = function($event, fieldName) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        if (typeof(this.openDatepicker[fieldName]) === 'undefined') {
+            this.openDatepicker[fieldName] = true;
+        } else {
+            this.openDatepicker[fieldName] = !this.openDatepicker[fieldName];
+        }
+    };
+
     CreateController.prototype.destroy = function() {
         this.$scope = undefined;
         this.$location = undefined;
@@ -52,7 +72,7 @@ define([
         this.data = undefined;
     };
 
-    CreateController.$inject = ['$scope', '$location', 'CrudManager', 'Spinner', 'data'];
+    CreateController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Spinner', 'data'];
 
     return CreateController;
 });
