@@ -2,7 +2,7 @@ define(['lib/config/Configurable'], function (Configurable) {
     'use strict';
 
     return function(fieldName) {
-        var availableTypes = ['number', 'text', 'email', 'date'];
+        var availableTypes = ['number', 'string', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'field';
 
@@ -11,7 +11,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         var config = {
-            type: 'text',
+            type: 'string',
             label: 'My field',
             edition : 'editable',
             order: null,
