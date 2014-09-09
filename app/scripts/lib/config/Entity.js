@@ -9,7 +9,7 @@ define(['lib/config/Configurable'], function (Configurable) {
     };
 
     var defaultTotalItems = function(response) {
-        return response.headers('X-Count');
+        return response.headers('X-Count') || 0;
     };
 
     return function(entityName) {
@@ -28,7 +28,6 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         /**
-         *
          * @constructor
          */
         function Entity() {
@@ -66,6 +65,21 @@ define(['lib/config/Configurable'], function (Configurable) {
             return fields;
         };
 
+
+        /**
+         * Returns a field
+         *
+         * @returns {Field}
+         */
+        Entity.getField = function(name) {
+            return fields[name];
+        };
+
+        /**
+         * Return the identifier field
+         *
+         * @returns {Field}
+         */
         Entity.getIdentifier = function() {
             for(var i in fields) {
                 if (!fields.hasOwnProperty(i)){
@@ -94,7 +108,6 @@ define(['lib/config/Configurable'], function (Configurable) {
 
             return references;
         };
-
 
         /**
          * Returns all referenced lists
@@ -128,6 +141,11 @@ define(['lib/config/Configurable'], function (Configurable) {
             return results;
         };
 
+        /**
+         * Return configurables extra params
+         *
+         * @returns {Object}
+         */
         Entity.getExtraParams = function() {
             var params = {};
             if (config.extraParams) {

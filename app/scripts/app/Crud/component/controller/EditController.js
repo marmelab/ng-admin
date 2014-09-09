@@ -44,7 +44,7 @@ define([
             this.Validator.validate(this.data.entityName, object);
         } catch(e) {
             self.Spinner.stop();
-            humane.log(e);
+            humane.log(e, {addnCls: 'humane-flatty-error'});
             return;
         }
 

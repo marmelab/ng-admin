@@ -8,10 +8,12 @@ define([], function() {
         this.data = data;
         this.$anchorScroll = $anchorScroll;
         this.loadingPage = false;
+        this.entityConfig = this.data.entityConfig;
 
         this.entityLabel = data.entityConfig.label();
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
+        this.$scope.entity = this.entityConfig;
 
         this.computePagination();
 
@@ -19,13 +21,12 @@ define([], function() {
     };
 
     ListController.prototype.computePagination = function () {
-        var entityConfig = this.data.entityConfig,
-            rawItems = this.data.rawItems,
+        var rawItems = this.data.rawItems,
             columns = [],
             self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(entityConfig.getFields(), function(field) {
+        angular.forEach(this.entityConfig.getFields(), function(field) {
             if(!field.list()) {
                 return;
             }
@@ -40,14 +41,13 @@ define([], function() {
             });
         });
 
-
-        this.$scope.entityLabel = entityConfig.label();
+        this.$scope.entityLabel = this.entityConfig.label();
         this.$scope.columns = columns;
         this.$scope.items = rawItems;
 
-        this.$scope.infinitePagination = entityConfig.infinitePagination();
+        this.$scope.infinitePagination = this.entityConfig.infinitePagination();
         this.$scope.currentPage = this.data.currentPage;
-        this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
+        this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1)) || 1;
     };
 
     ListController.prototype.nextPage = function() {
