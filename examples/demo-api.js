@@ -11,8 +11,7 @@ define([
     var post = Entity('posts'),
         commentBody = Field('body'),
         postId = Field('id'),
-        postCreatedAt = Field('created_at'),
-        commentTags = ReferenceMany('tags');
+        postCreatedAt = Field('created_at');
 
     var tag = Entity('tags')
         .label('Tags')
@@ -64,7 +63,6 @@ define([
         )
         .addField(commentBody
             .order(2)
-            .type('text')
             .label('Comment')
             .edition('editable')
             .validation({
@@ -83,11 +81,6 @@ define([
             .validation({
                 "required": true
             })
-        )
-        .addField(commentTags
-            .label('Tags')
-            .targetEntity(tag)
-            .targetLabel('name')
         );
 
     post
@@ -106,14 +99,13 @@ define([
         )
         .addField(Field('body')
             .label('Body')
-            .type('text')
             .edition('editable')
         )
         .addField(ReferencedList('comments')
             .label('Comments')
             .targetEntity(comment)
             .targetField('post_id')
-            .targetFields([postId, commentBody, commentTags])
+            .targetFields([postId, commentBody])
         )
         .addField(ReferenceMany('tags')
             .label('Tags')
@@ -121,8 +113,8 @@ define([
             .targetLabel('name')
         );
 
-    return Application('My backend')
-        .baseApiUrl('http://localhost:3000/')
+    return Application('ng-admin backend')
+        .baseApiUrl('http://ec2-54-77-230-254.eu-west-1.compute.amazonaws.com:8080/')
         .addEntity(post)
         .addEntity(comment)
         .addEntity(tag);

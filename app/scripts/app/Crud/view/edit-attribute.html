@@ -38,10 +38,8 @@
 </div>
 
 <div ng-if="field.edition() == 'read-only'">
-    <div class="col-sm-10 read-only" ng-switch="field.type()">
-        <p ng-switch-when="text">{{ field.value }}</p>
-
-        <p ng-switch-when="number">{{ field.value }}</p>
+    <div class="col-sm-10 read-only">
+        <p>{{ field.value }}</p>
     </div>
 </div>
 
