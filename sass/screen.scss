@@ -66,26 +66,38 @@ $icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor
 */
 .grid {
     background-color: #FFFFFF;
+    width: 100%;
 
-    .header {
-        padding:10px;
-
-        font-weight: bold;
-        border-bottom: 1px solid #E7E7E7;
+    tr {
+        height: 40px;
     }
 
-    .cell {
-        border-bottom: 1px solid #E7E7E7;
-        padding:10px;
+    td {
+        padding-left:10px;
+        padding-right:10px;
         background-color: #FFFFFF;
-
-        &:hover, &:hover div {
-            background-color: #f6f9fe;
-        }
 
         a {
             color: #000000;
             cursor: pointer;
+        }
+    }
+
+    thead {
+        tr {
+            border-bottom: 1px solid #E7E7E7;
+            font-weight: bold;
+            background-color: #FFFFFF;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #E7E7E7;
+        }
+
+        .tr:hover, .fa-surface:hover div {
+            background-color: #f6f9fe;
         }
     }
 }

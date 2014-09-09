@@ -1,9 +1,7 @@
 define([], function() {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data, CrudManager, $famous) {
-        var EventHandler = $famous['famous/core/EventHandler'];
-
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
@@ -16,8 +14,6 @@ define([], function() {
         this.$scope.edit = this.edit.bind(this);
 
         this.computePagination();
-
-        this.$scope.eventHandler = new EventHandler();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -44,46 +40,19 @@ define([], function() {
             });
         });
 
-        var allItems = [],
-            nbLines = rawItems.length;
-
-        angular.forEach(columns, function(column) {
-            allItems.push({
-                column: column
-            })
-        });
-
-        angular.forEach(rawItems, function(rawItem) {
-            angular.forEach(columns, function(column) {
-                allItems.push({
-                    column: false,
-                    item: rawItem,
-                    value: rawItem[column.field]
-                });
-            });
-        });
 
         this.$scope.entityLabel = entityConfig.label();
-        this.$scope.grid = {
-            dimensions : [ columns.length, nbLines + 1 ],
-            columns: columns,
-            items: allItems
-        };
-        this.$scope.scrollViewOptions = {
-            clipSize: (nbLines * 40) / 2,
-            paginated: true,
-            speedLimit: 5
-        };
+        this.$scope.columns = columns;
+        this.$scope.items = rawItems;
 
         this.$scope.infinitePagination = entityConfig.infinitePagination();
-        this.hasPagination = entityConfig.pagination();
         this.$scope.currentPage = this.data.currentPage;
         this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1));
     };
 
     ListController.prototype.nextPage = function() {
         var entityConfig = this.data.entityConfig;
-        if (this.loadingPage || !entityConfig.infinitePagination()) {
+        if (this.loadingPage || !entityConfig.infinitePagination() || this.$scope.currentPage === this.$scope.nbPages) {
             return;
         }
 
@@ -92,7 +61,7 @@ define([], function() {
         this.$scope.currentPage++;
 
         this.CrudManager.getAll(entityConfig.getName(), this.$scope.currentPage).then(function(nextData) {
-            self.$scope.grid.items = self.$scope.grid.items.concat(nextData.rawItems);
+            self.$scope.items = self.$scope.items.concat(nextData.rawItems);
             self.loadingPage = false;
         });
     };
@@ -162,8 +131,7 @@ define([], function() {
         this.CrudManager = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager', '$famous'];
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
 
     return ListController;
 });
-

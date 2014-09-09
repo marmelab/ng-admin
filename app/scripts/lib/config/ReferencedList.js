@@ -8,6 +8,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         var config = {
             type: 'referenced-list',
             label: 'My list',
+            edition : 'editable',
             list: false,
             order: null,
             targetEntity : null,
@@ -44,9 +45,8 @@ define(['lib/config/Configurable'], function (Configurable) {
             return this;
         };
 
-        ReferencedList.getGridParams = function() {
-            var items = this.getItems(),
-                columns = [];
+        ReferencedList.getGridColumns = function() {
+            var columns = [];
 
             for (var i = 0, l = config.targetFields.length; i < l; i++) {
                 var field = config.targetFields[i];
@@ -57,11 +57,7 @@ define(['lib/config/Configurable'], function (Configurable) {
                 });
             }
 
-            return {
-                dimensions : [ columns.length, items.length ],
-                columns: columns,
-                items: items
-            }
+            return columns;
         };
 
         Configurable(ReferencedList, config);
