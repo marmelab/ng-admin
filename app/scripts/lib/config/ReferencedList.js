@@ -5,12 +5,17 @@ define(['lib/config/Configurable'], function (Configurable) {
         var name = fieldName || 'reference';
         var items = [];
 
+        var defaultValueTransformer = function(value) {
+            return value;
+        };
+
         var config = {
             type: 'referenced-list',
             label: 'My list',
             edition : 'editable',
             list: false,
             order: null,
+            valueTransformer : defaultValueTransformer,
             targetEntity : null,
             targetField : null,
             targetFields : [],
