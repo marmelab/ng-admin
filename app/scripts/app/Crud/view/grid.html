@@ -1,19 +1,17 @@
-<div class="grid">
-    <fa-app style="height: 600px">
-        <fa-scroll-view fa-options="scrollViewOptions" fa-pipe-from="eventHandler">
-            <fa-modifier fa-size="[undefined, grid.dimensions[1] * 40]">
-                <fa-grid-layout fa-options="grid">
+<table class="grid">
+    <thead>
+        <tr>
+            <td ng-repeat="column in columns">
+                {{ column.label }}
+            </td>
+        </tr>
+    </thead>
 
-                    <fa-surface fa-pipe-to="eventHandler" ng-repeat="item in grid.items">
-                        <div class="header" ng-if="item.column">
-                            {{ item.column.label }}
-                        </div>
-                        <div class="cell" ng-if="!item.column">
-                            <a ng-click="edit(item.item, entity)">{{ item.value }}</a>
-                        </div>
-                    </fa-surface>
-                </fa-grid-layout>
-            </fa-modifier>
-        </fa-scroll-view>
-    </fa-app>
-</div>
+    <tbody>
+        <tr ng-class="itemClass($index)" ng-repeat="item in items">
+            <td ng-repeat="column in columns">
+                <a ng-click="edit(item, entity)">{{ item[column.field] }}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

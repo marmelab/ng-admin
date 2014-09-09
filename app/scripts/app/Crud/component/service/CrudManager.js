@@ -119,7 +119,7 @@ define([
             calls = [];
 
         angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName()))
+            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false))
         });
 
         return this.$q.all(calls)
@@ -137,23 +137,9 @@ define([
         var results = [],
             targetField = referencedList.targetField();
 
-        angular.forEach(referencedList.targetFields(), function(field) {
-            results.push({
-                column: {
-                    label: field.label()
-                }
-            });
-        });
-
         angular.forEach(elements, function(element) {
             if (element[targetField] == entityId) {
-                angular.forEach(referencedList.targetFields(), function(field) {
-                    results.push({
-                        column: false,
-                        item: element,
-                        value: element[field.getName()]
-                    });
-                });
+                results.push(element);
             }
         });
 
@@ -301,13 +287,16 @@ define([
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {String}  entityName  the name of the entity
-     * @param {Number}  page        the page number
+     * @param {String}  entityName      the name of the entity
+     * @param {Number}  page            the page number
+     * @param {Number}  limit           the pagination limit
+     * @param {Boolean} fillReference   should we fill Reference & ReferenceMany list
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page, limit) {
+    CrudManager.prototype.getAll = function (entityName, page, limit, fillReference) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
+        fillReference = (typeof(fillReference) === 'undefined') ? true : fillReference;
 
         if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
@@ -354,7 +343,7 @@ define([
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: self.fillReferencesValuesFromCollection(entities, referencedValues),
+                    rawItems: fillReference ? self.fillReferencesValuesFromCollection(entities, referencedValues) : entities,
                     currentPage: page,
                     perPage: perPage,
                     totalItems: entityConfig.totalItems()(response)

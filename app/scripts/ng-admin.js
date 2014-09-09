@@ -13,10 +13,7 @@ require.config({
                 'MainModule',
                 'CrudModule'
             ],
-            exclude: [
-                'common',
-                'common-famous'
-            ]
+            exclude: ['common']
         }
     ]
 });

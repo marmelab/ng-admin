@@ -16,7 +16,6 @@ module.exports = function(config) {
 
             // require configuration files
             'app/scripts/common.js',
-            'app/scripts/common-famous.js',
             'app/scripts/ng-admin.js',
 
             // Test files

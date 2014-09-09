@@ -4,7 +4,7 @@
     </div>
 
     <div class="controls col-sm-7">
-        <a class="btn btn-success" ng-click="listController.create()">Add new</a>
+        <a class="btn btn-default" ng-click="listController.create()">Add new</a>
     </div>
 </div>
 
@@ -12,7 +12,7 @@
     <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
 </div>
 
-<div class="row pull-right" ng-if="!infinitePagination && listController.hasPagination">
+<div class="row pull-right" ng-if="!infinitePagination">
     <ul class="pagination pagination-sm">
         <li ng-class="{ disabled: currentPage == 1}">
             <a href ng-click="listController.setPage(currentPage - 1)">« Prev</a>
