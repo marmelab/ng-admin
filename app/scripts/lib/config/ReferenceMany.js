@@ -4,7 +4,7 @@ define(['lib/config/Configurable'], function (Configurable) {
     return function(fieldName) {
         var availableTypes = ['number', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
-        var name = fieldName || 'reference_many';
+        var name = fieldName || 'reference-many';
         var values = null;
         var choices = {};
 
@@ -13,7 +13,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
 
         var config = {
-            type: 'reference_many',
+            type: 'reference-many',
             label: 'My references',
             edition : 'editable',
             order: null,

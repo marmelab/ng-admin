@@ -10,7 +10,7 @@
     <tbody>
         <tr ng-class="itemClass($index)" ng-repeat="item in items">
             <td ng-repeat="column in columns" ng-switch="entity.getField(column.field).type()">
-                <a ng-click="edit(item, entity)" ng-switch-when="reference_many" class="multiple">
+                <a ng-click="edit(item, entity)" ng-switch-when="reference-many" class="multiple">
                     <span ng-repeat="ref in item[column.field]" class="label label-default">{{ ref }}</span>
                 </a>
                 <a ng-click="edit(item, entity)" ng-switch-default>{{ item[column.field] }}</a>

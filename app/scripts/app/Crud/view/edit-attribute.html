@@ -32,7 +32,7 @@
 
         <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
 
-        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference_many" ng-model="field.value" ng-multiple="true" multiple ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
 
     </div>
 </div>

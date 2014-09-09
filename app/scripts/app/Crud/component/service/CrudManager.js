@@ -119,7 +119,7 @@ define([
             calls = [];
 
         angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false))
+            calls.push(self.getAll(list.targetEntity().getName(), 1, null, false))
         });
 
         return this.$q.all(calls)
@@ -287,16 +287,16 @@ define([
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {String}  entityName      the name of the entity
-     * @param {Number}  page            the page number
-     * @param {Number}  limit           the pagination limit
-     * @param {Boolean} fillReference   should we fill Reference & ReferenceMany list
+     * @param {String}  entityName          the name of the entity
+     * @param {Number}  page                the page number
+     * @param {Number}  limit               the pagination limit
+     * @param {Boolean} fillSimpleReference should we fill Reference list
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page, limit, fillReference) {
+    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
-        fillReference = (typeof(fillReference) === 'undefined') ? true : fillReference;
+        fillSimpleReference = (typeof(fillSimpleReference) === 'undefined') ? true : fillSimpleReference;
 
         if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
@@ -343,7 +343,7 @@ define([
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: fillReference ? self.fillReferencesValuesFromCollection(entities, referencedValues) : entities,
+                    rawItems: self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference),
                     currentPage: page,
                     perPage: perPage,
                     totalItems: entityConfig.totalItems()(response)
@@ -351,7 +351,9 @@ define([
             });
     };
 
-    CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues) {
+    CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
+        fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
+
         angular.forEach(referencedValues, function(reference, referenceField) {
             var choices = reference.getChoices();
 
@@ -366,7 +368,9 @@ define([
                         element[referenceField].push(choices[id]);
                     });
                 } else if (identifier && identifier in choices) {
-                    element[referenceField] = choices[identifier];
+                    if (fillSimpleReference) {
+                        element[referenceField] = choices[identifier];
+                    }
                 } else {
                     delete element[referenceField];
                 }

@@ -50,6 +50,18 @@ define(['lib/config/Configurable'], function (Configurable) {
             return this;
         };
 
+        ReferencedList.getReferenceManyFields = function() {
+            var fields = [];
+
+            angular.forEach(this.targetFields(), function(targetField) {
+                if (targetField.type() === 'reference-many') {
+                    fields.push(targetField);
+                }
+            });
+
+            return fields;
+        };
+
         ReferencedList.getGridColumns = function() {
             var columns = [];
 
