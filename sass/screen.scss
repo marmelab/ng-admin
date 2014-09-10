@@ -174,3 +174,14 @@ div.bottom-loader {
         font-weight: bold;
     }
 }
+
+#filter {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+
+    button {
+        padding-bottom: 7px;
+    }
+}

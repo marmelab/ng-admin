@@ -131,10 +131,11 @@ define([
      * @param {Number}  page                the page number
      * @param {Number}  limit               the pagination limit
      * @param {Boolean} fillSimpleReference should we fill Reference list
+     * @param {String}  query               searchQuery to filter elements
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference) {
+    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference, query) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
         fillSimpleReference = (typeof(fillSimpleReference) === 'undefined') ? true : fillSimpleReference;
 
@@ -154,6 +155,12 @@ define([
         if (pagination) {
             params = angular.extend(params, pagination(page, perPage));
         }
+
+        if (typeof(query) !== 'undefined' && query.length) {
+            var filterQuery = entityConfig.filterQuery();
+            params = angular.extend(params, filterQuery(query));
+        }
+
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
         }

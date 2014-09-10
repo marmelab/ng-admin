@@ -8,6 +8,12 @@ define(['lib/config/Configurable'], function (Configurable) {
         };
     };
 
+    var defaultFilterQuery = function(query) {
+        return {
+            q: query
+        };
+    };
+
     var defaultTotalItems = function(response) {
         return response.headers('X-Count') || 0;
     };
@@ -21,6 +27,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             dashboard: 5,
             perPage: 30,
             pagination: defaultPaginationLink,
+            filterQuery: defaultFilterQuery,
             infinitePagination: false,
             totalItems: defaultTotalItems,
             extraParams: null,

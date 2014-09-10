@@ -6,6 +6,16 @@
     <div class="controls col-sm-7">
         <a class="btn btn-default" ng-click="listController.create()">Add new</a>
     </div>
+
+    <div id="filter" class="navbar-form">
+        <div class="input-group">
+            <input type="text" placeholder="Filter" class="form-control" ng-model="filterQuery">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="listController.filter()"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
+            </span>
+        </div>
+    </div>
 </div>
 
 <div infinite-pagination="listController.nextPage()" threshold="100" can-load="!listController.loadingPage">
