@@ -1,10 +1,10 @@
 {
     "dev": {
         "options": {
-            "appDir": "app/scripts",
+            "appDir": "src/scripts",
             "fileExclusionRegExp": "^(build)",
             "baseUrl": "./",
-            "dir": "app/require",
+            "dir": "src/require",
             "optimize": "none",
             "preserveLicenseComments": false,
             "generateSourceMaps": true,
@@ -12,17 +12,17 @@
             "removeCombined": true,
 
             "mainConfigFile": [
-                "app/scripts/common.js",
-                "app/scripts/ng-admin.js"
+                "src/scripts/common.js",
+                "src/scripts/ng-admin.js"
             ]
         }
     },
     "prod": {
         "options": {
-            "appDir": "app/scripts",
+            "appDir": "src/scripts",
             "fileExclusionRegExp": "^(build)",
             "baseUrl": "./",
-            "dir": "app/require",
+            "dir": "src/require",
             "optimize": "uglify2",
             "preserveLicenseComments": false,
             "generateSourceMaps": false,
@@ -30,8 +30,8 @@
             "removeCombined": true,
 
             "mainConfigFile": [
-                "app/scripts/common.js",
-                "app/scripts/ng-admin.js"
+                "src/scripts/common.js",
+                "src/scripts/ng-admin.js"
             ]
         }
     }

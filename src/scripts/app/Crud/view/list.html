@@ -1,0 +1,29 @@
+<div class="row" id="header">
+    <div class="col-sm-5">
+        <h1>List of {{ listController.entityLabel }}</h1>
+    </div>
+
+    <div class="controls col-sm-7">
+        <a class="btn btn-default" ng-click="listController.create()">Add new</a>
+    </div>
+</div>
+
+<div infinite-pagination="listController.nextPage()" threshold="100" can-load="!listController.loadingPage">
+    <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
+</div>
+
+<div class="row pull-right" ng-if="!listController.infinitePagination">
+    <ul class="pagination pagination-sm">
+        <li ng-class="{ disabled: listController.currentPage == 1}">
+            <a href ng-click="listController.setPage(listController.currentPage - 1)">« Prev</a>
+        </li>
+        <li ng-repeat="n in listController.range(1, listController.nbPages)" ng-class="{active: n == listController.currentPage}" ng-click="listController.setPage(n)">
+            <a href>{{ n }}</a>
+        </li>
+        <li ng-class="{disabled: listController.currentPage == listController.nbPages}">
+            <a href ng-click="listController.setPage(listController.currentPage+ 1)">Next »</a>
+        </li>
+    </ul>
+</div>
+
+<div class="loading bottom-loader" ng-if="listController.infinitePagination && listController.loadingPage" />

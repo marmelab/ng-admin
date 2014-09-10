@@ -9,7 +9,7 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    baseUrl: '/base/app/scripts',
+    baseUrl: '/base/src/scripts',
 
     paths: {
         'angular-mocks': 'bower_components/angular-mocks/angular-mocks',

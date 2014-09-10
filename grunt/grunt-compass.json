@@ -1,8 +1,8 @@
 {
     "dev": {
         "options": {
-            "cssDir": "app/css",
-            "imagesDir": "app/images",
+            "cssDir": "src/css",
+            "imagesDir": "src/images",
             "environment": "development",
             "specify": ["sass/screen.scss"]
         }
@@ -10,8 +10,8 @@
     "prod": {
         "options": {
             "sassDir": "sass",
-            "cssDir": "app/css",
-            "imagesDir": "app/images",
+            "cssDir": "src/css",
+            "imagesDir": "src/images",
             "environment": "production",
             "specify": ["sass/screen.scss"],
             "outputStyle": "compressed"
