@@ -7,7 +7,7 @@
         <a class="btn btn-default" ng-click="listController.create()">Add new</a>
     </div>
 
-    <div id="filter" class="navbar-form">
+    <div id="filter" class="navbar-form" ng-if="listController.displayFilterQuery">
         <div class="input-group">
             <input type="text" placeholder="Filter" class="form-control" ng-model="filterQuery">
             <span class="input-group-btn">

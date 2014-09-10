@@ -15,6 +15,8 @@ define([], function() {
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entity = this.entityConfig;
 
+        this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
+
         this.computePagination();
 
         $scope.$on('$destroy', this.destroy.bind(this));
