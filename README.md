@@ -44,6 +44,11 @@ define([
         })
         // enable lazyload pagination
         .infinitePagination(true)
+        .filterQuery(function(query) {
+            return {
+                filter: query
+            };
+        })
         .addField(Field('id')
             .order(1)
             .label('ID')
@@ -65,6 +70,7 @@ define([
         .label('Comments')
         .dashboard(10)
         .infinitePagination(true)
+        .filterQuery(false)
         .addField(postId = Field('id')
             .order(1)
             .label('ID')
