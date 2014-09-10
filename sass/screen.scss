@@ -1,7 +1,7 @@
-$icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "../src/scripts/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 
 // bower:scss
-@import "../app/scripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+@import "../src/scripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
 @import "sb-admin.scss";

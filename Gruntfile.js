@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     port: 8000,
-                    base: 'app/',
+                    base: 'src/',
                     keepalive: true
                 }
             }
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
                 }
             },
             javascripts: {
-                files: ['app/**/*.js', 'app/**/*.html'],
+                files: ['src/**/*.js', 'src/**/*.html'],
                 tasks: ['assets:js']
             },
             sass: {

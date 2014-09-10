@@ -5,18 +5,18 @@ module.exports = function(config) {
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
 
         files: [
-            {pattern: 'app/scripts/bower_components/angular/angular.js', included: false},
-            {pattern: 'app/scripts/bower_components/angular-mocks/angular-mocks.js', included: false},
+            {pattern: 'src/scripts/bower_components/angular/angular.js', included: false},
+            {pattern: 'src/scripts/bower_components/angular-mocks/angular-mocks.js', included: false},
 
             // ng-admin application files
-            {pattern: 'app/scripts/lib/**/*.js', included: false},
-            {pattern: 'app/scripts/app/**/component/**/*.js', included: false},
-            {pattern: 'app/scripts/app/**/config/**/*.js', included: false},
-            {pattern: 'app/scripts/app/**/view/**/*.html', included: false},
+            {pattern: 'src/scripts/lib/**/*.js', included: false},
+            {pattern: 'src/scripts/app/**/component/**/*.js', included: false},
+            {pattern: 'src/scripts/app/**/config/**/*.js', included: false},
+            {pattern: 'src/scripts/app/**/view/**/*.html', included: false},
 
             // require configuration files
-            'app/scripts/common.js',
-            'app/scripts/ng-admin.js',
+            'src/scripts/common.js',
+            'src/scripts/ng-admin.js',
 
             // Test files
             {pattern: 'test/unit/**/**/*.js', included: false},
