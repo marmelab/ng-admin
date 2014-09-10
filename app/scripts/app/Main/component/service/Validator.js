@@ -14,10 +14,8 @@ define(['config'], function(config) {
         angular.forEach(entityConfig.getFields(), function(field, name) {
             var validation = field.validation();
 
-            if (typeof(validation.validator) === 'function') {
-                if (!validation.validator(entity[name])) {
-                    throw new Error('Field ' + field.label() + ' is not valid.')
-                }
+            if (typeof(validation.validator) === 'function' && !validation.validator(entity[name])) {
+                throw new Error('Field ' + field.label() + ' is not valid.')
             }
         });
     };

@@ -9,8 +9,8 @@ define([], function() {
         this.$anchorScroll = $anchorScroll;
         this.loadingPage = false;
         this.entityConfig = this.data.entityConfig;
-
         this.entityLabel = data.entityConfig.label();
+
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entity = this.entityConfig;
@@ -41,26 +41,25 @@ define([], function() {
             });
         });
 
-        this.$scope.entityLabel = this.entityConfig.label();
         this.$scope.columns = columns;
         this.$scope.items = rawItems;
 
-        this.$scope.infinitePagination = this.entityConfig.infinitePagination();
-        this.$scope.currentPage = this.data.currentPage;
-        this.$scope.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1)) || 1;
+        this.infinitePagination = this.entityConfig.infinitePagination();
+        this.currentPage = this.data.currentPage;
+        this.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1)) || 1;
     };
 
     ListController.prototype.nextPage = function() {
         var entityConfig = this.data.entityConfig;
-        if (this.loadingPage || !entityConfig.infinitePagination() || this.$scope.currentPage === this.$scope.nbPages) {
+        if (this.loadingPage || !entityConfig.infinitePagination() || this.currentPage === this.nbPages) {
             return;
         }
 
         var self = this;
         this.loadingPage = true;
-        this.$scope.currentPage++;
+        this.currentPage++;
 
-        this.CrudManager.getAll(entityConfig.getName(), this.$scope.currentPage).then(function(nextData) {
+        this.CrudManager.getAll(entityConfig.getName(), this.currentPage).then(function(nextData) {
             self.$scope.items = self.$scope.items.concat(nextData.rawItems);
             self.loadingPage = false;
         });
@@ -72,7 +71,7 @@ define([], function() {
      * @param {int} number
      */
     ListController.prototype.setPage = function (number) {
-        if(number <= 0 || number > this.$scope.nbPages) {
+        if(number <= 0 || number > this.nbPages) {
             return;
         }
 
@@ -81,7 +80,7 @@ define([], function() {
     };
 
     /**
-     * Return an array with the range between min & max
+     * Return an array with the range between min & max, usefull for pagination
      *
      * @param {int} min
      * @param {int} max

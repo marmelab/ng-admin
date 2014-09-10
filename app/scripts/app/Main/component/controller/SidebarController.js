@@ -9,12 +9,16 @@ define([
         this.entities = config.getEntities();
 
         this.computeCurrentEntity();
-        $scope.$on( "$locationChangeSuccess", this.computeCurrentEntity.bind(this));
+        $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    SidebarController.prototype.computeCurrentEntity = function(entity) {
+    /**
+     * Inject the current entity in the controller
+     */
+    SidebarController.prototype.computeCurrentEntity = function() {
         var urlParts = this.$location.url().split('/');
+
         this.currentEntity = urlParts && urlParts.length > 2 ? urlParts[2] : null;
     };
 

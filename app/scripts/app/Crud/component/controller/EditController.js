@@ -66,6 +66,7 @@ define([
         this.$location.path('/list/' + this.data.entityName);
     };
 
+    // @todo : move it in a directive
     EditController.prototype.toggleDatePicker = function($event, fieldName) {
         $event.preventDefault();
         $event.stopPropagation();

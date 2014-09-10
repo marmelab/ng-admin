@@ -1,7 +1,7 @@
 define([
     'config'
 ], function(config) {
-    "use strict";
+    'use strict';
 
     /**
      *
@@ -10,7 +10,7 @@ define([
      */
     var AppController = function ($scope) {
         this.$scope = $scope;
-        this.applicationName = config.title()
+        this.applicationName = config.title();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

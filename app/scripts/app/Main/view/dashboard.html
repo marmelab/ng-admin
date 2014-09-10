@@ -5,26 +5,11 @@
 </div>
 
 <div class="row dashboard-content">
-    <div class="panel panel-default col-lg-5" ng-repeat="(name, panel) in panels">
+    <div class="panel panel-default col-lg-5" ng-repeat="(name, panel) in dashboardController.panels">
         <div class="panel-heading">
             {{ panel.label }}
         </div>
-        <table class="panel-body grid">
-            <thead>
-                <tr>
-                    <td class="cell" ng-repeat="column in panel.columns">
-                        {{ column.label }}
-                    </td>
-                </tr>
-            </thead>
 
-            <tbody>
-                <tr ng-repeat="item in panel.items"  ng-class="itemClass($index)">
-                    <td class="cell" ng-repeat="column in panel.columns">
-                        <a ng-click="dashboardController.edit(name, panel.identifierField, item)">{{ item[column.field] }}</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div ng-include="'/require/app/Crud/view/grid.html'" ng-init="columns=panel.columns;items=panel.items;entity=panel.entity"></div>
     </div>
 </div>

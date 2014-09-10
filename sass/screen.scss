@@ -35,6 +35,7 @@ $icon-font-path: "../app/scripts/bower_components/bootstrap-sass-official/vendor
     .panel-default {
         padding: 0;
         margin: 0 1%;
+        overflow: scroll;
 
         table {
             width: 100%;

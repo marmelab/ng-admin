@@ -12,18 +12,18 @@
     <div class="row" ng-include="'/require/app/Crud/view/grid.html'"></div>
 </div>
 
-<div class="row pull-right" ng-if="!infinitePagination">
+<div class="row pull-right" ng-if="!listController.infinitePagination">
     <ul class="pagination pagination-sm">
-        <li ng-class="{ disabled: currentPage == 1}">
-            <a href ng-click="listController.setPage(currentPage - 1)">« Prev</a>
+        <li ng-class="{ disabled: listController.currentPage == 1}">
+            <a href ng-click="listController.setPage(listController.currentPage - 1)">« Prev</a>
         </li>
-        <li ng-repeat="n in range(1, nbPages)" ng-class="{active: n == currentPage}" ng-click="listController.setPage(n)">
+        <li ng-repeat="n in listController.range(1, listController.nbPages)" ng-class="{active: n == listController.currentPage}" ng-click="listController.setPage(n)">
             <a href>{{ n }}</a>
         </li>
-        <li ng-class="{disabled: currentPage == nbPages}">
-            <a href ng-click="listController.setPage(currentPage+ 1)">Next »</a>
+        <li ng-class="{disabled: listController.currentPage == listController.nbPages}">
+            <a href ng-click="listController.setPage(listController.currentPage+ 1)">Next »</a>
         </li>
     </ul>
 </div>
 
-<div class="loading bottom-loader" ng-if="infinitePagination && listController.loadingPage" />
+<div class="loading bottom-loader" ng-if="listController.infinitePagination && listController.loadingPage" />

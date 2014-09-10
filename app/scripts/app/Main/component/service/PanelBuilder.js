@@ -13,6 +13,11 @@ define([
         this.CrudManager = CrudManager;
     }
 
+    /**
+     * Returns all elements of each dashboard panels
+     *
+     * @returns {Promise}
+     */
     PanelBuilder.prototype.getPanelsData = function() {
         var promises = [],
             entity,

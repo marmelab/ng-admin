@@ -6,8 +6,8 @@ define([
     function InfinitePagination($window, $document) {
         return {
             link:function (scope, element, attrs) {
-                var offset = parseInt(attrs.threshold) || 0;
-                var body = $document[0].body;
+                var offset = parseInt(attrs.threshold) || 0,
+                    body = $document[0].body;
 
                 angular.element($window).bind('scroll', function () {
                     if (scope.$eval(attrs.canLoad) && (body.offsetHeight - $window.innerHeight - $window.scrollY < offset)) {

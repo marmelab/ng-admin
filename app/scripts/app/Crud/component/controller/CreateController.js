@@ -31,6 +31,7 @@ define([
             self = this,
             value;
 
+        // @todo : use validation & move it in a service
         angular.forEach(this.data.fields, function(field){
             value = field.value;
             if (field.type === 'date') {
@@ -53,6 +54,7 @@ define([
         this.$location.path('/list/' + this.data.entityName);
     };
 
+    // @todo : move it in a directive
     CreateController.prototype.toggleDatePicker = function($event, fieldName) {
         $event.preventDefault();
         $event.stopPropagation();

@@ -7,6 +7,7 @@ require.config({
         'angular-route': 'bower_components/angular-route/angular-route',
         'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
         'lodash': 'bower_components/lodash/dist/lodash.min',
+        'text' : 'bower_components/requirejs-text/text',
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
         'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         'restangular': 'bower_components/restangular/dist/restangular',

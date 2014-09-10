@@ -4,6 +4,13 @@ define([
 ], function(angular, ApplicationConfig) {
     'use strict';
 
+    /**
+     *
+     * @param {$q} $q
+     * @param {Restangular} Restangular
+     * @param {Application} config
+     * @constructor
+     */
     function CrudManager($q, Restangular, config) {
         this.$q = $q;
         this.Restangular = Restangular;
@@ -43,6 +50,7 @@ define([
                 var fields = entityConfig.getFields(),
                     entity = response.data;
 
+                // Transform each values with `valueTransformer`
                 angular.forEach(fields, function(field, index) {
                     if (field.getName() in entity) {
                         fields[index].value = field.valueTransformer()(entity[field.getName()]);
@@ -56,174 +64,6 @@ define([
                     entityId : entityId
                 };
             });
-    };
-
-
-    /**
-     * Get the edition fields of an entity:
-     *
-     * @param {String} entityName        name of the entity
-     * @param {String|Array} filterType  optional filter on the edition type (can be `read-only` or `editable`)
-     *
-     * @returns {promise} (list of fields & the entity name, label & id)
-     */
-    CrudManager.prototype.getEditionFields = function(entityName, filterType) {
-        var filters = [];
-
-        if (typeof(filterType) !== 'undefined') {
-            if (typeof(filterType) === 'string') {
-                filters.push(filterType);
-            } else if (filterType.length) {
-                filters = filterType;
-            }
-        }
-
-        if (!this.config.hasEntity(entityName)) {
-            throw 'Entity ' + entityName + ' not found.';
-        }
-
-        var entityConfig = this.config.getEntity(entityName),
-            fields = this.filterEditionFields(entityConfig.getFields(), filters);
-
-        return {
-            fields: fields,
-            entityLabel: entityConfig.label(),
-            entityName: entityName
-        };
-    };
-
-    CrudManager.prototype.getReferencedValues = function(entityName) {
-        var self = this,
-            references = this.getReferences(entityName),
-            calls = [];
-
-        angular.forEach(references, function(reference) {
-            calls.push(self.getAll(reference.targetEntity().getName()))
-        });
-
-        return this.$q.all(calls)
-            .then(function(responses) {
-                var i = 0;
-                angular.forEach(references, function(reference, index) {
-                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].rawItems));
-                });
-
-                return references;
-            });
-    };
-
-    CrudManager.prototype.getReferencedListValues = function(entityName, entityData) {
-        var self = this,
-            lists = this.getReferencedLists(entityName),
-            entityId = entityData.entityId,
-            calls = [];
-
-        angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName(), 1, null, false))
-        });
-
-        return this.$q.all(calls)
-            .then(function(responses) {
-                var i = 0;
-                angular.forEach(lists, function(list, index) {
-                    lists[index].setItems(self.filterReferencedList(responses[i++].rawItems, list, entityId));
-                });
-
-                return responses;
-            });
-    };
-
-    CrudManager.prototype.filterReferencedList = function(elements, referencedList, entityId) {
-        var results = [],
-            targetField = referencedList.targetField();
-
-        angular.forEach(elements, function(element) {
-            if (element[targetField] == entityId) {
-                results.push(element);
-            }
-        });
-
-        return results;
-    };
-
-    /**
-     * Returns all choices for a reference from values
-     *
-     * @param {Reference} reference
-     * @param {Array} values
-     * @returns {Object}
-     */
-    CrudManager.prototype.getReferenceChoices = function(reference, values) {
-        var result = {},
-            targetEntity = reference.targetEntity(),
-            targetIdentifier = targetEntity.getIdentifier().getName();
-
-        angular.forEach(values, function(value) {
-            result[value[targetIdentifier]] = value[reference.targetLabel()];
-        });
-
-        return result;
-    };
-
-    /**
-     * Returns all references of an entity
-     *
-     * @param {String} entityName
-     * @returns {Array}
-     */
-    CrudManager.prototype.getReferences = function(entityName) {
-        if (!this.config.hasEntity(entityName)) {
-            throw ('Entity ' + entityName + ' not found.');
-        }
-
-        return this.config.getEntity(entityName).getReferences();
-    };
-
-    /**
-     * Returns all referenced lists of an entity
-     *
-     * @param {String} entityName
-     * @returns {Array}
-     */
-    CrudManager.prototype.getReferencedLists = function(entityName) {
-        if (!this.config.hasEntity(entityName)) {
-            throw ('Entity ' + entityName + ' not found.');
-        }
-
-        return this.config.getEntity(entityName).getReferencedLists();
-    };
-
-
-    /**
-     * Filter a list of field to the edition fields
-     *
-     * @param {Object} fields  list of fields
-     * @param {Array} filters  filter on the edition type
-     *
-     * @returns {Object} (list of the filtered fields)
-     */
-    CrudManager.prototype.filterEditionFields = function(fields, filters) {
-        var filteredFields = {};
-
-        angular.forEach(fields, function(field){
-            // the field is not an edition field - do nothing
-            if (!field.edition()) {
-                return;
-            }
-
-            // if we don't specify a restriction, get all the edition fields
-            if (!filters.length) {
-                return this[field.getName()] = field;
-            }
-
-            // restriction to specified types fields
-            if (filters.indexOf(field.edition()) !== -1) {
-                return this[field.getName()] = field;
-            }
-
-        }, filteredFields);
-
-        return filteredFields;
     };
 
     /**
@@ -351,6 +191,204 @@ define([
             });
     };
 
+
+    /**
+     * Get the edition fields of an entity:
+     *
+     * @param {String} entityName        name of the entity
+     * @param {String|Array} filterType  optional filter on the edition type (can be `read-only` or `editable`)
+     *
+     * @returns {promise} (list of fields & the entity name, label & id)
+     */
+    CrudManager.prototype.getEditionFields = function(entityName, filterType) {
+        var filters = [];
+
+        if (typeof(filterType) !== 'undefined') {
+            if (typeof(filterType) === 'string') {
+                filters.push(filterType);
+            } else if (filterType.length) {
+                filters = filterType;
+            }
+        }
+
+        if (!this.config.hasEntity(entityName)) {
+            throw 'Entity ' + entityName + ' not found.';
+        }
+
+        var entityConfig = this.config.getEntity(entityName),
+            fields = this.filterEditionFields(entityConfig.getFields(), filters);
+
+        return {
+            fields: fields,
+            entityLabel: entityConfig.label(),
+            entityName: entityName
+        };
+    };
+
+    /**
+     * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * @param {String} entityName
+     *
+     * @returns {Promise}
+     */
+    CrudManager.prototype.getReferencedValues = function(entityName) {
+        var self = this,
+            references = this.getReferences(entityName),
+            calls = [];
+
+        angular.forEach(references, function(reference) {
+            calls.push(self.getAll(reference.targetEntity().getName()))
+        });
+
+        return this.$q.all(calls)
+            .then(function(responses) {
+                var i = 0;
+                angular.forEach(references, function(reference, index) {
+                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].rawItems));
+                });
+
+                return references;
+            });
+    };
+
+    /**
+     * Returns all ReferenceList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
+     * @param {String} entityName
+     * @param {Object} entityData
+     * @returns {Promise}
+     */
+    CrudManager.prototype.getReferencedListValues = function(entityName, entityData) {
+        var self = this,
+            lists = this.getReferencedLists(entityName),
+            entityId = entityData.entityId,
+            calls = [];
+
+        angular.forEach(lists, function(list) {
+            calls.push(self.getAll(list.targetEntity().getName(), 1, null, false))
+        });
+
+        return this.$q.all(calls)
+            .then(function(responses) {
+                var i = 0;
+                angular.forEach(lists, function(list, index) {
+                    lists[index].setItems(self.filterReferencedList(responses[i++].rawItems, list, entityId));
+                });
+
+                return responses;
+            });
+    };
+
+    /**
+     * Returns only referencedList values for an entity (filter it by identifier value)
+     *
+     * @param {Array} elements
+     * @param {ReferencedList} referencedList
+     * @param {String|Number} entityId
+     * @returns {Array}
+     */
+    CrudManager.prototype.filterReferencedList = function(elements, referencedList, entityId) {
+        var results = [],
+            targetField = referencedList.targetField();
+
+        angular.forEach(elements, function(element) {
+            if (element[targetField] == entityId) {
+                results.push(element);
+            }
+        });
+
+        return results;
+    };
+
+    /**
+     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
+     *
+     * @param {Reference} reference
+     * @param {Array} values
+     *
+     * @returns {Object}
+     */
+    CrudManager.prototype.getReferenceChoices = function(reference, values) {
+        var result = {},
+            targetEntity = reference.targetEntity(),
+            targetIdentifier = targetEntity.getIdentifier().getName();
+
+        angular.forEach(values, function(value) {
+            result[value[targetIdentifier]] = value[reference.targetLabel()];
+        });
+
+        return result;
+    };
+
+    /**
+     * Returns all references of an entity
+     *
+     * @param {String} entityName
+     * @returns {Array}
+     */
+    CrudManager.prototype.getReferences = function(entityName) {
+        if (!this.config.hasEntity(entityName)) {
+            throw ('Entity ' + entityName + ' not found.');
+        }
+
+        return this.config.getEntity(entityName).getReferences();
+    };
+
+    /**
+     * Returns all referenced lists of an entity
+     *
+     * @param {String} entityName
+     *
+     * @returns {Array}
+     */
+    CrudManager.prototype.getReferencedLists = function(entityName) {
+        if (!this.config.hasEntity(entityName)) {
+            throw ('Entity ' + entityName + ' not found.');
+        }
+
+        return this.config.getEntity(entityName).getReferencedLists();
+    };
+
+
+    /**
+     * Filter a list of field to the edition fields
+     *
+     * @param {Object} fields  list of fields
+     * @param {Array} filters  filter on the edition type
+     *
+     * @returns {Object} (list of the filtered fields)
+     */
+    CrudManager.prototype.filterEditionFields = function(fields, filters) {
+        var filteredFields = {};
+
+        angular.forEach(fields, function(field){
+            // the field is not an edition field - do nothing
+            if (!field.edition()) {
+                return;
+            }
+
+            // if we don't specify a restriction, get all the edition fields
+            if (!filters.length) {
+                return this[field.getName()] = field;
+            }
+
+            // restriction to specified types fields
+            if (filters.indexOf(field.edition()) !== -1) {
+                return this[field.getName()] = field;
+            }
+
+        }, filteredFields);
+
+        return filteredFields;
+    };
+
+    /**
+     * Fill ReferencedMany & Reference values from a collection a values
+     *
+     * @param {Array} collection
+     * @param {Array} referencedValues
+     * @param {Boolean} fillSimpleReference
+     * @returns {Array}
+     */
     CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
         fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
