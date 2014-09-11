@@ -9,7 +9,7 @@
 
     <div id="filter" class="navbar-form" ng-if="listController.displayFilterQuery">
         <div class="input-group">
-            <input type="text" placeholder="Filter" class="form-control" ng-model="filterQuery">
+            <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="listController.filter()"><span class="glyphicon glyphicon-search"></span></button>
                 <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
