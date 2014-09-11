@@ -38,8 +38,9 @@
             <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="field.value == key" >{{ value }}</option>
         </select>
 
-        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
-
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
+            <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="formController.contains(field.value, key)" >{{ value }}</option>
+        </select>
     </div>
 </div>
 

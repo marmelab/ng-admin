@@ -4,8 +4,7 @@ define(
         'config',
 
         'app/Crud/component/controller/ListController',
-        'app/Crud/component/controller/CreateController',
-        'app/Crud/component/controller/EditController',
+        'app/Crud/component/controller/FormController',
         'app/Crud/component/controller/DeleteController',
 
         'app/Crud/component/directive/InfinitePagination',
@@ -21,8 +20,7 @@ define(
         config,
 
         ListController,
-        CreateController,
-        EditController,
+        FormController,
         DeleteController,
 
         InfinitePagination,
@@ -37,8 +35,7 @@ define(
         CrudModule.constant('config', config);
 
         CrudModule.controller('ListController', ListController);
-        CrudModule.controller('CreateController', CreateController);
-        CrudModule.controller('EditController', EditController);
+        CrudModule.controller('FormController', FormController);
         CrudModule.controller('DeleteController', DeleteController);
 
         CrudModule.service('CrudManager', CrudManager);

@@ -9,8 +9,8 @@
 </div>
 
 <div class="row" id="edit-container">
-    <form class="form-horizontal" name="createForm" ng-submit="formController.create(createForm, $event)">
-        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="field in formController.fields | orderBy:order"></div>
+    <form class="form-horizontal" name="createForm" ng-submit="formController.submitCreation(createForm, $event)">
+        <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="field in formController.fields | orderField track by $index"></div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
