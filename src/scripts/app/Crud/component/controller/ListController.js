@@ -15,6 +15,8 @@ define([], function() {
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entity = this.entityConfig;
 
+        this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
+
         this.computePagination();
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -128,6 +130,22 @@ define([], function() {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
+    };
+
+    ListController.prototype.filter = function() {
+        var entityConfig = this.data.entityConfig,
+            self = this;
+        this.loadingPage = true;
+
+        this.CrudManager.getAll(entityConfig.getName(), this.currentPage, null, true, this.$scope.filterQuery).then(function(data) {
+            self.$scope.items = data.rawItems;
+            self.loadingPage = false;
+        });
+    };
+
+    ListController.prototype.clearFilter = function() {
+        this.$scope.filterQuery = '';
+        this.filter();
     };
 
     ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
