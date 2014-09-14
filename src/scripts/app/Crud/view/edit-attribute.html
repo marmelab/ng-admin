@@ -26,14 +26,21 @@
 
         <input id="{{ field.getName() }}" type="checkbox" class="form-control" ng-switch-when="boolean" ng-model="field.value" ng-required="field.validation().required" />
 
-        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choice" ng-model="field.value" ng-options="option as option for option in field.choices"  ng-required="field.validation().required"></select>
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choice" ng-model="field.value" ng-required="field.validation().required">
+            <option ng-if="!field.validation().required">-- select a value --</option>
+            <option ng-repeat="(key, value) in field.choices" value="{{ key }}" ng-selected="field.value == key">{{ value }}</option>
+        </select>
 
         <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choices" ng-model="field.value" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices" ng-required="field.validation().required"></select>
 
-        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-required="field.validation().required">
+            <option ng-if="!field.validation().required">-- select a value --</option>
+            <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="field.value == key" >{{ value }}</option>
+        </select>
 
-        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple ng-options="key as value for (key, value) in field.getChoices()" ng-required="field.validation().required"></select>
-
+        <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
+            <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="formController.contains(field.value, key)" >{{ value }}</option>
+        </select>
     </div>
 </div>
 

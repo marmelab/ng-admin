@@ -9,7 +9,7 @@ define(['lib/config/Configurable'], function (Configurable) {
         var choices = {};
 
         var defaultValueTransformer = function(value) {
-            return value;
+            return (typeof value == 'object' && typeof value.length == 'number') ? value : [value];
         };
 
         var config = {

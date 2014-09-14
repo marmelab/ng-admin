@@ -40,7 +40,7 @@ define([
             .state('create', {
                 parent: 'main',
                 url: '/create/:entity',
-                controller: 'CreateController',
+                controller: 'FormController',
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
@@ -57,7 +57,7 @@ define([
             .state('edit', {
                 parent: 'main',
                 url: '/edit/:entity/:id',
-                controller: 'EditController',
+                controller: 'FormController',
                 controllerAs: 'formController',
                 template: editTemplate,
                 resolve: {
