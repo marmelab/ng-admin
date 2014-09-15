@@ -12,6 +12,8 @@ define([], function() {
         this.$scope = $scope;
         this.$location = $location;
         this.PanelBuilder = PanelBuilder;
+
+        this.$scope.edit = this.edit.bind(this);
         this.getPanels();
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -68,12 +70,11 @@ define([], function() {
     /**
      * Redirect to the entity edition form
      *
-     * @param {String} entityName
-     * @param {Number} identifier
-     * @param {Entity} item
+     * @param {Object} item
+     * @param {Entity} entity
      */
-    DashboardController.prototype.edit = function(entityName, identifier, item) {
-        this.$location.path('/edit/' + entityName + '/' + item[identifier]);
+    DashboardController.prototype.edit = function(item, entity) {
+        this.$location.path('/edit/' + entity.getName() + '/' + item[entity.getIdentifier().getName()]);
     };
 
     DashboardController.prototype.destroy = function() {
