@@ -9,7 +9,7 @@
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities" ng-class="{'active': sidebarController.isActive(entity)}">
-                    <a ng-click="sidebarController.displayList(key, $event)">{{ entity.label() }}</a>
+                    <a ng-click="sidebarController.displayList(key, $event)"><span class="glyphicon glyphicon-list"></span> {{ entity.label() }}</a>
                 </li>
             </ul>
         </div>

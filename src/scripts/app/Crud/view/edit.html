@@ -1,12 +1,10 @@
 <div class="row" id="header">
     <div class="col-sm-5">
-        <h1>Edit {{ formController.entityLabel }}</h1>
+        <h1>{{ formController.data.titleEdit }}</h1>
     </div>
 
     <div class="controls col-sm-7">
-        <a class="btn btn-success" ng-click="formController.create()">Add new</a>
-        <a class="btn btn-danger" ng-click="formController.deleteOne()">Delete</a>
-        <a class="btn btn-default" ng-click="formController.back()">Back to list</a>
+        <a class="btn btn-default" ng-click="formController.back()"><span class="glyphicon glyphicon-chevron-left"></span> Back to list</a>
     </div>
 </div>
 
@@ -14,8 +12,11 @@
     <form class="form-horizontal" name="editForm" ng-submit="formController.submitEdition(editForm, $event)">
         <div class="form-field form-group" ng-include="'/require/app/Crud/view/edit-attribute.html'" ng-repeat="field in formController.fields | orderField track by $index"></div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+            <div class="col-sm-offset-2 col-sm-6">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-danger pull-right" ng-click="formController.deleteOne()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
             </div>
         </div>
     </form>

@@ -24,6 +24,9 @@ define(['lib/config/Configurable'], function (Configurable) {
 
         var config = {
             label: 'My entity',
+            titleList: 'List',
+            titleEdit: 'Edit',
+            description: '',
             dashboard: 5,
             perPage: 30,
             pagination: defaultPaginationLink,
