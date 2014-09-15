@@ -82,14 +82,12 @@ define(['lib/config/Configurable'], function (Configurable) {
             return this;
         };
 
-        Field.getTruncateValue = function() {
-            var result = this.value;
-
+        Field.getTruncatedListValue = function(value) {
             if (config.truncateList) {
-                result = config.truncateList(value);
+                value = config.truncateList(value);
             }
 
-            return result;
+            return value;
         };
 
         return Field;
