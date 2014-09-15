@@ -59,7 +59,7 @@ define([
 
                 return {
                     fields: fields,
-                    entityLabel: entityConfig.label(),
+                    entityConfig : entityConfig,
                     entityName: entityName,
                     entityId : entityId
                 };
@@ -187,10 +187,13 @@ define([
                     });
                 }
 
+                var rawItems = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
+                rawItems = self.truncateListValue(rawItems, entity);
+
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference),
+                    rawItems: rawItems,
                     currentPage: page,
                     perPage: perPage,
                     totalItems: entityConfig.totalItems()(response)
@@ -227,7 +230,7 @@ define([
 
         return {
             fields: fields,
-            entityLabel: entityConfig.label(),
+            entityConfig: entityConfig,
             entityName: entityName
         };
     };
@@ -423,6 +426,16 @@ define([
         });
 
         return collection;
+    };
+
+    /**
+     * Truncate all values depending of the `truncateList` configuration of a field
+     *
+     * @param values
+     * @param entity
+     */
+    CrudManager.prototype.truncateListValue = function(values, entity) {
+
     };
 
     CrudManager.$inject = ['$q', 'Restangular'];

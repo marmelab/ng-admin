@@ -1,6 +1,21 @@
 define(['lib/config/Configurable'], function (Configurable) {
     'use strict';
 
+    /**
+     * Return the title depending if the config is a string or a function
+     * @param {Function} config
+     * @param {Entity} entity
+     * @returns {String}
+     */
+    function getTitle(config, entity) {
+        var title = config;
+        if (typeof (title) === 'function') {
+            title = title(entity);
+        }
+
+        return title;
+    }
+
     var defaultPaginationLink = function(page, maxPerPage) {
         return {
             page: page,
@@ -18,15 +33,33 @@ define(['lib/config/Configurable'], function (Configurable) {
         return response.headers('X-Count') || 0;
     };
 
+    var defaultListingTitle = function(entity) {
+        return 'List of ' + entity.label();
+    };
+
+    var defaultEditionTitle = function(entity) {
+        return 'Edit ' + entity.label();
+    };
+
+    var defaultCreationTitle = function(entity) {
+        return 'Create ' + entity.label();
+    };
+
+    var defaultDescription = function (entity) {
+        return null;
+    };
+
     return function(entityName) {
         var name = entityName || 'entity';
         var fields = {};
 
         var config = {
             label: 'My entity',
-            titleList: 'List',
-            titleEdit: 'Edit',
-            description: '',
+            order: null,
+            titleList: defaultListingTitle,
+            titleCreate: defaultCreationTitle,
+            titleEdit: defaultEditionTitle,
+            description: defaultDescription,
             dashboard: 5,
             perPage: 30,
             pagination: defaultPaginationLink,
@@ -163,6 +196,22 @@ define(['lib/config/Configurable'], function (Configurable) {
             }
 
             return params;
+        };
+
+        Entity.getListTitle = function() {
+            return getTitle(config.titleList, this);
+        };
+
+        Entity.getCreateTitle = function() {
+            return getTitle(config.titleCreate, this);
+        };
+
+        Entity.getEditTitle = function() {
+            return getTitle(config.titleEdit, this);
+        };
+
+        Entity.getDescription = function() {
+            return getTitle(config.description, this);
         };
 
         Configurable(Entity, config);

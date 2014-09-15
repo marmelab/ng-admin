@@ -11,7 +11,7 @@ define(
         'app/Main/component/service/Spinner',
         'app/Main/component/service/Validator',
 
-        'app/Main/component/filter/OrderField',
+        'app/Main/component/filter/OrderElement',
 
         'app/Main/config/routing',
 
@@ -31,7 +31,7 @@ define(
         Spinner,
         Validator,
 
-        OrderField,
+        OrderElement,
 
         routing,
 
@@ -50,7 +50,7 @@ define(
         MainModule.service('Spinner', Spinner);
         MainModule.service('Validator', Validator);
 
-        MainModule.filter('orderField', OrderField);
+        MainModule.filter('orderElement', OrderElement);
 
         MainModule.config(routing);
 

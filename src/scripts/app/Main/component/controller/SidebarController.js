@@ -23,7 +23,7 @@ define([
     };
 
     SidebarController.prototype.displayList = function(entity) {
-        this.$location.path('/list/' + entity);
+        this.$location.path('/list/' + entity.getName());
     };
 
     SidebarController.prototype.isActive = function(entity) {

@@ -1,6 +1,7 @@
 <div class="row" id="header">
     <div class="col-sm-5">
-        <h1>List of {{ listController.entityLabel }}</h1>
+        <h1>{{ listController.title }}</h1>
+        <h2 ng-if="listController.description">{{ listController.description }}</h2>
     </div>
 
     <div class="controls col-sm-7">

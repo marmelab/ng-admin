@@ -20,6 +20,7 @@ define(['lib/config/Configurable'], function (Configurable) {
             valueTransformer : defaultValueTransformer,
             list: true,
             dashboard: true,
+            truncateList: false,
             validation: {
                 required: false
             }
@@ -79,6 +80,16 @@ define(['lib/config/Configurable'], function (Configurable) {
 
             config.edition = edition;
             return this;
+        };
+
+        Field.getTruncateValue = function() {
+            var result = this.value;
+
+            if (config.truncateList) {
+                result = config.truncateList(value);
+            }
+
+            return result;
         };
 
         return Field;
