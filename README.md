@@ -1,7 +1,7 @@
 ng-admin
 ========
 
-Plug me to your RESTFul API to get a complete administration tool in no time!
+Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-model relationships, dashboard, complex form widgets) in no time!
 
 [![http://static.marmelab.com/ng-admin.png](http://static.marmelab.com/ng-admin.png)](http://static.marmelab.com/ng-admin%20demo.mp4)
 
