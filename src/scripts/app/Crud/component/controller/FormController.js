@@ -151,7 +151,7 @@ define([
      */
     FormController.prototype.clear = function() {
         angular.forEach(this.data.fields, function(field){
-            field.value = null;
+            field.value = field.name === 'ReferencedList' ? field.setItems([]) : null;
         });
     };
 
