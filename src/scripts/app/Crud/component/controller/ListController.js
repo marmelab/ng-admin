@@ -11,6 +11,8 @@ define([], function() {
         this.loadingPage = false;
         this.entityConfig = this.data.entityConfig;
         this.entityLabel = data.entityConfig.label();
+        this.title = data.entityConfig.getListTitle();
+        this.description = data.entityConfig.getDescription();
 
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);

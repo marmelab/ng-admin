@@ -59,7 +59,7 @@ define([
 
                 return {
                     fields: fields,
-                    entityLabel: entityConfig.label(),
+                    entityConfig : entityConfig,
                     entityName: entityName,
                     entityId : entityId
                 };
@@ -127,11 +127,11 @@ define([
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {String}  entityName          the name of the entity
-     * @param {Number}  page                the page number
-     * @param {Number}  limit               the pagination limit
-     * @param {Boolean} fillSimpleReference should we fill Reference list
-     * @param {String}  query               searchQuery to filter elements
+     * @param {String}       entityName          the name of the entity
+     * @param {Number}       page                the page number
+     * @param {Number|Bool}  limit               the pagination limit
+     * @param {Boolean}      fillSimpleReference should we fill Reference list
+     * @param {String}       query               searchQuery to filter elements
      *
      * @returns {promise} the entity config & the list of objects
      */
@@ -152,7 +152,7 @@ define([
             params = entityConfig.getExtraParams(),
             response;
 
-        if (pagination) {
+        if (pagination && limit !== false) {
             params = angular.extend(params, pagination(page, perPage));
         }
 
@@ -187,10 +187,13 @@ define([
                     });
                 }
 
+                var rawItems = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
+                rawItems = self.truncateListValue(rawItems, entityConfig);
+
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference),
+                    rawItems: rawItems,
                     currentPage: page,
                     perPage: perPage,
                     totalItems: entityConfig.totalItems()(response)
@@ -227,7 +230,7 @@ define([
 
         return {
             fields: fields,
-            entityLabel: entityConfig.label(),
+            entityConfig: entityConfig,
             entityName: entityName
         };
     };
@@ -244,7 +247,7 @@ define([
             calls = [];
 
         angular.forEach(references, function(reference) {
-            calls.push(self.getAll(reference.targetEntity().getName()))
+            calls.push(self.getAll(reference.targetEntity().getName(), 1, false))
         });
 
         return this.$q.all(calls)
@@ -271,7 +274,7 @@ define([
             calls = [];
 
         angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName(), 1, null, false))
+            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false))
         });
 
         return this.$q.all(calls)
@@ -400,7 +403,9 @@ define([
         fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
         angular.forEach(referencedValues, function(reference, referenceField) {
-            var choices = reference.getChoices();
+            var choices = reference.getChoices(),
+                value,
+                targetField;
 
             for (var i = 0, l = collection.length; i < l; i++) {
                 var element = collection[i],
@@ -414,7 +419,9 @@ define([
                     });
                 } else if (identifier && identifier in choices) {
                     if (fillSimpleReference) {
-                        element[referenceField] = choices[identifier];
+                        targetField = reference.targetEntity().getField(reference.targetLabel());
+                        value = choices[identifier];
+                        element[referenceField] = targetField.getTruncatedListValue(value);
                     }
                 } else {
                     delete element[referenceField];
@@ -423,6 +430,25 @@ define([
         });
 
         return collection;
+    };
+
+    /**
+     * Truncate all values depending of the `truncateList` configuration of a field
+     *
+     * @param {Array} values
+     * @param {Entity} entity
+     */
+    CrudManager.prototype.truncateListValue = function(values, entity) {
+        var fields = entity.getFields();
+
+        for (var i = 0, l = values.length; i < l; i++) {
+            for(var fieldName in entity.getFields()) {
+                var field = entity.getField(fieldName);
+                values[i][fieldName] = field.name === 'Field' ? field.getTruncatedListValue(values[i][fieldName]) : values[i][fieldName];
+            }
+        }
+
+        return values;
     };
 
     CrudManager.$inject = ['$q', 'Restangular'];

@@ -26,6 +26,11 @@ $icon-font-path: "/scripts/bower_components/bootstrap-sass-official/vendor/asset
     h1 {
         margin: 0;
     }
+
+    h2 {
+        font-size: 14px;
+        margin-top: 5px;
+    }
 }
 
 /**
@@ -148,6 +153,10 @@ div.bottom-loader {
 
 #wrapper {
     background-color: #FFFFFF;
+
+    #page-wrapper {
+        min-height: inherit;
+    }
 }
 
 .navbar-static-side {

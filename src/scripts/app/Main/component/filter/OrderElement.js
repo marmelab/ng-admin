@@ -1,7 +1,7 @@
 define([], function() {
     'use strict';
 
-    function OrderField() {
+    function OrderElement() {
         return function(input, attribute) {
             var results = [];
 
@@ -17,7 +17,7 @@ define([], function() {
         };
     }
 
-    OrderField.$inject = [];
+    OrderElement.$inject = [];
 
-    return OrderField;
+    return OrderElement;
 });

@@ -17,6 +17,10 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @param {Entity} entity
          */
         Application.addEntity = function(entity) {
+            if (entity.order() === null) {
+                entity.order(Object.keys(entities).length);
+            }
+
             entities[entity.getName()] = entity;
 
             return this;

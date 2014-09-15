@@ -4,6 +4,7 @@ define([
     'use strict';
 
     var FormController = function($scope, $location, $filter, CrudManager, Spinner, Validator, data) {
+        var isNew = typeof(data.entityId) === 'undefined';
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
@@ -12,13 +13,15 @@ define([
         this.Spinner = Spinner;
         this.data = data;
         this.openDatepicker = {};
+        this.title = isNew ? data.entityConfig.getCreateTitle() : data.entityConfig.getEditTitle();
+        this.description = data.entityConfig.getDescription();
 
-        if (typeof(data.entityId) === 'undefined') {
+        if (isNew) {
             this.clear();
         }
 
         this.fields = data.fields;
-        this.entityLabel = data.entityLabel;
+        this.entityLabel = data.entityConfig.label();
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
 
@@ -38,6 +41,10 @@ define([
     };
 
     FormController.prototype.contains = function(collection, item) {
+        if (!collection) {
+            return false;
+        }
+
         for(var i = 0, l = collection.length; i < l; i++) {
             if (collection[i] == item) {
                 return true;
@@ -89,7 +96,7 @@ define([
             .createOne(this.data.entityName, object)
             .then(function(response) {
                 self.Spinner.stop();
-                humane.log('The object has been created.');
+                humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.data.entityName + '/' + response.data.id);
             });
     };
@@ -104,7 +111,7 @@ define([
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             self.Spinner.stop();
-            humane.log('The object has been updated.');
+            humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
     };
 

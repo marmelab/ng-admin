@@ -8,8 +8,8 @@
     <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController as sidebarController">
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities" ng-class="{'active': sidebarController.isActive(entity)}">
-                    <a ng-click="sidebarController.displayList(key, $event)">{{ entity.label() }}</a>
+                <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities | orderElement" ng-class="{'active': sidebarController.isActive(entity)}">
+                    <a ng-click="sidebarController.displayList(entity, $event)"><span class="glyphicon glyphicon-list"></span> {{ entity.label() }}</a>
                 </li>
             </ul>
         </div>
