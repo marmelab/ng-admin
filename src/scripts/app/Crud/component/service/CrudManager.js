@@ -399,9 +399,8 @@ define([
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
      */
-    CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference, truncate) {
+    CrudManager.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
         fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
-        truncate = typeof(truncate) === 'undefined' ? false : truncate;
 
         angular.forEach(referencedValues, function(reference, referenceField) {
             var choices = reference.getChoices(),
@@ -422,7 +421,7 @@ define([
                     if (fillSimpleReference) {
                         targetField = reference.targetEntity().getField(reference.targetLabel());
                         value = choices[identifier];
-                        element[referenceField] = truncate ? targetField.getTruncatedListValue(value) : value;
+                        element[referenceField] = targetField.getTruncatedListValue(value);
                     }
                 } else {
                     delete element[referenceField];

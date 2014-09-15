@@ -96,7 +96,7 @@ define([
             .createOne(this.data.entityName, object)
             .then(function(response) {
                 self.Spinner.stop();
-                humane.log('The object has been created.');
+                humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.data.entityName + '/' + response.data.id);
             });
     };
@@ -111,7 +111,7 @@ define([
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
             self.Spinner.stop();
-            humane.log('The object has been updated.');
+            humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
     };
 
