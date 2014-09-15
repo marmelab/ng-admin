@@ -5,6 +5,8 @@ Plug me to your RESTFul API to get a complete administration tool in no time!
 
 [![http://static.marmelab.com/ng-admin.png](http://static.marmelab.com/ng-admin.png)](http://static.marmelab.com/ng-admin%20demo.mp4)
 
+Check out the [online demo](http://bit.ly/ng-admin-demo2).
+
 # Installation
 
 - Clone the repository.
