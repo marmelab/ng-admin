@@ -11,7 +11,8 @@ require.config({
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
         'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         'restangular': 'bower_components/restangular/dist/restangular',
-        'humane': 'bower_components/humane/humane'
+        'humane': 'bower_components/humane/humane',
+        'nprogress': 'bower_components/nprogress/nprogress'
     },
     shim: {
         'angular': {
@@ -40,6 +41,9 @@ require.config({
         },
         'angular-route': {
             deps: ['angular']
+        },
+        'nprogress': {
+            exports: 'NProgress'
         }
     },
     modules: [

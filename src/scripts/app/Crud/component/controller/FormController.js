@@ -1,16 +1,16 @@
 define([
-    'humane'
-], function(humane) {
+    'humane',
+    'nprogress'
+], function(humane, NProgress) {
     'use strict';
 
-    var FormController = function($scope, $location, $filter, CrudManager, Spinner, Validator, data) {
+    var FormController = function($scope, $location, $filter, CrudManager, Validator, data) {
         var isNew = typeof(data.entityId) === 'undefined';
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
         this.CrudManager = CrudManager;
         this.Validator = Validator;
-        this.Spinner = Spinner;
         this.data = data;
         this.openDatepicker = {};
         this.title = isNew ? data.entityConfig.getCreateTitle() : data.entityConfig.getEditTitle();
@@ -56,7 +56,7 @@ define([
 
     FormController.prototype.validate = function(form, $event) {
         $event.preventDefault();
-        this.Spinner.start();
+        NProgress.start();
 
         var value,
             self = this,
@@ -76,7 +76,7 @@ define([
         try {
             this.Validator.validate(this.data.entityName, object);
         } catch(e) {
-            self.Spinner.stop();
+            NProgress.done();
             humane.log(e, {addnCls: 'humane-flatty-error'});
             return false;
         }
@@ -95,7 +95,7 @@ define([
         this.CrudManager
             .createOne(this.data.entityName, object)
             .then(function(response) {
-                self.Spinner.stop();
+                NProgress.done();
                 humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.data.entityName + '/' + response.data.id);
             });
@@ -110,7 +110,7 @@ define([
         }
 
         this.CrudManager.updateOne(this.data.entityName, object).then(function() {
-            self.Spinner.stop();
+            NProgress.done();
             humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
     };
@@ -159,11 +159,10 @@ define([
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
-        this.Spinner = undefined;
         this.data = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Spinner', 'Validator', 'data'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'data'];
 
     return FormController;
 });

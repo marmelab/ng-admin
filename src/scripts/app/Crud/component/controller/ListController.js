@@ -1,11 +1,12 @@
-define([], function() {
+define([
+    'nprogress'
+], function(NProgress) {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data, CrudManager, Spinner) {
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
-        this.Spinner = Spinner;
         this.data = data;
         this.$anchorScroll = $anchorScroll;
         this.loadingPage = false;
@@ -64,7 +65,9 @@ define([], function() {
         this.loadingPage = true;
         this.currentPage++;
 
+        NProgress.start();
         this.CrudManager.getAll(entityConfig.getName(), this.currentPage).then(function(nextData) {
+            NProgress.done();
             self.$scope.items = self.$scope.items.concat(nextData.rawItems);
             self.loadingPage = false;
         });
@@ -139,13 +142,13 @@ define([], function() {
         var entityConfig = this.data.entityConfig,
             self = this;
 
-        this.Spinner.start();
+        NProgress.start();
         this.loadingPage = true;
 
         this.CrudManager.getAll(entityConfig.getName(), this.currentPage, null, true, this.$scope.filterQuery).then(function(data) {
             self.$scope.items = data.rawItems;
             self.loadingPage = false;
-            self.Spinner.stop();
+            NProgress.done();
         });
     };
 
@@ -154,7 +157,7 @@ define([], function() {
         this.filter();
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager', 'Spinner'];
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
 
     return ListController;
 });
