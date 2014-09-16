@@ -2,10 +2,16 @@ $icon-font-path: "/scripts/bower_components/bootstrap-sass-official/vendor/asset
 
 // bower:scss
 @import "../src/scripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+@import "/scripts/bower_components/nprogress/nprogress.css";
 // endbower
 
 @import "sb-admin.scss";
-@import "spinner.scss";
+
+#nprogress div.spinner {
+    width: 18px;
+    margin-left: -9px;
+    left: 50%;
+}
 
 .nav {
     a {
