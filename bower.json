@@ -13,7 +13,6 @@
     "jquery": "~1.11.0",
     "requirejs": "~2.1.14",
     "requirejs-text": "~2.0.12",
-    "requirejs-domready": "~2.0.1",
     "bootstrap-sass-official": "~3.1.0",
     "restangular": "~1.4.0",
     "angular-ui-router": "~0.2.10",

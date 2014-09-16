@@ -20,18 +20,20 @@
     "prod": {
         "options": {
             "appDir": "src/scripts",
-            "fileExclusionRegExp": "^(build)",
             "baseUrl": "./",
-            "dir": "src/require",
-            "optimize": "uglify2",
+            "dir": "src/build",
+            "optimize": "none",
             "preserveLicenseComments": false,
+            "findNestedDependencies": true,
             "generateSourceMaps": false,
             "skipDirOptimize": true,
             "removeCombined": true,
+            "include": "app",
 
             "mainConfigFile": [
                 "src/scripts/common.js",
-                "src/scripts/ng-admin.js"
+                "src/scripts/ng-admin.js",
+                "src/scripts/app.js"
             ]
         }
     }
