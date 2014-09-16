@@ -17,6 +17,7 @@
   "devDependencies": {
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-karma": "^0.8.3",
     "grunt-ng-annotate": "^0.3.2",

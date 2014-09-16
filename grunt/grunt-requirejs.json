@@ -22,7 +22,6 @@
             "appDir": "src/scripts",
             "baseUrl": "./",
             "dir": "src/build",
-            "optimize": "none",
             "preserveLicenseComments": false,
             "findNestedDependencies": true,
             "generateSourceMaps": false,
