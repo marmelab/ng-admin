@@ -11,27 +11,21 @@ define([
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity',
+                url: '/list/:entity?q&page',
+                params: {
+                    entity: {},
+                    q: null,
+                    page: 1
+                },
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
                     data: function($stateParams, CrudManager) {
-                        return CrudManager.getAll($stateParams.entity);
-                    }
-                }
-            });
+                        var page = $stateParams.page;
+                        var query = $stateParams.q;
 
-        $stateProvider
-            .state('list-paginate', {
-                parent: 'main',
-                url: '/list/:entity/page/:page',
-                controller: 'ListController',
-                controllerAs: 'listController',
-                template: listTemplate,
-                resolve: {
-                    data: function($stateParams, CrudManager) {
-                        return CrudManager.getAll($stateParams.entity, $stateParams.page);
+                        return CrudManager.getAll($stateParams.entity, page, null, true, query);
                     }
                 }
             });
