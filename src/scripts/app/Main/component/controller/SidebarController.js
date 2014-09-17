@@ -23,6 +23,8 @@ define([
     };
 
     SidebarController.prototype.displayList = function(entity) {
+        this.$location.search('q', null);
+        this.$location.search('page', 1);
         this.$location.path('/list/' + entity.getName());
     };
 

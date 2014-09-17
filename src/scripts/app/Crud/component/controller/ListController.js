@@ -15,9 +15,13 @@ define([
         this.title = data.entityConfig.getListTitle();
         this.description = data.entityConfig.getDescription();
 
+        var searchParams = this.$location.search();
+
+        this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entity = this.entityConfig;
+        this.$scope.items = data.rawItems;
 
         this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
 
@@ -27,8 +31,7 @@ define([
     };
 
     ListController.prototype.computePagination = function () {
-        var rawItems = this.data.rawItems,
-            columns = [],
+        var columns = [],
             self = this;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
@@ -48,7 +51,6 @@ define([
         });
 
         this.$scope.columns = columns;
-        this.$scope.items = rawItems;
 
         this.infinitePagination = this.entityConfig.infinitePagination();
         this.currentPage = this.data.currentPage;
@@ -83,7 +85,26 @@ define([
             return;
         }
 
-        this.$location.path('/list/' + this.data.entityName + '/page/' + number);
+        this.changePage(this.$scope.filterQuery, number);
+    };
+
+    ListController.prototype.filter = function() {
+        this.changePage(this.$scope.filterQuery, 1);
+    };
+
+    ListController.prototype.clearFilter = function() {
+        this.$scope.filterQuery = '';
+        this.filter();
+    };
+
+    ListController.prototype.changePage = function(filter, page) {
+        if (!filter.length) {
+            filter = null;
+        }
+
+        this.$location.search('q', filter);
+        this.$location.search('page', page);
+        this.$location.path('/list/' + this.data.entityName);
         this.$anchorScroll(0);
     };
 
@@ -136,25 +157,6 @@ define([
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
-    };
-
-    ListController.prototype.filter = function() {
-        var entityConfig = this.data.entityConfig,
-            self = this;
-
-        NProgress.start();
-        this.loadingPage = true;
-
-        this.CrudManager.getAll(entityConfig.getName(), this.currentPage, null, true, this.$scope.filterQuery).then(function(data) {
-            self.$scope.items = data.rawItems;
-            self.loadingPage = false;
-            NProgress.done();
-        });
-    };
-
-    ListController.prototype.clearFilter = function() {
-        this.$scope.filterQuery = '';
-        this.filter();
     };
 
     ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
