@@ -11,21 +11,25 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?q&page',
+                url: '/list/:entity?q&page&sortField&sortDir',
                 params: {
                     entity: {},
                     q: null,
-                    page: 1
+                    page: 1,
+                    sortField: null,
+                    sortDir: null
                 },
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
                     data: function($stateParams, CrudManager) {
-                        var page = $stateParams.page;
-                        var query = $stateParams.q;
+                        var page = $stateParams.page,
+                            query = $stateParams.q,
+                            sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
 
-                        return CrudManager.getAll($stateParams.entity, page, null, true, query);
+                        return CrudManager.getAll($stateParams.entity, page, null, true, query, sortField, sortDir);
                     }
                 }
             });
@@ -50,10 +54,16 @@ define(function (require) {
         $stateProvider
             .state('edit', {
                 parent: 'main',
-                url: '/edit/:entity/:id',
+                url: '/edit/:entity/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
                 template: editTemplate,
+                params: {
+                    entity: {},
+                    id: null,
+                    sortField: null,
+                    sortDir: null
+                },
                 resolve: {
                     data: function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
@@ -62,7 +72,10 @@ define(function (require) {
                         return CrudManager.getReferencedValues($stateParams.entity);
                     },
                     referencedListValues: function($stateParams, CrudManager, data) {
-                        return CrudManager.getReferencedListValues($stateParams.entity, data);
+                        var sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
+
+                        return CrudManager.getReferencedListValues($stateParams.entity, data, sortField, sortDir);
                     }
                 }
             });

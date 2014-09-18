@@ -138,7 +138,7 @@ define(function(require) {
      * @param {Number|Bool}  limit               the pagination limit
      * @param {Boolean}      fillSimpleReference should we fill Reference list
      * @param {String}       query               searchQuery to filter elements
-     * @param {String}       sortField           the field to be sorted
+     * @param {String}       sortField           the field to be sorted ex: entity.fieldName
      * @param {String}       sortDir             the direction of the sort
      *
      * @returns {promise} the entity config & the list of objects
@@ -159,18 +159,27 @@ define(function(require) {
             interceptor = entityConfig.interceptor(),
             params = entityConfig.getExtraParams(),
             headers = this.config.getHeaders(entityName, 'getAll'),
-            sortParams = entityConfig.getSortParams(sortField, sortDir),
+            sortEntity = sortField ? sortField.split('.')[0] : '',
+            sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField, sortDir) : null,
             response;
 
+        // Add sort param headers
+        if (sortParams && sortParams.headers) {
+            headers = angular.extend(headers, sortParams.headers);
+        }
+
+        // Add pagination params
         if (pagination && limit !== false) {
             params = angular.extend(params, pagination(page, perPage));
         }
 
-        if (sortParams) {
-            params = angular.extend(params, sortParams);
+        // Add sort params
+        if (sortParams && 'params' in sortParams) {
+            params = angular.extend(params, sortParams.params);
         }
 
-        if (typeof(query) !== 'undefined' && query.length) {
+        // Add query params
+        if (query && query.length) {
             var filterQuery = entityConfig.filterQuery();
             params = angular.extend(params, filterQuery(query));
         }
@@ -251,6 +260,7 @@ define(function(require) {
 
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     *
      * @param {String} entityName
      *
      * @returns {Promise}
@@ -277,18 +287,22 @@ define(function(require) {
 
     /**
      * Returns all ReferenceList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
+     *
      * @param {String} entityName
      * @param {Object} entityData
+     * @param {String} sortField
+     * @param {String} sortDir
+     *
      * @returns {Promise}
      */
-    CrudManager.prototype.getReferencedListValues = function(entityName, entityData) {
+    CrudManager.prototype.getReferencedListValues = function(entityName, entityData, sortField, sortDir) {
         var self = this,
             lists = this.getReferencedLists(entityName),
             entityId = entityData.entityId,
             calls = [];
 
         angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false))
+            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false, null, sortField, sortDir))
         });
 
         return this.$q.all(calls)

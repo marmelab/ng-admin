@@ -18,9 +18,14 @@ define(function(require) {
         var searchParams = this.$location.search();
 
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
+        this.$scope.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
+        this.$scope.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
+
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
         this.$scope.sort = this.sort.bind(this);
+        this.$scope.isSorting = this.isSorting.bind(this);
+        this.$scope.entity = this.entityConfig;
         this.$scope.entity = this.entityConfig;
         this.$scope.items = data.rawItems;
 
@@ -86,11 +91,11 @@ define(function(require) {
             return;
         }
 
-        this.changePage(this.$scope.filterQuery, number);
+        this.changePage(this.$scope.filterQuery, number, this.$scope.sortField, this.$scope.sortDir);
     };
 
     ListController.prototype.filter = function() {
-        this.changePage(this.$scope.filterQuery, 1);
+        this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir);
     };
 
     ListController.prototype.clearFilter = function() {
@@ -98,9 +103,9 @@ define(function(require) {
         this.filter();
     };
 
-    ListController.prototype.sort = function(column) {
+    ListController.prototype.sort = function(entity, field) {
         var dir = 'ASC',
-            field = column.field;
+            field = entity.getName() + '.' + field;
 
         if (this.$scope.sortField === field) {
             dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
@@ -109,15 +114,24 @@ define(function(require) {
         this.changePage(this.$scope.filterQuery, 1, field, dir);
     };
 
-    ListController.prototype.changePage = function(filter, page) {
+    ListController.prototype.changePage = function(filter, page, sortField, sortDir) {
         if (!filter.length) {
             filter = null;
         }
 
         this.$location.search('q', filter);
         this.$location.search('page', page);
+        this.$location.search('sortField', sortField);
+        this.$location.search('sortDir', sortDir);
         this.$location.path('/list/' + this.data.entityName);
         this.$anchorScroll(0);
+    };
+
+    ListController.prototype.clearParams = function() {
+        this.$location.search('q', null);
+        this.$location.search('page', null);
+        this.$location.search('sortField', null);
+        this.$location.search('sortDir', null);
     };
 
     /**
@@ -148,9 +162,23 @@ define(function(require) {
     };
 
     /**
+     * Return true if a column is being sorted
+     *
+     * @param {Entity} entity
+     * @param {String} field
+     *
+     * @returns {Boolean}
+     */
+    ListController.prototype.isSorting = function(entity, field) {
+        return this.$scope.sortField === entity.getName() + '.' + field;
+    };
+
+    /**
      * Link to entity creation page
      */
     ListController.prototype.create = function() {
+        this.clearParams();
+
         this.$location.path('/create/' + this.data.entityName);
         this.$anchorScroll(0);
     };
@@ -161,6 +189,8 @@ define(function(require) {
      * @param {Object} item
      */
     ListController.prototype.edit = function(item) {
+        this.clearParams();
+
         this.$location.path('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
         this.$anchorScroll(0);
     };

@@ -53,8 +53,12 @@ define(function (require) {
 
     var defaultSortParams = function (field, dir) {
         return {
-            _sort: field,
-            _sortDir: dir
+            params:{
+                _sort: field,
+                _sortDir: dir
+            },
+            headers: {
+            }
         };
     };
 
@@ -214,12 +218,7 @@ define(function (require) {
          * @returns {Object}
          */
         Entity.getSortParams = function(sortField, sortDir) {
-            var params = null;
-            if (sortField) {
-                params = typeof (config.sortParams) === 'function' ? config.sortParams(sortField, sortDir) : config.sortParams;
-            }
-
-            return params;
+            return typeof (config.sortParams) === 'function' ? config.sortParams(sortField, sortDir) : config.sortParams;
         };
 
         Entity.getListTitle = function() {
