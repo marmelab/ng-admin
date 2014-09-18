@@ -20,6 +20,7 @@ define(function(require) {
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
+        this.$scope.sort = this.sort.bind(this);
         this.$scope.entity = this.entityConfig;
         this.$scope.items = data.rawItems;
 
@@ -95,6 +96,17 @@ define(function(require) {
     ListController.prototype.clearFilter = function() {
         this.$scope.filterQuery = '';
         this.filter();
+    };
+
+    ListController.prototype.sort = function(column) {
+        var dir = 'ASC',
+            field = column.field;
+
+        if (this.$scope.sortField === field) {
+            dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
+        }
+
+        this.changePage(this.$scope.filterQuery, 1, field, dir);
     };
 
     ListController.prototype.changePage = function(filter, page) {

@@ -138,10 +138,12 @@ define(function(require) {
      * @param {Number|Bool}  limit               the pagination limit
      * @param {Boolean}      fillSimpleReference should we fill Reference list
      * @param {String}       query               searchQuery to filter elements
+     * @param {String}       sortField           the field to be sorted
+     * @param {String}       sortDir             the direction of the sort
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference, query) {
+    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference, query, sortField, sortDir) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
         fillSimpleReference = (typeof(fillSimpleReference) === 'undefined') ? true : fillSimpleReference;
 
@@ -157,10 +159,15 @@ define(function(require) {
             interceptor = entityConfig.interceptor(),
             params = entityConfig.getExtraParams(),
             headers = this.config.getHeaders(entityName, 'getAll'),
+            sortParams = entityConfig.getSortParams(sortField, sortDir),
             response;
 
         if (pagination && limit !== false) {
             params = angular.extend(params, pagination(page, perPage));
+        }
+
+        if (sortParams) {
+            params = angular.extend(params, sortParams);
         }
 
         if (typeof(query) !== 'undefined' && query.length) {

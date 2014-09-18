@@ -51,6 +51,13 @@ define(function (require) {
         return null;
     };
 
+    var defaultSortParams = function (field, dir) {
+        return {
+            _sort: field,
+            _sortDir: dir
+        };
+    };
+
     return function(entityName) {
         var name = entityName || 'entity';
         var fields = {};
@@ -69,6 +76,7 @@ define(function (require) {
             infinitePagination: false,
             totalItems: defaultTotalItems,
             extraParams: null,
+            sortParams: defaultSortParams,
             interceptor: null
         };
 
@@ -195,6 +203,20 @@ define(function (require) {
             var params = {};
             if (config.extraParams) {
                 params = typeof (config.extraParams) === 'function' ? config.extraParams() : config.extraParams;
+            }
+
+            return params;
+        };
+
+        /**
+         * Return configurables sorting params
+         *
+         * @returns {Object}
+         */
+        Entity.getSortParams = function(sortField, sortDir) {
+            var params = null;
+            if (sortField) {
+                params = typeof (config.sortParams) === 'function' ? config.sortParams(sortField, sortDir) : config.sortParams;
             }
 
             return params;

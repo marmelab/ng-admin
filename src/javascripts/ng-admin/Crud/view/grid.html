@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <td ng-repeat="column in columns">
-                {{ column.label }}
+                <a ng-click="sort(column)">{{ column.label }}</a>
             </td>
         </tr>
     </thead>
