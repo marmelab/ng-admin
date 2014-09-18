@@ -1,12 +1,17 @@
 define(['lib/config/Configurable'], function (Configurable) {
     "use strict";
 
+    function defaultHeaders() {
+        return {};
+    }
+
     return function(title) {
         var entities = {};
 
         var config = {
             title: title || "Angular admin",
-            baseApiUrl: "http://localhost:3000/"
+            baseApiUrl: "http://localhost:3000/",
+            headers: defaultHeaders
         };
 
         function Application() {
@@ -61,6 +66,10 @@ define(['lib/config/Configurable'], function (Configurable) {
          */
         Application.getEntityNames = function() {
             return Object.keys(entities);
+        };
+
+        Application.getHeaders = function(entityName, action) {
+            return typeof(config.headers) === 'function' ? config.headers(entityName, action) : config.headers;
         };
 
         Configurable(Application, config);
