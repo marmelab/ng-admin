@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
-    "angular-scenario": "1.2.15"
+    "angular-scenario": "1.2.15",
+    "almond": "~0.3.0"
   },
   "resolutions": {
     "angular": "~1.2.16"

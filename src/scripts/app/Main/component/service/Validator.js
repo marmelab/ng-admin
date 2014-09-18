@@ -1,11 +1,12 @@
-define(['config'], function(config) {
+define([], function() {
     'use strict';
 
-    function Validator() {
+    function Validator(Configuration) {
+        this.Configuration = Configuration;
     }
 
     Validator.prototype.validate = function(entityName, entity) {
-        var entityConfig = config.getEntity(entityName);
+        var entityConfig = this.Configuration.getEntity(entityName);
 
         if (typeof(entityConfig) === 'undefined') {
             return false;
@@ -19,6 +20,8 @@ define(['config'], function(config) {
             }
         });
     };
+
+    Validator.$inject = ['Configuration'];
 
     return Validator;
 });

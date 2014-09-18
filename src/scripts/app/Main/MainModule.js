@@ -1,7 +1,6 @@
 define(
     [
         'angular',
-        'config',
 
         'app/Main/component/controller/AppController',
         'app/Main/component/controller/DashboardController',
@@ -9,6 +8,8 @@ define(
 
         'app/Main/component/service/PanelBuilder',
         'app/Main/component/service/Validator',
+
+        'app/Main/component/provider/Configuration',
 
         'app/Main/component/filter/OrderElement',
 
@@ -20,7 +21,6 @@ define(
     ],
     function (
         angular,
-        config,
 
         AppController,
         DashboardController,
@@ -28,6 +28,8 @@ define(
 
         PanelBuilder,
         Validator,
+
+        Configuration,
 
         OrderElement,
 
@@ -38,7 +40,6 @@ define(
         "use strict";
 
         var MainModule = angular.module('main', ['ui.router', 'restangular']);
-        MainModule.constant('config', config);
 
         MainModule.controller('AppController', AppController);
         MainModule.controller('DashboardController', DashboardController);
@@ -46,6 +47,8 @@ define(
 
         MainModule.service('PanelBuilder', PanelBuilder);
         MainModule.service('Validator', Validator);
+
+        MainModule.provider('Configuration', Configuration);
 
         MainModule.filter('orderElement', OrderElement);
 

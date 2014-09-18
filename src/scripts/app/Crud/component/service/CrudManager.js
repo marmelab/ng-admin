@@ -1,22 +1,21 @@
 define([
-    'angular',
-    'config'
-], function(angular, ApplicationConfig) {
+    'angular'
+], function(angular) {
     'use strict';
 
     /**
      *
      * @param {$q} $q
      * @param {Restangular} Restangular
-     * @param {Application} config
+     * @param {Application} Configuration
      * @constructor
      */
-    function CrudManager($q, Restangular, config) {
+    function CrudManager($q, Restangular, Configuration) {
         this.$q = $q;
         this.Restangular = Restangular;
-        this.config = config || ApplicationConfig;
+        this.config = Configuration;
 
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
+        this.Restangular.setBaseUrl('' /*this.config.baseApiUrl()*/);
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
@@ -459,7 +458,7 @@ define([
         return values;
     };
 
-    CrudManager.$inject = ['$q', 'Restangular'];
+    CrudManager.$inject = ['$q', 'Restangular', 'Configuration'];
 
     return CrudManager;
 });
