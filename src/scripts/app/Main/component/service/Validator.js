@@ -2,7 +2,7 @@ define([], function() {
     'use strict';
 
     function Validator(Configuration) {
-        this.Configuration = Configuration;
+        this.Configuration = Configuration();
     }
 
     Validator.prototype.validate = function(entityName, entity) {

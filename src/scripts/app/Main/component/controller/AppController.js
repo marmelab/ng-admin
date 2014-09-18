@@ -8,7 +8,7 @@ define([], function() {
      */
     var AppController = function ($scope, Configuration) {
         this.$scope = $scope;
-        this.applicationName = '';//Configuration.title();
+        this.applicationName = Configuration().title();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

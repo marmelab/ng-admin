@@ -4,7 +4,7 @@ define([], function() {
     var SidebarController = function($scope, $location, Configuration) {
         this.$scope = $scope;
         this.$location = $location;
-        this.entities = []; //Configuration.getEntities();
+        this.entities = Configuration().getEntities();
 
         this.computeCurrentEntity();
         $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));

@@ -9,6 +9,13 @@ define(
         'app/Main/component/service/PanelBuilder',
         'app/Main/component/service/Validator',
 
+        'app/Main/component/service/config/Application',
+        'app/Main/component/service/config/Entity',
+        'app/Main/component/service/config/Field',
+        'app/Main/component/service/config/Reference',
+        'app/Main/component/service/config/ReferencedList',
+        'app/Main/component/service/config/ReferenceMany',
+
         'app/Main/component/provider/Configuration',
 
         'app/Main/component/filter/OrderElement',
@@ -29,6 +36,13 @@ define(
         PanelBuilder,
         Validator,
 
+        Application,
+        Entity,
+        Field,
+        Reference,
+        ReferencedList,
+        ReferenceMany,
+
         Configuration,
 
         OrderElement,
@@ -47,6 +61,13 @@ define(
 
         MainModule.service('PanelBuilder', PanelBuilder);
         MainModule.service('Validator', Validator);
+
+        MainModule.constant('Application', Application);
+        MainModule.constant('Entity', Entity);
+        MainModule.constant('Field', Field);
+        MainModule.constant('Reference', Reference);
+        MainModule.constant('ReferencedList', ReferencedList);
+        MainModule.constant('ReferenceMany', ReferenceMany);
 
         MainModule.provider('Configuration', Configuration);
 

@@ -13,9 +13,9 @@ define([
     function CrudManager($q, Restangular, Configuration) {
         this.$q = $q;
         this.Restangular = Restangular;
-        this.config = Configuration;
+        this.config = Configuration();
 
-        this.Restangular.setBaseUrl('' /*this.config.baseApiUrl()*/);
+        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 

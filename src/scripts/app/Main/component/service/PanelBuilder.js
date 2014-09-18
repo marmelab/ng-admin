@@ -10,7 +10,7 @@ define([], function() {
     function PanelBuilder($q, CrudManager, Configuration) {
         this.$q = $q;
         this.CrudManager = CrudManager;
-        this.Configuration = Configuration;
+        this.Configuration = Configuration();
     }
 
     /**
@@ -24,7 +24,7 @@ define([], function() {
             limit,
             self = this;
 
-        angular.forEach([] /*this.Configuration.getEntityNames()*/, function(entityName) {
+        angular.forEach(this.Configuration.getEntityNames(), function(entityName) {
             entity = self.Configuration.getEntity(entityName);
             limit = entity.dashboard();
 

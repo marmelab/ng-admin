@@ -1,4 +1,4 @@
-define(['lib/config/Configurable'], function (Configurable) {
+define(['app/Main/component/service/config/Configurable'], function (Configurable) {
     'use strict';
 
     /**

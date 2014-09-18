@@ -1,23 +1,24 @@
-define(['lib/config/Configurable'], function (Configurable) {
+define(['app/Main/component/service/config/Configurable'], function (Configurable) {
     'use strict';
 
     return function(fieldName) {
         var availableTypes = ['number', 'text', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
-        var name = fieldName || 'reference';
-        var value = null;
+        var name = fieldName || 'reference-many';
+        var values = null;
         var choices = {};
 
         var defaultValueTransformer = function(value) {
-            return value;
+            return (typeof value == 'object' && typeof value.length == 'number') ? value : [value];
         };
 
         var config = {
-            type: 'reference',
-            label: 'My reference',
+            type: 'reference-many',
+            label: 'My references',
             edition : 'editable',
             order: null,
             targetEntity : null,
+            targetField : null,
             targetLabel : null,
             valueTransformer : defaultValueTransformer,
             list: true,
@@ -31,17 +32,17 @@ define(['lib/config/Configurable'], function (Configurable) {
         /**
          * @constructor
          */
-        function Reference() {
+        function ReferenceMany() {
         }
 
-        Configurable(Reference, config);
+        Configurable(ReferenceMany, config);
 
         /**
          * Object.name is protected, use a getter for it
          *
          * @returns {string}
          */
-        Reference.getName = function() {
+        ReferenceMany.getName = function() {
             return name;
         };
 
@@ -50,7 +51,7 @@ define(['lib/config/Configurable'], function (Configurable) {
          * @param {String} edition
          * @returns string|Reference
          */
-        Reference.edition = function(edition) {
+        ReferenceMany.edition = function(edition) {
             if (arguments.length === 0) {
                 return config.edition;
             }
@@ -63,16 +64,16 @@ define(['lib/config/Configurable'], function (Configurable) {
             return this;
         };
 
-        Reference.getChoices = function() {
+        ReferenceMany.getChoices = function() {
             return choices;
         };
 
-        Reference.setChoices = function(c) {
+        ReferenceMany.setChoices = function(c) {
             choices = c;
 
             return this;
         };
 
-        return Reference;
+        return ReferenceMany;
     }
 });
