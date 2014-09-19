@@ -3,7 +3,7 @@ module.exports = function(config) {
         basePath: '../',
         frameworks: ['requirejs', 'jasmine'],
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
-        plugins: ['karma-requirejs', 'karma-jasmine', 'karma-phantomjs-launcher'],
+        plugins: ['karma-requirejs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
 
         files: [
             {pattern: 'src/scripts/bower_components/angular/angular.js', included: false},

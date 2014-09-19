@@ -61,7 +61,7 @@ define([
                 crudManager.getOne('human', 1)
                     .then(function() {
                         expect(Restangular.one).toHaveBeenCalledWith('human', 1);
-                        expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'});
+                        expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {});
                     });
             });
 
@@ -74,7 +74,7 @@ define([
                 crudManager.getAll('human')
                     .then(function() {
                         expect(Restangular.all).toHaveBeenCalledWith('human');
-                        expect(Restangular.getList).toHaveBeenCalledWith({key: 'abc', limit: 100, offset: 0});
+                        expect(Restangular.getList).toHaveBeenCalledWith({key: 'abc', limit: 100, offset: 0}, {});
                     });
             });
         });
