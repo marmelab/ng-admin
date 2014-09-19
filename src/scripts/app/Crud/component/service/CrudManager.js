@@ -35,7 +35,8 @@ define([
 
         var entityConfig = this.config.getEntity(entityName),
             interceptor = entityConfig.interceptor(),
-            params = entityConfig.getExtraParams();
+            params = entityConfig.getExtraParams(),
+            headers = this.config.getHeaders(entityName, 'getOne');
 
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
@@ -44,7 +45,7 @@ define([
         // Get element data
         return this.Restangular
             .one(entityName, entityId)
-            .get(params)
+            .get(params, headers)
             .then(function(response) {
 
                 var fields = entityConfig.getFields(),
@@ -80,10 +81,12 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
+        var headers = this.config.getHeaders(entityName, 'createOne');
+
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
-            .post();
+            .post(null, headers);
     };
 
     /**
@@ -100,10 +103,12 @@ define([
             return this.$q.reject('Entity ' + entityName + ' not found.');
         }
 
+        var headers = this.config.getHeaders(entityName, 'updateOne');
+
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
-            .put();
+            .put(null, headers);
     };
 
 
@@ -117,9 +122,11 @@ define([
      * @returns {promise}
      */
     CrudManager.prototype.deleteOne = function(entityName, entityId) {
+        var headers = this.config.getHeaders(entityName, 'deleteOne');
+
         return this.Restangular
             .one(entityName, entityId)
-            .remove();
+            .remove(null, headers);
     };
 
 
@@ -150,6 +157,7 @@ define([
             perPage = limit || entityConfig.perPage(),
             interceptor = entityConfig.interceptor(),
             params = entityConfig.getExtraParams(),
+            headers = this.config.getHeaders(entityName, 'getAll'),
             response;
 
         if (pagination && limit !== false) {
@@ -168,7 +176,7 @@ define([
         // Get grid data
         return this.Restangular
             .all(entityConfig.getName())
-            .getList(params)
+            .getList(params, headers)
             .then(function (data) {
                 response = data;
 
