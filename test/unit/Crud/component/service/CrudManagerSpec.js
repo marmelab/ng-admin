@@ -4,10 +4,10 @@ define('config', null);
 
 define([
     'app/Crud/component/service/CrudManager',
-    'lib/config/Application',
-    'lib/config/Entity',
-    'lib/config/Field',
-    'lib/config/Reference',
+    'app/Main/component/service/config/Application',
+    'app/Main/component/service/config/Entity',
+    'app/Main/component/service/config/Field',
+    'app/Main/component/service/config/Reference',
     'mixins',
     'mock/q',
     'mock/Restangular'

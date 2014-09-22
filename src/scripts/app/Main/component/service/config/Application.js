@@ -1,6 +1,6 @@
 define(function (require) {
     "use strict";
-    
+
     function defaultHeaders() {
         return {};
     }
