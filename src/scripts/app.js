@@ -1,73 +1,61 @@
 require.config({
     paths: {
-        'angular': 'bower_components/angular/angular'
+        'angular': 'bower_components/angular/angular',
+        'angular-resource': 'bower_components/angular-resource/angular-resource',
+        'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
+        'angular-route': 'bower_components/angular-route/angular-route',
+        'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+        'lodash': 'bower_components/lodash/dist/lodash.min',
+        'text' : 'bower_components/requirejs-text/text',
+        'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
+        'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
+        'restangular': 'bower_components/restangular/dist/restangular',
+        'humane': 'bower_components/humane/humane',
+        'nprogress': 'bower_components/nprogress/nprogress',
+
+        'MainModule': 'app/Main/MainModule',
+        'CrudModule': 'app/Crud/CrudModule'
     },
     shim: {
         'angular': {
             exports: 'angular'
+        },
+        'restangular': {
+            deps: ['angular', 'lodash']
+        },
+        'angular-ui-router': {
+            deps: ['angular']
+        },
+        'angular-bootstrap': {
+            deps: ['angular']
+        },
+        'angular-bootstrap-tpls': {
+            deps: ['angular', 'angular-bootstrap']
+        },
+        'jquery': {
+            exports: '$'
+        },
+        'angular-resource': {
+            deps: ['angular']
+        },
+        'angular-sanitize': {
+            deps: ['angular']
+        },
+        'angular-route': {
+            deps: ['angular']
+        },
+        'nprogress': {
+            exports: 'NProgress'
         }
     }
 });
-
 
 define(function(require) {
     "use strict";
 
     var angular = require('angular');
+    require('MainModule');
+    require('CrudModule');
 
-    angular.module('ng-admin', [/*'main', 'crud'*/]);
-
-    //// TMP
-    //var app = angular.module('myApp', ['ng-admin']);
-    //
-    //app.config(function(ConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
-    //    function truncate(value) {
-    //        return value.length > 50 ? value.substr(0, 50) + '...' : value;
-    //    }
-    //
-    //    var post = Entity('posts')
-    //        .label('Posts')
-    //        .order(1)
-    //        .dashboard(10)
-    //        .perPage(10)
-    //        .pagination(function(page, maxPerPage) {
-    //            return {
-    //                offset: (page - 1) * maxPerPage,
-    //                limit: maxPerPage
-    //            };
-    //        })
-    //        .titleCreate('Create a post')
-    //        .titleEdit('Edit a post')
-    //        .description('Lists all the blog posts with a simple pagination')
-    //        .addField(Field('id')
-    //            .label('ID')
-    //            .type('number')
-    //            .identifier(true)
-    //            .edition('read-only')
-    //        )
-    //        .addField(Field('title')
-    //            .label('Title')
-    //            .edition('editable')
-    //            .truncateList(truncate)
-    //        )
-    //        .addField(Field('body')
-    //            .label('Body')
-    //            .type('text')
-    //            .edition('editable')
-    //            .truncateList(truncate)
-    //        );
-    //
-    //    var app = Application('ng-admin backend demo')
-    //        .baseApiUrl('http://localhost:3000/')
-    //        .addEntity(post);
-    //
-    //    ConfigurationProvider.configure(app);
-    //});
-    //
-    //// we add the ng-app attribute for pure debugging purposes
-    //// historically, it was needed in case angular scenario was used for e2e tests
-    //document.body.setAttribute('ng-app', 'myApp');
-    //
-    //// async resource download implies async angular app bootstrap
-    //angular.bootstrap(document.body, ['myApp']);
+    angular.module('ng-admin', ['main', 'crud']);
 });

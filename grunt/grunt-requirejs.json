@@ -19,9 +19,9 @@
             "mainConfigFile": "src/scripts/app.js",
             "include": ["app"],
             "name": "bower_components/almond/almond",
-            "out": "./src/ng-admin.min.js",
+            "out": "./src/build/ng-admin.min.js",
 
-            "optimize": "uglify2",
+            "optimize": "none",
             "preserveLicenseComments": false,
             "findNestedDependencies": true,
             "generateSourceMaps": false,

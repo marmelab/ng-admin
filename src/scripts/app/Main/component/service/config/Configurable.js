@@ -1,6 +1,6 @@
 // @see: https://github.com/marmelab/gremlins.js/blob/master/src/utils/configurable.js
 
-define([], function () {
+define(function () {
     "use strict";
 
     function configurable(targetFunction, config) {

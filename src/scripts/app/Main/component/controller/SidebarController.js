@@ -1,4 +1,4 @@
-define([], function() {
+define(function() {
     'use strict';
 
     var SidebarController = function($scope, $location, Configuration) {

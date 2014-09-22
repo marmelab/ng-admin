@@ -111,7 +111,7 @@ module.exports = function (grunt) {
     grunt.registerTask('assets:js', ['requirejs:dev']);
     grunt.registerTask('assets:css', ['compass:dev']);
     grunt.registerTask('test', ['karma']);
-    grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'concat', 'clean:build']);
+    grunt.registerTask('build', ['requirejs:prod', /*'ngAnnotate', 'concat',*/ 'clean:build']);
 
     // register default task
     grunt.registerTask('default', ['concurrent:assets_all_dev', 'concurrent:connect_watch']);

@@ -1,8 +1,8 @@
-define([
-    'humane',
-    'nprogress'
-], function(humane, NProgress) {
+define(function() {
     'use strict';
+
+    var humane = require('humane'),
+        NProgress = require('nprogress');
 
     var FormController = function($scope, $location, $filter, CrudManager, Validator, data) {
         var isNew = typeof(data.entityId) === 'undefined';

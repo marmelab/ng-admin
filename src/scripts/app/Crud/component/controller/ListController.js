@@ -1,7 +1,7 @@
-define([
-    'nprogress'
-], function(NProgress) {
+define(function(require) {
     'use strict';
+
+    var NProgress = require('nprogress');
 
     var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;

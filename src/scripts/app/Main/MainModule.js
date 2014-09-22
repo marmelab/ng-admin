@@ -1,82 +1,55 @@
-define(
-    [
-        'angular',
+define(function (require) {
+    var angular = require('angular'),
+        AppController = require('app/Main/component/controller/AppController'),
+        DashboardController = require('app/Main/component/controller/DashboardController'),
+        SidebarController = require('app/Main/component/controller/SidebarController'),
 
-        'app/Main/component/controller/AppController',
-        'app/Main/component/controller/DashboardController',
-        'app/Main/component/controller/SidebarController',
+        PanelBuilder = require('app/Main/component/service/PanelBuilder'),
+        Validator = require('app/Main/component/service/Validator'),
 
-        'app/Main/component/service/PanelBuilder',
-        'app/Main/component/service/Validator',
+        Application = require('app/Main/component/service/config/Application'),
+        Entity = require('app/Main/component/service/config/Entity'),
+        Field = require('app/Main/component/service/config/Field'),
+        Reference = require('app/Main/component/service/config/Reference'),
+        ReferencedList = require('app/Main/component/service/config/ReferencedList'),
+        ReferenceMany = require('app/Main/component/service/config/ReferenceMany'),
 
-        'app/Main/component/service/config/Application',
-        'app/Main/component/service/config/Entity',
-        'app/Main/component/service/config/Field',
-        'app/Main/component/service/config/Reference',
-        'app/Main/component/service/config/ReferencedList',
-        'app/Main/component/service/config/ReferenceMany',
+        Configuration = require('app/Main/component/provider/Configuration'),
 
-        'app/Main/component/provider/Configuration',
+        OrderElement = require('app/Main/component/filter/OrderElement'),
 
-        'app/Main/component/filter/OrderElement',
+        routing = require('app/Main/config/routing'),
 
-        'app/Main/config/routing',
+        loader = require('app/Main/run/Loader');
 
-        'app/Main/run/Loader',
+    require('angular-ui-router');
+    require('restangular');
 
-        'angular-ui-router', 'restangular'
-    ],
-    function (
-        angular,
+    "use strict";
 
-        AppController,
-        DashboardController,
-        SidebarController,
+    var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
-        PanelBuilder,
-        Validator,
+    MainModule.controller('AppController', AppController);
+    MainModule.controller('DashboardController', DashboardController);
+    MainModule.controller('SidebarController', SidebarController);
 
-        Application,
-        Entity,
-        Field,
-        Reference,
-        ReferencedList,
-        ReferenceMany,
+    MainModule.service('PanelBuilder', PanelBuilder);
+    MainModule.service('Validator', Validator);
 
-        Configuration,
+    MainModule.constant('Application', Application);
+    MainModule.constant('Entity', Entity);
+    MainModule.constant('Field', Field);
+    MainModule.constant('Reference', Reference);
+    MainModule.constant('ReferencedList', ReferencedList);
+    MainModule.constant('ReferenceMany', ReferenceMany);
 
-        OrderElement,
+    MainModule.provider('Configuration', Configuration);
 
-        routing,
+    MainModule.filter('orderElement', OrderElement);
 
-        loader
-        ) {
-        "use strict";
+    MainModule.config(routing);
 
-        var MainModule = angular.module('main', ['ui.router', 'restangular']);
+    MainModule.run(loader);
 
-        MainModule.controller('AppController', AppController);
-        MainModule.controller('DashboardController', DashboardController);
-        MainModule.controller('SidebarController', SidebarController);
-
-        MainModule.service('PanelBuilder', PanelBuilder);
-        MainModule.service('Validator', Validator);
-
-        MainModule.constant('Application', Application);
-        MainModule.constant('Entity', Entity);
-        MainModule.constant('Field', Field);
-        MainModule.constant('Reference', Reference);
-        MainModule.constant('ReferencedList', ReferencedList);
-        MainModule.constant('ReferenceMany', ReferenceMany);
-
-        MainModule.provider('Configuration', Configuration);
-
-        MainModule.filter('orderElement', OrderElement);
-
-        MainModule.config(routing);
-
-        MainModule.run(loader);
-
-        return MainModule;
-    }
-);
+    return MainModule;
+});
