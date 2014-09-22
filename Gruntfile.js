@@ -10,17 +10,17 @@ module.exports = function (grunt) {
 
         ngAnnotate: {
             ngadmin: {
-                src: ['src/build/common.js', 'src/build/ng-admin.js', 'src/build/app.js']
+                files: {
+                    'src/build/ng-admin.min.js': ['src/build/ng-admin.min.js']
+                }
             }
         },
 
-        concat: {
-            options: {
-                separator: ';'
-            },
-            dist: {
-                src: [],
-                dest: 'src/build/ng-admin.min.js'
+        uglify: {
+            ngadmin: {
+                files: {
+                    'src/build/ng-admin.min.js': ['src/build/ng-admin.min.js']
+                }
             }
         },
 
@@ -92,8 +92,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
@@ -102,7 +102,7 @@ module.exports = function (grunt) {
     grunt.registerTask('assets:js', ['requirejs:dev']);
     grunt.registerTask('assets:css', ['compass:dev']);
     grunt.registerTask('test', ['karma']);
-    grunt.registerTask('build', ['requirejs:prod', /*'ngAnnotate', 'concat',*/ 'clean:build']);
+    grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify']);
 
     // register default task
     grunt.registerTask('default', ['concurrent:assets_all_dev', 'concurrent:connect_watch']);
