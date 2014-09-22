@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function(ConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+    app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
         function truncate(value) {
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
@@ -127,6 +127,6 @@
             .addEntity(comment)
             .addEntity(tag);
 
-        ConfigurationProvider.configure(app);
+        NgAdminConfigurationProvider.configure(app);
     })
 })();

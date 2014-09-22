@@ -21,7 +21,7 @@ define(function() {
         });
     };
 
-    Validator.$inject = ['Configuration'];
+    Validator.$inject = ['NgAdminConfiguration'];
 
     return Validator;
 });

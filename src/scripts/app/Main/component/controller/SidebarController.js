@@ -35,7 +35,7 @@ define(function() {
         this.$location = undefined;
     };
 
-    SidebarController.$inject = ['$scope', '$location', 'Configuration'];
+    SidebarController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
 
     return SidebarController;
 });

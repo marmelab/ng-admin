@@ -458,7 +458,7 @@ define(function(require) {
         return values;
     };
 
-    CrudManager.$inject = ['$q', 'Restangular', 'Configuration'];
+    CrudManager.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
     return CrudManager;
 });

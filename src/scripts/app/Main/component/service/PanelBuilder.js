@@ -36,7 +36,7 @@ define(function() {
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', 'CrudManager', 'Configuration'];
+    PanelBuilder.$inject = ['$q', 'CrudManager', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });

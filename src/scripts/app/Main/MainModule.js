@@ -14,7 +14,7 @@ define(function (require) {
         ReferencedList = require('app/Main/component/service/config/ReferencedList'),
         ReferenceMany = require('app/Main/component/service/config/ReferenceMany'),
 
-        Configuration = require('app/Main/component/provider/Configuration'),
+        NgAdminConfiguration = require('app/Main/component/provider/NgAdminConfiguration'),
 
         OrderElement = require('app/Main/component/filter/OrderElement'),
 
@@ -43,7 +43,7 @@ define(function (require) {
     MainModule.constant('ReferencedList', ReferencedList);
     MainModule.constant('ReferenceMany', ReferenceMany);
 
-    MainModule.provider('Configuration', Configuration);
+    MainModule.provider('NgAdminConfiguration', NgAdminConfiguration);
 
     MainModule.filter('orderElement', OrderElement);
 
