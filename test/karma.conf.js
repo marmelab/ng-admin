@@ -14,12 +14,8 @@ module.exports = function(config) {
             {pattern: 'src/scripts/app/**/config/**/*.js', included: false},
             {pattern: 'src/scripts/app/**/view/**/*.html', included: false},
 
-            // require configuration files
-            'src/scripts/app.js',
-
             // Test files
             {pattern: 'test/unit/**/**/*.js', included: false},
-            {pattern: 'test/unit/lib/**/*.js', included: false},
             {pattern: 'test/mock/*.js', included: false},
 
             // Test bootstrap

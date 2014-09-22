@@ -1,18 +1,16 @@
 /*global require,describe,module,beforeEach,inject,it,expect*/
 
-define('config', null);
-
-define([
-    'app/Crud/component/service/CrudManager',
-    'app/Main/component/service/config/Application',
-    'app/Main/component/service/config/Entity',
-    'app/Main/component/service/config/Field',
-    'app/Main/component/service/config/Reference',
-    'mixins',
-    'mock/q',
-    'mock/Restangular'
-], function(CrudManager, Application, Entity, Field, Reference, mixins, $q, Restangular) {
+define(function(require) {
     'use strict';
+
+    var CrudManager = require('app/Crud/component/service/CrudManager'),
+        Application = require('app/Main/component/service/config/Application'),
+        Entity = require('app/Main/component/service/config/Entity'),
+        Field = require('app/Main/component/service/config/Field'),
+        Reference = require('app/Main/component/service/config/Reference'),
+        mixins = require('mixins'),
+        $q = require('mock/q'),
+        Restangular = require('mock/Restangular');
 
     describe("Service: CrudManager", function() {
         var crudManager,
@@ -47,9 +45,13 @@ define([
                 }))
                 .addField(Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
 
-            var config = Application('test')
+            var rawConfig = Application('test')
                 .addEntity(catEntity)
                 .addEntity(humanEntity);
+
+            var config = function() {
+                return rawConfig;
+            };
 
             crudManager = new CrudManager($q, Restangular, config);
         });

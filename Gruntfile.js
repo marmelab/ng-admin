@@ -14,14 +14,6 @@ module.exports = function (grunt) {
             }
         },
 
-        uglify: {
-            ngadmin: {
-                files: {
-                    'src/build/ng-admin.min.js': ['src/build/common.js', 'src/build/ng-admin.js', 'src/build/app.js']
-                }
-            }
-        },
-
         concat: {
             options: {
                 separator: ';'
@@ -102,7 +94,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
