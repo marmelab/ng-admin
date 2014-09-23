@@ -54,7 +54,8 @@ define(function(require) {
 
             columns.push({
                 field: field.getName(),
-                label: field.label()
+                label: field.label(),
+                isEditLink: field.isEditLink()
             });
         });
 

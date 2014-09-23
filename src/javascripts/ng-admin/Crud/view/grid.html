@@ -17,7 +17,12 @@
                 <a ng-click="edit(item, entity)" ng-switch-when="reference-many" class="multiple">
                     <span ng-repeat="ref in item[column.field]" class="label label-default">{{ ref }}</span>
                 </a>
-                <a ng-click="edit(item, entity)" ng-switch-default>{{ item[column.field] }}</a>
+
+                <span ng-switch-default ng-switch="column.isEditLink">
+                    <a ng-click="edit(item, entity)" ng-switch-when="true">{{ item[column.field] }}</a>
+
+                    <span ng-switch-default ng-bind-html="item[column.field]"></span>
+                </span>
             </td>
         </tr>
     </tbody>

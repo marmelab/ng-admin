@@ -18,6 +18,7 @@ define(function (require) {
             list: false,
             order: null,
             valueTransformer : defaultValueTransformer,
+            isEditLink: true,
             targetEntity : null,
             targetField : null,
             targetFields : [],
@@ -31,6 +32,7 @@ define(function (require) {
          */
         function ReferencedList(label) {
             this.label(label);
+            this.entity = null;
         }
 
         /**
@@ -77,6 +79,10 @@ define(function (require) {
             }
 
             return columns;
+        };
+
+        ReferencedList.setEntity = function(e) {
+            this.entity = e;
         };
 
         Configurable(ReferencedList, config);

@@ -157,7 +157,18 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
              return {
                  created_at: [year, month, day].join('-')
              }
-         });
+        })
+		.addField(Field('actions')
+            .type('callback')
+            .list(true)
+            .label('Actions')
+            // Disable default link on the list view
+            .isEditLink(false)
+            // Add a new link to the post thanks to callback
+            .callback(function(entity) {
+                return '<a href="#/edit/posts/' + entity.post_id + '">View post</a>';
+            })
+        );
 
     var post = Entity('posts')
         .label('Posts')

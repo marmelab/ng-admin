@@ -61,7 +61,8 @@ define(function(require) {
                     fields: fields,
                     entityConfig : entityConfig,
                     entityName: entityName,
-                    entityId : entityId
+                    entityId : entityId,
+                    rawData: entity
                 };
             });
     };
@@ -213,7 +214,9 @@ define(function(require) {
                     var entity = entities[i];
 
                     angular.forEach(fields, function(field, fieldName) {
-                        if (field.getName() in entity) {
+                        if (field.type() === 'callback') {
+                            entities[i][fieldName] = field.getCallbackValue(entity);
+                        } else if (field.getName() in entity) {
                             entities[i][fieldName] = field.valueTransformer()(entity[field.getName()]);
                         }
                     });

@@ -4,12 +4,16 @@ define(function (require) {
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     return function(fieldName) {
-        var availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date'];
+        var availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'callback'];
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'field';
 
         var defaultValueTransformer = function(value) {
             return value;
+        };
+
+        var defaultValueCallback = function(Entity) {
+            return '';
         };
 
         var config = {
@@ -23,6 +27,8 @@ define(function (require) {
             list: true,
             dashboard: true,
             truncateList: false,
+            isEditLink: true,
+            callback: defaultValueCallback,
             validation: {
                 required: false
             }
@@ -33,6 +39,7 @@ define(function (require) {
          */
         function Field() {
             this.value = null;
+            this.entity = null;
         }
 
         Configurable(Field, config);
@@ -44,6 +51,15 @@ define(function (require) {
          */
         Field.getName = function() {
             return name;
+        };
+
+        /**
+         * Return field value
+         *
+         * @returns mixed
+         */
+        Field.getCallbackValue = function(data) {
+            return this.callback()(data);
         };
 
         /**
@@ -90,6 +106,10 @@ define(function (require) {
             }
 
             return value;
+        };
+
+        Field.setEntity = function(e) {
+            this.entity = e;
         };
 
         return Field;

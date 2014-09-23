@@ -14,8 +14,8 @@
 
         function pagination(page, maxPerPage) {
             return {
-                offset: (page - 1) * maxPerPage,
-                limit: maxPerPage
+                _start: (page - 1) * maxPerPage,
+                _end: page * maxPerPage
             }
         }
 
@@ -84,6 +84,14 @@
                 .edition('editable')
                 .validation({
                     "required": true
+                })
+            ).addField(Field('actions')
+                .type('callback')
+                .list(true)
+                .label('Actions')
+                .isEditLink(false)
+                .callback(function(entity) {
+                    return '<a href="#/edit/posts/' + entity.post_id + '">View post</a>';
                 })
             );
 
