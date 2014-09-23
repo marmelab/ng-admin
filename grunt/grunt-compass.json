@@ -4,7 +4,6 @@
             "cssDir": "build",
             "sassDir": "src/sass",
             "environment": "development",
-            "relativeAssets": true,
             "specify": ["src/sass/ng-admin.scss"]
         }
     },

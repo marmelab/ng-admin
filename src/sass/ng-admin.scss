@@ -1,4 +1,4 @@
-$icon-font-path: "../src/javascripts/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_components/", "../../") + "bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 
 // bower:scss
 @import "../javascripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";

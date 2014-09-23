@@ -40,11 +40,18 @@ module.exports = function (grunt) {
             build : ["build/*", "!build/*.min.js", "!build/*.min.css"]
         },
 
+        copy: {
+            css_dev: {
+                src: 'build/ng-admin.css',
+                dest: 'build/ng-admin.min.css'
+            }
+        },
+
         connect: {
             server: {
                 options: {
                     port: 8000,
-                    base: '/',
+                    base: '.',
                     keepalive: true
                 }
             }
@@ -54,7 +61,7 @@ module.exports = function (grunt) {
         watch: {
             configFiles: {
                 files: ['Gruntfile.js','grunt/grunt-*.json'],
-                tasks: ['concurrent:assets_all_dev'],
+                tasks: ['build:dev'],
                 options: {
                     // reload watchers since configuration may have changed
                     reload: true
@@ -80,7 +87,6 @@ module.exports = function (grunt) {
 
         concurrent: {
             assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            assets_all_prod: ['requirejs:prod', 'compass:prod'],
             connect_watch: ['connect', 'watch']
         }
     });
@@ -93,15 +99,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('assets:js', ['requirejs:dev']);
-    grunt.registerTask('assets:css', ['compass:dev']);
     grunt.registerTask('test', ['karma']);
+    grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
 
     // register default task
-    grunt.registerTask('default', ['concurrent:assets_all_dev', 'concurrent:connect_watch']);
+    grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);
 };
