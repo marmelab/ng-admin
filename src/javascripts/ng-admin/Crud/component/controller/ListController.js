@@ -70,11 +70,12 @@ define(function(require) {
         }
 
         var self = this;
+
         this.loadingPage = true;
         this.currentPage++;
 
         NProgress.start();
-        this.CrudManager.getAll(entityConfig.getName(), this.currentPage).then(function(nextData) {
+        this.CrudManager.getAll(entityConfig.getName(), this.currentPage, null, true, null, this.$scope.sortField, this.$scope.sortDir).then(function(nextData) {
             NProgress.done();
             self.$scope.items = self.$scope.items.concat(nextData.rawItems);
             self.loadingPage = false;
