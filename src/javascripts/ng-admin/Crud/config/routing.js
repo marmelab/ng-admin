@@ -23,14 +23,14 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: function($stateParams, CrudManager) {
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         var page = $stateParams.page,
                             query = $stateParams.q,
                             sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
                         return CrudManager.getAll($stateParams.entity, page, null, true, query, sortField, sortDir);
-                    }
+                    }]
                 }
             });
 
@@ -42,12 +42,12 @@ define(function (require) {
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
-                    data: function($stateParams, CrudManager) {
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
-                    },
-                    referencedValues: function($stateParams, CrudManager) {
+                    }],
+                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
-                    }
+                    }]
                 }
             });
 
@@ -65,18 +65,18 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    data: function($stateParams, CrudManager) {
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
-                    },
-                    referencedValues: function($stateParams, CrudManager) {
+                    }],
+                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
-                    },
-                    referencedListValues: function($stateParams, CrudManager, data) {
+                    }],
+                    referencedListValues: ['$stateParams', 'data', 'CrudManager', function($stateParams, data, CrudManager) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
                         return CrudManager.getReferencedListValues($stateParams.entity, data, sortField, sortDir);
-                    }
+                    }]
                 }
             });
 
@@ -88,9 +88,9 @@ define(function (require) {
                 controllerAs: 'deleteController',
                 template: deleteTemplate,
                 resolve: {
-                    params: function($stateParams) {
+                    params: ['$stateParams', function($stateParams) {
                         return $stateParams;
-                    }
+                    }]
                 }
             });
 
