@@ -51,6 +51,17 @@ define(function (require) {
         return null;
     };
 
+    var defaultSortParams = function (field, dir) {
+        return {
+            params:{
+                _sort: field,
+                _sortDir: dir
+            },
+            headers: {
+            }
+        };
+    };
+
     return function(entityName) {
         var name = entityName || 'entity';
         var fields = {};
@@ -69,6 +80,7 @@ define(function (require) {
             infinitePagination: false,
             totalItems: defaultTotalItems,
             extraParams: null,
+            sortParams: defaultSortParams,
             interceptor: null
         };
 
@@ -198,6 +210,15 @@ define(function (require) {
             }
 
             return params;
+        };
+
+        /**
+         * Return configurables sorting params
+         *
+         * @returns {Object}
+         */
+        Entity.getSortParams = function(sortField, sortDir) {
+            return typeof (config.sortParams) === 'function' ? config.sortParams(sortField, sortDir) : config.sortParams;
         };
 
         Entity.getListTitle = function() {

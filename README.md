@@ -101,6 +101,18 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
         .dashboard(10)
         .infinitePagination(true)
         .filterQuery(false)
+        .sortParams(function(field, dir) {
+            return {
+                // Change sorting params
+                params: {
+                    sort: field,
+                    sortDir: dir
+                },
+                // You can also want to sort via headers
+                headers: {
+                }
+            }
+        })
         .addField(postId = Field('id')
             .order(1)
             .label('ID')

@@ -11,22 +11,26 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?q&page',
+                url: '/list/:entity?q&page&sortField&sortDir',
                 params: {
                     entity: {},
                     q: null,
-                    page: 1
+                    page: 1,
+                    sortField: null,
+                    sortDir: null
                 },
                 controller: 'ListController',
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: function($stateParams, CrudManager) {
-                        var page = $stateParams.page;
-                        var query = $stateParams.q;
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                        var page = $stateParams.page,
+                            query = $stateParams.q,
+                            sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
 
-                        return CrudManager.getAll($stateParams.entity, page, null, true, query);
-                    }
+                        return CrudManager.getAll($stateParams.entity, page, null, true, query, sortField, sortDir);
+                    }]
                 }
             });
 
@@ -38,32 +42,41 @@ define(function (require) {
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
-                    data: function($stateParams, CrudManager) {
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
-                    },
-                    referencedValues: function($stateParams, CrudManager) {
+                    }],
+                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
-                    }
+                    }]
                 }
             });
 
         $stateProvider
             .state('edit', {
                 parent: 'main',
-                url: '/edit/:entity/:id',
+                url: '/edit/:entity/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
                 template: editTemplate,
+                params: {
+                    entity: {},
+                    id: null,
+                    sortField: null,
+                    sortDir: null
+                },
                 resolve: {
-                    data: function($stateParams, CrudManager) {
+                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
-                    },
-                    referencedValues: function($stateParams, CrudManager) {
+                    }],
+                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
-                    },
-                    referencedListValues: function($stateParams, CrudManager, data) {
-                        return CrudManager.getReferencedListValues($stateParams.entity, data);
-                    }
+                    }],
+                    referencedListValues: ['$stateParams', 'data', 'CrudManager', function($stateParams, data, CrudManager) {
+                        var sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
+
+                        return CrudManager.getReferencedListValues($stateParams.entity, data, sortField, sortDir);
+                    }]
                 }
             });
 
@@ -75,9 +88,9 @@ define(function (require) {
                 controllerAs: 'deleteController',
                 template: deleteTemplate,
                 resolve: {
-                    params: function($stateParams) {
+                    params: ['$stateParams', function($stateParams) {
                         return $stateParams;
-                    }
+                    }]
                 }
             });
 

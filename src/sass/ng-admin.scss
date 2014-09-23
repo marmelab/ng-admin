@@ -108,6 +108,11 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
             border-bottom: 1px solid #E7E7E7;
             font-weight: bold;
             background-color: #FFFFFF;
+
+            .glyphicon {
+                font-size: 13px;
+                color: #aaa;
+            }
         }
     }
 

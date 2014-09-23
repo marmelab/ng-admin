@@ -20,10 +20,16 @@ define(function() {
             this.clear();
         }
 
+        var searchParams = this.$location.search();
+        this.$scope.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
+        this.$scope.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
+
         this.fields = data.fields;
         this.entityLabel = data.entityConfig.label();
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
+        this.$scope.sort = this.sort.bind(this);
+        this.$scope.isSorting = this.isSorting.bind(this);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -134,6 +140,35 @@ define(function() {
      */
     FormController.prototype.itemClass = function(index) {
         return (index % 2 === 0) ? 'even' : 'odd';
+    };
+
+    FormController.prototype.sort = function(entity, field) {
+        var dir = 'ASC',
+            field = entity.getName() + '.' + field;
+
+        if (this.$scope.sortField === field) {
+            dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
+        }
+
+        this.changePage(this.$scope.filterQuery, 1, field, dir);
+    };
+
+    FormController.prototype.changePage = function(filter, page, sortField, sortDir) {
+        this.$location.search('sortField', sortField);
+        this.$location.search('sortDir', sortDir);
+        this.$location.path('/edit/' + this.data.entityConfig.getName() + '/' + this.data.entityId);
+    };
+
+    /**
+     * Return true if a column is being sorted
+     *
+     * @param {Entity} entity
+     * @param {String} field
+     *
+     * @returns {Boolean}
+     */
+    FormController.prototype.isSorting = function(entity, field) {
+        return this.$scope.sortField === entity.getName() + '.' + field;
     };
 
     /**
