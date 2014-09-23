@@ -1,58 +1,55 @@
-define(
-    [
-        'angular',
-        'config',
+define(function (require) {
+    var angular = require('angular'),
+        AppController = require('app/Main/component/controller/AppController'),
+        DashboardController = require('app/Main/component/controller/DashboardController'),
+        SidebarController = require('app/Main/component/controller/SidebarController'),
 
-        'app/Main/component/controller/AppController',
-        'app/Main/component/controller/DashboardController',
-        'app/Main/component/controller/SidebarController',
+        PanelBuilder = require('app/Main/component/service/PanelBuilder'),
+        Validator = require('app/Main/component/service/Validator'),
 
-        'app/Main/component/service/PanelBuilder',
-        'app/Main/component/service/Validator',
+        Application = require('app/Main/component/service/config/Application'),
+        Entity = require('app/Main/component/service/config/Entity'),
+        Field = require('app/Main/component/service/config/Field'),
+        Reference = require('app/Main/component/service/config/Reference'),
+        ReferencedList = require('app/Main/component/service/config/ReferencedList'),
+        ReferenceMany = require('app/Main/component/service/config/ReferenceMany'),
 
-        'app/Main/component/filter/OrderElement',
+        NgAdminConfiguration = require('app/Main/component/provider/NgAdminConfiguration'),
 
-        'app/Main/config/routing',
+        OrderElement = require('app/Main/component/filter/OrderElement'),
 
-        'app/Main/run/Loader',
+        routing = require('app/Main/config/routing'),
 
-        'angular-ui-router', 'restangular'
-    ],
-    function (
-        angular,
-        config,
+        loader = require('app/Main/run/Loader');
 
-        AppController,
-        DashboardController,
-        SidebarController,
+    require('angular-ui-router');
+    require('restangular');
 
-        PanelBuilder,
-        Validator,
+    "use strict";
 
-        OrderElement,
+    var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
-        routing,
+    MainModule.controller('AppController', AppController);
+    MainModule.controller('DashboardController', DashboardController);
+    MainModule.controller('SidebarController', SidebarController);
 
-        loader
-        ) {
-        "use strict";
+    MainModule.service('PanelBuilder', PanelBuilder);
+    MainModule.service('Validator', Validator);
 
-        var MainModule = angular.module('main', ['ui.router', 'restangular']);
-        MainModule.constant('config', config);
+    MainModule.constant('Application', Application);
+    MainModule.constant('Entity', Entity);
+    MainModule.constant('Field', Field);
+    MainModule.constant('Reference', Reference);
+    MainModule.constant('ReferencedList', ReferencedList);
+    MainModule.constant('ReferenceMany', ReferenceMany);
 
-        MainModule.controller('AppController', AppController);
-        MainModule.controller('DashboardController', DashboardController);
-        MainModule.controller('SidebarController', SidebarController);
+    MainModule.provider('NgAdminConfiguration', NgAdminConfiguration);
 
-        MainModule.service('PanelBuilder', PanelBuilder);
-        MainModule.service('Validator', Validator);
+    MainModule.filter('orderElement', OrderElement);
 
-        MainModule.filter('orderElement', OrderElement);
+    MainModule.config(routing);
 
-        MainModule.config(routing);
+    MainModule.run(loader);
 
-        MainModule.run(loader);
-
-        return MainModule;
-    }
-);
+    return MainModule;
+});

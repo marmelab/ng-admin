@@ -1,16 +1,16 @@
-define([
-    'config'
-], function(config) {
+define(function() {
     'use strict';
 
     /**
      * @param {$q} $q
      * @param {CrudManager} CrudManager
+     * @param {Configuration} Configuration
      * @constructor
      */
-    function PanelBuilder($q, CrudManager) {
+    function PanelBuilder($q, CrudManager, Configuration) {
         this.$q = $q;
         this.CrudManager = CrudManager;
+        this.Configuration = Configuration();
     }
 
     /**
@@ -24,8 +24,8 @@ define([
             limit,
             self = this;
 
-        angular.forEach(config.getEntityNames(), function(entityName) {
-            entity = config.getEntity(entityName);
+        angular.forEach(this.Configuration.getEntityNames(), function(entityName) {
+            entity = self.Configuration.getEntity(entityName);
             limit = entity.dashboard();
 
             if (limit) {
@@ -36,7 +36,7 @@ define([
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', 'CrudManager'];
+    PanelBuilder.$inject = ['$q', 'CrudManager', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });

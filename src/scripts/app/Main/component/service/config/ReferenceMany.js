@@ -1,5 +1,7 @@
-define(['lib/config/Configurable'], function (Configurable) {
+define(function (require) {
     'use strict';
+
+    var Configurable = require('app/Main/component/service/config/Configurable');
 
     return function(fieldName) {
         var availableTypes = ['number', 'text', 'email', 'date'];

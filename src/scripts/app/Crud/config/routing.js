@@ -1,10 +1,10 @@
-define([
-    'text!../view/list.html',
-    'text!../view/create.html',
-    'text!../view/edit.html',
-    'text!../view/delete.html'
-], function (listTemplate, createTemplate, editTemplate, deleteTemplate) {
+define(function (require) {
     "use strict";
+
+    var listTemplate = require('text!../view/list.html'),
+        createTemplate = require('text!../view/create.html'),
+        editTemplate = require('text!../view/edit.html'),
+        deleteTemplate = require('text!../view/delete.html');
 
     var routing = function ($stateProvider) {
 

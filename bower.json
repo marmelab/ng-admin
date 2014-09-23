@@ -13,7 +13,6 @@
     "jquery": "~1.11.0",
     "requirejs": "~2.1.14",
     "requirejs-text": "~2.0.12",
-    "requirejs-domready": "~2.0.1",
     "bootstrap-sass-official": "~3.1.0",
     "restangular": "~1.4.0",
     "angular-ui-router": "~0.2.10",
@@ -24,7 +23,8 @@
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
-    "angular-scenario": "1.2.15"
+    "angular-scenario": "1.2.15",
+    "almond": "~0.3.0"
   },
   "resolutions": {
     "angular": "~1.2.16"

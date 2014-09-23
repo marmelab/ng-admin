@@ -1,12 +1,10 @@
-define([
-    'config'
-], function(config) {
+define(function() {
     'use strict';
 
-    var SidebarController = function($scope, $location) {
+    var SidebarController = function($scope, $location, Configuration) {
         this.$scope = $scope;
         this.$location = $location;
-        this.entities = config.getEntities();
+        this.entities = Configuration().getEntities();
 
         this.computeCurrentEntity();
         $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));
@@ -37,7 +35,7 @@ define([
         this.$location = undefined;
     };
 
-    SidebarController.$inject = ['$scope', '$location'];
+    SidebarController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
 
     return SidebarController;
 });

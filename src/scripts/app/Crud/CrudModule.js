@@ -1,68 +1,51 @@
-define(
-    [
-        'angular',
-        'config',
+define(function (require) {
+    "use strict";
 
-        'app/Crud/component/controller/ListController',
-        'app/Crud/component/controller/FormController',
-        'app/Crud/component/controller/DeleteController',
+    var angular = require('angular'),
+        ListController = require('app/Crud/component/controller/ListController'),
+        FormController = require('app/Crud/component/controller/FormController'),
+        DeleteController = require('app/Crud/component/controller/DeleteController'),
 
-        'app/Crud/component/directive/InfinitePagination',
+        InfinitePagination = require('app/Crud/component/directive/InfinitePagination'),
 
-        'app/Crud/component/service/CrudManager',
+        CrudManager = require('app/Crud/component/service/CrudManager'),
 
-        'app/Crud/config/routing',
+        routing = require('app/Crud/config/routing');
 
-        'angular-ui-router', 'angular-sanitize', 'angular-bootstrap-tpls'
-    ],
-    function (
-        angular,
-        config,
+    require('angular-ui-router');
+    require('angular-sanitize');
+    require('angular-bootstrap-tpls');
 
-        ListController,
-        FormController,
-        DeleteController,
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize']);
 
-        InfinitePagination,
+    CrudModule.controller('ListController', ListController);
+    CrudModule.controller('FormController', FormController);
+    CrudModule.controller('DeleteController', DeleteController);
 
-        CrudManager,
+    CrudModule.service('CrudManager', CrudManager);
 
-        routing
-        ) {
-        "use strict";
+    CrudModule.directive('infinitePagination', InfinitePagination);
 
-        var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize']);
-        CrudModule.constant('config', config);
+    /**
+     * Date Picker patch
+     * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b
+     */
+    CrudModule.config(function($provide){
+        $provide.decorator('dateParser', function($delegate){
 
-        CrudModule.controller('ListController', ListController);
-        CrudModule.controller('FormController', FormController);
-        CrudModule.controller('DeleteController', DeleteController);
+            var oldParse = $delegate.parse;
+            $delegate.parse = function(input, format) {
+                if ( !angular.isString(input) || !format ) {
+                    return input;
+                }
+                return oldParse.apply(this, arguments);
+            };
 
-        CrudModule.service('CrudManager', CrudManager);
-
-        CrudModule.directive('infinitePagination', InfinitePagination);
-
-        /**
-         * Date Picker patch
-         * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b
-         */
-        CrudModule.config(function($provide){
-            $provide.decorator('dateParser', function($delegate){
-
-                var oldParse = $delegate.parse;
-                $delegate.parse = function(input, format) {
-                    if ( !angular.isString(input) || !format ) {
-                        return input;
-                    }
-                    return oldParse.apply(this, arguments);
-                };
-
-                return $delegate;
-            });
+            return $delegate;
         });
+    });
 
-        CrudModule.config(routing);
+    CrudModule.config(routing);
 
-        return CrudModule;
-    }
-);
+    return CrudModule;
+});

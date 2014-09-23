@@ -1,6 +1,4 @@
-define([
-    'config'
-], function(config) {
+define(function() {
     'use strict';
 
     /**
@@ -8,9 +6,9 @@ define([
      * @param {$scope} $scope
      * @constructor
      */
-    var AppController = function ($scope) {
+    var AppController = function ($scope, Configuration) {
         this.$scope = $scope;
-        this.applicationName = config.title();
+        this.applicationName = Configuration().title();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -19,7 +17,7 @@ define([
         this.$scope = undefined;
     };
 
-    AppController.$inject = ['$scope'];
+    AppController.$inject = ['$scope', 'NgAdminConfiguration'];
 
     return AppController;
 });

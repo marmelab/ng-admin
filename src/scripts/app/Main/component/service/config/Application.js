@@ -1,9 +1,11 @@
-define(['lib/config/Configurable'], function (Configurable) {
+define(function (require) {
     "use strict";
 
     function defaultHeaders() {
         return {};
     }
+
+    var Configurable = require('app/Main/component/service/config/Configurable');
 
     return function(title) {
         var entities = {};

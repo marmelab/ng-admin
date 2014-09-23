@@ -1,7 +1,7 @@
-define([
-    'nprogress'
-], function(NProgress) {
+define(function(require) {
     "use strict";
+
+    var NProgress = require('nprogress');
 
     /**
      * Display loader on each route change

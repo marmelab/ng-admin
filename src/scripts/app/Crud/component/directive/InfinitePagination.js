@@ -1,7 +1,7 @@
-define([
-    'angular'
-], function(angular) {
+define(function(require) {
     'use strict';
+
+    var angular = require('angular');
 
     function InfinitePagination($window, $document) {
         return {

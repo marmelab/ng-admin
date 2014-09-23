@@ -1,5 +1,7 @@
-define(['lib/config/Configurable'], function (Configurable) {
+define(function (require) {
     'use strict';
+
+    var Configurable = require('app/Main/component/service/config/Configurable');
 
     /**
      * Return the title depending if the config is a string or a function

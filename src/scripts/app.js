@@ -1,19 +1,61 @@
 require.config({
-    waitSeconds: 30
+    paths: {
+        'angular': 'bower_components/angular/angular',
+        'angular-resource': 'bower_components/angular-resource/angular-resource',
+        'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
+        'angular-route': 'bower_components/angular-route/angular-route',
+        'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+        'lodash': 'bower_components/lodash/dist/lodash.min',
+        'text' : 'bower_components/requirejs-text/text',
+        'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
+        'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
+        'restangular': 'bower_components/restangular/dist/restangular',
+        'humane': 'bower_components/humane/humane',
+        'nprogress': 'bower_components/nprogress/nprogress',
+
+        'MainModule': 'app/Main/MainModule',
+        'CrudModule': 'app/Crud/CrudModule'
+    },
+    shim: {
+        'angular': {
+            exports: 'angular'
+        },
+        'restangular': {
+            deps: ['angular', 'lodash']
+        },
+        'angular-ui-router': {
+            deps: ['angular']
+        },
+        'angular-bootstrap': {
+            deps: ['angular']
+        },
+        'angular-bootstrap-tpls': {
+            deps: ['angular', 'angular-bootstrap']
+        },
+        'jquery': {
+            exports: '$'
+        },
+        'angular-resource': {
+            deps: ['angular']
+        },
+        'angular-sanitize': {
+            deps: ['angular']
+        },
+        'angular-route': {
+            deps: ['angular']
+        },
+        'nprogress': {
+            exports: 'NProgress'
+        }
+    }
 });
 
-require(['common', 'ng-admin'], function () {
+define(function(require) {
     "use strict";
 
-    require(['angular', 'MainModule', 'CrudModule'], function (angular) {
+    var angular = require('angular');
+    require('MainModule');
+    require('CrudModule');
 
-        angular.module('ng-admin', ['main', 'crud']);
-
-        // we add the ng-app attribute for pure debugging purposes
-        // historically, it was needed in case angular scenario was used for e2e tests
-        document.body.setAttribute('ng-app', 'ng-admin');
-
-        // async resource download implies async angular app bootstrap
-        angular.bootstrap(document.body, ['ng-admin']);
-    });
+    angular.module('ng-admin', ['main', 'crud']);
 });

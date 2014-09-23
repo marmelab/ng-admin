@@ -1,8 +1,8 @@
-define([
-    'text!../view/layout.html',
-    'text!../view/dashboard.html'
-], function (layoutTemplate, dashboardTemplate) {
+define(function (require) {
     "use strict";
+
+    var layoutTemplate = require('text!../view/layout.html'),
+        dashboardTemplate = require('text!../view/dashboard.html');
 
     function routing($stateProvider, $urlRouterProvider) {
 
