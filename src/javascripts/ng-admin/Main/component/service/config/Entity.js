@@ -32,7 +32,7 @@ define(function (require) {
     };
 
     var defaultTotalItems = function(response) {
-        return response.headers('X-Count') || 0;
+        return response.headers('X-Total-Count') || 0;
     };
 
     var defaultListingTitle = function(entity) {
