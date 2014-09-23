@@ -68,12 +68,12 @@ module.exports = function (grunt) {
                 }
             },
             javascripts: {
-                files: ['src/**/*.js', 'src/**/*.html'],
-                tasks: ['assets:js']
+                files: ['src/javascripts/ng-admin/**/*.js', 'src/javascripts/ng-admin/**/*.html'],
+                tasks: ['requirejs:dev']
             },
             sass: {
                 files: ['sass/*.scss'],
-                tasks: ['assets:css']
+                tasks: ['compass:dev']
             }
         },
 

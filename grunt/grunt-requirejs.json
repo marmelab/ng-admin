@@ -1,15 +1,21 @@
 {
     "dev": {
         "options": {
-            "appDir": "src/javascripts",
-            "baseUrl": "./",
+            "baseUrl": "src/javascripts",
             "mainConfigFile": "src/javascripts/ng-admin.js",
-            "dir": "build/require",
+            "include": ["ng-admin"],
+            "name": "bower_components/almond/almond",
+            "out": "./build/ng-admin.min.js",
             "optimize": "none",
             "preserveLicenseComments": false,
-            "generateSourceMaps": true,
+            "findNestedDependencies": true,
+            "generateSourceMaps": false,
             "skipDirOptimize": true,
-            "removeCombined": true
+            "removeCombined": true,
+            "wrap": {
+                "startFile": "src/build/start.frag",
+                "endFile": "src/build/end.frag"
+            }
         }
     },
     "prod": {

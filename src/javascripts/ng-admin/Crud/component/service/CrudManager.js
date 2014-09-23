@@ -160,7 +160,7 @@ define(function(require) {
             params = entityConfig.getExtraParams(),
             headers = this.config.getHeaders(entityName, 'getAll'),
             sortEntity = sortField ? sortField.split('.')[0] : '',
-            sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField, sortDir) : null,
+            sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
             response;
 
         // Add sort param headers
