@@ -1,19 +1,19 @@
 {
     "dev": {
         "options": {
-            "cssDir": "src/css",
-            "imagesDir": "src/images",
+            "cssDir": "build",
+            "sassDir": "src/sass",
             "environment": "development",
-            "specify": ["sass/screen.scss"]
+            "relativeAssets": true,
+            "specify": ["src/sass/ng-admin.scss"]
         }
     },
     "prod": {
         "options": {
-            "sassDir": "sass",
-            "cssDir": "src/css",
-            "imagesDir": "src/images",
+            "cssDir": "build",
+            "sassDir": "src/sass",
             "environment": "production",
-            "specify": ["sass/screen.scss"],
+            "specify": ["src/sass/ng-admin.scss"],
             "outputStyle": "compressed"
         }
     }

@@ -9,10 +9,42 @@ Check out the [online demo](http://ng-admin.marmelab.com/) and the [launch post]
 
 # Installation
 
-- Clone the repository.
-- Add a configuration file to describe your entities in `lib/config.js`.
-- Run the server with the `grunt` command.
-- See the result at [http://localhost:8000/](http://localhost:8000/).
+Retrieve the module from bower:
+
+```sh
+bower install ng-admin --save
+```
+
+Include it:
+
+```html
+<link rel="stylesheet" href=""/path/to/bower_components/ng-admin/build/ng-admin.min.css">
+
+<script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
+```
+
+Make your application depends on it:
+```js
+var app = angular.module('myApp', ['ng-admin']);
+```
+
+Configure ng-admin:
+```js
+app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+    // See below for more information about the configuration
+
+    var app = Application('My backend')
+        .baseApiUrl('http://localhost:3000/')
+        .addEntity(/* ... */)
+
+    NgAdminConfigurationProvider.configure(app);
+}
+```
+
+Your application should use a `ui-view`:
+```html
+<div ui-view></div>
+```
 
 # Configuration
 
@@ -23,14 +55,7 @@ Here is a full example for a backend that will allows you to create, update, del
 Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
-define([
-    'lib/config/Application',
-    'lib/config/Entity',
-    'lib/config/Field',
-    'lib/config/ReferencedList',
-    'lib/config/ReferenceMany'
-], function (Application, Entity, Field, ReferencedList, ReferenceMany) {
-    "use strict";
+app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
     var postBody, postId, postCreatedAt;
 
@@ -42,12 +67,13 @@ define([
         // define your specific pagination function returning GET parameters
         .pagination(function(page, maxPerPage) {
             return {
-                _start: (page - 1) * maxPerPage,
-                _end: (page) * maxPerPage
-            };
+                offset: (page - 1) * maxPerPage,
+                limit: maxPerPage
+            }
         })
         // enable lazyload pagination
         .infinitePagination(true)
+        // Set specific parameter for search
         .filterQuery(function(query) {
             return {
                 filter: query
@@ -131,22 +157,31 @@ define([
             .targetLabel('name')
         );
 
-    return Application('My backend')
+    var app = Application('My backend')
+        // Add extra headers for each actions
+        .headers(function(entityName, action) {
+            return {
+                'X-User': entityName === 'post' ? 'username' : 'user2',
+                'X-Password': 'pwd'
+            }
+        }
         .baseApiUrl('http://localhost:3000/')
         .addEntity(post)
         .addEntity(comment)
         .addEntity(tag);
+
+    NgAdminConfigurationProvider.configure(app);
 });
 ```
 
-## List of field types
+## Field types
 
 - `Field` : simple field
 - `Reference` : association 1-N with another entity
 - `ReferenceList` : association N-1
 - `ReferenceMany` : association N-N
 
-## List of options for `Field` type
+### List of options for `Field` type
 
 * `type(string ['number'|'text'|'email'|'date'])`
 Define the field type.
@@ -187,7 +222,7 @@ Number of elements displayed in dashboard.
 Define a custom validation function.
 
 
-## List of options for `Reference` type
+### List of options for `Reference` type
 
 The `Reference` type also defines `label`, `order`, `valueTransformer`, `list` & `validation` options like the `Field` type.
 
@@ -197,7 +232,7 @@ Define the referenced entity.
 * `targetLabel(string)`
 Define the target field name used to retrieve the label of the referenced element.
 
-## List of options for `ReferencedList` type
+### List of options for `ReferencedList` type
 
 The `ReferencedList` type also defines `label`, `order`, `valueTransformer`, `list` & `validation` options like the `Field` type.
 
@@ -210,7 +245,7 @@ Define the field name used to link the referenced entity.
 * `targetFields(Array(Field))`
 Define an array of fields that will be display in the list of the form.
 
-## List of options for `ReferencedMany` type
+### List of options for `ReferencedMany` type
 
 The `ReferencedMany` type also defines `label`, `order`, `valueTransformer`, `list` & `validation` options like the `Field` type.
 
@@ -222,6 +257,23 @@ Define the field name used to link the referenced entity.
 
 * `targetLabel(string)`
 Define the target field name used to retrieve the label of the referenced element.
+
+## Build
+
+Concatenate and minify the app with :
+```sh
+grunt build
+```
+
+## Tests
+
+Tests are lunched with karma by grunt:
+
+```
+grunt test
+```
+
+A new `build/ng-admin.min.js` file will be created.
 
 ## Contributing
 

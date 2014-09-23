@@ -1,0 +1,38 @@
+<div class="row" id="header">
+    <div class="col-sm-5">
+        <h1>{{ listController.title }}</h1>
+        <h2 ng-if="listController.description">{{ listController.description }}</h2>
+    </div>
+
+    <div class="controls col-sm-7">
+        <a class="btn btn-info" ng-click="listController.create()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+    </div>
+
+    <form id="filter" class="navbar-form" ng-if="listController.displayFilterQuery" ng-submit="listController.filter()">
+        <div class="input-group">
+            <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
+            </span>
+        </div>
+    </form>
+</div>
+
+<div infinite-pagination="listController.nextPage()" threshold="100" can-load="!listController.loadingPage">
+    <div class="row" ng-include="'ng-admin/Crud/view/grid.html'"></div>
+</div>
+
+<div class="row pull-right" ng-if="!listController.infinitePagination">
+    <ul class="pagination pagination-sm">
+        <li ng-class="{ disabled: listController.currentPage == 1}">
+            <a href ng-click="listController.setPage(listController.currentPage - 1)">« Prev</a>
+        </li>
+        <li ng-repeat="n in listController.range(1, listController.nbPages)" ng-class="{active: n == listController.currentPage}" ng-click="listController.setPage(n)">
+            <a href>{{ n }}</a>
+        </li>
+        <li ng-class="{disabled: listController.currentPage == listController.nbPages}">
+            <a href ng-click="listController.setPage(listController.currentPage+ 1)">Next »</a>
+        </li>
+    </ul>
+</div>
