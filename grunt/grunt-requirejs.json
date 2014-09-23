@@ -1,26 +1,24 @@
 {
     "dev": {
         "options": {
-            "appDir": "src/scripts",
-            "fileExclusionRegExp": "^(build)",
+            "appDir": "src/javascripts",
             "baseUrl": "./",
-            "dir": "src/require",
+            "mainConfigFile": "src/javascripts/ng-admin.js",
+            "dir": "build/require",
             "optimize": "none",
             "preserveLicenseComments": false,
             "generateSourceMaps": true,
             "skipDirOptimize": true,
-            "removeCombined": true,
-            "mainConfigFile": "src/scripts/app.js"
+            "removeCombined": true
         }
     },
     "prod": {
         "options": {
-            "baseUrl": "src/scripts",
-            "mainConfigFile": "src/scripts/app.js",
-            "include": ["app"],
+            "baseUrl": "src/javascripts",
+            "mainConfigFile": "src/javascripts/ng-admin.js",
+            "include": ["ng-admin"],
             "name": "bower_components/almond/almond",
-            "out": "./src/build/ng-admin.min.js",
-
+            "out": "./build/ng-admin.min.js",
             "optimize": "none",
             "preserveLicenseComments": false,
             "findNestedDependencies": true,
@@ -28,8 +26,8 @@
             "skipDirOptimize": true,
             "removeCombined": true,
             "wrap": {
-                "startFile": "build/start.frag",
-                "endFile": "build/end.frag"
+                "startFile": "src/build/start.frag",
+                "endFile": "src/build/end.frag"
             }
         }
     }

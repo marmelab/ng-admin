@@ -2,8 +2,8 @@ node_modules
 dist
 .tmp
 .sass-cache
-src/scripts/bower_components
-src/scripts/config.js
+src/javascripts/bower_components
+src/javascripts/config.js
 src/styles/*.css
-src/require
+build/require
 src/css
