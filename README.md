@@ -18,7 +18,7 @@ bower install ng-admin --save
 Include it:
 
 ```html
-<link rel="stylesheet" href=""/path/to/bower_components/ng-admin/build/ng-admin.min.css">
+<link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin.min.css">
 
 <script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
 ```
