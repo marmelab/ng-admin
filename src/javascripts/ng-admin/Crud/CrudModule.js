@@ -17,8 +17,9 @@ define(function (require) {
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
+    require('textangular');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize']);
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular']);
 
     CrudModule.controller('ListController', ListController);
     CrudModule.controller('FormController', FormController);
