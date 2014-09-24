@@ -25,6 +25,7 @@ define(function (require) {
             list: true,
             dashboard: true,
             identifier: false,
+            isEditLink: true,
             validation: {
                 required: false
             }
@@ -34,6 +35,7 @@ define(function (require) {
          * @constructor
          */
         function Reference() {
+            this.entity = null;
         }
 
         Configurable(Reference, config);
@@ -73,6 +75,10 @@ define(function (require) {
             choices = c;
 
             return this;
+        };
+
+        Reference.setEntity = function(e) {
+            this.entity = e;
         };
 
         return Reference;

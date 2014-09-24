@@ -5,7 +5,7 @@ define(function(require) {
 
     function InfinitePagination($window, $document) {
         return {
-            link:function (scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 var offset = parseInt(attrs.threshold) || 0,
                     body = $document[0].body;
 

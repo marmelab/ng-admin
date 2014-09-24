@@ -15,7 +15,8 @@ define(function() {
      * Inject the current entity in the controller
      */
     SidebarController.prototype.computeCurrentEntity = function() {
-        var urlParts = this.$location.url().split('/');
+        var location = this.$location.url().split('?')[0],
+            urlParts = location.split('/');
 
         this.currentEntity = urlParts && urlParts.length > 2 ? urlParts[2] : null;
     };

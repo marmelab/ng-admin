@@ -36,12 +36,14 @@
         <option ng-if="!field.validation().required">-- select a value --</option>
         <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="field.value == key" >{{ value }}</option>
     </select>
+    
+    <div id="{{ field.getName() }}" ng-switch-when="wysiwyg" text-angular ng-model="field.value" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
 
     <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
         <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="formController.contains(field.value, key)" >{{ value }}</option>
     </select>
 
-    <div id="{{ field.getName() }}" ng-switch-when="wysiwyg" text-angular ng-model="field.value" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
+    <span ng-switch-when="callback" compile="field.getCallbackValue()"></span>
 </div>
 
 <div ng-if="field.edition() == 'read-only'">

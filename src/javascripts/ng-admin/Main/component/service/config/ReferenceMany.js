@@ -24,6 +24,7 @@ define(function (require) {
             targetLabel : null,
             valueTransformer : defaultValueTransformer,
             list: true,
+            isEditLink: true,
             dashboard: true,
             identifier: false,
             validation: {
@@ -35,6 +36,7 @@ define(function (require) {
          * @constructor
          */
         function ReferenceMany() {
+            this.entity = null;
         }
 
         Configurable(ReferenceMany, config);
@@ -74,6 +76,10 @@ define(function (require) {
             choices = c;
 
             return this;
+        };
+
+        ReferenceMany.setEntity = function(e) {
+            this.entity = e;
         };
 
         return ReferenceMany;

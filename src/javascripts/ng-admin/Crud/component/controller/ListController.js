@@ -53,8 +53,10 @@ define(function(require) {
             }
 
             columns.push({
-                field: field.getName(),
-                label: field.label()
+                field: field,
+                fieldName: field.getName(),
+                label: field.label(),
+                isEditLink: field.isEditLink()
             });
         });
 

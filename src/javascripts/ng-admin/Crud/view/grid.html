@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <td ng-repeat="column in columns">
-                <a ng-click="sort(entity, column.field)">
-                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="isSorting(entity, column.field)"></span>
+                <a ng-click="sort(entity, column.fieldName)">
+                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="isSorting(entity, column.fieldName)"></span>
 
                     {{ column.label }}
                 </a>
@@ -13,11 +13,16 @@
 
     <tbody>
         <tr ng-class="itemClass($index)" ng-repeat="item in items">
-            <td ng-repeat="column in columns" ng-switch="entity.getField(column.field).type()">
+            <td ng-repeat="column in columns" ng-switch="entity.getField(column.fieldName).type()">
                 <a ng-click="edit(item, entity)" ng-switch-when="reference-many" class="multiple">
-                    <span ng-repeat="ref in item[column.field]" class="label label-default">{{ ref }}</span>
+                    <span ng-repeat="ref in item[column.fieldName]" class="label label-default">{{ ref }}</span>
                 </a>
-                <a ng-click="edit(item, entity)" ng-switch-default>{{ item[column.field] }}</a>
+
+                <span ng-switch-default ng-switch="column.isEditLink">
+                    <a ng-click="edit(item, entity)" ng-switch-when="true">{{ item[column.fieldName] }}</a>
+
+                    <span ng-switch-default ng-init="field = item" compile="column.field.getCallbackValue()"></span>
+                </span>
             </td>
         </tr>
     </tbody>

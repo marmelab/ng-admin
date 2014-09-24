@@ -7,6 +7,7 @@ define(function (require) {
         DeleteController = require('ng-admin/Crud/component/controller/DeleteController'),
 
         InfinitePagination = require('ng-admin/Crud/component/directive/InfinitePagination'),
+        Compile = require('ng-admin/Crud/component/directive/Compile'),
 
         CrudManager = require('ng-admin/Crud/component/service/CrudManager'),
 
@@ -28,6 +29,7 @@ define(function (require) {
     CrudModule.service('CrudManager', CrudManager);
 
     CrudModule.directive('infinitePagination', InfinitePagination);
+    CrudModule.directive('compile', Compile);
 
     /**
      * Date Picker patch

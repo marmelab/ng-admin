@@ -114,6 +114,7 @@ define(function (require) {
                 field.order(Object.keys(fields).length);
             }
 
+            field.setEntity(this);
             fields[field.getName()] = field;
 
             return this;
@@ -127,7 +128,6 @@ define(function (require) {
         Entity.getFields = function() {
             return fields;
         };
-
 
         /**
          * Returns a field
