@@ -62,6 +62,10 @@ define(function(require) {
 
         this.infinitePagination = this.entityConfig.infinitePagination();
         this.currentPage = this.data.currentPage;
+        this.offsetBegin = (this.data.currentPage - 1) * this.data.perPage;
+        this.offsetEnd = Math.min((this.data.currentPage) * this.data.perPage, this.data.totalItems);
+        this.totalItems = this.data.totalItems;
+
         this.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1)) || 1;
     };
 
