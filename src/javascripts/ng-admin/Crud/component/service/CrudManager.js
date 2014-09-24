@@ -434,7 +434,7 @@ define(function(require) {
     /**
      * Fill ReferencedMany & Reference values from a collection a values
      *
-     * @param {Array} collection
+     * @param {[[Field]]} collection
      * @param {Array} referencedValues
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
@@ -457,11 +457,14 @@ define(function(require) {
                     angular.forEach(identifier, function(id) {
                         element[referenceField].push(choices[id]);
                     });
+
+                    element[referenceField + '_raw'] = identifier;
                 } else if (identifier && identifier in choices) {
                     if (fillSimpleReference) {
                         targetField = reference.targetEntity().getField(reference.targetLabel());
                         value = choices[identifier];
                         element[referenceField] = targetField.getTruncatedListValue(value);
+                        element[referenceField + '_raw'] = identifier;
                     }
                 } else {
                     delete element[referenceField];

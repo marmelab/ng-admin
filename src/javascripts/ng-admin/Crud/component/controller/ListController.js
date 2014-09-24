@@ -3,13 +3,12 @@ define(function(require) {
 
     var NProgress = require('nprogress');
 
-    var ListController = function($scope, $location, $anchorScroll, data, CrudManager, $compile) {
+    var ListController = function($scope, $location, $anchorScroll, data, CrudManager) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
         this.data = data;
         this.$anchorScroll = $anchorScroll;
-        this.$compile = $compile;
         this.loadingPage = false;
         this.entityConfig = this.data.entityConfig;
         this.entityLabel = data.entityConfig.label();
@@ -29,7 +28,6 @@ define(function(require) {
         this.$scope.isSorting = this.isSorting.bind(this);
         this.$scope.entity = this.entityConfig;
         this.$scope.entity = this.entityConfig;
-        this.$scope.compile = this.compile.bind(this);
         this.$scope.items = data.rawItems;
 
         this.quickFilters = this.entityConfig.getQuickFilterNames();
@@ -71,10 +69,6 @@ define(function(require) {
         this.totalItems = this.data.totalItems;
 
         this.nbPages = Math.ceil(this.data.totalItems / (this.data.perPage || 1)) || 1;
-    };
-
-    ListController.prototype.compile = function(field, scope) {
-        return this.$compile(field.getCallbackValue(''))(scope).next();
     };
 
     ListController.prototype.nextPage = function() {
@@ -221,7 +215,7 @@ define(function(require) {
         this.CrudManager = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager', '$compile'];
+    ListController.$inject = ['$scope', '$location', '$anchorScroll', 'data', 'CrudManager'];
 
     return ListController;
 });

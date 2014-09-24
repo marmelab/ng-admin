@@ -21,7 +21,7 @@
                 <span ng-switch-default ng-switch="column.isEditLink">
                     <a ng-click="edit(item, entity)" ng-switch-when="true">{{ item[column.fieldName] }}</a>
 
-                    <span ng-switch-default ng-bind-html="compile(column.field, this)"></span>
+                    <span ng-switch-default ng-init="field = item" compile="column.field.getCallbackValue()"></span>
                 </span>
             </td>
         </tr>

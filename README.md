@@ -166,6 +166,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
             .isEditLink(false)
             // Add a new link to the post thanks to callback
             .callback(function(entity) {
+                // Directive can also be included
                 return '<a href="#/edit/posts/' + entity.post_id + '">View post</a>';
             })
         );
