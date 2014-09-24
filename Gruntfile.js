@@ -22,9 +22,22 @@ module.exports = function (grunt) {
                     'build/ng-admin.min.css': [
                         'build/ng-admin.css',
                         'src/javascripts/bower_components/nprogress/nprogress.css',
-                        'src/javascripts/bower_components/humane/themes/flatty.css'
+                        'src/javascripts/bower_components/humane/themes/flatty.css',
+                        'src/javascripts/bower_components/textAngular/dist/textAngular.min.css'
                     ]
                 }
+            }
+        },
+
+        concat: {
+            css: {
+                src: [
+                    'build/ng-admin.css',
+                    'src/javascripts/bower_components/nprogress/nprogress.css',
+                    'src/javascripts/bower_components/humane/themes/flatty.css',
+                    'src/javascripts/bower_components/textAngular/dist/textAngular.min.css'
+                ],
+                dest: 'build/ng-admin.min.css'
             }
         },
 
@@ -72,8 +85,8 @@ module.exports = function (grunt) {
                 tasks: ['requirejs:dev']
             },
             sass: {
-                files: ['sass/*.scss'],
-                tasks: ['compass:dev']
+                files: ['src/sass/*.scss'],
+                tasks: ['build:dev']
             }
         },
 
@@ -100,12 +113,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
     grunt.registerTask('test', ['karma']);
-    grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'clean']);
+    grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
 
     // register default task

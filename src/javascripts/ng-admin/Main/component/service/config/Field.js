@@ -4,7 +4,7 @@ define(function (require) {
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     return function(fieldName) {
-        var availableTypes = ['number', 'string', 'text', 'email', 'date'];
+        var availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date'];
         var availableEditions = ['read-only', 'editable'];
         var name = fieldName || 'field';
 

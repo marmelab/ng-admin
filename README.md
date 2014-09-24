@@ -155,6 +155,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
         )
         .addField(Field('body')
             .label('Body')
+            .type('wysiwyg')
             .edition('editable')
         )
         .addField(ReferencedList('comments')
@@ -195,7 +196,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
 
 ### List of options for `Field` type
 
-* `type(string ['number'|'text'|'email'|'date'])`
+* `type(string ['number'|'string'|'text'|'wysiwyg'|'email'|'date'])`
 Define the field type.
 
 * `label(string label)`

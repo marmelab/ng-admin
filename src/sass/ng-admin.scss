@@ -5,6 +5,7 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
 // endbower
 
 @import "sb-admin";
+@import "font-awesome/font-awesome";
 
 #nprogress div.spinner {
     width: 18px;
@@ -146,13 +147,30 @@ div.bottom-loader {
 /**
 * Edition form
 */
-.form-horizontal .read-only p {
-  margin-bottom: 0;
-  padding-top: 7px;
-}
+.form-horizontal {
+    .read-only p {
+        margin-bottom: 0;
+        padding-top: 7px;
+    }
 
-.form-horizontal textarea {
-    height: 150px;
+    textarea {
+        height: 150px;
+    }
+
+    .border-around {
+        margin-top: 2px;
+        background: #ffffff;
+        width: 100%;
+    }
+
+    .ta-toolbar button {
+        font-size: 12px;
+        padding: 5px 8px;
+
+        &.active {
+            z-index: 1;
+        }
+    }
 }
 
 #header-nav {

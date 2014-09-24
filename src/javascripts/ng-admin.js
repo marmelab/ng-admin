@@ -12,6 +12,7 @@ require.config({
         'restangular': 'bower_components/restangular/dist/restangular',
         'humane': 'bower_components/humane/humane',
         'nprogress': 'bower_components/nprogress/nprogress',
+        'textangular': 'bower_components/textAngular/dist/textAngular.min',
 
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
