@@ -36,7 +36,10 @@
     <div class="row" ng-include="'ng-admin/Crud/view/grid.html'"></div>
 </div>
 
-<div class="row" ng-if="!listController.infinitePagination">
+<div class="grid-detail row pull-right" ng-if="!listController.infinitePagination">
+    <span class="total">
+        <strong>{{ listController.offsetBegin }}</strong> - <strong>{{ listController.offsetEnd }}</strong> on <strong>{{ listController.totalItems }}</strong>
+    </span>
     <ul class="pagination pagination-sm">
         <li ng-class="{ disabled: listController.currentPage == 1}">
             <a href ng-click="listController.setPage(listController.currentPage - 1)">« Prev</a>

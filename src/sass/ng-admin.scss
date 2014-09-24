@@ -152,6 +152,18 @@ div.bottom-loader {
         display: none;
     }
 }
+
+.grid-detail {
+    .total {
+        float: left;
+        display: inline-block;
+        margin: 25px 10px 0 0;
+    }
+
+    .pagination {
+        float: right;
+    }
+}
 /**
 * Edition form
 */
