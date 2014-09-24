@@ -73,8 +73,9 @@ define(function (require) {
                 var field = config.targetFields[i];
 
                 columns.push({
-                    field: field.getName(),
-                    label: field.label()
+                    fieldName: field.getName(),
+                    label: field.label(),
+                    field: field
                 });
             }
 
