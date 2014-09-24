@@ -11,11 +11,12 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?q&page&sortField&sortDir',
+                url: '/list/:entity?q&page&sortField&sortDir&quickFilter',
                 params: {
                     entity: {},
                     q: null,
                     page: 1,
+                    quickFilter: null,
                     sortField: null,
                     sortDir: null
                 },
@@ -23,13 +24,22 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
-                        var page = $stateParams.page,
+                    data: ['$stateParams', 'CrudManager', 'NgAdminConfiguration', function($stateParams, CrudManager, Configuration) {
+                        var config = Configuration(),
+                            entity = $stateParams.entity,
+                            entityConfig = config.getEntity(entity),
+                            page = $stateParams.page,
                             query = $stateParams.q,
                             sortField = $stateParams.sortField,
-                            sortDir = $stateParams.sortDir;
+                            sortDir = $stateParams.sortDir,
+                            quickFilter = $stateParams.quickFilter,
+                            filters = null;
 
-                        return CrudManager.getAll($stateParams.entity, page, null, true, query, sortField, sortDir);
+                        if (quickFilter) {
+                            filters = entityConfig.getQuickFilterParams(quickFilter);
+                        }
+
+                        return CrudManager.getAll(entity, page, null, true, query, sortField, sortDir, filters);
                     }]
                 }
             });

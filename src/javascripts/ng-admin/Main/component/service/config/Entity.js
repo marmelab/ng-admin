@@ -31,6 +31,10 @@ define(function (require) {
         };
     };
 
+    var defaultFilterParams = function(params) {
+        return params;
+    };
+
     var defaultTotalItems = function(response) {
         return response.headers('X-Total-Count') || 0;
     };
@@ -63,8 +67,9 @@ define(function (require) {
     };
 
     return function(entityName) {
-        var name = entityName || 'entity';
-        var fields = {};
+        var name = entityName || 'entity',
+            fields = {},
+            quickFilters = {};
 
         var config = {
             label: 'My entity',
@@ -77,6 +82,7 @@ define(function (require) {
             perPage: 30,
             pagination: defaultPaginationLink,
             filterQuery: defaultFilterQuery,
+            filterParams: defaultFilterParams,
             infinitePagination: false,
             totalItems: defaultTotalItems,
             extraParams: null,
@@ -235,6 +241,25 @@ define(function (require) {
 
         Entity.getDescription = function() {
             return getTitle(config.description, this);
+        };
+
+        Entity.addQuickFilter = function(label, params) {
+            quickFilters[label] = params;
+
+            return this;
+        };
+
+        Entity.getQuickFilterNames = function() {
+            return Object.keys(quickFilters);
+        };
+
+        Entity.getQuickFilterParams = function(name) {
+            var params = quickFilters[name];
+            if (typeof (params) === 'function') {
+                params = params();
+            }
+
+            return params;
         };
 
         Configurable(Entity, config);

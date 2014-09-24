@@ -20,6 +20,7 @@ define(function(require) {
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
         this.$scope.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.$scope.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
+        this.currentQuickFilter = 'quickFilter' in searchParams ? searchParams.quickFilter : null;
 
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
@@ -29,6 +30,7 @@ define(function(require) {
         this.$scope.entity = this.entityConfig;
         this.$scope.items = data.rawItems;
 
+        this.quickFilters = this.entityConfig.getQuickFilterNames();
         this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
 
         this.computePagination();
@@ -99,6 +101,10 @@ define(function(require) {
         this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir);
     };
 
+    ListController.prototype.quickFilter = function(label) {
+        this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir, label);
+    };
+
     ListController.prototype.clearFilter = function() {
         this.$scope.filterQuery = '';
         this.filter();
@@ -115,7 +121,7 @@ define(function(require) {
         this.changePage(this.$scope.filterQuery, 1, field, dir);
     };
 
-    ListController.prototype.changePage = function(filter, page, sortField, sortDir) {
+    ListController.prototype.changePage = function(filter, page, sortField, sortDir, quickFilterName) {
         if (!filter.length) {
             filter = null;
         }
@@ -124,6 +130,7 @@ define(function(require) {
         this.$location.search('page', page);
         this.$location.search('sortField', sortField);
         this.$location.search('sortDir', sortDir);
+        this.$location.search('quickFilter', quickFilterName);
         this.$location.path('/list/' + this.data.entityName);
         this.$anchorScroll(0);
     };

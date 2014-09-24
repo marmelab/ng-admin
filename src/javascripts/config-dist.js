@@ -5,6 +5,10 @@
 
     app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
         function truncate(value) {
+            if (!value) {
+                return '';
+            }
+
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
 

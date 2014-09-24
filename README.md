@@ -57,7 +57,7 @@ Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 ```js
 app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
-    var postBody, postId, postCreatedAt;
+    var postBody, postId;
 
     // Declare a new entity
     var tag = Entity('tags')
@@ -133,7 +133,11 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
                 }
             })
         )
-        .addField(postCreatedAt = Field('created_at')
+        .filterParams(function(params) {
+            // Allows to return custom specific search params
+            return params;
+        })
+        .addField(Field('created_at')
             .order(3)
             .label('Creation Date')
             .type('date')
@@ -141,7 +145,19 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
             .validation({
                 "required": true
             })
-        );
+        ).addQuickFilter('Today', function() {
+             var now = new Date(),
+                 year = now.getFullYear(),
+                 month = now.getMonth() + 1,
+                 day = now.getDate();
+
+             month = month < 10 ? '0' + month : month;
+             day = day < 10 ? '0' + day : day;
+
+             return {
+                 created_at: [year, month, day].join('-')
+             }
+         });
 
     var post = Entity('posts')
         .label('Posts')

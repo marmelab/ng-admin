@@ -58,7 +58,7 @@ define(function (require) {
             }
 
             if (availableTypes.indexOf(type) === -1) {
-                throw 'Type should be one of ' + availableTypes.join(', ') + '. ' + type + 'given.';
+                throw 'Type should be one of : "' + availableTypes.join('", "') + '", "' + type + '" given.';
             }
 
             config.type = type;
