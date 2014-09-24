@@ -23,6 +23,9 @@ define(function() {
     SidebarController.prototype.displayList = function(entity) {
         this.$location.search('q', null);
         this.$location.search('page', 1);
+        this.$location.search('sortField', null);
+        this.$location.search('sortOrder', null);
+        this.$location.search('quickFilters', null);
         this.$location.path('/list/' + entity.getName());
     };
 

@@ -72,6 +72,15 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
 /**
 * Grid
 */
+.quick-filters {
+    clear: both;
+
+    li > span {
+        padding: 10px 15px;
+        display: block;
+    }
+}
+
 .grid {
     background-color: #FFFFFF;
     width: 100%;

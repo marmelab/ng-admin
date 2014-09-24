@@ -140,12 +140,14 @@ define(function(require) {
      * @param {String}       query               searchQuery to filter elements
      * @param {String}       sortField           the field to be sorted ex: entity.fieldName
      * @param {String}       sortDir             the direction of the sort
+     * @param {Object}       filters             filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
-    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference, query, sortField, sortDir) {
+    CrudManager.prototype.getAll = function (entityName, page, limit, fillSimpleReference, query, sortField, sortDir, filters) {
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
         fillSimpleReference = (typeof(fillSimpleReference) === 'undefined') ? true : fillSimpleReference;
+        filters = (typeof(filters) === 'undefined') ? {} : filters;
 
         if (!this.config.hasEntity(entityName)) {
             return this.$q.reject('Entity ' + entityName + ' not found.');
@@ -162,6 +164,8 @@ define(function(require) {
             sortEntity = sortField ? sortField.split('.')[0] : '',
             sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
             response;
+
+        filters = entityConfig.filterParams()(filters);
 
         // Add sort param headers
         if (sortParams && sortParams.headers) {
@@ -183,6 +187,11 @@ define(function(require) {
             var filterQuery = entityConfig.filterQuery();
             params = angular.extend(params, filterQuery(query));
         }
+
+        // Add filters
+        angular.forEach(filters, function(value, fieldName) {
+            params[fieldName] = value;
+        });
 
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
