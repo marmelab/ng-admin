@@ -1,16 +1,16 @@
-<label for="{{ field.getName() }}" class="col-sm-2 control-label">{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;</label>
+<label for="{{ field.name() }}" class="col-sm-2 control-label">{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;</label>
 
 <div class="col-sm-10" ng-if="field.edition() == 'editable'" ng-switch="field.type()">
-    <input id="{{ field.getName() }}" class="form-control" ng-switch-when="string" type="text" ng-model="field.value" ng-required="field.validation().required" maxlength="{{ field.validation.maxlength }}" />
+    <input id="{{ field.name() }}" class="form-control" ng-switch-when="string" type="text" ng-model="field.value" ng-required="field.validation().required" maxlength="{{ field.validation.maxlength }}" />
 
-    <textarea id="{{ field.getName() }}" class="form-control" ng-switch-when="text" ng-model="field.value" ng-required="field.validation().required" maxlength="{{ field.validation.maxlength }}"></textarea>
+    <textarea id="{{ field.name() }}" class="form-control" ng-switch-when="text" ng-model="field.value" ng-required="field.validation().required" maxlength="{{ field.validation.maxlength }}"></textarea>
 
-    <input id="{{ field.getName() }}" class="form-control" ng-switch-when="email" type="email" ng-model="field.value" ng-required="field.validation().required" />
+    <input id="{{ field.name() }}" class="form-control" ng-switch-when="email" type="email" ng-model="field.value" ng-required="field.validation().required" />
 
-    <input id="{{ field.getName() }}" class="form-control" ng-switch-when="number" type="number" ng-model="field.value" ng-required="field.validation().required" />
+    <input id="{{ field.name() }}" class="form-control" ng-switch-when="number" type="number" ng-model="field.value" ng-required="field.validation().required" />
 
     <div class="input-group datepicker col-sm-4" ng-switch-when="date">
-        <input id="{{ field.getName() }}" class="form-control" type="text"
+        <input id="{{ field.name() }}" class="form-control" type="text"
                datepicker-popup="{{ field.format() }}" ng-model="field.value" min-date="field.minDate" max-date="field.maxDate"
                ng-required="field.validation().required" is-open="formController.openDatepicker[name]" close-text="Close" />
 
@@ -19,31 +19,33 @@
           </span>
     </div>
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="link" ng-model="field.value" ng-options="option as option for option in componentNames" ng-required="field.validation().required"></select>
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="link" ng-model="field.value" ng-options="option as option for option in componentNames" ng-required="field.validation().required"></select>
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="links" ng-model="field.value" multiple ng-multiple="true" ng-options="option as option for option in componentNames" ng-required="field.validation().required"></select>
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="links" ng-model="field.value" multiple ng-multiple="true" ng-options="option as option for option in componentNames" ng-required="field.validation().required"></select>
 
-    <input id="{{ field.getName() }}" type="checkbox" class="form-control" ng-switch-when="boolean" ng-model="field.value" ng-required="field.validation().required" />
+    <input id="{{ field.name() }}" type="checkbox" class="form-control" ng-switch-when="boolean" ng-model="field.value" ng-required="field.validation().required" />
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choice" ng-model="field.value" ng-required="field.validation().required">
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="choice" ng-model="field.value" ng-required="field.validation().required">
         <option ng-if="!field.validation().required">-- select a value --</option>
         <option ng-repeat="(key, value) in field.choices" value="{{ key }}" ng-selected="field.value == key">{{ value }}</option>
     </select>
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="choices" ng-model="field.value" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices" ng-required="field.validation().required"></select>
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="choices" ng-model="field.value" multiple ng-multiple="{{ field.multiple }}" ng-options="option as option for option in field.choices" ng-required="field.validation().required"></select>
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-required="field.validation().required">
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="reference" ng-model="field.value" ng-required="field.validation().required">
         <option ng-if="!field.validation().required">-- select a value --</option>
         <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="field.value == key" >{{ value }}</option>
     </select>
-    
+
     <div id="{{ field.getName() }}" ng-switch-when="wysiwyg" text-angular ng-model="field.value" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
 
-    <select id="{{ field.getName() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
+    <select id="{{ field.name() }}" class="form-control" ng-switch-when="reference-many" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
         <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="formController.contains(field.value, key)" >{{ value }}</option>
     </select>
 
     <span ng-switch-when="callback" compile="field.getCallbackValue()"></span>
+
+    <div id="{{ field.name() }}" ng-switch-when="wysiwyg" text-angular ng-model="field.value" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
 </div>
 
 <div ng-if="field.edition() == 'read-only'">
@@ -53,5 +55,5 @@
 </div>
 
 <div class="col-sm-10"  ng-if="field.type() === 'referenced-list'">
-    <div ng-include="'ng-admin/Crud/view/grid.html'" ng-init="columns=field.getGridColumns();items=field.getItems();entity=field.targetEntity()"></div>
+    <div ng-include="'ng-admin/Crud/view/grid.html'" ng-init="columns=field.getGridColumns();entities=field.getItems()"></div>
 </div>

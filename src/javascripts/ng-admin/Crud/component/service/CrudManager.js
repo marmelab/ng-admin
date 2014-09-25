@@ -10,10 +10,11 @@ define(function(require) {
      * @param {Application} Configuration
      * @constructor
      */
-    function CrudManager($q, Restangular, Configuration) {
+    function CrudManager($q, Restangular, Configuration, Field) {
         this.$q = $q;
         this.Restangular = Restangular;
         this.config = Configuration();
+        this.Field = Field;
 
         this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
@@ -52,18 +53,10 @@ define(function(require) {
 
                 // Transform each values with `valueTransformer`
                 angular.forEach(fields, function(field, index) {
-                    if (field.getName() in entity) {
-                        fields[index].value = field.valueTransformer()(entity[field.getName()]);
-                    }
+                    entityConfig.getField(index).value = field.valueTransformer()(entity[field.name()]);
                 });
 
-                return {
-                    fields: fields,
-                    entityConfig : entityConfig,
-                    entityName: entityName,
-                    entityId : entityId,
-                    rawData: entity
-                };
+                return entityConfig;
             });
     };
 
@@ -200,7 +193,7 @@ define(function(require) {
 
         // Get grid data
         return this.Restangular
-            .all(entityConfig.getName())
+            .all(entityConfig.name())
             .getList(params, headers)
             .then(function (data) {
                 response = data;
@@ -208,27 +201,33 @@ define(function(require) {
                 return self.getReferencedValues(entityName);
             })
             .then(function(referencedValues) {
-                var entities = response.data;
+                var rawEntities = response.data,
+                    entities = [];
 
-                for (var i = 0, l = entities.length; i < l; i++) {
-                    var entity = entities[i];
+                // Map each rawEntity to an Entity
+                for (var i = 0, l = rawEntities.length; i < l; i++) {
+                    var rawEntity = rawEntities[i],
+                        entity = angular.copy(entityConfig);
 
                     angular.forEach(fields, function(field, fieldName) {
+
                         if (field.type() === 'callback') {
-                            entities[i][fieldName] = field.getCallbackValue(entity);
-                        } else if (field.getName() in entity) {
-                            entities[i][fieldName] = field.valueTransformer()(entity[field.getName()]);
+                            entity.getField(fieldName).value = field.getCallbackValue(rawEntity);
+                        }else if (field.name() in rawEntity) {
+                            entity.getField(fieldName).value = field.valueTransformer()(rawEntity[field.name()]);
                         }
                     });
+
+                    entities.push(entity);
                 }
 
-                var rawItems = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
-                rawItems = self.truncateListValue(rawItems, entityConfig);
+                entities = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
+                entities = self.truncateListValue(entities);
 
                 return {
                     entityName: entityName,
                     entityConfig: entityConfig,
-                    rawItems: rawItems,
+                    entities: entities,
                     currentPage: page,
                     perPage: perPage,
                     totalItems: entityConfig.totalItems()(response)
@@ -243,7 +242,7 @@ define(function(require) {
      * @param {String} entityName        name of the entity
      * @param {String|Array} filterType  optional filter on the edition type (can be `read-only` or `editable`)
      *
-     * @returns {promise} (list of fields & the entity name, label & id)
+     * @returns {Promise} (list of fields & the entity name, label & id)
      */
     CrudManager.prototype.getEditionFields = function(entityName, filterType) {
         var filters = [];
@@ -283,14 +282,14 @@ define(function(require) {
             calls = [];
 
         angular.forEach(references, function(reference) {
-            calls.push(self.getAll(reference.targetEntity().getName(), 1, false))
+            calls.push(self.getAll(reference.targetEntity().name(), 1, false))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
                 angular.forEach(references, function(reference, index) {
-                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].rawItems));
+                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].entities));
                 });
 
                 return references;
@@ -301,48 +300,48 @@ define(function(require) {
      * Returns all ReferenceList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
      *
      * @param {String} entityName
-     * @param {Object} entityData
+     * @param {Entity} entity
      * @param {String} sortField
      * @param {String} sortDir
      *
      * @returns {Promise}
      */
-    CrudManager.prototype.getReferencedListValues = function(entityName, entityData, sortField, sortDir) {
+    CrudManager.prototype.getReferencedListValues = function(entityName, entity, sortField, sortDir) {
         var self = this,
             lists = this.getReferencedLists(entityName),
-            entityId = entityData.entityId,
+            entityId = entity.getIdentifier().value,
             calls = [];
 
         angular.forEach(lists, function(list) {
-            calls.push(self.getAll(list.targetEntity().getName(), 1, false, false, null, sortField, sortDir))
+            calls.push(self.getAll(list.targetEntity().name(), 1, false, false, null, sortField, sortDir))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
                 angular.forEach(lists, function(list, index) {
-                    lists[index].setItems(self.filterReferencedList(responses[i++].rawItems, list, entityId));
+                    entity.getField(index).setItems(self.filterReferencedList(responses[i++].entities, list, entityId));
                 });
 
-                return responses;
+                return lists;
             });
     };
 
     /**
      * Returns only referencedList values for an entity (filter it by identifier value)
      *
-     * @param {Array} elements
+     * @param {[Entity} entities
      * @param {ReferencedList} referencedList
      * @param {String|Number} entityId
      * @returns {Array}
      */
-    CrudManager.prototype.filterReferencedList = function(elements, referencedList, entityId) {
+    CrudManager.prototype.filterReferencedList = function(entities, referencedList, entityId) {
         var results = [],
             targetField = referencedList.targetField();
 
-        angular.forEach(elements, function(element) {
-            if (element[targetField] == entityId) {
-                results.push(element);
+        angular.forEach(entities, function(entity) {
+            if (entity.getField(targetField).value == entityId) {
+                results.push(entity);
             }
         });
 
@@ -353,17 +352,17 @@ define(function(require) {
      * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
      *
      * @param {Reference} reference
-     * @param {Array} values
+     * @param {[Entity]} entities
      *
      * @returns {Object}
      */
-    CrudManager.prototype.getReferenceChoices = function(reference, values) {
+    CrudManager.prototype.getReferenceChoices = function(reference, entities) {
         var result = {},
             targetEntity = reference.targetEntity(),
-            targetIdentifier = targetEntity.getIdentifier().getName();
+            targetIdentifier = targetEntity.getIdentifier().name();
 
-        angular.forEach(values, function(value) {
-            result[value[targetIdentifier]] = value[reference.targetLabel()];
+        angular.forEach(entities, function(entity) {
+            result[entity.getField(targetIdentifier).value] = entity.getField(reference.targetLabel()).value;
         });
 
         return result;
@@ -418,12 +417,12 @@ define(function(require) {
 
             // if we don't specify a restriction, get all the edition fields
             if (!filters.length) {
-                return this[field.getName()] = field;
+                return this[field.name()] = field;
             }
 
             // restriction to specified types fields
             if (filters.indexOf(field.edition()) !== -1) {
-                return this[field.getName()] = field;
+                return this[field.name()] = field;
             }
 
         }, filteredFields);
@@ -434,7 +433,7 @@ define(function(require) {
     /**
      * Fill ReferencedMany & Reference values from a collection a values
      *
-     * @param {[[Field]]} collection
+     * @param {[Entity]} collection
      * @param {Array} referencedValues
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
@@ -448,26 +447,19 @@ define(function(require) {
                 targetField;
 
             for (var i = 0, l = collection.length; i < l; i++) {
-                var element = collection[i],
-                    identifier = reference.valueTransformer()(element[referenceField]);
+                var entity = collection[i],
+                    identifier = reference.valueTransformer()(entity.getField(referenceField).value);
 
-                if (reference.name === 'ReferenceMany') {
-                    element[referenceField] = [];
+                if (reference.type() === 'reference-many') {
+                    entity.getField(referenceField).value = [];
 
                     angular.forEach(identifier, function(id) {
-                        element[referenceField].push(choices[id]);
+                        entity.getField(referenceField).value.push(choices[id]);
                     });
-
-                    element[referenceField + '_raw'] = identifier;
-                } else if (identifier && identifier in choices) {
-                    if (fillSimpleReference) {
-                        targetField = reference.targetEntity().getField(reference.targetLabel());
-                        value = choices[identifier];
-                        element[referenceField] = targetField.getTruncatedListValue(value);
-                        element[referenceField + '_raw'] = identifier;
-                    }
-                } else {
-                    delete element[referenceField];
+                } else if (fillSimpleReference && identifier && identifier in choices) {
+                    targetField = reference.targetEntity().getField(reference.targetLabel());
+                    value = choices[identifier];
+                    entity.getField(referenceField).referencedValue = targetField.getTruncatedListValue(value);
                 }
             }
         });
@@ -478,23 +470,29 @@ define(function(require) {
     /**
      * Truncate all values depending of the `truncateList` configuration of a field
      *
-     * @param {Array} values
-     * @param {Entity} entity
+     * @param {[Entity]} entities
      */
-    CrudManager.prototype.truncateListValue = function(values, entity) {
-        var fields = entity.getFields();
+    CrudManager.prototype.truncateListValue = function(entities) {
+        if (!entities.length) {
+            return;
+        }
 
-        for (var i = 0, l = values.length; i < l; i++) {
+        for (var i = 0, l = entities.length; i < l; i++) {
+            var entity = entities[i];
+
             for(var fieldName in entity.getFields()) {
                 var field = entity.getField(fieldName);
-                values[i][fieldName] = field.name === 'Field' ? field.getTruncatedListValue(values[i][fieldName]) : values[i][fieldName];
+
+                if (typeof(field.getTruncatedListValue) === 'function') {
+                    entities[i].getField(fieldName).value = field.getTruncatedListValue(entity.getField(fieldName).value);
+                }
             }
         }
 
-        return values;
+        return entities;
     };
 
-    CrudManager.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    CrudManager.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'Field'];
 
     return CrudManager;
 });

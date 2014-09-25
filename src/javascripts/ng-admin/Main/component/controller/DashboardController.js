@@ -30,9 +30,8 @@ define(function() {
             angular.forEach(panels, function(panel) {
 
                 var entityConfig = panel.entityConfig,
-                    rawItems = panel.rawItems,
-                    columns = [],
-                    identifierField = 'id';
+                    entities = panel.entities,
+                    columns = [];
 
                 // Get identifier field, and build columns array (only field defined with `list(true)` in config file)
                 angular.forEach(entityConfig.getFields(), function(field) {
@@ -40,12 +39,8 @@ define(function() {
                         return;
                     }
 
-                    if(field.identifier()) {
-                        identifierField = field.getName();
-                    }
-
                     columns.push({
-                        field: field.getName(),
+                        field: field,
                         label: field.label()
                     });
                 });
@@ -54,11 +49,10 @@ define(function() {
                     label: panel.entityConfig.label(),
                     entity: entityConfig,
                     columns: columns,
-                    items: rawItems,
-                    identifierField: identifierField,
+                    entities: entities,
                     options: {
                         grid : {
-                            dimensions : [ columns.length, rawItems.length ]
+                            dimensions : [ columns.length, entities.length ]
                         }
                     }
                 };
@@ -68,13 +62,12 @@ define(function() {
     };
 
     /**
-     * Redirect to the entity edition form
+     * Link to edit entity page
      *
-     * @param {Object} item
      * @param {Entity} entity
      */
-    DashboardController.prototype.edit = function(item, entity) {
-        this.$location.path('/edit/' + entity.getName() + '/' + item[entity.getIdentifier().getName()]);
+    DashboardController.prototype.edit = function(entity) {
+        this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
     };
 
     DashboardController.prototype.destroy = function() {

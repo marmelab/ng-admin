@@ -3,6 +3,23 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
+    app.directive('customPostLink', ['$location', function($location) {
+        return {
+            restrict: 'E',
+            template: '<a ng-click="displayPost(entity)">View&nbsp;post</a>',
+            controller: function($scope, $location) {
+
+            },
+            link: function($scope, element, attributes) {
+                $scope.displayPost = function(entity) {
+                    var postId = entity.getField('post_id').value;
+
+                    $location.path('/edit/posts/' + postId);
+                }
+            }
+        }
+    }]);
+
     app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
         function truncate(value) {
             if (!value) {
@@ -19,25 +36,24 @@
             }
         }
 
-        var post = Entity('posts'),
-            commentBody = Field('body'),
-            postId = Field('id'),
-            postCreatedAt = Field('created_at');
+        var post = new Entity('posts'),
+            commentBody = new Field('body'),
+            commentId = new Field('id');
 
-        var tag = Entity('tags')
-            .order(3)
+        var tag = new Entity('tags')
             .label('Tags')
+            .order(3)
             .dashboard(10)
             .pagination(pagination)
             .infinitePagination(false)
-            .addField(Field('id')
+            .addField(new Field('id')
                 .order(1)
                 .label('ID')
                 .type('number')
                 .identifier(true)
                 .edition('read-only')
             )
-            .addField(Field('name')
+            .addField(new Field('name')
                 .order(2)
                 .label('Name')
                 .edition('editable')
@@ -45,23 +61,28 @@
                     "required": true,
                     "max-length" : 150
                 })
-        );
-
-        var comment = Entity('comments')
+            ).addField(new Field('actions')
+                .type('callback')
+                .list(true)
+                .label('Test')
+                .isEditLink(false)
+            );
+        //
+        var comment = new Entity('comments')
             .order(2)
             .label('Comments')
             .description('Lists all the blog comments with an infinite pagination')
             .dashboard(10)
             .pagination(pagination)
             .infinitePagination(true)
-            .addField(postId
+            .addField(commentId
                 .order(1)
                 .label('ID')
                 .type('number')
                 .identifier(true)
                 .edition('read-only')
             )
-            .addField(Reference('post_id')
+            .addField(new Reference('post_id')
                 .dashboard(false)
                 .targetEntity(post)
                 .targetLabel('title')
@@ -77,23 +98,38 @@
                     "max-length" : 150
                 })
             )
-            .addField(postCreatedAt
+            .addField(new Field('created_at')
                 .order(3)
                 .label('Creation Date')
                 .type('date')
                 .edition('editable')
+                .dashboard(false)
                 .validation({
                     "required": true
                 })
-            ).addField(Field('actions')
+            ).addQuickFilter('Today', function() {
+                var now = new Date(),
+                    year = now.getFullYear(),
+                    month = now.getMonth() + 1,
+                    day = now.getDate();
+
+                month = month < 10 ? '0' + month : month;
+                day = day < 10 ? '0' + day : day;
+
+                return {
+                    created_at: [year, month, day].join('-')
+                }
+            })
+            .addField(new Field('actions')
                 .type('callback')
                 .list(true)
                 .label('Actions')
                 .isEditLink(false)
-                .callback(function(entity) {
-                    return '<a href="#/edit/posts/' + entity.post_id + '">View post</a>';
+                .callback(function() {
+                    return '<custom-post-link></custom-post-link>';
                 })
             );
+
 
         post
             .label('Posts')
@@ -104,36 +140,36 @@
             .titleCreate('Create a post')
             .titleEdit('Edit a post')
             .description('Lists all the blog posts with a simple pagination')
-            .addField(Field('id')
+            .addField(new Field('id')
                 .label('ID')
                 .type('number')
                 .identifier(true)
                 .edition('read-only')
             )
-            .addField(Field('title')
+            .addField(new Field('title')
                 .label('Title')
                 .edition('editable')
                 .truncateList(truncate)
             )
-            .addField(Field('body')
+            .addField(new Field('body')
                 .label('Body')
                 .type('text')
                 .edition('editable')
                 .truncateList(truncate)
             )
-            .addField(ReferencedList('comments')
+            .addField(new ReferencedList('comments')
                 .label('Comments')
                 .targetEntity(comment)
                 .targetField('post_id')
-                .targetFields([postId, commentBody])
+                .targetFields([commentId, commentBody])
             )
-            .addField(ReferenceMany('tags')
+            .addField(new ReferenceMany('tags')
                 .label('Tags')
                 .targetEntity(tag)
                 .targetLabel('name')
             );
 
-        var app = Application('ng-admin backend demo')
+        var app = new Application('ng-admin backend demo')
             .baseApiUrl('http://localhost:3000/')
             .addEntity(post)
             .addEntity(comment)

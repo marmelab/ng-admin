@@ -18,7 +18,8 @@ define(function(require) {
             humanEntity;
 
         beforeEach(function() {
-            humanEntity = Entity('human')
+            humanEntity = new Entity('human');
+            humanEntity
                 .extraParams(function () {
                     return {
                         key: 'abc'
@@ -30,22 +31,22 @@ define(function(require) {
                         limit: 100
                     }
                 })
-                .addField(Field('id').identifier(true).label('ID').edition('read-only'))
-                .addField(Field('name').label('Name'));
+                .addField(new Field('id').identifier(true).label('ID').edition('read-only'))
+                .addField(new Field('name').label('Name'));
 
-            catEntity = Entity('cat')
+            catEntity = new Entity('cat')
                 .interceptor(function(data, operation, what, url, response, deferred){
                     data.push({id: 9, name: 'ninja', summary: 'Ninja cat !'});
                     return data;
                 })
-                .addField(Field('id').label('ID').edition('read-only'))
-                .addField(Field('name').label('Name'))
-                .addField(Field('summary').label('Summary').valueTransformer(function(value) {
+                .addField(new Field('id').label('ID').edition('read-only'))
+                .addField(new Field('name').label('Name'))
+                .addField(new Field('summary').label('Summary').valueTransformer(function(value) {
                     return value + "-test";
                 }))
-                .addField(Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
+                .addField(new Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
 
-            var rawConfig = Application('test')
+            var rawConfig = new Application('test')
                 .addEntity(catEntity)
                 .addEntity(humanEntity);
 
@@ -130,9 +131,9 @@ define(function(require) {
                 crudManager.getAll('cat')
                     .then(function(data) {
                         expect(Restangular.addResponseInterceptor).toHaveBeenCalled();
-                        expect(data.rawItems.length).toBe(3);
+                        expect(data.entities.length).toBe(3);
                         expect(data.currentPage).toBe(1);
-                        expect(data.rawItems[0].summary).toBe("First cat-test");
+                        expect(data.entities[0].getField('summary').value).toBe("First cat-test");
                     });
             });
         });
@@ -193,12 +194,17 @@ define(function(require) {
 
         describe('getReferenceChoices', function() {
             it('should return all choices for a reference', function() {
-                var references = crudManager.getReferences('cat');
+                var references = crudManager.getReferences('cat'),
+                    entity1 = angular.copy(humanEntity),
+                    entity2 = angular.copy(humanEntity);
 
-                var choices = crudManager.getReferenceChoices(references['human_id'], [
-                    {'name': 'Billy', 'last_name': 'The kid', id: 8},
-                    {'name': 'Joe', 'last_name': 'Dalton', id: 9}
-                ]);
+                entity1.getField('name').value = 'Billy';
+                entity1.getField('id').value = 8;
+
+                entity2.getField('name').value = 'Joe';
+                entity2.getField('id').value = 9;
+
+                var choices = crudManager.getReferenceChoices(references['human_id'], [entity1, entity2]);
 
                 expect(8 in choices).toBe(true);
                 expect(choices[8]).toBe('Billy');
@@ -209,14 +215,24 @@ define(function(require) {
         describe('getReferencedValues', function() {
             it('should returns all choices for all references of an entity.', function() {
 
+                var entity1 = angular.copy(humanEntity),
+                    entity2 = angular.copy(humanEntity);
+
+                entity1.getField('name').value = 'Billy';
+                entity1.getField('id').value = 8;
+
+                entity2.getField('name').value = 'Joe';
+                entity2.getField('id').value = 9;
+
                 var responses = [{
-                    rawItems:[
-                        {'name': 'Billy', 'last_name': 'The kid', id: 8},
-                        {'name': 'Joe', 'last_name': 'Dalton', id: 9}
-                    ]
+                    entities:[entity1, entity2]
                 }];
 
                 $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise(responses));
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
 
                 crudManager.getReferencedValues('cat')
                     .then(function(references){

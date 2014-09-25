@@ -3,91 +3,101 @@ define(function (require) {
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    return function(fieldName) {
-        var name = fieldName || 'reference';
-        var items = [];
+    var defaultValueTransformer = function(value) {
+        return value;
+    };
 
-        var defaultValueTransformer = function(value) {
-            return value;
-        };
+    var config = {
+        name: 'myReference',
+        type: 'referenced-list',
+        label: 'My list',
+        edition : 'editable',
+        list: false,
+        order: null,
+        valueTransformer : defaultValueTransformer,
+        targetEntity : null,
+        targetField : null,
+        targetFields : [],
+        isEditLink: true,
+        validation: {
+            required: false
+        }
+    };
 
-        var config = {
-            type: 'referenced-list',
-            label: 'My list',
-            edition : 'editable',
-            list: false,
-            order: null,
-            valueTransformer : defaultValueTransformer,
-            isEditLink: true,
-            targetEntity : null,
-            targetField : null,
-            targetFields : [],
-            validation: {
-                required: false
+    /**
+     * @constructor
+     */
+    function ReferencedList(fieldName) {
+        this.entity = null;
+        this.config = angular.copy(config);
+        this.config.name = fieldName || 'reference';
+    }
+
+    ReferencedList.prototype.getItems = function() {
+        return items;
+    };
+
+    ReferencedList.prototype.setItems = function(i) {
+        items = i;
+
+        return this;
+    };
+
+    ReferencedList.prototype.getReferenceManyFields = function() {
+        var fields = [];
+
+        angular.forEach(this.targetFields(), function(targetField) {
+            if (targetField.type() === 'reference-many') {
+                fields.push(targetField);
             }
-        };
+        });
 
-        /**
-         * @constructor
-         */
-        function ReferencedList(label) {
-            this.label(label);
-            this.entity = null;
+        return fields;
+    };
+
+    ReferencedList.prototype.getGridColumns = function() {
+        var columns = [];
+
+        for (var i = 0, l = this.config.targetFields.length; i < l; i++) {
+            var field = this.config.targetFields[i];
+
+            columns.push({
+                field: field,
+                label: field.label()
+            });
         }
 
-        /**
-         * Object.name is protected, use a getter for it
-         *
-         * @returns {string}
-         */
-        ReferencedList.getName = function() {
-            return name;
-        };
+        return columns;
+    };
 
-        ReferencedList.getItems = function() {
-            return items;
-        };
+    /**
+     * @param {Entity} entity
+     */
+    ReferencedList.prototype.setEntity = function(entity) {
+        this.entity = entity;
 
-        ReferencedList.setItems = function(i) {
-            items = i;
+        return this;
+    };
 
-            return this;
-        };
+    /**
+     * @return {Entity}
+     */
+    ReferencedList.prototype.getEntity = function() {
+        return this.entity;
+    };
 
-        ReferencedList.getReferenceManyFields = function() {
-            var fields = [];
+    /**
+     * @return {string}
+     */
+    ReferencedList.prototype.getSortName = function() {
+        return this.entity.name() + '.' + this.name();
+    };
 
-            angular.forEach(this.targetFields(), function(targetField) {
-                if (targetField.type() === 'reference-many') {
-                    fields.push(targetField);
-                }
-            });
+    ReferencedList.prototype.clear = function() {
+        return this;
+    };
 
-            return fields;
-        };
+    Configurable(ReferencedList.prototype, config);
 
-        ReferencedList.getGridColumns = function() {
-            var columns = [];
-
-            for (var i = 0, l = config.targetFields.length; i < l; i++) {
-                var field = config.targetFields[i];
-
-                columns.push({
-                    fieldName: field.getName(),
-                    label: field.label(),
-                    field: field
-                });
-            }
-
-            return columns;
-        };
-
-        ReferencedList.setEntity = function(e) {
-            this.entity = e;
-        };
-
-        Configurable(ReferencedList, config);
-
-        return ReferencedList;
-    }
+    return ReferencedList;
 });
