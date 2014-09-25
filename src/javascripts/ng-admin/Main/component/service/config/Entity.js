@@ -212,8 +212,8 @@ define(function (require) {
      */
     Entity.prototype.getExtraParams = function() {
         var params = {};
-        if (config.extraParams) {
-            params = typeof (config.extraParams) === 'function' ? config.extraParams() : config.extraParams;
+        if (this.config.extraParams) {
+            params = typeof (this.config.extraParams) === 'function' ? this.config.extraParams() : this.config.extraParams;
         }
 
         return params;
@@ -225,23 +225,23 @@ define(function (require) {
      * @returns {Object}
      */
     Entity.prototype.getSortParams = function(sortField, sortDir) {
-        return typeof (config.sortParams) === 'function' ? config.sortParams(sortField, sortDir) : config.sortParams;
+        return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 
     Entity.prototype.getListTitle = function() {
-        return getTitle(config.titleList, this);
+        return getTitle(this.config.titleList, this);
     };
 
     Entity.prototype.getCreateTitle = function() {
-        return getTitle(config.titleCreate, this);
+        return getTitle(this.config.titleCreate, this);
     };
 
     Entity.prototype.getEditTitle = function() {
-        return getTitle(config.titleEdit, this);
+        return getTitle(this.config.titleEdit, this);
     };
 
     Entity.prototype.getDescription = function() {
-        return getTitle(config.description, this);
+        return getTitle(this.config.description, this);
     };
 
     Entity.prototype.addQuickFilter = function(label, params) {
