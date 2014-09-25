@@ -33,6 +33,7 @@ define(function (require) {
     function Reference(fieldName) {
         this.entity = null;
         this.value = null;
+        this.referencedValue = null;
         this.choices = {};
         this.config = angular.copy(config);
         this.config.name = fieldName || 'reference';
@@ -93,6 +94,15 @@ define(function (require) {
         this.value = null;
 
         return this;
+    };
+
+    /**
+     * Returns value used in list
+     *
+     * @returns mixed
+     */
+    Reference.prototype.getListValue = function() {
+        return this.referencedValue;
     };
 
     Configurable(Reference.prototype, config);

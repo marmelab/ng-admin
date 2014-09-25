@@ -26,6 +26,7 @@ define(function() {
 
         this.fields = entity.getFields();
         this.entityLabel = entity.label();
+        this.$scope.entity = this.entity;
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
         this.$scope.sort = this.sort.bind(this);

@@ -19,7 +19,7 @@
                 </a>
 
                  <span ng-switch-default ng-switch="entity.getField(column.field.name()).isEditLink()">
-                    <a ng-click="edit(entity)" ng-switch-when="true">{{{ entity.getField(column.field.name()).value }}</a>
+                    <a ng-click="edit(entity)" ng-switch-when="true">{{ entity.getField(column.field.name()).getListValue() }}</a>
 
                     <span ng-switch-default ng-init="field = item" compile="entity.getField(column.field.name()).getCallbackValue()"></span>
                 </span>

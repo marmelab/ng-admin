@@ -119,8 +119,17 @@ define(function (require) {
       *
       * @returns mixed
       */
-    Field.getCallbackValue = function(data) {
+    Field.prototype.getCallbackValue = function(data) {
         return this.callback()(data);
+    };
+
+    /**
+      * Returns value used in list
+      *
+      * @returns mixed
+      */
+    Field.prototype.getListValue = function() {
+        return this.value;
     };
 
     Field.prototype.clear = function() {

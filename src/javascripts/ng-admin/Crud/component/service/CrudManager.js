@@ -433,11 +433,7 @@ define(function(require) {
     /**
      * Fill ReferencedMany & Reference values from a collection a values
      *
-<<<<<<< HEAD
-     * @param {[[Field]]} collection
-=======
      * @param {[Entity]} collection
->>>>>>> Use same entity structure everywhere
      * @param {Array} referencedValues
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
@@ -463,7 +459,7 @@ define(function(require) {
                 } else if (fillSimpleReference && identifier && identifier in choices) {
                     targetField = reference.targetEntity().getField(reference.targetLabel());
                     value = choices[identifier];
-                    entity.getField(referenceField).value = targetField.getTruncatedListValue(value);
+                    entity.getField(referenceField).referencedValue = targetField.getTruncatedListValue(value);
                 }
             }
         });
