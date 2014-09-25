@@ -40,7 +40,7 @@ define(function() {
                     }
 
                     columns.push({
-                        field: field.name(),
+                        field: field,
                         label: field.label()
                     });
                 });

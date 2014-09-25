@@ -55,5 +55,5 @@
 </div>
 
 <div class="col-sm-10"  ng-if="field.type() === 'referenced-list'">
-    <div ng-include="'ng-admin/Crud/view/grid.html'" ng-init="columns=field.getGridColumns();entities=field.getItems();entityConfig=field.targetEntity()"></div>
+    <div ng-include="'ng-admin/Crud/view/grid.html'" ng-init="columns=field.getGridColumns();entities=field.getItems()"></div>
 </div>
