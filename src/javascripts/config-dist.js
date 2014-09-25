@@ -64,8 +64,11 @@
             ).addField(new Field('actions')
                 .type('callback')
                 .list(true)
-                .label('Test')
+                .label('Big Name')
                 .isEditLink(false)
+                .callback(function() {
+                    return '{{ entity.getField("name").value.toUpperCase() }}';
+                })
             );
         //
         var comment = new Entity('comments')
