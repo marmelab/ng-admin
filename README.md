@@ -161,13 +161,13 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
 		.addField(Field('actions')
             .type('callback')
             .list(true)
-            .label('Actions')
+            .label('Big value')
             // Disable default link on the list view
             .isEditLink(false)
             // Add a new link to the post thanks to callback
             .callback(function(entity) {
                 // Directive can also be included
-                return '<a href="#/edit/posts/' + entity.post_id + '">View post</a>';
+                return '{{ entity.getField("name").value.toUpperCase() }}';
             })
         );
 
