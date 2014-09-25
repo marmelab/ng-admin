@@ -4,17 +4,17 @@ define(function() {
     var humane = require('humane'),
         NProgress = require('nprogress');
 
-    var FormController = function($scope, $location, $filter, CrudManager, Validator, data) {
-        var isNew = typeof(data.entityId) === 'undefined';
+    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity) {
+        var isNew = entity.isNew();
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
         this.CrudManager = CrudManager;
         this.Validator = Validator;
-        this.data = data;
+        this.entity = entity;
         this.openDatepicker = {};
-        this.title = isNew ? data.entityConfig.getCreateTitle() : data.entityConfig.getEditTitle();
-        this.description = data.entityConfig.getDescription();
+        this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
+        this.description = entity.getDescription();
 
         if (isNew) {
             this.clear();
@@ -24,8 +24,8 @@ define(function() {
         this.$scope.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.$scope.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
 
-        this.fields = data.fields;
-        this.entityLabel = data.entityConfig.label();
+        this.fields = entity.getFields();
+        this.entityLabel = entity.label();
         this.$scope.itemClass = this.itemClass.bind(this);
         this.$scope.edit = this.edit.bind(this);
         this.$scope.sort = this.sort.bind(this);
@@ -35,15 +35,15 @@ define(function() {
     };
 
     FormController.prototype.create = function() {
-        this.$location.path('/create/' + this.data.entityName);
+        this.$location.path('/create/' + this.entity.name());
     };
 
     FormController.prototype.deleteOne = function() {
-        this.$location.path('/delete/' + this.data.entityName + '/' + this.data.entityId);
+        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
     };
 
     FormController.prototype.back = function() {
-        this.$location.path('/list/' + this.data.entityName);
+        this.$location.path('/list/' + this.entity.name());
     };
 
     FormController.prototype.contains = function(collection, item) {
@@ -67,20 +67,20 @@ define(function() {
         var value,
             self = this,
             object = {
-                id: this.data.entityId
+                id: this.entity.getIdentifier().value
             };
 
-        angular.forEach(this.data.fields, function(field){
+        angular.forEach(this.entity.getFields(), function(field){
             value = field.value;
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
             }
 
-            object[field.getName()] = value;
+            object[field.name()] = value;
         });
 
         try {
-            this.Validator.validate(this.data.entityName, object);
+            this.Validator.validate(this.entity.name(), object);
         } catch(e) {
             NProgress.done();
             humane.log(e, {addnCls: 'humane-flatty-error'});
@@ -99,11 +99,11 @@ define(function() {
         }
 
         this.CrudManager
-            .createOne(this.data.entityName, object)
+            .createOne(this.entity.name(), object)
             .then(function(response) {
                 NProgress.done();
                 humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-                self.$location.path('/edit/' + self.data.entityName + '/' + response.data.id);
+                self.$location.path('/edit/' + self.entity.name() + '/' + response.data.id);
             });
     };
 
@@ -115,7 +115,7 @@ define(function() {
             return;
         }
 
-        this.CrudManager.updateOne(this.data.entityName, object).then(function() {
+        this.CrudManager.updateOne(this.entity.name(), object).then(function() {
             NProgress.done();
             humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
@@ -142,33 +142,36 @@ define(function() {
         return (index % 2 === 0) ? 'even' : 'odd';
     };
 
-    FormController.prototype.sort = function(entity, field) {
+    /**
+     *
+     * @param {Field} field
+     */
+    FormController.prototype.sort = function(field) {
         var dir = 'ASC',
-            field = entity.getName() + '.' + field;
+            fieldName = field.getSortName();
 
-        if (this.$scope.sortField === field) {
+        if (this.$scope.sortField === fieldName) {
             dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
         }
 
-        this.changePage(this.$scope.filterQuery, 1, field, dir);
+        this.changePage(this.$scope.filterQuery, 1, fieldName, dir);
     };
 
     FormController.prototype.changePage = function(filter, page, sortField, sortDir) {
         this.$location.search('sortField', sortField);
         this.$location.search('sortDir', sortDir);
-        this.$location.path('/edit/' + this.data.entityConfig.getName() + '/' + this.data.entityId);
+        this.$location.path('/edit/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
     };
 
     /**
      * Return true if a column is being sorted
      *
-     * @param {Entity} entity
-     * @param {String} field
+     * @param {Field} field
      *
      * @returns {Boolean}
      */
-    FormController.prototype.isSorting = function(entity, field) {
-        return this.$scope.sortField === entity.getName() + '.' + field;
+    FormController.prototype.isSorting = function(field) {
+        return this.$scope.sortField === field.getSortName();
     };
 
     /**
@@ -178,15 +181,15 @@ define(function() {
      * @param {Entity} entity
      */
     FormController.prototype.edit = function(item, entity) {
-        this.$location.path('/edit/' +entity.getName() + '/' + item[entity.getIdentifier().getName()]);
+        this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
     };
 
     /**
-     * Clear all fields data
+     * Clear all fields
      */
     FormController.prototype.clear = function() {
-        angular.forEach(this.data.fields, function(field){
-            field.value = field.name === 'ReferencedList' ? field.setItems([]) : null;
+        angular.forEach(this.entity.getFields(), function(field){
+            field.clear();
         });
     };
 
@@ -194,10 +197,10 @@ define(function() {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
-        this.data = undefined;
+        this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'data'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity'];
 
     return FormController;
 });

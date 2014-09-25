@@ -75,17 +75,17 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    entity: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
                     }],
                     referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
                     }],
-                    referencedListValues: ['$stateParams', 'data', 'CrudManager', function($stateParams, data, CrudManager) {
+                    referencedListValues: ['$stateParams', 'entity', 'CrudManager', function($stateParams, entity, CrudManager) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return CrudManager.getReferencedListValues($stateParams.entity, data, sortField, sortDir);
+                        return CrudManager.getReferencedListValues($stateParams.entity, entity, sortField, sortDir);
                     }]
                 }
             });

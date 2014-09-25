@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <td ng-repeat="column in columns">
-                <a ng-click="sort(entity, column.fieldName)">
-                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="isSorting(entity, column.fieldName)"></span>
+                <a ng-click="sort(column.field)">
+                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="isSorting(column.field)"></span>
 
                     {{ column.label }}
                 </a>
@@ -12,16 +12,16 @@
     </thead>
 
     <tbody>
-        <tr ng-class="itemClass($index)" ng-repeat="item in items">
-            <td ng-repeat="column in columns" ng-switch="entity.getField(column.fieldName).type()">
-                <a ng-click="edit(item, entity)" ng-switch-when="reference-many" class="multiple">
-                    <span ng-repeat="ref in item[column.fieldName]" class="label label-default">{{ ref }}</span>
+        <tr ng-class="itemClass($index)" ng-repeat="entity in entities track by $index">
+            <td ng-repeat="column in columns" ng-switch="column.field.type()">
+                <a ng-click="edit(entity)" ng-switch-when="reference-many" class="multiple">
+                    <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">{{ ref }}</span>
                 </a>
 
-                <span ng-switch-default ng-switch="column.isEditLink">
-                    <a ng-click="edit(item, entity)" ng-switch-when="true">{{ item[column.fieldName] }}</a>
+                 <span ng-switch-default ng-switch="entity.getField(column.field.name()).isEditLink()">
+                    <a ng-click="edit(entity)" ng-switch-when="true">{{{ entity.getField(column.field.name()).value }}</a>
 
-                    <span ng-switch-default ng-init="field = item" compile="column.field.getCallbackValue()"></span>
+                    <span ng-switch-default ng-init="field = item" compile="entity.getField(column.field.name()).getCallbackValue()"></span>
                 </span>
             </td>
         </tr>

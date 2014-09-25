@@ -26,9 +26,8 @@ define(function(require) {
         this.$scope.edit = this.edit.bind(this);
         this.$scope.sort = this.sort.bind(this);
         this.$scope.isSorting = this.isSorting.bind(this);
-        this.$scope.entity = this.entityConfig;
-        this.$scope.entity = this.entityConfig;
-        this.$scope.items = data.rawItems;
+        this.$scope.entities = data.entities;
+        this.$scope.entityConfig = this.entityConfig;
 
         this.quickFilters = this.entityConfig.getQuickFilterNames();
         this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
@@ -48,15 +47,9 @@ define(function(require) {
                 return;
             }
 
-            if(field.identifier()) {
-                self.identifierField = field.getName();
-            }
-
             columns.push({
                 field: field,
-                fieldName: field.getName(),
-                label: field.label(),
-                isEditLink: field.isEditLink()
+                label: field.label()
             });
         });
 
@@ -83,9 +76,9 @@ define(function(require) {
         this.currentPage++;
 
         NProgress.start();
-        this.CrudManager.getAll(entityConfig.getName(), this.currentPage, null, true, null, this.$scope.sortField, this.$scope.sortDir).then(function(nextData) {
+        this.CrudManager.getAll(entityConfig.name(), this.currentPage, null, true, null, this.$scope.sortField, this.$scope.sortDir).then(function(nextData) {
             NProgress.done();
-            self.$scope.items = self.$scope.items.concat(nextData.rawItems);
+            self.$scope.entities = self.$scope.entities.concat(nextData.entities);
             self.loadingPage = false;
         });
     };
@@ -116,15 +109,18 @@ define(function(require) {
         this.filter();
     };
 
-    ListController.prototype.sort = function(entity, field) {
+    /**
+     * @param {Field} field
+     */
+    ListController.prototype.sort = function(field) {
         var dir = 'ASC',
-            field = entity.getName() + '.' + field;
+            fieldName = field.getSortName();
 
-        if (this.$scope.sortField === field) {
+        if (this.$scope.sortField === fieldName) {
             dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
         }
 
-        this.changePage(this.$scope.filterQuery, 1, field, dir);
+        this.changePage(this.$scope.filterQuery, 1, fieldName, dir);
     };
 
     ListController.prototype.changePage = function(filter, page, sortField, sortDir, quickFilterName) {
@@ -178,13 +174,12 @@ define(function(require) {
     /**
      * Return true if a column is being sorted
      *
-     * @param {Entity} entity
-     * @param {String} field
+     * @param {Field} field
      *
      * @returns {Boolean}
      */
-    ListController.prototype.isSorting = function(entity, field) {
-        return this.$scope.sortField === entity.getName() + '.' + field;
+    ListController.prototype.isSorting = function(field) {
+        return this.$scope.sortField === field.getSortName();
     };
 
     /**
@@ -200,12 +195,12 @@ define(function(require) {
     /**
      * Link to edit entity page
      *
-     * @param {Object} item
+     * @param {Entity} entity
      */
-    ListController.prototype.edit = function(item) {
+    ListController.prototype.edit = function(entity) {
         this.clearParams();
 
-        this.$location.path('/edit/' + this.data.entityName + '/' + item[this.identifierField]);
+        this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
         this.$anchorScroll(0);
     };
 

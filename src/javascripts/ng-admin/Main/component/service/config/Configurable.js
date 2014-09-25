@@ -3,16 +3,17 @@
 define(function () {
     "use strict";
 
-    function configurable(targetFunction, config) {
-        for (var item in config) {
-            (function(item) {
-                targetFunction[item] = function(value) {
-                    if (!arguments.length) return config[item];
-                    config[item] = value;
+    function configurable(target, config) {
+        for (var propertyName in config) {
+            (function(propertyName) {
+                target[propertyName] = function(value) {
+                    if (!arguments.length) return this.config[propertyName];
 
-                    return targetFunction;
+                    this.config[propertyName] = value;
+
+                    return this;
                 };
-            })(item); // for doesn't create a closure, forcing it
+            })(propertyName); // for doesn't create a closure, forcing it
         }
     }
 

@@ -27,11 +27,11 @@ define(function() {
         this.$location.search('sortField', null);
         this.$location.search('sortOrder', null);
         this.$location.search('quickFilters', null);
-        this.$location.path('/list/' + entity.getName());
+        this.$location.path('/list/' + entity.name());
     };
 
     SidebarController.prototype.isActive = function(entity) {
-        return this.currentEntity === entity.getName();
+        return this.currentEntity === entity.name();
     };
 
     SidebarController.prototype.destroy = function() {
