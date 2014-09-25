@@ -114,13 +114,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
     grunt.registerTask('test', ['karma']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
-    grunt.registerTask('build', ['requirejs:prod', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
 
     // register default task
     grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);
