@@ -33,7 +33,7 @@ Configure ng-admin:
 app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
     // See below for more information about the configuration
 
-    var app = Application('My backend')
+    var app = new Application('My backend')
         .baseApiUrl('http://localhost:3000/')
         .addEntity(/* ... */)
 
@@ -60,7 +60,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
     var postBody, postId;
 
     // Declare a new entity
-    var tag = Entity('tags')
+    var tag = new Entity('tags')
         .label('Tags')
         // how many element should be displayed in dashboard ?
         .dashboard(10)
@@ -79,14 +79,14 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
                 filter: query
             };
         })
-        .addField(Field('id')
+        .addField(new Field('id')
             .order(1)
             .label('ID')
             .type('number')
             .identifier(true)
             .edition('read-only')
         )
-        .addField(Field('name')
+        .addField(new Field('name')
             .order(2)
             .label('Name')
             .edition('editable')
@@ -96,7 +96,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
             })
         );
 
-    var comment = Entity('comments')
+    var comment = new Entity('comments')
         .label('Comments')
         .dashboard(10)
         .infinitePagination(true)
@@ -113,14 +113,14 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
                 }
             }
         })
-        .addField(postId = Field('id')
+        .addField(postId = new Field('id')
             .order(1)
             .label('ID')
             .type('number')
             .identifier(true)
             .edition('read-only')
         )
-        .addField(postBody = Field('body')
+        .addField(postBody = new Field('body')
             .order(2)
             .label('Comment')
             .edition('editable')
@@ -137,7 +137,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
             // Allows to return custom specific search params
             return params;
         })
-        .addField(Field('created_at')
+        .addField(new Field('created_at')
             .order(3)
             .label('Creation Date')
             .type('date')
@@ -158,7 +158,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
                  created_at: [year, month, day].join('-')
              }
         })
-		.addField(Field('actions')
+		.addField(new Field('actions')
             .type('callback')
             .list(true)
             .label('Big value')
@@ -171,34 +171,34 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
             })
         );
 
-    var post = Entity('posts')
+    var post = new Entity('posts')
         .label('Posts')
         .dashboard(null)
         .pagination(false)
-        .addField(Field('id')
+        .addField(new Field('id')
             .label('ID')
             .type('number')
             .identifier(true)
             .edition('read-only')
         )
-        .addField(Field('body')
+        .addField(new Field('body')
             .label('Body')
             .type('wysiwyg')
             .edition('editable')
         )
-        .addField(ReferencedList('comments')
+        .addField(new ReferencedList('comments')
             .label('Comments')
             .targetEntity(comment)
             .targetField('post_id')
             .targetFields([postId, postBody])
              )
-        .addField(ReferenceMany('tags')
+        .addField(new ReferenceMany('tags')
             .label('Tags')
             .targetEntity(tag)
             .targetLabel('name')
         );
 
-    var app = Application('My backend')
+    var app = new Application('My backend')
         // Add extra headers for each actions
         .headers(function(entityName, action) {
             return {
@@ -246,7 +246,7 @@ Define the format for `date` type.
 Define a custom function to transform the value.
 
 ```js
-.addField(Field('characters')
+.addField(new Field('characters')
     .valueTransformer(function(value) {
         return value && value.items ? value.items[0] : value;
     })
