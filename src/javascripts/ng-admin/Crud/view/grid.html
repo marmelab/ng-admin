@@ -14,15 +14,27 @@
     <tbody>
         <tr ng-class="itemClass($index)" ng-repeat="entity in entities track by $index">
             <td ng-repeat="column in columns" ng-switch="column.field.type()">
-                <a ng-click="edit(entity)" ng-switch-when="reference-many" class="multiple">
-                    <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">{{ ref }}</span>
-                </a>
+                <string-column ng-switch-when="string"></string-column>
 
-                 <span ng-switch-default ng-switch="entity.getField(column.field.name()).isEditLink()">
-                    <a ng-click="edit(entity)" ng-switch-when="true">{{ entity.getField(column.field.name()).getListValue() }}</a>
+                <text-column ng-switch-when="text"></text-column>
 
-                    <span ng-switch-default ng-init="field = item" compile="entity.getField(column.field.name()).getCallbackValue()"></span>
-                </span>
+                <email-column ng-switch-when="email"></email-column>
+
+                <number-column ng-switch-when="number"></number-column>
+
+                <date-column ng-switch-when="date"></date-column>
+
+                <boolean-column ng-switch-when="boolean"></boolean-column>
+
+                <choice-column ng-switch-when="choice"></choice-column>
+
+                <reference-column ng-switch-when="reference"></reference-column>
+
+                <reference-many-column ng-switch-when="reference-many"></reference-many-column>
+
+                <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
+
+                <callback-column ng-switch-when="callback"></callback-column>
             </td>
         </tr>
     </tbody>

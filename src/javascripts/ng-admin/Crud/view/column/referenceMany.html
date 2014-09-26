@@ -1,0 +1,5 @@
+<a ng-click="edit(entity)" class="multiple">
+    <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">
+        {{ ref }}
+    </span>
+</a>

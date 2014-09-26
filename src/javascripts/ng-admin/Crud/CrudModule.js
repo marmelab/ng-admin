@@ -1,32 +1,7 @@
 define(function (require) {
     "use strict";
 
-    var angular = require('angular'),
-        ListController = require('ng-admin/Crud/component/controller/ListController'),
-        FormController = require('ng-admin/Crud/component/controller/FormController'),
-        DeleteController = require('ng-admin/Crud/component/controller/DeleteController'),
-
-        InfinitePagination = require('ng-admin/Crud/component/directive/InfinitePagination'),
-        Compile = require('ng-admin/Crud/component/directive/Compile'),
-
-        StringField = require('ng-admin/Crud/component/directive/field/StringField'),
-        EmailField = require('ng-admin/Crud/component/directive/field/EmailField'),
-        TextField = require('ng-admin/Crud/component/directive/field/TextField'),
-        NumberField = require('ng-admin/Crud/component/directive/field/NumberField'),
-        DateField = require('ng-admin/Crud/component/directive/field/DateField'),
-        BooleanField = require('ng-admin/Crud/component/directive/field/BooleanField'),
-        ChoiceField = require('ng-admin/Crud/component/directive/field/ChoiceField'),
-        ChoicesField = require('ng-admin/Crud/component/directive/field/ChoicesField'),
-        ReferenceField = require('ng-admin/Crud/component/directive/field/ReferenceField'),
-        WysiwygField = require('ng-admin/Crud/component/directive/field/WysiwygField'),
-        ReferenceManyField = require('ng-admin/Crud/component/directive/field/ReferenceManyField'),
-        CallbackField = require('ng-admin/Crud/component/directive/field/CallbackFieldField'),
-
-        CrudManager = require('ng-admin/Crud/component/service/CrudManager'),
-
-        cacheTemplate = require('ng-admin/Crud/run/cacheTemplate'),
-
-        routing = require('ng-admin/Crud/config/routing');
+    var angular = require('angular');
 
     require('angular-ui-router');
     require('angular-sanitize');
@@ -35,27 +10,44 @@ define(function (require) {
 
     var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular']);
 
-    CrudModule.controller('ListController', ListController);
-    CrudModule.controller('FormController', FormController);
-    CrudModule.controller('DeleteController', DeleteController);
+    CrudModule.controller('ListController', require('ng-admin/Crud/component/controller/ListController'));
+    CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
+    CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 
-    CrudModule.service('CrudManager', CrudManager);
+    CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
 
-    CrudModule.directive('infinitePagination', InfinitePagination);
-    CrudModule.directive('compile', Compile);
+    CrudModule.directive('infinitePagination', require('ng-admin/Crud/component/directive/InfinitePagination'));
+    CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
-    CrudModule.directive('stringField', StringField);
-    CrudModule.directive('emailField', EmailField);
-    CrudModule.directive('textField', TextField);
-    CrudModule.directive('numberField', NumberField);
-    CrudModule.directive('dateField', DateField);
-    CrudModule.directive('booleanField', BooleanField);
-    CrudModule.directive('choiceField', ChoiceField);
-    CrudModule.directive('choicesField', ChoicesField);
-    CrudModule.directive('referenceField', ReferenceField);
-    CrudModule.directive('wysiwygField', WysiwygField);
-    CrudModule.directive('referenceManyField', ReferenceManyField);
-    CrudModule.directive('callbackField', CallbackField);
+    CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));
+    CrudModule.directive('emailField', require('ng-admin/Crud/component/directive/field/EmailField'));
+    CrudModule.directive('textField', require('ng-admin/Crud/component/directive/field/TextField'));
+    CrudModule.directive('numberField', require('ng-admin/Crud/component/directive/field/NumberField'));
+    CrudModule.directive('dateField', require('ng-admin/Crud/component/directive/field/DateField'));
+    CrudModule.directive('booleanField', require('ng-admin/Crud/component/directive/field/BooleanField'));
+    CrudModule.directive('choiceField', require('ng-admin/Crud/component/directive/field/ChoiceField'));
+    CrudModule.directive('choicesField', require('ng-admin/Crud/component/directive/field/ChoicesField'));
+    CrudModule.directive('referenceField', require('ng-admin/Crud/component/directive/field/ReferenceField'));
+    CrudModule.directive('referenceManyField', require('ng-admin/Crud/component/directive/field/ReferenceManyField'));
+    CrudModule.directive('wysiwygField', require('ng-admin/Crud/component/directive/field/WysiwygField'));
+    CrudModule.directive('callbackField', require('ng-admin/Crud/component/directive/field/CallbackField'));
+
+    CrudModule.directive('stringColumn', require('ng-admin/Crud/component/directive/column/StringColumn'));
+    CrudModule.directive('emailColumn', require('ng-admin/Crud/component/directive/column/EmailColumn'));
+    CrudModule.directive('textColumn', require('ng-admin/Crud/component/directive/column/TextColumn'));
+    CrudModule.directive('numberColumn', require('ng-admin/Crud/component/directive/column/NumberColumn'));
+    CrudModule.directive('dateColumn', require('ng-admin/Crud/component/directive/column/DateColumn'));
+    CrudModule.directive('booleanColumn', require('ng-admin/Crud/component/directive/column/BooleanColumn'));
+    CrudModule.directive('choiceColumn', require('ng-admin/Crud/component/directive/column/ChoiceColumn'));
+    CrudModule.directive('choicesColumn', require('ng-admin/Crud/component/directive/column/ChoicesColumn'));
+    CrudModule.directive('referenceColumn', require('ng-admin/Crud/component/directive/column/ReferenceColumn'));
+    CrudModule.directive('referenceManyColumn', require('ng-admin/Crud/component/directive/column/ReferenceManyColumn'));
+    CrudModule.directive('wysiwygColumn', require('ng-admin/Crud/component/directive/column/WysiwygColumn'));
+    CrudModule.directive('callbackColumn', require('ng-admin/Crud/component/directive/column/CallbackColumn'));
+
+    CrudModule.run(require('ng-admin/Crud/run/cacheTemplate'));
+
+    CrudModule.config(require('ng-admin/Crud/config/routing'));
 
     /**
      * Date Picker patch
@@ -75,10 +67,6 @@ define(function (require) {
             return $delegate;
         });
     }]);
-
-    CrudModule.run(cacheTemplate);
-
-    CrudModule.config(routing);
 
     return CrudModule;
 });
