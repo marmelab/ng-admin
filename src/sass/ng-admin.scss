@@ -48,6 +48,12 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
         margin: 0 1%;
         overflow: scroll;
 
+        .panel-heading {
+            color: #333;
+            background-color: #f5f5f5;
+            border-color: #ddd;
+        }
+
         table {
             width: 100%;
 
@@ -64,6 +70,11 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     .grid {
         border: none;
     }
+}
+
+menu {
+    margin: 0;
+    padding: 0;
 }
 
 .controls {

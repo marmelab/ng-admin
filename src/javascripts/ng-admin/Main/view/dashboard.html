@@ -5,11 +5,7 @@
 </div>
 
 <div class="row dashboard-content">
-    <div class="panel panel-default col-lg-5" ng-repeat="(name, panel) in dashboardController.panels">
-        <div class="panel-heading">
-            {{ panel.label }}
-        </div>
-
-        <div ng-include="'ng-admin/Crud/view/grid.html'" ng-init="columns=panel.columns;entities=panel.entities"></div>
+    <div class="panel panel-default col-lg-5" ng-repeat="(name, panel) in dashboardController.panels" ng-init="columns=panel.columns;entities=panel.entities">
+        <dashboard-panel></dashboard-panel>
     </div>
 </div>

@@ -1,26 +1,5 @@
 define(function (require) {
-    var angular = require('angular'),
-        AppController = require('ng-admin/Main/component/controller/AppController'),
-        DashboardController = require('ng-admin/Main/component/controller/DashboardController'),
-        SidebarController = require('ng-admin/Main/component/controller/SidebarController'),
-
-        PanelBuilder = require('ng-admin/Main/component/service/PanelBuilder'),
-        Validator = require('ng-admin/Main/component/service/Validator'),
-
-        Application = require('ng-admin/Main/component/service/config/Application'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        Reference = require('ng-admin/Main/component/service/config/Reference'),
-        ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
-        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
-
-        NgAdminConfiguration = require('ng-admin/Main/component/provider/NgAdminConfiguration'),
-
-        OrderElement = require('ng-admin/Main/component/filter/OrderElement'),
-
-        routing = require('ng-admin/Main/config/routing'),
-
-        loader = require('ng-admin/Main/run/Loader');
+    var angular = require('angular');
 
     require('angular-ui-router');
     require('restangular');
@@ -29,27 +8,30 @@ define(function (require) {
 
     var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
-    MainModule.controller('AppController', AppController);
-    MainModule.controller('DashboardController', DashboardController);
-    MainModule.controller('SidebarController', SidebarController);
+    MainModule.controller('AppController', require('ng-admin/Main/component/controller/AppController'));
+    MainModule.controller('DashboardController', require('ng-admin/Main/component/controller/DashboardController'));
+    MainModule.controller('SidebarController', require('ng-admin/Main/component/controller/SidebarController'));
 
-    MainModule.service('PanelBuilder', PanelBuilder);
-    MainModule.service('Validator', Validator);
+    MainModule.service('PanelBuilder', require('ng-admin/Main/component/service/PanelBuilder'));
+    MainModule.service('Validator', require('ng-admin/Main/component/service/Validator'));
 
-    MainModule.constant('Application', Application);
-    MainModule.constant('Entity', Entity);
-    MainModule.constant('Field', Field);
-    MainModule.constant('Reference', Reference);
-    MainModule.constant('ReferencedList', ReferencedList);
-    MainModule.constant('ReferenceMany', ReferenceMany);
+    MainModule.constant('Application', require('ng-admin/Main/component/service/config/Application'));
+    MainModule.constant('Entity', require('ng-admin/Main/component/service/config/Entity'));
+    MainModule.constant('Field', require('ng-admin/Main/component/service/config/Field'));
+    MainModule.constant('Reference', require('ng-admin/Main/component/service/config/Reference'));
+    MainModule.constant('ReferencedList', require('ng-admin/Main/component/service/config/ReferencedList'));
+    MainModule.constant('ReferenceMany', require('ng-admin/Main/component/service/config/ReferenceMany'));
 
-    MainModule.provider('NgAdminConfiguration', NgAdminConfiguration);
+    MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 
-    MainModule.filter('orderElement', OrderElement);
+    MainModule.filter('orderElement', require('ng-admin/Main/component/filter/OrderElement'));
 
-    MainModule.config(routing);
+    MainModule.directive('dashboardPanel', require('ng-admin/Main/component/directive/DashboardPanel'));
+    MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
 
-    MainModule.run(loader);
+    MainModule.config(require('ng-admin/Main/config/routing'));
+
+    MainModule.run(require('ng-admin/Main/run/Loader'));
 
     return MainModule;
 });
