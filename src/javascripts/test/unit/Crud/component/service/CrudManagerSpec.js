@@ -252,15 +252,6 @@ define(function(require) {
                 expect(fields.name.label()).toBe('Name');
                 expect(fields.summary.label()).toBe('Summary');
             });
-
-            it('should return only the editable fields with a second parameter set to `editable`.', function() {
-                var data = crudManager.getEditionFields('cat', 'editable'),
-                    fields = data.fields;
-
-                expect(Object.keys(fields)).toEqual([ 'name', 'summary', 'human_id' ]);
-                expect(fields.name.label()).toBe('Name');
-                expect(fields.summary.label()).toBe('Summary');
-            });
         });
     });
 });

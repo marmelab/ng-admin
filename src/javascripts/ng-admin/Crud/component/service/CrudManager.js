@@ -259,7 +259,10 @@ define(function(require) {
             throw 'Entity ' + entityName + ' not found.';
         }
 
-        return this.config.getEntity(entityName);
+        var entity = this.config.getEntity(entityName);
+        entity.clear();
+
+        return entity;
     };
 
     /**

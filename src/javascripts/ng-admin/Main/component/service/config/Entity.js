@@ -273,6 +273,15 @@ define(function (require) {
         return !identifier || identifier.value === null;
     };
 
+    /**
+     * Clear all fields
+     */
+    Entity.prototype.clear = function() {
+        angular.forEach(this.getFields(), function(field){
+            field.clear();
+        });
+    };
+
     Configurable(Entity.prototype, config);
 
     return Entity;

@@ -15,10 +15,6 @@ define(function() {
         this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
         this.description = entity.getDescription();
 
-        if (isNew) {
-            this.clear();
-        }
-
         var searchParams = this.$location.search();
 
         this.fields = entity.getFields();
@@ -119,15 +115,6 @@ define(function() {
      */
     FormController.prototype.edit = function(item, entity) {
         this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
-    };
-
-    /**
-     * Clear all fields
-     */
-    FormController.prototype.clear = function() {
-        angular.forEach(this.entity.getFields(), function(field){
-            field.clear();
-        });
     };
 
     FormController.prototype.destroy = function() {
