@@ -1,0 +1,6 @@
+<input id="{{ field.name() }}"
+       class="form-control"
+       type="text"
+       ng-model="field.value"
+       ng-required="field.validation().required"
+       maxlength="{{ field.validation.maxlength }}" />

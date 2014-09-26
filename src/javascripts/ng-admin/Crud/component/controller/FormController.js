@@ -12,25 +12,16 @@ define(function() {
         this.CrudManager = CrudManager;
         this.Validator = Validator;
         this.entity = entity;
-        this.openDatepicker = {};
         this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
         this.description = entity.getDescription();
 
-        if (isNew) {
-            this.clear();
-        }
-
         var searchParams = this.$location.search();
-        this.$scope.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
-        this.$scope.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
 
         this.fields = entity.getFields();
         this.entityLabel = entity.label();
         this.$scope.entity = this.entity;
-        this.$scope.itemClass = this.itemClass.bind(this);
+        this.$scope.entityConfig = this.entity;
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.sort = this.sort.bind(this);
-        this.$scope.isSorting = this.isSorting.bind(this);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -45,20 +36,6 @@ define(function() {
 
     FormController.prototype.back = function() {
         this.$location.path('/list/' + this.entity.name());
-    };
-
-    FormController.prototype.contains = function(collection, item) {
-        if (!collection) {
-            return false;
-        }
-
-        for(var i = 0, l = collection.length; i < l; i++) {
-            if (collection[i] == item) {
-                return true;
-            }
-        }
-
-        return false;
     };
 
     FormController.prototype.validate = function(form, $event) {
@@ -91,6 +68,10 @@ define(function() {
         return object;
     };
 
+    /**
+     * @param {Form }form
+     * @param {$event} $event
+     */
     FormController.prototype.submitCreation = function(form, $event) {
         var object = this.validate(form, $event),
             self = this;
@@ -108,6 +89,10 @@ define(function() {
             });
     };
 
+    /**
+     * @param {Form }form
+     * @param {$event} $event
+     */
     FormController.prototype.submitEdition = function(form, $event) {
         var object = this.validate(form, $event),
             self = this;
@@ -122,59 +107,6 @@ define(function() {
         });
     };
 
-    FormController.prototype.toggleDatePicker = function($event, fieldName) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        if (typeof(this.openDatepicker[fieldName]) === 'undefined') {
-            this.openDatepicker[fieldName] = true;
-        } else {
-            this.openDatepicker[fieldName] = !this.openDatepicker[fieldName];
-        }
-    };
-
-    /**
-     * Return 'even'|'odd' based on the index parameter
-     *
-     * @param {Number} index
-     * @returns {string}
-     */
-    FormController.prototype.itemClass = function(index) {
-        return (index % 2 === 0) ? 'even' : 'odd';
-    };
-
-    /**
-     *
-     * @param {Field} field
-     */
-    FormController.prototype.sort = function(field) {
-        var dir = 'ASC',
-            fieldName = field.getSortName();
-
-        if (this.$scope.sortField === fieldName) {
-            dir = this.$scope.sortDir === 'ASC' ? 'DESC' : 'ASC';
-        }
-
-        this.changePage(this.$scope.filterQuery, 1, fieldName, dir);
-    };
-
-    FormController.prototype.changePage = function(filter, page, sortField, sortDir) {
-        this.$location.search('sortField', sortField);
-        this.$location.search('sortDir', sortDir);
-        this.$location.path('/edit/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
-    };
-
-    /**
-     * Return true if a column is being sorted
-     *
-     * @param {Field} field
-     *
-     * @returns {Boolean}
-     */
-    FormController.prototype.isSorting = function(field) {
-        return this.$scope.sortField === field.getSortName();
-    };
-
     /**
      * Link to edit entity page
      *
@@ -183,15 +115,6 @@ define(function() {
      */
     FormController.prototype.edit = function(item, entity) {
         this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
-    };
-
-    /**
-     * Clear all fields
-     */
-    FormController.prototype.clear = function() {
-        angular.forEach(this.entity.getFields(), function(field){
-            field.clear();
-        });
     };
 
     FormController.prototype.destroy = function() {

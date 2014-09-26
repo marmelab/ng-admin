@@ -1,0 +1,11 @@
+<ul class="quick-filters nav nav-pills" ng-if="quickFilter.quickFilters">
+    <li>
+        <span>Filters:</span>
+    </li>
+    <li ng-class="{active: !quickFilter.currentQuickFilter}">
+        <a ng-click="quickFilter.filter(null)">None</a>
+    </li>
+    <li ng-repeat="label in quickFilter.quickFilters" ng-class="{active: quickFilter.currentQuickFilter === label}">
+        <a ng-click="quickFilter.filter(label)">{{ label }}</a>
+    </li>
+</ul>

@@ -52,7 +52,7 @@ define(function (require) {
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
-                    data: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    entity: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
                     }],
                     referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {

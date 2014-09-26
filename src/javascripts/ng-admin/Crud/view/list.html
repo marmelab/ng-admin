@@ -18,37 +18,7 @@
         </div>
     </form>
 
-
-    <ul class="quick-filters nav nav-pills" ng-if="listController.quickFilters">
-        <li>
-            <span>Filters:</span>
-        </li>
-        <li ng-class="{active: !listController.currentQuickFilter}">
-            <a ng-click="listController.quickFilter(null)">None</a>
-        </li>
-        <li ng-repeat="label in listController.quickFilters" ng-class="{active: listController.currentQuickFilter === label}">
-            <a ng-click="listController.quickFilter(label)">{{ label }}</a>
-        </li>
-    </ul>
+    <quick-filter></quick-filter>
 </div>
 
-<div infinite-pagination="listController.nextPage()" threshold="100" can-load="!listController.loadingPage">
-    <div class="row" ng-include="'ng-admin/Crud/view/grid.html'"></div>
-</div>
-
-<div class="grid-detail row pull-right" ng-if="!listController.infinitePagination">
-    <span class="total">
-        <strong>{{ listController.offsetBegin }}</strong> - <strong>{{ listController.offsetEnd }}</strong> on <strong>{{ listController.totalItems }}</strong>
-    </span>
-    <ul class="pagination pagination-sm">
-        <li ng-class="{ disabled: listController.currentPage == 1}">
-            <a href ng-click="listController.setPage(listController.currentPage - 1)">« Prev</a>
-        </li>
-        <li ng-repeat="n in listController.range(1, listController.nbPages)" ng-class="{active: n == listController.currentPage}" ng-click="listController.setPage(n)">
-            <a href>{{ n }}</a>
-        </li>
-        <li ng-class="{disabled: listController.currentPage == listController.nbPages}">
-            <a href ng-click="listController.setPage(listController.currentPage+ 1)">Next »</a>
-        </li>
-    </ul>
-</div>
+<datagrid></datagrid>
