@@ -19,8 +19,8 @@ define(function (require) {
         ChoicesField = require('ng-admin/Crud/component/directive/field/ChoicesField'),
         ReferenceField = require('ng-admin/Crud/component/directive/field/ReferenceField'),
         WysiwygField = require('ng-admin/Crud/component/directive/field/WysiwygField'),
-        ReferenceMany = require('ng-admin/Crud/component/directive/field/ReferenceMany'),
-        CallbackField = require('ng-admin/Crud/component/directive/field/CallbackField'),
+        ReferenceManyField = require('ng-admin/Crud/component/directive/field/ReferenceManyField'),
+        CallbackField = require('ng-admin/Crud/component/directive/field/CallbackFieldField'),
 
         CrudManager = require('ng-admin/Crud/component/service/CrudManager'),
 
@@ -54,7 +54,7 @@ define(function (require) {
     CrudModule.directive('choicesField', ChoicesField);
     CrudModule.directive('referenceField', ReferenceField);
     CrudModule.directive('wysiwygField', WysiwygField);
-    CrudModule.directive('referenceManyField', ReferenceMany);
+    CrudModule.directive('referenceManyField', ReferenceManyField);
     CrudModule.directive('callbackField', CallbackField);
 
     /**

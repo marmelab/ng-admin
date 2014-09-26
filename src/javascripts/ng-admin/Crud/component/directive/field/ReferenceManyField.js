@@ -4,14 +4,14 @@ define(function(require) {
     var angular = require('angular');
     var referenceManyFieldView = require('text!../../../view/field/referenceMany.html');
 
-    function ReferenceMany() {
+    function ReferenceManyField() {
         return {
             restrict: 'E',
             template: referenceManyFieldView
         };
     }
 
-    ReferenceMany.$inject = [];
+    ReferenceManyField.$inject = [];
 
-    return ReferenceMany;
+    return ReferenceManyField;
 });
