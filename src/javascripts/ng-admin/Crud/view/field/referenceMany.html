@@ -1,0 +1,5 @@
+<select id="{{ field.name() }}" class="form-control" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
+    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="formController.contains(field.value, key)" >
+        {{ value }}
+    </option>
+</select>

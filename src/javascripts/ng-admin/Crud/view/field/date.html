@@ -1,0 +1,16 @@
+<div class="input-group datepicker col-sm-4">
+    <input id="{{ field.name() }}"
+           class="form-control"
+           type="text"
+           datepicker-popup="{{ field.format() }}"
+           ng-model="field.value"
+           min-date="field.minDate"
+           max-date="field.maxDate"
+           ng-required="field.validation().required"
+           is-open="isOpen"
+           close-text="Close" />
+
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+</div>

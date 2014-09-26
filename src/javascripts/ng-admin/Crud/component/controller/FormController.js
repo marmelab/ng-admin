@@ -12,7 +12,6 @@ define(function() {
         this.CrudManager = CrudManager;
         this.Validator = Validator;
         this.entity = entity;
-        this.openDatepicker = {};
         this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
         this.description = entity.getDescription();
 
@@ -120,17 +119,6 @@ define(function() {
             NProgress.done();
             humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
-    };
-
-    FormController.prototype.toggleDatePicker = function($event, fieldName) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        if (typeof(this.openDatepicker[fieldName]) === 'undefined') {
-            this.openDatepicker[fieldName] = true;
-        } else {
-            this.openDatepicker[fieldName] = !this.openDatepicker[fieldName];
-        }
     };
 
     /**

@@ -259,14 +259,7 @@ define(function(require) {
             throw 'Entity ' + entityName + ' not found.';
         }
 
-        var entityConfig = this.config.getEntity(entityName),
-            fields = this.filterEditionFields(entityConfig.getFields(), filters);
-
-        return {
-            fields: fields,
-            entityConfig: entityConfig,
-            entityName: entityName
-        };
+        return this.config.getEntity(entityName);
     };
 
     /**

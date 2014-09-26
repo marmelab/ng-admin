@@ -1,0 +1,7 @@
+<select id="{{ field.name() }}"
+        class="form-control"
+        ng-model="field.value"
+        multiple
+        ng-multiple="{{ field.multiple }}"
+        ng-options="option as option for option in field.choices"
+        ng-required="field.validation().required"></select>
