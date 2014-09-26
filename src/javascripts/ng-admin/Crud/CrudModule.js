@@ -16,7 +16,6 @@ define(function (require) {
 
     CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
 
-    CrudModule.directive('infinitePagination', require('ng-admin/Crud/component/directive/InfinitePagination'));
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));
@@ -44,6 +43,9 @@ define(function (require) {
     CrudModule.directive('referenceManyColumn', require('ng-admin/Crud/component/directive/column/ReferenceManyColumn'));
     CrudModule.directive('wysiwygColumn', require('ng-admin/Crud/component/directive/column/WysiwygColumn'));
     CrudModule.directive('callbackColumn', require('ng-admin/Crud/component/directive/column/CallbackColumn'));
+
+    CrudModule.directive('datagrid', require('ng-admin/Crud/component/directive/Datagrid'));
+    CrudModule.directive('datagridPagination', require('ng-admin/Crud/component/directive/DatagridPagination'));
 
     CrudModule.run(require('ng-admin/Crud/run/cacheTemplate'));
 
