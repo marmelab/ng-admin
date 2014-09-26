@@ -18,18 +18,7 @@
         </div>
     </form>
 
-
-    <ul class="quick-filters nav nav-pills" ng-if="listController.quickFilters">
-        <li>
-            <span>Filters:</span>
-        </li>
-        <li ng-class="{active: !listController.currentQuickFilter}">
-            <a ng-click="listController.quickFilter(null)">None</a>
-        </li>
-        <li ng-repeat="label in listController.quickFilters" ng-class="{active: listController.currentQuickFilter === label}">
-            <a ng-click="listController.quickFilter(label)">{{ label }}</a>
-        </li>
-    </ul>
+    <quick-filter></quick-filter>
 </div>
 
 <datagrid></datagrid>

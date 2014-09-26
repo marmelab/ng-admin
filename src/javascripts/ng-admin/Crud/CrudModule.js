@@ -46,6 +46,7 @@ define(function (require) {
 
     CrudModule.directive('datagrid', require('ng-admin/Crud/component/directive/Datagrid'));
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/component/directive/DatagridPagination'));
+    CrudModule.directive('quickFilter', require('ng-admin/Crud/component/directive/QuickFilter'));
 
     CrudModule.run(require('ng-admin/Crud/run/cacheTemplate'));
 

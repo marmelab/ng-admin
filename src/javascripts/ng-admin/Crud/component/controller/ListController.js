@@ -19,10 +19,6 @@ define(function(require) {
         this.$scope.entityConfig = this.entityConfig;
         this.$scope.totalItems = this.data.totalItems;
 
-        this.quickFilters = this.entityConfig.getQuickFilterNames();
-        this.currentQuickFilter = 'quickFilter' in searchParams ? searchParams.quickFilter : null;
-        this.displayFilterQuery = this.entityConfig.filterQuery() !== false;
-
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
@@ -55,10 +51,6 @@ define(function(require) {
         this.$anchorScroll(0);
     };
 
-    ListController.prototype.quickFilter = function(label) {
-        this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir, label);
-    };
-
     ListController.prototype.clearFilter = function() {
         this.$scope.filterQuery = '';
         this.filter();
@@ -67,7 +59,6 @@ define(function(require) {
     ListController.prototype.filter = function() {
         this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir);
     };
-
 
     ListController.prototype.destroy = function() {
         this.$scope = undefined;
