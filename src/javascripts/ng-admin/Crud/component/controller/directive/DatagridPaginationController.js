@@ -10,10 +10,6 @@ define(function() {
         this.$anchorScroll = $anchorScroll;
         this.CrudManager = CrudManager;
         this.infinitePagination = this.$scope.hasPagination && this.$scope.entityConfig.infinitePagination();
-
-        if (this.$scope.hasPagination) {
-            this.computePagination();
-        }
     }
 
     DatagridPaginationController.prototype.computePagination = function () {

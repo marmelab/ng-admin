@@ -10,10 +10,7 @@ define(function(require) {
             restrict: 'E',
             template: datagridView,
             controllerAs: 'datagrid',
-            controller: DatagridController,
-            link: function(scope, element, attrs) {
-                scope.hasPagination = typeof(attrs.withPagination) === 'undefined' ? true : scope.$eval(attrs.pagination);
-            }
+            controller: DatagridController
         };
     }
 
