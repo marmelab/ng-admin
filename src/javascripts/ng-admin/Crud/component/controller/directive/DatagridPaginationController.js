@@ -10,10 +10,6 @@ define(function() {
         this.$anchorScroll = $anchorScroll;
         this.CrudManager = CrudManager;
         this.infinitePagination = this.$scope.hasPagination && this.$scope.entityConfig.infinitePagination();
-
-        if (this.$scope.hasPagination) {
-            this.computePagination();
-        }
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
@@ -22,7 +18,7 @@ define(function() {
             totalItems = this.$scope.totalItems;
 
         this.currentPage = currentPage;
-        this.offsetBegin = (currentPage - 1) * perPage;
+        this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
         this.totalItems = totalItems;
 

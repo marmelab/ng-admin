@@ -15,6 +15,11 @@ define(function(require) {
                 var offset = attrs.offset || 100,
                     body = $document[0].body;
 
+                scope.hasPagination = !element.parent()[0].hasAttribute('with-pagination') ? true : scope.$eval(element.parent()[0].getAttribute('with-pagination'));
+                if (scope.hasPagination) {
+                    controller.computePagination();
+                }
+
                 angular.element($window).bind('scroll', function () {
                     if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
                         scope.$apply(controller.nextPage.bind(controller));
