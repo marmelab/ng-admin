@@ -22,7 +22,7 @@ define(function() {
             totalItems = this.$scope.totalItems;
 
         this.currentPage = currentPage;
-        this.offsetBegin = (currentPage - 1) * perPage;
+        this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
         this.totalItems = totalItems;
 
