@@ -8,7 +8,7 @@ define(function(require) {
         return {
             restrict: 'E',
             template: dateFieldView,
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.isOpen = false;
 
                 $scope.toggleDatePicker = function($event) {
@@ -17,7 +17,7 @@ define(function(require) {
 
                     $scope.isOpen = !$scope.isOpen;
                 }
-            }
+            }]
         };
     }
 
