@@ -49,13 +49,14 @@ Your application should use a `ui-view`:
 # Configuration
 
 We chose to define the entities directly into a javascript file to allow greater freedom in the configuration.
-For some part of the configuration, you'll be able to define directly the function that match you specific needs to fit your API.
+For some part of the configuration, you'll be able to define directly the function that match your specific needs to fit your API.
 
-Here is a full example for a backend that will allows you to create, update, delete some posts (`posts` entity).
+Here is a full example for a backend that will let you create, update, delete some posts (`posts` entity).
 Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
-app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+app.config(function(NgAdminConfigurationProvider, Application, Entity, 
+    Field, Reference, ReferencedList, ReferenceMany) {
 
     var postBody, postId;
 
