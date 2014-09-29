@@ -38,7 +38,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Re
         .addEntity(/* ... */)
 
     NgAdminConfigurationProvider.configure(app);
-}
+});
 ```
 
 Your application should use a `ui-view`:
