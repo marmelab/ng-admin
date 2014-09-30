@@ -10,6 +10,7 @@ define(function(require) {
         this.entityLabel = data.entityConfig.label();
         this.title = data.entityConfig.getListTitle();
         this.description = data.entityConfig.getDescription();
+        this.displayFilterQuery = data.entityConfig.filterQuery() !== false;
 
         var searchParams = this.$location.search();
 
@@ -57,7 +58,7 @@ define(function(require) {
     };
 
     ListController.prototype.filter = function() {
-        this.changePage(this.$scope.filterQuery, 1, this.$scope.sortField, this.$scope.sortDir);
+        this.$location.search('q', this.$scope.filterQuery);
     };
 
     ListController.prototype.destroy = function() {
