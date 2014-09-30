@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         },
 
         clean : {
-            build : ["build/*", "!build/*.min.js", "!build/*.min.css"]
+            build : ["build/*", "!build/*.min.js", "!build/*.min.css", "!build/*.map"]
         },
 
         copy: {
