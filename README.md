@@ -255,7 +255,7 @@ Define a custom function to transform the value.
 ```
 
 * `list(boolean)`
-Define if the field should be display in the list.
+Define if the field should be displayed in the list.
 
 * `dashboard(number|false)`
 Number of elements displayed in dashboard.
