@@ -43,6 +43,10 @@ module.exports = function (grunt) {
 
         uglify: {
             ngadmin: {
+                options: {
+                    sourceMap: true,
+                    sourceMapName: 'build/ng-admin.min.map'
+                },
                 files: {
                     'build/ng-admin.min.js': ['build/ng-admin.min.js']
                 }
@@ -50,7 +54,7 @@ module.exports = function (grunt) {
         },
 
         clean : {
-            build : ["build/*", "!build/*.min.js", "!build/*.min.css"]
+            build : ["build/*", "!build/*.min.js", "!build/*.min.css", "!build/*.map"]
         },
 
         copy: {
