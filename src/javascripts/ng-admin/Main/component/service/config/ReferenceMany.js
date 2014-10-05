@@ -35,11 +35,10 @@ define(function (require) {
      */
     function ReferenceMany(name) {
         this.entity = null;
-        this.values = [];
+        this.value = [];
         this.choices = {};
         this.config = angular.copy(config);
         this.config.name = name || 'reference-many';
-
     }
 
     /**
@@ -94,7 +93,7 @@ define(function (require) {
     };
 
     ReferenceMany.prototype.clear = function() {
-        this.choices = {};
+        this.value = [];
 
         return this;
     };

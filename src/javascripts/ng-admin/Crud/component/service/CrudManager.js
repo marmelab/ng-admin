@@ -79,7 +79,7 @@ define(function(require) {
         // Get element data
         return this.Restangular
             .restangularizeElement(null, entity, entityName)
-            .post(null, headers);
+            .post(null, entity, null, headers);
     };
 
     /**
