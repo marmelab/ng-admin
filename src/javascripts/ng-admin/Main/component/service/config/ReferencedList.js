@@ -2,6 +2,7 @@ define(function (require) {
     'use strict';
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var items = [];
 
     var defaultValueTransformer = function(value) {
         return value;
