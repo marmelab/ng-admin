@@ -293,7 +293,7 @@ define(function(require) {
     };
 
     /**
-     * Returns all ReferenceList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
+     * Returns all ReferencedList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
      *
      * @param {String} entityName
      * @param {Entity} entity
@@ -383,7 +383,7 @@ define(function(require) {
      *
      * @param {String} entityName
      *
-     * @returns {Array}
+     * @returns {Object}
      */
     CrudManager.prototype.getReferencedLists = function(entityName) {
         if (!this.config.hasEntity(entityName)) {

@@ -20,10 +20,12 @@ define(function(require) {
             catInterceptor,
             catName,
             catSummary,
+            humanReference,
             referencedCats,
             humanEntity;
 
         beforeEach(function() {
+            humanEntity = new Entity('human');
             catEntity = new Entity('cat')
                 .interceptor(catInterceptor = function(data, operation, what, url, response, deferred){
                     data.push({id: 9, name: 'ninja', summary: 'Ninja cat !'});
@@ -34,9 +36,8 @@ define(function(require) {
                 .addField(catSummary = new Field('summary').label('Summary').valueTransformer(function(value) {
                     return value + "-test";
                 }))
-                .addField(new Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
+                .addField(humanReference = new Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
 
-            humanEntity = new Entity('human');
             humanEntity
                 .extraParams(function () {
                     return {
@@ -53,7 +54,7 @@ define(function(require) {
                 .addField(new Field('name').label('Name'))
                 .addField(
                     referencedCats = new ReferencedList('cats')
-                    .label('Comments')
+                    .label('Cats')
                     .targetEntity(catEntity)
                     .targetField('human_id')
                     .targetFields([catName, catSummary])
@@ -343,6 +344,90 @@ define(function(require) {
                 var references = crudManager.getReferences('cat');
 
                 expect('human_id' in references).toBe(true);
+            });
+        });
+
+        describe('getReferencedLists', function() {
+            it('should returns all referenced lists of an entity.', function() {
+                var humanReferencedLists = crudManager.getReferencedLists('human'),
+                    catReferencedLists = crudManager.getReferencedLists('cat');
+
+                expect(humanReferencedLists.cats.label()).toBe('Cats');
+                expect(catReferencedLists).toEqual({});
+            });
+        });
+
+        describe('getReferencedListValues', function() {
+            it('should returns all referenced lists of an entity.', function() {
+                // Just mock getAll
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                // Mock q.all
+                var entities = [
+                    angular.copy(catEntity),
+                    angular.copy(catEntity),
+                    angular.copy(catEntity)
+                ];
+
+                entities[0].getField('name').value = 'Mizu';
+                entities[0].getField('human_id').value = 1;
+                entities[1].getField('name').value = 'Suna';
+                entities[1].getField('human_id').value = 1;
+                entities[2].getField('name').value = 'Boby';
+                entities[2].getField('human_id').value = 2;
+
+                var responses = [{
+                    entities:entities
+                }];
+
+                $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise(responses));
+
+                humanEntity.getIdentifier().value = 1;
+
+                crudManager.getReferencedListValues('human', humanEntity)
+                    .then(function(data) {
+                        var cats = data.cats.getItems();
+
+                        expect(cats.length).toBe(2);
+                        expect(cats[0].getField('name').value).toBe('Mizu');
+                        expect(cats[1].getField('name').value).toBe('Suna');
+                    });
+            });
+        });
+
+
+        describe('fillReferencesValuesFromCollection', function() {
+            it('should returns all referenced lists of an entity.', function() {
+                var cats = [
+                    angular.copy(catEntity),
+                    angular.copy(catEntity),
+                    angular.copy(catEntity)
+                ];
+
+                cats[0].getField('name').value = 'Mizu';
+                cats[0].getField('human_id').value = 1;
+                cats[1].getField('name').value = 'Suna';
+                cats[1].getField('human_id').value = 1;
+                cats[2].getField('name').value = 'Boby';
+                cats[2].getField('human_id').value = 2;
+
+                humanReference.setChoices({
+                    1: 'Billy',
+                    2: 'Joe'
+                });
+
+                var results = crudManager.fillReferencesValuesFromCollection(cats, {human_id: humanReference}, true);
+
+                expect(results.length).toBe(3);
+                expect(results[0].getField('human_id').value).toBe(1);
+                expect(results[0].getField('human_id').referencedValue).toBe('Billy');
+                expect(results[1].getField('human_id').value).toBe(1);
+                expect(results[1].getField('human_id').referencedValue).toBe('Billy');
+                expect(results[2].getField('human_id').value).toBe(2);
+                expect(results[2].getField('human_id').referencedValue).toBe('Joe');
             });
         });
 
