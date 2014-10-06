@@ -206,7 +206,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity,
                 'X-User': entityName === 'post' ? 'username' : 'user2',
                 'X-Password': 'pwd'
             }
-        }
+        })
         .baseApiUrl('http://localhost:3000/')
         .addEntity(post)
         .addEntity(comment)
