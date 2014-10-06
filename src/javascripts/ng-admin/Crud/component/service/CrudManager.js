@@ -326,7 +326,7 @@ define(function(require) {
     /**
      * Returns only referencedList values for an entity (filter it by identifier value)
      *
-     * @param {[Entity} entities
+     * @param {[Entity]} entities
      * @param {ReferencedList} referencedList
      * @param {String|Number} entityId
      * @returns {Array}
@@ -391,39 +391,6 @@ define(function(require) {
         }
 
         return this.config.getEntity(entityName).getReferencedLists();
-    };
-
-
-    /**
-     * Filter a list of field to the edition fields
-     *
-     * @param {Object} fields  list of fields
-     * @param {Array} filters  filter on the edition type
-     *
-     * @returns {Object} (list of the filtered fields)
-     */
-    CrudManager.prototype.filterEditionFields = function(fields, filters) {
-        var filteredFields = {};
-
-        angular.forEach(fields, function(field){
-            // the field is not an edition field - do nothing
-            if (!field.edition()) {
-                return;
-            }
-
-            // if we don't specify a restriction, get all the edition fields
-            if (!filters.length) {
-                return this[field.name()] = field;
-            }
-
-            // restriction to specified types fields
-            if (filters.indexOf(field.edition()) !== -1) {
-                return this[field.name()] = field;
-            }
-
-        }, filteredFields);
-
-        return filteredFields;
     };
 
     /**

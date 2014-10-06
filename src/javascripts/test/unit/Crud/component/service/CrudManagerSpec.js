@@ -8,16 +8,34 @@ define(function(require) {
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Reference = require('ng-admin/Main/component/service/config/Reference'),
+        ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
         mixins = require('mixins'),
         $q = require('mock/q'),
         Restangular = require('mock/Restangular');
 
     describe("Service: CrudManager", function() {
-        var crudManager,
+        var rawConfig,
+            crudManager,
             catEntity,
+            catInterceptor,
+            catName,
+            catSummary,
+            referencedCats,
             humanEntity;
 
         beforeEach(function() {
+            catEntity = new Entity('cat')
+                .interceptor(catInterceptor = function(data, operation, what, url, response, deferred){
+                    data.push({id: 9, name: 'ninja', summary: 'Ninja cat !'});
+                    return data;
+                })
+                .addField(new Field('id').label('ID').edition('read-only'))
+                .addField(catName = new Field('name').label('Name'))
+                .addField(catSummary = new Field('summary').label('Summary').valueTransformer(function(value) {
+                    return value + "-test";
+                }))
+                .addField(new Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
+
             humanEntity = new Entity('human');
             humanEntity
                 .extraParams(function () {
@@ -32,21 +50,16 @@ define(function(require) {
                     }
                 })
                 .addField(new Field('id').identifier(true).label('ID').edition('read-only'))
-                .addField(new Field('name').label('Name'));
-
-            catEntity = new Entity('cat')
-                .interceptor(function(data, operation, what, url, response, deferred){
-                    data.push({id: 9, name: 'ninja', summary: 'Ninja cat !'});
-                    return data;
-                })
-                .addField(new Field('id').label('ID').edition('read-only'))
                 .addField(new Field('name').label('Name'))
-                .addField(new Field('summary').label('Summary').valueTransformer(function(value) {
-                    return value + "-test";
-                }))
-                .addField(new Reference('human_id').targetEntity(humanEntity).targetLabel('name'));
+                .addField(
+                    referencedCats = new ReferencedList('cats')
+                    .label('Comments')
+                    .targetEntity(catEntity)
+                    .targetField('human_id')
+                    .targetFields([catName, catSummary])
+                );
 
-            var rawConfig = new Application('test')
+            rawConfig = new Application('test')
                 .addEntity(catEntity)
                 .addEntity(humanEntity);
 
@@ -55,6 +68,7 @@ define(function(require) {
             };
 
             crudManager = new CrudManager($q, Restangular, config);
+            Restangular.addResponseInterceptor =  jasmine.createSpy('addResponseInterceptor');
         });
 
         describe('extra params', function() {
@@ -82,9 +96,46 @@ define(function(require) {
             });
         });
 
+        describe('extra headers', function() {
+            it('should be added to all getOne API calls.', function() {
+                Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({data: {}}));
+                rawConfig.headers(function() {
+                    return {
+                        coffee: true
+                    }
+                });
+
+                crudManager.getOne('cat', 1)
+                    .then(function() {
+                        expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
+                        expect(Restangular.get).toHaveBeenCalledWith({}, {coffee: true});
+                        rawConfig.headers({});
+                    });
+            });
+
+            it('should be added to all getAll API calls.', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                rawConfig.headers(function() {
+                    return {
+                        coffee: "nope"
+                    }
+                });
+
+                crudManager.getAll('cat')
+                    .then(function() {
+                        expect(Restangular.all).toHaveBeenCalledWith('cat');
+                        expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 30}, {coffee: "nope"});
+                        rawConfig.headers({});
+                    });
+            });
+        });
+
         describe('getOne', function() {
             it('should return an the entity with only the editable fields.', function() {
-                Restangular.addResponseInterceptor =  jasmine.createSpy('addResponseInterceptor');
                 Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({
                     data: {
                         "id":1,
@@ -95,7 +146,7 @@ define(function(require) {
 
                 crudManager.getOne('cat', 1)
                     .then(function(data) {
-                        expect(Restangular.addResponseInterceptor).toHaveBeenCalled();
+                        expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
 
                         var fields = data.fields;
@@ -118,7 +169,6 @@ define(function(require) {
             });
 
             it('should return all objects from API & field definition.', function() {
-                Restangular.addResponseInterceptor =  jasmine.createSpy('addResponseInterceptor');
                 Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
                     data: [
                         {"id":1,"title":"Mizu","summary":"First cat"},
@@ -134,6 +184,110 @@ define(function(require) {
                         expect(data.entities.length).toBe(3);
                         expect(data.currentPage).toBe(1);
                         expect(data.entities[0].getField('summary').value).toBe("First cat-test");
+                    });
+            });
+
+            it('should add sort params', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                catEntity.sortParams(function(field, dir) {
+                    return {
+                        params:{
+                            sort: field,
+                            direction: dir
+                        },
+                        headers: {
+                        }
+                    }
+                });
+
+                crudManager.getAll('cat', 1, false, true, null, 'cat.name', 'DESC')
+                    .then(function(data) {
+                        expect(Restangular.getList.argsForCall[0][0]).toEqual({sort: 'name', direction: 'DESC'});
+                    });
+            });
+
+            it('should add sort headers', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                catEntity.sortParams(function(field, dir) {
+                    return {
+                        params:{
+                        },
+                        headers: {
+                            sortField: field,
+                            direction: dir
+                        }
+                    }
+                });
+
+                crudManager.getAll('cat', 1, false, true, null, 'cat.name', 'DESC')
+                    .then(function(data) {
+                        expect(Restangular.getList.argsForCall[0][1]).toEqual({sortField: 'name', direction: 'DESC'});
+                    });
+            });
+
+            it('should add quick filters from callback', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                catEntity.addQuickFilter('Today', function() {
+                    return {
+                        test: 'OK'
+                    }
+                });
+
+                var filters = catEntity.getQuickFilterParams('Today');
+
+                crudManager.getAll('cat', 1, false, true, null, null, null, filters)
+                    .then(function(data) {
+                        expect(Restangular.getList.argsForCall[0][0]).toEqual({test: 'OK'});
+                    });
+            });
+
+            it('should add quick filters from callback', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                catEntity.addQuickFilter('Static', {
+                    'private': false
+                });
+
+                var filters = catEntity.getQuickFilterParams('Static');
+
+                crudManager.getAll('cat', 1, false, true, null, null, null, filters)
+                    .then(function(data) {
+                        expect(Restangular.getList.argsForCall[0][0]).toEqual({private: false});
+                    });
+            });
+
+            it('should add global query filter', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [],
+                    headers: function() {}
+                }));
+
+                catEntity.filterQuery(function(q) {
+                    return {
+                        query: q
+                    }
+                });
+
+                var filters = catEntity.getQuickFilterParams('Static');
+
+                crudManager.getAll('cat', 1, false, true, 'hello')
+                    .then(function(data) {
+                        expect(Restangular.getList.argsForCall[0][0]).toEqual({query: 'hello'});
                     });
             });
         });
@@ -251,6 +405,55 @@ define(function(require) {
                 expect(fields.id.label()).toBe('ID');
                 expect(fields.name.label()).toBe('Name');
                 expect(fields.summary.label()).toBe('Summary');
+            });
+        });
+
+        describe('filterReferencedList', function() {
+            it('should filter only referenced values', function() {
+                var entities = [
+                    angular.copy(catEntity),
+                    angular.copy(catEntity),
+                    angular.copy(catEntity)
+                ];
+
+                entities[0].getField('name').value = 'Mizu';
+                entities[0].getField('human_id').value = 1;
+                entities[1].getField('name').value = 'Suna';
+                entities[1].getField('human_id').value = 1;
+                entities[2].getField('name').value = 'Boby';
+                entities[2].getField('human_id').value = 2;
+
+                var results = crudManager.filterReferencedList(entities, referencedCats, 1);
+                expect(results.length).toBe(2);
+                expect(results[0].getField('name').value).toBe('Mizu');
+                expect(results[1].getField('name').value).toBe('Suna');
+            });
+        });
+
+        describe('truncateListValue', function() {
+            it('should call truncateList for each field', function() {
+                Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({
+                    data: [
+                        {"id":1,"title":"Mizu","summary":"First cat"},
+                        {"id":2,"title":"Suna","summary":"Mini cat"}
+                    ],
+                    headers: function() {}
+                }));
+
+                catSummary
+                    .valueTransformer(function(value) {
+                        return value;
+                    })
+                    .truncateList(function(value) {
+                       return 'truncated : ' + value;
+                    });
+
+
+                crudManager.getAll('cat')
+                    .then(function(data) {
+                        expect(data.entities[0].getField('summary').value).toBe('truncated : First cat');
+                        expect(data.entities[1].getField('summary').value).toBe('truncated : Mini cat');
+                    });
             });
         });
     });
