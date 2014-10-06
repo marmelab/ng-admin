@@ -210,7 +210,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity,
         .baseApiUrl('http://localhost:3000/')
         .addEntity(post)
         .addEntity(comment)
-        .addEntity(tag);
+        .addEntity(tag));
 
     NgAdminConfigurationProvider.configure(app);
 });
