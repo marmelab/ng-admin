@@ -70,7 +70,9 @@ define(function (require) {
     };
 
     Application.prototype.getHeaders = function(entityName, action) {
-        return typeof(config.headers) === 'function' ? config.headers(entityName, action) : config.headers;
+        var headers = this.headers();
+
+        return typeof(headers) === 'function' ? headers(entityName, action) : headersc;
     };
 
     Configurable(Application.prototype, config);
