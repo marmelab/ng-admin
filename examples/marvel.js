@@ -1,147 +1,147 @@
-define([
-    'lib/config/Application',
-    'lib/config/Entity',
-    'lib/config/Field',
-    'lib/config/Reference'
-], function (Application, Entity, Field, Reference) {
+(function() {
     "use strict";
 
-    var publicKey = 'xxx';
-    var privateKey = 'xxx';
-    var totalCount;
+    var app = angular.module('myApp', ['ng-admin']);
 
-    function extraParams() {
-        var now = Date.now();
-        var hash = md5(now + privateKey + publicKey);
+    app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference) {
+        var publicKey = 'xxx';
+        var privateKey = 'xxx';
+        var totalCount;
 
-        return {
-            apikey: publicKey,
-            hash: hash,
-            ts: now
-        };
-    }
+        function extraParams() {
+            var now = Date.now();
+            var hash = md5(now + privateKey + publicKey);
 
-    function interceptor(data, operation, what, url, response, deferred){
-        if (operation === 'getList') {
-            totalCount = response.data.data.total;
-            var newResponse = response.data.data.results;
-
-            return newResponse;
-        } else if (operation === 'get') {
-            return ('data' in data) ? data.data.results[0] : data;
+            return {
+                apikey: publicKey,
+                hash: hash,
+                ts: now
+            };
         }
-    }
 
-    function totalItems(response){
-        return totalCount;
-    }
+        function interceptor(data, operation, what, url, response, deferred){
+            if (operation === 'getList') {
+                totalCount = response.data.data.total;
 
-    function pagination(page, maxPerPage) {
-        return {
-            offset: (page - 1) * maxPerPage,
-            limit: 100
+                return response.data.data.results;
+            } else if (operation === 'get') {
+                return ('data' in data) ? data.data.results[0] : data;
+            }
         }
-    }
 
-    var creator = Entity('creators')
-        .extraParams(extraParams)
-        .interceptor(interceptor)
-        .totalItems(totalItems)
-        .pagination(pagination)
-        .label('Creators')
-        .dashboard(5)
-        .addField(Field('id')
-            .label('ID')
-            .type('number')
-            .identifier(true)
-            .edition('read-only')
-        )
-        .addField(Field('fullName')
-            .label('Full name')
-            .edition('read-only')
+        function totalItems(response){
+            return totalCount;
+        }
+
+        function pagination(page, maxPerPage) {
+            return {
+                offset: (page - 1) * maxPerPage,
+                limit: 100
+            }
+        }
+
+        var creator = new Entity('creators')
+            .extraParams(extraParams)
+            .interceptor(interceptor)
+            .totalItems(totalItems)
+            .pagination(pagination)
+            .label('Creators')
+            .dashboard(5)
+            .addField(new Field('id')
+                .label('ID')
+                .type('number')
+                .identifier(true)
+                .edition('read-only')
+            )
+            .addField(new Field('fullName')
+                .label('Full name')
+                .edition('read-only')
+            );
+
+        var comic = new Entity('comics')
+            .extraParams(extraParams)
+            .interceptor(interceptor)
+            .totalItems(totalItems)
+            .pagination(pagination)
+            .label('Comics')
+            .dashboard(5)
+            .addField(new Field('id')
+                .label('ID')
+                .type('number')
+                .identifier(true)
+                .edition('read-only')
+            )
+            .addField(new Field('title')
+                .label('Title')
+                .edition('read-only')
+            )
+            .addField(new Reference('creators')
+                .label('Creator')
+                .targetEntity(creator)
+                .targetLabel('fullName')
+                .valueTransformer(function(value) {
+                    return value && value.items && value.items.length ? value.items[0].resourceURI.split('/').pop() : value;
+                })
         );
 
-    var comic = Entity('comics')
-        .extraParams(extraParams)
-        .interceptor(interceptor)
-        .totalItems(totalItems)
-        .pagination(pagination)
-        .label('Comics')
-        .dashboard(5)
-        .addField(Field('id')
-            .label('ID')
-            .type('number')
-            .identifier(true)
-            .edition('read-only')
-        )
-        .addField(Field('title')
-            .label('Title')
-            .edition('read-only')
-        )
-        .addField(Reference('creators')
-            .label('Creator')
-            .targetEntity(creator)
-            .targetLabel('fullName')
-            .valueTransformer(function(value) {
-                return value && value.items && value.items.length ? value.items[0].resourceURI.split('/').pop() : value;
-            })
-        );
-
-    var character = Entity('characters')
-        .extraParams(extraParams)
-        .interceptor(interceptor)
-        .totalItems(totalItems)
-        .label('Characters')
-        .dashboard(5)
-        .pagination(pagination)
-        .infinitePagination(true)
-        .addField(Field('id')
-            .label('ID')
-            .type('number')
-            .identifier(true)
-            .edition('read-only')
-        )
-        .addField(Field('name')
-            .label('Name')
-            .edition('read-only')
-        );
+        var character = new Entity('characters')
+            .extraParams(extraParams)
+            .interceptor(interceptor)
+            .totalItems(totalItems)
+            .label('Characters')
+            .dashboard(5)
+            .pagination(pagination)
+            .infinitePagination(true)
+            .addField(new Field('id')
+                .label('ID')
+                .type('number')
+                .identifier(true)
+                .edition('read-only')
+            )
+            .addField(new Field('name')
+                .label('Name')
+                .edition('read-only')
+            );
 
 
-    var event = Entity('events')
-        .extraParams(extraParams)
-        .interceptor(interceptor)
-        .totalItems(totalItems)
-        .label('Event')
-        .dashboard(5)
-        .pagination(pagination)
-        .infinitePagination(true)
-        .addField(Field('id')
-            .label('ID')
-            .type('number')
-            .identifier(true)
-            .edition('read-only')
-        )
-        .addField(Field('title')
-            .label('Title')
-            .edition('read-only')
-        )
-        .addField(Reference('characters')
-            .label('Main character')
-            .targetEntity(character)
-            .targetLabel('name')
-            .valueTransformer(function(value) {
-                return value && value.items && value.items.length ? value.items[0].resourceURI.split('/').pop() : value;
-            })
-        );
+        var event = new Entity('events')
+            .extraParams(extraParams)
+            .interceptor(interceptor)
+            .totalItems(totalItems)
+            .label('Event')
+            .dashboard(5)
+            .pagination(pagination)
+            .infinitePagination(true)
+            .addField(new Field('id')
+                .label('ID')
+                .type('number')
+                .identifier(true)
+                .edition('read-only')
+            )
+            .addField(new Field('title')
+                .label('Title')
+                .edition('read-only')
+            )
+            .addField(new Reference('characters')
+                .label('Main character')
+                .targetEntity(character)
+                .targetLabel('name')
+                .valueTransformer(function(value) {
+                    return value && value.items && value.items.length ? value.items[0].resourceURI.split('/').pop() : value;
+                })
+            );
 
-    return Application()
-        .title('Marvel')
-        .baseApiUrl('http://gateway.marvel.com:80/v1/public/')
-        .addEntity(character)
-        .addEntity(comic)
-        .addEntity(event)
-        .addEntity(creator);
-});
+        var app = new Application()
+            .title('Marvel')
+            .baseApiUrl('http://gateway.marvel.com:80/v1/public/')
+            .addEntity(character)
+            .addEntity(comic)
+            .addEntity(event)
+            .addEntity(creator);
+
+        NgAdminConfigurationProvider.configure(app);
+    });
+})();
 
 
 // Some tools

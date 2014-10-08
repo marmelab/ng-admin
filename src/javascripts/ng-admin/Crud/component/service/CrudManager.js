@@ -437,7 +437,7 @@ define(function(require) {
      */
     CrudManager.prototype.truncateListValue = function(entities) {
         if (!entities.length) {
-            return;
+            return [];
         }
 
         for (var i = 0, l = entities.length; i < l; i++) {
