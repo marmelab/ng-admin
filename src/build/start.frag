@@ -10,6 +10,6 @@
         module.exports = factory();
     } else {
          // Browser globals (root is window)
-        root.gremlins = factory();
+        root.ngAdmin = factory();
     }
 }(this, function() {
