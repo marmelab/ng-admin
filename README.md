@@ -302,7 +302,7 @@ Define the target field name used to retrieve the label of the referenced elemen
 
 ## Build
 
-Concatenate and minify the app with :
+Concatenate and minify the app with:
 ```sh
 grunt build
 ```
