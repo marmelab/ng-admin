@@ -13,9 +13,10 @@ define(function (require) {
         headers: defaultHeaders
     };
 
-    function Application() {
+    function Application(title) {
         this.entities = {};
         this.config = angular.copy(config);
+        this.config.title = title || this.config.title;
     }
 
     /**

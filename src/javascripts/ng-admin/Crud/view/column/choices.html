@@ -1,5 +1,13 @@
-<a ng-click="edit(entity)" class="multiple">
-    <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">
-        {{ ref }}
+<div ng-switch="column.field.isEditLink()">
+    <a ng-switch-when="true" ng-click="edit(entity)" class="multiple">
+        <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">
+            {{ ref }}
+        </span>
+    </a>
+
+    <span ng-switch-default>
+        <span ng-repeat="ref in entity.getField(column.field.name()).value track by $index" class="label label-default">
+            {{ ref }}
+        </span>
     </span>
-</a>
+</div>
