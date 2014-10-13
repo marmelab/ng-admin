@@ -1,5 +1,6 @@
 <input id="{{ field.name() }}"
        class="form-control"
        type="number"
+       step="{{ field.validation().step || 1 }}"
        ng-model="field.value"
        ng-required="field.validation().required" />
