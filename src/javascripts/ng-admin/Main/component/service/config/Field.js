@@ -2,7 +2,7 @@ define(function (require) {
     'use strict';
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'callback'];
+    var availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'callback', 'choice'];
     var availableEditions = ['read-only', 'editable'];
 
     var defaultValueTransformer = function(value) {
@@ -29,7 +29,8 @@ define(function (require) {
         truncateList: false,
         validation: {
             required: false
-        }
+        },
+        choices: {}
     };
 
     /**
