@@ -55,7 +55,7 @@ Here is a full example for a backend that will let you create, update, delete so
 Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
-app.config(function(NgAdminConfigurationProvider, Application, Entity, 
+app.config(function(NgAdminConfigurationProvider, Application, Entity,
     Field, Reference, ReferencedList, ReferenceMany) {
 
     var postBody, postId;
@@ -225,7 +225,7 @@ app.config(function(NgAdminConfigurationProvider, Application, Entity,
 
 ### List of options for `Field` type
 
-* `type(string ['number'|'string'|'text'|'wysiwyg'|'email'|'date'])`
+* `type(string ['number'|'string'|'text'|'wysiwyg'|'email'|'date'|'choice'])`
 Define the field type.
 
 * `label(string label)`
@@ -242,6 +242,9 @@ Define if this field is the entity's identifier (to build the REST requests).
 
 * `format(string ['yyyy-MM-dd' by default])`
 Define the format for `date` type.
+
+* `choices([{value: '', label: ''}, ...])
+Define array of choices for `choice` type. A choice has both a value and a label.
 
 * `valueTransformer(function)`
 Define a custom function to transform the value.
@@ -262,7 +265,6 @@ Number of elements displayed in dashboard.
 
 * `validation(function)`
 Define a custom validation function.
-
 
 ### List of options for `Reference` type
 
