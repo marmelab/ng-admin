@@ -39,6 +39,20 @@ define(function (require) {
         return this.views[name];
     };
 
+    /**
+     * Add a view
+     *
+     * @param {String} name
+     * @param {View} view
+     *
+     * @returns {Entity}
+     */
+    Entity.prototype.addView = function(name, view) {
+        this.views[name] = view;
+
+        return this;
+    };
+
     Configurable(Entity.prototype, config);
 
     return Entity;

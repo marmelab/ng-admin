@@ -6,19 +6,20 @@ define(function (require) {
     var utils = require('ng-admin/lib/utils');
 
     var config = {
-        limit : 10
     };
 
     /**
      * @constructor
      */
-    function DashboardView() {
+    function DeleteView() {
+        this.quickFilters = {};
+
         View.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
     }
 
-    utils.inherits(DashboardView, View);
-    Configurable(DashboardView.prototype, config);
+    utils.inherits(DeleteView, View);
+    Configurable(DeleteView.prototype, config);
 
-    return DashboardView;
+    return DeleteView;
 });

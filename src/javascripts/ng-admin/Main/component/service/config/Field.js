@@ -17,7 +17,7 @@ define(function (require) {
         name: 'myField',
         type: 'string',
         label: 'My field',
-        edition : 'editable',
+        editable : true,
         order: null,
         identifier : false,
         format : 'yyyy-MM-dd',

@@ -21,6 +21,13 @@ define(function (require) {
     MainModule.constant('Reference', require('ng-admin/Main/component/service/config/Reference'));
     MainModule.constant('ReferencedList', require('ng-admin/Main/component/service/config/ReferencedList'));
     MainModule.constant('ReferenceMany', require('ng-admin/Main/component/service/config/ReferenceMany'));
+    MainModule.constant('Action', require('ng-admin/Main/component/service/config/Action'));
+
+    // Configuration view
+    MainModule.constant('DashboardView', require('ng-admin/Main/component/service/config/view/DashboardView'));
+    MainModule.constant('ListView', require('ng-admin/Main/component/service/config/view/ListView'));
+    MainModule.constant('FormView', require('ng-admin/Main/component/service/config/view/FormView'));
+    MainModule.constant('DeleteView', require('ng-admin/Main/component/service/config/view/DeleteView'));
 
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 
