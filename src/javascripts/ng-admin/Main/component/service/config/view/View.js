@@ -35,8 +35,8 @@ define(function (require) {
     };
 
     var config = {
-        name: 'myDashboard',
-        label: 'My reference',
+        name: 'myView',
+        label: 'My view',
         order: null,
         title: defaultTitle,
         description: defaultDescription,
@@ -51,6 +51,7 @@ define(function (require) {
         this.fields = [];
         this.actions = [];
         this.entity = null;
+        this.config = angular.copy(config);
     }
 
     /***

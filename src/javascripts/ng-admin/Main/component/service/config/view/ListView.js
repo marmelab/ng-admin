@@ -3,6 +3,7 @@ define(function (require) {
 
     var View = require('ng-admin/Main/component/service/config/view/View');
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var utils = require('ng-admin/lib/utils');
 
     var defaultSortParams = function (field, dir) {
         return {
@@ -52,6 +53,9 @@ define(function (require) {
      */
     function ListView() {
         this.quickFilters = {};
+
+        View.apply(this, arguments);
+        this.config = angular.extend(this.config, angular.copy(config));
     }
 
     /**
@@ -97,8 +101,8 @@ define(function (require) {
         return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 
+    utils.inherits(ListView, View);
     Configurable(ListView.prototype, config);
-    angular.extend(ListView, View);
 
     return ListView;
 });
