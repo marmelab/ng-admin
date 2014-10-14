@@ -1,6 +1,8 @@
 define(function() {
     'use strict';
 
+    var humane = require('humane');
+
     var DeleteController = function($scope, $location, CrudManager, params) {
         this.$scope = $scope;
         this.$location = $location;
@@ -17,6 +19,8 @@ define(function() {
         var self = this;
 
         this.CrudManager.deleteOne(this.params.entity, this.params.id).then(function() {
+            humane.log('Element successfully deleted.', {addnCls: 'humane-flatty-success'});
+
             self.$location.path('/list/' + self.params.entity);
         });
     };
