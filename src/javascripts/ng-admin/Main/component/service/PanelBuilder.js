@@ -2,41 +2,36 @@ define(function() {
     'use strict';
 
     /**
-     * @param {$q} $q
-     * @param {CrudManager} CrudManager
-     * @param {Configuration} Configuration
+     * @param {$q}                 $q
+     * @param {ListViewRepository} ListViewRepository
+     * @param {Configuration}      Configuration
+     *
      * @constructor
      */
-    function PanelBuilder($q, CrudManager, Configuration) {
+    function PanelBuilder($q, ListViewRepository, Configuration) {
         this.$q = $q;
-        this.CrudManager = CrudManager;
+        this.ListViewRepository = ListViewRepository;
         this.Configuration = Configuration();
     }
 
     /**
      * Returns all elements of each dashboard panels
      *
-     * @returns {Promise}
+     * @returns {promise}
      */
     PanelBuilder.prototype.getPanelsData = function() {
-        var promises = [],
-            entity,
-            limit,
+        var dashboards = this.Configuration.getViewsOfType('DashboardView'),
+            promises = [],
             self = this;
 
-        angular.forEach(this.Configuration.getEntityNames(), function(entityName) {
-            entity = self.Configuration.getEntity(entityName);
-            limit = entity.dashboard();
-
-            if (limit) {
-                promises.push(self.CrudManager.getAll(entityName, 1, limit));
-            }
+        angular.forEach(dashboards, function(dashboardView) {
+            promises.push(self.ListViewRepository.getAll(dashboardView));
         });
 
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', 'CrudManager', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', 'ListViewRepository', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });

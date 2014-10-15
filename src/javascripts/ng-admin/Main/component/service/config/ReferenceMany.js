@@ -2,8 +2,6 @@ define(function (require) {
     'use strict';
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var availableTypes = ['number', 'text', 'email', 'date'];
-    var availableEditions = ['read-only', 'editable'];
 
     var defaultValueTransformer = function(value) {
         return (typeof value == 'object' && typeof value.length == 'number') ? value : [value];
@@ -42,23 +40,6 @@ define(function (require) {
         this.config.name = name || 'reference-many';
     }
 
-    /**
-     *
-     * @param {String} edition
-     * @returns string|Reference
-     */
-    ReferenceMany.prototype.edition = function(edition) {
-        if (arguments.length === 0) {
-            return this.config.edition;
-        }
-
-        if (availableEditions.indexOf(edition) === -1) {
-            throw new Exception('Type should be one of ' + availableTypes.join(', '));
-        }
-
-        this.config.edition = edition;
-        return this;
-    };
 
     ReferenceMany.prototype.getChoices = function() {
         return this.choices;

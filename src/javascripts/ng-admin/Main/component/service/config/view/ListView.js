@@ -45,7 +45,8 @@ define(function (require) {
         filterParams: defaultFilterParams,
         infinitePagination: false,
         totalItems: defaultTotalItems,
-        sortParams: defaultSortParams
+        sortParams: defaultSortParams,
+        headers: {}
     };
 
     /**
@@ -57,6 +58,9 @@ define(function (require) {
         View.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
     }
+
+    utils.inherits(ListView, View);
+    Configurable(ListView.prototype, config);
 
     /**
      *
@@ -101,8 +105,56 @@ define(function (require) {
         return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 
-    utils.inherits(ListView, View);
-    Configurable(ListView.prototype, config);
+    /**
+     * Returns all params used to retrieve all elements
+     *
+     * @param {Number} page
+     * @param {Object} sortParams
+     * @param {String} query
+     *
+     * @returns {Object}
+     */
+    ListView.prototype.getAllParams = function(page, sortParams, query) {
+        var params = this.entity.getExtraParams(),
+            pagination = this.pagination(),
+            perPage = this.perPage();
+
+        // Add pagination params
+        if (pagination) {
+            params = angular.extend(params, pagination(page, perPage));
+        }
+
+        // Add sort params
+        if (sortParams && 'params' in sortParams) {
+            params = angular.extend(params, sortParams.params);
+        }
+
+        // Add query params
+        if (query && query.length) {
+            var filterQuery = this.entity.filterQuery();
+            params = angular.extend(params, filterQuery(query));
+        }
+
+        return params;
+    };
+
+    /**
+     * Returns all headers used to retrieve all elements
+     *
+     * @param {Object} sortParams
+     *
+     * @returns {Object}
+     */
+    ListView.prototype.getAllHeaders = function(sortParams) {
+        var headers = this.getHeaders();
+
+        // Add sort param headers
+        if (sortParams && sortParams.headers) {
+            headers = angular.extend(headers, sortParams.headers);
+        }
+
+        return headers;
+    };
 
     return ListView;
 });

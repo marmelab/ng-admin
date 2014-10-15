@@ -17,7 +17,6 @@ define(function (require) {
         order: null,
         valueTransformer : defaultValueTransformer,
         targetEntity : null,
-        targetField : null,
         targetFields : [],
         isEditLink: true,
         validation: {
