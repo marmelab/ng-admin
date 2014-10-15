@@ -14,7 +14,8 @@ define(function (require) {
     CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 
-    CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
+    CrudModule.service('ListViewRepository', require('ng-admin/Crud/component/service/ListViewRepository'));
+    CrudModule.service('FormViewRepository', require('ng-admin/Crud/component/service/FormViewRepository'));
 
     CrudModule.factory('notification', function () {
         return require('humane');

@@ -47,6 +47,8 @@ define(function (require) {
         this.entity = null;
     }
 
+    Configurable(Field.prototype, config);
+
     /**
      * Set of get the type
      *
@@ -59,7 +61,7 @@ define(function (require) {
         }
 
         if (availableTypes.indexOf(type) === -1) {
-            throw 'Type should be one of : "' + availableTypes.join('", "') + '", "' + type + '" given.';
+            throw new Error('Type should be one of : "' + availableTypes.join('", "') + '", "' + type + '" given.');
         }
 
         this.config.type = type;
@@ -67,27 +69,9 @@ define(function (require) {
         return this;
     };
 
-    /**
-     *
-     * @param {String} edition
-     * @returns string|Field
-     */
-    Field.prototype.edition = function(edition) {
-        if (arguments.length === 0) {
-            return this.config.edition;
-        }
-
-        if (availableEditions.indexOf(edition) === -1) {
-            throw 'Edition should be one of ' + availableEditions.join(', ') + '. ' + edition + 'given.';
-        }
-
-        this.config.edition = edition;
-        return this;
-    };
-
-    Field.prototype.getTruncatedListValue = function(value, dashboard) {
+    Field.prototype.getTruncatedListValue = function(value) {
         if (this.config.truncateList) {
-            value = this.config.truncateList(value, dashboard);
+            value = this.config.truncateList(value);
         }
 
         return value;

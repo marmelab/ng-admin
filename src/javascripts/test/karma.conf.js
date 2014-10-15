@@ -10,8 +10,8 @@ module.exports = function(config) {
             {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
 
             // ng-admin application files
-            {pattern: 'ng-admin/**/component/**/*.js', included: false},
-            {pattern: 'ng-admin/**/config/**/*.js', included: false},
+            {pattern: 'ng-admin/**/**/**/*.js', included: false},
+            {pattern: 'ng-admin/lib/**/*.js', included: false},
             {pattern: 'ng-admin/**/view/**/*.html', included: false},
 
             // Test files

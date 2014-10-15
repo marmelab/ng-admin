@@ -34,6 +34,10 @@ define(function (require) {
         return null;
     };
 
+    function defaultHeaders() {
+        return {};
+    }
+
     var config = {
         name: 'myView',
         label: 'My view',
@@ -41,17 +45,19 @@ define(function (require) {
         title: defaultTitle,
         description: defaultDescription,
         extraParams: null,
-        interceptor: null
+        interceptor: null,
+        headers: defaultHeaders
     };
 
     /**
      * @constructor
      */
-    function View() {
+    function View(name) {
         this.fields = [];
         this.actions = [];
         this.entity = null;
         this.config = angular.copy(config);
+        this.config.name = name || this.config.name;
     }
 
     /***
@@ -61,6 +67,13 @@ define(function (require) {
         this.entity = entity;
 
         return this;
+    };
+
+    /***
+     * @return {Entity}
+     */
+    View.prototype.getEntity = function(entity) {
+        return this.entity;
     };
 
     /**
@@ -155,6 +168,17 @@ define(function (require) {
         }
 
         return params;
+    };
+
+    /**
+     * Return view headers
+     *
+     * @returns {Object}
+     */
+    View.prototype.getHeaders = function() {
+        var headers = this.headers();
+
+        return typeof(headers) === 'function' ? headers() : headersc;
     };
 
     /**

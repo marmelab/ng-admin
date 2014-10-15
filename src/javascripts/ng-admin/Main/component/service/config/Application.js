@@ -1,16 +1,11 @@
 define(function (require) {
     "use strict";
 
-    function defaultHeaders() {
-        return {};
-    }
-
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     var config = {
         title: "Angular admin",
-        baseApiUrl: "http://localhost:3000/",
-        headers: defaultHeaders
+        baseApiUrl: "http://localhost:3000/"
     };
 
     function Application(title) {
@@ -70,10 +65,21 @@ define(function (require) {
         return Object.keys(this.entities);
     };
 
-    Application.prototype.getHeaders = function(entityName, action) {
-        var headers = this.headers();
+    /**
+     * Returns all entities
+     *
+     * @returns {Object}
+     */
+    Application.prototype.getViewsOfType = function(type) {
+        var views = [];
 
-        return typeof(headers) === 'function' ? headers(entityName, action) : headersc;
+        angular.forEach(this.entities, function(entity) {
+            var entityViews = entity.getViewsOfType(type);
+
+            views = views.concat(entityViews);
+        });
+
+        return views;
     };
 
     Configurable(Application.prototype, config);

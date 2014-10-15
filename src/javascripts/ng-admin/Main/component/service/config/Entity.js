@@ -31,6 +31,23 @@ define(function (require) {
     };
 
     /**
+     * Returns all views
+     *
+     * @returns {Object}
+     */
+    Entity.prototype.getViewsOfType = function(type) {
+        var views = [];
+
+        angular.forEach(this.views, function(view) {
+            if (view.constructor.name === type) {
+                views.push(view);
+            }
+        });
+
+        return views;
+    };
+
+    /**
      * Returns a view by it's name
      *
      * @returns {Field}
@@ -42,13 +59,13 @@ define(function (require) {
     /**
      * Add a view
      *
-     * @param {String} name
      * @param {View} view
      *
      * @returns {Entity}
      */
-    Entity.prototype.addView = function(name, view) {
-        this.views[name] = view;
+    Entity.prototype.addView = function(view) {
+        view.setEntity(this);
+        this.views[view.name()] = view;
 
         return this;
     };
