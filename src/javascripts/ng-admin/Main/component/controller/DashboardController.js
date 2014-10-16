@@ -14,7 +14,7 @@ define(function() {
         this.PanelBuilder = PanelBuilder;
 
         this.$scope.edit = this.edit.bind(this);
-        this.getPanels();
+        this.retrievePanels();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     }
@@ -22,7 +22,7 @@ define(function() {
     /**
      * Retrieve all dashboard panels
      */
-    DashboardController.prototype.getPanels = function() {
+    DashboardController.prototype.retrievePanels = function() {
         var self = this;
         this.panels = {};
 
@@ -33,7 +33,7 @@ define(function() {
                     entities = panel.entities,
                     columns = [];
 
-                // Get identifier field, and build columns array (only field defined with `list(true)` in config file)
+                // Retrieve all DashboardView
                 angular.forEach(entityConfig.getFields(), function(field) {
                     if(!field.dashboard()) {
                         return;
