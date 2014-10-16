@@ -13,12 +13,12 @@ define(function (require) {
     /**
      * Return the title depending if the config is a string or a function
      *
-     * @param {Function} config
+     * @param {Function} value
      * @param {Entity} entity
      * @returns {String}
      */
-    function getTitle(config, entity) {
-        var title = config;
+    function getTitle(value, entity) {
+        var title = value;
         if (typeof (title) === 'function') {
             title = title(entity);
         }
@@ -53,8 +53,8 @@ define(function (require) {
      * @constructor
      */
     function View(name) {
-        this.fields = [];
-        this.actions = [];
+        this.fields = {};
+        this.actions = {};
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name || this.config.name;
@@ -91,6 +91,38 @@ define(function (require) {
     };
 
     /**
+     * Returns fields by type
+     *
+     * @param {String }type
+     * @returns {Array}
+     */
+    View.prototype.getFieldsOfType = function(type) {
+        var results = {};
+
+        for(var i in this.fields) {
+            if (!this.fields.hasOwnProperty(i)) {
+                continue;
+            }
+
+            var field = this.fields[i];
+            if (field instanceof fieldTypes[type]) {
+                results[i] = field;
+            }
+        }
+
+        return results;
+    };
+
+    /**
+     * Returns all fields
+     *
+     * @returns {Array}
+     */
+    View.prototype.getFields = function() {
+      return this.fields;
+    };
+
+    /**
      * @param {Action} action
      */
     View.prototype.addAction = function(action) {
@@ -103,7 +135,28 @@ define(function (require) {
         return this;
     };
 
+    /**
+     * Returns all actions
+     *
+     * @returns {Array}
+     */
+    View.prototype.getActions = function() {
+        return this.actions;
+    };
 
+    /**
+     * Returns the views title
+     *
+     * @returns {String}
+     */
+    View.prototype.getTitle = function() {
+        return getTitle(this.config.title, this);
+    };
+
+    /**
+     * Returns the views description
+     * @returns {String}
+     */
     View.prototype.getDescription = function() {
         return getTitle(this.config.description, this);
     };
@@ -131,29 +184,6 @@ define(function (require) {
      */
     View.prototype.getReferencedLists = function() {
         return this.getFieldsOfType('ReferencedList')
-    };
-
-    /**
-     * Returns fields by type
-     *
-     * @param {String }type
-     * @returns {Array}
-     */
-    View.prototype.getFieldsOfType = function(type) {
-        var results = {};
-
-        for(var i in this.fields) {
-            if (!this.fields.hasOwnProperty(i)) {
-                continue;
-            }
-
-            var field = this.fields[i];
-            if (field instanceof fieldTypes[type]) {
-                results[i] = field;
-            }
-        }
-
-        return results;
     };
 
     /**
@@ -204,7 +234,7 @@ define(function (require) {
      *
      * @returns {boolean}
      */
-    View.prototype.isNew = function() {
+        View.prototype.isNew = function() {
         var identifier = this.getIdentifier();
         return !identifier || identifier.value === null;
     };

@@ -19,7 +19,7 @@ define(function(require) {
             it('should not allows type other type.', function() {
                 var field = new Field();
 
-                expect(function(){ field.type('myType'); console.log(field);  } )
+                expect(function(){ field.type('myType');  } )
                     .toThrow(new Error('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "callback", "myType" given.'));
             });
 
