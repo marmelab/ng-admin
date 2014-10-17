@@ -20,6 +20,7 @@ define(function (require) {
         targetField : null,
         targetFields : [],
         isEditLink: true,
+        dashboard: true,
         validation: {
             required: false
         }
