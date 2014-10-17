@@ -15,8 +15,13 @@ define(function (require) {
     CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 
     CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
-    CrudModule.service('humaneService', require('ng-admin/Crud/component/service/humaneService'));
-    CrudModule.service('NProgressService', require('ng-admin/Crud/component/service/NProgressService'));
+
+    CrudModule.factory('humaneService', function () {
+        return require('humane');
+    });
+    CrudModule.factory('NProgressService', function () {
+        return require('nprogress');
+    });
 
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
