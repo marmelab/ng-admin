@@ -15,6 +15,8 @@ define(function (require) {
     CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 
     CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
+    CrudModule.service('humaneService', require('ng-admin/Crud/component/service/humaneService'));
+    CrudModule.service('NProgressService', require('ng-admin/Crud/component/service/NProgressService'));
 
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 

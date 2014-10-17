@@ -1,14 +1,13 @@
 define(function() {
     'use strict';
 
-    var NProgress = require('nprogress');
-
-    function DatagridPaginationController($scope, $location, $anchorScroll, CrudManager) {
+    function DatagridPaginationController($scope, $location, $anchorScroll, CrudManager, NProgress) {
         this.$scope = $scope;
         this.$location = $location;
         this.loadingPage = false;
         this.$anchorScroll = $anchorScroll;
         this.CrudManager = CrudManager;
+        this.NProgress = NProgress;
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
@@ -56,9 +55,9 @@ define(function() {
         this.loadingPage = true;
         this.currentPage++;
 
-        NProgress.start();
+        self.NProgress.start();
         this.CrudManager.getAll(entityConfig.name(), this.currentPage, null, true, null, sortField, sortDir).then(function(nextData) {
-            NProgress.done();
+            self.NProgress.done();
 
             self.$scope.entities = self.$scope.entities.concat(nextData.entities);
             self.loadingPage = false;
@@ -80,7 +79,7 @@ define(function() {
     };
 
 
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'CrudManager'];
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'CrudManager', 'NProgressService'];
 
     return DatagridPaginationController;
 });
