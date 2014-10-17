@@ -16,10 +16,10 @@ define(function (require) {
 
     CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
 
-    CrudModule.factory('humaneService', function () {
+    CrudModule.factory('notification', function () {
         return require('humane');
     });
-    CrudModule.factory('NProgressService', function () {
+    CrudModule.factory('progress', function () {
         return require('nprogress');
     });
 

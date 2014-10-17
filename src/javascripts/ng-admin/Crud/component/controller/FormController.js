@@ -1,7 +1,7 @@
 define(function() {
     'use strict';
 
-    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, humane, NProgress) {
+    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
         var isNew = entity.isNew();
         this.$scope = $scope;
         this.$location = $location;
@@ -11,8 +11,8 @@ define(function() {
         this.entity = entity;
         this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
         this.description = entity.getDescription();
-        this.humane = humane;
-        this.NProgress = NProgress;
+        this.notification = notification;
+        this.progress = progress;
 
         var searchParams = this.$location.search();
 
@@ -39,7 +39,7 @@ define(function() {
 
     FormController.prototype.validate = function(form, $event) {
         $event.preventDefault();
-        this.NProgress.start();
+        this.progress.startnotification;
 
         var value,
             self = this,
@@ -59,8 +59,8 @@ define(function() {
         try {
             this.Validator.validate(this.entity.name(), object);
         } catch(e) {
-            self.NProgress.done();
-            self.humane.log(e, {addnCls: 'humane-flatty-error'});
+            self.progress.done();
+            self.notification.log(e, {addnCls: 'humane-flatty-error'});
             return false;
         }
 
@@ -82,8 +82,8 @@ define(function() {
         this.CrudManager
             .createOne(this.entity.name(), object)
             .then(function(response) {
-                self.NProgress.done();
-                self.humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+                self.progress.done();
+                self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.entity.name() + '/' + response.data.id);
             });
     };
@@ -101,8 +101,8 @@ define(function() {
         }
 
         this.CrudManager.updateOne(this.entity.name(), object).then(function() {
-            self.NProgress.done();
-            self.humane.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+            self.progress.done();
+            self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
         });
     };
 
@@ -123,7 +123,7 @@ define(function() {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity', 'humaneService', 'NProgressService'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity', 'notification', 'progress'];
 
     return FormController;
 });

@@ -1,12 +1,12 @@
 define(function() {
     'use strict';
 
-    var DeleteController = function($scope, $location, CrudManager, params, humane) {
+    var DeleteController = function($scope, $location, CrudManager, params, notification) {
         this.$scope = $scope;
         this.$location = $location;
         this.CrudManager = CrudManager;
         this.params = params;
-        this.humane = humane;
+        this.notification = notification;
 
         this.entityLabel = this.params.entity;
         this.entityId = this.params.id;
@@ -18,7 +18,7 @@ define(function() {
         var self = this;
 
         this.CrudManager.deleteOne(this.params.entity, this.params.id).then(function() {
-            self.humane.log('Element successfully deleted.', {addnCls: 'humane-flatty-success'});
+            self.notification.log('Element successfully deleted.', {addnCls: 'humane-flatty-success'});
 
             self.$location.path('/list/' + self.params.entity);
         });
@@ -35,7 +35,7 @@ define(function() {
         this.params = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'CrudManager', 'params', 'humaneService'];
+    DeleteController.$inject = ['$scope', '$location', 'CrudManager', 'params', 'notification'];
 
     return DeleteController;
 });
