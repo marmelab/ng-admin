@@ -1,7 +1,7 @@
 define(function(require) {
     "use strict";
 
-    var NProgress = require('nprogress');
+    require('nprogress');
 
     /**
      * Display loader on each route change
@@ -9,16 +9,16 @@ define(function(require) {
      * @param {$rootScope} $rootScope
      * @param {$window} $window
      */
-    function loader($rootScope, $window) {
+    function loader($rootScope, $window, progress) {
         $rootScope.$on('$stateChangeStart', function() {
-            NProgress.start();
+            progress.start();
             $window.scrollTo(0, 0);
         });
 
-        $rootScope.$on('$stateChangeSuccess', NProgress.done.bind(NProgress));
+        $rootScope.$on('$stateChangeSuccess', progress.done.bind(progress));
     }
 
-    loader.$inject = ['$rootScope', '$window'];
+    loader.$inject = ['$rootScope', '$window', 'progress'];
 
     return loader;
 });

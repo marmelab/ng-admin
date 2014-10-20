@@ -16,6 +16,13 @@ define(function (require) {
 
     CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
 
+    CrudModule.factory('notification', function () {
+        return require('humane');
+    });
+    CrudModule.factory('progress', function () {
+        return require('nprogress');
+    });
+
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));
