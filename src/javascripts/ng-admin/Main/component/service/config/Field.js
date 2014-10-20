@@ -30,7 +30,8 @@ define(function (require) {
         validation: {
             required: false
         },
-        choices: []
+        choices: [],
+        defaultValue: ""
     };
 
     /**
