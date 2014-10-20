@@ -189,6 +189,13 @@ div.bottom-loader {
         height: 150px;
     }
 
+    input[type="checkbox"], input[type="radio"] {
+        max-width: 16px;
+        box-shadow: none;
+        cursor: pointer;
+        margin: 0;
+    }
+
     .border-around {
         margin-top: 2px;
         background: #ffffff;
