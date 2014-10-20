@@ -231,6 +231,9 @@ Define the field type.
 * `label(string label)`
 Define the label of the field.
 
+* `defaultValue(v)`
+Define the default value of the field.
+
 * `edition(string ['read-only'|'editable'])`
 Define if the field is editable in the edition form.
 

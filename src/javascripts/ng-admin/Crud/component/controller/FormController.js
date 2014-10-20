@@ -17,6 +17,13 @@ define(function() {
         var searchParams = this.$location.search();
 
         this.fields = entity.getFields();
+
+        if (isNew) {
+            for (var fieldName in this.fields) {
+                this.fields[fieldName].processDefaultValue();
+            }
+        }
+
         this.entityLabel = entity.label();
         this.$scope.entity = this.entity;
         this.$scope.entityConfig = this.entity;

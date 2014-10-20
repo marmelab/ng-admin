@@ -30,7 +30,8 @@ define(function (require) {
         validation: {
             required: false
         },
-        choices: []
+        choices: [],
+        defaultValue: null
     };
 
     /**
@@ -137,6 +138,12 @@ define(function (require) {
         this.value = null;
 
         return this;
+    };
+
+    Field.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
     };
 
     Configurable(Field.prototype, config);
