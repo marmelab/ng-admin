@@ -8,9 +8,9 @@ define(function(require) {
         return {
             restrict: 'E',
             template: booleanColumnView,
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.isOk = !!$scope.entity.getField($scope.column.field.name()).value;
-            }
+            }]
         };
     }
 
