@@ -24,7 +24,8 @@ define(function (require) {
         isEditLink: true,
         validation: {
             required: false
-        }
+        },
+        defaultValue: null
     };
 
     /**
@@ -103,6 +104,12 @@ define(function (require) {
      */
     Reference.prototype.getListValue = function() {
         return this.referencedValue;
+    };
+
+    Reference.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
     };
 
     Configurable(Reference.prototype, config);

@@ -25,7 +25,8 @@ define(function (require) {
         isEditLink: true,
         validation: {
             required: false
-        }
+        },
+        defaultValue: null
     };
 
     /**
@@ -96,6 +97,12 @@ define(function (require) {
         this.value = [];
 
         return this;
+    };
+
+    ReferenceMany.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
     };
 
     Configurable(ReferenceMany.prototype, config);

@@ -19,12 +19,8 @@ define(function() {
         this.fields = entity.getFields();
 
         if (isNew) {
-          // Set default values if available
-          for (var fieldName in this.fields) {
-                var field = this.fields[fieldName];
-                if (!field.value && field.config.defaultValue) {
-                    field.value = field.config.defaultValue;
-                }
+            for (var fieldName in this.fields) {
+                this.fields[fieldName].processDefaultValue();
             }
         }
 

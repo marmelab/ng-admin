@@ -22,7 +22,8 @@ define(function (require) {
         isEditLink: true,
         validation: {
             required: false
-        }
+        },
+        defaultValue: null
     };
 
     /**
@@ -96,6 +97,12 @@ define(function (require) {
 
     ReferencedList.prototype.clear = function() {
         return this;
+    };
+
+    ReferencedList.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
     };
 
     Configurable(ReferencedList.prototype, config);
