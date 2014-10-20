@@ -1,13 +1,12 @@
 define(function(require) {
     "use strict";
 
-    require('nprogress');
-
     /**
      * Display loader on each route change
      *
      * @param {$rootScope} $rootScope
      * @param {$window} $window
+     * @param {progress} progress
      */
     function loader($rootScope, $window, progress) {
         $rootScope.$on('$stateChangeStart', function() {
