@@ -29,32 +29,23 @@ define(function() {
         this.PanelBuilder.getPanelsData().then(function(panels) {
             angular.forEach(panels, function(panel) {
 
-                var entityConfig = panel.entityConfig,
+                var view = panel.view,
                     entities = panel.entities,
                     columns = [];
 
                 // Retrieve all DashboardView
-                angular.forEach(entityConfig.getFields(), function(field) {
-                    if(!field.dashboard()) {
-                        return;
-                    }
-
+                angular.forEach(view.getFields(), function(field) {
                     columns.push({
                         field: field,
                         label: field.label()
                     });
                 });
 
-                self.panels[panel.entityName] = {
-                    label: panel.entityConfig.label(),
-                    entity: entityConfig,
+                self.panels[view.name()] = {
+                    label: view.label(),
+                    view: view,
                     columns: columns,
-                    entities: entities,
-                    options: {
-                        grid : {
-                            dimensions : [ columns.length, entities.length ]
-                        }
-                    }
+                    entities: entities
                 };
             });
 
@@ -64,10 +55,10 @@ define(function() {
     /**
      * Link to edit entity page
      *
-     * @param {Entity} entity
+     * @param {View} view
      */
-    DashboardController.prototype.edit = function(entity) {
-        this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
+    DashboardController.prototype.edit = function(view) {
+        this.$location.path('/edit/' + view.getEntity().name() + '/' + view.getIdentifier().value);
     };
 
     DashboardController.prototype.destroy = function() {

@@ -123,6 +123,15 @@ define(function (require) {
     };
 
     /**
+     * Returns a field
+     *
+     * @returns {Field}
+     */
+    View.prototype.getField = function(name) {
+      return this.fields[name];
+    };
+
+    /**
      * @param {Action} action
      */
     View.prototype.addAction = function(action) {

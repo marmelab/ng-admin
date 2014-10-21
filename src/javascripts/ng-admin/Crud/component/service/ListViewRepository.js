@@ -29,6 +29,7 @@ define(function(require) {
     ListViewRepository.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
         var rawValues,
             entity = view.getEntity(),
+            referencedValues,
             self = this;
 
         this.getRawValues(view, page, query, sortField, sortDir, filters)
@@ -36,15 +37,16 @@ define(function(require) {
                 rawValues = values;
 
                 return self.getReferencedValues(entityName);
-            }).then(function(referencedValues) {
+            }).then(function(values) {
+                referencedValues = values;
+
                 return self.mapEntities(view, rawValues);
             }).then(function(entities) {
                 entities = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
                 entities = self.truncateListValue(entities);
 
                 return {
-                    entityName: entity.name(),
-                    entityConfig: entity,
+                    view: view,
                     entities: entities,
                     currentPage: page,
                     perPage: view.perPage(),
@@ -288,4 +290,5 @@ define(function(require) {
         return entities;
     };
 
+    return ListViewRepository;
 });

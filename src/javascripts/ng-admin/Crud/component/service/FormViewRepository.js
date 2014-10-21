@@ -23,10 +23,9 @@ define(function(require) {
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     FormViewRepository.prototype.getOne = function(view, entityId) {
-        var entityConfig = view.getEntity(),
-            interceptor = entityConfig.interceptor(),
-            params = entityConfig.getExtraParams(),
-            headers = this.config.getHeaders(entityName, 'getOne');
+        var interceptor = view.interceptor(),
+            params = view.getExtraParams(),
+            headers = view.getHeaders();
 
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
@@ -34,19 +33,19 @@ define(function(require) {
 
         // Get element data
         return this.Restangular
-            .one(entityName, entityId)
+            .one(view.getEntity().name(), entityId)
             .get(params, headers)
             .then(function(response) {
 
-                var fields = entityConfig.getFields(),
-                    entity = response.data;
+                var fields = view.getFields(),
+                    values = response.data;
 
                 // Transform each values with `valueTransformer`
                 angular.forEach(fields, function(field, index) {
-                    entityConfig.getField(index).value = field.valueTransformer()(entity[field.name()]);
+                    view.getField(index).value = field.valueTransformer()(values[field.name()]);
                 });
 
-                return entityConfig;
+                return view;
             });
     };
 
@@ -111,4 +110,6 @@ define(function(require) {
             .one(entityName, entityId)
             .remove(null, headers);
     };
+
+    return FormViewRepository;
 });
