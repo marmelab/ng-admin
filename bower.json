@@ -9,7 +9,7 @@
     "angular-sanitize": "~1.2.15",
     "angular-route": "~1.2.15",
     "json3": "~3.2.6",
-    "es5-shim": "~2.1.0",
+    "es5-shim": "~3.4.0",
     "jquery": "~1.11.0",
     "requirejs": "~2.1.14",
     "requirejs-text": "~2.0.12",
@@ -21,8 +21,7 @@
     "humane": "~3.2.0",
     "nprogress": "~0.1.6",
     "textAngular": "~1.2.2",
-    "ng-file-upload": "~1.6.12",
-    "ng-file-upload-shim": "~1.6.12"
+    "angular-file-upload": "~1.1.5"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",

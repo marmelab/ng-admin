@@ -10,12 +10,7 @@ define(function(require) {
             restrict: 'E',
             template: fileFieldView,
             controllerAs: 'fileupload',
-            controller: FileUploadController,
-            link: function (scope, element, attrs, controller) {
-                scope.onFileSelect = function($files) {
-                    controller.upload($files);
-                }
-            }
+            controller: FileUploadController
         };
     }
 

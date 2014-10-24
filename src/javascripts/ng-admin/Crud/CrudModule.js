@@ -6,7 +6,7 @@ define(function (require) {
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
-    require('ng-file-upload');
+    require('angular-file-upload');
     require('textangular');
 
     var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'angularFileUpload']);
