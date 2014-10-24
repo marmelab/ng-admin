@@ -6,9 +6,10 @@ define(function (require) {
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
+    require('ng-file-upload');
     require('textangular');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular']);
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'angularFileUpload']);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/component/controller/ListController'));
     CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
@@ -37,6 +38,7 @@ define(function (require) {
     CrudModule.directive('referenceManyField', require('ng-admin/Crud/component/directive/field/ReferenceManyField'));
     CrudModule.directive('wysiwygField', require('ng-admin/Crud/component/directive/field/WysiwygField'));
     CrudModule.directive('callbackField', require('ng-admin/Crud/component/directive/field/CallbackField'));
+    CrudModule.directive('fileField', require('ng-admin/Crud/component/directive/field/FileField'));
 
     CrudModule.directive('stringColumn', require('ng-admin/Crud/component/directive/column/StringColumn'));
     CrudModule.directive('emailColumn', require('ng-admin/Crud/component/directive/column/EmailColumn'));
