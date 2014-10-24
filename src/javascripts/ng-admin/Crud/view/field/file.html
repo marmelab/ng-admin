@@ -1,0 +1,10 @@
+<div class="input-group fileupload col-sm-4">
+    <input id="{{ field.name() }}"
+           type="file"
+           class="form-control"
+           ng-file-select="onFileSelect($files)"/>
+
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-show="uploading" ng-click="upload.abort()">Cancel Upload</button>
+    </span>
+</div>

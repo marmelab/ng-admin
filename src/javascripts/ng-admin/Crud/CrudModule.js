@@ -9,11 +9,14 @@ define(function (require) {
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
+    require('ng-file-upload');
     require('textangular');
     require('ngInflection');
     require('angular-ui-codemirror');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror']);
+    var CrudModule = angular.module('crud', [
+        'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload'
+    ]);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/list/ListController'));
     CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
@@ -37,6 +40,7 @@ define(function (require) {
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
+    CrudModule.directive('fileField', require('ng-admin/Crud/component/directive/field/FileField'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
@@ -75,7 +79,6 @@ define(function (require) {
     CrudModule.factory('progression', function () {
         return require('nprogress');
     });
-
 
     /**
      * Date Picker patch

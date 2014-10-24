@@ -11,6 +11,7 @@ require.config({
         'angular-resource': 'bower_components/angular-resource/angular-resource',
         'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
         'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+        'ng-file-upload': 'bower_components/ng-file-upload/angular-file-upload',
         'lodash': 'bower_components/lodash/dist/lodash.min',
         'text' : 'bower_components/requirejs-text/text',
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
