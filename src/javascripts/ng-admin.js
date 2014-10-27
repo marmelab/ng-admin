@@ -5,6 +5,7 @@ require.config({
         'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
         'angular-route': 'bower_components/angular-route/angular-route',
         'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+        'angular-file-upload': 'bower_components/angular-file-upload/angular-file-upload',
         'lodash': 'bower_components/lodash/dist/lodash.min',
         'text' : 'bower_components/requirejs-text/text',
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
@@ -32,6 +33,9 @@ require.config({
         },
         'angular-bootstrap-tpls': {
             deps: ['angular', 'angular-bootstrap']
+        },
+        'angular-file-upload': {
+            deps: ['angular']
         },
         'jquery': {
             exports: '$'
