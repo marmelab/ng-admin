@@ -23,7 +23,7 @@ Include it:
 <script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
 ```
 
-Make your application depends on it:
+Make your application depend on it:
 ```js
 var app = angular.module('myApp', ['ng-admin']);
 ```
@@ -48,10 +48,10 @@ Your application should use a `ui-view`:
 
 # Configuration
 
-We chose to define the entities directly into a javascript file to allow greater freedom in the configuration.
-For some part of the configuration, you'll be able to define directly the function that match your specific needs to fit your API.
+We chose to define the entities directly into a Javascript file to allow greater freedom in the configuration.
+For some part of the configuration, you'll be able to directly define the function that matches your specific needs to fit your API.
 
-Here is a full example for a backend that will let you create, update, delete some posts (`posts` entity).
+Here is a full example for a backend that will let you create, update, and delete some posts (`posts` entity).
 Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
@@ -290,7 +290,7 @@ Define the referenced entity.
 Define the field name used to link the referenced entity.
 
 * `targetFields(Array(Field))`
-Define an array of fields that will be display in the list of the form.
+Define an array of fields that will be displayed in the list of the form.
 
 ### List of options for `ReferencedMany` type
 
@@ -314,7 +314,7 @@ grunt build
 
 ## Tests
 
-Tests are lunched with karma by grunt:
+Tests are launched with karma by grunt:
 
 ```
 grunt test
@@ -326,7 +326,7 @@ A new `build/ng-admin.min.js` file will be created.
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
 
-All contributions are welcome. New applications or options should be tested  with go unit test tool.
+All contributions are welcome. New applications or options should be tested with go unit test tool.
 
 ## License
 
