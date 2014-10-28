@@ -1,9 +1,9 @@
 define(function (require) {
     'use strict';
 
-    var View = require('ng-admin/Main/component/service/config/view/View');
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var utils = require('ng-admin/lib/utils');
+    var View = require('ng-admin/Main/component/service/config/view/View'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        utils = require('ng-admin/lib/utils');
 
     var defaultSortParams = function (field, dir) {
         return {
@@ -115,7 +115,7 @@ define(function (require) {
      * @returns {Object}
      */
     ListView.prototype.getAllParams = function(page, sortParams, query) {
-        var params = this.entity.getExtraParams(),
+        var params = this.getExtraParams(),
             pagination = this.pagination(),
             perPage = this.perPage();
 
@@ -131,7 +131,7 @@ define(function (require) {
 
         // Add query params
         if (query && query.length) {
-            var filterQuery = this.entity.filterQuery();
+            var filterQuery = this.filterQuery();
             params = angular.extend(params, filterQuery(query));
         }
 
@@ -154,6 +154,29 @@ define(function (require) {
         }
 
         return headers;
+    };
+
+    /**
+     * Truncate all values depending of the `truncateList` configuration of a field
+     *
+     * @param {[Object]} entities
+     *
+     * @return {[Object]}
+     */
+    ListView.prototype.truncateListValue = function(entities) {
+        if (!entities.length) {
+            return [];
+        }
+
+        var fields = this.getFieldsOfType('Field');
+
+        for (var i = 0, l = entities.length; i < l; i++) {
+            for(var fieldName in fields) {
+                entities[i][fieldName] = fields[fieldName].getTruncatedListValue(entities[i][fieldName]);
+            }
+        }
+
+        return entities;
     };
 
     return ListView;

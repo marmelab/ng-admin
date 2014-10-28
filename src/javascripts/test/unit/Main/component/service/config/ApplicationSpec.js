@@ -6,7 +6,7 @@ define(function(require) {
     var Application = require('ng-admin/Main/component/service/config/Application'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
-        FormView = require('ng-admin/Main/component/service/config/view/FormView');
+        CreateView = require('ng-admin/Main/component/service/config/view/CreateView');
 
     describe("Service: Application config", function() {
 
@@ -37,16 +37,16 @@ define(function(require) {
                     entity2 = new Entity('myEntity2'),
                     dashboard = new DashboardView('dashboard'),
                     dashboard2 = new DashboardView('dashboard2'),
-                    formView = new FormView('form1');
+                    createView = new CreateView('form1');
 
                 entity1.addView(dashboard);
                 entity2.addView(dashboard2);
-                entity2.addView(formView);
+                entity2.addView(createView);
                 app.addEntity(entity1);
                 app.addEntity(entity2);
 
                 var dashboards = app.getViewsOfType('DashboardView'),
-                    forms = app.getViewsOfType('FormView'),
+                    forms = app.getViewsOfType('CreateView'),
                     lists = app.getViewsOfType('ListView');
 
                 expect(dashboards.length).toBe(2);

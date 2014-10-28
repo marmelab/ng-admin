@@ -53,43 +53,37 @@ define(function(require) {
      * Create a new entity
      * Post the data to the API to create the new object
      *
-     * @param {String}  entityName  the name of the entity
-     * @param {Object}  entity      the entity's object
+     * @param {View}   view      the formView related to the entity
+     * @param {Object} rawEntity the entity's object
      *
      * @returns {promise}  the new object
      */
-    FormViewRepository.prototype.createOne = function (entityName, entity) {
-        if (!this.config.hasEntity(entityName)) {
-            return this.$q.reject('Entity ' + entityName + ' not found.');
-        }
-
-        var headers = this.config.getHeaders(entityName, 'createOne');
+    FormViewRepository.prototype.createOne = function (view, rawEntity) {
+        var entityName = view.getEntity().name(),
+            headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
-            .restangularizeElement(null, entity, entityName)
-            .post(null, entity, null, headers);
+            .restangularizeElement(null, rawEntity, entityName)
+            .post(null, rawEntity, null, headers);
     };
 
     /**
      * Update an entity
      * Put the data to the API to create the new object
      *
-     * @param {String}  entityName  the name of the entity
-     * @param {Object} entity           the entity's object
+     * @param {View}   view      the formView related to the entity
+     * @param {Object} rawEntity the entity's object
      *
      * @returns {promise} the updated object
      */
-    FormViewRepository.prototype.updateOne = function(entityName, entity) {
-        if (!this.config.hasEntity(entityName)) {
-            return this.$q.reject('Entity ' + entityName + ' not found.');
-        }
-
-        var headers = this.config.getHeaders(entityName, 'updateOne');
+    FormViewRepository.prototype.updateOne = function(view, rawEntity) {
+        var entityName = view.getEntity().name(),
+            headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
-            .restangularizeElement(null, entity, entityName)
+            .restangularizeElement(null, rawEntity, entityName)
             .put(null, headers);
     };
 
@@ -98,13 +92,14 @@ define(function(require) {
      * Delete an entity
      * Delete the data to the API
      *
-     * @param {String}  entityName  the name of the entity
-     * @param {String}  entityId    the entity's id
+     * @param {String} view     the formView related to the entity
+     * @param {*}      entityId the entity's id
      *
      * @returns {promise}
      */
-    FormViewRepository.prototype.deleteOne = function(entityName, entityId) {
-        var headers = this.config.getHeaders(entityName, 'deleteOne');
+    FormViewRepository.prototype.deleteOne = function(view, entityId) {
+        var entityName = view.getEntity().name(),
+            headers = view.getHeaders();
 
         return this.Restangular
             .one(entityName, entityId)

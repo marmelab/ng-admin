@@ -33,19 +33,45 @@ define(function (require) {
         this.entity = null;
         this.value = null;
         this.referencedValue = null;
-        this.choices = {};
+        this.entries = {};
         this.config = angular.copy(config);
         this.config.name = fieldName || 'reference';
     }
 
     Configurable(Reference.prototype, config);
 
+
+    /**
+     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
+     *
+     * @returns {Object}
+     */
     Reference.prototype.getChoices = function() {
-        return this.choices;
+        var result = {},
+            targetEntity = this.targetEntity(),
+            targetLabel = this.targetLabel(),
+            targetIdentifier = targetEntity.getIdentifier().name();
+
+        angular.forEach(this.entries, function(entry) {
+            result[entry[targetIdentifier]] = entry[targetLabel];
+        });
+
+        return result;
     };
 
-    Reference.prototype.setChoices = function(c) {
-        this.choices = c;
+    /**
+     * @returns {Object[]}
+     */
+    Reference.prototype.getEntries = function() {
+        return this.entries;
+    };
+
+    /**
+     * @param {Object[]} entries
+     * @returns {Reference}
+     */
+    Reference.prototype.setEntries = function(entries) {
+        this.entries = entries;
 
         return this;
     };
@@ -73,6 +99,11 @@ define(function (require) {
         return this.entity.name() + '.' + this.name();
     };
 
+    /**
+     * Empty field value
+     *
+     * @returns {Reference}
+     */
     Reference.prototype.clear = function() {
         this.value = null;
 

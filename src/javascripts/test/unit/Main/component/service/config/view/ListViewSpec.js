@@ -3,7 +3,9 @@
 define(function(require) {
     'use strict';
 
-    var ListView = require('ng-admin/Main/component/service/config/view/ListView');
+    var ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        Entity = require('ng-admin/Main/component/service/config/Entity'),
+        Field = require('ng-admin/Main/component/service/config/Field');
 
     describe("Service: ListView config", function() {
 
@@ -14,6 +16,53 @@ define(function(require) {
 
             expect(list.getQuickFilterNames()).toEqual(['Today']);
             expect(list.getQuickFilterParams('Today')).toEqual({'now': 1});
+        });
+
+        it('should returns extra params.', function() {
+            var list = new ListView('allCats'),
+                entity = new Entity('cat');
+
+            list.perPage(10);
+            list.extraParams(function() {
+                return {token: 'abcde1' }
+            });
+
+            list.pagination(function(page, maxPerPage) {
+                return {
+                    begin: page,
+                    end: page * maxPerPage
+                };
+            });
+
+            entity.addView(list);
+
+            var params = list.getAllParams(12, {params: {_sort: 'name'}}, 'mizu');
+
+            expect(params.token).toEqual('abcde1');
+            expect(params.begin).toEqual(12);
+            expect(params.end).toEqual(120);
+            expect(params._sort).toEqual('name');
+            expect(params.q).toEqual('mizu');
+        });
+
+        it('should truncate list values.', function() {
+            var list = new ListView('allCats');
+
+            list.addField(new Field('id').identifier(true));
+            list.addField(new Field('name').truncateList(function(value){
+                return value.substr(0, 5) + '...';
+            }));
+
+            var entries = list.truncateListValue([
+                { id: 1, human_id: 1, name: 'Suna'},
+                { id: 2, human_id: 2, name: 'Boby'},
+                { id: 3, human_id: 1, name: 'Mizute'}
+            ]);
+
+            expect(entries[0].id).toEqual(1);
+            expect(entries[0].name).toEqual('Suna...');
+            expect(entries[2].id).toEqual(3);
+            expect(entries[2].name).toEqual('Mizut...');
         });
 
     });

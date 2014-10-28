@@ -69,6 +69,13 @@ define(function (require) {
         return this;
     };
 
+    /**
+     * Truncate the value based on the `truncateList` configuration
+     *
+     * @param {*} value
+     *
+     * @returns {*}
+     */
     Field.prototype.getTruncatedListValue = function(value) {
         if (this.config.truncateList) {
             value = this.config.truncateList(value);

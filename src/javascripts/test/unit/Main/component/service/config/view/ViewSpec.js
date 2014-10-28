@@ -63,5 +63,32 @@ define(function(require) {
             expect(view.isNew()).toEqual(true);
         });
 
+
+        it('should map some raw entities', function() {
+            var view = new View();
+            var field1 = new Field('post_id').identifier(true);
+            var field2 = new Field('title');
+            var field3 = new Field('actions').type('callback').callback(function(){
+                return '<my-cb></my-cb>';
+            });
+
+            view
+                .addField(field1)
+                .addField(field2)
+                .addField(field3);
+
+            var entries = view.mapEntities([
+                { post_id: 1, title: 'Hello', published: true},
+                { post_id: 2, title: 'World', published: false},
+                { post_id: 3, title: 'How to use ng-admin', published: false}
+            ]);
+
+            expect(entries.length).toEqual(3);
+            expect(entries[0].getIdentifier().value).toEqual(1);
+            expect(entries[1].getField('title').value).toEqual('World');
+            expect(entries[1].getField('published')).toEqual(null);
+            expect(entries[2].getField('actions').value).toEqual('<my-cb></my-cb>');
+        });
+
     });
 });

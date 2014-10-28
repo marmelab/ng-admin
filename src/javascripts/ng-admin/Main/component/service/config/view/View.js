@@ -217,7 +217,7 @@ define(function (require) {
     View.prototype.getHeaders = function() {
         var headers = this.headers();
 
-        return typeof(headers) === 'function' ? headers() : headersc;
+        return typeof(headers) === 'function' ? headers() : headers;
     };
 
     /**
@@ -239,11 +239,44 @@ define(function (require) {
     };
 
     /**
+     * Map raw entities (from REST response) into entities & fill reference values
+     *
+     * @param {[Object]} rawEntities
+     *
+     * @returns {[Entity]}
+     */
+    View.prototype.mapEntities = function (rawEntities) {
+        var results = [],
+            fields = this.getFields();
+
+        // Map each rawEntity to an View clone
+        for (var i = 0, l = rawEntities.length; i < l; i++) {
+            var rawEntity = rawEntities[i],
+                result = angular.copy(this),
+                field;
+
+            for (var fieldName in fields) {
+                field = fields[fieldName];
+
+                if (field.type() === 'callback') {
+                    result.getField(fieldName).value = field.getCallbackValue(rawEntity);
+                } else if (field.name() in rawEntity) {
+                    result.getField(fieldName).value = field.valueTransformer()(rawEntity[field.name()]);
+                }
+            }
+
+            results.push(result);
+        }
+
+        return results;
+    };
+
+    /**
      * Returns true is the Entity wasn't populated
      *
      * @returns {boolean}
      */
-        View.prototype.isNew = function() {
+    View.prototype.isNew = function() {
         var identifier = this.getIdentifier();
         return !identifier || identifier.value === null;
     };
