@@ -26,7 +26,8 @@ define(function (require) {
     // Configuration view
     MainModule.constant('DashboardView', require('ng-admin/Main/component/service/config/view/DashboardView'));
     MainModule.constant('ListView', require('ng-admin/Main/component/service/config/view/ListView'));
-    MainModule.constant('FormView', require('ng-admin/Main/component/service/config/view/FormView'));
+    MainModule.constant('CreateView', require('ng-admin/Main/component/service/config/view/CreateView'));
+    MainModule.constant('EditView', require('ng-admin/Main/component/service/config/view/EditView'));
     MainModule.constant('DeleteView', require('ng-admin/Main/component/service/config/view/DeleteView'));
 
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));

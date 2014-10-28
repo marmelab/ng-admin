@@ -29,6 +29,7 @@ define(function(require) {
     ListViewRepository.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
         var rawValues,
             entity = view.getEntity(),
+            entityName = entity.name(),
             referencedValues,
             self = this;
 
@@ -69,11 +70,13 @@ define(function(require) {
      * @returns {promise} the entity config & the list of objects
      */
     ListViewRepository.prototype.getRawValues = function (view, page, query, sortField, sortDir, filters) {
+        var entityName = view.getEntity().name();
+
         page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
         filters = (typeof(filters) === 'undefined') ? {} : filters;
 
         var entityConfig = view.getEntity(),
-            interceptor = entityConfig.interceptor(),
+            interceptor = view.interceptor(),
             sortEntity = sortField ? sortField.split('.')[0] : '',
             sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
             params = view.getAllParams(page, sortParams, query),
@@ -97,36 +100,6 @@ define(function(require) {
     };
 
     /**
-     * Map raw entities (from REST response) into entities & fill reference values
-     *
-     * @param {View}  view
-     * @param {Array} rawEntities
-     *
-     * @returns {[Entity]}
-     */
-    ListViewRepository.prototype.mapEntities = function (view, rawEntities) {
-        var entities = [];
-
-        // Map each rawEntity to an Entity
-        for (var i = 0, l = rawEntities.length; i < l; i++) {
-            var rawEntity = rawEntities[i],
-                entity = angular.copy(entityConfig);
-
-            angular.forEach(fields, function(field, fieldName) {
-                if (field.type() === 'callback') {
-                    entity.getField(fieldName).value = field.getCallbackValue(rawEntity);
-                } else if (field.name() in rawEntity) {
-                    entity.getField(fieldName).value = field.valueTransformer()(rawEntity[field.name()]);
-                }
-            });
-
-            entities.push(entity);
-        }
-
-        return entities;
-    };
-
-    /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      *
      * @param {View} view
@@ -139,15 +112,15 @@ define(function(require) {
             calls = [];
 
         angular.forEach(references, function(reference) {
-            // @TODO
-            calls.push(self.getAll(reference.targetEntity().name(), 1, false))
+            // @TODO: how to pass associated view?
+            calls.push(self.getRawValues(reference.getEntity().name(), 1, false))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
                 angular.forEach(references, function(reference, index) {
-                    references[index].setChoices(self.getReferenceChoices(reference, responses[i++].entities));
+                    references[index].setChoices(responses[i++]);
                 });
 
                 return references;
@@ -170,61 +143,22 @@ define(function(require) {
             calls = [];
 
         angular.forEach(lists, function(list) {
-            // @TODO
-            calls.push(self.getAll(list.targetEntity().name(), 1, false, false, null, sortField, sortDir))
+            // @TODO: how to pass associated view?
+            calls.push(self.getRawValues(list.targetEntity().name(), 1, false, false, null, sortField, sortDir))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
-                angular.forEach(lists, function(list, index) {
-                    entity.getField(index).setItems(self.filterReferencedList(responses[i++].entities, list, entityId));
+
+                angular.forEach(lists, function(referencedList) {
+                    referencedList
+                        .setEntries(responses[i++].entities)
+                        .filterEntries(entityId);
                 });
 
                 return lists;
             });
-    };
-
-    /**
-     * Returns only referencedList values for an entity (filter it by identifier value)
-     *
-     * @param {[Entity]} entities
-     * @param {ReferencedList} referencedList
-     * @param {String|Number} entityId
-     *
-     * @returns {Array}
-     */
-    ListViewRepository.prototype.filterReferencedList = function(entities, referencedList, entityId) {
-        var results = [],
-            targetField = referencedList.targetField();
-
-        angular.forEach(entities, function(entity) {
-            if (entity.getField(targetField).value == entityId) {
-                results.push(entity);
-            }
-        });
-
-        return results;
-    };
-
-    /**
-     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
-     *
-     * @param {Reference} reference
-     * @param {[Entity]} entities
-     *
-     * @returns {Object}
-     */
-    ListViewRepository.prototype.getReferenceChoices = function(reference, entities) {
-        var result = {},
-            targetEntity = reference.targetEntity(),
-            targetIdentifier = targetEntity.getIdentifier().name();
-
-        angular.forEach(entities, function(entity) {
-            result[entity.getField(targetIdentifier).value] = entity.getField(reference.targetLabel()).value;
-        });
-
-        return result;
     };
 
     /**
@@ -263,31 +197,6 @@ define(function(require) {
         });
 
         return collection;
-    };
-
-    /**
-     * Truncate all values depending of the `truncateList` configuration of a field
-     *
-     * @param {[Entity]} entities
-     */
-    ListViewRepository.prototype.truncateListValue = function(entities) {
-        if (!entities.length) {
-            return [];
-        }
-
-        for (var i = 0, l = entities.length; i < l; i++) {
-            var entity = entities[i];
-
-            for(var fieldName in entity.getFields()) {
-                var field = entity.getField(fieldName);
-
-                if (typeof(field.getTruncatedListValue) === 'function') {
-                    entities[i].getField(fieldName).value = field.getTruncatedListValue(entity.getField(fieldName).value);
-                }
-            }
-        }
-
-        return entities;
     };
 
     return ListViewRepository;

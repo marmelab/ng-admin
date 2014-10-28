@@ -2,7 +2,6 @@ define(function (require) {
     'use strict';
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var items = [];
 
     var defaultValueTransformer = function(value) {
         return value;
@@ -16,7 +15,7 @@ define(function (require) {
         list: false,
         order: null,
         valueTransformer : defaultValueTransformer,
-        targetEntity : null,
+        targetReferenceField : null,
         targetFields : [],
         isEditLink: true,
         validation: {
@@ -32,17 +31,9 @@ define(function (require) {
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = fieldName || 'reference';
+
+        this.entries = [];
     }
-
-    ReferencedList.prototype.getItems = function() {
-        return items;
-    };
-
-    ReferencedList.prototype.setItems = function(i) {
-        items = i;
-
-        return this;
-    };
 
     ReferencedList.prototype.getReferenceManyFields = function() {
         var fields = [];
@@ -72,6 +63,28 @@ define(function (require) {
     };
 
     /**
+     * Returns only referencedList values for an entity (filter it by identifier value)
+     *
+     * @param {String|Number}  entityId
+     *
+     * @returns {ReferencedList}
+     */
+    ReferencedList.prototype.filterEntries = function(entityId) {
+        var results = [],
+            targetRefField = this.targetReferenceField();
+
+        angular.forEach(this.entries, function(entry) {
+            if (entry[targetRefField] == entityId) {
+                results.push(entry);
+            }
+        });
+
+        this.entries = results;
+
+        return this;
+    };
+
+    /**
      * @param {Entity} entity
      */
     ReferencedList.prototype.setEntity = function(entity) {
@@ -85,6 +98,16 @@ define(function (require) {
      */
     ReferencedList.prototype.getEntity = function() {
         return this.entity;
+    };
+
+    ReferencedList.prototype.getEntries = function() {
+        return this.entries;
+    };
+
+    ReferencedList.prototype.setEntries = function(entries) {
+        this.entries = entries;
+
+        return this;
     };
 
     /**

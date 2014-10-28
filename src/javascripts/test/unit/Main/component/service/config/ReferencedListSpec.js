@@ -5,7 +5,9 @@ define(function(require) {
 
     var ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
         Field = require('ng-admin/Main/component/service/config/Field'),
-        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany');
+        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
+        EditView = require('ng-admin/Main/component/service/config/view/EditView'),
+        Entity = require('ng-admin/Main/component/service/config/Entity');
 
     describe("Service: ReferencedList config", function() {
 
@@ -34,6 +36,30 @@ define(function(require) {
             expect(columns.length).toBe(2);
             expect(columns[0].label).toBe('Field 1');
             expect(columns[1].field.name()).toBe('f2');
+        });
+
+        it('should filter entries.', function() {
+            var referencedList = new ReferencedList('cats'),
+                human = new Entity('human'),
+                editView = new EditView();
+
+            editView.addField(new Field('id').identifier(true));
+            human.addView(editView);
+
+            referencedList
+                .targetReferenceField('human_id')
+                .setEntries([
+                    { id: 1, human_id: 1, name: 'Suna'},
+                    { id: 2, human_id: 2, name: 'Boby'},
+                    { id: 3, human_id: 1, name: 'Mizute'}
+                ]);
+
+            referencedList.filterEntries(1);
+            var entries = referencedList.getEntries();
+
+            expect(entries.length).toEqual(2);
+            expect(entries[0].name).toEqual('Suna');
+            expect(entries[1].name).toEqual('Mizute');
         });
 
     });
