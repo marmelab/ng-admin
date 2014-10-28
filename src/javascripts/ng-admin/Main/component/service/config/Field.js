@@ -31,7 +31,13 @@ define(function (require) {
             required: false
         },
         choices: [],
-        defaultValue: null
+        defaultValue: null,
+        uploadInformation: {
+            url       : '/static/upload',
+            removeUrl : '/static/remove',
+            onUpload : function (response, field) {},
+            onRemove : function (response, field) {}
+        }
     };
 
     /**

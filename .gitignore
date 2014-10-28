@@ -7,4 +7,3 @@ src/javascripts/config.js
 src/styles/*.css
 build/require
 src/css
-.idea

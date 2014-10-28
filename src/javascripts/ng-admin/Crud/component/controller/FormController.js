@@ -1,7 +1,7 @@
 define(function() {
     'use strict';
 
-    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
+    var FormController = function($scope, $location, $filter, FileUploader, CrudManager, Validator, entity, notification, progress) {
         var isNew = entity.isNew();
         this.$scope = $scope;
         this.$location = $location;
@@ -13,7 +13,7 @@ define(function() {
         this.description = entity.getDescription();
         this.notification = notification;
         this.progress = progress;
-
+        this.FileHandler = $scope.FileHandler = new FileUploader();
         var searchParams = this.$location.search();
 
         this.fields = entity.getFields();
@@ -120,17 +120,39 @@ define(function() {
      * @param {Entity} entity
      */
     FormController.prototype.edit = function(item, entity) {
-        this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
+        this.$location.path('/edit/' + entity.name() + '/' + item[entity.getIdentifier().name()]);
     };
 
     FormController.prototype.destroy = function() {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
+        this.FileHandler = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity', 'notification', 'progress'];
+
+    FormController.prototype.processUpload = function(File, field)
+    {
+        var self = this;
+
+        this.FileHandler.onProgressItem = function(fileItem, progress) {
+            self.progress.start();
+        };
+
+        this.FileHandler.onSuccessItem = function(fileItem, response, status, headers) {
+            field.config.uploadInformation.onUpload(response);
+            self.progress.done();
+        };
+
+        File.upload();
+    };
+
+    FormController.prototype.processRemove = function(File, field) {
+        //File.remove();
+    };
+
+    FormController.$inject = ['$scope', '$location', '$filter', 'FileUploader', 'CrudManager', 'Validator', 'entity', 'notification', 'progress'];
 
     return FormController;
 });
