@@ -32,7 +32,13 @@ define(function (require) {
         choices: [],
         defaultValue: null,
         attributes: {},
-        cssClasses: ''
+        cssClasses: '',
+        uploadInformation: {
+            url       : '/static/upload',
+            removeUrl : '/static/remove',
+            onUpload : function (response, field) {},
+            onRemove : function (response, field) {}
+        }
     };
 
     /**
