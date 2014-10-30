@@ -25,7 +25,7 @@ define(function(require) {
             ]);
 
             ref
-                .targetLabel('name')
+                .targetField(new Field('name'))
                 .targetEntity(human);
 
             var choices = ref.getChoices();

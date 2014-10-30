@@ -1,7 +1,9 @@
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        Reference = require('ng-admin/Main/component/service/config/Reference'),
+        utils = require('ng-admin/lib/utils');
 
     var defaultValueTransformer = function(value) {
         return value;
@@ -28,18 +30,21 @@ define(function (require) {
      * @constructor
      */
     function ReferencedList(fieldName) {
-        this.entity = null;
-        this.config = angular.copy(config);
-        this.config.name = fieldName || 'reference';
+        Reference.apply(this, arguments);
 
+        this.config.name = fieldName || 'reference';
+        this.config.type = 'referenced-list';
         this.entries = [];
     }
+
+    utils.inherits(ReferencedList, Reference);
+    Configurable(ReferencedList.prototype, config);
 
     ReferencedList.prototype.getReferenceManyFields = function() {
         var fields = [];
 
         angular.forEach(this.targetFields(), function(targetField) {
-            if (targetField.type() === 'reference-many') {
+            if (targetField.constructor.name === 'ReferenceMany') {
                 fields.push(targetField);
             }
         });
@@ -71,33 +76,20 @@ define(function (require) {
      */
     ReferencedList.prototype.filterEntries = function(entityId) {
         var results = [],
+            entry,
             targetRefField = this.targetReferenceField();
 
-        angular.forEach(this.entries, function(entry) {
+        for (var i = 0, l = this.entries.length; i < l; i ++) {
+            entry = this.entries[i];
+
             if (entry[targetRefField] == entityId) {
                 results.push(entry);
             }
-        });
+        }
 
         this.entries = results;
 
         return this;
-    };
-
-    /**
-     * @param {Entity} entity
-     */
-    ReferencedList.prototype.setEntity = function(entity) {
-        this.entity = entity;
-
-        return this;
-    };
-
-    /**
-     * @return {Entity}
-     */
-    ReferencedList.prototype.getEntity = function() {
-        return this.entity;
     };
 
     ReferencedList.prototype.getEntries = function() {
@@ -108,13 +100,6 @@ define(function (require) {
         this.entries = entries;
 
         return this;
-    };
-
-    /**
-     * @return {string}
-     */
-    ReferencedList.prototype.getSortName = function() {
-        return this.entity.name() + '.' + this.name();
     };
 
     ReferencedList.prototype.clear = function() {

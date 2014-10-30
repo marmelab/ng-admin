@@ -50,7 +50,7 @@ define(function (require) {
     Configurable(Field.prototype, config);
 
     /**
-     * Set of get the type
+     * Set or get the type
      *
      * @param {String} type
      * @returns string|Field

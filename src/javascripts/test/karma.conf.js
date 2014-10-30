@@ -8,6 +8,7 @@ module.exports = function(config) {
         files: [
             {pattern: 'bower_components/angular/angular.js', included: false},
             {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
+            {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
 
             // ng-admin application files
             {pattern: 'ng-admin/**/**/**/*.js', included: false},
