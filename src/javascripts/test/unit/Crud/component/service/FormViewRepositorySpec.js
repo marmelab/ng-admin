@@ -1,4 +1,6 @@
-define(function(require) {
+/*global define,jasmine,angular,describe,it,expect,beforeEach*/
+
+define(function (require) {
     'use strict';
 
     var FormViewRepository = require('ng-admin/Crud/component/service/FormViewRepository'),
@@ -11,10 +13,10 @@ define(function(require) {
         entity,
         view;
 
-    describe("Service: FormViewRepository", function() {
+    describe("Service: FormViewRepository", function () {
 
-        beforeEach(function() {
-            config = function() {
+        beforeEach(function () {
+            config = function () {
                 return {
                     baseApiUrl: angular.noop
                 };
@@ -32,7 +34,7 @@ define(function(require) {
             view.interceptor(null);
         });
 
-        describe("getOne", function() {
+        describe("getOne", function () {
 
 
             it('should return an the entity with only the editable fields.', function () {
@@ -59,7 +61,7 @@ define(function(require) {
 
             it('should add response interceptor, extra params & headers when calling getOne', function () {
                 var catInterceptor;
-                view.interceptor(catInterceptor = function (data, operation, what, url, response, deferred) {
+                view.interceptor(catInterceptor = function () {
                 });
 
                 view.extraParams(function () {

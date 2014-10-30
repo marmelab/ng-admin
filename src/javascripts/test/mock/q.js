@@ -1,6 +1,8 @@
+/*global define*/
+
 define('mock/q', [
     'mixins'
-], function(mixins) {
+], function (mixins) {
     "use strict";
 
     var $q = {

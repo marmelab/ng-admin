@@ -1,5 +1,7 @@
-define(function(require) {
-    "use strict";
+/*global define*/
+
+define(function (require) {
+    'use strict';
 
     /**
      * Display loader on each route change

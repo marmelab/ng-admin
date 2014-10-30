@@ -1,8 +1,8 @@
-/*global jasmine*/
+/*global jasmine,define*/
 
 define('mock/Restangular', [
     'mixins'
-], function(mixins) {
+], function (mixins) {
     "use strict";
 
     var Restangular = {};

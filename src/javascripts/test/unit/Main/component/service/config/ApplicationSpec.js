@@ -1,6 +1,6 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var Application = require('ng-admin/Main/component/service/config/Application'),
@@ -8,10 +8,10 @@ define(function(require) {
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView');
 
-    describe("Service: Application config", function() {
+    describe("Service: Application config", function () {
 
-        describe('entity', function() {
-            it('should store entity by name.', function() {
+        describe('entity', function () {
+            it('should store entity by name.', function () {
                 var app = new Application(),
                     entity = new Entity('myEntity');
                 app.addEntity(entity);
@@ -21,7 +21,7 @@ define(function(require) {
                 expect(app.hasEntity('myEntity')).toBe(true);
             });
 
-            it('should return all entity names.', function() {
+            it('should return all entity names.', function () {
                 var app = new Application();
                 app.addEntity(new Entity('myEntity1'));
                 app.addEntity(new Entity('myEntity2'));
@@ -30,7 +30,7 @@ define(function(require) {
             });
         });
 
-        describe('view', function() {
+        describe('view', function () {
             it('should returns all view of a certain type.', function () {
                 var app = new Application(),
                     entity1 = new Entity('myEntity1'),

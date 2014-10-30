@@ -1,21 +1,20 @@
+/*global define*/
 // @see https://docs.angularjs.org/api/ng/service/$compile
 
-define(function(require) {
+define(function () {
     'use strict';
-
-    var angular = require('angular');
 
     function Compile($injector) {
         var $compile = $injector.get('$compile');
 
         return {
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 scope.$watch(
-                    function(scope) {
+                    function (scope) {
                         // watch the 'compile' expression for changes
                         return scope.$eval(attrs.compile);
                     },
-                    function(value) {
+                    function (value) {
                         // when the 'compile' expression changes assign it into the current DOM
                         element.html(value);
 

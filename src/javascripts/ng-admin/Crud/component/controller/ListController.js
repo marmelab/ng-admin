@@ -1,7 +1,9 @@
-define(function(require) {
+/*global define*/
+
+define(function () {
     'use strict';
 
-    var ListController = function($scope, $location, $anchorScroll, data) {
+    var ListController = function ($scope, $location, $anchorScroll, data) {
         this.$scope = $scope;
         this.$location = $location;
         this.data = data;
@@ -23,7 +25,7 @@ define(function(require) {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    ListController.prototype.clearParams = function() {
+    ListController.prototype.clearParams = function () {
         this.$location.search('q', null);
         this.$location.search('page', null);
         this.$location.search('sortField', null);
@@ -33,7 +35,7 @@ define(function(require) {
     /**
      * Link to entity creation page
      */
-    ListController.prototype.create = function() {
+    ListController.prototype.create = function () {
         this.clearParams();
 
         this.$location.path('/create/' + this.data.entityName);
@@ -45,23 +47,23 @@ define(function(require) {
      *
      * @param {Entity} entity
      */
-    ListController.prototype.edit = function(entity) {
+    ListController.prototype.edit = function (entity) {
         this.clearParams();
 
         this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
         this.$anchorScroll(0);
     };
 
-    ListController.prototype.clearFilter = function() {
+    ListController.prototype.clearFilter = function () {
         this.$scope.filterQuery = '';
         this.filter();
     };
 
-    ListController.prototype.filter = function() {
+    ListController.prototype.filter = function () {
         this.$location.search('q', this.$scope.filterQuery);
     };
 
-    ListController.prototype.destroy = function() {
+    ListController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
     };

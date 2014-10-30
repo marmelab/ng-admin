@@ -1,6 +1,6 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
@@ -9,9 +9,9 @@ define(function(require) {
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
-    describe("Service: ReferencedList config", function() {
+    describe("Service: ReferencedList config", function () {
 
-        it('should retrieve referenceMany fields.', function() {
+        it('should retrieve referenceMany fields.', function () {
             var referencedList = new ReferencedList('myField'),
                 ref1 = new ReferenceMany('ref1'),
                 ref2 = new ReferenceMany('ref2');
@@ -24,7 +24,7 @@ define(function(require) {
             expect(references[0].name()).toBe('ref1');
         });
 
-        it('should return information about grid column.', function() {
+        it('should return information about grid column.', function () {
             var referencedList = new ReferencedList('myField'),
                 field1 = new Field('f1').label('Field 1'),
                 field2 = new Field('f2').label('Field 2');
@@ -38,7 +38,7 @@ define(function(require) {
             expect(columns[1].field.name()).toBe('f2');
         });
 
-        it('should filter entries.', function() {
+        it('should filter entries.', function () {
             var referencedList = new ReferencedList('cats'),
                 human = new Entity('human'),
                 editView = new EditView();

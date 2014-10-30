@@ -1,4 +1,5 @@
-define(function(require) {
+/*global define*/
+define(function (require) {
     'use strict';
 
     var angular = require('angular'),
@@ -22,7 +23,7 @@ define(function(require) {
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
-    FormViewRepository.prototype.getOne = function(view, entityId) {
+    FormViewRepository.prototype.getOne = function (view, entityId) {
         var interceptor = view.interceptor(),
             params = view.getExtraParams(),
             headers = view.getHeaders();

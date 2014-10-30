@@ -1,5 +1,9 @@
-define(function() {
+/*global define*/
+
+define(function (require) {
     'use strict';
+
+    var angular = require('angular');
 
     /**
      *
@@ -18,7 +22,7 @@ define(function() {
         this.retrieveColumns();
     }
 
-    DatagridController.prototype.retrieveColumns = function() {
+    DatagridController.prototype.retrieveColumns = function () {
         // Column can be set in edit form to display certain column of a ReferencedEntity
         if (this.$scope.columns) {
             return;
@@ -27,8 +31,8 @@ define(function() {
         var columns = [];
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(this.$scope.entityConfig.getFields(), function(field) {
-            if(!field.list()) {
+        angular.forEach(this.$scope.entityConfig.getFields(), function (field) {
+            if (!field.list()) {
                 return;
             }
 
@@ -48,7 +52,7 @@ define(function() {
      *
      * @returns {Boolean}
      */
-    DatagridController.prototype.isSorting = function(field) {
+    DatagridController.prototype.isSorting = function (field) {
         return this.sortField === field.getSortName();
     };
 
@@ -58,7 +62,7 @@ define(function() {
      * @param {Number} index
      * @returns {string}
      */
-    DatagridController.prototype.itemClass = function(index) {
+    DatagridController.prototype.itemClass = function (index) {
         return (index % 2 === 0) ? 'even' : 'odd';
     };
 

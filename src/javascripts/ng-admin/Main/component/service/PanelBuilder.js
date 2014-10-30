@@ -1,5 +1,9 @@
-define(function() {
+/*global define*/
+
+define(function (require) {
     'use strict';
+
+    var angular = require('angular');
 
     /**
      * @param {$q}                 $q
@@ -19,12 +23,12 @@ define(function() {
      *
      * @returns {promise}
      */
-    PanelBuilder.prototype.getPanelsData = function() {
+    PanelBuilder.prototype.getPanelsData = function () {
         var dashboards = this.Configuration.getViewsOfType('DashboardView'),
             promises = [],
             self = this;
 
-        angular.forEach(dashboards, function(dashboardView) {
+        angular.forEach(dashboards, function (dashboardView) {
             promises.push(self.ListViewRepository.getAll(dashboardView));
         });
 

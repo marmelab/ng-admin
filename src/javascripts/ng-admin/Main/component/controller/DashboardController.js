@@ -1,4 +1,6 @@
-define(function() {
+/*global define*/
+
+define(function () {
     'use strict';
 
     /**
@@ -22,19 +24,19 @@ define(function() {
     /**
      * Retrieve all dashboard panels
      */
-    DashboardController.prototype.retrievePanels = function() {
+    DashboardController.prototype.retrievePanels = function () {
         var self = this;
         this.panels = {};
 
-        this.PanelBuilder.getPanelsData().then(function(panels) {
-            angular.forEach(panels, function(panel) {
+        this.PanelBuilder.getPanelsData().then(function (panels) {
+            angular.forEach(panels, function (panel) {
 
                 var view = panel.view,
                     entities = panel.entities,
                     columns = [];
 
                 // Retrieve all DashboardView
-                angular.forEach(view.getFields(), function(field) {
+                angular.forEach(view.getFields(), function (field) {
                     columns.push({
                         field: field,
                         label: field.label()
@@ -57,11 +59,11 @@ define(function() {
      *
      * @param {View} view
      */
-    DashboardController.prototype.edit = function(view) {
+    DashboardController.prototype.edit = function (view) {
         this.$location.path('/edit/' + view.getEntity().name() + '/' + view.getIdentifier().value);
     };
 
-    DashboardController.prototype.destroy = function() {
+    DashboardController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
         this.PanelBuilder = undefined;

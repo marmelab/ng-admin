@@ -1,45 +1,48 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var View = require('ng-admin/Main/component/service/config/view/View'),
+    var angular = require('angular'),
+        View = require('ng-admin/Main/component/service/config/view/View'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
-    var defaultSortParams = function (field, dir) {
+    function defaultSortParams(field, dir) {
         return {
-            params:{
+            params: {
                 _sort: field,
                 _sortDir: dir
             },
             headers: {
             }
         };
-    };
+    }
 
-    var defaultPaginationLink = function(page, maxPerPage) {
+    function defaultPaginationLink(page, maxPerPage) {
         return {
             page: page,
             per_page: maxPerPage
         };
-    };
+    }
 
-    var defaultFilterQuery = function(query) {
+    function defaultFilterQuery (query) {
         return {
             q: query
         };
-    };
+    }
 
-    var defaultFilterParams = function(params) {
+    function defaultFilterParams(params) {
         return params;
-    };
+    }
 
-    var defaultTotalItems = function(response) {
+    function defaultTotalItems(response) {
         if (!response.headers && response.length) {
             return response.length;
         }
 
         return response.headers('X-Total-Count') || 0;
-    };
+    }
 
     var config = {
         limit : 10,
@@ -73,7 +76,7 @@ define(function (require) {
      *
      * @returns {ListView}
      */
-    ListView.prototype.addQuickFilter = function(label, params) {
+    ListView.prototype.addQuickFilter = function (label, params) {
         this.quickFilters[label] = params;
 
         return this;
@@ -83,7 +86,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    ListView.prototype.getQuickFilterNames = function() {
+    ListView.prototype.getQuickFilterNames = function () {
         return Object.keys(this.quickFilters);
     };
 
@@ -91,7 +94,7 @@ define(function (require) {
      * @param {String} name
      * @returns {Object}
      */
-    ListView.prototype.getQuickFilterParams = function(name) {
+    ListView.prototype.getQuickFilterParams = function (name) {
         var params = this.quickFilters[name];
         if (typeof (params) === 'function') {
             params = params();
@@ -105,7 +108,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    ListView.prototype.getSortParams = function(sortField, sortDir) {
+    ListView.prototype.getSortParams = function (sortField, sortDir) {
         return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 
@@ -118,7 +121,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    ListView.prototype.getAllParams = function(page, sortParams, query) {
+    ListView.prototype.getAllParams = function (page, sortParams, query) {
         var params = this.getExtraParams(),
             pagination = this.pagination(),
             perPage = this.perPage();
@@ -167,15 +170,18 @@ define(function (require) {
      *
      * @return {[Object]}
      */
-    ListView.prototype.truncateListValue = function(entities) {
+    ListView.prototype.truncateListValue = function (entities) {
         if (!entities.length) {
             return [];
         }
 
-        var fields = this.getFieldsOfType('Field');
+        var fields = this.getFieldsOfType('Field'),
+            i,
+            l,
+            fieldName;
 
-        for (var i = 0, l = entities.length; i < l; i++) {
-            for(var fieldName in fields) {
+        for (i = 0, l = entities.length; i < l; i++) {
+            for (fieldName in fields) {
                 entities[i][fieldName] = fields[fieldName].getTruncatedListValue(entities[i][fieldName]);
             }
         }

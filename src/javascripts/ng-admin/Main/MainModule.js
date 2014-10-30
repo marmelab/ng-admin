@@ -1,10 +1,12 @@
+/*global define*/
+
 define(function (require) {
+    'use strict';
+
     var angular = require('angular');
 
     require('angular-ui-router');
     require('restangular');
-
-    "use strict";
 
     var MainModule = angular.module('main', ['ui.router', 'restangular']);
 

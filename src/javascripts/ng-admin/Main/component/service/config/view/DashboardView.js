@@ -1,9 +1,12 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var ListView = require('ng-admin/Main/component/service/config/view/View');
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var utils = require('ng-admin/lib/utils');
+    var angular = require('angular'),
+        ListView = require('ng-admin/Main/component/service/config/view/View'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        utils = require('ng-admin/lib/utils');
 
     var config = {
         limit: 10

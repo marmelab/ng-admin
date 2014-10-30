@@ -1,4 +1,6 @@
-define(function(require) {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
     var angular = require('angular'),
@@ -33,14 +35,14 @@ define(function(require) {
             self = this;
 
         page = page || 1;
-        fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
+        fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
 
         return this.getRawValues(view, page, query, sortField, sortDir, filters)
-            .then(function(values) {
+            .then(function (values) {
                 rawEntries = values;
 
                 return self.getReferencedValues(view);
-            }).then(function(refValues) {
+            }).then(function (refValues) {
                 referencedValues = refValues;
 
                 entries = view.mapEntities(rawEntries);
@@ -73,8 +75,8 @@ define(function(require) {
     ListViewRepository.prototype.getRawValues = function (view, page, query, sortField, sortDir, filters) {
         var entityName = view.getEntity().name();
 
-        page = (typeof(page) === 'undefined') ? 1 : parseInt(page);
-        filters = (typeof(filters) === 'undefined') ? {} : filters;
+        page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
+        filters = (typeof (filters) === 'undefined') ? {} : filters;
 
         var entityConfig = view.getEntity(),
             interceptor = view.interceptor(),
@@ -107,19 +109,19 @@ define(function(require) {
      *
      * @returns {promise}
      */
-    ListViewRepository.prototype.getReferencedValues = function(view) {
+    ListViewRepository.prototype.getReferencedValues = function (view) {
         var self = this,
             references = view.getReferences(),
             calls = [];
 
-        angular.forEach(references, function(reference) {
-            calls.push(self.getRawValues(reference.getView(), 1, false))
+        angular.forEach(references, function (reference) {
+            calls.push(self.getRawValues(reference.getView(), 1, false));
         });
 
         return this.$q.all(calls)
-            .then(function(responses) {
+            .then(function (responses) {
                 var i = 0;
-                angular.forEach(references, function(reference, index) {
+                angular.forEach(references, function (reference, index) {
                     references[index].setEntries(responses[i++]);
                 });
 
@@ -136,21 +138,21 @@ define(function(require) {
      *
      * @returns {promise}
      */
-    ListViewRepository.prototype.getReferencedListValues = function(view, sortField, sortDir) {
+    ListViewRepository.prototype.getReferencedListValues = function (view, sortField, sortDir) {
         var self = this,
             referenceLists = view.getReferencedLists(),
             entityId = view.getIdentifier().value,
             calls = [];
 
-        angular.forEach(referenceLists, function(referenceList) {
-            calls.push(self.getRawValues(referenceList.getView(), 1, false, false, null, sortField, sortDir))
+        angular.forEach(referenceLists, function (referenceList) {
+            calls.push(self.getRawValues(referenceList.getView(), 1, false, false, null, sortField, sortDir));
         });
 
         return this.$q.all(calls)
-            .then(function(responses) {
+            .then(function (responses) {
                 var i = 0;
 
-                angular.forEach(referenceLists, function(referencedList) {
+                angular.forEach(referenceLists, function (referencedList) {
                     referencedList
                         .setEntries(responses[i++])
                         .filterEntries(entityId);
@@ -169,25 +171,30 @@ define(function(require) {
      * @returns {Array}
      */
     ListViewRepository.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
-        fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
+        fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
         var choices,
             entry,
+            i,
+            j,
+            l,
+            id,
             identifier;
 
-        angular.forEach(referencedValues, function(reference, referenceField) {
+        angular.forEach(referencedValues, function (reference, referenceField) {
             choices = reference.getChoices();
 
-            for (var i = 0, l = collection.length; i < l; i++) {
+            for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];
                 identifier = reference.valueTransformer()(entry.getField(referenceField).value);
 
                 if (reference.constructor.name === 'ReferenceMany') {
                     entry.getField(referenceField).value = [];
 
-                    angular.forEach(identifier, function(id) {
+                    for (j in identifier) {
+                        id = identifier[j];
                         entry.getField(referenceField).value.push(choices[id]);
-                    });
+                    }
                 } else if (fillSimpleReference && identifier && identifier in choices) {
                     entry.getField(referenceField).referencedValue = reference.getTruncatedListValue(choices[identifier]);
                 }

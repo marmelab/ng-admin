@@ -1,5 +1,7 @@
+/*global define*/
+
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var angular = require('angular');
 
@@ -66,14 +68,15 @@ define(function (require) {
      * Date Picker patch
      * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b
      */
-    CrudModule.config(['$provide', function($provide){
-        $provide.decorator('dateParser', function($delegate){
+    CrudModule.config(['$provide', function ($provide) {
+        $provide.decorator('dateParser', function ($delegate) {
 
             var oldParse = $delegate.parse;
-            $delegate.parse = function(input, format) {
-                if ( !angular.isString(input) || !format ) {
+            $delegate.parse = function (input, format) {
+                if (!angular.isString(input) || !format) {
                     return input;
                 }
+
                 return oldParse.apply(this, arguments);
             };
 

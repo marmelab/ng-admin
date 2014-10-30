@@ -1,3 +1,5 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
@@ -6,9 +8,9 @@ define(function (require) {
         Field = require('ng-admin/Main/component/service/config/Field'),
         utils = require('ng-admin/lib/utils');
 
-    var defaultValueTransformer = function(value) {
+    function defaultValueTransformer(value) {
         return value;
-    };
+    }
 
     var config = {
         name: 'myReference',
@@ -50,14 +52,16 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Reference.prototype.getChoices = function() {
+    Reference.prototype.getChoices = function () {
         var result = {},
             entry,
             targetEntity = this.targetEntity(),
             targetLabel = this.targetField().name(),
-            targetIdentifier = targetEntity.getIdentifier().name();
+            targetIdentifier = targetEntity.getIdentifier().name(),
+            i,
+            l;
 
-        for (var i = 0, l = this.entries.length; i < l; i ++) {
+        for (i = 0, l = this.entries.length; i < l; i++) {
             entry = this.entries[i];
 
             result[entry[targetIdentifier]] = entry[targetLabel];
@@ -73,7 +77,7 @@ define(function (require) {
      *
      * @returns {*}
      */
-    Reference.prototype.getTruncatedListValue = function(value) {
+    Reference.prototype.getTruncatedListValue = function (value) {
         if (this.config.truncateList) {
             value = this.config.truncateList(value);
         }
@@ -88,7 +92,7 @@ define(function (require) {
      *
      * @returns {Entity|Reference}
      */
-    Reference.prototype.targetEntity = function(entity) {
+    Reference.prototype.targetEntity = function (entity) {
         if (arguments.length === 0) {
             return this.config.targetEntity;
         }
@@ -106,7 +110,7 @@ define(function (require) {
      *
      * @returns {Field|Reference}
      */
-    Reference.prototype.targetField = function(field) {
+    Reference.prototype.targetField = function (field) {
         if (arguments.length === 0) {
             return this.config.targetField;
         }
@@ -122,14 +126,14 @@ define(function (require) {
     /**
      * @returns {ListView}
      */
-    Reference.prototype.getView = function() {
+    Reference.prototype.getView = function () {
         return this.view;
     };
 
     /**
      * @returns {[Object]}
      */
-    Reference.prototype.getEntries = function() {
+    Reference.prototype.getEntries = function () {
         return this.entries;
     };
 
@@ -137,7 +141,7 @@ define(function (require) {
      * @param {[Object]} entries
      * @returns {Reference}
      */
-    Reference.prototype.setEntries = function(entries) {
+    Reference.prototype.setEntries = function (entries) {
         this.entries = entries;
 
         return this;
@@ -148,7 +152,7 @@ define(function (require) {
      *
      * @returns {Reference}
      */
-    Reference.prototype.clear = function() {
+    Reference.prototype.clear = function () {
         this.value = null;
 
         return this;
@@ -159,7 +163,7 @@ define(function (require) {
      *
      * @returns mixed
      */
-    Reference.prototype.getListValue = function() {
+    Reference.prototype.getListValue = function () {
         return this.referencedValue;
     };
 

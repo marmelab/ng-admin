@@ -1,4 +1,6 @@
-define(function() {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
     var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
@@ -32,19 +34,19 @@ define(function() {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    FormController.prototype.create = function() {
+    FormController.prototype.create = function () {
         this.$location.path('/create/' + this.entity.name());
     };
 
-    FormController.prototype.deleteOne = function() {
+    FormController.prototype.deleteOne = function () {
         this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
     };
 
-    FormController.prototype.back = function() {
+    FormController.prototype.back = function () {
         this.$location.path('/list/' + this.entity.name());
     };
 
-    FormController.prototype.validate = function(form, $event) {
+    FormController.prototype.validate = function (form, $event) {
         $event.preventDefault();
         this.progress.startnotification;
 
@@ -54,7 +56,7 @@ define(function() {
                 id: this.entity.getIdentifier().value
             };
 
-        angular.forEach(this.entity.getFields(), function(field){
+        angular.forEach(this.entity.getFields(), function (field) {
             value = field.value;
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
@@ -75,14 +77,14 @@ define(function() {
     };
 
     /**
-     * @param {Form }form
+     * @param {Object} form
      * @param {$event} $event
      */
-    FormController.prototype.submitCreation = function(form, $event) {
+    FormController.prototype.submitCreation = function (form, $event) {
         var object = this.validate(form, $event),
             self = this;
 
-        if (!object){
+        if (!object) {
             return;
         }
 
@@ -96,14 +98,12 @@ define(function() {
     };
 
     /**
-     * @param {Form }form
+     * @param {Object} form
      * @param {$event} $event
      */
-    FormController.prototype.submitEdition = function(form, $event) {
-        var object = this.validate(form, $event),
-            self = this;
-
-        if (!object){
+    FormController.prototype.submitEdition = function (form, $event) {
+        var object = this.validate(form, $event);
+        if (!object) {
             return;
         }
 
@@ -119,11 +119,11 @@ define(function() {
      * @param {Object} item
      * @param {Entity} entity
      */
-    FormController.prototype.edit = function(item, entity) {
-        this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
+    FormController.prototype.edit = function (item, entity) {
+        this.$location.path('/edit/' + entity.name() + '/' + item[entity.getIdentifier().name()]);
     };
 
-    FormController.prototype.destroy = function() {
+    FormController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;

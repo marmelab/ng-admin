@@ -1,3 +1,5 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
@@ -5,13 +7,13 @@ define(function (require) {
     var availableTypes = ['number', 'string', 'text', 'boolean', 'wysiwyg', 'email', 'date', 'callback', 'choice', 'password'];
     var availableEditions = ['read-only', 'editable'];
 
-    var defaultValueTransformer = function(value) {
+    function defaultValueTransformer(value) {
         return value;
-    };
+    }
 
-    var defaultValueCallback = function(Entity) {
+    function defaultValueCallback(Entity) {
         return '';
-    };
+    }
 
     var config = {
         name: 'myField',
@@ -55,7 +57,7 @@ define(function (require) {
      * @param {String} type
      * @returns string|Field
      */
-    Field.prototype.type = function(type) {
+    Field.prototype.type = function (type) {
         if (arguments.length === 0) {
             return this.config.type;
         }
@@ -76,7 +78,7 @@ define(function (require) {
      *
      * @returns {*}
      */
-    Field.prototype.getTruncatedListValue = function(value) {
+    Field.prototype.getTruncatedListValue = function (value) {
         if (this.config.truncateList) {
             value = this.config.truncateList(value);
         }
@@ -87,7 +89,7 @@ define(function (require) {
     /**
      * @param {Entity} entity
      */
-    Field.prototype.setEntity = function(entity) {
+    Field.prototype.setEntity = function (entity) {
         this.entity = entity;
 
         return this;
@@ -96,14 +98,14 @@ define(function (require) {
     /**
      * @return {Entity}
      */
-    Field.prototype.getEntity = function() {
+    Field.prototype.getEntity = function () {
         return this.entity;
     };
 
     /**
      * @return {string}
      */
-    Field.prototype.getSortName = function() {
+    Field.prototype.getSortName = function () {
         return this.entity.name() + '.' + this.name();
     };
 
@@ -121,11 +123,11 @@ define(function (require) {
       *
       * @returns mixed
       */
-    Field.prototype.getListValue = function() {
+    Field.prototype.getListValue = function () {
         return this.value;
     };
 
-    Field.prototype.clear = function() {
+    Field.prototype.clear = function () {
         this.value = null;
 
         return this;
