@@ -1,4 +1,6 @@
-define(function() {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
     function DatagridPaginationController($scope, $location, $anchorScroll, CrudManager, progress) {
@@ -31,17 +33,18 @@ define(function() {
      * @param {int} max
      * @returns {Array}
      */
-    DatagridPaginationController.prototype.range = function(min, max){
-        var input = [];
+    DatagridPaginationController.prototype.range = function (min, max) {
+        var input = [],
+            i;
 
-        for (var i = min; i <= max; i ++) {
+        for (i = min; i <= max; i++) {
             input.push(i);
         }
 
         return input;
     };
 
-    DatagridPaginationController.prototype.nextPage = function() {
+    DatagridPaginationController.prototype.nextPage = function () {
         var entityConfig = this.$scope.entityConfig;
         if (this.loadingPage || !this.infinitePagination || this.currentPage === this.nbPages) {
             return;
@@ -70,7 +73,7 @@ define(function() {
      * @param {int} number
      */
     DatagridPaginationController.prototype.setPage = function (number) {
-        if(number <= 0 || number > this.nbPages) {
+        if (number <= 0 || number > this.nbPages) {
             return;
         }
 

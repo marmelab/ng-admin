@@ -1,3 +1,5 @@
+/*global define*/
+
 define(function () {
     'use strict';
 
@@ -16,5 +18,5 @@ define(function () {
 
     return {
         inherits: inherits
-    }
+    };
 });

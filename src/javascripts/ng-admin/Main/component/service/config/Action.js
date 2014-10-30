@@ -1,7 +1,10 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     var config = {
         name: 'myAction',

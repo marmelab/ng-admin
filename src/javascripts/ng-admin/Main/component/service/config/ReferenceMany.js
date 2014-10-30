@@ -1,3 +1,5 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
@@ -5,13 +7,13 @@ define(function (require) {
         Reference = require('ng-admin/Main/component/service/config/Reference'),
         utils = require('ng-admin/lib/utils');
 
-    var defaultValueTransformer = function(value) {
-        if (typeof(value) === 'undefined') {
+    function defaultValueTransformer(value) {
+        if (typeof (value) === 'undefined') {
             return [];
         }
 
-        return (typeof value === 'object' && typeof value.length == 'number') ? value : [value];
-    };
+        return (typeof value === 'object' && typeof value.length === 'number') ? value : [value];
+    }
 
     var config = {
         name: 'myReference',
@@ -46,7 +48,7 @@ define(function (require) {
     utils.inherits(ReferenceMany, Reference);
     Configurable(ReferenceMany.prototype, config);
 
-    ReferenceMany.prototype.clear = function() {
+    ReferenceMany.prototype.clear = function () {
         this.value = [];
 
         return this;

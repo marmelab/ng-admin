@@ -1,15 +1,15 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var Validator = require('ng-admin/Main/component/service/Validator'),
         View = require('ng-admin/Main/component/service/config/view/View'),
         Field = require('ng-admin/Main/component/service/config/Field');
 
-    describe("Service: Validator", function() {
+    describe("Service: Validator", function () {
 
-        it('should call validator on each fields.', function() {
+        it('should call validator on each fields.', function () {
             var validator = new Validator(),
                 view = new View('myView'),
                 field1 = new Field('notValidable').label('Complex'),
@@ -17,14 +17,14 @@ define(function(require) {
 
             view.addField(field1).addField(field2);
 
-            field1.validation().validator = function() {
+            field1.validation().validator = function () {
                 return false;
             };
-            field2.validation().validator = function() {
+            field2.validation().validator = function () {
                 return true;
             };
 
-            expect(function(){ validator.validate(view); } ).toThrow(new Error('Field "Complex" is not valid.'));
+            expect(function () { validator.validate(view); }).toThrow(new Error('Field "Complex" is not valid.'));
         });
 
     });

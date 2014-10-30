@@ -1,5 +1,7 @@
+/*global define*/
+
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var listTemplate = require('text!../view/list.html'),
         createTemplate = require('text!../view/create.html'),
@@ -24,7 +26,7 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'CrudManager', 'NgAdminConfiguration', function($stateParams, CrudManager, Configuration) {
+                    data: ['$stateParams', 'CrudManager', 'NgAdminConfiguration', function ($stateParams, CrudManager, Configuration) {
                         var config = Configuration(),
                             entity = $stateParams.entity,
                             entityConfig = config.getEntity(entity),
@@ -52,10 +54,10 @@ define(function (require) {
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
-                    entity: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    entity: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
                         return CrudManager.getEditionFields($stateParams.entity, 'editable');
                     }],
-                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    referencedValues: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
                     }]
                 }
@@ -75,13 +77,13 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    entity: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    entity: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
                         return CrudManager.getOne($stateParams.entity, $stateParams.id);
                     }],
-                    referencedValues: ['$stateParams', 'CrudManager', function($stateParams, CrudManager) {
+                    referencedValues: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
                         return CrudManager.getReferencedValues($stateParams.entity);
                     }],
-                    referencedListValues: ['$stateParams', 'entity', 'CrudManager', function($stateParams, entity, CrudManager) {
+                    referencedListValues: ['$stateParams', 'entity', 'CrudManager', function ($stateParams, entity, CrudManager) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
@@ -98,7 +100,7 @@ define(function (require) {
                 controllerAs: 'deleteController',
                 template: deleteTemplate,
                 resolve: {
-                    params: ['$stateParams', function($stateParams) {
+                    params: ['$stateParams', function ($stateParams) {
                         return $stateParams;
                     }]
                 }

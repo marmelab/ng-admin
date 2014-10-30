@@ -1,23 +1,25 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var angular = require('angular');
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    var defaultSortParams = function (field, dir) {
+    function defaultSortParams(field, dir) {
         return {
-            params:{
+            params: {
                 _sort: field,
                 _sortDir: dir
             },
             headers: {
             }
         };
-    };
+    }
 
-    var defaultFilterParams = function(params) {
+    function defaultFilterParams(params) {
         return params;
-    };
+    }
 
     var config = {
         name: 'entity',
@@ -43,7 +45,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Entity.prototype.getViews = function() {
+    Entity.prototype.getViews = function () {
         return this.views;
     };
 
@@ -52,10 +54,10 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Entity.prototype.getViewsOfType = function(type) {
+    Entity.prototype.getViewsOfType = function (type) {
         var views = [];
 
-        angular.forEach(this.views, function(view) {
+        angular.forEach(this.views, function (view) {
             if (view.constructor.name === type) {
                 views.push(view);
             }
@@ -69,7 +71,7 @@ define(function (require) {
      *
      * @returns {Field}
      */
-    Entity.prototype.getView = function(name) {
+    Entity.prototype.getView = function (name) {
         return this.views[name];
     };
 
@@ -80,7 +82,7 @@ define(function (require) {
      *
      * @returns {Entity}
      */
-    Entity.prototype.addView = function(view) {
+    Entity.prototype.addView = function (view) {
         view.setEntity(this);
         this.views[view.name()] = view;
 
@@ -92,7 +94,7 @@ define(function (require) {
      *
      * @returns {Field}
      */
-    Entity.prototype.getIdentifier = function() {
+    Entity.prototype.getIdentifier = function () {
         var editView = this.getViewsOfType('EditView')[0];
 
         return editView ? editView.getIdentifier() : null;
@@ -103,7 +105,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Entity.prototype.getSortParams = function(sortField, sortDir) {
+    Entity.prototype.getSortParams = function (sortField, sortDir) {
         return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 

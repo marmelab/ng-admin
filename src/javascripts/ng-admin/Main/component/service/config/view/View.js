@@ -1,7 +1,10 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     /**
      * Return the title depending if the config is a string or a function
@@ -19,13 +22,13 @@ define(function (require) {
         return title;
     }
 
-    var defaultTitle = function(action, entity) {
+    function defaultTitle(action, entity) {
         return action + ' ' + entity.label();
-    };
+    }
 
-    var defaultDescription = function (entity) {
+    function defaultDescription(entity) {
         return null;
-    };
+    }
 
     function defaultHeaders() {
         return {};
@@ -56,7 +59,7 @@ define(function (require) {
     /***
      * @param {Entity} entity
      */
-    View.prototype.setEntity = function(entity) {
+    View.prototype.setEntity = function (entity) {
         this.entity = entity;
 
         return this;
@@ -65,14 +68,14 @@ define(function (require) {
     /***
      * @return {Entity}
      */
-    View.prototype.getEntity = function(entity) {
+    View.prototype.getEntity = function (entity) {
         return this.entity;
     };
 
     /**
      * @param {Field} field
      */
-    View.prototype.addField = function(field) {
+    View.prototype.addField = function (field) {
         if (field.order() === null) {
             field.order(Object.keys(this.fields).length);
         }
@@ -89,11 +92,12 @@ define(function (require) {
      * @param {String }type
      * @returns {Array}
      */
-    View.prototype.getFieldsOfType = function(type) {
+    View.prototype.getFieldsOfType = function (type) {
         var results = {},
-            field;
+            field,
+            i;
 
-        for(var i in this.fields) {
+        for (i in this.fields) {
             field = this.fields[i];
 
             if (field.constructor.name === type) {
@@ -109,8 +113,8 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    View.prototype.getFields = function() {
-      return this.fields;
+    View.prototype.getFields = function () {
+        return this.fields;
     };
 
     /**
@@ -118,14 +122,14 @@ define(function (require) {
      *
      * @returns {Field}
      */
-    View.prototype.getField = function(name) {
-      return this.fields[name];
+    View.prototype.getField = function (name) {
+        return this.fields[name];
     };
 
     /**
      * @param {Action} action
      */
-    View.prototype.addAction = function(action) {
+    View.prototype.addAction = function (action) {
         if (action.order() === null) {
             action.order(Object.keys(this.actions).length);
         }
@@ -140,7 +144,7 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    View.prototype.getActions = function() {
+    View.prototype.getActions = function () {
         return this.actions;
     };
 
@@ -149,7 +153,7 @@ define(function (require) {
      *
      * @returns {String}
      */
-    View.prototype.getTitle = function() {
+    View.prototype.getTitle = function () {
         return getTitle(this.config.title, this);
     };
 
@@ -157,7 +161,7 @@ define(function (require) {
      * Returns the views description
      * @returns {String}
      */
-    View.prototype.getDescription = function() {
+    View.prototype.getDescription = function () {
         return getTitle(this.config.description, this);
     };
 
@@ -166,11 +170,11 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    View.prototype.getReferences = function() {
-        var references = this.getFieldsOfType('Reference');
-        var referencesMany = this.getFieldsOfType('ReferenceMany');
+    View.prototype.getReferences = function () {
+        var references = this.getFieldsOfType('Reference'),
+            referencesMany = this.getFieldsOfType('ReferenceMany');
 
-        angular.forEach(referencesMany, function(ref, key) {
+        angular.forEach(referencesMany, function (ref, key) {
             references[key] = ref;
         });
 
@@ -182,8 +186,8 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    View.prototype.getReferencedLists = function() {
-        return this.getFieldsOfType('ReferencedList')
+    View.prototype.getReferencedLists = function () {
+        return this.getFieldsOfType('ReferencedList');
     };
 
     /**
@@ -191,7 +195,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    View.prototype.getExtraParams = function() {
+    View.prototype.getExtraParams = function () {
         var params = {};
         if (this.config.extraParams) {
             params = typeof (this.config.extraParams) === 'function' ? this.config.extraParams() : this.config.extraParams;
@@ -205,10 +209,10 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    View.prototype.getHeaders = function() {
+    View.prototype.getHeaders = function () {
         var headers = this.headers();
 
-        return typeof(headers) === 'function' ? headers() : headers;
+        return typeof (headers) === 'function' ? headers() : headers;
     };
 
     /**
@@ -216,8 +220,10 @@ define(function (require) {
      *
      * @returns {Field}
      */
-    View.prototype.getIdentifier = function() {
-        for(var i in this.fields) {
+    View.prototype.getIdentifier = function () {
+        var i;
+
+        for (i in this.fields) {
             if (!this.fields.hasOwnProperty(i)){
                 continue;
             }
@@ -238,10 +244,12 @@ define(function (require) {
      */
     View.prototype.mapEntities = function (rawEntities) {
         var results = [],
-            fields = this.getFields();
+            fields = this.getFields(),
+            i,
+            l;
 
         // Map each rawEntity to an View clone
-        for (var i = 0, l = rawEntities.length; i < l; i++) {
+        for (i = 0, l = rawEntities.length; i < l; i++) {
             var rawEntity = rawEntities[i],
                 result = angular.copy(this),
                 field;

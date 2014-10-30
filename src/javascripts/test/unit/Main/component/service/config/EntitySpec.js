@@ -1,17 +1,16 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
-    var Application = require('ng-admin/Main/component/service/config/Application'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
+    var Entity = require('ng-admin/Main/component/service/config/Entity'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView');
 
-    describe("Service: Entity config", function() {
+    describe("Service: Entity config", function () {
 
-        describe('views', function() {
-            it('should store views by name.', function() {
+        describe('views', function () {
+            it('should store views by name.', function () {
                 var entity = new Entity('myEntity1'),
                     dashboard = new DashboardView('dashboard'),
                     createView = new CreateView('form1');
@@ -24,7 +23,7 @@ define(function(require) {
                 expect(entity.getView('form1').getEntity().name()).toBe('myEntity1');
             });
 
-            it('should retrieve views by type.', function() {
+            it('should retrieve views by type.', function () {
                 var entity = new Entity('myEntity1'),
                     dashboard = new DashboardView('dashboard'),
                     createView = new CreateView('form1');

@@ -1,7 +1,10 @@
-define(function (require) {
-    "use strict";
+/*global define*/
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+define(function (require) {
+    'use strict';
+
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     var config = {
         title: "Angular admin",
@@ -18,7 +21,7 @@ define(function (require) {
      * Add an entity to the configuration
      * @param {Entity} entity
      */
-    Application.prototype.addEntity = function(entity) {
+    Application.prototype.addEntity = function (entity) {
         if (entity.order() === null) {
             entity.order(Object.keys(this.entities).length);
         }
@@ -33,7 +36,7 @@ define(function (require) {
      * @param {String} name
      * @returns {boolean}
      */
-    Application.prototype.hasEntity = function(name) {
+    Application.prototype.hasEntity = function (name) {
         return name in this.entities;
     };
 
@@ -43,7 +46,7 @@ define(function (require) {
      * @param {String} name
      * @returns {Entity}
      */
-    Application.prototype.getEntity = function(name) {
+    Application.prototype.getEntity = function (name) {
         return this.entities[name];
     };
 
@@ -52,7 +55,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Application.prototype.getEntities = function() {
+    Application.prototype.getEntities = function () {
         return this.entities;
     };
 
@@ -61,7 +64,7 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    Application.prototype.getEntityNames = function() {
+    Application.prototype.getEntityNames = function () {
         return Object.keys(this.entities);
     };
 
@@ -70,10 +73,10 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    Application.prototype.getViewsOfType = function(type) {
+    Application.prototype.getViewsOfType = function (type) {
         var views = [];
 
-        angular.forEach(this.entities, function(entity) {
+        angular.forEach(this.entities, function (entity) {
             var entityViews = entity.getViewsOfType(type);
 
             views = views.concat(entityViews);

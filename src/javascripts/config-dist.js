@@ -1,26 +1,23 @@
-(function() {
+(function () {
     "use strict";
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.directive('customPostLink', ['$location', function($location) {
+    app.directive('customPostLink', ['$location', function ($location) {
         return {
             restrict: 'E',
             template: '<a ng-click="displayPost(entity)">View&nbsp;post</a>',
-            controller: function($scope, $location) {
-
-            },
-            link: function($scope, element, attributes) {
-                $scope.displayPost = function(entity) {
+            link: function ($scope) {
+                $scope.displayPost = function (entity) {
                     var postId = entity.getField('post_id').value;
 
                     $location.path('/edit/posts/' + postId);
-                }
+                };
             }
-        }
+        };
     }]);
 
-    app.config(function(NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
         function truncate(value) {
             if (!value) {
                 return '';
@@ -33,7 +30,7 @@
             return {
                 _start: (page - 1) * maxPerPage,
                 _end: page * maxPerPage
-            }
+            };
         }
 
         var post = new Entity('posts'),
@@ -66,7 +63,7 @@
                 .list(true)
                 .label('Big Name')
                 .isEditLink(false)
-                .callback(function() {
+                .callback(function () {
                     return '{{ entity.getField("name").value.toUpperCase() }}';
                 })
             );
@@ -110,7 +107,7 @@
                 .validation({
                     "required": true
                 })
-            ).addQuickFilter('Today', function() {
+            ).addQuickFilter('Today', function () {
                 var now = new Date(),
                     year = now.getFullYear(),
                     month = now.getMonth() + 1,
@@ -121,14 +118,14 @@
 
                 return {
                     created_at: [year, month, day].join('-')
-                }
+                };
             })
             .addField(new Field('actions')
                 .type('callback')
                 .list(true)
                 .label('Actions')
                 .isEditLink(false)
-                .callback(function() {
+                .callback(function () {
                     return '<custom-post-link></custom-post-link>';
                 })
             );
@@ -179,5 +176,5 @@
             .addEntity(tag);
 
         NgAdminConfigurationProvider.configure(app);
-    })
-})();
+    });
+}());

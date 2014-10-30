@@ -1,4 +1,6 @@
-define(function(require) {
+/*global define,jasmine,angular,describe,it,expect,beforeEach*/
+
+define(function (require) {
     'use strict';
 
     var ListViewRepository = require('ng-admin/Crud/component/service/ListViewRepository'),
@@ -20,8 +22,8 @@ define(function(require) {
         rawHumans;
 
     describe("Service: ListViewRepository", function () {
-        beforeEach(function() {
-            config = function() {
+        beforeEach(function () {
+            config = function () {
                 return {
                     baseApiUrl: angular.noop
                 };
@@ -42,7 +44,7 @@ define(function(require) {
                 "human_id": 1,
                 "name": "Mizoute",
                 "summary": "A Cat"
-            },{
+            }, {
                 "id": 2,
                 "human_id": 1,
                 "name": "Suna",
@@ -52,10 +54,10 @@ define(function(require) {
             rawHumans = [{
                 "id": 1,
                 "firstName": "Daph"
-            },{
+            }, {
                 "id": 2,
                 "firstName": "Manu"
-            },{
+            }, {
                 "id": 3,
                 "firstName": "Daniel"
             }];
@@ -99,8 +101,8 @@ define(function(require) {
         });
 
         it('should return all references values for a View', function () {
-            var listViewRepository = new ListViewRepository($q, Restangular, config);
-            var post = new Entity('posts'),
+            var listViewRepository = new ListViewRepository($q, Restangular, config),
+                post = new Entity('posts'),
                 postList = new ListView(),
                 author = new Entity('authors'),
                 authorRef = new Reference('author');
@@ -108,7 +110,7 @@ define(function(require) {
             var rawAuthors = [{
                 id: 'abc',
                 name: 'Rollo'
-            },{
+            }, {
                 id: '19DFE',
                 name: 'Ragna'
             }];
@@ -129,8 +131,8 @@ define(function(require) {
         });
 
         it('should return all referencedLists values for a View', function () {
-            var listViewRepository = new ListViewRepository($q, Restangular, config);
-            var state = new Entity('states'),
+            var listViewRepository = new ListViewRepository($q, Restangular, config),
+                state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
                 stateList = new ListView(),
                 character = new Entity('characters'),
@@ -142,13 +144,13 @@ define(function(require) {
                 name: 'Rollo',
                 age: 35,
                 eyes: 'blue'
-            },{
+            }, {
                 id: '19DFE',
                 state_id: 1,
                 name: 'Ragna',
                 age: 33,
                 eyes: 'brown'
-            },{
+            }, {
                 id: '1G53a',
                 state_id: 2,
                 name: 'Aelle',

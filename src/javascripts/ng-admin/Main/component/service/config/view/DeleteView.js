@@ -1,12 +1,14 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var View = require('ng-admin/Main/component/service/config/view/View');
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var utils = require('ng-admin/lib/utils');
+    var angular = require('angular'),
+        View = require('ng-admin/Main/component/service/config/view/View'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        utils = require('ng-admin/lib/utils');
 
-    var config = {
-    };
+    var config = {};
 
     /**
      * @constructor

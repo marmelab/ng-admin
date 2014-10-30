@@ -1,6 +1,6 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var Reference = require('ng-admin/Main/component/service/config/Reference'),
@@ -8,9 +8,9 @@ define(function(require) {
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
-    describe("Service: Referenced config", function() {
+    describe("Service: Referenced config", function () {
 
-        it('should retrieve choices.', function() {
+        it('should retrieve choices.', function () {
             var ref = new Reference('human_id'),
                 human = new Entity('human'),
                 editView = new EditView();

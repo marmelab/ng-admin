@@ -1,7 +1,8 @@
-define(function(require) {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
-    var angular = require('angular');
     var booleanColumnView = require('text!../../../view/column/boolean.html');
 
     function BooleanColumn() {

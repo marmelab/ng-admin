@@ -1,18 +1,17 @@
-/*global require,describe,module,beforeEach,inject,it,expect*/
+/*global define,jasmine,angular,describe,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var DashboardController = require('ng-admin/Main/component/controller/DashboardController'),
         PanelBuilder = require('ng-admin/Main/component/service/PanelBuilder'),
-        ListViewRepository = require('ng-admin/Crud/component/service/ListViewRepository'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
         mixins = require('mixins');
 
-    describe("Controller: Dashboard", function() {
+    describe("Controller: Dashboard", function () {
 
-        it('should retrieve panels', function() {
+        it('should retrieve panels', function () {
             var view1 = new DashboardView('view1')
                     .label('dashboard1')
                     .addField(new Field('title').label('Title')),

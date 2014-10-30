@@ -1,4 +1,6 @@
-define(function(require) {
+/*global define*/
+
+define(function () {
     'use strict';
 
     /**

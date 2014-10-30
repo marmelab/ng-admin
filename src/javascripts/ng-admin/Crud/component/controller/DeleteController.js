@@ -1,4 +1,6 @@
-define(function() {
+/*global define*/
+
+define(function () {
     'use strict';
 
     var DeleteController = function($scope, $location, CrudManager, params, notification) {
@@ -14,7 +16,7 @@ define(function() {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    DeleteController.prototype.deleteOne = function() {
+    DeleteController.prototype.deleteOne = function () {
         var self = this;
 
         this.CrudManager.deleteOne(this.params.entity, this.params.id).then(function() {
@@ -24,11 +26,11 @@ define(function() {
         });
     };
 
-    DeleteController.prototype.back = function() {
+    DeleteController.prototype.back = function () {
         this.$location.path('/edit/' + this.params.entity + '/' + this.params.id);
     };
 
-    DeleteController.prototype.destroy = function() {
+    DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
         this.CrudManager = undefined;
