@@ -3,13 +3,6 @@ define(function (require) {
 
     var Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    var fieldTypes = {
-        Field: require('ng-admin/Main/component/service/config/Field'),
-        Reference: require('ng-admin/Main/component/service/config/Reference'),
-        ReferencedList: require('ng-admin/Main/component/service/config/ReferencedList'),
-        ReferenceMany: require('ng-admin/Main/component/service/config/ReferenceMany')
-    };
-
     /**
      * Return the title depending if the config is a string or a function
      *
@@ -97,15 +90,13 @@ define(function (require) {
      * @returns {Array}
      */
     View.prototype.getFieldsOfType = function(type) {
-        var results = {};
+        var results = {},
+            field;
 
         for(var i in this.fields) {
-            if (!this.fields.hasOwnProperty(i)) {
-                continue;
-            }
+            field = this.fields[i];
 
-            var field = this.fields[i];
-            if (field instanceof fieldTypes[type]) {
+            if (field.constructor.name === type) {
                 results[i] = field;
             }
         }
@@ -274,20 +265,36 @@ define(function (require) {
     /**
      * Returns true is the Entity wasn't populated
      *
-     * @returns {boolean}
+     * @returns {Boolean}
      */
     View.prototype.isNew = function() {
         var identifier = this.getIdentifier();
+
         return !identifier || identifier.value === null;
     };
 
     /**
      * Clear all fields
+     *
+     * @return {View}
      */
     View.prototype.clear = function() {
         angular.forEach(this.getFields(), function(field){
             field.clear();
         });
+
+        return this;
+    };
+
+    /**
+     * Remove all fields
+     *
+     * @return {View}
+     */
+    View.prototype.removeFields = function() {
+        this.fields = {};
+
+        return this;
     };
 
     Configurable(View.prototype, config);

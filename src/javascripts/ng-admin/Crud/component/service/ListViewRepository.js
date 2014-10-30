@@ -16,42 +16,43 @@ define(function(require) {
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {View}    view                the view associated to the entity
-     * @param {Number}  page                the page number
-     * @param {Boolean} fillSimpleReference should we fill Reference list
-     * @param {String}  query               searchQuery to filter elements
-     * @param {String}  sortField           the field to be sorted ex: entity.fieldName
-     * @param {String}  sortDir             the direction of the sort
-     * @param {Object}  filters             filter specific fields
+     * @param {ListView} view                the view associated to the entity
+     * @param {Number}   page                the page number
+     * @param {Boolean}  fillSimpleReference should we fill Reference list
+     * @param {String}   query               searchQuery to filter elements
+     * @param {String}   sortField           the field to be sorted ex: entity.fieldName
+     * @param {String}   sortDir             the direction of the sort
+     * @param {Object}   filters             filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
     ListViewRepository.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
-        var rawValues,
-            entity = view.getEntity(),
-            entityName = entity.name(),
+        var rawEntries,
+            entries,
             referencedValues,
             self = this;
 
-        this.getRawValues(view, page, query, sortField, sortDir, filters)
+        page = page || 1;
+        fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
+
+        return this.getRawValues(view, page, query, sortField, sortDir, filters)
             .then(function(values) {
-                rawValues = values;
+                rawEntries = values;
 
-                return self.getReferencedValues(entityName);
-            }).then(function(values) {
-                referencedValues = values;
+                return self.getReferencedValues(view);
+            }).then(function(refValues) {
+                referencedValues = refValues;
 
-                return self.mapEntities(view, rawValues);
-            }).then(function(entities) {
-                entities = self.fillReferencesValuesFromCollection(entities, referencedValues, fillSimpleReference);
-                entities = self.truncateListValue(entities);
+                entries = view.mapEntities(rawEntries);
+                entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
+                entries = view.truncateListValue(entries);
 
                 return {
                     view: view,
-                    entities: entities,
+                    entries: entries,
                     currentPage: page,
                     perPage: view.perPage(),
-                    totalItems: entity.totalItems()(response) // @TODO: use a method in the listView
+                    totalItems: view.totalItems()(rawEntries)
                 };
             });
     };
@@ -112,15 +113,14 @@ define(function(require) {
             calls = [];
 
         angular.forEach(references, function(reference) {
-            // @TODO: how to pass associated view?
-            calls.push(self.getRawValues(reference.getEntity().name(), 1, false))
+            calls.push(self.getRawValues(reference.getView(), 1, false))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
                 angular.forEach(references, function(reference, index) {
-                    references[index].setChoices(responses[i++]);
+                    references[index].setEntries(responses[i++]);
                 });
 
                 return references;
@@ -138,60 +138,58 @@ define(function(require) {
      */
     ListViewRepository.prototype.getReferencedListValues = function(view, sortField, sortDir) {
         var self = this,
-            lists = view.getReferencedLists(),
+            referenceLists = view.getReferencedLists(),
             entityId = view.getIdentifier().value,
             calls = [];
 
-        angular.forEach(lists, function(list) {
-            // @TODO: how to pass associated view?
-            calls.push(self.getRawValues(list.targetEntity().name(), 1, false, false, null, sortField, sortDir))
+        angular.forEach(referenceLists, function(referenceList) {
+            calls.push(self.getRawValues(referenceList.getView(), 1, false, false, null, sortField, sortDir))
         });
 
         return this.$q.all(calls)
             .then(function(responses) {
                 var i = 0;
 
-                angular.forEach(lists, function(referencedList) {
+                angular.forEach(referenceLists, function(referencedList) {
                     referencedList
-                        .setEntries(responses[i++].entities)
+                        .setEntries(responses[i++])
                         .filterEntries(entityId);
                 });
 
-                return lists;
+                return referenceLists;
             });
     };
 
     /**
      * Fill ReferencedMany & Reference values from a collection a values
      *
-     * @param {[Entity]} collection
-     * @param {Array} referencedValues
+     * @param {[View]}  collection
+     * @param {Object}  referencedValues
      * @param {Boolean} fillSimpleReference
-     *
      * @returns {Array}
      */
     ListViewRepository.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
         fillSimpleReference = typeof(fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
+        var choices,
+            entry,
+            identifier;
+
         angular.forEach(referencedValues, function(reference, referenceField) {
-            var choices = reference.getChoices(),
-                value,
-                targetField;
+            choices = reference.getChoices();
 
             for (var i = 0, l = collection.length; i < l; i++) {
-                var entity = collection[i],
-                    identifier = reference.valueTransformer()(entity.getField(referenceField).value);
+                entry = collection[i];
+                identifier = reference.valueTransformer()(entry.getField(referenceField).value);
 
-                if (reference.type() === 'reference-many') {
-                    entity.getField(referenceField).value = [];
+                if (reference.constructor.name === 'ReferenceMany') {
+                    entry.getField(referenceField).value = [];
 
                     angular.forEach(identifier, function(id) {
-                        entity.getField(referenceField).value.push(choices[id]);
+                        entry.getField(referenceField).value.push(choices[id]);
                     });
                 } else if (fillSimpleReference && identifier && identifier in choices) {
-                    targetField = reference.targetEntity().getField(reference.targetLabel());
-                    value = choices[identifier];
-                    entity.getField(referenceField).referencedValue = targetField.getTruncatedListValue(value);
+                    entry.getField(referenceField).referencedValue = reference.getTruncatedListValue(choices[identifier]);
                 }
             }
         });

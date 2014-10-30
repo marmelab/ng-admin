@@ -34,6 +34,10 @@ define(function (require) {
     };
 
     var defaultTotalItems = function(response) {
+        if (!response.headers && response.length) {
+            return response.length;
+        }
+
         return response.headers('X-Total-Count') || 0;
     };
 
