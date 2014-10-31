@@ -3,8 +3,6 @@
 define(function (require) {
     'use strict';
 
-    var angular = require('angular');
-
     /**
      * @param {$q}                 $q
      * @param {ListViewRepository} ListViewRepository

@@ -11,7 +11,7 @@ define(function (require) {
         return value;
     }
 
-    function defaultValueCallback(Entity) {
+    function defaultValueCallback(entry) {
         return '';
     }
 

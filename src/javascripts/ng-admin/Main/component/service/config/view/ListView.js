@@ -152,7 +152,7 @@ define(function (require) {
      *
      * @returns {Object}
      */
-    ListView.prototype.getAllHeaders = function(sortParams) {
+    ListView.prototype.getAllHeaders = function (sortParams) {
         var headers = this.getHeaders();
 
         // Add sort param headers

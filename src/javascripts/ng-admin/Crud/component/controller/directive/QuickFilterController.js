@@ -19,7 +19,7 @@ define(function () {
         this.displayFilterQuery = this.$scope.view.filterQuery() !== false;
     }
 
-    QuickFilterController.prototype.filter = function(label) {
+    QuickFilterController.prototype.filter = function (label) {
         this.$location.search('quickFilter', label);
     };
 

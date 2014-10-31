@@ -3,7 +3,8 @@
 define(function (require) {
     'use strict';
 
-    var paginationView = require('text!../../view/datagrid-pagination.html'),
+    var angular = require('angular'),
+        paginationView = require('text!../../view/datagrid-pagination.html'),
         DatagridPaginationController = require('ng-admin/Crud/component/controller/directive/DatagridPaginationController');
 
     function DatagridPaginationDirective($window, $document) {

@@ -68,7 +68,7 @@ define(function (require) {
     /***
      * @return {Entity}
      */
-    View.prototype.getEntity = function (entity) {
+    View.prototype.getEntity = function () {
         return this.entity;
     };
 
