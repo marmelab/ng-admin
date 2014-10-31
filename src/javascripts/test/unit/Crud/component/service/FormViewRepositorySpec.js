@@ -51,6 +51,7 @@ define(function (require) {
                 formViewRepository.getOne(view, 1)
                     .then(function (viewResult) {
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
+                        expect(viewResult.getIdentifier().value).toBe(1);
                         expect(viewResult.getField('id').value).toBe(1);
                         expect(viewResult.getField('name').value).toBe('Mizoute');
 

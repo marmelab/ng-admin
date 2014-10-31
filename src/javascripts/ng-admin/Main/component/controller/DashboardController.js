@@ -1,7 +1,9 @@
 /*global define*/
 
-define(function () {
+define(function (require) {
     'use strict';
+
+    var angular = require('angular');
 
     /**
      *
@@ -25,31 +27,40 @@ define(function () {
      * Retrieve all dashboard panels
      */
     DashboardController.prototype.retrievePanels = function () {
-        var self = this;
+        var self = this,
+            panel;
         this.panels = {};
 
         this.PanelBuilder.getPanelsData().then(function (panels) {
-            angular.forEach(panels, function (panel) {
+            var i;
+
+            for (i in panels) {
+                panel = panels[i];
 
                 var view = panel.view,
-                    entities = panel.entities,
+                    fields = view.getFields(),
+                    field,
+                    j,
+                    entries = panel.entries,
                     columns = [];
 
                 // Retrieve all DashboardView
-                angular.forEach(view.getFields(), function (field) {
+                for (j in fields) {
+                    field = fields[j];
+
                     columns.push({
                         field: field,
                         label: field.label()
                     });
-                });
+                }
 
                 self.panels[view.name()] = {
                     label: view.label(),
                     view: view,
                     columns: columns,
-                    entities: entities
+                    entries: entries
                 };
-            });
+            }
 
         });
     };

@@ -28,19 +28,20 @@ define(function (require) {
             return;
         }
 
-        var columns = [];
+        var columns = [],
+            fields = this.$scope.view.getFields(),
+            field,
+            i;
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        angular.forEach(this.$scope.entityConfig.getFields(), function (field) {
-            if (!field.list()) {
-                return;
-            }
+        for (i in fields) {
+            field = fields[i];
 
             columns.push({
                 field: field,
                 label: field.label()
             });
-        });
+        }
 
         this.$scope.columns = columns;
     };

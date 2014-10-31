@@ -19,6 +19,10 @@ define(function (require) {
         View.apply(this, arguments);
 
         this.config = angular.extend(this.config, angular.copy(config));
+
+        this.config.title = function (view) {
+            return 'Create ' + view.getEntity().name();
+        };
     }
 
     utils.inherits(CreateView, View);

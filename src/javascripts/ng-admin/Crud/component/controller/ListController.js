@@ -8,18 +8,18 @@ define(function () {
         this.$location = $location;
         this.data = data;
         this.$anchorScroll = $anchorScroll;
-        this.entityConfig = this.data.entityConfig;
-        this.entityLabel = data.entityConfig.label();
-        this.title = data.entityConfig.getListTitle();
-        this.description = data.entityConfig.getDescription();
-        this.displayFilterQuery = data.entityConfig.filterQuery() !== false;
+        this.view = this.data.view;
+        this.entityLabel = this.view.label();
+        this.title = this.view.getTitle();
+        this.description = this.view.getDescription();
+        this.displayFilterQuery = this.view.filterQuery() !== false;
 
         var searchParams = this.$location.search();
 
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.entities = data.entities;
-        this.$scope.entityConfig = this.entityConfig;
+        this.$scope.entries = data.entries;
+        this.$scope.view = this.view;
         this.$scope.totalItems = this.data.totalItems;
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -38,19 +38,19 @@ define(function () {
     ListController.prototype.create = function () {
         this.clearParams();
 
-        this.$location.path('/create/' + this.data.entityName);
+        this.$location.path('/create/' + this.view.getEntity().name());
         this.$anchorScroll(0);
     };
 
     /**
      * Link to edit entity page
      *
-     * @param {Entity} entity
+     * @param {ListView} entry
      */
-    ListController.prototype.edit = function (entity) {
+    ListController.prototype.edit = function (entry) {
         this.clearParams();
 
-        this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
+        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.getIdentifier().value);
         this.$anchorScroll(0);
     };
 

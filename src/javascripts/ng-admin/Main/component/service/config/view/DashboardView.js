@@ -4,7 +4,7 @@ define(function (require) {
     'use strict';
 
     var angular = require('angular'),
-        ListView = require('ng-admin/Main/component/service/config/view/View'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 

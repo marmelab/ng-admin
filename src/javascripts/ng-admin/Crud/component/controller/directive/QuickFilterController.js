@@ -14,9 +14,9 @@ define(function () {
         this.$location = $location;
 
         var searchParams = this.$location.search();
-        this.quickFilters = this.$scope.entityConfig.getQuickFilterNames();
+        this.quickFilters = this.$scope.view.getQuickFilterNames();
         this.currentQuickFilter = 'quickFilter' in searchParams ? searchParams.quickFilter : null;
-        this.displayFilterQuery = this.$scope.entityConfig.filterQuery() !== false;
+        this.displayFilterQuery = this.$scope.view.filterQuery() !== false;
     }
 
     QuickFilterController.prototype.filter = function(label) {

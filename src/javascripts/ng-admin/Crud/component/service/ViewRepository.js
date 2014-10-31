@@ -19,7 +19,7 @@ define(function () {
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
-    ViewRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'Field'];
+    ViewRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
     return ViewRepository;
 });

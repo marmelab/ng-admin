@@ -36,15 +36,25 @@ define(function (require) {
         return this.Restangular
             .one(view.getEntity().name(), entityId)
             .get(params, headers)
-            .then(function(response) {
+            .then(function (response) {
 
                 var fields = view.getFields(),
+                    field,
+                    identifier = view.getIdentifier(),
+                    i,
                     values = response.data;
 
                 // Transform each values with `valueTransformer`
-                angular.forEach(fields, function(field, index) {
-                    view.getField(index).value = field.valueTransformer()(values[field.name()]);
-                });
+                for (i in fields) {
+                    field = fields[i];
+
+                    view.getField(i).value = field.valueTransformer()(values[field.name()]);
+                }
+
+                // Set identifier value
+                if (identifier) {
+                    identifier.value = entityId;
+                }
 
                 return view;
             });
@@ -78,7 +88,7 @@ define(function (require) {
      *
      * @returns {promise} the updated object
      */
-    FormViewRepository.prototype.updateOne = function(view, rawEntity) {
+    FormViewRepository.prototype.updateOne = function (view, rawEntity) {
         var entityName = view.getEntity().name(),
             headers = view.getHeaders();
 
@@ -98,7 +108,7 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    FormViewRepository.prototype.deleteOne = function(view, entityId) {
+    FormViewRepository.prototype.deleteOne = function (view, entityId) {
         var entityName = view.getEntity().name(),
             headers = view.getHeaders();
 
@@ -106,6 +116,8 @@ define(function (require) {
             .one(entityName, entityId)
             .remove(null, headers);
     };
+
+    FormViewRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
     return FormViewRepository;
 });

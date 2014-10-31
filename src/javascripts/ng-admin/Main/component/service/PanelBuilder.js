@@ -26,11 +26,15 @@ define(function (require) {
     PanelBuilder.prototype.getPanelsData = function () {
         var dashboards = this.Configuration.getViewsOfType('DashboardView'),
             promises = [],
-            self = this;
+            dashboardView,
+            self = this,
+            i;
 
-        angular.forEach(dashboards, function (dashboardView) {
+        for (i in dashboards) {
+            dashboardView = dashboards[i];
+
             promises.push(self.ListViewRepository.getAll(dashboardView));
-        });
+        }
 
         return this.$q.all(promises);
     };

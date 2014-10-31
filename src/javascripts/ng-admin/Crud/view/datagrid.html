@@ -12,7 +12,7 @@
     </thead>
 
     <tbody>
-        <tr ng-class="datagrid.itemClass($index)" ng-repeat="entity in entities track by $index">
+        <tr ng-class="datagrid.itemClass($index)" ng-repeat="entry in entries track by $index">
             <td ng-repeat="column in columns" ng-switch="column.field.type()">
                 <string-column ng-switch-when="string"></string-column>
 

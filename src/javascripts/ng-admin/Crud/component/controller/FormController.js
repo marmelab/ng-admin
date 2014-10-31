@@ -8,7 +8,7 @@ define(function (require) {
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
-        this.CrudManager = CrudManager;
+        this.FormViewRepository = FormViewRepository;
         this.Validator = Validator;
         this.entity = entity;
         this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
@@ -30,6 +30,9 @@ define(function (require) {
         this.$scope.entity = this.entity;
         this.$scope.entityConfig = this.entity;
         this.$scope.edit = this.edit.bind(this);
+        this.$scope.view = view;
+        this.view = view;
+        this.entity = this.view.getEntity();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -52,18 +55,25 @@ define(function (require) {
 
         var value,
             self = this,
+            fields = this.view.getFields(),
+            mappedObject,
+            field,
+            i,
             object = {
-                id: this.entity.getIdentifier().value
+                id: this.view.getIdentifier().value
             };
 
-        angular.forEach(this.entity.getFields(), function (field) {
+        for (i in fields) {
+            field = fields[i];
             value = field.value;
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
             }
 
             object[field.name()] = value;
-        });
+        }
+
+        mappedObject = this.view.mapEntry(object);
 
         try {
             this.Validator.validate(this.entity.name(), object);
@@ -125,8 +135,10 @@ define(function (require) {
 
     FormController.prototype.destroy = function () {
         this.$scope = undefined;
+        this.$filter = undefined;
         this.$location = undefined;
-        this.CrudManager = undefined;
+        this.FormViewRepository = undefined;
+        this.view = undefined;
         this.entity = undefined;
     };
 

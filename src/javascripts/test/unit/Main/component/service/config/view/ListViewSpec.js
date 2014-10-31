@@ -1,15 +1,15 @@
 /*global require,describe,module,beforeEach,inject,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         Field = require('ng-admin/Main/component/service/config/Field');
 
-    describe("Service: ListView config", function() {
+    describe("Service: ListView config", function () {
 
-        it('should store quickfilter by name.', function() {
+        it('should store quickfilter by name.', function () {
             var list = new ListView();
 
             list.addQuickFilter('Today', {'now': 1});
@@ -18,16 +18,16 @@ define(function(require) {
             expect(list.getQuickFilterParams('Today')).toEqual({'now': 1});
         });
 
-        it('should returns extra params.', function() {
+        it('should returns extra params.', function () {
             var list = new ListView('allCats'),
                 entity = new Entity('cat');
 
             list.perPage(10);
-            list.extraParams(function() {
-                return {token: 'abcde1' }
+            list.extraParams(function () {
+                return {token: 'abcde1'};
             });
 
-            list.pagination(function(page, maxPerPage) {
+            list.pagination(function (page, maxPerPage) {
                 return {
                     begin: page,
                     end: page * maxPerPage
@@ -45,11 +45,11 @@ define(function(require) {
             expect(params.q).toEqual('mizu');
         });
 
-        it('should truncate list values.', function() {
+        it('should truncate list values.', function () {
             var list = new ListView('allCats');
 
             list.addField(new Field('id').identifier(true));
-            list.addField(new Field('name').truncateList(function(value){
+            list.addField(new Field('name').truncateList(function (value){
                 return value.substr(0, 5) + '...';
             }));
 

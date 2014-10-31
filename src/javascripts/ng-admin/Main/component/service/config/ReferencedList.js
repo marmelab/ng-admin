@@ -43,13 +43,18 @@ define(function (require) {
     Configurable(ReferencedList.prototype, config);
 
     ReferencedList.prototype.getReferenceManyFields = function () {
-        var fields = [];
+        var fields = [],
+            targetFields = this.targetFields(),
+            targetField,
+            i;
 
-        angular.forEach(this.targetFields(), function (targetField) {
+        for (i in targetFields) {
+            targetField = targetFields[i];
+
             if (targetField.constructor.name === 'ReferenceMany') {
                 fields.push(targetField);
             }
-        });
+        }
 
         return fields;
     };
