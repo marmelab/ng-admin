@@ -3,8 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var angular = require('angular'),
-        utils = require('ng-admin/lib/utils'),
+    var utils = require('ng-admin/lib/utils'),
         ViewRepository = require('ng-admin/Crud/component/service/ViewRepository');
 
     /**
@@ -13,6 +12,8 @@ define(function (require) {
     function ListViewRepository() {
         ViewRepository.apply(this, arguments);
     }
+
+    utils.inherits(ListViewRepository, ViewRepository);
 
     /**
      * Return the list of all object of entityName type
@@ -79,8 +80,8 @@ define(function (require) {
         var entityName = view.getEntity().name(),
             entityConfig = view.getEntity(),
             interceptor = view.interceptor(),
-            sortEntity = sortField ? sortField.split('.')[0] : '',
-            sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
+            sortView = sortField ? sortField.split('.')[0] : '',
+            sortParams = sortView === view.name() ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
             params = view.getAllParams(page, sortParams, query),
             headers = view.getAllHeaders(sortParams),
             fieldName;

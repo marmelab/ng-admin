@@ -40,7 +40,7 @@ define(function (require) {
                             filters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return ListViewRepository.getAll(listView, page, null, true, query, sortField, sortDir, filters);
+                        return ListViewRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
                     }]
                 }
             });

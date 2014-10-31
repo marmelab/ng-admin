@@ -2,8 +2,7 @@
 define(function (require) {
     'use strict';
 
-    var angular = require('angular'),
-        utils = require('ng-admin/lib/utils'),
+    var utils = require('ng-admin/lib/utils'),
         ViewRepository = require('ng-admin/Crud/component/service/ViewRepository');
 
     /**
