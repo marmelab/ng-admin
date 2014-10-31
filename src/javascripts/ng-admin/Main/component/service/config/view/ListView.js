@@ -45,7 +45,6 @@ define(function (require) {
     }
 
     var config = {
-        limit : 10,
         perPage: 30,
         pagination: defaultPaginationLink,
         filterQuery: defaultFilterQuery,
@@ -182,7 +181,7 @@ define(function (require) {
 
         for (i = 0, l = entities.length; i < l; i++) {
             for (fieldName in fields) {
-                entities[i][fieldName] = fields[fieldName].getTruncatedListValue(entities[i][fieldName]);
+                entities[i].getField(fieldName).value = fields[fieldName].getTruncatedListValue(entities[i].getField(fieldName).value);
             }
         }
 
