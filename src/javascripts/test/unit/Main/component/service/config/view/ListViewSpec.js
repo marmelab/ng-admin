@@ -49,20 +49,20 @@ define(function (require) {
             var list = new ListView('allCats');
 
             list.addField(new Field('id').identifier(true));
-            list.addField(new Field('name').truncateList(function (value){
+            list.addField(new Field('name').truncateList(function (value) {
                 return value.substr(0, 5) + '...';
             }));
 
-            var entries = list.truncateListValue([
+            var entries = list.truncateListValue(list.mapEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
                 { id: 2, human_id: 2, name: 'Boby'},
                 { id: 3, human_id: 1, name: 'Mizute'}
-            ]);
+            ]));
 
-            expect(entries[0].id).toEqual(1);
-            expect(entries[0].name).toEqual('Suna...');
-            expect(entries[2].id).toEqual(3);
-            expect(entries[2].name).toEqual('Mizut...');
+            expect(entries[0].getField('id').value).toEqual(1);
+            expect(entries[0].getField('name').value).toEqual('Suna...');
+            expect(entries[2].getField('id').value).toEqual(3);
+            expect(entries[2].getField('name').value).toEqual('Mizut...');
         });
 
     });
