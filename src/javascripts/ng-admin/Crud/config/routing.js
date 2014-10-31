@@ -26,10 +26,9 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'CrudManager', 'NgAdminConfiguration', function ($stateParams, CrudManager, Configuration) {
+                    data: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
                         var config = Configuration(),
-                            entity = $stateParams.entity,
-                            entityConfig = config.getEntity(entity),
+                            listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
                             page = $stateParams.page,
                             query = $stateParams.q,
                             sortField = $stateParams.sortField,
@@ -38,10 +37,10 @@ define(function (require) {
                             filters = null;
 
                         if (quickFilter) {
-                            filters = entityConfig.getQuickFilterParams(quickFilter);
+                            filters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return CrudManager.getAll(entity, page, null, true, query, sortField, sortDir, filters);
+                        return ListViewRepository.getAll(listView, page, null, true, query, sortField, sortDir, filters);
                     }]
                 }
             });
@@ -54,12 +53,18 @@ define(function (require) {
                 controllerAs: 'formController',
                 template: createTemplate,
                 resolve: {
-                    entity: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
-                        return CrudManager.getEditionFields($stateParams.entity, 'editable');
+                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                        var config = Configuration();
+
+                        return config.getViewByEntityAndType($stateParams.entity, 'CreateView');
                     }],
-                    referencedValues: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
-                        return CrudManager.getReferencedValues($stateParams.entity);
-                    }]
+                    referencedValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration',
+                        function ($stateParams, ListViewRepository, Configuration) {
+                            var config = Configuration(),
+                                createView = config.getViewByEntityAndType($stateParams.entity, 'CreateView');
+
+                            return ListViewRepository.getReferencedValues(createView);
+                        }]
                 }
             });
 
@@ -77,17 +82,25 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    entity: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
-                        return CrudManager.getOne($stateParams.entity, $stateParams.id);
+                    view: ['$stateParams', 'FormViewRepository', 'NgAdminConfiguration', function ($stateParams, FormViewRepository, Configuration) {
+                        var config = Configuration(),
+                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView');
+
+                        return FormViewRepository.getOne(editView, $stateParams.id);
                     }],
-                    referencedValues: ['$stateParams', 'CrudManager', function ($stateParams, CrudManager) {
-                        return CrudManager.getReferencedValues($stateParams.entity);
+                    referencedValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
+                        var config = Configuration(),
+                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView');
+
+                        return ListViewRepository.getReferencedValues(editView);
                     }],
-                    referencedListValues: ['$stateParams', 'entity', 'CrudManager', function ($stateParams, entity, CrudManager) {
-                        var sortField = $stateParams.sortField,
+                    referencedListValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
+                        var config = Configuration(),
+                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView'),
+                            sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return CrudManager.getReferencedListValues($stateParams.entity, entity, sortField, sortDir);
+                        return ListViewRepository.getReferencedListValues(editView, sortField, sortDir);
                     }]
                 }
             });

@@ -53,7 +53,7 @@ define(function (require) {
     /**
      * Returns all entities
      *
-     * @returns {Object}
+     * @returns {[Entity]}
      */
     Application.prototype.getEntities = function () {
         return this.entities;
@@ -71,18 +71,36 @@ define(function (require) {
     /**
      * Returns all entities
      *
-     * @returns {Object}
+     * @returns {[View]}
      */
     Application.prototype.getViewsOfType = function (type) {
-        var views = [];
+        var views = [],
+            entityViews,
+            entity,
+            i;
 
-        angular.forEach(this.entities, function (entity) {
-            var entityViews = entity.getViewsOfType(type);
+        for (i in this.entities) {
+            entity = this.entities[i];
+            entityViews = entity.getViewsOfType(type);
 
             views = views.concat(entityViews);
-        });
+        }
 
         return views;
+    };
+
+    /**
+     * Return one view of a type for an entity
+     *
+     * @param {String} entityName
+     * @param {String} type
+     *
+     * @return {View}
+     */
+    Application.prototype.getViewByEntityAndType = function (entityName, type) {
+        var entity = this.getEntity(entityName);
+
+        return entity.getOneViewOfType(type);
     };
 
     Configurable(Application.prototype, config);

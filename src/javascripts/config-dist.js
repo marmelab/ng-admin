@@ -6,10 +6,10 @@
     app.directive('customPostLink', ['$location', function ($location) {
         return {
             restrict: 'E',
-            template: '<a ng-click="displayPost(entity)">View&nbsp;post</a>',
+            template: '<a ng-click="displayPost(entry)">View&nbsp;post</a>',
             link: function ($scope) {
-                $scope.displayPost = function (entity) {
-                    var postId = entity.getField('post_id').value;
+                $scope.displayPost = function (entry) {
+                    var postId = entry.getField('post_id').value;
 
                     $location.path('/edit/posts/' + postId);
                 };
@@ -64,7 +64,7 @@
                 .label('Big Name')
                 .isEditLink(false)
                 .callback(function () {
-                    return '{{ entity.getField("name").value.toUpperCase() }}';
+                    return '{{ entry.getField("name").value.toUpperCase() }}';
                 })
             );
         //

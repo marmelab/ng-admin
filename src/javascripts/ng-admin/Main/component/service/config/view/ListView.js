@@ -37,8 +37,8 @@ define(function (require) {
     }
 
     function defaultTotalItems(response) {
-        if (!response.headers && response.length) {
-            return response.length;
+        if (!response.headers && response.data.length) {
+            return response.data.length;
         }
 
         return response.headers('X-Total-Count') || 0;

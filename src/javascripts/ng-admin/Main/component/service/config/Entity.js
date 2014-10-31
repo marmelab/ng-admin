@@ -24,6 +24,7 @@ define(function (require) {
     var config = {
         name: 'entity',
         label: 'My entity',
+        identifier: null,
         order: null,
         filterParams: defaultFilterParams,
         sortParams: defaultSortParams
@@ -40,36 +41,54 @@ define(function (require) {
         this.config.name = entityName || 'entity';
     }
 
+    Configurable(Entity.prototype, config);
+
     /**
      * Returns all views
      *
-     * @returns {Object}
+     * @returns {[View]}
      */
     Entity.prototype.getViews = function () {
         return this.views;
     };
 
     /**
-     * Returns all views
+     * Returns all views by type
      *
-     * @returns {Object}
+     * @returns {[View]}
      */
     Entity.prototype.getViewsOfType = function (type) {
-        var views = [];
+        var views = [],
+            view,
+            i;
 
-        angular.forEach(this.views, function (view) {
+        for (i in this.views) {
+            view = this.views[i];
+
             if (view.constructor.name === type) {
                 views.push(view);
             }
-        });
+        }
 
         return views;
+    };
+
+
+    /**
+     * Returns one view by type
+     *
+     * @returns {View}
+     */
+    Entity.prototype.getOneViewOfType = function (type) {
+        var views = this.getViewsOfType(type);
+
+        return views.length ? views[0] : null;
     };
 
     /**
      * Returns a view by it's name
      *
-     * @returns {Field}
+     * @returns {View}
      */
     Entity.prototype.getView = function (name) {
         return this.views[name];
@@ -108,8 +127,6 @@ define(function (require) {
     Entity.prototype.getSortParams = function (sortField, sortDir) {
         return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
-
-    Configurable(Entity.prototype, config);
 
     return Entity;
 });

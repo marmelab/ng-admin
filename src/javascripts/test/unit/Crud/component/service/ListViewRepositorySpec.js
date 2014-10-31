@@ -64,7 +64,7 @@ define(function (require) {
         });
 
         it('should return all data to display a ListView', function () {
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise(rawCats));
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([rawHumans]));
 
             var listViewRepository = new ListViewRepository($q, Restangular, config);

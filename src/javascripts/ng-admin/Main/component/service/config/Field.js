@@ -63,7 +63,7 @@ define(function (require) {
         }
 
         if (availableTypes.indexOf(type) === -1) {
-            throw new Error('Type should be one of : "' + availableTypes.join('", "') + '", "' + type + '" given.');
+            throw new Error('Type should be one of : "' + availableTypes.join('", "') + '" but "' + type + '" was given.');
         }
 
         this.config.type = type;

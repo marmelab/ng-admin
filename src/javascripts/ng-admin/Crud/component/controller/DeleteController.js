@@ -27,14 +27,14 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        this.$location.path('/edit/' + this.params.entity + '/' + this.params.id);
+        this.$location.path('/edit/' + this.entityLabel + '/' + this.entityId);
     };
 
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
-        this.CrudManager = undefined;
-        this.params = undefined;
+        this.FormViewRepository = undefined;
+        this.view = undefined;
     };
 
     DeleteController.$inject = ['$scope', '$location', 'CrudManager', 'params', 'notification'];

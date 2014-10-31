@@ -13,7 +13,7 @@ define(function (require) {
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
-        var perPage = this.$scope.entityConfig.perPage(),
+        var perPage = this.$scope.view.perPage(),
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
@@ -45,7 +45,7 @@ define(function (require) {
     };
 
     DatagridPaginationController.prototype.nextPage = function () {
-        var entityConfig = this.$scope.entityConfig;
+        var view = this.$scope.view;
         if (this.loadingPage || !this.infinitePagination || this.currentPage === this.nbPages) {
             return;
         }

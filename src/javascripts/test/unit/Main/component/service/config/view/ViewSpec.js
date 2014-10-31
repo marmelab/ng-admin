@@ -1,6 +1,6 @@
 /*global require,describe,module,beforeEach,inject,it,expect*/
 
-define(function(require) {
+define(function (require) {
     'use strict';
 
     var View = require('ng-admin/Main/component/service/config/view/View'),
@@ -9,20 +9,20 @@ define(function(require) {
         ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
         Reference = require('ng-admin/Main/component/service/config/Reference');
 
-    describe("Service: View config", function() {
+    describe("Service: View config", function () {
 
-        it('should returns it\'s name.', function() {
+        it('should returns it\'s name.', function () {
             var view = new View('view-abx');
 
             expect(view.name()).toEqual('view-abx');
         });
 
-        it('should returns a title and description from a function.', function() {
+        it('should returns a title and description from a function.', function () {
             var view = new View();
-            view.title(function() {
+            view.title(function () {
                 return 'my-title';
             });
-            view.description(function() {
+            view.description(function () {
                 return 'my desc';
             });
 
@@ -30,7 +30,7 @@ define(function(require) {
             expect(view.getDescription()).toEqual('my desc');
         });
 
-        it('should add a return field types.', function() {
+        it('should add a return field types.', function () {
             var view = new View();
             var refMany = new ReferenceMany('refMany');
             var ref = new Reference('myRef');
@@ -45,7 +45,7 @@ define(function(require) {
             expect(view.getFields()['body'].order()).toEqual(2);
         });
 
-        it('should add actions.', function() {
+        it('should add actions.', function () {
             var view = new View();
             var action = new Action('doSomething');
             view.addAction(action);
@@ -53,7 +53,7 @@ define(function(require) {
             expect(view.getActions()['doSomething'].order()).toEqual(0);
         });
 
-        it('should returns the identifier.', function() {
+        it('should returns the identifier.', function () {
             var view = new View();
             var field1 = new Field('post_id').identifier(true);
             var field2 = new Field('name').identifier(false);
@@ -64,11 +64,11 @@ define(function(require) {
         });
 
 
-        it('should map some raw entities', function() {
+        it('should map some raw entities', function () {
             var view = new View();
             var field1 = new Field('post_id').identifier(true);
             var field2 = new Field('title');
-            var field3 = new Field('actions').type('callback').callback(function(){
+            var field3 = new Field('actions').type('callback').callback(function () {
                 return '<my-cb></my-cb>';
             });
 
@@ -77,7 +77,7 @@ define(function(require) {
                 .addField(field2)
                 .addField(field3);
 
-            var entries = view.mapEntities([
+            var entries = view.mapEntries([
                 { post_id: 1, title: 'Hello', published: true},
                 { post_id: 2, title: 'World', published: false},
                 { post_id: 3, title: 'How to use ng-admin', published: false}

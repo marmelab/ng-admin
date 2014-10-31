@@ -22,8 +22,8 @@ define(function (require) {
         return title;
     }
 
-    function defaultTitle(action, entity) {
-        return action + ' ' + entity.label();
+    function defaultTitle(view) {
+        return null;
     }
 
     function defaultDescription(entity) {
@@ -172,11 +172,12 @@ define(function (require) {
      */
     View.prototype.getReferences = function () {
         var references = this.getFieldsOfType('Reference'),
-            referencesMany = this.getFieldsOfType('ReferenceMany');
+            referencesMany = this.getFieldsOfType('ReferenceMany'),
+            key;
 
-        angular.forEach(referencesMany, function (ref, key) {
-            references[key] = ref;
-        });
+        for (key in referencesMany) {
+            references[key] = referencesMany[key];
+        }
 
         return references;
     };
@@ -221,53 +222,64 @@ define(function (require) {
      * @returns {Field}
      */
     View.prototype.getIdentifier = function () {
-        var i;
+        var i,
+            field;
 
         for (i in this.fields) {
-            if (!this.fields.hasOwnProperty(i)){
-                continue;
-            }
+            field = this.fields[i];
 
-            var field = this.fields[i];
             if (field.identifier()) {
                 return field;
             }
         }
+
+        // No identifier fields on this view, try to find it on other view
+        return this.entity.identifier();
     };
 
     /**
      * Map raw entities (from REST response) into entities & fill reference values
      *
-     * @param {[Object]} rawEntities
+     * @param {[Object]} rawEntries
      *
-     * @returns {[Entity]}
+     * @returns {[View]}
      */
-    View.prototype.mapEntities = function (rawEntities) {
+    View.prototype.mapEntries = function (rawEntries) {
         var results = [],
-            fields = this.getFields(),
             i,
             l;
 
         // Map each rawEntity to an View clone
-        for (i = 0, l = rawEntities.length; i < l; i++) {
-            var rawEntity = rawEntities[i],
-                result = angular.copy(this),
-                field;
-
-            for (var fieldName in fields) {
-                field = fields[fieldName];
-
-                if (field.type() === 'callback') {
-                    result.getField(fieldName).value = field.getCallbackValue(rawEntity);
-                } else if (field.name() in rawEntity) {
-                    result.getField(fieldName).value = field.valueTransformer()(rawEntity[field.name()]);
-                }
-            }
-
-            results.push(result);
+        for (i = 0, l = rawEntries.length; i < l; i++) {
+            results.push(this.mapEntry(rawEntries[i]));
         }
 
         return results;
+    };
+
+    /**
+     * Map raw entities (from REST response) into entities & fill reference values
+     *
+     * @param {Object} rawEntry
+     *
+     * @returns {View}
+     */
+    View.prototype.mapEntry = function (rawEntry) {
+        var fields = this.getFields(),
+            result = angular.copy(this),
+            field;
+
+        for (var fieldName in fields) {
+            field = fields[fieldName];
+
+            if (field.type() === 'callback') {
+                result.getField(fieldName).value = field.getCallbackValue(rawEntry);
+            } else if (field.name() in rawEntry) {
+                result.getField(fieldName).value = field.valueTransformer()(rawEntry[field.name()]);
+            }
+        }
+
+        return result;
     };
 
     /**
@@ -287,9 +299,12 @@ define(function (require) {
      * @return {View}
      */
     View.prototype.clear = function() {
-        angular.forEach(this.getFields(), function(field){
-            field.clear();
-        });
+        var fields = this.getFields(),
+            i;
+
+        for (i in fields) {
+            fields[i].clear();
+        }
 
         return this;
     };

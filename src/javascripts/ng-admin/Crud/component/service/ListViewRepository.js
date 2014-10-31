@@ -45,7 +45,7 @@ define(function (require) {
             }).then(function (refValues) {
                 referencedValues = refValues;
 
-                entries = view.mapEntities(rawEntries);
+                entries = view.mapEntries(rawEntries.data);
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
                 entries = view.truncateListValue(entries);
 
@@ -73,24 +73,24 @@ define(function (require) {
      * @returns {promise} the entity config & the list of objects
      */
     ListViewRepository.prototype.getRawValues = function (view, page, query, sortField, sortDir, filters) {
-        var entityName = view.getEntity().name();
-
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
-        var entityConfig = view.getEntity(),
+        var entityName = view.getEntity().name(),
+            entityConfig = view.getEntity(),
             interceptor = view.interceptor(),
             sortEntity = sortField ? sortField.split('.')[0] : '',
             sortParams = sortEntity === entityName ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
             params = view.getAllParams(page, sortParams, query),
-            headers = view.getAllHeaders(sortParams);
+            headers = view.getAllHeaders(sortParams),
+            fieldName;
 
         filters = entityConfig.filterParams()(filters);
 
         // Add filters
-        angular.forEach(filters, function(value, fieldName) {
-            params[fieldName] = value;
-        });
+        for (fieldName in filters) {
+            params[fieldName] = filters[fieldName];
+        }
 
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
@@ -112,18 +112,24 @@ define(function (require) {
     ListViewRepository.prototype.getReferencedValues = function (view) {
         var self = this,
             references = view.getReferences(),
-            calls = [];
+            calls = [],
+            reference,
+            i,
+            j;
 
-        angular.forEach(references, function (reference) {
+        for (i in references) {
+            reference = references[i];
+
             calls.push(self.getRawValues(reference.getView(), 1, false));
-        });
+        }
 
         return this.$q.all(calls)
             .then(function (responses) {
-                var i = 0;
-                angular.forEach(references, function (reference, index) {
-                    references[index].setEntries(responses[i++]);
-                });
+                i = 0;
+
+                for (j in references) {
+                    references[j].setEntries(responses[i++]);
+                }
 
                 return references;
             });
@@ -142,21 +148,26 @@ define(function (require) {
         var self = this,
             referenceLists = view.getReferencedLists(),
             entityId = view.getIdentifier().value,
-            calls = [];
+            calls = [],
+            referenceList,
+            i;
 
-        angular.forEach(referenceLists, function (referenceList) {
+        for (i in referenceLists) {
+            referenceList = referenceLists[i];
+
             calls.push(self.getRawValues(referenceList.getView(), 1, false, false, null, sortField, sortDir));
-        });
+        }
 
         return this.$q.all(calls)
             .then(function (responses) {
-                var i = 0;
+                var i,
+                    j = 0;
 
-                angular.forEach(referenceLists, function (referencedList) {
-                    referencedList
-                        .setEntries(responses[i++])
+                for (i in referenceLists) {
+                    referenceLists[i]
+                        .setEntries(responses[j++])
                         .filterEntries(entityId);
-                });
+                }
 
                 return referenceLists;
             });
@@ -175,13 +186,16 @@ define(function (require) {
 
         var choices,
             entry,
+            reference,
+            referenceField,
             i,
             j,
             l,
             id,
             identifier;
 
-        angular.forEach(referencedValues, function (reference, referenceField) {
+        for (referenceField in referencedValues) {
+            reference = referencedValues[referenceField];
             choices = reference.getChoices();
 
             for (i = 0, l = collection.length; i < l; i++) {
@@ -199,10 +213,12 @@ define(function (require) {
                     entry.getField(referenceField).referencedValue = reference.getTruncatedListValue(choices[identifier]);
                 }
             }
-        });
+        }
 
         return collection;
     };
+
+    ListViewRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
     return ListViewRepository;
 });
