@@ -7,14 +7,6 @@ define(function (require) {
         Reference = require('ng-admin/Main/component/service/config/Reference'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultValueTransformer(value) {
-        if (typeof (value) === 'undefined') {
-            return [];
-        }
-
-        return (typeof value === 'object' && typeof value.length === 'number') ? value : [value];
-    }
-
     var config = {
         name: 'myReference',
         label: 'My references',

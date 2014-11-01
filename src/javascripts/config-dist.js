@@ -1,3 +1,4 @@
+/*global angular*/
 (function () {
     "use strict";
 
@@ -6,10 +7,10 @@
     app.directive('customPostLink', ['$location', function ($location) {
         return {
             restrict: 'E',
-            template: '<a ng-click="displayPost(entry)">View&nbsp;post</a>',
+            template: '<a ng-click="displayPost(entity)">View&nbsp;post</a>',
             link: function ($scope) {
-                $scope.displayPost = function (entry) {
-                    var postId = entry.getField('post_id').value;
+                $scope.displayPost = function (entity) {
+                    var postId = entity.getField('post_id').value;
 
                     $location.path('/edit/posts/' + postId);
                 };
@@ -17,7 +18,7 @@
         };
     }]);
 
-    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferenceMany, DashboardView, ListView, CreateView, EditView, DeleteView, Action) {
         function truncate(value) {
             if (!value) {
                 return '';
@@ -33,141 +34,222 @@
             };
         }
 
-        var post = new Entity('posts'),
-            commentBody = new Field('body'),
-            commentId = new Field('id');
-
         var tag = new Entity('tags')
             .label('Tags')
             .order(3)
-            .dashboard(10)
-            .pagination(pagination)
-            .infinitePagination(false)
-            .addField(new Field('id')
-                .order(1)
-                .label('ID')
-                .type('number')
-                .identifier(true)
-                .edition('read-only')
-            )
-            .addField(new Field('name')
+            .identifier(new Field('id'))
+            .addView(new DashboardView('tag-dashboard')
                 .order(2)
-                .label('Name')
-                .edition('editable')
-                .validation({
-                    "required": true,
-                    "max-length" : 150
-                })
-            ).addField(new Field('actions')
-                .type('callback')
-                .list(true)
-                .label('Big Name')
-                .isEditLink(false)
-                .callback(function () {
-                    return '{{ entry.getField("name").value.toUpperCase() }}';
-                })
-            );
-        //
+                .limit(10)
+                .pagination(pagination)
+                .label('Recent tags')
+                .addField(new Field('name').label('Name').type('string'))
+                .addField(new Field('published').label('Is published ?').type('boolean'))
+                )
+            .addView(new ListView('tags-list')
+                .title('List of all tags')
+                .infinitePagination(false)
+                .pagination(pagination)
+                .addAction(new Action('new-tag').label('Add tag').redirect('tags-create'))
+                .addField(new Field('id').label('ID').identifier(true))
+                .addField(new Field('name').label('Name').type('string'))
+                .addField(new Field('published').label('Published').type('boolean'))
+                .addField(new Field('actions')
+                    .type('callback')
+                    .list(true)
+                    .label('Test')
+                    .isEditLink(false)
+                    .callback(function () {
+                        return '{{ entry.getField("name").value.toUpperCase() }}';
+                    })
+                    )
+                )
+            .addView(new CreateView('tags-create')
+                .addField(new Field('name')
+                    .label('Name')
+                    .type('string')
+                    .validation({
+                        "required": true,
+                        "max-length" : 150
+                    })
+                    )
+                .addField(new Field('published').label('Published').type('boolean'))
+                )
+            .addView(new EditView('tags_edit')
+                .addAction(new Action('delete-tag').label('Delete tag').redirect('tags-delete'))
+                .listView('tags-list')
+                .addField(new Field('name').label('Name').type('string').editable(true))
+                .addField(new Field('published').label('Published').type('boolean'))
+                )
+            .addView(new DeleteView('tags-delete')
+                .addField(new Field('name').label('Name').type('string').editable(false))
+                .addField(new Field('published').label('Published').type('boolean'))
+                );
+
+        var post = new Entity('posts')
+            .label('Posts')
+            .order(1)
+            .identifier(new Field('id'))
+            .addView(new DashboardView('post-dashboard')
+                .order(1)
+                .limit(5)
+                .pagination(pagination)
+                .label('Recent posts')
+                .addField(new Field('title')
+                    .label('Title')
+                    .type('string')
+                    .truncateList(truncate)
+                    )
+                )
+            .addView(new ListView('post-list')
+                .title('All posts')
+                .infinitePagination(false)
+                .pagination(pagination)
+                .addField(new Field('title')
+                    .label('Title')
+                    )
+                .addField(new ReferenceMany('tags')
+                    .label('Tags')
+                    .isEditLink(false)
+                    .targetEntity(tag)
+                    .targetField(new Field('name'))
+                    )
+                )
+            .addView(new CreateView('post-create')
+                .title('Add a new post')
+                .addField(new Field('title')
+                    .label('Title')
+                    .isEditLink(false)
+                    .type('string')
+                    )
+                .addField(new Field('body')
+                    .label('Body')
+                    .isEditLink(false)
+                    .type('wysiwyg')
+                    )
+                )
+            .addView(new EditView('post-edit')
+                .title('Edit a post')
+                .addField(new Field('title')
+                    .label('Title')
+                    .isEditLink(false)
+                    .type('string')
+                    )
+                .addField(new Field('body')
+                    .label('Body')
+                    .isEditLink(false)
+                    .type('wysiwyg')
+                    )
+                .addField(new ReferenceMany('tags')
+                    .label('Tags')
+                    .isEditLink(false)
+                    .targetEntity(tag)
+                    .targetField(new Field('name'))
+                    )
+            //.addField(new ReferencedList('comments')
+            //    .label('Comments')
+            //    .targetEntity(comment)
+            //    .targetField('post_id')
+            //    .targetFields([commentId, commentBody])
+            //)
+                )
+            .addView(new DeleteView('post-delete').title('Delete a post'));
+
         var comment = new Entity('comments')
             .order(2)
             .label('Comments')
-            .description('Lists all the blog comments with an infinite pagination')
-            .dashboard(10)
-            .pagination(pagination)
-            .infinitePagination(true)
-            .addField(commentId
-                .order(1)
-                .label('ID')
-                .type('number')
-                .identifier(true)
-                .edition('read-only')
-            )
-            .addField(new Reference('post_id')
-                .dashboard(false)
-                .targetEntity(post)
-                .targetLabel('title')
-            )
-            .addField(commentBody
+            .addView(new DashboardView('comment-dashboard')
                 .order(2)
-                .type('text')
-                .label('Comment')
-                .edition('editable')
-                .truncateList(truncate)
-                .validation({
-                    "required": true,
-                    "max-length" : 150
+                .limit(5)
+                .pagination(pagination)
+                .label('Last comments')
+                .addField(new Field('title')
+                    .label('Title')
+                    .type('string')
+                    .truncateList(truncate)
+                    )
+                .addField(new Reference('post_id')
+                    .label('Title')
+                    .truncateList(truncate)
+                    .targetEntity(post)
+                    .targetField(new Field('title').label('Post title'))
+                    )
+                )
+            .addView(new ListView('comment-list')
+                .title('List of all comments with an infinite pagination')
+                .infinitePagination(true)
+                .pagination(pagination)
+                .addField(new Field('title')
+                    .label('Title')
+                    )
+                .addField(new Reference('post_id')
+                    .label('Title')
+                    .truncateList(truncate)
+                    .targetEntity(post)
+                    .targetField(new Field('title'))
+                    )
+                .addQuickFilter('Today', function () {
+                    var now = new Date(),
+                        year = now.getFullYear(),
+                        month = now.getMonth() + 1,
+                        day = now.getDate();
+
+                    month = month < 10 ? '0' + month : month;
+                    day = day < 10 ? '0' + day : day;
+
+                    return {
+                        created_at: [year, month, day].join('-')
+                    };
                 })
-            )
-            .addField(new Field('created_at')
-                .order(3)
-                .label('Creation Date')
-                .type('date')
-                .edition('editable')
-                .dashboard(false)
-                .validation({
-                    "required": true
-                })
-            ).addQuickFilter('Today', function () {
-                var now = new Date(),
-                    year = now.getFullYear(),
-                    month = now.getMonth() + 1,
-                    day = now.getDate();
-
-                month = month < 10 ? '0' + month : month;
-                day = day < 10 ? '0' + day : day;
-
-                return {
-                    created_at: [year, month, day].join('-')
-                };
-            })
-            .addField(new Field('actions')
-                .type('callback')
-                .list(true)
-                .label('Actions')
-                .isEditLink(false)
-                .callback(function () {
-                    return '<custom-post-link></custom-post-link>';
-                })
-            );
-
-
-        post
-            .label('Posts')
-            .order(1)
-            .dashboard(null)
-            .perPage(10)
-            .pagination(pagination)
-            .titleCreate('Create a post')
-            .titleEdit('Edit a post')
-            .description('Lists all the blog posts with a simple pagination')
-            .addField(new Field('id')
-                .label('ID')
-                .type('number')
-                .identifier(true)
-                .edition('read-only')
-            )
-            .addField(new Field('title')
-                .label('Title')
-                .edition('editable')
-                .truncateList(truncate)
-            )
-            .addField(new Field('body')
-                .label('Body')
-                .type('text')
-                .edition('editable')
-                .truncateList(truncate)
-            )
-            .addField(new ReferencedList('comments')
-                .label('Comments')
-                .targetEntity(comment)
-                .targetField('post_id')
-                .targetFields([commentId, commentBody])
-            )
-            .addField(new ReferenceMany('tags')
-                .label('Tags')
-                .targetEntity(tag)
-                .targetLabel('name')
-            );
+                .addField(new Field('actions')
+                    .type('callback')
+                    .list(true)
+                    .label('Actions')
+                    .isEditLink(false)
+                    .callback(function () {
+                        return '<custom-post-link></custom-post-link>';
+                    })
+                    )
+                )
+            .addView(new CreateView('post-create')
+                .title('Add a new post')
+                .addField(new Field('title')
+                    .label('Title')
+                    .isEditLink(false)
+                    .type('string')
+                    )
+                .addField(new Field('body')
+                    .label('Body')
+                    .isEditLink(false)
+                    .type('wysiwyg')
+                    )
+                )
+            .addView(new EditView('post-edit')
+                .title('Edit a post')
+                .addField(new Field('title')
+                    .label('Title')
+                    .isEditLink(false)
+                    .type('string')
+                    )
+                .addField(new Field('body')
+                    .label('Body')
+                    .isEditLink(false)
+                    .type('wysiwyg')
+                    )
+                .addField(new ReferenceMany('tags')
+                    .label('Tags')
+                    .isEditLink(false)
+                    .targetEntity(tag)
+                    .targetField(new Field('name'))
+                    )
+            //.addField(new ReferencedList('comments')
+            //    .label('Comments')
+            //    .targetEntity(comment)
+            //    .targetField('post_id')
+            //    .targetFields([commentId, commentBody])
+            //)
+                )
+            .addView(new DeleteView('post-delete').title('Delete a post'));
 
         var app = new Application('ng-admin backend demo')
             .baseApiUrl('http://localhost:3000/')

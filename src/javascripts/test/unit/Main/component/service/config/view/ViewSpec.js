@@ -6,6 +6,7 @@ define(function (require) {
     var View = require('ng-admin/Main/component/service/config/view/View'),
         Action = require('ng-admin/Main/component/service/config/Action'),
         Field = require('ng-admin/Main/component/service/config/Field'),
+        Entity = require('ng-admin/Main/component/service/config/Entity'),
         ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
         Reference = require('ng-admin/Main/component/service/config/Reference');
 
@@ -88,6 +89,24 @@ define(function (require) {
             expect(entries[1].getField('title').value).toEqual('World');
             expect(entries[1].getField('published')).toEqual(null);
             expect(entries[2].getField('actions').value).toEqual('<my-cb></my-cb>');
+        });
+
+        it('should map some one entity when the identifier in not in the view', function () {
+            var view = new View(),
+                field = new Field('title'),
+                entity = new Entity('posts');
+
+            view
+                .addField(field);
+
+            entity
+                .identifier(new Field('post_id'))
+                .addView(view);
+
+            var entry = view.mapEntry({ post_id: 1, title: 'Hello', published: true});
+
+            expect(entry.getIdentifier().value).toEqual(1);
+            expect(entry.getField('title').value).toEqual('Hello');
         });
 
     });

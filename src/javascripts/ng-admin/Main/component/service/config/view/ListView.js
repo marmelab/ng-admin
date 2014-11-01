@@ -165,12 +165,12 @@ define(function (require) {
     /**
      * Truncate all values depending of the `truncateList` configuration of a field
      *
-     * @param {[Object]} entities
+     * @param {[Object]} entries
      *
      * @return {[Object]}
      */
-    ListView.prototype.truncateListValue = function (entities) {
-        if (!entities.length) {
+    ListView.prototype.truncateListValue = function (entries) {
+        if (!entries.length) {
             return [];
         }
 
@@ -179,13 +179,13 @@ define(function (require) {
             l,
             fieldName;
 
-        for (i = 0, l = entities.length; i < l; i++) {
+        for (i = 0, l = entries.length; i < l; i++) {
             for (fieldName in fields) {
-                entities[i].getField(fieldName).value = fields[fieldName].getTruncatedListValue(entities[i].getField(fieldName).value);
+                entries[i].getField(fieldName).value = fields[fieldName].getTruncatedListValue(entries[i].getField(fieldName).value);
             }
         }
 
-        return entities;
+        return entries;
     };
 
     return ListView;

@@ -16,15 +16,11 @@ define(function (require) {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
-        edition : 'editable',
-        order: null,
         targetEntity : null,
         targetField : null,
         valueTransformer : defaultValueTransformer,
         truncateList: false,
         list: true,
-        dashboard: true,
-        identifier: false,
         isEditLink: true,
         validation: {
             required: false
@@ -41,6 +37,7 @@ define(function (require) {
         this.referencedValue = null;
         this.entries = {};
         this.config.name = fieldName || 'reference';
+        this.config.type = 'reference';
         this.view = new ListView();
     }
 
@@ -99,6 +96,13 @@ define(function (require) {
 
         this.config.targetEntity = entity;
         this.view.setEntity(entity);
+
+        // Use the same configuration as the listView of this entity
+        var listView = entity.getOneViewOfType('ListView');
+        if (listView) {
+            this.view.config = listView.config;
+            this.view.config.pagination = false;
+        }
 
         return this;
     };

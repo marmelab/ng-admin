@@ -29,6 +29,7 @@ define(function (require) {
                 .targetEntity(human);
 
             var choices = ref.getChoices();
+            expect(ref.type()).toEqual('reference');
             expect(choices[1]).toEqual('Suna');
             expect(choices[2]).toEqual('Boby');
             expect(choices[3]).toEqual('Mizute');

@@ -65,7 +65,7 @@ define(function (require) {
 
         it('should return all data to display a ListView', function () {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([rawHumans]));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawHumans}]));
 
             var listViewRepository = new ListViewRepository($q, Restangular, config);
 
@@ -85,7 +85,7 @@ define(function (require) {
         });
 
         it('should return all rawEntities with an extra header', function () {
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise(rawCats));
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
 
             var listViewRepository = new ListViewRepository({}, Restangular, config);
 
@@ -96,7 +96,7 @@ define(function (require) {
                 .then(function (rawEntities) {
                     expect(Restangular.all).toHaveBeenCalledWith('cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
-                    expect(rawEntities.length).toEqual(2);
+                    expect(rawEntities.data.length).toEqual(2);
                 });
         });
 
@@ -119,8 +119,8 @@ define(function (require) {
             postList.addField(authorRef);
             post.addView(postList);
 
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise(rawAuthors));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([rawAuthors]));
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawAuthors}));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
 
             listViewRepository.getReferencedValues(postList)
                 .then(function (references) {
@@ -169,8 +169,8 @@ define(function (require) {
                 .addField(stateCharacters);
             state.addView(stateList);
 
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise(rawCharacters));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([rawCharacters]));
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 
             listViewRepository.getReferencedListValues(stateList)
                 .then(function (references) {

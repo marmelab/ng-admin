@@ -238,7 +238,7 @@ define(function (require) {
     };
 
     /**
-     * Map raw entities (from REST response) into entities & fill reference values
+     * Map raw entities (from REST response) into entries & fill reference values
      *
      * @param {[Object]} rawEntries
      *
@@ -258,7 +258,7 @@ define(function (require) {
     };
 
     /**
-     * Map raw entities (from REST response) into entities & fill reference values
+     * Map raw entry (from REST response) into entry & fill reference values
      *
      * @param {Object} rawEntry
      *
@@ -267,6 +267,7 @@ define(function (require) {
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
             result = angular.copy(this),
+            identifier = result.getIdentifier(),
             field;
 
         for (var fieldName in fields) {
@@ -277,6 +278,11 @@ define(function (require) {
             } else if (field.name() in rawEntry) {
                 result.getField(fieldName).value = field.valueTransformer()(rawEntry[field.name()]);
             }
+        }
+
+        // Add identifier value
+        if (identifier) {
+            identifier.value = rawEntry[identifier.name()];
         }
 
         return result;
@@ -300,10 +306,16 @@ define(function (require) {
      */
     View.prototype.clear = function() {
         var fields = this.getFields(),
+            identifier = this.getIdentifier(),
             i;
 
         for (i in fields) {
             fields[i].clear();
+        }
+
+        // Also clear identifier
+        if (identifier) {
+            identifier.clear();
         }
 
         return this;

@@ -54,9 +54,12 @@ define(function (require) {
                 template: createTemplate,
                 resolve: {
                     view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var config = Configuration();
+                        var config = Configuration(),
+                            view = config.getViewByEntityAndType($stateParams.entity, 'CreateView');
 
-                        return config.getViewByEntityAndType($stateParams.entity, 'CreateView');
+                        view.clear();
+
+                        return view;
                     }],
                     referencedValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration',
                         function ($stateParams, ListViewRepository, Configuration) {

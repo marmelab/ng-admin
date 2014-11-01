@@ -77,8 +77,7 @@ define(function (require) {
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
-        var entityName = view.getEntity().name(),
-            entityConfig = view.getEntity(),
+        var entityConfig = view.getEntity(),
             interceptor = view.interceptor(),
             sortView = sortField ? sortField.split('.')[0] : '',
             sortParams = sortView === view.name() ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
@@ -129,7 +128,7 @@ define(function (require) {
                 i = 0;
 
                 for (j in references) {
-                    references[j].setEntries(responses[i++]);
+                    references[j].setEntries(responses[i++].data);
                 }
 
                 return references;
@@ -166,7 +165,7 @@ define(function (require) {
 
                 for (i in referenceLists) {
                     referenceLists[i]
-                        .setEntries(responses[j++])
+                        .setEntries(responses[j++].data)
                         .filterEntries(entityId);
                 }
 
