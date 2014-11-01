@@ -11,7 +11,7 @@ define(function (require) {
         return {
             restrict: 'E',
             template: paginationView,
-            controllerAs: 'pagination',
+            controllerAs: 'paginationCtrl',
             controller: DatagridPaginationController,
             link: function (scope, element, attrs, controller) {
                 var offset = attrs.offset || 100,
