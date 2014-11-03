@@ -60,12 +60,16 @@ define(function (require) {
             this.referencedView.addField(targetFields[i]);
         }
 
-        this.config.type = targetFields;
+        this.config.targetFields = targetFields;
 
         return this;
     };
 
-
+    /**
+     * Returns columns used to display the datagrid
+     *
+     * @returns {Array}
+     */
     ReferencedList.prototype.getGridColumns = function () {
         var columns = [],
             field,

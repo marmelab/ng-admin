@@ -31,6 +31,7 @@ define(function (require) {
         this.$scope.entityConfig = this.entity;
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = view;
+        this.$scope.view = view;
         this.view = view;
         this.entity = this.view.getEntity();
 
@@ -126,11 +127,10 @@ define(function (require) {
     /**
      * Link to edit entity page
      *
-     * @param {Object} item
-     * @param {Entity} entity
+     * @param {View} entry
      */
-    FormController.prototype.edit = function (item, entity) {
-        this.$location.path('/edit/' + entity.name() + '/' + item[entity.identifier().name()]);
+    FormController.prototype.edit = function (entry) {
+        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifier().value());
     };
 
     FormController.prototype.destroy = function () {
