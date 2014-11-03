@@ -162,6 +162,15 @@ define(function (require) {
         return this.entity;
     };
 
+    /**
+     * Set the default value of a field
+     */
+    Field.prototype.processDefaultValue = function () {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
+    };
+
     Field.prototype.clear = function () {
         this.value(null);
 
