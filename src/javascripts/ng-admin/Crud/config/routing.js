@@ -57,7 +57,9 @@ define(function (require) {
                         var config = Configuration(),
                             view = config.getViewByEntityAndType($stateParams.entity, 'CreateView');
 
-                        view.clear();
+                        view
+                            .clear()
+                            .processFieldsDefaultValue();
 
                         return view;
                     }],

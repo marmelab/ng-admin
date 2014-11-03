@@ -377,6 +377,22 @@ define(function (require) {
         return this;
     };
 
+    /**
+     * Use default value for all fields
+     *
+     * @return {View}
+     */
+    View.prototype.processFieldsDefaultValue = function () {
+        var fields = this.getFields(),
+            i;
+
+        for (i in fields) {
+            fields[i].processDefaultValue();
+        }
+
+        return this;
+    };
+
     Configurable(View.prototype, config);
 
     return View;
