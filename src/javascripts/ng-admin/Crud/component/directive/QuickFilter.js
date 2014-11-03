@@ -10,7 +10,7 @@ define(function (require) {
         return {
             restrict: 'E',
             template: quickFilterView,
-            controllerAs: 'quickFilter',
+            controllerAs: 'quickFilterCtrl',
             controller: QuickFilterController
         };
     }

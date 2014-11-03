@@ -56,7 +56,7 @@ define(function (require) {
         this.config.name = name || this.config.name;
     }
 
-    /***
+    /**
      * @param {Entity} entity
      */
     View.prototype.setEntity = function (entity) {
@@ -111,10 +111,30 @@ define(function (require) {
     /**
      * Returns all fields
      *
-     * @returns {Array}
+     * @returns {[Field]}
      */
     View.prototype.getFields = function () {
         return this.fields;
+    };
+
+    /**
+     * Returns all fields to display
+     *
+     * @returns {[Field]}
+     */
+    View.prototype.getDisplayedFields = function () {
+        var result = {},
+            field,
+            i;
+
+        for (i in this.fields) {
+            field = this.fields[i];
+            if (field.displayed()) {
+                result[i] = field;
+            }
+        }
+
+        return result;
     };
 
     /**
@@ -292,7 +312,7 @@ define(function (require) {
             field = fields[fieldName];
 
             if (field.type() === 'callback') {
-                result.getField(fieldName).value(field.getCallbackValue(rawEntry));
+                //result.getField(fieldName).value(field.getCallbackValue(result));
             } else if (field.name() in rawEntry) {
                 result.getField(fieldName).value(field.valueTransformer()(rawEntry[field.name()]));
             }

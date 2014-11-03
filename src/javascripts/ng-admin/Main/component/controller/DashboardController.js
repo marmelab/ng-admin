@@ -27,7 +27,7 @@ define(function (require) {
     DashboardController.prototype.retrievePanels = function () {
         var self = this,
             panel;
-        this.panels = {};
+        this.panels = [];
 
         this.PanelBuilder.getPanelsData().then(function (panels) {
             var i;
@@ -36,7 +36,7 @@ define(function (require) {
                 panel = panels[i];
 
                 var view = panel.view,
-                    fields = view.getFields(),
+                    fields = view.getDisplayedFields(),
                     field,
                     j,
                     entries = panel.entries,
@@ -52,12 +52,12 @@ define(function (require) {
                     });
                 }
 
-                self.panels[view.name()] = {
+                self.panels.push({
                     label: view.label(),
                     view: view,
                     columns: columns,
                     entries: entries
-                };
+                });
             }
 
         });
