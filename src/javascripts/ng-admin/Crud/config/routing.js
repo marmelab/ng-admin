@@ -97,13 +97,11 @@ define(function (require) {
 
                         return ListViewRepository.getReferencedValues(editView);
                     }],
-                    referencedListValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
-                        var config = Configuration(),
-                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView'),
-                            sortField = $stateParams.sortField,
+                    referencedListValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', 'view', function ($stateParams, ListViewRepository, Configuration, view) {
+                        var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListViewRepository.getReferencedListValues(editView, sortField, sortDir);
+                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir);
                     }]
                 }
             });
