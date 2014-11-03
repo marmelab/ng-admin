@@ -78,6 +78,9 @@ define(function (require) {
 
         for (i = 0, l = this.config.targetFields.length; i < l; i++) {
             field = this.config.targetFields[i];
+            if (!field.displayed()) {
+                continue;
+            }
 
             columns.push({
                 field: field,

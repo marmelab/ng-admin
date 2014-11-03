@@ -27,7 +27,7 @@ define(function (require) {
         }
 
         var columns = [],
-            fields = this.$scope.view.getFields(),
+            fields = this.$scope.view.getDisplayedFields(),
             field,
             i;
 
