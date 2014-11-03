@@ -62,6 +62,15 @@ define(function (require) {
 
     CrudModule.config(require('ng-admin/Crud/config/routing'));
 
+    CrudModule.factory('notification', function () {
+        return require('humane');
+    });
+
+    CrudModule.factory('progression', function () {
+        return require('nprogress');
+    });
+
+
     /**
      * Date Picker patch
      * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b

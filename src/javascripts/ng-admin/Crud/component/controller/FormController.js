@@ -1,6 +1,6 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
 
     var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
@@ -113,7 +113,8 @@ define(function (require) {
      * @param {$event} $event
      */
     FormController.prototype.submitEdition = function (form, $event) {
-        var object = this.validate(form, $event);
+        var self = this,
+            object = this.validate(form, $event);
         if (!object) {
             return;
         }
