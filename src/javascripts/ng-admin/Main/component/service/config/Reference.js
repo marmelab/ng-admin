@@ -38,7 +38,8 @@ define(function (require) {
         this.entries = {};
         this.config.name = fieldName || 'reference';
         this.config.type = 'reference';
-        this.view = new ListView();
+        this.referencedView = new ListView();
+        this.referencedViewConfigured = false;
     }
 
     utils.inherits(Reference, Field);
@@ -54,7 +55,7 @@ define(function (require) {
             entry,
             targetEntity = this.targetEntity(),
             targetLabel = this.targetField().name(),
-            targetIdentifier = targetEntity.getIdentifier().name(),
+            targetIdentifier = targetEntity.identifier().name(),
             i,
             l;
 
@@ -95,14 +96,7 @@ define(function (require) {
         }
 
         this.config.targetEntity = entity;
-        this.view.setEntity(entity);
-
-        // Use the same configuration as the listView of this entity
-        var listView = entity.getOneViewOfType('ListView');
-        if (listView) {
-            this.view.config = listView.config;
-            this.view.config.pagination = false;
-        }
+        this.referencedView.setEntity(entity);
 
         return this;
     };
@@ -120,7 +114,7 @@ define(function (require) {
         }
 
         this.config.targetField = field;
-        this.view
+        this.referencedView
             .removeFields()
             .addField(field);
 
@@ -128,10 +122,23 @@ define(function (require) {
     };
 
     /**
-     * @returns {ListView}
+     * @returns {ListView} a fake view that keep information about the targeted entity
      */
-    Reference.prototype.getView = function () {
-        return this.view;
+    Reference.prototype.getReferencedView = function () {
+        // The configuration of the referencedView should be done after all entities are defined
+        // otherwise the ListView should not be defined when setting a targetEntity
+        if (!this.referencedViewConfigured) {
+            // Use the same configuration as the listView of this entity
+            var listView = this.targetEntity().getOneViewOfType('ListView');
+            if (listView) {
+                this.referencedView.config = listView.config;
+                this.referencedView.config.pagination = false;
+            }
+
+            this.referencedViewConfigured = true;
+        }
+
+        return this.referencedView;
     };
 
     /**
@@ -157,7 +164,7 @@ define(function (require) {
      * @returns {Reference}
      */
     Reference.prototype.clear = function () {
-        this.value = null;
+        this.value(null);
 
         return this;
     };

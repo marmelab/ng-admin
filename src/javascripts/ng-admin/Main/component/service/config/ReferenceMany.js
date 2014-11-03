@@ -41,7 +41,7 @@ define(function (require) {
     Configurable(ReferenceMany.prototype, config);
 
     ReferenceMany.prototype.clear = function () {
-        this.value = [];
+        this.value([]);
 
         return this;
     };

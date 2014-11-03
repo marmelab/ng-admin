@@ -181,7 +181,7 @@ define(function (require) {
 
         for (i = 0, l = entries.length; i < l; i++) {
             for (fieldName in fields) {
-                entries[i].getField(fieldName).value = fields[fieldName].getTruncatedListValue(entries[i].getField(fieldName).value);
+                entries[i].getField(fieldName).value(fields[fieldName].getTruncatedListValue(entries[i].getField(fieldName).value()));
             }
         }
 

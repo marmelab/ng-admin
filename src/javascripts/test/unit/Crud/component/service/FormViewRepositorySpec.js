@@ -27,7 +27,7 @@ define(function (require) {
                 .addField(new Field('id').identifier(true))
                 .addField(new Field('name').type('text'));
 
-            view.getField('id').value = 1;
+            view.getField('id').value(1);
             entity.addView(view);
 
             view.extraParams(null);
@@ -36,8 +36,7 @@ define(function (require) {
 
         describe("getOne", function () {
 
-
-            it('should return an the entity with only the editable fields.', function () {
+            it('should return the entity with all fields.', function () {
                 Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({
                     data: {
                         "id": 1,
@@ -51,9 +50,9 @@ define(function (require) {
                 formViewRepository.getOne(view, 1)
                     .then(function (viewResult) {
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
-                        expect(viewResult.getIdentifier().value).toBe(1);
-                        expect(viewResult.getField('id').value).toBe(1);
-                        expect(viewResult.getField('name').value).toBe('Mizoute');
+                        expect(viewResult.identifier().value()).toBe(1);
+                        expect(viewResult.getField('id').value()).toBe(1);
+                        expect(viewResult.getField('name').value()).toBe('Mizoute');
 
                         // Non mapped field should not be retrieved
                         expect(viewResult.getField('summary')).toBe(undefined);

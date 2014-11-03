@@ -50,7 +50,7 @@ define(function () {
     ListController.prototype.edit = function (entry) {
         this.clearParams();
 
-        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.getIdentifier().value);
+        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifier().value());
         this.$anchorScroll(0);
     };
 

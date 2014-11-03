@@ -30,7 +30,7 @@ define(function (require) {
         this.$scope.entity = this.entity;
         this.$scope.entityConfig = this.entity;
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.view = view;
+        this.$scope.entry = view;
         this.view = view;
         this.entity = this.view.getEntity();
 
@@ -42,7 +42,7 @@ define(function (require) {
     };
 
     FormController.prototype.deleteOne = function () {
-        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
+        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.identifier().value());
     };
 
     FormController.prototype.back = function () {
@@ -60,12 +60,12 @@ define(function (require) {
             field,
             i,
             object = {
-                id: this.view.getIdentifier().value
+                id: this.view.identifier().value()
             };
 
         for (i in fields) {
             field = fields[i];
-            value = field.value;
+            value = field.value();
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
             }
@@ -130,7 +130,7 @@ define(function (require) {
      * @param {Entity} entity
      */
     FormController.prototype.edit = function (item, entity) {
-        this.$location.path('/edit/' + entity.name() + '/' + item[entity.getIdentifier().name()]);
+        this.$location.path('/edit/' + entity.name() + '/' + item[entity.identifier().name()]);
     };
 
     FormController.prototype.destroy = function () {

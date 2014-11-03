@@ -55,23 +55,28 @@ define(function (require) {
         });
 
         it('should returns the identifier.', function () {
-            var view = new View();
-            var field1 = new Field('post_id').identifier(true);
-            var field2 = new Field('name').identifier(false);
-            view.addField(field1).addField(field2);
+            var view = new View(),
+                entity = new Entity(),
+                field1 = new Field('post_id').identifier(true),
+                field2 = new Field('name').identifier(false);
 
-            expect(view.getIdentifier().name()).toEqual('post_id');
+            view.addField(field1).addField(field2);
+            entity.addView(view);
+
+            expect(view.identifier().name()).toEqual('post_id');
             expect(view.isNew()).toEqual(true);
         });
 
-
         it('should map some raw entities', function () {
-            var view = new View();
-            var field1 = new Field('post_id').identifier(true);
-            var field2 = new Field('title');
-            var field3 = new Field('actions').type('callback').callback(function () {
-                return '<my-cb></my-cb>';
-            });
+            var view = new View(),
+                entity = new Entity(),
+                field1 = new Field('post_id').identifier(true),
+                field2 = new Field('title'),
+                field3 = new Field('actions').type('callback').callback(function () {
+                    return '<my-cb></my-cb>';
+                });
+
+            entity.addView(view);
 
             view
                 .addField(field1)
@@ -85,10 +90,10 @@ define(function (require) {
             ]);
 
             expect(entries.length).toEqual(3);
-            expect(entries[0].getIdentifier().value).toEqual(1);
-            expect(entries[1].getField('title').value).toEqual('World');
+            expect(entries[0].identifier().value()).toEqual(1);
+            expect(entries[1].getField('title').value()).toEqual('World');
             expect(entries[1].getField('published')).toEqual(null);
-            expect(entries[2].getField('actions').value).toEqual('<my-cb></my-cb>');
+            expect(entries[2].getField('actions').value()).toEqual('<my-cb></my-cb>');
         });
 
         it('should map some one entity when the identifier in not in the view', function () {
@@ -104,9 +109,8 @@ define(function (require) {
                 .addView(view);
 
             var entry = view.mapEntry({ post_id: 1, title: 'Hello', published: true});
-
-            expect(entry.getIdentifier().value).toEqual(1);
-            expect(entry.getField('title').value).toEqual('Hello');
+            expect(entry.identifier().value()).toEqual(1);
+            expect(entry.getField('title').value()).toEqual('Hello');
         });
 
     });

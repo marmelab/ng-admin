@@ -39,7 +39,7 @@ define(function (require) {
 
                 var fields = view.getFields(),
                     field,
-                    identifier = view.getIdentifier(),
+                    identifier = view.identifier(),
                     i,
                     values = response.data;
 
@@ -47,12 +47,12 @@ define(function (require) {
                 for (i in fields) {
                     field = fields[i];
 
-                    view.getField(i).value = field.valueTransformer()(values[field.name()]);
+                    view.getField(i).value(field.valueTransformer()(values[field.name()]));
                 }
 
                 // Set identifier value
                 if (identifier) {
-                    identifier.value = entityId;
+                    identifier.value(entityId);
                 }
 
                 return view;
