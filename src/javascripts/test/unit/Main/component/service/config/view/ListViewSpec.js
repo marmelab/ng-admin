@@ -46,7 +46,10 @@ define(function (require) {
         });
 
         it('should truncate list values.', function () {
-            var list = new ListView('allCats');
+            var list = new ListView('allCats'),
+                entity = new Entity('cats');
+
+            entity.addView(list);
 
             list.addField(new Field('id').identifier(true));
             list.addField(new Field('name').truncateList(function (value) {
@@ -59,10 +62,10 @@ define(function (require) {
                 { id: 3, human_id: 1, name: 'Mizute'}
             ]));
 
-            expect(entries[0].getField('id').value).toEqual(1);
-            expect(entries[0].getField('name').value).toEqual('Suna...');
-            expect(entries[2].getField('id').value).toEqual(3);
-            expect(entries[2].getField('name').value).toEqual('Mizut...');
+            expect(entries[0].getField('id').value()).toEqual(1);
+            expect(entries[0].getField('name').value()).toEqual('Suna...');
+            expect(entries[2].getField('id').value()).toEqual(3);
+            expect(entries[2].getField('name').value()).toEqual('Mizut...');
         });
 
     });

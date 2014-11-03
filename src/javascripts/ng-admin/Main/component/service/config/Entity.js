@@ -37,8 +37,11 @@ define(function (require) {
      */
     function Entity(entityName) {
         this.views = {};
+        this.values = {};
+        this.mappedFields = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
+        this.identifierField = null;
     }
 
     Configurable(Entity.prototype, config);
@@ -50,6 +53,31 @@ define(function (require) {
      */
     Entity.prototype.getViews = function () {
         return this.views;
+    };
+
+    /**
+     * Returns the value of a fieldName
+     *
+     * @params {String} fieldName
+     *
+     * @returns {*}
+     */
+    Entity.prototype.getValue = function (fieldName) {
+        return this.values[fieldName] !== undefined ? this.values[fieldName] : null;
+    };
+
+    /**
+     * Set the value of a fieldName
+     *
+     * @params {String} fieldName
+     * @params {*}      value
+     *
+     * @returns {Entity}
+     */
+    Entity.prototype.setValue = function (fieldName, value) {
+        this.values[fieldName] = value;
+
+        return this;
     };
 
     /**
@@ -86,6 +114,23 @@ define(function (require) {
     };
 
     /**
+     * Set or get the identifier
+     *
+     * @param {Field} identifier
+     * @returns Field|Entity
+     */
+    Entity.prototype.identifier = function (identifier) {
+        if (arguments.length === 0) {
+            return this.identifierField;
+        }
+
+        identifier.entity = this;
+        this.identifierField = identifier;
+
+        return this;
+    };
+
+    /**
      * Returns a view by it's name
      *
      * @returns {View}
@@ -109,14 +154,36 @@ define(function (require) {
     };
 
     /**
-     * Return the identifier field of an Entity
+     * Add extra field to map
+     * Useful when we need a field that is not in the Entity view in a callback
      *
-     * @returns {Field}
+     * @param {Field} field
+     *
+     * @returns {Entity}
      */
-    Entity.prototype.getIdentifier = function () {
-        var editView = this.getViewsOfType('EditView')[0];
+    Entity.prototype.addMappedField = function (field) {
+        this.mappedFields[field.name()] = field;
 
-        return editView ? editView.getIdentifier() : null;
+        return this;
+    };
+
+    /**
+     * Return all field to map
+     *
+     * @returns {Object}
+     */
+    Entity.prototype.getMappedFields = function () {
+        return this.mappedFields;
+    };
+
+    /**
+     * Return the value of a mapped field
+     *
+     * @param {String} fieldName
+     * @returns {*}
+     */
+    Entity.prototype.getMappedValue = function (fieldName) {
+        return this.values[fieldName];
     };
 
     /**

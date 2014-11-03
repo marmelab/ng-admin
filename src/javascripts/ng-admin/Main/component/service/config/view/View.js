@@ -80,7 +80,7 @@ define(function (require) {
             field.order(Object.keys(this.fields).length);
         }
 
-        field.setEntity(this);
+        field.setView(this);
         this.fields[field.name()] = field;
 
         return this;
@@ -219,22 +219,37 @@ define(function (require) {
     /**
      * Return the identifier field
      *
+     * @param {*} identifierValue
      * @returns {Field}
      */
-    View.prototype.getIdentifier = function () {
+    View.prototype.identifier = function (identifierValue) {
         var i,
+            identifier,
             field;
 
         for (i in this.fields) {
             field = this.fields[i];
 
             if (field.identifier()) {
-                return field;
+                identifier = field;
+                break;
             }
         }
 
         // No identifier fields on this view, try to find it on other view
-        return this.entity.identifier();
+        if (!identifier) {
+            identifier = this.entity.identifierField;
+        }
+
+        if (arguments.length === 0) {
+            return identifier;
+        }
+
+        if (identifier) {
+            identifier.value(identifierValue);
+        }
+
+        return this;
     };
 
     /**
@@ -266,23 +281,33 @@ define(function (require) {
      */
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
+            extraFields = this.getEntity().getMappedFields(),
             result = angular.copy(this),
-            identifier = result.getIdentifier(),
+            resultEntity = result.getEntity(),
+            identifier = result.identifier(),
+            fieldName,
             field;
 
-        for (var fieldName in fields) {
+        for (fieldName in fields) {
             field = fields[fieldName];
 
             if (field.type() === 'callback') {
-                result.getField(fieldName).value = field.getCallbackValue(rawEntry);
+                result.getField(fieldName).value(field.getCallbackValue(rawEntry));
             } else if (field.name() in rawEntry) {
-                result.getField(fieldName).value = field.valueTransformer()(rawEntry[field.name()]);
+                result.getField(fieldName).value(field.valueTransformer()(rawEntry[field.name()]));
             }
         }
 
         // Add identifier value
         if (identifier) {
-            identifier.value = rawEntry[identifier.name()];
+            identifier.value(rawEntry[identifier.name()]);
+        }
+
+        // Add extra field to map
+        for (fieldName in extraFields) {
+            field = extraFields[fieldName];
+
+            resultEntity.values[fieldName] = rawEntry[field.name()];
         }
 
         return result;
@@ -293,10 +318,10 @@ define(function (require) {
      *
      * @returns {Boolean}
      */
-    View.prototype.isNew = function() {
-        var identifier = this.getIdentifier();
+    View.prototype.isNew = function () {
+        var identifier = this.identifier();
 
-        return !identifier || identifier.value === null;
+        return !identifier || identifier.value() === null;
     };
 
     /**
@@ -304,9 +329,9 @@ define(function (require) {
      *
      * @return {View}
      */
-    View.prototype.clear = function() {
+    View.prototype.clear = function () {
         var fields = this.getFields(),
-            identifier = this.getIdentifier(),
+            identifier = this.identifier(),
             i;
 
         for (i in fields) {
@@ -326,7 +351,7 @@ define(function (require) {
      *
      * @return {View}
      */
-    View.prototype.removeFields = function() {
+    View.prototype.removeFields = function () {
         this.fields = {};
 
         return this;

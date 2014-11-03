@@ -21,8 +21,8 @@ define(function (require) {
                 view1Copy = angular.copy(view1),
                 view2Copy = angular.copy(view2);
 
-            view1Copy.getField('title').value = 'abc';
-            view2Copy.getField('name').value = 'My title';
+            view1Copy.getField('title').value('abc');
+            view2Copy.getField('name').value('My title');
 
             var responses = [
                 {

@@ -5,6 +5,7 @@ define(function (require) {
 
     var Reference = require('ng-admin/Main/component/service/config/Reference'),
         Field = require('ng-admin/Main/component/service/config/Field'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
@@ -16,7 +17,6 @@ define(function (require) {
                 editView = new EditView();
 
             editView.addField(new Field('id').identifier(true));
-            human.addView(editView);
 
             ref.setEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
@@ -28,11 +28,30 @@ define(function (require) {
                 .targetField(new Field('name'))
                 .targetEntity(human);
 
+            human
+                .identifier(new Field('id'))
+                .addView(editView);
+
             var choices = ref.getChoices();
             expect(ref.type()).toEqual('reference');
             expect(choices[1]).toEqual('Suna');
             expect(choices[2]).toEqual('Boby');
             expect(choices[3]).toEqual('Mizute');
+        });
+
+        it('Should create a fake view to keep entity', function () {
+            var post = new Entity('posts'),
+                comment = new Entity('comments');
+
+            comment
+                .addView(new ListView('comment-list')
+                    .addField(new Reference('post_id')
+                        .targetEntity(post)
+                        .targetField(new Field('id'))
+                        )
+                    );
+
+            expect(comment.getOneViewOfType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
         });
 
     });

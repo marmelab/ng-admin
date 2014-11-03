@@ -120,7 +120,7 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
 
-            calls.push(self.getRawValues(reference.getView(), 1, false));
+            calls.push(self.getRawValues(reference.getReferencedView(), 1, false));
         }
 
         return this.$q.all(calls)
@@ -147,7 +147,7 @@ define(function (require) {
     ListViewRepository.prototype.getReferencedListValues = function (view, sortField, sortDir) {
         var self = this,
             referenceLists = view.getReferencedLists(),
-            entityId = view.getIdentifier().value,
+            entityId = view.identifier().value(),
             calls = [],
             referenceList,
             i;
@@ -155,13 +155,12 @@ define(function (require) {
         for (i in referenceLists) {
             referenceList = referenceLists[i];
 
-            calls.push(self.getRawValues(referenceList.getView(), 1, false, false, null, sortField, sortDir));
+            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, false, false, null, sortField, sortDir));
         }
 
         return this.$q.all(calls)
             .then(function (responses) {
-                var i,
-                    j = 0;
+                var j = 0;
 
                 for (i in referenceLists) {
                     referenceLists[i]
@@ -186,6 +185,7 @@ define(function (require) {
 
         var choices,
             entry,
+            entries = [],
             reference,
             referenceField,
             i,
@@ -200,15 +200,16 @@ define(function (require) {
 
             for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];
-                identifier = reference.valueTransformer()(entry.getField(referenceField).value);
+                entries = [];
+                identifier = reference.valueTransformer()(entry.getField(referenceField).value());
 
                 if (reference.constructor.name === 'ReferenceMany') {
-                    entry.getField(referenceField).value = [];
-
                     for (j in identifier) {
                         id = identifier[j];
-                        entry.getField(referenceField).value.push(choices[id]);
+                        entries.push(choices[id]);
                     }
+
+                    entry.getField(referenceField).value(entries);
                 } else if (fillSimpleReference && identifier && identifier in choices) {
                     entry.getField(referenceField).referencedValue = reference.getTruncatedListValue(choices[identifier]);
                 }

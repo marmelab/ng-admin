@@ -69,7 +69,7 @@ define(function (require) {
      *
      * @param {Field} field
      */
-    DatagridController.prototype.sort = function(field) {
+    DatagridController.prototype.sort = function (field) {
         var dir = 'ASC',
             fieldName = field.getSortName();
 

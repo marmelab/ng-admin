@@ -42,30 +42,38 @@ define(function (require) {
     utils.inherits(ReferencedList, Reference);
     Configurable(ReferencedList.prototype, config);
 
-    ReferencedList.prototype.getReferenceManyFields = function () {
-        var fields = [],
-            targetFields = this.targetFields(),
-            targetField,
-            i;
-
-        for (i in targetFields) {
-            targetField = targetFields[i];
-
-            if (targetField.constructor.name === 'ReferenceMany') {
-                fields.push(targetField);
-            }
+    /**
+     * Set or get the type
+     *
+     * @param {[Field]} targetFields
+     * @returns ReferencedList
+     */
+    ReferencedList.prototype.targetFields = function (targetFields) {
+        if (arguments.length === 0) {
+            return this.config.targetFields;
         }
 
-        return fields;
+        var i;
+
+        this.referencedView.removeFields();
+        for (i in targetFields) {
+            this.referencedView.addField(targetFields[i]);
+        }
+
+        this.config.type = targetFields;
+
+        return this;
     };
+
 
     ReferencedList.prototype.getGridColumns = function () {
         var columns = [],
+            field,
             i,
             l;
 
         for (i = 0, l = this.config.targetFields.length; i < l; i++) {
-            var field = this.config.targetFields[i];
+            field = this.config.targetFields[i];
 
             columns.push({
                 field: field,

@@ -6,6 +6,7 @@ define(function (require) {
     var ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
@@ -60,6 +61,22 @@ define(function (require) {
             expect(entries.length).toEqual(2);
             expect(entries[0].name).toEqual('Suna');
             expect(entries[1].name).toEqual('Mizute');
+        });
+
+        iit('should store target entity configuration', function () {
+            var comment = new Entity('comments');
+
+            var post = new Entity('posts')
+                .addView(new EditView('post-edit')
+                    .addField(new ReferencedList('comments')
+                        .targetEntity(comment)
+                        .targetField(new Field('id'))
+                        )
+                    );
+
+            comment.addView(new ListView('comment-list'));
+
+            expect(post.getOneViewOfType('EditView').getField('comments').targetEntity().views['comment-list']).not.toBe(null);
         });
 
     });

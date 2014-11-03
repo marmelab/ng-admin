@@ -69,7 +69,7 @@ define(function (require) {
      * @param {View} view
      */
     DashboardController.prototype.edit = function (view) {
-        this.$location.path('/edit/' + view.getEntity().name() + '/' + view.getIdentifier().value);
+        this.$location.path('/edit/' + view.getEntity().name() + '/' + view.identifier().value());
     };
 
     DashboardController.prototype.destroy = function () {

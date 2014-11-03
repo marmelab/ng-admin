@@ -43,10 +43,10 @@ define(function (require) {
      *
      */
     function Field(fieldName) {
-        this.value = null;
         this.config = angular.copy(config);
         this.config.name = fieldName || 'field';
-        this.entity = null;
+        this.entity = null; // Used when this field is an identifier
+        this.view = null;
     }
 
     Configurable(Field.prototype, config);
@@ -72,6 +72,26 @@ define(function (require) {
     };
 
     /**
+     * Set or get the value
+     *
+     * @param {*} value
+     * @returns *
+     */
+    Field.prototype.value = function (value) {
+        var entity = this.getEntity();
+        if (!entity) {
+            return;
+        }
+
+        if (arguments.length === 0 || !angular.isDefined(value)) {
+            return entity.getValue(this.name());
+        }
+
+        entity.setValue(this.name(), value);
+        return value;
+    };
+
+    /**
      * Truncate the value based on the `truncateList` configuration
      *
      * @param {*} value
@@ -87,26 +107,26 @@ define(function (require) {
     };
 
     /**
-     * @param {Entity} entity
+     * @param {View} view
      */
-    Field.prototype.setEntity = function (entity) {
-        this.entity = entity;
+    Field.prototype.setView = function (view) {
+        this.view = view;
 
         return this;
     };
 
     /**
-     * @return {Entity}
+     * @return {View}
      */
-    Field.prototype.getEntity = function () {
-        return this.entity;
+    Field.prototype.getView = function () {
+        return this.view;
     };
 
     /**
      * @return {string}
      */
     Field.prototype.getSortName = function () {
-        return this.entity.name() + '.' + this.name();
+        return this.view.name() + '.' + this.name();
     };
 
     /**
@@ -125,6 +145,20 @@ define(function (require) {
       */
     Field.prototype.getListValue = function () {
         return this.value;
+    };
+
+    /**
+     * Return the entity attached to the Field
+     * this.entity is set first when this Field is used as an identifier
+     *
+     * @return {Entity}
+     */
+    Field.prototype.getEntity = function () {
+        if (this.entity === null) {
+            this.entity = this.view.getEntity();
+        }
+
+        return this.entity;
     };
 
     Field.prototype.clear = function () {

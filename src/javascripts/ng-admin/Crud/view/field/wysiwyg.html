@@ -1,5 +1,7 @@
 <div id="{{ field.getName() }}"
      text-angular
-     ng-model="field.value"
+     ng-model="$ngModelValue"
+     ng-model-getter="field.value()"
+     ng-model-setter="field.value($value)"
      ta-text-editor-class="border-around"
      ta-html-editor-class="border-around"></div>
