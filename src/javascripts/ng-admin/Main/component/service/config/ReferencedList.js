@@ -21,7 +21,7 @@ define(function (require) {
         valueTransformer : defaultValueTransformer,
         targetReferenceField : null,
         targetFields : [],
-        isEditLink: true,
+        isEditLink: false,
         validation: {
             required: false
         },
