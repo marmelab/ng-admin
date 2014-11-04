@@ -3,7 +3,8 @@
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'callback'];
 
     function defaultValueTransformer(value) {
@@ -21,10 +22,13 @@ define(function (require) {
         editable : true,
         displayed: true,
         order: null,
+        identifier : false,
         format : 'yyyy-MM-dd',
         valueTransformer : defaultValueTransformer,
         callback: defaultValueCallback,
         isEditLink: true,
+        list: true,
+        dashboard: true,
         truncateList: false,
         validation: {
             required: false
@@ -131,8 +135,8 @@ define(function (require) {
       *
       * @returns mixed
       */
-    Field.prototype.getCallbackValue = function(entity) {
-        return this.callback()(entity);
+    Field.prototype.getCallbackValue = function (data) {
+        return this.callback()(data);
     };
 
     /**
@@ -172,14 +176,6 @@ define(function (require) {
 
         return this;
     };
-
-    Field.prototype.processDefaultValue = function() {
-        if (!this.value && this.defaultValue()) {
-            this.value = this.defaultValue();
-        }
-    };
-
-    Configurable(Field.prototype, config);
 
     return Field;
 });

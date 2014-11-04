@@ -193,7 +193,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                     .type('wysiwyg')
                     .validation(
                         // define your custom validation function
-                        "validator" : function(value) {
+                        validator: function(value) {
                             return value.indexOf('cat') > -1;
                         }
                     )
@@ -584,7 +584,7 @@ A new `build/ng-admin.min.js` file will be created.
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
 
-All contributions are welcome. New applications or options should be tested with go unit test tool.
+All contributions are welcome. New applications or options should be tested with `make test` command.
 
 ## License
 

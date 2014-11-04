@@ -9,19 +9,7 @@ define(function (require) {
 
     var config = {
         name: 'myReference',
-        label: 'My references',
-        edition : 'editable',
-        order: null,
-        targetEntity : null,
-        targetField : null,
-        list: true,
-        dashboard: true,
-        identifier: false,
-        isEditLink: true,
-        validation: {
-            required: false
-        },
-        defaultValue: null
+        label: 'My references'
     };
 
     /**
@@ -44,14 +32,6 @@ define(function (require) {
 
         return this;
     };
-
-    ReferenceMany.prototype.processDefaultValue = function() {
-        if (!this.value && this.defaultValue()) {
-            this.value = this.defaultValue();
-        }
-    };
-
-    Configurable(ReferenceMany.prototype, config);
 
     return ReferenceMany;
 });
