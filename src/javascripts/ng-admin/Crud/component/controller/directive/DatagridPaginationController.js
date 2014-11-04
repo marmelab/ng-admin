@@ -3,13 +3,13 @@
 define(function () {
     'use strict';
 
-    function DatagridPaginationController($scope, $location, $anchorScroll, CrudManager, progress) {
+    function DatagridPaginationController($scope, $location, $anchorScroll, progression, ListViewRepository) {
         this.$scope = $scope;
         this.$location = $location;
         this.loadingPage = false;
         this.$anchorScroll = $anchorScroll;
-        this.CrudManager = CrudManager;
-        this.progress = progress;
+        this.progression = progression;
+        this.ListViewRepository = ListViewRepository;
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
@@ -17,7 +17,7 @@ define(function () {
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
-        this.infinitePagination = this.$scope.hasPagination && this.$scope.entityConfig.infinitePagination();
+        this.infinitePagination = this.$scope.hasPagination && this.$scope.view.infinitePagination();
         this.currentPage = currentPage;
         this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
@@ -58,13 +58,15 @@ define(function () {
         this.loadingPage = true;
         this.currentPage++;
 
-        self.progress.start();
-        this.CrudManager.getAll(entityConfig.name(), this.currentPage, null, true, null, sortField, sortDir).then(function(nextData) {
-            self.progress.done();
+        this.progression.start();
+        this.ListViewRepository
+            .getAll(view, this.currentPage, true, null, sortField, sortDir)
+            .then(function (nextData) {
+                self.progression.done();
 
-            self.$scope.entities = self.$scope.entities.concat(nextData.entities);
-            self.loadingPage = false;
-        });
+                self.$scope.entries = self.$scope.entries.concat(nextData.entries);
+                self.loadingPage = false;
+            });
     };
 
     /**
@@ -81,8 +83,7 @@ define(function () {
         this.$anchorScroll(0);
     };
 
-
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'CrudManager', 'progress'];
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'progression', 'ListViewRepository'];
 
     return DatagridPaginationController;
 });

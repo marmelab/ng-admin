@@ -3,32 +3,20 @@
 define(function () {
     'use strict';
 
-    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
-        var isNew = entity.isNew();
+    var FormController = function ($scope, $location, $filter, FormViewRepository, Validator, progression, notification, view) {
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
         this.FormViewRepository = FormViewRepository;
         this.Validator = Validator;
-        this.entity = entity;
-        this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
-        this.description = entity.getDescription();
+        this.progression = progression;
         this.notification = notification;
-        this.progress = progress;
+        this.title = view.getTitle();
+        this.description = view.getDescription();
+        this.description = view.getDescription();
 
-        var searchParams = this.$location.search();
-
-        this.fields = entity.getFields();
-
-        if (isNew) {
-            for (var fieldName in this.fields) {
-                this.fields[fieldName].processDefaultValue();
-            }
-        }
-
-        this.entityLabel = entity.label();
-        this.$scope.entity = this.entity;
-        this.$scope.entityConfig = this.entity;
+        this.fields = view.getFields();
+        this.entityLabel = view.label();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = view;
         this.$scope.view = view;
@@ -52,7 +40,7 @@ define(function () {
 
     FormController.prototype.validate = function (form, $event) {
         $event.preventDefault();
-        this.progress.startnotification;
+        this.progression.start();
 
         var value,
             self = this,
@@ -77,10 +65,10 @@ define(function () {
         mappedObject = this.view.mapEntry(object);
 
         try {
-            this.Validator.validate(this.entity.name(), object);
-        } catch(e) {
-            self.progress.done();
-            self.notification.log(e, {addnCls: 'humane-flatty-error'});
+            this.Validator.validate(mappedObject);
+        } catch (e) {
+            this.progression.done();
+            this.notification.log(e, {addnCls: 'humane-flatty-error'});
             return false;
         }
 
@@ -99,10 +87,10 @@ define(function () {
             return;
         }
 
-        this.CrudManager
-            .createOne(this.entity.name(), object)
-            .then(function(response) {
-                self.progress.done();
+        this.FormViewRepository
+            .createOne(this.view, object)
+            .then(function (response) {
+                self.progression.done();
                 self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.entity.name() + '/' + response.data.id);
             });
@@ -119,10 +107,12 @@ define(function () {
             return;
         }
 
-        this.CrudManager.updateOne(this.entity.name(), object).then(function() {
-            self.progress.done();
-            self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-        });
+        this.FormViewRepository
+            .updateOne(this.view, object)
+            .then(function () {
+                self.progression.done();
+                self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+            });
     };
 
     /**
@@ -143,7 +133,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity', 'notification', 'progress'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'FormViewRepository', 'Validator', 'progression', 'notification', 'view'];
 
     return FormController;
 });

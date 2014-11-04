@@ -19,13 +19,6 @@ define(function (require) {
     CrudModule.service('ListViewRepository', require('ng-admin/Crud/component/service/ListViewRepository'));
     CrudModule.service('FormViewRepository', require('ng-admin/Crud/component/service/FormViewRepository'));
 
-    CrudModule.factory('notification', function () {
-        return require('humane');
-    });
-    CrudModule.factory('progress', function () {
-        return require('nprogress');
-    });
-
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));

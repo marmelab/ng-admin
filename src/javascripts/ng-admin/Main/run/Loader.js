@@ -6,20 +6,20 @@ define(function () {
     /**
      * Display loader on each route change
      *
-     * @param {$rootScope} $rootScope
-     * @param {$window} $window
-     * @param {progress} progress
+     * @param {$rootScope}  $rootScope
+     * @param {$window}     $window
+     * @param {progression} progression
      */
-    function loader($rootScope, $window, progress) {
-        $rootScope.$on('$stateChangeStart', function() {
-            progress.start();
+    function loader($rootScope, $window, progression) {
+        $rootScope.$on('$stateChangeStart', function () {
+            progression.start();
             $window.scrollTo(0, 0);
         });
 
-        $rootScope.$on('$stateChangeSuccess', progress.done.bind(progress));
+        $rootScope.$on('$stateChangeSuccess', progression.done.bind(progression));
     }
 
-    loader.$inject = ['$rootScope', '$window', 'progress'];
+    loader.$inject = ['$rootScope', '$window', 'progression'];
 
     return loader;
 });
