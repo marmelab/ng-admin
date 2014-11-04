@@ -14,7 +14,6 @@ define(function (require) {
         order: null,
         targetEntity : null,
         targetField : null,
-        valueTransformer : defaultValueTransformer,
         list: true,
         dashboard: true,
         identifier: false,
