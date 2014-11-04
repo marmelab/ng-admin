@@ -3,9 +3,8 @@
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var availableTypes = ['number', 'string', 'text', 'boolean', 'wysiwyg', 'email', 'date', 'callback', 'choice'];
-    var availableEditions = ['read-only', 'editable'];
+    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'callback'];
 
     function defaultValueTransformer(value) {
         return value;
@@ -22,13 +21,10 @@ define(function (require) {
         editable : true,
         displayed: true,
         order: null,
-        identifier : false,
         format : 'yyyy-MM-dd',
         valueTransformer : defaultValueTransformer,
         callback: defaultValueCallback,
         isEditLink: true,
-        list: true,
-        dashboard: true,
         truncateList: false,
         validation: {
             required: false
