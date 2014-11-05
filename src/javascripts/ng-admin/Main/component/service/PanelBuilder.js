@@ -32,6 +32,8 @@ define(function () {
 
         dashboards = this.$filter('orderElement')(dashboards);
 
+console.log('dashboards', dashboards);
+
         for (i in dashboards) {
             dashboardView = dashboards[i];
 

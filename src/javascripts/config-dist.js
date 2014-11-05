@@ -264,7 +264,6 @@
                 .addField(new Field('published').label('Published').type('boolean'))
                 )
             .addView(new EditView('tags_edit')
-                .listView('tags-list')
                 .addField(new Field('name').label('Name').type('string').editable(true))
                 .addField(new Field('published').label('Published').type('boolean'))
                 )

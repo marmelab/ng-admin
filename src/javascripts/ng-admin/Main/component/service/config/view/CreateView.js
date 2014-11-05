@@ -5,12 +5,7 @@ define(function (require) {
 
     var angular = require('angular'),
         View = require('ng-admin/Main/component/service/config/view/View'),
-        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
-
-    var config = {
-        listView: null
-    };
 
     /**
      * @constructor
@@ -18,7 +13,7 @@ define(function (require) {
     function CreateView() {
         View.apply(this, arguments);
 
-        this.config = angular.extend(this.config, angular.copy(config));
+		this.type = 'CreateView';
 
         this.config.title = function (view) {
             return 'Create ' + view.getEntity().name();
@@ -26,7 +21,6 @@ define(function (require) {
     }
 
     utils.inherits(CreateView, View);
-    Configurable(CreateView.prototype, config);
 
     return CreateView;
 });

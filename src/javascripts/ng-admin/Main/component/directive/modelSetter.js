@@ -9,11 +9,11 @@ define(function () {
     function ModelGetter() {
         return {
             require: "ngModel",
-            controller: function ($scope) {
+            controller: ['$scope', function ($scope) {
                 $scope.getValue = function () {
                     return $scope.myValue;
                 };
-            },
+            }],
             link:  function (scope, element, attrs, ngModelCtrl) {
                 var setExpression = attrs.ngModelSetter;
 

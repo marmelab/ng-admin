@@ -100,7 +100,7 @@ define(function (require) {
         for (i in this.fields) {
             field = this.fields[i];
 
-            if (field.constructor.name === type) {
+            if (field.type() === type) {
                 results[i] = field;
             }
         }

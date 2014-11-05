@@ -208,7 +208,7 @@ define(function (require) {
                 entries = [];
                 identifier = reference.valueTransformer()(entry.getField(referenceField).value());
 
-                if (reference.constructor.name === 'ReferenceMany') {
+                if (reference.type() === 'reference-many') {
                     for (j in identifier) {
                         id = identifier[j];
                         entries.push(choices[id]);

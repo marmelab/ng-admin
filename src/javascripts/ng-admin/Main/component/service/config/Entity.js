@@ -76,7 +76,7 @@ define(function (require) {
         for (i in this.views) {
             view = this.views[i];
 
-            if (view.constructor.name === type) {
+            if (view.type === type) {
                 views.push(view);
             }
         }
