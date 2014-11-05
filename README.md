@@ -63,9 +63,9 @@ Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList,
-                         ReferenceMany, DashboardView, ListView, CreateView, EditView, DeleteView) {
+                     ReferenceMany, DashboardView, ListView, CreateView, EditView, DeleteView) {
 
-    // Return pagination parameters for the API
+    // Method use to return pagination parameter for the API
     function pagination(page, maxPerPage) {
         return {
             _start: (page - 1) * maxPerPage,
@@ -73,7 +73,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         };
     }
 
-    // Truncate a value in a list view or a dashboard list
+    // Method use to truncate a value in a list view or a dashboard list
     function truncate(value) {
         if (!value) {
             return '';
@@ -100,6 +100,24 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .title('List of all tags') // Define it's title
             .infinitePagination(false) // Disable lazy loading pagination
             .pagination(pagination) // Use custom parameter for pagination
+            .filterQuery(function (query) {
+                return {
+                    q: query
+                };
+            })
+            .addQuickFilter('Today', function () {
+                var now = new Date(),
+                    year = now.getFullYear(),
+                    month = now.getMonth() + 1,
+                    day = now.getDate();
+
+                month = month < 10 ? '0' + month : month;
+                day = day < 10 ? '0' + day : day;
+
+                return {
+                    created_at: [year, month, day].join('-')
+                };
+            })
             .addField(new Field('id').label('ID')) // Add a first field
             .addField(new Field('name').label('Name').type('string'))
             .addField(new Field('published').label('Published').type('boolean'))
@@ -150,12 +168,19 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             )
         .addView(new ListView('post-list')
             .title('All posts')
+            // Add extra headers for this list
+            .headers(function (entry) {
+                return {
+                    'X-User': 'user2',
+                    'X-Password': 'pwd'
+                };
+            })
             .sortParams(function (field, dir) {
                 return {
                     // Change sorting params
                     params: {
-                        sort: field,
-                        sortDir: dir
+                        _sort: field,
+                        _sortDir: dir
                     },
                     // You can also want to sort via headers
                     headers: {
@@ -191,7 +216,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                 .validation({
                     // define your custom validation function
                     validator: function (value) {
-                        return value.indexOf('cat') > -1;
+                        if (value.indexOf('cat') !== 1) {
+                            throw new Error('Tag should contains the word cat');
+                        }
                     }
                 })
                 )
@@ -220,13 +247,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             );
 
     var app = new Application('My backend')
-        // Add extra headers for each actions
-        .headers(function (entityName, action) {
-            return {
-                'X-User': entityName === 'post' ? 'username' : 'user2',
-                'X-Password': 'pwd'
-            };
-        })
         .baseApiUrl('http://localhost:3000/')
         .addEntity(post)
         .addEntity(tag);
@@ -303,6 +323,37 @@ Tell how to validate the view
 * `defaultValue(*)`
 Define the default value of the field.
 
+### ListView
+
+You can add quick filters on a list view with :
+
+```js
+listView.addQuickFilter('Today', function () {
+    var now = new Date(),
+	    year = now.getFullYear(),
+	    month = now.getMonth() + 1,
+	    day = now.getDate();
+
+    month = month < 10 ? '0' + month : month;
+    day = day < 10 ? '0' + day : day;
+
+    return {
+        created_at: [year, month, day].join('-')
+    };
+})
+```
+
+Quickfilters can be customised with the `filterParams` of the `ListView`:
+
+```js
+lstView.filterParams(function (param) {
+   if (param) {
+       param.abc = '';
+   }
+
+   return param;
+})
+```
 
 ### Reference
 
@@ -371,6 +422,7 @@ myView.addField(new ReferenceMany('tags')
 ## Build
 
 Concatenate and minify the app with:
+
 ```sh
 grunt build
 ```

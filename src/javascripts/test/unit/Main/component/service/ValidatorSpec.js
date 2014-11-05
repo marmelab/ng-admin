@@ -9,7 +9,7 @@ define(function (require) {
 
     describe("Service: Validator", function () {
 
-        it('should call validator on each fields.', function () {
+        iit('should call validator on each fields.', function () {
             var validator = new Validator(),
                 view = new View('myView'),
                 field1 = new Field('notValidable').label('Complex'),
@@ -18,7 +18,7 @@ define(function (require) {
             view.addField(field1).addField(field2);
 
             field1.validation().validator = function () {
-                return false;
+                throw new Error('Field "Complex" is not valid.');
             };
             field2.validation().validator = function () {
                 return true;
