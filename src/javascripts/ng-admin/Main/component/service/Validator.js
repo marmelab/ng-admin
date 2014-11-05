@@ -23,8 +23,8 @@ define(function () {
             field = fields[i];
             validation = field.validation();
 
-            if (typeof (validation.validator) === 'function' && !validation.validator(field.value())) {
-                throw new Error('Field "' + field.label() + '" is not valid.');
+            if (typeof (validation.validator) === 'function') {
+                validation.validator(field.value());
             }
         }
     };

@@ -67,7 +67,7 @@ define(function (require) {
             expect(view.isNew()).toEqual(true);
         });
 
-        iit('should map some raw entities', function () {
+        it('should map some raw entities', function () {
             var view = new View(),
                 entity = new Entity(),
                 field1 = new Field('post_id').identifier(true),
