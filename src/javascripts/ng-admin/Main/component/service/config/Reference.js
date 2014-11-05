@@ -3,7 +3,8 @@
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         utils = require('ng-admin/lib/utils');
@@ -130,7 +131,7 @@ define(function (require) {
             // Use the same configuration as the listView of this entity
             var listView = this.targetEntity().getOneViewOfType('ListView');
             if (listView) {
-                this.referencedView.config = listView.config;
+                this.referencedView.config = angular.copy(listView.config);
                 this.referencedView.config.pagination = false;
             }
 
