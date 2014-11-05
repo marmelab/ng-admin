@@ -29,12 +29,8 @@ define(function (require) {
             panel;
         this.panels = [];
 
-console.log('retrieving panels');
-
         this.PanelBuilder.getPanelsData().then(function (panels) {
             var i;
-
-console.log('panels retrieved');
 
             for (i in panels) {
                 panel = panels[i];
@@ -55,8 +51,6 @@ console.log('panels retrieved');
                         label: field.label()
                     });
                 }
-
-console.log('panel', view.label());
 
                 self.panels.push({
                     label: view.label(),

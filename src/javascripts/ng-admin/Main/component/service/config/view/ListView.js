@@ -63,7 +63,7 @@ define(function (require) {
 
         View.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
-		this.type = 'ListView';
+        this.type = 'ListView';
     }
 
     utils.inherits(ListView, View);

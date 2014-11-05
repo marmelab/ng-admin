@@ -12,8 +12,7 @@ define(function (require) {
      */
     function DashboardView() {
         ListView.apply(this, arguments);
-
-		this.type = 'DashboardView';
+        this.type = 'DashboardView';
     }
 
     utils.inherits(DashboardView, ListView);

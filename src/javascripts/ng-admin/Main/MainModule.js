@@ -42,6 +42,7 @@ define(function (require) {
     MainModule.directive('ngModelGetter', require('ng-admin/Main/component/directive/modelGetter'));
     MainModule.directive('ngModelSetter', require('ng-admin/Main/component/directive/modelSetter'));
 
+    MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
 
     MainModule.run(require('ng-admin/Main/run/Loader'));

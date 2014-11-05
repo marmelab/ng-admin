@@ -13,7 +13,7 @@ define(function (require) {
     function CreateView() {
         View.apply(this, arguments);
 
-		this.type = 'CreateView';
+        this.type = 'CreateView';
 
         this.config.title = function (view) {
             return 'Create ' + view.getEntity().name();
