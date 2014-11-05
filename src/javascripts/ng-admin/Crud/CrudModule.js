@@ -1,5 +1,7 @@
+/*global define*/
+
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var angular = require('angular');
 
@@ -14,14 +16,8 @@ define(function (require) {
     CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 
-    CrudModule.service('CrudManager', require('ng-admin/Crud/component/service/CrudManager'));
-
-    CrudModule.factory('notification', function () {
-        return require('humane');
-    });
-    CrudModule.factory('progress', function () {
-        return require('nprogress');
-    });
+    CrudModule.service('ListViewRepository', require('ng-admin/Crud/component/service/ListViewRepository'));
+    CrudModule.service('FormViewRepository', require('ng-admin/Crud/component/service/FormViewRepository'));
 
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
@@ -59,18 +55,28 @@ define(function (require) {
 
     CrudModule.config(require('ng-admin/Crud/config/routing'));
 
+    CrudModule.factory('notification', function () {
+        return require('humane');
+    });
+
+    CrudModule.factory('progression', function () {
+        return require('nprogress');
+    });
+
+
     /**
      * Date Picker patch
      * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b
      */
-    CrudModule.config(['$provide', function($provide){
-        $provide.decorator('dateParser', function($delegate){
+    CrudModule.config(['$provide', function ($provide) {
+        $provide.decorator('dateParser', function ($delegate) {
 
             var oldParse = $delegate.parse;
-            $delegate.parse = function(input, format) {
-                if ( !angular.isString(input) || !format ) {
+            $delegate.parse = function (input, format) {
+                if (!angular.isString(input) || !format) {
                     return input;
                 }
+
                 return oldParse.apply(this, arguments);
             };
 

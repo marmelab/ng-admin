@@ -1,21 +1,23 @@
-define(function() {
+/*global define*/
+
+define(function () {
     'use strict';
 
-    function DatagridPaginationController($scope, $location, $anchorScroll, CrudManager, progress) {
+    function DatagridPaginationController($scope, $location, $anchorScroll, progression, ListViewRepository) {
         this.$scope = $scope;
         this.$location = $location;
         this.loadingPage = false;
         this.$anchorScroll = $anchorScroll;
-        this.CrudManager = CrudManager;
-        this.progress = progress;
+        this.progression = progression;
+        this.ListViewRepository = ListViewRepository;
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
-        var perPage = this.$scope.entityConfig.perPage(),
+        var perPage = this.$scope.view.perPage(),
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
-        this.infinitePagination = this.$scope.hasPagination && this.$scope.entityConfig.infinitePagination();
+        this.infinitePagination = this.$scope.hasPagination && this.$scope.view.infinitePagination();
         this.currentPage = currentPage;
         this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
@@ -31,18 +33,19 @@ define(function() {
      * @param {int} max
      * @returns {Array}
      */
-    DatagridPaginationController.prototype.range = function(min, max){
-        var input = [];
+    DatagridPaginationController.prototype.range = function (min, max) {
+        var input = [],
+            i;
 
-        for (var i = min; i <= max; i ++) {
+        for (i = min; i <= max; i++) {
             input.push(i);
         }
 
         return input;
     };
 
-    DatagridPaginationController.prototype.nextPage = function() {
-        var entityConfig = this.$scope.entityConfig;
+    DatagridPaginationController.prototype.nextPage = function () {
+        var view = this.$scope.view;
         if (this.loadingPage || !this.infinitePagination || this.currentPage === this.nbPages) {
             return;
         }
@@ -55,13 +58,15 @@ define(function() {
         this.loadingPage = true;
         this.currentPage++;
 
-        self.progress.start();
-        this.CrudManager.getAll(entityConfig.name(), this.currentPage, null, true, null, sortField, sortDir).then(function(nextData) {
-            self.progress.done();
+        this.progression.start();
+        this.ListViewRepository
+            .getAll(view, this.currentPage, true, null, sortField, sortDir)
+            .then(function (nextData) {
+                self.progression.done();
 
-            self.$scope.entities = self.$scope.entities.concat(nextData.entities);
-            self.loadingPage = false;
-        });
+                self.$scope.entries = self.$scope.entries.concat(nextData.entries);
+                self.loadingPage = false;
+            });
     };
 
     /**
@@ -70,7 +75,7 @@ define(function() {
      * @param {int} number
      */
     DatagridPaginationController.prototype.setPage = function (number) {
-        if(number <= 0 || number > this.nbPages) {
+        if (number <= 0 || number > this.nbPages) {
             return;
         }
 
@@ -78,8 +83,7 @@ define(function() {
         this.$anchorScroll(0);
     };
 
-
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'CrudManager', 'progress'];
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'progression', 'ListViewRepository'];
 
     return DatagridPaginationController;
 });

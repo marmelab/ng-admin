@@ -1,8 +1,9 @@
-define(function(require) {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
-    var angular = require('angular'),
-        datagridView = require('text!../../view/datagrid.html'),
+    var datagridView = require('text!../../view/datagrid.html'),
         DatagridController = require('ng-admin/Crud/component/controller/directive/DatagridController');
 
     function DatagridDirective() {

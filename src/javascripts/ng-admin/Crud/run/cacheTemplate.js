@@ -1,5 +1,7 @@
-define(function(require) {
-    "use strict";
+/*global define*/
+
+define(function (require) {
+    'use strict';
 
     var editAttributeTemplate = require('text!../view/edit-attribute.html');
 
