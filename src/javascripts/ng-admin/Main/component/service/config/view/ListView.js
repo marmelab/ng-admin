@@ -41,7 +41,7 @@ define(function (require) {
             return response.data.length;
         }
 
-        return response.headers('X-Total-Count') || 0;
+        return response.headers('X-Total-Count') || response.data.length;
     }
 
     var config = {

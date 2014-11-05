@@ -36,7 +36,7 @@ define(function (require) {
                 entity.addView(view);
                 field.setView(view);
 
-                expect(field.getSortName()).toBe('myEntity1.field1');
+                expect(field.getSortName()).toBe('list1.field1');
             });
         });
 

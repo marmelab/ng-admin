@@ -160,6 +160,10 @@ define(function (require) {
 
             stateCharacters
                 .targetReferenceField('state_id')
+                .targetFields([
+                    new Field('id'),
+                    new Field('name')
+                ])
                 .targetEntity(character);
 
             stateList
@@ -177,8 +181,8 @@ define(function (require) {
                     var entries = references.character.getEntries();
 
                     expect(entries.length).toEqual(2);
-                    expect(entries[0].name).toEqual('Rollo');
-                    expect(entries[1].id).toEqual('19DFE');
+                    expect(entries[0].getField('name').value()).toEqual('Rollo');
+                    expect(entries[1].getField('id').value()).toEqual('19DFE');
                 });
         });
 

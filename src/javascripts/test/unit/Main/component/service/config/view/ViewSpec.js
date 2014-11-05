@@ -67,21 +67,17 @@ define(function (require) {
             expect(view.isNew()).toEqual(true);
         });
 
-        it('should map some raw entities', function () {
+        iit('should map some raw entities', function () {
             var view = new View(),
                 entity = new Entity(),
                 field1 = new Field('post_id').identifier(true),
-                field2 = new Field('title'),
-                field3 = new Field('actions').type('callback').callback(function () {
-                    return '<my-cb></my-cb>';
-                });
+                field2 = new Field('title');
 
             entity.addView(view);
 
             view
                 .addField(field1)
-                .addField(field2)
-                .addField(field3);
+                .addField(field2);
 
             var entries = view.mapEntries([
                 { post_id: 1, title: 'Hello', published: true},
@@ -93,7 +89,6 @@ define(function (require) {
             expect(entries[0].identifier().value()).toEqual(1);
             expect(entries[1].getField('title').value()).toEqual('World');
             expect(entries[1].getField('published')).toEqual(null);
-            expect(entries[2].getField('actions').value()).toEqual('<my-cb></my-cb>');
         });
 
         it('should map some one entity when the identifier in not in the view', function () {
