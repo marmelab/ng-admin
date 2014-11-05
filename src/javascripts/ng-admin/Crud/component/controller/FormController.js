@@ -13,7 +13,6 @@ define(function () {
         this.notification = notification;
         this.title = view.getTitle();
         this.description = view.getDescription();
-        this.description = view.getDescription();
 
         this.fields = view.getFields();
         this.entityLabel = view.label();

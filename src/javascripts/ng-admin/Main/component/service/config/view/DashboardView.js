@@ -5,7 +5,6 @@ define(function (require) {
 
     var angular = require('angular'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
     /**
@@ -13,6 +12,8 @@ define(function (require) {
      */
     function DashboardView() {
         ListView.apply(this, arguments);
+
+		this.type = 'DashboardView';
     }
 
     utils.inherits(DashboardView, ListView);
