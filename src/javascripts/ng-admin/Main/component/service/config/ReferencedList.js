@@ -13,7 +13,7 @@ define(function (require) {
 
     var config = {
         name: 'myReference',
-        type: 'referenced-list',
+        type: 'ReferencedList',
         label: 'My list',
         edition : 'editable',
         list: false,
@@ -34,7 +34,7 @@ define(function (require) {
         Reference.apply(this, arguments);
 
         this.config.name = fieldName || 'reference';
-        this.config.type = 'referenced-list';
+        this.config.type = 'ReferencedList';
         this.entries = [];
     }
 

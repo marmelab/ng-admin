@@ -82,7 +82,6 @@ define(function (require) {
         for (i in this.entities) {
             entity = this.entities[i];
             entityViews = entity.getViewsOfType(type);
-console.log(type + ' for entity ', entity, entityViews);
 
             views = views.concat(entityViews);
         }

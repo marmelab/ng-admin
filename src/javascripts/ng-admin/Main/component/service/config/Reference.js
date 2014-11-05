@@ -21,7 +21,6 @@ define(function (require) {
         targetField : null,
         valueTransformer : defaultValueTransformer,
         truncateList: false,
-        list: true,
         isEditLink: true,
         validation: {
             required: false
@@ -37,7 +36,7 @@ define(function (require) {
         this.referencedValue = null;
         this.entries = {};
         this.config.name = fieldName || 'reference';
-        this.config.type = 'reference';
+        this.config.type = 'Reference';
         this.referencedView = new ListView();
         this.referencedViewConfigured = false;
     }

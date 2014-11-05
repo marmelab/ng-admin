@@ -14,7 +14,7 @@ define(function (require) {
         this.quickFilters = {};
 
         View.apply(this, arguments);
-		this.type = 'DeleteView';
+        this.type = 'DeleteView';
     }
 
     utils.inherits(DeleteView, View);

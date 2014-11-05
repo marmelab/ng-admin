@@ -18,11 +18,11 @@
 
         <choice-field ng-switch-when="choice"></choice-field>
 
-        <reference-field ng-switch-when="reference"></reference-field>
+        <reference-field ng-switch-when="Reference"></reference-field>
 
-        <reference-many-field ng-switch-when="reference-many"></reference-many-field>
+        <reference-many-field ng-switch-when="ReferenceMany"></reference-many-field>
 
-        <datagrid ng-switch-when="referenced-list" ng-init="columns=field.getGridColumns();entries=field.getEntries()" with-pagination="false"></datagrid>
+        <datagrid ng-switch-when="ReferencedList" ng-init="columns=field.getGridColumns();entries=field.getEntries()" with-pagination="false"></datagrid>
 
         <wysiwyg-field ng-switch-when="wysiwyg"></wysiwyg-field>
 

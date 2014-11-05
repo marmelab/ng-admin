@@ -142,7 +142,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .addField(new Field('published').label('Published').type('boolean'))
             )
         .addView(new EditView('tags_edit')
-            .listView('tags-list')
             .addField(new Field('name').label('Name').type('string').editable(true)) // We can skip validation in edit view
             .addField(new Field('published').label('Published').type('boolean'))
             )

@@ -302,7 +302,7 @@ define(function (require) {
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
             extraFields = this.getEntity().getMappedFields(),
-            result = angular.copy(this),
+            result = this.clone(),
             resultEntity = result.getEntity(),
             identifier = result.identifier(),
             fieldName,
@@ -389,6 +389,22 @@ define(function (require) {
         }
 
         return this;
+    };
+
+    /**
+     * Return a modifiable clone of the view
+     *
+     * @return {View}
+     */
+    View.prototype.clone = function () {
+        return {
+            prototype: View.prototype,
+            __proto__: this.__proto__,
+            fields: angular.copy(this.fields),
+            actions: this.actions,
+            entity: this.entity,
+            config: this.config
+        };
     };
 
     Configurable(View.prototype, config);
