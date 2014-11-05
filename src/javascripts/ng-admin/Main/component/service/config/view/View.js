@@ -26,7 +26,7 @@ define(function (require) {
         return null;
     }
 
-    function defaultDescription(entity) {
+    function defaultDescription(entry) {
         return null;
     }
 
@@ -233,7 +233,7 @@ define(function (require) {
     View.prototype.getHeaders = function () {
         var headers = this.headers();
 
-        return typeof (headers) === 'function' ? headers() : headers;
+        return typeof (headers) === 'function' ? headers(this) : headers;
     };
 
     /**

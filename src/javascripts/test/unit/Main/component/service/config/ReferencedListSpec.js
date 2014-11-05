@@ -19,7 +19,7 @@ define(function (require) {
 
             referencedList.targetFields([ref1, ref2]);
 
-            var references = referencedList.getReferenceManyFields();
+            var references = referencedList.targetFields();
 
             expect(references.length).toBe(2);
             expect(references[0].name()).toBe('ref1');
@@ -63,7 +63,7 @@ define(function (require) {
             expect(entries[1].name).toEqual('Mizute');
         });
 
-        iit('should store target entity configuration', function () {
+        it('should store target entity configuration', function () {
             var comment = new Entity('comments');
 
             var post = new Entity('posts')

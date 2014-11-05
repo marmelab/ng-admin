@@ -41,18 +41,18 @@ define(function (require) {
                 }
             ];
 
-            var panelBuilder = new PanelBuilder(null, null, angular.noop);
+            var panelBuilder = new PanelBuilder(null, null, null, angular.noop);
             panelBuilder.getPanelsData = jasmine.createSpy('getPanelsData').andReturn(mixins.buildPromise(responses));
 
             var controller = new DashboardController({$on: angular.noop}, {}, panelBuilder);
 
             // Check that panels are retrieved
-            expect(controller.panels.view1.label).toEqual('dashboard1');
-            expect(controller.panels.MyView2.label).toEqual('my dashboard 2');
+            expect(controller.panels[0].label).toEqual('dashboard1');
+            expect(controller.panels[1].label).toEqual('my dashboard 2');
 
-            expect(controller.panels.MyView2.columns.length).toEqual(1);
-            expect(controller.panels.MyView2.columns[0].label).toEqual('Name');
-            expect(controller.panels.MyView2.columns[0].field.name()).toEqual('name');
+            expect(controller.panels[1].columns.length).toEqual(1);
+            expect(controller.panels[1].columns[0].label).toEqual('Name');
+            expect(controller.panels[1].columns[0].field.name()).toEqual('name');
         });
 
     });

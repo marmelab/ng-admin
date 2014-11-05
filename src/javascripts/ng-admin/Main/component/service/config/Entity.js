@@ -6,28 +6,11 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    function defaultSortParams(field, dir) {
-        return {
-            params: {
-                _sort: field,
-                _sortDir: dir
-            },
-            headers: {
-            }
-        };
-    }
-
-    function defaultFilterParams(params) {
-        return params;
-    }
-
     var config = {
         name: 'entity',
         label: 'My entity',
         identifier: null,
-        order: null,
-        filterParams: defaultFilterParams,
-        sortParams: defaultSortParams
+        order: null
     };
 
     /**
@@ -184,15 +167,6 @@ define(function (require) {
      */
     Entity.prototype.getMappedValue = function (fieldName) {
         return this.values[fieldName];
-    };
-
-    /**
-     * Return configurable sorting params
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getSortParams = function (sortField, sortDir) {
-        return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
     };
 
     return Entity;

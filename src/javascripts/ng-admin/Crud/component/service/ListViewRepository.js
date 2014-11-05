@@ -77,15 +77,14 @@ define(function (require) {
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
-        var entityConfig = view.getEntity(),
-            interceptor = view.interceptor(),
+        var interceptor = view.interceptor(),
             sortView = sortField ? sortField.split('.')[0] : '',
-            sortParams = sortView === view.name() ? entityConfig.getSortParams(sortField.split('.').pop(), sortDir) : null,
+            sortParams = sortView === view.name() ? view.getSortParams(sortField.split('.').pop(), sortDir) : null,
             params = view.getAllParams(page, sortParams, query),
             headers = view.getAllHeaders(sortParams),
             fieldName;
 
-        filters = entityConfig.filterParams()(filters);
+        filters = view.filterParams()(filters);
 
         // Add filters
         for (fieldName in filters) {
@@ -98,7 +97,7 @@ define(function (require) {
 
         // Get grid data
         return this.Restangular
-            .all(entityConfig.name())
+            .all(view.getEntity().name())
             .getList(params, headers);
     };
 
