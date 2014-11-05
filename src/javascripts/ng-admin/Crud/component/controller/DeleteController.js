@@ -10,6 +10,7 @@ define(function () {
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = Configuration().getViewByEntityAndType(this.entityLabel, 'DeleteView');
+        this.title = this.view.title();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

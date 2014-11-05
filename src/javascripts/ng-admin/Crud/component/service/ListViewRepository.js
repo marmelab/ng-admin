@@ -64,27 +64,27 @@ define(function (require) {
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {View}   view      the view associated to the entity
-     * @param {Number} page      the page number
-     * @param {String} query     searchQuery to filter elements
-     * @param {String} sortField the field to be sorted ex: entity.fieldName
-     * @param {String} sortDir   the direction of the sort
-     * @param {Object} filters   filter specific fields
+     * @param {ListView} listView  the view associated to the entity
+     * @param {Number}   page      the page number
+     * @param {String}   query     searchQuery to filter elements
+     * @param {String}   sortField the field to be sorted ex: entity.fieldName
+     * @param {String}   sortDir   the direction of the sort
+     * @param {Object}   filters   filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
-    ListViewRepository.prototype.getRawValues = function (view, page, query, sortField, sortDir, filters) {
+    ListViewRepository.prototype.getRawValues = function (listView, page, query, sortField, sortDir, filters) {
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
-        var interceptor = view.interceptor(),
+        var interceptor = listView.interceptor(),
             sortView = sortField ? sortField.split('.')[0] : '',
-            sortParams = sortView === view.name() ? view.getSortParams(sortField.split('.').pop(), sortDir) : null,
-            params = view.getAllParams(page, sortParams, query),
-            headers = view.getAllHeaders(sortParams),
+            sortParams = sortView === listView.name() ? listView.getSortParams(sortField.split('.').pop(), sortDir) : null,
+            params = listView.getAllParams(page, sortParams, query),
+            headers = listView.getAllHeaders(sortParams),
             fieldName;
 
-        filters = view.filterParams()(filters);
+        filters = listView.filterParams()(filters);
 
         // Add filters
         for (fieldName in filters) {
@@ -97,7 +97,7 @@ define(function (require) {
 
         // Get grid data
         return this.Restangular
-            .all(view.getEntity().name())
+            .all(listView.getEntity().name())
             .getList(params, headers);
     };
 

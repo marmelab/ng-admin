@@ -311,9 +311,7 @@ define(function (require) {
         for (fieldName in fields) {
             field = fields[fieldName];
 
-            if (field.type() === 'callback') {
-                //result.getField(fieldName).value(field.getCallbackValue(result));
-            } else if (field.name() in rawEntry) {
+            if (field.name() in rawEntry) {
                 result.getField(fieldName).value(field.valueTransformer()(rawEntry[field.name()]));
             }
         }
