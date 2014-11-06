@@ -3,9 +3,9 @@
            class="form-control"
            type="text"
            datepicker-popup="{{ field.format() }}"
-           ng-model="$ngModelValue"
-           ng-model-getter="field.value()"
-           ng-model-setter="field.value($value)"
+           ng-model="field.value"
+           min-date="field.minDate"
+           max-date="field.maxDate"
            ng-required="field.validation().required"
            is-open="isOpen"
            close-text="Close" />

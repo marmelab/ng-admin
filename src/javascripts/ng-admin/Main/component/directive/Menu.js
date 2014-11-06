@@ -1,9 +1,8 @@
-/*global define*/
-
-define(function (require) {
+define(function(require) {
     'use strict';
 
-    var menuView = require('text!../../view/menu.html');
+    var angular = require('angular'),
+        menuView = require('text!../../view/menu.html');
 
     function Menu() {
         return {

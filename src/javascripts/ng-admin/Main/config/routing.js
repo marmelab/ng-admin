@@ -1,7 +1,5 @@
-/*global define*/
-
 define(function (require) {
-    'use strict';
+    "use strict";
 
     var layoutTemplate = require('text!../view/layout.html'),
         dashboardTemplate = require('text!../view/dashboard.html');

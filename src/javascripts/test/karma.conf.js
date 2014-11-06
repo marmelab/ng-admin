@@ -1,6 +1,4 @@
-module.exports = function (config) {
-    'use strict';
-
+module.exports = function(config) {
     config.set({
         basePath: '../',
         frameworks: ['requirejs', 'jasmine'],
@@ -10,11 +8,10 @@ module.exports = function (config) {
         files: [
             {pattern: 'bower_components/angular/angular.js', included: false},
             {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
-            {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
 
             // ng-admin application files
-            {pattern: 'ng-admin/**/**/**/*.js', included: false},
-            {pattern: 'ng-admin/lib/**/*.js', included: false},
+            {pattern: 'ng-admin/**/component/**/*.js', included: false},
+            {pattern: 'ng-admin/**/config/**/*.js', included: false},
             {pattern: 'ng-admin/**/view/**/*.html', included: false},
 
             // Test files

@@ -44,7 +44,6 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
 */
 .dashboard-content {
     .panel-default {
-        margin-bottom: 20px!important;
         padding: 0;
         margin: 0 1%;
         overflow: scroll;
@@ -201,10 +200,6 @@ div.bottom-loader {
         margin-top: 2px;
         background: #ffffff;
         width: 100%;
-    }
-
-    a {
-        cursor: pointer;
     }
 
     .ta-toolbar button {
