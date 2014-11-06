@@ -1,25 +1,23 @@
-/*global define*/
-
-define(function () {
-    'use strict';
+define(function(require) {
+    "use strict";
 
     /**
      * Display loader on each route change
      *
-     * @param {$rootScope}  $rootScope
-     * @param {$window}     $window
-     * @param {progression} progression
+     * @param {$rootScope} $rootScope
+     * @param {$window} $window
+     * @param {progress} progress
      */
-    function loader($rootScope, $window, progression) {
-        $rootScope.$on('$stateChangeStart', function () {
-            progression.start();
+    function loader($rootScope, $window, progress) {
+        $rootScope.$on('$stateChangeStart', function() {
+            progress.start();
             $window.scrollTo(0, 0);
         });
 
-        $rootScope.$on('$stateChangeSuccess', progression.done.bind(progression));
+        $rootScope.$on('$stateChangeSuccess', progress.done.bind(progress));
     }
 
-    loader.$inject = ['$rootScope', '$window', 'progression'];
+    loader.$inject = ['$rootScope', '$window', 'progress'];
 
     return loader;
 });

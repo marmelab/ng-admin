@@ -1,12 +1,5 @@
-<select id="{{ field.name() }}"
-        class="form-control"
-        ng-model="$ngModelValue"
-        ng-model-getter="field.value()"
-        ng-model-setter="field.value($value)"
-        ng-multiple="true" multiple
-        ng-required="field.validation().required">
-
-    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="referenceManyField.contains(field.value(), key)" >
+<select id="{{ field.name() }}" class="form-control" ng-model="field.value" ng-multiple="true" multiple  ng-required="field.validation().required">
+    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="referenceManyField.contains(field.value, key)" >
         {{ value }}
     </option>
 </select>

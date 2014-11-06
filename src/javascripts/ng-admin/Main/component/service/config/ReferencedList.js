@@ -1,85 +1,67 @@
-/*global define*/
-
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        Reference = require('ng-admin/Main/component/service/config/Reference'),
-        utils = require('ng-admin/lib/utils');
+    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var items = [];
 
-    function defaultValueTransformer(value) {
+    var defaultValueTransformer = function(value) {
         return value;
-    }
+    };
 
     var config = {
         name: 'myReference',
-        type: 'ReferencedList',
+        type: 'referenced-list',
         label: 'My list',
         edition : 'editable',
         list: false,
         order: null,
         valueTransformer : defaultValueTransformer,
-        targetReferenceField : null,
+        targetEntity : null,
+        targetField : null,
         targetFields : [],
-        isEditLink: false,
+        isEditLink: true,
         validation: {
             required: false
-        }
+        },
+        defaultValue: null
     };
 
     /**
      * @constructor
      */
     function ReferencedList(fieldName) {
-        Reference.apply(this, arguments);
-
+        this.entity = null;
+        this.config = angular.copy(config);
         this.config.name = fieldName || 'reference';
-        this.config.type = 'ReferencedList';
-        this.entries = [];
     }
 
-    utils.inherits(ReferencedList, Reference);
-    Configurable(ReferencedList.prototype, config);
+    ReferencedList.prototype.getItems = function() {
+        return items;
+    };
 
-    /**
-     * Set or get the type
-     *
-     * @param {[Field]} targetFields
-     * @returns ReferencedList
-     */
-    ReferencedList.prototype.targetFields = function (targetFields) {
-        if (arguments.length === 0) {
-            return this.config.targetFields;
-        }
-
-        var i;
-
-        this.referencedView.removeFields();
-        for (i in targetFields) {
-            this.referencedView.addField(targetFields[i]);
-        }
-
-        this.config.targetFields = targetFields;
+    ReferencedList.prototype.setItems = function(i) {
+        items = i;
 
         return this;
     };
 
-    /**
-     * Returns columns used to display the datagrid
-     *
-     * @returns {Array}
-     */
-    ReferencedList.prototype.getGridColumns = function () {
-        var columns = [],
-            field,
-            i,
-            l;
+    ReferencedList.prototype.getReferenceManyFields = function() {
+        var fields = [];
 
-        for (i = 0, l = this.config.targetFields.length; i < l; i++) {
-            field = this.config.targetFields[i];
-            if (!field.displayed()) {
-                continue;
+        angular.forEach(this.targetFields(), function(targetField) {
+            if (targetField.type() === 'reference-many') {
+                fields.push(targetField);
             }
+        });
+
+        return fields;
+    };
+
+    ReferencedList.prototype.getGridColumns = function() {
+        var columns = [];
+
+        for (var i = 0, l = this.config.targetFields.length; i < l; i++) {
+            var field = this.config.targetFields[i];
 
             columns.push({
                 field: field,
@@ -91,45 +73,39 @@ define(function (require) {
     };
 
     /**
-     * Returns only referencedList values for an entity (filter it by identifier value)
-     *
-     * @param {String|Number}  entityId
-     *
-     * @returns {ReferencedList}
+     * @param {Entity} entity
      */
-    ReferencedList.prototype.filterEntries = function (entityId) {
-        var results = [],
-            entry,
-            targetRefField = this.targetReferenceField(),
-            i,
-            l;
+    ReferencedList.prototype.setEntity = function(entity) {
+        this.entity = entity;
 
-        for (i = 0, l = this.entries.length; i < l; i++) {
-            entry = this.entries[i];
+        return this;
+    };
 
-            if (entry[targetRefField] == entityId) {
-                results.push(entry);
-            }
+    /**
+     * @return {Entity}
+     */
+    ReferencedList.prototype.getEntity = function() {
+        return this.entity;
+    };
+
+    /**
+     * @return {string}
+     */
+    ReferencedList.prototype.getSortName = function() {
+        return this.entity.name() + '.' + this.name();
+    };
+
+    ReferencedList.prototype.clear = function() {
+        return this;
+    };
+
+    ReferencedList.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
         }
-
-        this.entries = results;
-
-        return this;
     };
 
-    ReferencedList.prototype.getEntries = function () {
-        return this.entries;
-    };
-
-    ReferencedList.prototype.setEntries = function (entries) {
-        this.entries = entries;
-
-        return this;
-    };
-
-    ReferencedList.prototype.clear = function () {
-        return this;
-    };
+    Configurable(ReferencedList.prototype, config);
 
     return ReferencedList;
 });

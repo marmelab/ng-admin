@@ -1,5 +1,3 @@
-/*global require, define*/
-
 require.config({
     paths: {
         'angular': 'bower_components/angular/angular',
@@ -53,7 +51,7 @@ require.config({
     }
 });
 
-define(function (require) {
+define(function(require) {
     "use strict";
 
     var angular = require('angular');

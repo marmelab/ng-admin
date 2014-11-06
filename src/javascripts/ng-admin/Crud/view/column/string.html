@@ -1,7 +1,7 @@
-<div ng-switch="column.field.isEditLink()">
-    <a ng-switch-when="true" ng-click="edit(entry)">
-        {{ entry.getField(column.field.name()).value() }}
+<div ng-switch="entity.getField(column.field.name()).isEditLink()">
+    <a ng-switch-when="true" ng-click="edit(entity)">
+        {{ entity.getField(column.field.name()).value }}
     </a>
 
-    <span ng-switch-default>{{ entry.getField(column.field.name()).value() }}</span>
+    <span ng-switch-default>{{ entity.getField(column.field.name()).value }}</span>
 </div>

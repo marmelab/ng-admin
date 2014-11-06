@@ -2,7 +2,5 @@
        class="form-control"
        type="number"
        step="{{ field.validation().step || 1 }}"
-       ng-model="$ngModelValue"
-       ng-model-getter="field.value()"
-       ng-model-setter="field.value($value)"
+       ng-model="field.value"
        ng-required="field.validation().required" />

@@ -1,8 +1,6 @@
 <input id="{{ field.name() }}"
        class="form-control"
        type="text"
-       ng-model="$ngModelValue"
-       ng-model-getter="field.value()"
-       ng-model-setter="field.value($value)"
+       ng-model="field.value"
        ng-required="field.validation().required"
        maxlength="{{ field.validation.maxlength }}" />

@@ -1,169 +1,98 @@
-/*global define*/
-
 define(function (require) {
     'use strict';
 
-    var angular = require('angular'),
-        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        utils = require('ng-admin/lib/utils');
+    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
+    var availableTypes = ['number', 'text', 'email', 'date'];
+    var availableEditions = ['read-only', 'editable'];
 
-    function defaultValueTransformer(value) {
+    var defaultValueTransformer = function(value) {
         return value;
-    }
+    };
 
     var config = {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
+        edition : 'editable',
+        order: null,
         targetEntity : null,
-        targetField : null,
+        targetLabel : null,
         valueTransformer : defaultValueTransformer,
-        truncateList: false,
+        list: true,
+        dashboard: true,
+        identifier: false,
         isEditLink: true,
         validation: {
             required: false
-        }
+        },
+        defaultValue: null
     };
 
     /**
      * @constructor
      */
     function Reference(fieldName) {
-        Field.apply(this, arguments);
-
+        this.entity = null;
+        this.value = null;
         this.referencedValue = null;
-        this.entries = {};
+        this.choices = {};
+        this.config = angular.copy(config);
         this.config.name = fieldName || 'reference';
-        this.config.type = 'Reference';
-        this.referencedView = new ListView();
-        this.referencedViewConfigured = false;
     }
 
-    utils.inherits(Reference, Field);
-    Configurable(Reference.prototype, config);
-
     /**
-     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
      *
-     * @returns {Object}
+     * @param {String} edition
+     * @returns string|Reference
      */
-    Reference.prototype.getChoices = function () {
-        var result = {},
-            entry,
-            targetEntity = this.targetEntity(),
-            targetLabel = this.targetField().name(),
-            targetIdentifier = targetEntity.identifier().name(),
-            i,
-            l;
-
-        for (i = 0, l = this.entries.length; i < l; i++) {
-            entry = this.entries[i];
-
-            result[entry[targetIdentifier]] = entry[targetLabel];
+    Reference.prototype.edition = function(edition) {
+        if (arguments.length === 0) {
+            return this.config.edition;
         }
 
-        return result;
+        if (availableEditions.indexOf(edition) === -1) {
+            throw new Exception('Type should be one of ' + availableTypes.join(', '));
+        }
+
+        this.config.edition = edition;
+        return this;
+    };
+
+    Reference.prototype.getChoices = function() {
+        return this.choices;
+    };
+
+    Reference.prototype.setChoices = function(c) {
+        this.choices = c;
+
+        return this;
     };
 
     /**
-     * Truncate the value based on the `truncateList` configuration
-     *
-     * @param {*} value
-     *
-     * @returns {*}
-     */
-    Reference.prototype.getTruncatedListValue = function (value) {
-        if (this.config.truncateList) {
-            value = this.config.truncateList(value);
-        }
-
-        return value;
-    };
-
-    /**
-     * Set or get the targeted entity
-     *
      * @param {Entity} entity
-     *
-     * @returns {Entity|Reference}
      */
-    Reference.prototype.targetEntity = function (entity) {
-        if (arguments.length === 0) {
-            return this.config.targetEntity;
-        }
-
-        this.config.targetEntity = entity;
-        this.referencedView.setEntity(entity);
+    Reference.prototype.setEntity = function(entity) {
+        this.entity = entity;
 
         return this;
     };
 
     /**
-     * Set or get the targeted entity
-     *
-     * @param {Field} field
-     *
-     * @returns {Field|Reference}
+     * @return {Entity}
      */
-    Reference.prototype.targetField = function (field) {
-        if (arguments.length === 0) {
-            return this.config.targetField;
-        }
-
-        this.config.targetField = field;
-        this.referencedView
-            .removeFields()
-            .addField(field);
-
-        return this;
+    Reference.prototype.getEntity = function() {
+        return this.entity;
     };
 
     /**
-     * @returns {ListView} a fake view that keep information about the targeted entity
+     * @return {string}
      */
-    Reference.prototype.getReferencedView = function () {
-        // The configuration of the referencedView should be done after all entities are defined
-        // otherwise the ListView should not be defined when setting a targetEntity
-        if (!this.referencedViewConfigured) {
-            // Use the same configuration as the listView of this entity
-            var listView = this.targetEntity().getOneViewOfType('ListView');
-            if (listView) {
-                this.referencedView.config = angular.copy(listView.config);
-                this.referencedView.config.pagination = false;
-            }
-
-            this.referencedViewConfigured = true;
-        }
-
-        return this.referencedView;
+    Reference.prototype.getSortName = function() {
+        return this.entity.name() + '.' + this.name();
     };
 
-    /**
-     * @returns {[Object]}
-     */
-    Reference.prototype.getEntries = function () {
-        return this.entries;
-    };
-
-    /**
-     * @param {[Object]} entries
-     * @returns {Reference}
-     */
-    Reference.prototype.setEntries = function (entries) {
-        this.entries = entries;
-
-        return this;
-    };
-
-    /**
-     * Empty field value
-     *
-     * @returns {Reference}
-     */
-    Reference.prototype.clear = function () {
-        this.value(null);
+    Reference.prototype.clear = function() {
+        this.value = null;
 
         return this;
     };
@@ -173,9 +102,17 @@ define(function (require) {
      *
      * @returns mixed
      */
-    Reference.prototype.getListValue = function () {
+    Reference.prototype.getListValue = function() {
         return this.referencedValue;
     };
+
+    Reference.prototype.processDefaultValue = function() {
+        if (!this.value && this.defaultValue()) {
+            this.value = this.defaultValue();
+        }
+    };
+
+    Configurable(Reference.prototype, config);
 
     return Reference;
 });

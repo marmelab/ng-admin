@@ -1,8 +1,7 @@
-/*global define*/
-
-define(function (require) {
+define(function(require) {
     'use strict';
 
+    var angular = require('angular');
     var choicesFieldView = require('text!../../../view/field/choices.html');
 
     function ChoicesField() {

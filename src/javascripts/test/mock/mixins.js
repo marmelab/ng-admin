@@ -1,13 +1,11 @@
-/*global define*/
-
-define('mixins', [], function () {
+define('mixins', [], function() {
     "use strict";
 
-    var buildPromise = function (output) {
-        return (function () {
+    var buildPromise = function(output) {
+        return (function(){
             var result;
             return {
-                'then': function (cb) {
+                then: function(cb) {
                     result = cb(output);
 
                     if (result && result.then) {
@@ -18,7 +16,7 @@ define('mixins', [], function () {
                     // We chain the result into a new promise
                     return buildPromise(result);
                 },
-                'finally': function (cb) {
+                finally: function(cb) {
                     cb();
                     return this;
                 }

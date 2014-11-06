@@ -1,47 +1,42 @@
-/*global define*/
-
-define(function () {
+define(function() {
     'use strict';
 
     /**
-     * @param {$q}                 $q
-     * @param {$filter}            $filter
-     * @param {ListViewRepository} ListViewRepository
-     * @param {Configuration}      Configuration
-     *
+     * @param {$q} $q
+     * @param {CrudManager} CrudManager
+     * @param {Configuration} Configuration
      * @constructor
      */
-    function PanelBuilder($q, $filter, ListViewRepository, Configuration) {
+    function PanelBuilder($q, CrudManager, Configuration) {
         this.$q = $q;
-        this.$filter = $filter;
-        this.ListViewRepository = ListViewRepository;
+        this.CrudManager = CrudManager;
         this.Configuration = Configuration();
     }
 
     /**
      * Returns all elements of each dashboard panels
      *
-     * @returns {promise}
+     * @returns {Promise}
      */
-    PanelBuilder.prototype.getPanelsData = function () {
-        var dashboards = this.Configuration.getViewsOfType('DashboardView'),
-            promises = [],
-            dashboardView,
-            self = this,
-            i;
+    PanelBuilder.prototype.getPanelsData = function() {
+        var promises = [],
+            entity,
+            limit,
+            self = this;
 
-        dashboards = this.$filter('orderElement')(dashboards);
+        angular.forEach(this.Configuration.getEntityNames(), function(entityName) {
+            entity = self.Configuration.getEntity(entityName);
+            limit = entity.dashboard();
 
-        for (i in dashboards) {
-            dashboardView = dashboards[i];
-
-            promises.push(self.ListViewRepository.getAll(dashboardView));
-        }
+            if (limit) {
+                promises.push(self.CrudManager.getAll(entityName, 1, limit));
+            }
+        });
 
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', 'ListViewRepository', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', 'CrudManager', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });
