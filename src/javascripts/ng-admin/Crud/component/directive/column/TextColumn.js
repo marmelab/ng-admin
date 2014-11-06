@@ -1,8 +1,7 @@
-/*global define*/
-
-define(function (require) {
+define(function(require) {
     'use strict';
 
+    var angular = require('angular');
     var textColumnView = require('text!../../../view/column/text.html');
 
     function TextColumn() {

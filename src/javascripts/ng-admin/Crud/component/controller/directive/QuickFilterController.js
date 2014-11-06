@@ -1,6 +1,4 @@
-/*global define*/
-
-define(function () {
+define(function(require) {
     'use strict';
 
     /**
@@ -14,12 +12,12 @@ define(function () {
         this.$location = $location;
 
         var searchParams = this.$location.search();
-        this.quickFilters = this.$scope.view.getQuickFilterNames();
+        this.quickFilters = this.$scope.entityConfig.getQuickFilterNames();
         this.currentQuickFilter = 'quickFilter' in searchParams ? searchParams.quickFilter : null;
-        this.displayFilterQuery = this.$scope.view.filterQuery() !== false;
+        this.displayFilterQuery = this.$scope.entityConfig.filterQuery() !== false;
     }
 
-    QuickFilterController.prototype.filter = function (label) {
+    QuickFilterController.prototype.filter = function(label) {
         this.$location.search('quickFilter', label);
     };
 

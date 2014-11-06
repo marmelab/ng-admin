@@ -1,9 +1,8 @@
-/*global define*/
-
-define(function (require) {
+define(function(require) {
     'use strict';
 
-    var dashboardPanelView = require('text!../../view/dashboard-panel.html');
+    var angular = require('angular'),
+        dashboardPanelView = require('text!../../view/dashboard-panel.html');
 
     function DashboardPanel() {
         return {

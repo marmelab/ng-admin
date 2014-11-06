@@ -1,6 +1,4 @@
-/*global define*/
-
-define(function (require) {
+define(function() {
     'use strict';
 
     /**
@@ -20,26 +18,25 @@ define(function (require) {
         this.retrieveColumns();
     }
 
-    DatagridController.prototype.retrieveColumns = function () {
+    DatagridController.prototype.retrieveColumns = function() {
         // Column can be set in edit form to display certain column of a ReferencedEntity
         if (this.$scope.columns) {
             return;
         }
 
-        var columns = [],
-            fields = this.$scope.view.getDisplayedFields(),
-            field,
-            i;
+        var columns = [];
 
         // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        for (i in fields) {
-            field = fields[i];
+        angular.forEach(this.$scope.entityConfig.getFields(), function(field) {
+            if(!field.list()) {
+                return;
+            }
 
             columns.push({
                 field: field,
                 label: field.label()
             });
-        }
+        });
 
         this.$scope.columns = columns;
     };
@@ -51,7 +48,7 @@ define(function (require) {
      *
      * @returns {Boolean}
      */
-    DatagridController.prototype.isSorting = function (field) {
+    DatagridController.prototype.isSorting = function(field) {
         return this.sortField === field.getSortName();
     };
 
@@ -61,7 +58,7 @@ define(function (require) {
      * @param {Number} index
      * @returns {string}
      */
-    DatagridController.prototype.itemClass = function (index) {
+    DatagridController.prototype.itemClass = function(index) {
         return (index % 2 === 0) ? 'even' : 'odd';
     };
 
@@ -69,7 +66,7 @@ define(function (require) {
      *
      * @param {Field} field
      */
-    DatagridController.prototype.sort = function (field) {
+    DatagridController.prototype.sort = function(field) {
         var dir = 'ASC',
             fieldName = field.getSortName();
 

@@ -1,73 +1,73 @@
-/*global define*/
-
-define(function () {
+define(function() {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, FormViewRepository, Validator, progression, notification, view) {
+    var FormController = function($scope, $location, $filter, CrudManager, Validator, entity, notification, progress) {
+        var isNew = entity.isNew();
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
-        this.FormViewRepository = FormViewRepository;
+        this.CrudManager = CrudManager;
         this.Validator = Validator;
-        this.progression = progression;
+        this.entity = entity;
+        this.title = isNew ? entity.getCreateTitle() : entity.getEditTitle();
+        this.description = entity.getDescription();
         this.notification = notification;
-        this.title = view.getTitle();
-        this.description = view.getDescription();
+        this.progress = progress;
 
-        this.fields = view.getFields();
-        this.entityLabel = view.label();
+        var searchParams = this.$location.search();
+
+        this.fields = entity.getFields();
+
+        if (isNew) {
+            for (var fieldName in this.fields) {
+                this.fields[fieldName].processDefaultValue();
+            }
+        }
+
+        this.entityLabel = entity.label();
+        this.$scope.entity = this.entity;
+        this.$scope.entityConfig = this.entity;
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.entry = view;
-        this.$scope.view = view;
-        this.view = view;
-        this.entity = this.view.getEntity();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    FormController.prototype.create = function () {
+    FormController.prototype.create = function() {
         this.$location.path('/create/' + this.entity.name());
     };
 
-    FormController.prototype.deleteOne = function () {
-        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.identifier().value());
+    FormController.prototype.deleteOne = function() {
+        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.getIdentifier().value);
     };
 
-    FormController.prototype.back = function () {
+    FormController.prototype.back = function() {
         this.$location.path('/list/' + this.entity.name());
     };
 
-    FormController.prototype.validate = function (form, $event) {
+    FormController.prototype.validate = function(form, $event) {
         $event.preventDefault();
-        this.progression.start();
+        this.progress.startnotification;
 
         var value,
             self = this,
-            fields = this.view.getFields(),
-            mappedObject,
-            field,
-            i,
             object = {
-                id: this.view.identifier().value()
+                id: this.entity.getIdentifier().value
             };
 
-        for (i in fields) {
-            field = fields[i];
-            value = field.value();
+        angular.forEach(this.entity.getFields(), function(field){
+            value = field.value;
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
             }
 
             object[field.name()] = value;
-        }
-
-        mappedObject = this.view.mapEntry(object);
+        });
 
         try {
-            this.Validator.validate(mappedObject);
-        } catch (e) {
-            this.progression.done();
-            this.notification.log(e, {addnCls: 'humane-flatty-error'});
+            this.Validator.validate(this.entity.name(), object);
+        } catch(e) {
+            self.progress.done();
+            self.notification.log(e, {addnCls: 'humane-flatty-error'});
             return false;
         }
 
@@ -75,64 +75,62 @@ define(function () {
     };
 
     /**
-     * @param {Object} form
+     * @param {Form }form
      * @param {$event} $event
      */
-    FormController.prototype.submitCreation = function (form, $event) {
+    FormController.prototype.submitCreation = function(form, $event) {
         var object = this.validate(form, $event),
             self = this;
 
-        if (!object) {
+        if (!object){
             return;
         }
 
-        this.FormViewRepository
-            .createOne(this.view, object)
-            .then(function (response) {
-                self.progression.done();
+        this.CrudManager
+            .createOne(this.entity.name(), object)
+            .then(function(response) {
+                self.progress.done();
                 self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.entity.name() + '/' + response.data.id);
             });
     };
 
     /**
-     * @param {Object} form
+     * @param {Form }form
      * @param {$event} $event
      */
-    FormController.prototype.submitEdition = function (form, $event) {
-        var self = this,
-            object = this.validate(form, $event);
-        if (!object) {
+    FormController.prototype.submitEdition = function(form, $event) {
+        var object = this.validate(form, $event),
+            self = this;
+
+        if (!object){
             return;
         }
 
-        this.FormViewRepository
-            .updateOne(this.view, object)
-            .then(function () {
-                self.progression.done();
-                self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-            });
+        this.CrudManager.updateOne(this.entity.name(), object).then(function() {
+            self.progress.done();
+            self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+        });
     };
 
     /**
      * Link to edit entity page
      *
-     * @param {View} entry
+     * @param {Object} item
+     * @param {Entity} entity
      */
-    FormController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifier().value());
+    FormController.prototype.edit = function(item, entity) {
+        this.$location.path('/edit/' +entity.name() + '/' + item[entity.getIdentifier().name()]);
     };
 
-    FormController.prototype.destroy = function () {
+    FormController.prototype.destroy = function() {
         this.$scope = undefined;
-        this.$filter = undefined;
         this.$location = undefined;
-        this.FormViewRepository = undefined;
-        this.view = undefined;
+        this.CrudManager = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'FormViewRepository', 'Validator', 'progression', 'notification', 'view'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CrudManager', 'Validator', 'entity', 'notification', 'progress'];
 
     return FormController;
 });
