@@ -175,14 +175,19 @@ define(function (require) {
             return [];
         }
 
-        var fields = this.getFieldsOfType('Field'),
+        var fields = this.getFields(),
+            field,
             i,
             l,
             fieldName;
 
         for (i = 0, l = entries.length; i < l; i++) {
             for (fieldName in fields) {
-                entries[i].getField(fieldName).value(fields[fieldName].getTruncatedListValue(entries[i].getField(fieldName).value()));
+                field = fields[fieldName];
+
+                if (field.getTruncatedListValue) {
+                    entries[i].values[fieldName] = field.getTruncatedListValue(entries[i].values[fieldName]);
+                }
             }
         }
 

@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, FormViewRepository, Validator, progression, notification, view) {
+    var FormController = function ($scope, $location, $filter, FormViewRepository, Validator, progression, notification, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
@@ -17,7 +17,7 @@ define(function () {
         this.fields = view.getFields();
         this.entityLabel = view.label();
         this.$scope.edit = this.edit.bind(this);
-        this.$scope.entry = view;
+        this.$scope.entry = entry;
         this.$scope.view = view;
         this.view = view;
         this.entity = this.view.getEntity();
@@ -42,18 +42,19 @@ define(function () {
         this.progression.start();
 
         var value,
+            entry = this.$scope.entry,
             self = this,
             fields = this.view.getFields(),
             mappedObject,
             field,
             i,
             object = {
-                id: this.view.identifier().value()
+                id: entry.identifierValue
             };
 
         for (i in fields) {
             field = fields[i];
-            value = field.value();
+            value = entry.values[field.name()];
             if (field.type() === 'date') {
                 value = self.$filter('date')(value, field.validation().format);
             }
@@ -64,7 +65,7 @@ define(function () {
         mappedObject = this.view.mapEntry(object);
 
         try {
-            this.Validator.validate(mappedObject);
+            this.Validator.validate(this.view, mappedObject);
         } catch (e) {
             this.progression.done();
             this.notification.log(e, {addnCls: 'humane-flatty-error'});
@@ -102,6 +103,7 @@ define(function () {
     FormController.prototype.submitEdition = function (form, $event) {
         var self = this,
             object = this.validate(form, $event);
+
         if (!object) {
             return;
         }
@@ -132,7 +134,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'FormViewRepository', 'Validator', 'progression', 'notification', 'view'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'FormViewRepository', 'Validator', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

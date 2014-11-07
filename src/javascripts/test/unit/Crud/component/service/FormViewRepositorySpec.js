@@ -48,14 +48,14 @@ define(function (require) {
                 var formViewRepository = new FormViewRepository({}, Restangular, config);
 
                 formViewRepository.getOne(view, 1)
-                    .then(function (viewResult) {
+                    .then(function (entry) {
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
-                        expect(viewResult.identifier().value()).toBe(1);
-                        expect(viewResult.getField('id').value()).toBe(1);
-                        expect(viewResult.getField('name').value()).toBe('Mizoute');
+                        expect(entry.identifierValue).toBe(1);
+                        expect(entry.values.id).toBe(1);
+                        expect(entry.values.name).toBe('Mizoute');
 
                         // Non mapped field should not be retrieved
-                        expect(viewResult.getField('summary')).toBe(undefined);
+                        expect(entry.values.summary).toBe(undefined);
                     });
             });
 

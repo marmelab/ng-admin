@@ -44,23 +44,27 @@ define(function (require) {
                 human = new Entity('human'),
                 editView = new EditView();
 
-            editView.addField(new Field('id').identifier(true));
+            editView
+                .addField(new Field('id'))
+                .addField(new Field('human_id'))
+                .addField(new Field('name'));
+
             human.addView(editView);
 
             referencedList
                 .targetReferenceField('human_id')
-                .setEntries([
+                .setEntries(editView.mapEntries([
                     { id: 1, human_id: 1, name: 'Suna'},
                     { id: 2, human_id: 2, name: 'Boby'},
                     { id: 3, human_id: 1, name: 'Mizute'}
-                ]);
+                ]));
 
             referencedList.filterEntries(1);
             var entries = referencedList.getEntries();
 
             expect(entries.length).toEqual(2);
-            expect(entries[0].name).toEqual('Suna');
-            expect(entries[1].name).toEqual('Mizute');
+            expect(entries[0].values.name).toEqual('Suna');
+            expect(entries[1].values.name).toEqual('Mizute');
         });
 
         it('should store target entity configuration', function () {

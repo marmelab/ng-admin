@@ -33,7 +33,7 @@ define(function (require) {
                 .addView(editView);
 
             var choices = ref.getChoices();
-            expect(ref.type()).toEqual('reference');
+            expect(ref.type()).toEqual('Reference');
             expect(choices[1]).toEqual('Suna');
             expect(choices[2]).toEqual('Boby');
             expect(choices[3]).toEqual('Mizute');

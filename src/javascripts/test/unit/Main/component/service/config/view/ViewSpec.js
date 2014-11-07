@@ -86,9 +86,9 @@ define(function (require) {
             ]);
 
             expect(entries.length).toEqual(3);
-            expect(entries[0].identifier().value()).toEqual(1);
-            expect(entries[1].getField('title').value()).toEqual('World');
-            expect(entries[1].getField('published')).toEqual(null);
+            expect(entries[0].identifierValue).toEqual(1);
+            expect(entries[1].values.title).toEqual('World');
+            expect(entries[1].values.published).toEqual(null);
         });
 
         it('should map some one entity when the identifier in not in the view', function () {
@@ -104,8 +104,8 @@ define(function (require) {
                 .addView(view);
 
             var entry = view.mapEntry({ post_id: 1, title: 'Hello', published: true});
-            expect(entry.identifier().value()).toEqual(1);
-            expect(entry.getField('title').value()).toEqual('Hello');
+            expect(entry.identifierValue).toEqual(1);
+            expect(entry.values.title).toEqual('Hello');
         });
 
     });

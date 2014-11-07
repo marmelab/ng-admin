@@ -1,7 +1,5 @@
 <input id="{{ field.name() }}"
        class="form-control"
        type="email"
-       ng-model="$ngModelValue"
-       ng-model-getter="field.value()"
-       ng-model-setter="field.value($value)"
+       ng-model="entry.values[field.name()]"
        ng-required="field.validation().required" />

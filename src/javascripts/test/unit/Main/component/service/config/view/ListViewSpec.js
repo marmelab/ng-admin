@@ -62,10 +62,10 @@ define(function (require) {
                 { id: 3, human_id: 1, name: 'Mizute'}
             ]));
 
-            expect(entries[0].getField('id').value()).toEqual(1);
-            expect(entries[0].getField('name').value()).toEqual('Suna...');
-            expect(entries[2].getField('id').value()).toEqual(3);
-            expect(entries[2].getField('name').value()).toEqual('Mizut...');
+            expect(entries[0].values.id).toEqual(1);
+            expect(entries[0].values.name).toEqual('Suna...');
+            expect(entries[2].values.id).toEqual(3);
+            expect(entries[2].values.name).toEqual('Mizut...');
         });
 
     });

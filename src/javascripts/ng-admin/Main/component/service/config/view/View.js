@@ -4,6 +4,7 @@ define(function (require) {
     'use strict';
 
     var angular = require('angular'),
+        Entry = require('ng-admin/Main/component/service/config/Entry'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     /**
@@ -277,7 +278,7 @@ define(function (require) {
      *
      * @param {[Object]} rawEntries
      *
-     * @returns {[View]}
+     * @returns {[Entry]}
      */
     View.prototype.mapEntries = function (rawEntries) {
         var results = [],
@@ -297,38 +298,40 @@ define(function (require) {
      *
      * @param {Object} rawEntry
      *
-     * @returns {View}
+     * @returns {Entry}
      */
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
             extraFields = this.getEntity().getMappedFields(),
-            result = this.clone(),
-            resultEntity = result.getEntity(),
-            identifier = result.identifier(),
+            entry = new Entry(),
+            resultEntity = this.getEntity(),
+            identifier = this.identifier(),
             fieldName,
             field;
+
+        entry.entityName = resultEntity.name();
 
         for (fieldName in fields) {
             field = fields[fieldName];
 
             if (field.name() in rawEntry) {
-                result.getField(fieldName).value(field.valueTransformer()(rawEntry[field.name()]));
+                entry.values[fieldName] = field.valueTransformer()(rawEntry[field.name()]);
             }
         }
 
         // Add identifier value
         if (identifier) {
-            identifier.value(rawEntry[identifier.name()]);
+            entry.identifierValue = rawEntry[identifier.name()];
         }
 
         // Add extra field to map
         for (fieldName in extraFields) {
             field = extraFields[fieldName];
 
-            resultEntity.values[fieldName] = rawEntry[field.name()];
+            entry.values[fieldName] = rawEntry[field.name()];
         }
 
-        return result;
+        return entry;
     };
 
     /**

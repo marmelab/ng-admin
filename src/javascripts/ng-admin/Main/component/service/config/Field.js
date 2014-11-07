@@ -31,7 +31,8 @@ define(function (require) {
         dashboard: true,
         truncateList: false,
         validation: {
-            required: false
+            required: false,
+            maxlength: false
         },
         choices: [],
         defaultValue: null

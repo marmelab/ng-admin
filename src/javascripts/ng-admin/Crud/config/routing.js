@@ -54,22 +54,19 @@ define(function (require) {
                 template: createTemplate,
                 resolve: {
                     view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var config = Configuration(),
-                            view = config.getViewByEntityAndType($stateParams.entity, 'CreateView');
+                        var config = Configuration();
 
-                        view
+                        return config.getViewByEntityAndType($stateParams.entity, 'CreateView');
+                    }],
+                    entry: ['view', function (view) {
+                        return view
+                            .mapEntry({})
                             .clear()
                             .processFieldsDefaultValue();
-
-                        return view;
                     }],
-                    referencedValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration',
-                        function ($stateParams, ListViewRepository, Configuration) {
-                            var config = Configuration(),
-                                createView = config.getViewByEntityAndType($stateParams.entity, 'CreateView');
-
-                            return ListViewRepository.getReferencedValues(createView);
-                        }]
+                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
+                        return ListViewRepository.getReferencedValues(view);
+                    }]
                 }
             });
 
@@ -87,23 +84,22 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    view: ['$stateParams', 'FormViewRepository', 'NgAdminConfiguration', function ($stateParams, FormViewRepository, Configuration) {
-                        var config = Configuration(),
-                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView');
+                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                        var config = Configuration();
 
-                        return FormViewRepository.getOne(editView, $stateParams.id);
+                        return config.getViewByEntityAndType($stateParams.entity, 'EditView');
                     }],
-                    referencedValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
-                        var config = Configuration(),
-                            editView = config.getViewByEntityAndType($stateParams.entity, 'EditView');
-
-                        return ListViewRepository.getReferencedValues(editView);
+                    entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
+                        return FormViewRepository.getOne(view, $stateParams.id);
                     }],
-                    referencedListValues: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', 'view', function ($stateParams, ListViewRepository, Configuration, view) {
+                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
+                        return ListViewRepository.getReferencedValues(view);
+                    }],
+                    referencedListValues: ['$stateParams', 'ListViewRepository', 'view', 'entry', function ($stateParams, ListViewRepository, view, entry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir);
+                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
                     }]
                 }
             });

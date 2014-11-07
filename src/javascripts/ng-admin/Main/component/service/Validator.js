@@ -9,11 +9,12 @@ define(function () {
     /**
      * Validate views fields
      *
-     * @param {View} view
+     * @param {View}  view
+     * @param {Entry} entry
      *
      * @returns {boolean}
      */
-    Validator.prototype.validate = function (view) {
+    Validator.prototype.validate = function (view, entry) {
         var fields = view.getFields(),
             validation,
             field,
@@ -24,7 +25,7 @@ define(function () {
             validation = field.validation();
 
             if (typeof (validation.validator) === 'function') {
-                validation.validator(field.value());
+                validation.validator(entry.values[field.name()]);
             }
         }
     };

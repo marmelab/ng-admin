@@ -7,6 +7,7 @@ define(function (require) {
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Field = require('ng-admin/Main/component/service/config/Field'),
+        Entry = require('ng-admin/Main/component/service/config/Entry'),
         Reference = require('ng-admin/Main/component/service/config/Reference'),
         ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
         ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
@@ -76,11 +77,11 @@ define(function (require) {
                     expect(result.totalItems).toEqual(2);
                     expect(result.entries.length).toEqual(2);
 
-                    expect(result.entries[0].getField('id').value()).toEqual(1);
-                    expect(result.entries[0].getField('name').value()).toEqual('Mizoute');
+                    expect(result.entries[0].values.id).toEqual(1);
+                    expect(result.entries[0].values.name).toEqual('Mizoute');
 
-                    expect(result.entries[0].getField('human_id').value()).toEqual(1);
-                    expect(result.entries[0].getField('human_id').getListValue()).toEqual('Daph');
+                    expect(result.entries[0].values.human_id).toEqual(1);
+                    expect(result.entries[0].listValues.human_id).toEqual('Daph');
                 });
         });
 
@@ -162,7 +163,8 @@ define(function (require) {
                 .targetReferenceField('state_id')
                 .targetFields([
                     new Field('id'),
-                    new Field('name')
+                    new Field('name'),
+                    new Field('state_id')
                 ])
                 .targetEntity(character);
 
@@ -176,24 +178,21 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 
-            listViewRepository.getReferencedListValues(stateList)
+            listViewRepository.getReferencedListValues(stateList, null, null, 1)
                 .then(function (references) {
                     var entries = references.character.getEntries();
 
                     expect(entries.length).toEqual(2);
-                    expect(entries[0].getField('name').value()).toEqual('Rollo');
-                    expect(entries[1].getField('id').value()).toEqual('19DFE');
+                    expect(entries[0].values.name).toEqual('Rollo');
+                    expect(entries[1].values.id).toEqual('19DFE');
                 });
         });
 
         it('should fill reference values of a collection', function () {
             var listViewRepository = new ListViewRepository({}, Restangular, config),
-                cat1 = new Entity(),
-                cat2 = new Entity(),
-                cat3 = new Entity(),
-                entry1 = new ListView('catList'),
-                entry2 = new ListView('catList'),
-                entry3 = new ListView('catList'),
+                entry1 = new Entry(),
+                entry2 = new Entry('catList'),
+                entry3 = new Entry('catList'),
                 human = new Entity('humans').addView(new EditView('human-list')).identifier(new Field('id')),
                 tag = new Entity('tags').addView(new EditView('tags-list')).identifier(new Field('id')),
                 ref1 = new Reference('human_id'),
@@ -217,19 +216,11 @@ define(function (require) {
                     {id: 3, label: 'Panda'}
                 ]);
 
-            entry1.addField(angular.copy(ref1)).addField(angular.copy(ref2));
-            entry2.addField(angular.copy(ref1)).addField(angular.copy(ref2));
-            entry3.addField(angular.copy(ref2)).addField(angular.copy(ref1));
-
-            cat1.addView(entry1);
-            cat2.addView(entry2);
-            cat3.addView(entry3);
-
-            entry1.getField('human_id').value(1);
-            entry1.getField('tags').value([1, 3]);
-            entry2.getField('human_id').value(1);
-            entry2.getField('tags').value([2]);
-            entry3.getField('human_id').value(3);
+            entry1.values.human_id = 1;
+            entry1.values.tags = [1, 3];
+            entry2.values.human_id = 1;
+            entry2.values.tags = [2];
+            entry3.values.human_id = 3;
 
             var collection = [entry1, entry2, entry3];
             var referencedValues = {
@@ -240,11 +231,11 @@ define(function (require) {
             collection = listViewRepository.fillReferencesValuesFromCollection(collection, referencedValues, true);
 
             expect(collection.length).toEqual(3);
-            expect(collection[0].getField('human_id').referencedValue).toEqual('Bob');
-            expect(collection[0].getField('tags').value()).toEqual(['Photo', 'Panda']);
-            expect(collection[1].getField('tags').value()).toEqual(['Watch']);
-            expect(collection[2].getField('human_id').referencedValue).toEqual('Jack');
-            expect(collection[2].getField('tags').value()).toEqual([]);
+            expect(collection[0].listValues.human_id).toEqual('Bob');
+            expect(collection[0].listValues.tags).toEqual(['Photo', 'Panda']);
+            expect(collection[1].listValues.tags).toEqual(['Watch']);
+            expect(collection[2].listValues.human_id).toEqual('Jack');
+            expect(collection[2].listValues.tags).toEqual([]);
         });
     });
 });

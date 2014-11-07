@@ -1,8 +1,6 @@
 <textarea
         id="{{ field.name() }}"
         class="form-control"
-        ng-model="$ngModelValue"
-        ng-model-getter="field.value()"
-        ng-model-setter="field.value($value)"
+        ng-model="entry.values[field.name()]"
         ng-required="field.validation().required"
-        maxlength="{{ field.validation.maxlength }}"></textarea>
+        maxlength="{{ field.validation().maxlength }}"></textarea>

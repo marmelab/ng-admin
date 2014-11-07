@@ -47,6 +47,7 @@ define(function (require) {
                 referencedValues = refValues;
 
                 entries = view.mapEntries(rawEntries.data);
+
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
                 entries = view.truncateListValue(entries);
 
@@ -140,13 +141,13 @@ define(function (require) {
      * @param {View}   view
      * @param {String} sortField
      * @param {String} sortDir
+     * @param {*} entityId
      *
      * @returns {promise}
      */
-    ListViewRepository.prototype.getReferencedListValues = function (view, sortField, sortDir) {
+    ListViewRepository.prototype.getReferencedListValues = function (view, sortField, sortDir, entityId) {
         var self = this,
             referenceLists = view.getReferencedLists(),
-            entityId = view.identifier().value(),
             calls = [],
             referenceList,
             referencedView,
@@ -166,11 +167,12 @@ define(function (require) {
                     referenceList = referenceLists[i];
                     referencedView = referenceList.getReferencedView();
 
+
                     referenceList
                         .setEntries(responses[j++].data)
-                        .filterEntries(entityId)
                         // Map entries
-                        .setEntries(referencedView.mapEntries(referenceList.getEntries()));
+                        .setEntries(referencedView.mapEntries(referenceList.getEntries()))
+                        .filterEntries(entityId);
                 }
 
                 return referenceLists;
@@ -206,7 +208,7 @@ define(function (require) {
             for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];
                 entries = [];
-                identifier = reference.valueTransformer()(entry.getField(referenceField).value());
+                identifier = reference.valueTransformer()(entry.values[referenceField]);
 
                 if (reference.type() === 'ReferenceMany') {
                     for (j in identifier) {
@@ -214,9 +216,9 @@ define(function (require) {
                         entries.push(choices[id]);
                     }
 
-                    entry.getField(referenceField).value(entries);
+                    entry.listValues[referenceField] = entries;
                 } else if (fillSimpleReference && identifier && identifier in choices) {
-                    entry.getField(referenceField).referencedValue = reference.getTruncatedListValue(choices[identifier]);
+                    entry.listValues[referenceField] = reference.getTruncatedListValue(choices[identifier]);
                 }
             }
         }

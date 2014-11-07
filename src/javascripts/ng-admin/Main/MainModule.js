@@ -39,9 +39,6 @@ define(function (require) {
     MainModule.directive('dashboardPanel', require('ng-admin/Main/component/directive/DashboardPanel'));
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
 
-    MainModule.directive('ngModelGetter', require('ng-admin/Main/component/directive/modelGetter'));
-    MainModule.directive('ngModelSetter', require('ng-admin/Main/component/directive/modelSetter'));
-
     MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
 

@@ -10,7 +10,7 @@
             template: '<a ng-click="displayPost(entry)">View&nbsp;post</a>',
             link: function ($scope) {
                 $scope.displayPost = function (entry) {
-                    var postId = entry.getEntity().getMappedValue('post_id');
+                    var postId = entry.values.post_id;
 
                     $location.path('/edit/posts/' + postId);
                 };
@@ -248,7 +248,7 @@
                     .label('Upper name')
                     .isEditLink(false)
                     .callback(function () {
-                        return '{{ entry.getField("name").value().toUpperCase() }}';
+                        return '{{ entry.values.name.toUpperCase() }}';
                     })
                     )
                 )

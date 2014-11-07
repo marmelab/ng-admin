@@ -36,26 +36,7 @@ define(function (require) {
             .one(view.getEntity().name(), entityId)
             .get(params, headers)
             .then(function (response) {
-
-                var fields = view.getFields(),
-                    field,
-                    identifier = view.identifier(),
-                    i,
-                    values = response.data;
-
-                // Transform each values with `valueTransformer`
-                for (i in fields) {
-                    field = fields[i];
-
-                    view.getField(i).value(field.valueTransformer()(values[field.name()]));
-                }
-
-                // Set identifier value
-                if (identifier) {
-                    identifier.value(entityId);
-                }
-
-                return view;
+                return view.mapEntry(response.data);
             });
     };
 

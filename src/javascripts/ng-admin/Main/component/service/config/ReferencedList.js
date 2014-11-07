@@ -107,7 +107,7 @@ define(function (require) {
         for (i = 0, l = this.entries.length; i < l; i++) {
             entry = this.entries[i];
 
-            if (entry[targetRefField] == entityId) {
+            if (entry.values[targetRefField] == entityId) {
                 results.push(entry);
             }
         }
