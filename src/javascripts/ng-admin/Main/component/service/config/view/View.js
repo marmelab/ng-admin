@@ -266,10 +266,6 @@ define(function (require) {
             return identifier;
         }
 
-        if (identifier) {
-            identifier.value(identifierValue);
-        }
-
         return this;
     };
 
@@ -335,39 +331,6 @@ define(function (require) {
     };
 
     /**
-     * Returns true is the Entity wasn't populated
-     *
-     * @returns {Boolean}
-     */
-    View.prototype.isNew = function () {
-        var identifier = this.identifier();
-
-        return !identifier || identifier.value() === null;
-    };
-
-    /**
-     * Clear all fields
-     *
-     * @return {View}
-     */
-    View.prototype.clear = function () {
-        var fields = this.getFields(),
-            identifier = this.identifier(),
-            i;
-
-        for (i in fields) {
-            fields[i].clear();
-        }
-
-        // Also clear identifier
-        if (identifier) {
-            identifier.clear();
-        }
-
-        return this;
-    };
-
-    /**
      * Remove all fields
      *
      * @return {View}
@@ -381,14 +344,19 @@ define(function (require) {
     /**
      * Use default value for all fields
      *
+     * @param {Entry} entry
+     *
      * @return {View}
      */
-    View.prototype.processFieldsDefaultValue = function () {
+    View.prototype.processFieldsDefaultValue = function (entry) {
         var fields = this.getFields(),
+            field,
             i;
 
         for (i in fields) {
-            fields[i].processDefaultValue();
+            field = fields[i];
+
+            entry.values[field.name()] = field.defaultValue();
         }
 
         return this;

@@ -40,27 +40,6 @@ define(function (require) {
             });
         });
 
-        describe('mapping', function () {
-            it('should map all entity field.', function () {
-                var field1 = new Field('field1'),
-                    field2 = new Field('field1'),
-                    entity = new Entity('myEntity1'),
-                    list = new ListView('list1'),
-                    dashboard = new DashboardView('dashboard1');
-
-                entity
-                    .addView(list)
-                    .addView(dashboard);
-
-                list.addField(field1);
-                dashboard.addField(field2);
-
-                field1.value('abc');
-
-                expect(field2.value()).toBe('abc');
-            });
-        });
-
         describe('config', function () {
             it('should call truncateListValue with a callback.', function () {
                 function truncate(val) {

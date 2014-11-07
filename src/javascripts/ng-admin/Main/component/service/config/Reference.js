@@ -158,17 +158,6 @@ define(function (require) {
     };
 
     /**
-     * Empty field value
-     *
-     * @returns {Reference}
-     */
-    Reference.prototype.clear = function () {
-        this.value(null);
-
-        return this;
-    };
-
-    /**
      * Returns value used in list
      *
      * @returns mixed

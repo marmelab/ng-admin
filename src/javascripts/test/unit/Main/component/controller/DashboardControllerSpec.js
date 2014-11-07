@@ -17,24 +17,19 @@ define(function (require) {
                     .addField(new Field('title').label('Title')),
                 view2 = new DashboardView('MyView2')
                     .label('my dashboard 2')
-                    .addField(new Field('name').label('Name')),
-                view1Copy = angular.copy(view1),
-                view2Copy = angular.copy(view2);
-
-            view1Copy.getField('title').value('abc');
-            view2Copy.getField('name').value('My title');
+                    .addField(new Field('name').label('Name'));
 
             var responses = [
                 {
                     view: view1,
-                    entities: [view1Copy],
+                    entries: [],
                     currentPage: 1,
                     perPage: 10,
                     totalItems: 12
                 },
                 {
                     view: view2,
-                    entities: [view2Copy],
+                    entries: [],
                     currentPage: 1,
                     perPage: 10,
                     totalItems: 4

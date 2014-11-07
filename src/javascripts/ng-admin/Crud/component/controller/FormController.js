@@ -30,7 +30,7 @@ define(function () {
     };
 
     FormController.prototype.deleteOne = function () {
-        this.$location.path('/delete/' + this.entity.name() + '/' + this.entity.identifier().value());
+        this.$location.path('/delete/' + this.entity.name() + '/' + this.$scope.entry.identifierValue);
     };
 
     FormController.prototype.back = function () {
@@ -122,7 +122,7 @@ define(function () {
      * @param {View} entry
      */
     FormController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifier().value());
+        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifierValue);
     };
 
     FormController.prototype.destroy = function () {

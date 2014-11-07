@@ -173,8 +173,6 @@ define(function (require) {
                 .addField(stateCharacters);
             state.addView(stateList);
 
-            stateId.value(1);
-
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 

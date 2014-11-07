@@ -74,26 +74,6 @@ define(function (require) {
     };
 
     /**
-     * Set or get the value
-     *
-     * @param {*} value
-     * @returns *
-     */
-    Field.prototype.value = function (value) {
-        var entity = this.getEntity();
-        if (!entity) {
-            return;
-        }
-
-        if (arguments.length === 0 || !angular.isDefined(value)) {
-            return entity.getValue(this.name());
-        }
-
-        entity.setValue(this.name(), value);
-        return value;
-    };
-
-    /**
      * Truncate the value based on the `truncateList` configuration
      *
      * @param {*} value
@@ -141,15 +121,6 @@ define(function (require) {
     };
 
     /**
-      * Returns value used in list
-      *
-      * @returns mixed
-      */
-    Field.prototype.getListValue = function () {
-        return this.value;
-    };
-
-    /**
      * Return the entity attached to the Field
      * this.entity is set first when this Field is used as an identifier
      *
@@ -161,21 +132,6 @@ define(function (require) {
         }
 
         return this.entity;
-    };
-
-    /**
-     * Set the default value of a field
-     */
-    Field.prototype.processDefaultValue = function () {
-        if (!this.value && this.defaultValue()) {
-            this.value = this.defaultValue();
-        }
-    };
-
-    Field.prototype.clear = function () {
-        this.value(null);
-
-        return this;
     };
 
     return Field;

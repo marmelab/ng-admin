@@ -33,7 +33,7 @@
 
     <div ng-if="!field.editable()">
         <div class="col-sm-10 read-only">
-            <p>{{ field.value() }}</p>
+            <p>{{ entry.values[field.name()] }}</p>
         </div>
     </div>
 </div>

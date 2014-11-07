@@ -64,7 +64,6 @@ define(function (require) {
             entity.addView(view);
 
             expect(view.identifier().name()).toEqual('post_id');
-            expect(view.isNew()).toEqual(true);
         });
 
         it('should map some raw entities', function () {

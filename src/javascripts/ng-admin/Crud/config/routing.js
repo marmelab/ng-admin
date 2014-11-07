@@ -59,10 +59,13 @@ define(function (require) {
                         return config.getViewByEntityAndType($stateParams.entity, 'CreateView');
                     }],
                     entry: ['view', function (view) {
-                        return view
-                            .mapEntry({})
-                            .clear()
-                            .processFieldsDefaultValue();
+                        var entry = view
+                            .mapEntry({});
+
+                        view.processFieldsDefaultValue(entry);
+
+                        return entry;
+
                     }],
                     referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
                         return ListViewRepository.getReferencedValues(view);

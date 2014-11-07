@@ -27,11 +27,5 @@ define(function (require) {
     utils.inherits(ReferenceMany, Reference);
     Configurable(ReferenceMany.prototype, config);
 
-    ReferenceMany.prototype.clear = function () {
-        this.value([]);
-
-        return this;
-    };
-
     return ReferenceMany;
 });

@@ -27,7 +27,6 @@ define(function (require) {
                 .addField(new Field('id').identifier(true))
                 .addField(new Field('name').type('text'));
 
-            view.getField('id').value(1);
             entity.addView(view);
 
             view.extraParams(null);
