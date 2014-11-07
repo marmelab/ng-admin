@@ -16,6 +16,8 @@
             <td ng-repeat="column in columns" ng-switch="column.field.type()">
                 <string-column ng-switch-when="string"></string-column>
 
+                <password-column ng-switch-when="password"></password-column>
+
                 <text-column ng-switch-when="text"></text-column>
 
                 <email-column ng-switch-when="email"></email-column>
