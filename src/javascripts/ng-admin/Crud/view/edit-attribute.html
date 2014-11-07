@@ -4,6 +4,8 @@
     <div class="col-sm-10" ng-if="field.edition() == 'editable'" ng-switch="field.type()">
         <string-field ng-switch-when="string"></string-field>
 
+        <password-field ng-switch-when="password"></password-field>
+
         <text-field ng-switch-when="text"></text-field>
 
         <email-field ng-switch-when="email"></email-field>

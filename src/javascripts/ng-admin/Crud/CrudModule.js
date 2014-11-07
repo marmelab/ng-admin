@@ -26,6 +26,7 @@ define(function (require) {
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));
+    CrudModule.directive('passwordField', require('ng-admin/Crud/component/directive/field/PasswordField'));
     CrudModule.directive('emailField', require('ng-admin/Crud/component/directive/field/EmailField'));
     CrudModule.directive('textField', require('ng-admin/Crud/component/directive/field/TextField'));
     CrudModule.directive('numberField', require('ng-admin/Crud/component/directive/field/NumberField'));
@@ -39,6 +40,7 @@ define(function (require) {
     CrudModule.directive('callbackField', require('ng-admin/Crud/component/directive/field/CallbackField'));
 
     CrudModule.directive('stringColumn', require('ng-admin/Crud/component/directive/column/StringColumn'));
+    CrudModule.directive('passwordColumn', require('ng-admin/Crud/component/directive/column/PasswordColumn'));
     CrudModule.directive('emailColumn', require('ng-admin/Crud/component/directive/column/EmailColumn'));
     CrudModule.directive('textColumn', require('ng-admin/Crud/component/directive/column/TextColumn'));
     CrudModule.directive('numberColumn', require('ng-admin/Crud/component/directive/column/NumberColumn'));
