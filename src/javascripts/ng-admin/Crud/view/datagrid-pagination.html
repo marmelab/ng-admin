@@ -10,7 +10,7 @@
             <li ng-repeat="n in paginationCtrl.range(1, paginationCtrl.nbPages)" ng-class="{active: n == paginationCtrl.currentPage}" ng-click="paginationCtrl.setPage(n)">
                 <a href>{{ n }}</a>
             </li>
-            <li ng-class="{disabled: paginationCtrl.currentPage == listController.nbPages}">
+            <li ng-class="{disabled: paginationCtrl.currentPage == paginationCtrl.nbPages}">
                 <a href ng-click="paginationCtrl.setPage(paginationCtrl.currentPage + 1)">Next »</a>
             </li>
         </ul>
