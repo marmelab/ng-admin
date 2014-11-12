@@ -119,8 +119,8 @@ define(function (require) {
 
         for (i in references) {
             reference = references[i];
-
-            calls.push(self.getRawValues(reference.getReferencedView(), 1, false));
+            var view = reference.getReferencedView();
+            calls.push(self.getRawValues(view, 1, false, view.name() + '.' + reference.targetField().name(), 'ASC'));
         }
 
         return this.$q.all(calls)
