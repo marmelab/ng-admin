@@ -1,5 +1,7 @@
 <input id="{{ field.name() }}"
-       class="form-control"
+       name="{{ field.name() }}"
+       class="{{ field.getCssClasses() }}"
        type="text"
        ng-model="entry.values[field.name()]"
-       ng-required="field.validation().required" />
+       ng-required="field.validation().required"
+       maxlength="{{ field.validation().maxlength }}" />

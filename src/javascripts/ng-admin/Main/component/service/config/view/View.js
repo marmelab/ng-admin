@@ -281,7 +281,7 @@ define(function (require) {
             i,
             l;
 
-        // Map each rawEntity to an View clone
+        // Map each rawEntity to an Entry
         for (i = 0, l = rawEntries.length; i < l; i++) {
             results.push(this.mapEntry(rawEntries[i]));
         }
@@ -360,22 +360,6 @@ define(function (require) {
         }
 
         return this;
-    };
-
-    /**
-     * Return a modifiable clone of the view
-     *
-     * @return {View}
-     */
-    View.prototype.clone = function () {
-        return {
-            prototype: View.prototype,
-            __proto__: this.__proto__,
-            fields: angular.copy(this.fields),
-            actions: this.actions,
-            entity: this.entity,
-            config: this.config
-        };
     };
 
     Configurable(View.prototype, config);

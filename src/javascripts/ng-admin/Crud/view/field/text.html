@@ -1,5 +1,6 @@
 <textarea
         id="{{ field.name() }}"
+        name="{{ field.name() }}"
         class="form-control"
         ng-model="entry.values[field.name()]"
         ng-required="field.validation().required"

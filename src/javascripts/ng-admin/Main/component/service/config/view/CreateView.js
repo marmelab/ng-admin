@@ -22,5 +22,21 @@ define(function (require) {
 
     utils.inherits(CreateView, View);
 
+    /**
+     *
+     * @returns {string}
+     */
+    CreateView.prototype.getFormName = function () {
+        return 'createForm';
+    };
+
+    CreateView.prototype.getAttributeClass = function (isValid) {
+        return isValid ? 'has-success' : '';
+    }
+
+    CreateView.prototype.showAttributeSuccess = function () {
+        return true;
+    }
+
     return CreateView;
 });

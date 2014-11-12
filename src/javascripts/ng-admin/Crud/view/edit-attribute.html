@@ -1,4 +1,4 @@
-<div id="row-{{ field.name() }}">
+<div id="row-{{ field.name() }}" class="has-feedback" ng-class="view.getAttributeClass({{ formController.name }}.{{ field.name() }}.$valid)">
     <label for="{{ field.name() }}" class="col-sm-2 control-label">
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>
@@ -29,6 +29,10 @@
         <wysiwyg-field ng-switch-when="wysiwyg"></wysiwyg-field>
 
         <callback-field ng-switch-when="callback"></callback-field>
+
+        <span ng-if="view.showAttributeSuccess()" class="glyphicon glyphicon-ok form-control-feedback" ng-show="true === {{ formController.name }}.{{ field.name() }}.$valid"></span>
+
+        <span ng-if="!view.showAttributeSuccess()" class="glyphicon glyphicon-remove form-control-feedback" ng-show="false === {{ formController.name }}.{{ field.name() }}.$valid"></span>
     </div>
 
     <div ng-if="!field.editable()">

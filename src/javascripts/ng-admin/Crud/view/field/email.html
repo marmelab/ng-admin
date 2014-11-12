@@ -1,5 +1,6 @@
 <input id="{{ field.name() }}"
-       class="form-control"
+       name="{{ field.name() }}"
+       class="{{ field.getCssClasses() }}"
        type="email"
        ng-model="entry.values[field.name()]"
        ng-required="field.validation().required" />

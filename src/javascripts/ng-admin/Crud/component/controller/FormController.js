@@ -13,6 +13,7 @@ define(function () {
         this.notification = notification;
         this.title = view.getTitle();
         this.description = view.getDescription();
+        this.name = view.getFormName();
 
         this.fields = view.getFields();
         this.entityLabel = view.label();
@@ -80,6 +81,12 @@ define(function () {
      * @param {$event} $event
      */
     FormController.prototype.submitCreation = function (form, $event) {
+        if (!form.$valid) {
+            this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
+
+            return false;
+        }
+
         var object = this.validate(form, $event),
             self = this;
 

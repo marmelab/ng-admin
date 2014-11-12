@@ -22,5 +22,25 @@ define(function (require) {
 
     utils.inherits(EditView, View);
 
+    /**
+     *
+     * @returns {string}
+     */
+    EditView.prototype.getFormName = function () {
+        return 'editForm';
+    };
+
+    EditView.prototype.getAttributeClass = function (isValid) {
+        if (undefined === isValid) {
+            return '';
+        }
+
+        return isValid ? '' : 'has-error';
+    }
+
+    EditView.prototype.showAttributeSuccess = function () {
+        return false;
+    }
+
     return EditView;
 });

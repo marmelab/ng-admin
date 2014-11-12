@@ -1,6 +1,8 @@
 <input id="{{ field.name() }}"
-       class="form-control"
+       name="{{ field.name() }}"
+       class="{{ field.getCssClasses() }}"
        type="number"
        step="{{ field.validation().step || 1 }}"
+       max="{{ field.validation().max }}"
        ng-model="entry.values[field.name()]"
        ng-required="field.validation().required" />

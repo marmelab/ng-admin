@@ -35,7 +35,8 @@ define(function (require) {
             maxlength: false
         },
         choices: [],
-        defaultValue: null
+        defaultValue: null,
+        cssClasses: []
     };
 
     /**
@@ -89,6 +90,21 @@ define(function (require) {
     };
 
     /**
+     * Get CSS classes list based on the `cssClasses` configuration
+     *
+     * @returns {string}
+     */
+    Field.prototype.getCssClasses = function () {
+        var classes = 'form-control';
+
+        if (this.config.cssClasses) {
+            classes += ' ' + this.config.cssClasses.join(' ');
+        }
+
+        return classes;
+    }
+
+    /**
      * @param {View} view
      */
     Field.prototype.setView = function (view) {
@@ -132,6 +148,21 @@ define(function (require) {
         }
 
         return this.entity;
+    };
+
+    /**
+     * Return a modifiable clone of the field
+     *
+     * @return {Field}
+     */
+    Field.prototype.clone = function () {
+        return {
+            prototype: Field.prototype,
+            __proto__: this.__proto__,
+            config: angular.copy(this.config),
+            entity: null,
+            view: null
+        };
     };
 
     return Field;

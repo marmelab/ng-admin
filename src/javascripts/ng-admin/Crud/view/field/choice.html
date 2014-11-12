@@ -1,5 +1,6 @@
 <select id="{{ field.name() }}"
-        class="form-control"
+        name="{{ field.name() }}"
+        class="{{ field.getCssClasses() }}"
         ng-model="entry.values[field.name()]"
         ng-required="field.validation().required">
 
