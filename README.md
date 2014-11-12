@@ -39,9 +39,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addEntity(/* ... */)
             .addView(new DashboardView('dashboard').addField(/**/))
             .addView(new ListView('post-list').addField(/**/))
-            .addView(new ListView('post-create').addField(/**/))
-            .addView(new ListView('post-update').addField(/**/))
-            .addView(new ListView('post-delete'));
+            .addView(new CreateView('post-create').addField(/**/))
+            .addView(new EditView('post-update').addField(/**/))
+            .addView(new DeleteView('post-delete'));
         /* ... */
 
     NgAdminConfigurationProvider.configure(app);
