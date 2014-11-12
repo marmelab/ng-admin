@@ -22,7 +22,7 @@ define(function (require) {
                 var field = new Field();
 
                 expect(function () { field.type('myType');  })
-                    .toThrow('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "callback" but "myType" was given.');
+                    .toThrow('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "callback" but "myType" was given.');
             });
 
         });
