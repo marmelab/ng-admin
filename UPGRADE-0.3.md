@@ -1,13 +1,12 @@
-# Upgrade from 0.1 or 0.2 to 0.3
+# Upgrade to 0.3
 
-Introducing views to `ng-admin` bring some BC breaks:
+0.3 is a majot version, and introduces a few BC breaks.
 
 ## Views
 
-Field are now linked to entities anymore. Each one should be linked to a View.
-There is 5 types of views : `DashboardView`, `ListView`, `CreateView`, `EditView`, `DeleteView`.
+In order to allow deeper customization, ng-admin 0.3 introduces the concept of "views". An entity can have up to 5 views (`DashboardView`, `ListView`, `CreateView`, `EditView`, `DeleteView`). Each view can have its on set of fields, independently of the other. That way, it's easier to expose some fields in the EditView but not in the ListView, or to use different field types for the CreateView and the EditView.
 
-The configuration of an `Entity` used in the past version:
+The direct consequence is in the configuration: instead of being directly attached to entities, fields are defined on views. For instance, consider the following `tag` entity defined in the old syntax:
 
 ```js
 var tag = new Entity('tags')
@@ -42,7 +41,7 @@ var tag = new Entity('tags')
      );
 ```
 
-Should now be splitted in views :
+Now the `Entity` definition should be splitted into views:
 
 ```js
  var tag = new Entity('tags')
@@ -93,8 +92,7 @@ Should now be splitted in views :
         );
 ```
 
- You can now choose which field to render in each views.
-These options are now part of the `DashboardView` & `ListView` :
+These options have moved to the `DashboardView` & `ListView`:
 * `pagination`
 * `perPage`
 * `infinitePagination`
@@ -113,3 +111,7 @@ These options are now part of the `DashboardView` & `ListView` :
  - `callback` field type & method are now called `template`.
  - `targetField` of a `ReferencedList` is now called a `targetReferenceField`.
  - `targetFields` of a `ReferencedList` & `targetField` for a `ReferenceMany` or a `ReferenceMany` should not be necessary the same field used in the description of the targeted entity.
+ - `valueTransformer` and `truncateList` are now renamed to `map`
+ - `label` is now optional; by default, the label of a field is the CamelCase version of the field name
+
+Check the [example configuration](src/javascripts/config-dist.js) for an overview of the new syntax.
