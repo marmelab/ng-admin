@@ -361,18 +361,18 @@ Defines the number of element displayed in a page
 Defines parameters used to paginate the API:
 
         new ListView('myView')
-	    .pagination(function(page, maxPerPage) {
+            .pagination(function(page, maxPerPage) {
                 return {
-		    begin: (page - 1) * maxPerPage, 
-		    end: page * maxPerPage
-		};
-	});
+                    begin: (page - 1) * maxPerPage, 
+                    end: page * maxPerPage
+                };
+            });
 
 * `filterQuery(function)`
 Defines parameters used to query the API:
 
         new ListView('myView')
-	    .filterQuery(function(q) {
+            .filterQuery(function(q) {
                 return { query: q };
 	    });
 
@@ -386,20 +386,17 @@ Enable or disable lazy loading.
 Define a function that return the total of items:
 
         new ListView('myView')
-	    .totalItems(function(response) {
-	        return response.headers('X-Total-Count');
-	    });
+            .totalItems(function(response) {
+                return response.headers('X-Total-Count');
+            });
 
 * `sortParams(function)`
 Defines parameters used to sort the API:
 
         new ListView('myView')
 	    .sortParams(function(field, dir) {
-		return {
-                    params: {
-                        _sort: field,
-                        _sortDir: dir
-                    },
+                return {
+                    params: { _sort: field, _sortDir: dir },
                     headers: {}
                 };
             });
