@@ -109,7 +109,7 @@ These options have moved to the `DashboardView` & `ListView`:
 
 `ng-admin` does not include `angularjs` anymore.
 
-You must add `angularjs` library inclusion into your app index:
+You must include the angular source before including ng-admin:
 
 ```html
 <script src="/path/to/bower_components/angular/angular.min.js" type="text/javascript"></script>
