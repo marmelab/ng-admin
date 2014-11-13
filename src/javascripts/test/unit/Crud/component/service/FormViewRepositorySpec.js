@@ -98,10 +98,13 @@ define(function (require) {
                 var formViewRepository = new FormViewRepository({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
+                Restangular.post = jasmine.createSpy('post').andReturn(mixins.buildPromise({data: rawEntity}));
+
                 formViewRepository.createOne(view, rawEntity)
-                    .then(function () {
+                    .then(function (entry) {
                         expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
                         expect(Restangular.post).toHaveBeenCalledWith(null, rawEntity, null, {});
+                        expect(entry.values.name).toEqual('Mizu');
                     });
             });
 
@@ -109,10 +112,13 @@ define(function (require) {
                 var formViewRepository = new FormViewRepository({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
+                Restangular.put = jasmine.createSpy('put').andReturn(mixins.buildPromise({data: rawEntity}));
+
                 formViewRepository.updateOne(view, rawEntity)
-                    .then(function () {
+                    .then(function (entry) {
                         expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
                         expect(Restangular.put).toHaveBeenCalledWith(null, {});
+                        expect(entry.values.name).toEqual('Mizu');
                     });
             });
 

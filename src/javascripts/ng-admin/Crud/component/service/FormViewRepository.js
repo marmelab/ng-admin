@@ -56,7 +56,10 @@ define(function (require) {
         // Get element data
         return this.Restangular
             .restangularizeElement(null, rawEntity, entityName)
-            .post(null, rawEntity, null, headers);
+            .post(null, rawEntity, null, headers)
+            .then(function (response) {
+                return view.mapEntry(response.data);
+            });
     };
 
     /**
@@ -75,7 +78,10 @@ define(function (require) {
         // Get element data
         return this.Restangular
             .restangularizeElement(null, rawEntity, entityName)
-            .put(null, headers);
+            .put(null, headers)
+            .then(function (response) {
+                return view.mapEntry(response.data);
+            });
     };
 
 

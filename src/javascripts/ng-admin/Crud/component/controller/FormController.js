@@ -99,7 +99,7 @@ define(function () {
             .then(function (response) {
                 self.progression.done();
                 self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-                self.$location.path('/edit/' + self.entity.name() + '/' + response.data.id);
+                self.$location.path('/edit/' + self.entity.name() + '/' + response.identifierValue);
             });
     };
 
