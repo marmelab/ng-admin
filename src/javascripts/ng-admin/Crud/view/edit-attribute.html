@@ -1,7 +1,9 @@
-<div id="row-{{ field.name() }}">
-    <label for="{{ field.name() }}" class="col-sm-2 control-label">{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;</label>
+<div id="row-{{ field.name() }}" class="has-feedback" ng-class="view.getAttributeClass({{ formController.name }}.{{ field.name() }}.$valid)">
+    <label for="{{ field.name() }}" class="col-sm-2 control-label">
+        {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
+    </label>
 
-    <div class="col-sm-10" ng-if="field.edition() == 'editable'" ng-switch="field.type()">
+    <div class="col-sm-10" ng-if="field.editable()" ng-switch="field.type()">
         <string-field ng-switch-when="string"></string-field>
 
         <password-field ng-switch-when="password"></password-field>
@@ -18,20 +20,24 @@
 
         <choice-field ng-switch-when="choice"></choice-field>
 
-        <reference-field ng-switch-when="reference"></reference-field>
+        <reference-field ng-switch-when="Reference"></reference-field>
 
-        <reference-many-field ng-switch-when="reference-many"></reference-many-field>
+        <reference-many-field ng-switch-when="ReferenceMany"></reference-many-field>
 
-        <datagrid ng-switch-when="referenced-list" ng-init="columns=field.getGridColumns();entities=field.getItems()" with-pagination="false"></datagrid>
+        <datagrid ng-switch-when="ReferencedList" ng-init="columns=field.getGridColumns();entries=field.getEntries()" with-pagination="false"></datagrid>
 
         <wysiwyg-field ng-switch-when="wysiwyg"></wysiwyg-field>
 
-        <callback-field ng-switch-when="callback"></callback-field>
+        <template-field ng-switch-when="template"></template-field>
+
+        <span ng-if="view.showAttributeSuccess()" class="glyphicon glyphicon-ok form-control-feedback" ng-show="true === {{ formController.name }}.{{ field.name() }}.$valid"></span>
+
+        <span ng-if="!view.showAttributeSuccess()" class="glyphicon glyphicon-remove form-control-feedback" ng-show="false === {{ formController.name }}.{{ field.name() }}.$valid"></span>
     </div>
 
-    <div ng-if="field.edition() == 'read-only'">
+    <div ng-if="!field.editable()">
         <div class="col-sm-10 read-only">
-            <p>{{ field.value }}</p>
+            <p>{{ entry.values[field.name()] }}</p>
         </div>
     </div>
 </div>

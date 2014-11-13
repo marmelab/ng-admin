@@ -1,7 +1,12 @@
-<select id="{{ field.name() }}" class="form-control" ng-model="field.value" ng-required="field.validation().required">
+<select id="{{ field.name() }}"
+        name="{{ field.name() }}"
+        class="form-control"
+        ng-model="entry.values[field.name()]"
+        ng-required="field.validation().required">
+
     <option ng-if="!field.validation().required">-- select a value --</option>
 
-    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="field.value == key">
+    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="entry.values[field.name()] == key">
         {{ value }}
     </option>
 </select>

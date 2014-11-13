@@ -1,6 +1,7 @@
-'use strict';
+/*global module*/
 
 module.exports = function (grunt) {
+    'use strict';
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -77,7 +78,7 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             configFiles: {
-                files: ['Gruntfile.js','grunt/grunt-*.json'],
+                files: ['Gruntfile.js', 'grunt/grunt-*.json'],
                 tasks: ['build:dev'],
                 options: {
                     // reload watchers since configuration may have changed
@@ -85,7 +86,7 @@ module.exports = function (grunt) {
                 }
             },
             javascripts: {
-                files: ['src/javascripts/ng-admin/**/*.js', 'src/javascripts/ng-admin/**/*.html'],
+                files: ['src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
                 tasks: ['requirejs:dev']
             },
             sass: {

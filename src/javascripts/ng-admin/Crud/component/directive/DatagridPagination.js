@@ -1,4 +1,6 @@
-define(function(require) {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
     var angular = require('angular'),
@@ -9,7 +11,7 @@ define(function(require) {
         return {
             restrict: 'E',
             template: paginationView,
-            controllerAs: 'pagination',
+            controllerAs: 'paginationCtrl',
             controller: DatagridPaginationController,
             link: function (scope, element, attrs, controller) {
                 var offset = attrs.offset || 100,

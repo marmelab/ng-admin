@@ -1,6 +1,13 @@
+/*global require,define,angular*/
+
+define('angular', [], function () {
+    'use strict';
+
+    return angular;
+});
+
 require.config({
     paths: {
-        'angular': 'bower_components/angular/angular',
         'angular-resource': 'bower_components/angular-resource/angular-resource',
         'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
         'angular-route': 'bower_components/angular-route/angular-route',
@@ -13,14 +20,10 @@ require.config({
         'humane': 'bower_components/humane/humane',
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
-
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
     },
     shim: {
-        'angular': {
-            exports: 'angular'
-        },
         'restangular': {
             deps: ['angular', 'lodash']
         },
@@ -32,27 +35,12 @@ require.config({
         },
         'angular-bootstrap-tpls': {
             deps: ['angular', 'angular-bootstrap']
-        },
-        'jquery': {
-            exports: '$'
-        },
-        'angular-resource': {
-            deps: ['angular']
-        },
-        'angular-sanitize': {
-            deps: ['angular']
-        },
-        'angular-route': {
-            deps: ['angular']
-        },
-        'nprogress': {
-            exports: 'NProgress'
         }
     }
 });
 
-define(function(require) {
-    "use strict";
+define(function (require) {
+    'use strict';
 
     var angular = require('angular');
     require('MainModule');

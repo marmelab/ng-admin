@@ -1,7 +1,7 @@
 <div ng-switch="column.field.isEditLink()">
-    <a ng-switch-when="true" ng-click="edit(entity)">
+    <a ng-switch-when="true" ng-click="edit(entry)">
         <span class="glyphicon" ng-class="{'glyphicon-ok': isOk, 'glyphicon-remove': !isOk}"></span>
     </a>
 
-    <span ng-switch-default ng-class="{'glyphicon-ok': isOk, 'glyphicon-remove': !isOk}"></span>
+    <span ng-switch-default class="glyphicon" ng-class="{'glyphicon-ok': isOk, 'glyphicon-remove': !isOk}"></span>
 </div>

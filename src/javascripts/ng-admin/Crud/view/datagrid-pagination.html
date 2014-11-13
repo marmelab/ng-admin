@@ -1,17 +1,17 @@
-<div ng-if="!pagination.infinitePagination && hasPagination">
+<div ng-if="!paginationCtrl.infinitePagination && hasPagination">
     <div class="grid-detail row pull-right">
     <span class="total">
-        <strong>{{ pagination.offsetBegin }}</strong> - <strong>{{ pagination.offsetEnd }}</strong> on <strong>{{ pagination.totalItems }}</strong>
+        <strong>{{ paginationCtrl.offsetBegin }}</strong> - <strong>{{ paginationCtrl.offsetEnd }}</strong> on <strong>{{ paginationCtrl.totalItems }}</strong>
     </span>
         <ul class="pagination pagination-sm">
-            <li ng-class="{ disabled: pagination.currentPage == 1}">
-                <a href ng-click="pagination.setPage(pagination.currentPage - 1)">« Prev</a>
+            <li ng-class="{ disabled: paginationCtrl.currentPage == 1}">
+                <a href ng-click="paginationCtrl.setPage(paginationCtrl.currentPage - 1)">« Prev</a>
             </li>
-            <li ng-repeat="n in pagination.range(1, pagination.nbPages)" ng-class="{active: n == pagination.currentPage}" ng-click="pagination.setPage(n)">
+            <li ng-repeat="n in paginationCtrl.range(1, paginationCtrl.nbPages)" ng-class="{active: n == paginationCtrl.currentPage}" ng-click="paginationCtrl.setPage(n)">
                 <a href>{{ n }}</a>
             </li>
-            <li ng-class="{disabled: pagination.currentPage == listController.nbPages}">
-                <a href ng-click="pagination.setPage(pagination.currentPage + 1)">Next »</a>
+            <li ng-class="{disabled: paginationCtrl.currentPage == paginationCtrl.nbPages}">
+                <a href ng-click="paginationCtrl.setPage(paginationCtrl.currentPage + 1)">Next »</a>
             </li>
         </ul>
     </div>

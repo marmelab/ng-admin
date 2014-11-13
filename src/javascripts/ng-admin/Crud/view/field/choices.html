@@ -1,7 +1,8 @@
 <select id="{{ field.name() }}"
-        class="form-control"
-        ng-model="field.value"
+        name="{{ field.name() }}"
+        class="{{ field.getCssClasses() }}"
         multiple
+        ng-model="entry.values[field.name()]"
         ng-multiple="{{ field.multiple }}"
         ng-options="option as option for option in field.choices"
         ng-required="field.validation().required"></select>

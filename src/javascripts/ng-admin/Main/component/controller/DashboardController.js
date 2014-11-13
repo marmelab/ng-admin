@@ -1,4 +1,6 @@
-define(function() {
+/*global define*/
+
+define(function (require) {
     'use strict';
 
     /**
@@ -14,7 +16,7 @@ define(function() {
         this.PanelBuilder = PanelBuilder;
 
         this.$scope.edit = this.edit.bind(this);
-        this.getPanels();
+        this.retrievePanels();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     }
@@ -22,41 +24,41 @@ define(function() {
     /**
      * Retrieve all dashboard panels
      */
-    DashboardController.prototype.getPanels = function() {
-        var self = this;
-        this.panels = {};
+    DashboardController.prototype.retrievePanels = function () {
+        var self = this,
+            panel;
+        this.panels = [];
 
-        this.PanelBuilder.getPanelsData().then(function(panels) {
-            angular.forEach(panels, function(panel) {
+        this.PanelBuilder.getPanelsData().then(function (panels) {
+            var i;
 
-                var entityConfig = panel.entityConfig,
-                    entities = panel.entities,
+            for (i in panels) {
+                panel = panels[i];
+
+                var view = panel.view,
+                    fields = view.getDisplayedFields(),
+                    field,
+                    j,
+                    entries = panel.entries,
                     columns = [];
 
-                // Get identifier field, and build columns array (only field defined with `list(true)` in config file)
-                angular.forEach(entityConfig.getFields(), function(field) {
-                    if(!field.dashboard()) {
-                        return;
-                    }
+                // Retrieve all DashboardView
+                for (j in fields) {
+                    field = fields[j];
 
                     columns.push({
                         field: field,
                         label: field.label()
                     });
-                });
+                }
 
-                self.panels[panel.entityName] = {
-                    label: panel.entityConfig.label(),
-                    entity: entityConfig,
+                self.panels.push({
+                    label: view.label(),
+                    view: view,
                     columns: columns,
-                    entities: entities,
-                    options: {
-                        grid : {
-                            dimensions : [ columns.length, entities.length ]
-                        }
-                    }
-                };
-            });
+                    entries: entries
+                });
+            }
 
         });
     };
@@ -64,13 +66,13 @@ define(function() {
     /**
      * Link to edit entity page
      *
-     * @param {Entity} entity
+     * @param {Entry} entry
      */
-    DashboardController.prototype.edit = function(entity) {
-        this.$location.path('/edit/' + entity.name() + '/' + entity.getIdentifier().value);
+    DashboardController.prototype.edit = function (entry) {
+        this.$location.path('/edit/' + entry.entityName + '/' + entry.identifierValue);
     };
 
-    DashboardController.prototype.destroy = function() {
+    DashboardController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
         this.PanelBuilder = undefined;

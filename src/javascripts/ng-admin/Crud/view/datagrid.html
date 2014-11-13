@@ -12,7 +12,7 @@
     </thead>
 
     <tbody>
-        <tr ng-class="datagrid.itemClass($index)" ng-repeat="entity in entities track by $index">
+        <tr ng-class="datagrid.itemClass($index)" ng-repeat="entry in entries track by $index">
             <td ng-repeat="column in columns" ng-switch="column.field.type()">
                 <string-column ng-switch-when="string"></string-column>
 
@@ -30,13 +30,13 @@
 
                 <choice-column ng-switch-when="choice"></choice-column>
 
-                <reference-column ng-switch-when="reference"></reference-column>
+                <reference-column ng-switch-when="Reference"></reference-column>
 
-                <reference-many-column ng-switch-when="reference-many"></reference-many-column>
+                <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
 
                 <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
 
-                <callback-column ng-switch-when="callback"></callback-column>
+                <template-column ng-switch-when="template"></template-column>
             </td>
         </tr>
     </tbody>

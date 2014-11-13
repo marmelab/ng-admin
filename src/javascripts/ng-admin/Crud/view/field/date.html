@@ -1,11 +1,10 @@
 <div class="input-group datepicker col-sm-4">
     <input id="{{ field.name() }}"
-           class="form-control"
+           name="{{ field.name() }}"
+           class="{{ field.getCssClasses() }}"
            type="text"
            datepicker-popup="{{ field.format() }}"
-           ng-model="field.value"
-           min-date="field.minDate"
-           max-date="field.maxDate"
+           ng-model="entry.values[field.name()]"
            ng-required="field.validation().required"
            is-open="isOpen"
            close-text="Close" />

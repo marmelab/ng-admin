@@ -1,37 +1,37 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var availableTypes = ['number', 'string', 'text', 'boolean', 'wysiwyg', 'email', 'date', 'callback', 'choice', 'password'];
-    var availableEditions = ['read-only', 'editable'];
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        utils = require('ng-admin/lib/utils'),
+        availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'template'];
 
-    var defaultValueTransformer = function(value) {
-        return value;
-    };
-
-    var defaultValueCallback = function(Entity) {
+    function defaultValueTemplate(entry) {
         return '';
-    };
+    }
 
     var config = {
         name: 'myField',
         type: 'string',
         label: 'My field',
-        edition : 'editable',
+        editable : true,
+        displayed: true,
         order: null,
         identifier : false,
         format : 'yyyy-MM-dd',
-        valueTransformer : defaultValueTransformer,
-        callback: defaultValueCallback,
-        isEditLink: true,
+        template: defaultValueTemplate,
+        isEditLink: false,
         list: true,
         dashboard: true,
-        truncateList: false,
         validation: {
-            required: false
+            required: false,
+            maxlength: false
         },
         choices: [],
-        defaultValue: null
+        defaultValue: null,
+        cssClasses: []
     };
 
     /**
@@ -41,25 +41,30 @@ define(function (require) {
      *
      */
     function Field(fieldName) {
-        this.value = null;
         this.config = angular.copy(config);
-        this.config.name = fieldName || 'field';
-        this.entity = null;
+        this.config.name = fieldName || Math.random().toString(36).substring(7);
+        this.config.label = utils.camelCase(this.config.name);
+        this.config.isEditLink = fieldName === 'id';
+        this.entity = null; // Used when this field is an identifier
+        this.view = null;
+        this.maps = [];
     }
 
+    Configurable(Field.prototype, config);
+
     /**
-     * Set of get the type
+     * Set or get the type
      *
      * @param {String} type
      * @returns string|Field
      */
-    Field.prototype.type = function(type) {
+    Field.prototype.type = function (type) {
         if (arguments.length === 0) {
             return this.config.type;
         }
 
         if (availableTypes.indexOf(type) === -1) {
-            throw 'Type should be one of : "' + availableTypes.join('", "') + '", "' + type + '" given.';
+            throw new Error('Type should be one of : "' + availableTypes.join('", "') + '" but "' + type + '" was given.');
         }
 
         this.config.type = type;
@@ -68,52 +73,69 @@ define(function (require) {
     };
 
     /**
+     * Add a map function
      *
-     * @param {String} edition
-     * @returns string|Field
+     * @param {Function} fn
+     *
+     * @returns {Field}
      */
-    Field.prototype.edition = function(edition) {
-        if (arguments.length === 0) {
-            return this.config.edition;
-        }
+    Field.prototype.map = function (fn) {
+        this.maps.push(fn);
 
-        if (availableEditions.indexOf(edition) === -1) {
-            throw 'Edition should be one of ' + availableEditions.join(', ') + '. ' + edition + 'given.';
-        }
-
-        this.config.edition = edition;
         return this;
     };
 
-    Field.prototype.getTruncatedListValue = function(value, dashboard) {
-        if (this.config.truncateList) {
-            value = this.config.truncateList(value, dashboard);
+    /**
+     * Truncate the value based after applying all maps
+     *
+     * @param {*} value
+     *
+     * @returns {*}
+     */
+    Field.prototype.getMappedValue = function (value) {
+        for (var i in this.maps) {
+            value = this.maps[i](value);
         }
 
         return value;
     };
 
     /**
-     * @param {Entity} entity
+     * Get CSS classes list based on the `cssClasses` configuration
+     *
+     * @returns {string}
      */
-    Field.prototype.setEntity = function(entity) {
-        this.entity = entity;
+    Field.prototype.getCssClasses = function () {
+        var classes = 'form-control';
+
+        if (this.config.cssClasses) {
+            classes += ' ' + this.config.cssClasses.join(' ');
+        }
+
+        return classes;
+    }
+
+    /**
+     * @param {View} view
+     */
+    Field.prototype.setView = function (view) {
+        this.view = view;
 
         return this;
     };
 
     /**
-     * @return {Entity}
+     * @return {View}
      */
-    Field.prototype.getEntity = function() {
-        return this.entity;
+    Field.prototype.getView = function () {
+        return this.view;
     };
 
     /**
      * @return {string}
      */
-    Field.prototype.getSortName = function() {
-        return this.entity.name() + '.' + this.name();
+    Field.prototype.getSortName = function () {
+        return this.view.name() + '.' + this.name();
     };
 
     /**
@@ -121,32 +143,38 @@ define(function (require) {
       *
       * @returns mixed
       */
-    Field.prototype.getCallbackValue = function(entity) {
-        return this.callback()(entity);
+    Field.prototype.getTemplateValue = function (data) {
+        return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
     };
 
     /**
-      * Returns value used in list
-      *
-      * @returns mixed
-      */
-    Field.prototype.getListValue = function() {
-        return this.value;
-    };
-
-    Field.prototype.clear = function() {
-        this.value = null;
-
-        return this;
-    };
-
-    Field.prototype.processDefaultValue = function() {
-        if (!this.value && this.defaultValue()) {
-            this.value = this.defaultValue();
+     * Return the entity attached to the Field
+     * this.entity is set first when this Field is used as an identifier
+     *
+     * @return {Entity}
+     */
+    Field.prototype.getEntity = function () {
+        if (this.entity === null) {
+            this.entity = this.view.getEntity();
         }
+
+        return this.entity;
     };
 
-    Configurable(Field.prototype, config);
+    /**
+     * Return a modifiable clone of the field
+     *
+     * @return {Field}
+     */
+    Field.prototype.clone = function () {
+        return {
+            prototype: Field.prototype,
+            __proto__: this.__proto__,
+            config: angular.copy(this.config),
+            entity: null,
+            view: null
+        };
+    };
 
     return Field;
 });

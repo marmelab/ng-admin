@@ -1,10 +1,12 @@
+/*global define*/
+
 define(function (require) {
+    'use strict';
+
     var angular = require('angular');
 
     require('angular-ui-router');
     require('restangular');
-
-    "use strict";
 
     var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
@@ -21,6 +23,14 @@ define(function (require) {
     MainModule.constant('Reference', require('ng-admin/Main/component/service/config/Reference'));
     MainModule.constant('ReferencedList', require('ng-admin/Main/component/service/config/ReferencedList'));
     MainModule.constant('ReferenceMany', require('ng-admin/Main/component/service/config/ReferenceMany'));
+    MainModule.constant('Action', require('ng-admin/Main/component/service/config/Action'));
+
+    // Configuration view
+    MainModule.constant('DashboardView', require('ng-admin/Main/component/service/config/view/DashboardView'));
+    MainModule.constant('ListView', require('ng-admin/Main/component/service/config/view/ListView'));
+    MainModule.constant('CreateView', require('ng-admin/Main/component/service/config/view/CreateView'));
+    MainModule.constant('EditView', require('ng-admin/Main/component/service/config/view/EditView'));
+    MainModule.constant('DeleteView', require('ng-admin/Main/component/service/config/view/DeleteView'));
 
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 
@@ -29,6 +39,7 @@ define(function (require) {
     MainModule.directive('dashboardPanel', require('ng-admin/Main/component/directive/DashboardPanel'));
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
 
+    MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
 
     MainModule.run(require('ng-admin/Main/run/Loader'));

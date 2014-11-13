@@ -1,98 +1,137 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-    var availableTypes = ['number', 'text', 'email', 'date'];
-    var availableEditions = ['read-only', 'editable'];
-
-    var defaultValueTransformer = function(value) {
-        return value;
-    };
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        Field = require('ng-admin/Main/component/service/config/Field'),
+        utils = require('ng-admin/lib/utils');
 
     var config = {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
-        edition : 'editable',
-        order: null,
         targetEntity : null,
-        targetLabel : null,
-        valueTransformer : defaultValueTransformer,
-        list: true,
-        dashboard: true,
-        identifier: false,
+        targetField : null,
         isEditLink: true,
         validation: {
             required: false
-        },
-        defaultValue: null
+        }
     };
 
     /**
      * @constructor
      */
     function Reference(fieldName) {
-        this.entity = null;
-        this.value = null;
+        Field.apply(this, arguments);
+
         this.referencedValue = null;
-        this.choices = {};
-        this.config = angular.copy(config);
+        this.entries = {};
         this.config.name = fieldName || 'reference';
+        this.config.type = 'Reference';
+        this.referencedView = new ListView();
+        this.referencedViewConfigured = false;
     }
 
+    utils.inherits(Reference, Field);
+    Configurable(Reference.prototype, config);
+
     /**
+     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
      *
-     * @param {String} edition
-     * @returns string|Reference
+     * @returns {Object}
      */
-    Reference.prototype.edition = function(edition) {
-        if (arguments.length === 0) {
-            return this.config.edition;
+    Reference.prototype.getChoices = function () {
+        var result = {},
+            entry,
+            targetEntity = this.targetEntity(),
+            targetLabel = this.targetField().name(),
+            targetIdentifier = targetEntity.identifier().name(),
+            i,
+            l;
+
+        for (i = 0, l = this.entries.length; i < l; i++) {
+            entry = this.entries[i];
+
+            result[entry[targetIdentifier]] = entry[targetLabel];
         }
 
-        if (availableEditions.indexOf(edition) === -1) {
-            throw new Exception('Type should be one of ' + availableTypes.join(', '));
-        }
-
-        this.config.edition = edition;
-        return this;
-    };
-
-    Reference.prototype.getChoices = function() {
-        return this.choices;
-    };
-
-    Reference.prototype.setChoices = function(c) {
-        this.choices = c;
-
-        return this;
+        return result;
     };
 
     /**
+     * Set or get the targeted entity
+     *
      * @param {Entity} entity
+     *
+     * @returns {Entity|Reference}
      */
-    Reference.prototype.setEntity = function(entity) {
-        this.entity = entity;
+    Reference.prototype.targetEntity = function (entity) {
+        if (arguments.length === 0) {
+            return this.config.targetEntity;
+        }
+
+        this.config.targetEntity = entity;
+        this.referencedView.setEntity(entity);
 
         return this;
     };
 
     /**
-     * @return {Entity}
+     * Set or get the targeted entity
+     *
+     * @param {Field} field
+     *
+     * @returns {Field|Reference}
      */
-    Reference.prototype.getEntity = function() {
-        return this.entity;
+    Reference.prototype.targetField = function (field) {
+        if (arguments.length === 0) {
+            return this.config.targetField;
+        }
+
+        this.config.targetField = field;
+        this.referencedView
+            .removeFields()
+            .addField(field);
+
+        return this;
     };
 
     /**
-     * @return {string}
+     * @returns {ListView} a fake view that keep information about the targeted entity
      */
-    Reference.prototype.getSortName = function() {
-        return this.entity.name() + '.' + this.name();
+    Reference.prototype.getReferencedView = function () {
+        // The configuration of the referencedView should be done after all entities are defined
+        // otherwise the ListView should not be defined when setting a targetEntity
+        if (!this.referencedViewConfigured) {
+            // Use the same configuration as the listView of this entity
+            var listView = this.targetEntity().getOneViewOfType('ListView');
+            if (listView) {
+                this.referencedView.config = angular.copy(listView.config);
+                this.referencedView.config.pagination = false;
+            }
+
+            this.referencedViewConfigured = true;
+        }
+
+        return this.referencedView;
     };
 
-    Reference.prototype.clear = function() {
-        this.value = null;
+    /**
+     * @returns {[Object]}
+     */
+    Reference.prototype.getEntries = function () {
+        return this.entries;
+    };
+
+    /**
+     * @param {[Object]} entries
+     * @returns {Reference}
+     */
+    Reference.prototype.setEntries = function (entries) {
+        this.entries = entries;
 
         return this;
     };
@@ -102,17 +141,9 @@ define(function (require) {
      *
      * @returns mixed
      */
-    Reference.prototype.getListValue = function() {
+    Reference.prototype.getListValue = function () {
         return this.referencedValue;
     };
-
-    Reference.prototype.processDefaultValue = function() {
-        if (!this.value && this.defaultValue()) {
-            this.value = this.defaultValue();
-        }
-    };
-
-    Configurable(Reference.prototype, config);
 
     return Reference;
 });

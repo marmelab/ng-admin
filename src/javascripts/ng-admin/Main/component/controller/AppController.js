@@ -1,9 +1,12 @@
-define(function() {
+/*global define*/
+
+define(function () {
     'use strict';
 
     /**
      *
-     * @param {$scope} $scope
+     * @param {$scope}               $scope
+     * @param {NgAdminConfiguration} Configuration
      * @constructor
      */
     var AppController = function ($scope, Configuration) {
@@ -13,7 +16,7 @@ define(function() {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    AppController.prototype.destroy = function() {
+    AppController.prototype.destroy = function () {
         this.$scope = undefined;
     };
 

@@ -1,15 +1,18 @@
-define(function() {
+/*global define*/
+
+define(function () {
     'use strict';
 
     function OrderElement() {
-        return function(input, attribute) {
-            var results = [];
+        return function (input) {
+            var results = [],
+                objectKey;
 
-            for(var objectKey in input) {
+            for (objectKey in input) {
                 results.push(input[objectKey]);
             }
 
-            results.sort(function(field1, field2){
+            results.sort(function (field1, field2) {
                 return field1.order() - field2.order();
             });
 

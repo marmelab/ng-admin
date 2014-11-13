@@ -1,97 +1,17 @@
+/*global define*/
+
 define(function (require) {
     'use strict';
 
-    var angular = require('angular');
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable');
-
-    var fieldTypes = {
-        Field: require('ng-admin/Main/component/service/config/Field'),
-        Reference: require('ng-admin/Main/component/service/config/Reference'),
-        ReferencedList: require('ng-admin/Main/component/service/config/ReferencedList'),
-        ReferenceMany: require('ng-admin/Main/component/service/config/ReferenceMany')
-    };
-
-    /**
-     * Return the title depending if the config is a string or a function
-     * @param {Function} config
-     * @param {Entity} entity
-     * @returns {String}
-     */
-    function getTitle(config, entity) {
-        var title = config;
-        if (typeof (title) === 'function') {
-            title = title(entity);
-        }
-
-        return title;
-    }
-
-    var defaultPaginationLink = function(page, maxPerPage) {
-        return {
-            page: page,
-            per_page: maxPerPage
-        };
-    };
-
-    var defaultFilterQuery = function(query) {
-        return {
-            q: query
-        };
-    };
-
-    var defaultFilterParams = function(params) {
-        return params;
-    };
-
-    var defaultTotalItems = function(response) {
-        return response.headers('X-Total-Count') || 0;
-    };
-
-    var defaultListingTitle = function(entity) {
-        return 'List of ' + entity.label();
-    };
-
-    var defaultEditionTitle = function(entity) {
-        return 'Edit ' + entity.label();
-    };
-
-    var defaultCreationTitle = function(entity) {
-        return 'Create ' + entity.label();
-    };
-
-    var defaultDescription = function (entity) {
-        return null;
-    };
-
-    var defaultSortParams = function (field, dir) {
-        return {
-            params:{
-                _sort: field,
-                _sortDir: dir
-            },
-            headers: {
-            }
-        };
-    };
+    var angular = require('angular'),
+        utils = require('ng-admin/lib/utils'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        Field = require('ng-admin/Main/component/service/config/Field');
 
     var config = {
         name: 'entity',
         label: 'My entity',
-        order: null,
-        titleList: defaultListingTitle,
-        titleCreate: defaultCreationTitle,
-        titleEdit: defaultEditionTitle,
-        description: defaultDescription,
-        dashboard: 5,
-        perPage: 30,
-        pagination: defaultPaginationLink,
-        filterQuery: defaultFilterQuery,
-        filterParams: defaultFilterParams,
-        infinitePagination: false,
-        totalItems: defaultTotalItems,
-        extraParams: null,
-        sortParams: defaultSortParams,
-        interceptor: null
+        order: null
     };
 
     /**
@@ -100,189 +20,155 @@ define(function (require) {
      * @constructor
      */
     function Entity(entityName) {
-        this.fields = {};
-        this.quickFilters = {};
+        this.views = {};
+        this.values = {};
+        this.mappedFields = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
+        this.config.label = utils.camelCase(this.config.name);
+        this.identifierField = new Field('id');
     }
 
-    /**
-     * Add an field to the entity
-     * @param {Field} field
-     */
-    Entity.prototype.addField = function(field) {
-        if (field.order() === null) {
-            field.order(Object.keys(this.fields).length);
-        }
-
-        field.setEntity(this);
-        this.fields[field.name()] = field;
-
-        return this;
-    };
-
-    /**
-     * Returns all fields
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getFields = function() {
-        return this.fields;
-    };
-
-    /**
-     * Returns a field
-     *
-     * @returns {Field}
-     */
-    Entity.prototype.getField = function(name) {
-        return this.fields[name];
-    };
-
-    /**
-     * Return the identifier field
-     *
-     * @returns {Field}
-     */
-    Entity.prototype.getIdentifier = function() {
-        for(var i in this.fields) {
-            if (!this.fields.hasOwnProperty(i)){
-                continue;
-            }
-
-            var field = this.fields[i];
-            if (field.identifier()) {
-                return field;
-            }
-        }
-    };
-
-    /**
-     * Returns all references
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getReferences = function() {
-        var references = this.getFieldsOfType('Reference');
-        var referencesMany = this.getFieldsOfType('ReferenceMany');
-
-        angular.forEach(referencesMany, function(ref, key) {
-            references[key] = ref;
-        });
-
-        return references;
-    };
-
-    /**
-     * Returns all referenced lists
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getReferencedLists = function() {
-        return this.getFieldsOfType('ReferencedList')
-    };
-
-    /**
-     * Returns fields by type
-     *
-     * @param {String }type
-     * @returns {Array}
-     */
-    Entity.prototype.getFieldsOfType = function(type) {
-        var results = {};
-
-        for(var i in this.fields) {
-            if (!this.fields.hasOwnProperty(i)) {
-                continue;
-            }
-
-            var field = this.fields[i];
-            if (field instanceof fieldTypes[type]) {
-                results[i] = field;
-            }
-        }
-
-        return results;
-    };
-
-    /**
-     * Return configurables extra params
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getExtraParams = function() {
-        var params = {};
-        if (this.config.extraParams) {
-            params = typeof (this.config.extraParams) === 'function' ? this.config.extraParams() : this.config.extraParams;
-        }
-
-        return params;
-    };
-
-    /**
-     * Return configurables sorting params
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getSortParams = function(sortField, sortDir) {
-        return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
-    };
-
-    Entity.prototype.getListTitle = function() {
-        return getTitle(this.config.titleList, this);
-    };
-
-    Entity.prototype.getCreateTitle = function() {
-        return getTitle(this.config.titleCreate, this);
-    };
-
-    Entity.prototype.getEditTitle = function() {
-        return getTitle(this.config.titleEdit, this);
-    };
-
-    Entity.prototype.getDescription = function() {
-        return getTitle(this.config.description, this);
-    };
-
-    Entity.prototype.addQuickFilter = function(label, params) {
-        this.quickFilters[label] = params;
-
-        return this;
-    };
-
-    Entity.prototype.getQuickFilterNames = function() {
-        return Object.keys(this.quickFilters);
-    };
-
-    Entity.prototype.getQuickFilterParams = function(name) {
-        var params = this.quickFilters[name];
-        if (typeof (params) === 'function') {
-            params = params();
-        }
-
-        return params;
-    };
-
-    /**
-     * Returns true is the Entity wasn't populated
-     *
-     * @returns {boolean}
-     */
-    Entity.prototype.isNew = function() {
-        var identifier = this.getIdentifier();
-        return !identifier || identifier.value === null;
-    };
-
-    /**
-     * Clear all fields
-     */
-    Entity.prototype.clear = function() {
-        angular.forEach(this.getFields(), function(field){
-            field.clear();
-        });
-    };
-
     Configurable(Entity.prototype, config);
+
+    /**
+     * Returns all views
+     *
+     * @returns {[View]}
+     */
+    Entity.prototype.getViews = function () {
+        return this.views;
+    };
+
+    /**
+     * Returns the value of a fieldName
+     *
+     * @params {String} fieldName
+     *
+     * @returns {*}
+     */
+    Entity.prototype.getValue = function (fieldName) {
+        return this.values[fieldName] !== undefined ? this.values[fieldName] : null;
+    };
+
+    /**
+     * Set the value of a fieldName
+     *
+     * @params {String} fieldName
+     * @params {*}      value
+     *
+     * @returns {Entity}
+     */
+    Entity.prototype.setValue = function (fieldName, value) {
+        this.values[fieldName] = value;
+
+        return this;
+    };
+
+    /**
+     * Returns all views by type
+     *
+     * @returns {[View]}
+     */
+    Entity.prototype.getViewsOfType = function (type) {
+        var views = [],
+            view,
+            i;
+
+        for (i in this.views) {
+            view = this.views[i];
+
+            if (view.type === type) {
+                views.push(view);
+            }
+        }
+
+        return views;
+    };
+
+
+    /**
+     * Returns one view by type
+     *
+     * @returns {View}
+     */
+    Entity.prototype.getOneViewOfType = function (type) {
+        var views = this.getViewsOfType(type);
+
+        return views.length ? views[0] : null;
+    };
+
+    /**
+     * Set or get the identifier
+     *
+     * @param {Field} identifier
+     * @returns Field|Entity
+     */
+    Entity.prototype.identifier = function (identifier) {
+        if (arguments.length === 0) {
+            return this.identifierField;
+        }
+
+        this.identifierField = identifier;
+
+        return this;
+    };
+
+    /**
+     * Returns a view by it's name
+     *
+     * @returns {View}
+     */
+    Entity.prototype.getView = function (name) {
+        return this.views[name];
+    };
+
+    /**
+     * Add a view
+     *
+     * @param {View} view
+     *
+     * @returns {Entity}
+     */
+    Entity.prototype.addView = function (view) {
+        view.setEntity(this);
+        this.views[view.name()] = view;
+
+        return this;
+    };
+
+    /**
+     * Add extra field to map
+     * Useful when we need a field that is not in the Entity view in a template
+     *
+     * @param {Field} field
+     *
+     * @returns {Entity}
+     */
+    Entity.prototype.addMappedField = function (field) {
+        this.mappedFields[field.name()] = field;
+
+        return this;
+    };
+
+    /**
+     * Return all field to map
+     *
+     * @returns {Object}
+     */
+    Entity.prototype.getMappedFields = function () {
+        return this.mappedFields;
+    };
+
+    /**
+     * Return the value of a mapped field
+     *
+     * @param {String} fieldName
+     * @returns {*}
+     */
+    Entity.prototype.getMappedValue = function (fieldName) {
+        return this.values[fieldName];
+    };
 
     return Entity;
 });
