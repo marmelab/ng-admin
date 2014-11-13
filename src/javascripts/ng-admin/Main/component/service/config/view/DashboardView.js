@@ -5,7 +5,12 @@ define(function (require) {
 
     var angular = require('angular'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
+
+    var config = {
+        order: null
+    };
 
     /**
      * @constructor
@@ -16,6 +21,7 @@ define(function (require) {
     }
 
     utils.inherits(DashboardView, ListView);
+    Configurable(DashboardView.prototype, config);
 
     /**
      * Set or get the dashboard panel limit

@@ -53,7 +53,7 @@ define(function (require) {
                 }
 
                 self.panels.push({
-                    label: view.label(),
+                    label: view.title(),
                     view: view,
                     columns: columns,
                     entries: entries

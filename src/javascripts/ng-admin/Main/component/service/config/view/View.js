@@ -37,8 +37,6 @@ define(function (require) {
 
     var config = {
         name: 'myView',
-        label: 'My view',
-        order: null,
         title: defaultTitle,
         description: defaultDescription,
         extraParams: null,

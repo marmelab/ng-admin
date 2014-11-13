@@ -51,19 +51,18 @@ define(function (require) {
         filterParams: defaultFilterParams,
         infinitePagination: false,
         totalItems: defaultTotalItems,
-        sortParams: defaultSortParams,
-        headers: {}
+        sortParams: defaultSortParams
     };
 
     /**
      * @constructor
      */
     function ListView() {
-        this.quickFilters = {};
-
         View.apply(this, arguments);
+
         this.config = angular.extend(this.config, angular.copy(config));
         this.type = 'ListView';
+        this.quickFilters = {};
     }
 
     utils.inherits(ListView, View);
