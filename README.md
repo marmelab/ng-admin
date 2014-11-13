@@ -302,22 +302,20 @@ Define array of choices for `choice` type. A choice has both a value and a label
 * `map(function)`
 Define a custom function to transform the value. Works in list and edit views.
 
-```js
-.addField(new Field('characters')
-    .map(function truncate(value) {
-        return value.length > 50 ? value.substr(0, 50) + '...' : value;
-    })
-)
-```
 
-Multiple `map` can be defined for a field:
+        .addField(new Field('characters')
+            .map(function truncate(value) {
+                return value.length > 50 ? value.substr(0, 50) + '...' : value;
+            })
+        )
 
-```js
-.addField(new Field('comment')
-    .map(stripTags)
-    .map(truncate)
-)
-```
+
+    Multiple `map` can be defined for a field:
+
+        .addField(new Field('comment')
+            .map(stripTags)
+            .map(truncate)
+        )
 
 * `validation(object)`
 Tell how to validate the view
@@ -362,27 +360,21 @@ Defines the number of element displayed in a page
 * `pagination(function)`
 Defines parameters used to paginate the API:
 
-```js
-new ListView('myView')
-	.pagination(function(page, maxPerPage) {
-		return {
-			begin: (page - 1) * maxPerPage, 
-			end: page * maxPerPage
+        new ListView('myView')
+	    .pagination(function(page, maxPerPage) {
+                return {
+		    begin: (page - 1) * maxPerPage, 
+		    end: page * maxPerPage
 		};
 	});
-```
 
 * `filterQuery(function)`
 Defines parameters used to query the API:
 
-```js
-new ListView('myView')
-	.filterQuery(function(q) {
-		return {
-			query: q
-		};
-	});
-```
+        new ListView('myView')
+	    .filterQuery(function(q) {
+                return { query: q };
+	    });
 
 * `filterQuery(function)`
 Defines parameters used to query the API. See below.
@@ -393,58 +385,50 @@ Enable or disable lazy loading.
 * `totalItems(function)`
 Define a function that return the total of items:
 
-```js
-new ListView('myView')
-	.totalItems(function(response) {
-		 return response.headers('X-Total-Count');
-	});
-```
+        new ListView('myView')
+	    .totalItems(function(response) {
+	        return response.headers('X-Total-Count');
+	    });
 
 * `sortParams(function)`
 Defines parameters used to sort the API:
 
-```js
-new ListView('myView')
-	.sortParams(function(field, dir) {
+        new ListView('myView')
+	    .sortParams(function(field, dir) {
 		return {
-			params: {
-				_sort: field,
-                _sortDir: dir
-            },
-            headers: {}
-        };
-	});
-```
+                    params: {
+                        _sort: field,
+                        _sortDir: dir
+                    },
+                    headers: {}
+                };
+            });
 
-You can add quick filters on a list view with:
+    You can add quick filters on a list view with:
 
-```js
-listView.addQuickFilter('Today', function () {
-    var now = new Date(),
-	    year = now.getFullYear(),
-	    month = now.getMonth() + 1,
-	    day = now.getDate();
+        listView.addQuickFilter('Today', function () {
+            var now = new Date(),
+	            year = now.getFullYear(),
+	            month = now.getMonth() + 1,
+	            day = now.getDate();
+        
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+        
+            return {
+                created_at: [year, month, day].join('-')
+            };
+        })
 
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
+    Quickfilters can be customised with the `filterParams` of the `ListView`:
 
-    return {
-        created_at: [year, month, day].join('-')
-    };
-})
-```
-
-Quickfilters can be customised with the `filterParams` of the `ListView`:
-
-```js
-listView.filterParams(function (param) {
-   if (param) {
-       param.abc = '';
-   }
-
-   return param;
-})
-```
+        listView.filterParams(function (param) {
+           if (param) {
+               param.abc = '';
+           }
+        
+           return param;
+        })
 
 ## Relationships
 
@@ -458,14 +442,12 @@ Define the referenced entity.
 * `targetLabel(string)`
 Define the target field name used to retrieve the label of the referenced element.
 
-```js
-myView.addField(new Reference('post_id')
-    .label('Post title')
-    .map(truncate) // Allows to truncate values in the select
-    .targetEntity(post) // Select a target Entity
-    .targetField(new Field('title')) // Select a label Field
-)
-```
+        myView.addField(new Reference('post_id')
+            .label('Post title')
+            .map(truncate) // Allows to truncate values in the select
+            .targetEntity(post) // Select a target Entity
+            .targetField(new Field('title')) // Select a label Field
+        );
 
 ### ReferencedList
 
@@ -480,18 +462,16 @@ Define the field name used to link the referenced entity.
 * `targetFields(Array(Field))`
 Define an array of fields that will be displayed in the list of the form.
 
-```js
-myEditView.addField(new ReferencedList('comments') // Define a N-1 relationship with the comment entity
-    .label('Comments')
-    .targetEntity(comment) // Target the comment Entity
-    .targetReferenceField('post_id') // Each comment with post_id = post.id (the identifier) will be displayed
-    .targetFields([ // Display comment field to display
-        new Field('id').label('ID'),
-        new Field('body').label('Comment')
-    ])
-    )
-)
-```
+        myEditView.addField(new ReferencedList('comments') // Define a N-1 relationship with the comment entity
+            .label('Comments')
+            .targetEntity(comment) // Target the comment Entity
+            .targetReferenceField('post_id') // Each comment with post_id = post.id (the identifier) will be displayed
+            .targetFields([ // Display comment field to display
+                new Field('id').label('ID'),
+                new Field('body').label('Comment')
+            ])
+            )
+        );
 
 ### ReferenceMany
 
@@ -503,14 +483,12 @@ Define the referenced entity.
 * `targetField(Field)`
 Define the field name used to link the referenced entity.
 
-```js
-myView.addField(new ReferenceMany('tags')
-   .label('Tags')
-   .isEditLink(false)
-   .targetEntity(tag) // Targeted entity
-   .targetField(new Field('name')) // Label Field to display in the list
-)
-```
+        myView.addField(new ReferenceMany('tags')
+           .label('Tags')
+           .isEditLink(false)
+           .targetEntity(tag) // Targeted entity
+           .targetField(new Field('name')) // Label Field to display in the list
+        )
 
 ## Build
 
