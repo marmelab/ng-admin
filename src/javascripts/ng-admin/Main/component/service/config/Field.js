@@ -162,20 +162,5 @@ define(function (require) {
         return this.entity;
     };
 
-    /**
-     * Return a modifiable clone of the field
-     *
-     * @return {Field}
-     */
-    Field.prototype.clone = function () {
-        return {
-            prototype: Field.prototype,
-            __proto__: this.__proto__,
-            config: angular.copy(this.config),
-            entity: null,
-            view: null
-        };
-    };
-
     return Field;
 });
