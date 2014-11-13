@@ -4,4 +4,5 @@
         class="form-control"
         ng-model="entry.values[field.name()]"
         ng-required="field.validation().required"
-        maxlength="{{ field.validation().maxlength }}"></textarea>
+        ng-minlength="{{ field.validation().minlength }}"
+        ng-maxlength="{{ field.validation().maxlength }}"></textarea>
