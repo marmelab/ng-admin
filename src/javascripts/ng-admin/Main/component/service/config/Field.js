@@ -27,7 +27,8 @@ define(function (require) {
         dashboard: true,
         validation: {
             required: false,
-            maxlength: false
+            minlength: 0,
+            maxlength: 99999 // We can't remove ng-maxlength directive
         },
         choices: [],
         defaultValue: null,

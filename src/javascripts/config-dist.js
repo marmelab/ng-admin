@@ -62,7 +62,7 @@
                 .limit(5) // limit the panel to the 5 latest posts
                 .pagination(pagination) // use the custom pagination function to format the API request correctly
                 .label('Recent posts')
-                .addField(new Field('title').map(truncate))
+                .addField(new Field('title').isEditLink(true).map(truncate))
             )
             .addView(new ListView('post-list') // initialize the datagrid
                 .title('All posts') // default title is "List of posts"

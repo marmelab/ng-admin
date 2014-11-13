@@ -3,5 +3,5 @@
        class="{{ field.getCssClasses() }}"
        type="text"
        ng-model="entry.values[field.name()]"
-       ng-required="field.validation().required"
-       maxlength="{{ field.validation().maxlength }}" />
+       ng-minlength="{{ field.validation().minlength }}"
+       ng-maxlength="{{ field.validation().maxlength }}" />
