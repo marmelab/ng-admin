@@ -302,20 +302,18 @@ Define array of choices for `choice` type. A choice has both a value and a label
 * `map(function)`
 Define a custom function to transform the value. Works in list and edit views.
 
-
-        .addField(new Field('characters')
+        myView.addField(new Field('characters')
             .map(function truncate(value) {
                 return value.length > 50 ? value.substr(0, 50) + '...' : value;
             })
-        )
-
+        );
 
     Multiple `map` can be defined for a field:
 
-        .addField(new Field('comment')
+        myView.addField(new Field('comment')
             .map(stripTags)
             .map(truncate)
-        )
+        );
 
 * `validation(object)`
 Tell how to validate the view
@@ -360,20 +358,18 @@ Defines the number of element displayed in a page
 * `pagination(function)`
 Defines parameters used to paginate the API:
 
-        new ListView('myView')
-            .pagination(function(page, maxPerPage) {
-                return {
-                    begin: (page - 1) * maxPerPage, 
-                    end: page * maxPerPage
-                };
-            });
+        myView.pagination(function(page, maxPerPage) {
+            return {
+                begin: (page - 1) * maxPerPage, 
+                end: page * maxPerPage
+            };
+        });
 
 * `filterQuery(function)`
 Defines parameters used to query the API:
 
-        new ListView('myView')
-            .filterQuery(function(q) {
-                return { query: q };
+        myView.filterQuery(function(q) {
+            return { query: q };
 	    });
 
 * `filterQuery(function)`
@@ -385,25 +381,23 @@ Enable or disable lazy loading.
 * `totalItems(function)`
 Define a function that return the total of items:
 
-        new ListView('myView')
-            .totalItems(function(response) {
-                return response.headers('X-Total-Count');
-            });
+        myView.totalItems(function(response) {
+            return response.headers('X-Total-Count');
+        });
 
 * `sortParams(function)`
 Defines parameters used to sort the API:
 
-        new ListView('myView')
-	    .sortParams(function(field, dir) {
-                return {
-                    params: { _sort: field, _sortDir: dir },
-                    headers: {}
-                };
-            });
+	    myView.sortParams(function(field, dir) {
+            return {
+                params: { _sort: field, _sortDir: dir },
+                headers: {}
+            };
+        });
 
     You can add quick filters on a list view with:
 
-        listView.addQuickFilter('Today', function () {
+        myView.addQuickFilter('Today', function () {
             var now = new Date(),
 	            year = now.getFullYear(),
 	            month = now.getMonth() + 1,
@@ -415,17 +409,16 @@ Defines parameters used to sort the API:
             return {
                 created_at: [year, month, day].join('-')
             };
-        })
+        });
 
     Quickfilters can be customised with the `filterParams` of the `ListView`:
 
-        listView.filterParams(function (param) {
+        myView.filterParams(function (param) {
            if (param) {
                param.abc = '';
            }
-        
            return param;
-        })
+        });
 
 ## Relationships
 
