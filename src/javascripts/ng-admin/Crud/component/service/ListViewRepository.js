@@ -49,7 +49,7 @@ define(function (require) {
                 entries = view.mapEntries(rawEntries.data);
 
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
-                entries = view.truncateListValue(entries);
+                entries = view.getMappedValue(entries);
 
                 return {
                     view: view,
@@ -218,7 +218,7 @@ define(function (require) {
 
                     entry.listValues[referenceField] = entries;
                 } else if (fillSimpleReference && identifier && identifier in choices) {
-                    entry.listValues[referenceField] = reference.getTruncatedListValue(choices[identifier]);
+                    entry.listValues[referenceField] = reference.getMappedValue(choices[identifier]);
                 }
             }
         }

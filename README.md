@@ -162,7 +162,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .addField(new Field('title')
                 .label('Title')
                 .type('string')
-                .truncateList(truncate) // Define a customer method that truncate the value in the list view
+                .map(truncate) // Define a customer method that truncate the value in the list view
                 )
             )
         .addView(new ListView('post-list')
@@ -309,7 +309,7 @@ Define a custom function to transform the value.
 )
 ```
 
-* `truncateList(function)`
+* `map(function)`
 Define a custom function to truncate list values
 
 * `validation(object)`
@@ -367,7 +367,7 @@ Define the target field name used to retrieve the label of the referenced elemen
 ```js
 myView.addField(new Reference('post_id')
     .label('Post title')
-    .truncateList(truncate) // Allows to truncate values in the select
+    .map(truncate) // Allows to truncate values in the select
     .targetEntity(post) // Select a target Entity
     .targetField(new Field('title')) // Select a label Field
 )

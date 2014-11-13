@@ -18,6 +18,12 @@ define(function (require) {
                 expect(field.type()).toBe('string');
             });
 
+            it('should set a random string as name when not set.', function () {
+                var field = new Field();
+
+                expect(field.name()).toNotEqual(null);
+            });
+
             it('should not allows type other type.', function () {
                 var field = new Field();
 
@@ -41,15 +47,15 @@ define(function (require) {
         });
 
         describe('config', function () {
-            it('should call truncateListValue with a callback.', function () {
+            it('should call getMappedValue.', function () {
                 function truncate(val) {
                     return 'v' + val;
                 }
 
                 var field = new Field('field1');
-                field.truncateList(truncate);
+                field.map(truncate);
 
-                expect(field.getTruncatedListValue(123)).toBe('v123');
+                expect(field.getMappedValue(123)).toBe('v123');
             });
         });
 

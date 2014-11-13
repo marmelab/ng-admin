@@ -29,7 +29,6 @@ define(function (require) {
         isEditLink: true,
         list: true,
         dashboard: true,
-        truncateList: false,
         validation: {
             required: false,
             maxlength: false
@@ -47,9 +46,10 @@ define(function (require) {
      */
     function Field(fieldName) {
         this.config = angular.copy(config);
-        this.config.name = fieldName || 'field';
+        this.config.name = fieldName || Math.random().toString(36).substring(7);
         this.entity = null; // Used when this field is an identifier
         this.view = null;
+        this.maps = [];
     }
 
     Configurable(Field.prototype, config);
@@ -75,15 +75,28 @@ define(function (require) {
     };
 
     /**
-     * Truncate the value based on the `truncateList` configuration
+     * Add a map function
+     *
+     * @param {Function} fn
+     *
+     * @returns {Field}
+     */
+    Field.prototype.map = function (fn) {
+        this.maps.push(fn);
+
+        return this;
+    };
+
+    /**
+     * Truncate the value based after applying all maps
      *
      * @param {*} value
      *
      * @returns {*}
      */
-    Field.prototype.getTruncatedListValue = function (value) {
-        if (this.config.truncateList) {
-            value = this.config.truncateList(value);
+    Field.prototype.getMappedValue = function (value) {
+        for (var i in this.maps) {
+            value = this.maps[i](value);
         }
 
         return value;

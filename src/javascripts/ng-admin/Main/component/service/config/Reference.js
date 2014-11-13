@@ -20,7 +20,6 @@ define(function (require) {
         targetEntity : null,
         targetField : null,
         valueTransformer : defaultValueTransformer,
-        truncateList: false,
         isEditLink: true,
         validation: {
             required: false
@@ -65,21 +64,6 @@ define(function (require) {
         }
 
         return result;
-    };
-
-    /**
-     * Truncate the value based on the `truncateList` configuration
-     *
-     * @param {*} value
-     *
-     * @returns {*}
-     */
-    Reference.prototype.getTruncatedListValue = function (value) {
-        if (this.config.truncateList) {
-            value = this.config.truncateList(value);
-        }
-
-        return value;
     };
 
     /**

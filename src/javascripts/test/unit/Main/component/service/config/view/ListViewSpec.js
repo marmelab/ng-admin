@@ -45,18 +45,18 @@ define(function (require) {
             expect(params.q).toEqual('mizu');
         });
 
-        it('should truncate list values.', function () {
+        iit('should truncate list values.', function () {
             var list = new ListView('allCats'),
                 entity = new Entity('cats');
 
             entity.addView(list);
 
             list.addField(new Field('id').identifier(true));
-            list.addField(new Field('name').truncateList(function (value) {
+            list.addField(new Field('name').map(function (value) {
                 return value.substr(0, 5) + '...';
             }));
 
-            var entries = list.truncateListValue(list.mapEntries([
+            var entries = list.getMappedValue(list.mapEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
                 { id: 2, human_id: 2, name: 'Boby'},
                 { id: 3, human_id: 1, name: 'Mizute'}

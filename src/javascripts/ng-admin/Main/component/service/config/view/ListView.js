@@ -164,13 +164,13 @@ define(function (require) {
     };
 
     /**
-     * Truncate all values depending of the `truncateList` configuration of a field
+     * Map all values depending of the `map` configuration of a field
      *
      * @param {[Object]} entries
      *
      * @return {[Object]}
      */
-    ListView.prototype.truncateListValue = function (entries) {
+    ListView.prototype.getMappedValue = function (entries) {
         if (!entries.length) {
             return [];
         }
@@ -185,9 +185,7 @@ define(function (require) {
             for (fieldName in fields) {
                 field = fields[fieldName];
 
-                if (field.getTruncatedListValue) {
-                    entries[i].values[fieldName] = field.getTruncatedListValue(entries[i].values[fieldName]);
-                }
+                entries[i].values[fieldName] = field.getMappedValue(entries[i].values[fieldName]);
             }
         }
 
