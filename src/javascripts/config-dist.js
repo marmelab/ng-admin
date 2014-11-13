@@ -40,18 +40,19 @@
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
         // define all entities at the top to allow references between them
+        var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
+
         var comment = new Entity('comments')
-            .identifier(new Field('id')) // the API endpoint for comments will be http://localhost:3000/comments/:id
-            .addMappedField(new Field('post_id')); // fields to be read from the API, even if not displayed (used later in template field)
-        app.addEntity(comment);
+            .identifier(new Field('id')) // you can optionally customize the identifier used in the api ('id' by default)
+            .addMappedField(new Field('post_id')); // a field to be read from the API, even if not displayed in any view (used later in template field)
 
-        var tag = new Entity('tags')
-            .identifier(new Field('id')); // the API endpoint for tags will be http://localhost:3000/tags/:id
-        app.addEntity(tag);
+        var tag = new Entity('tags');
 
-        var post = new Entity('posts')
-            .identifier(new Field('id')); // the API endpoint for posts will be http://localhost:3000/posts/:id
-        app.addEntity(post);
+        // set the application entities
+        app
+            .addEntity(tag)
+            .addEntity(post)
+            .addEntity(comment);
 
         // customize entities and views
         post
