@@ -55,180 +55,207 @@ Your application should use a `ui-view`:
 
 # Configuration
 
-We chose to define the entities & views directly into a Javascript file to allow greater freedom in the configuration.
-For some part of the configuration, you'll be able to directly define the function that matches your specific needs to fit your API.
+We chose to define the entities & views directly in JavaScript to allow greater freedom in the configuration.
 
 Here is a full example for a backend that will let you create, update, and delete some posts (`posts` entity).
 Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
+
+var app = angular.module('myApp', ['ng-admin']);
+
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList,
                      ReferenceMany, DashboardView, ListView, CreateView, EditView, DeleteView) {
 
-    // Method use to return pagination parameter for the API
-    function pagination(page, maxPerPage) {
-        return {
-            _start: (page - 1) * maxPerPage,
-            _end: page * maxPerPage
-        };
-    }
+    var app = new Application('ng-admin backend demo') // application main title
+        .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
-    // Method use to truncate a value in a list view or a dashboard list
+    // define all entities at the top to allow references between them
+    var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
+
+    var comment = new Entity('comments')
+        .identifier(new Field('id')) // you can optionally customize the identifier used in the api ('id' by default)
+        .addMappedField(new Field('post_id')); // a field to be read from the API, even if not displayed in any view (used later in template field)
+
+    var tag = new Entity('tags');
+
+    // set the application entities
+    app
+        .addEntity(tag)
+        .addEntity(post)
+        .addEntity(comment);
+
     function truncate(value) {
-        if (!value) {
-            return '';
-        }
-
+        if (!value) return '';
         return value.length > 50 ? value.substr(0, 50) + '...' : value;
     }
 
-    // Declare a new entity
-    var tag = new Entity('tags')
-        .order(3) // Order of this element in the menu
-        .identifier(new Field('id')) // Map the identifier field
-        .addView(new DashboardView('tag-dashboard') // Add a view for the dashboard
-            .label('Recent tags') // title of the view
-            .order(3) // Order of the view in the dashboard
-            .limit(10) // Limit the number of element displayed in the dashboard
-            .pagination(pagination) // Use customer parameter for pagination with a function that takes page & maxPerPage arguments
-            .addField(new Field('id').label('ID')) // Add a first field to display
-            .addField(new Field('name')) // Field can have multiple type
-            .addField(new Field('published').label('Is published ?').type('boolean')) // Like type boolean
+    function pagination(page, maxPerPage) {
+        return { _start: (page - 1) * maxPerPage, _end: page * maxPerPage }; // how the pagination should be reflected as API query params
+    }
+
+    // customize entities and views
+    post
+        .order(1) // post should be the first item in the sidebar menu
+        .addView(new DashboardView('post-dashboard') // initialize a view with a name to ease routing
+            .order(1) // display the post panel first in the dashboard
+            .limit(5) // limit the panel to the 5 latest posts
+            .pagination(pagination) // use the custom pagination function to format the API request correctly
+            .label('Recent posts')
+            .addField(new Field('title').map(truncate))
+        )
+        .addView(new ListView('post-list') // initialize the datagrid
+            .title('All posts') // default title is "List of posts"
+            .pagination(pagination)
+            .addField(new Field('id').label('ID'))
+            .addField(new Field('title')) // the default list field type is "string", and displays as a string
+            .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
+                .targetEntity(tag) // the tag entity is defined later in this file
+                .targetField(new Field('name')) // the field to be displayed in this list
             )
-        .addView(new ListView('tags-list') // Add a list view
-            .title('List of all tags') // Define it's title
-            .infinitePagination(false) // Disable lazy loading pagination
-            .pagination(pagination) // Use custom parameter for pagination
-            .filterQuery(function (query) {
-                return {
-                    q: query
-                };
-            })
-            .addQuickFilter('Today', function () {
+        )
+        .addView(new CreateView('post-create') // initialize the creation form
+            .title('Add a new post') // default title is "Create a post"
+            .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
+            .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
+        )
+        .addView(new EditView('post-edit') // initialize the edition form
+            .addField(new Field('title'))
+            .addField(new Field('body').type('wysiwyg'))
+            .addField(new ReferenceMany('tags')
+                .targetEntity(tag)
+                .targetField(new Field('name'))
+            )
+            .addField(new ReferencedList('comments')
+                .targetEntity(comment)
+                .targetReferenceField('post_id')
+                .targetFields([
+                    new Field('id'),
+                    new Field('body').label('Comment')
+                ])
+            )
+        )
+        .addView(new DeleteView('post-delete') // initialize the deletion confirmation page
+            .title('Delete a post')
+        );
+
+    comment
+        .order(2) // comment should be the second item in the sidebar menu
+        .addView(new DashboardView('comment-dashboard')
+            .order(2) // display the comment panel second in the dashboard
+            .limit(5)
+            .pagination(pagination)
+            .label('Last comments')
+            .addField(new Field('id'))
+            .addField(new Field('body').label('Comment').map(truncate))
+            .addField(new Field() // template fields don't need a name
+                .type('template') // a field which uses a custom template
+                .label('Actions')
+                .template(function () { // template() can take a function or a string
+                    return '<custom-post-link></custom-post-link>'; // you can use custom directives, too
+                })
+            )
+        )
+        .addView(new ListView('comment-list')
+            .title('Comments')
+            .description('List of all comments with an infinite pagination') // description appears under the title
+            .pagination(pagination)
+            .addField(new Field('id').label('ID'))
+            .addField(new Reference('post_id')
+                .label('Post title')
+                .map(truncate)
+                .targetEntity(post)
+                .targetField(new Field('title'))
+            )
+            .addField(new Field('body').map(truncate))
+            .addField(new Field('created_at').label('Creation date').type('date'))
+            .addQuickFilter('Today', function () { // a quick filter displays a button to filter the list based on a set of query parameters passed to the API
                 var now = new Date(),
                     year = now.getFullYear(),
                     month = now.getMonth() + 1,
                     day = now.getDate();
-
                 month = month < 10 ? '0' + month : month;
                 day = day < 10 ? '0' + day : day;
-
                 return {
-                    created_at: [year, month, day].join('-')
+                    created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
                 };
             })
-            .addField(new Field('id').label('ID').isEditLink(false)) // Add a first field & disable edit link
-            .addField(new Field('name').isEditLink(true))
+            )
+        .addView(new CreateView('comment-create')
+            .addField(new Reference('post_id')
+                .label('Post title')
+                .map(truncate)
+                .targetEntity(post)
+                .targetField(new Field('title'))
+            )
+            .addField(new Field('body').type('wysiwyg'))
+        )
+        .addView(new EditView('comment-edit')
+            .addField(new Reference('post_id')
+                .label('Post title')
+                .map(truncate)
+                .targetEntity(post)
+                .targetField(new Field('title'))
+            )
+            .addField(new Field('body').type('wysiwyg'))
+            .addField(new Field('created_at').label('Creation date').type('date'))
+            .addField(new Field()
+                .type('template')
+                .label('Actions')
+                .template('<custom-post-link></custom-post-link>') // template() can take a function or a string
+            )
+            )
+        .addView(new DeleteView('comment-delete')
+            .title('Delete a comment')
+        );
+
+    tag
+        .order(3)
+        .addView(new DashboardView('tag-dashboard')
+            .order(3)
+            .limit(10)
+            .pagination(pagination)
+            .label('Recent tags')
+            .addField(new Field('id').label('ID'))
+            .addField(new Field('name'))
+            .addField(new Field('published').label('Is published ?').type('boolean'))
+        )
+        .addView(new ListView('tags-list')
+            .title('List of all tags')
+            .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
+            .pagination(pagination)
+            .addField(new Field('id').label('ID'))
+            .addField(new Field('name'))
             .addField(new Field('published').type('boolean'))
-            .addField(new Field() // Define a custom column with angular template
+            .addField(new Field('custom')
                 .type('template')
                 .label('Upper name')
-                 // This template will be displayed in the list using the current scope
-                .template('{{ entry.getField("name").value().toUpperCase() }}')
-                )
+                .template(function () {
+                    return '{{ entry.values.name.toUpperCase() }}';
+                })
             )
-        .addView(new CreateView('tags-create') // This view will be used when creating a new tag
+        )
+        .addView(new CreateView('tags-create')
             .addField(new Field('name')
-                .validation({ // The name is required with a max length of 150 characters
+                .type('string')
+                .validation({
                     "required": true,
                     "max-length" : 150
                 })
-                )
-            .addField(new Field('published').type('boolean'))
             )
+            .addField(new Field('published').type('boolean'))
+        )
         .addView(new EditView('tags_edit')
-            .addField(new Field('name').editable(false)) // We can disable edition
+            .addField(new Field('name').editable(false))
             .addField(new Field('published').type('boolean'))
-            )
-        .addView(new DeleteView('tags-delete') // The delete view does not need any field
+        )
+        .addView(new DeleteView('tags-delete')
             .title('Delete a tag')
-            );
-
-    // Add another entity
-    var post = new Entity('posts')
-        .order(1)
-        .identifier(new Field('id'))
-        .addView(new DashboardView('post-dashboard')
-            .order(1) // First in the dashboard view
-            .limit(5)
-            .pagination(pagination)
-            .label('Recent posts')
-            .addField(new Field('title')
-                .map(truncate) // Define a customer method that truncate the value in the list view
-                )
-            )
-        .addView(new ListView('post-list')
-            .title('All posts')
-            // Add extra headers for this list
-            .headers(function (entry) {
-                return {
-                    'X-User': 'user2',
-                    'X-Password': 'pwd'
-                };
-            })
-            .sortParams(function (field, dir) {
-                return {
-                    // Change sorting params
-                    params: {
-                        _sort: field,
-                        _sortDir: dir
-                    },
-                    // You can also want to sort via headers
-                    headers: {
-                    }
-                };
-            })
-            .infinitePagination(false)
-            .pagination(pagination)
-            .addField(new Field('id')
-                .label('ID')
-                )
-            .addField(new Field('title')
-                )
-            .addField(new ReferenceMany('tags') // Define a 1-N relationship with the tag entity
-                .targetEntity(tag) // Which entity is referenced
-                .targetField(new Field('name')) // Define field of this entity to display
-                )
-            )
-        .addView(new CreateView('post-create')
-            .title('Add a new post')
-            .addField(new Field('title')
-                )
-            .addField(new Field('body')
-                .type('wysiwyg')
-                .validation({
-                    // define your custom validation function
-                    validator: function (value) {
-                        if (value.indexOf('cat') !== 1) {
-                            throw new Error('Tag should contains the word cat');
-                        }
-                    }
-                })
-                )
-            )
-        .addView(new EditView('post-edit')
-            .title('Edit a post')
-            .addField(new Field('title')
-                )
-            .addField(new Field('body')
-                .type('wysiwyg')
-                )
-            .addField(new ReferenceMany('tags')
-                .targetEntity(tag)
-                .targetField(new Field('name'))
-                )
-            )
-        .addView(new DeleteView('post-delete')
-            .title('Delete a post')
-            );
-
-    var app = new Application('My backend')
-        .baseApiUrl('http://localhost:3000/')
-        .addEntity(post)
-        .addEntity(tag);
+        );
 
     NgAdminConfigurationProvider.configure(app);
 });
+
 ```
 
 ## View types
@@ -246,42 +273,39 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 - `ReferencedList`: association N-1
 - `ReferenceMany`: association N-N
 
-### Field
-
-* `name(string)`
-Map the Field name with the entity
+## General Field Parameters
 
 * `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'template'])`
-Define the field type.
+Define the field type. Default type is 'string', so you can omit it.
 
 * `label(string label)`
-Define the label of the field.
+Define the label of the field. Defaults to the uppercased field name.
 
 * `displayed(boolean)`
-Should the field be displayed in the list view ? Useful when we need to retrieve data for custom field
+Should the field be displayed in the view ? Useful when we need to retrieve data for custom field
 
 * `editable(boolean)`
-Define if the field is editable in the edition form.
+Define if the field is editable in the edition form. Usefult to display a field without allowing edition (e.g for creation date).
 
 * `order(number|null)`
-Define the position of the field in the form.
+Define the position of the field in the view.
 
 * `format(string ['yyyy-MM-dd' by default])`
 Define the format for `date` type.
 
 * `isEditLink(boolean)`
-Tell if the value is a link in the list view
+Tell if the value is a link in the list view. Default to true for the identifier field, false otherwise.
 
 * `choices([{value: '', label: ''}, ...])
 Define array of choices for `choice` type. A choice has both a value and a label.
 
 * `map(function)`
-Define a custom function to transform the value.
+Define a custom function to transform the value. Works in list and edit views.
 
 ```js
 .addField(new Field('characters')
-    .map(function(value) {
-        return value && value.items ? value.items[0] : value;
+    .map(function truncate(value) {
+        return value.length > 50 ? value.substr(0, 50) + '...' : value;
     })
 )
 ```
@@ -289,14 +313,11 @@ Define a custom function to transform the value.
 Multiple `map` can be defined for a field:
 
 ```js
-.addField(new Field('characters')
-    .map(/*...*/)
-    .map(/*...*/)
+.addField(new Field('comment')
+    .map(stripTags)
+    .map(truncate)
 )
 ```
-
-* `map(function)`
-Define a custom function to truncate list values
 
 * `validation(object)`
 Tell how to validate the view
@@ -306,14 +327,14 @@ Tell how to validate the view
  - `max-length`: number
  
 * `defaultValue(*)`
-Define the default value of the field.
+Define the default value of the field in the creation form.
 
 * `template(*)`
 Define the template to be displayed (can be a string or a function).
 
-### ListView
+## ListView Customization
 
-You can add quick filters on a list view with :
+You can add quick filters on a list view with:
 
 ```js
 listView.addQuickFilter('Today', function () {
@@ -342,6 +363,8 @@ lstView.filterParams(function (param) {
    return param;
 })
 ```
+
+## Relationships
 
 ### Reference
 
