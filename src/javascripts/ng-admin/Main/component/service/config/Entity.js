@@ -5,12 +5,12 @@ define(function (require) {
 
     var angular = require('angular'),
         utils = require('ng-admin/lib/utils'),
-        Configurable = require('ng-admin/Main/component/service/config/Configurable');
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        Field = require('ng-admin/Main/component/service/config/Field');
 
     var config = {
         name: 'entity',
         label: 'My entity',
-        identifier: null,
         order: null
     };
 
@@ -26,7 +26,7 @@ define(function (require) {
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
-        this.identifierField = null;
+        this.identifierField = new Field('id');
     }
 
     Configurable(Entity.prototype, config);
@@ -109,7 +109,6 @@ define(function (require) {
             return this.identifierField;
         }
 
-        identifier.entity = this;
         this.identifierField = identifier;
 
         return this;

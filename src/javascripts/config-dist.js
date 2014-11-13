@@ -44,11 +44,11 @@
             .identifier(new Field('id')) // the API endpoint for comments will be http://localhost:3000/comments/:id
             .addMappedField(new Field('post_id')); // fields to be read from the API, even if not displayed (used later in template field)
         app.addEntity(comment);
-        
+
         var tag = new Entity('tags')
             .identifier(new Field('id')); // the API endpoint for tags will be http://localhost:3000/tags/:id
         app.addEntity(tag);
-        
+
         var post = new Entity('posts')
             .identifier(new Field('id')); // the API endpoint for posts will be http://localhost:3000/posts/:id
         app.addEntity(post);
@@ -187,9 +187,9 @@
                 .addField(new Field('name'))
                 .addField(new Field('published').type('boolean'))
                 .addField(new Field('custom')
-                    .type('callback')
+                    .type('template')
                     .label('Upper name')
-                    .callback(function () {
+                    .template(function () {
                         return '{{ entry.values.name.toUpperCase() }}';
                     })
                 )
