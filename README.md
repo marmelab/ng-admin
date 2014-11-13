@@ -7,7 +7,7 @@ Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-m
 
 Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://github.com/marmelab/ng-admin-demo)), and the [launch post](http://marmelab.com/blog/2014/09/15/easy-backend-for-your-restful-api.html).
 
-# Installation
+## Installation
 
 Retrieve the module from bower:
 
@@ -15,11 +15,11 @@ Retrieve the module from bower:
 bower install ng-admin --save
 ```
 
-Include it:
+Include the ng-admin CSS, and the ng-admin JS (after the angular.js JS):
 
 ```html
 <link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin.min.css">
-
+<script src="/path/to/bower_components/angular/angular.min.js" type="text/javascript"></script>
 <script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
 ```
 
@@ -53,7 +53,7 @@ Your application should use a `ui-view`:
 <div ui-view></div>
 ```
 
-# Configuration
+## Example Configuration
 
 We chose to define the entities & views directly in JavaScript to allow greater freedom in the configuration.
 
@@ -258,7 +258,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
 ```
 
-## View types
+## View Configuration
+
+### View Types
 
 - `DashboardView`: display a block in the dashboard
 - `ListView`: main list view
@@ -266,14 +268,110 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 - `EditView`: edition form
 - `DeleteView`: deletion view
 
-## Field types
+### General View Settings
 
-- `Field`: simple field
-- `Reference`: association 1-N with another entity
-- `ReferencedList`: association N-1
-- `ReferenceMany`: association N-N
+* `title(String)`
+The title of the view.
 
-## General Field Parameters
+* `description(String)`
+A text displayed below the title.
+
+* `extraParams(function|Object)`
+Add extras params to each API request.
+
+* `headers(function|Object)`
+Add headers to each API request.
+
+* `interceptor(function)`
+Used to transform data from the API into an array of element.
+
+### DashboardView Settings
+
+* `order(Number)`
+Defines the order Dashboard panel in the dashboard
+
+### ListView Settings
+
+* `perPage(Number)`
+Defines the number of element displayed in a page
+
+* `pagination(function)`
+Defines parameters used to paginate the API:
+
+        myView.pagination(function(page, maxPerPage) {
+            return {
+                begin: (page - 1) * maxPerPage, 
+                end: page * maxPerPage
+            };
+        });
+
+* `filterQuery(function)`
+Defines parameters used to query the API:
+
+        myView.filterQuery(function(q) {
+            return { query: q };
+        });
+
+* `filterQuery(function)`
+Defines parameters used to query the API. See below.
+
+* `infinitePagination(boolean)`
+Enable or disable lazy loading.
+
+* `totalItems(function)`
+Define a function that return the total of items:
+
+        myView.totalItems(function(response) {
+            return response.headers('X-Total-Count');
+        });
+
+* `sortParams(function)`
+Defines parameters used to sort the API:
+
+        myView.sortParams(function(field, dir) {
+            return {
+                params: { _sort: field, _sortDir: dir },
+                headers: {}
+            };
+        });
+
+    You can add quick filters on a list view with:
+
+        myView.addQuickFilter('Today', function () {
+            var now = new Date(),
+                year = now.getFullYear(),
+                month = now.getMonth() + 1,
+                day = now.getDate();
+        
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+        
+            return {
+                created_at: [year, month, day].join('-')
+            };
+        });
+
+    Quickfilters can be customised with the `filterParams` of the `ListView`:
+
+        myView.filterParams(function (param) {
+           if (param) {
+               param.abc = '';
+           }
+           return param;
+        });
+
+## Fields
+
+A field is the representation of a property of an entity. 
+
+### Field Classes
+
+- `Field`: simple field (possible types: number, string, text, boolean, wysiwyg, email, date, choice, choices, template)
+- `Reference`: one-to-many association with another entity
+- `ReferencedList`: many-to-one association
+- `ReferenceMany`: many-to-many association
+
+### General Field Settings
 
 * `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'template'])`
 Define the field type. Default type is 'string', so you can omit it.
@@ -327,98 +425,6 @@ Define the default value of the field in the creation form.
 
 * `template(*)`
 Define the template to be displayed (can be a string or a function).
-
-## General Field Parameters
-
-* `title(String)`
-The title of the view.
-
-* `description(String)`
-A text displayed below the title.
-
-* `extraParams(function|Object)`
-Add extras params to each API request.
-
-* `headers(function|Object)`
-Add headers to each API request.
-
-* `interceptor(function)`
-Used to transform data from the API into an array of element.
-
-## DashboardView Customization
-
-* `order(Number)`
-Defines the order Dashboard panel in the dashboard
-
-## ListView Customization
-
-* `perPage(Number)`
-Defines the number of element displayed in a page
-
-* `pagination(function)`
-Defines parameters used to paginate the API:
-
-        myView.pagination(function(page, maxPerPage) {
-            return {
-                begin: (page - 1) * maxPerPage, 
-                end: page * maxPerPage
-            };
-        });
-
-* `filterQuery(function)`
-Defines parameters used to query the API:
-
-        myView.filterQuery(function(q) {
-            return { query: q };
-	    });
-
-* `filterQuery(function)`
-Defines parameters used to query the API. See below.
-
-* `infinitePagination(boolean)`
-Enable or disable lazy loading.
-
-* `totalItems(function)`
-Define a function that return the total of items:
-
-        myView.totalItems(function(response) {
-            return response.headers('X-Total-Count');
-        });
-
-* `sortParams(function)`
-Defines parameters used to sort the API:
-
-	    myView.sortParams(function(field, dir) {
-            return {
-                params: { _sort: field, _sortDir: dir },
-                headers: {}
-            };
-        });
-
-    You can add quick filters on a list view with:
-
-        myView.addQuickFilter('Today', function () {
-            var now = new Date(),
-	            year = now.getFullYear(),
-	            month = now.getMonth() + 1,
-	            day = now.getDate();
-        
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-        
-            return {
-                created_at: [year, month, day].join('-')
-            };
-        });
-
-    Quickfilters can be customised with the `filterParams` of the `ListView`:
-
-        myView.filterParams(function (param) {
-           if (param) {
-               param.abc = '';
-           }
-           return param;
-        });
 
 ## Relationships
 
