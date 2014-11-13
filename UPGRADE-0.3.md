@@ -36,7 +36,7 @@ var tag = new Entity('tags')
          .edition('editable')
          .validation({
              "required": true,
-             "max-length" : 150
+             "maxlength" : 150
          })
      );
 ```
@@ -73,7 +73,7 @@ Now the `Entity` definition should be splitted into views:
             .type('string')
             .validation({
                 "required": true,
-                "max-length" : 150
+                "maxlength" : 150
             })
             )
         )
@@ -83,7 +83,7 @@ Now the `Entity` definition should be splitted into views:
 	        .type('string')
 	        .validation({
                 "required": true,
-                "max-length" : 150
+                "maxlength" : 150
             })
             )
         )
@@ -105,7 +105,17 @@ These options have moved to the `DashboardView` & `ListView`:
 * `headers`
 * `quickFilters`
 
- ## Minor changes
+## Angularjs requirement
+
+`ng-admin` does not include `angularjs` anymore.
+
+You must include the angular source before including ng-admin:
+
+```html
+<script src="/path/to/bower_components/angular/angular.min.js" type="text/javascript"></script>
+```
+
+## Minor changes
  
  - `value` is now a function so the value of a field should be retrieved with `views.getField('fieldName').value()` instead of `views.getField('fieldName').value`.
  - `callback` field type & method are now called `template`.
