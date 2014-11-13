@@ -332,7 +332,89 @@ Define the default value of the field in the creation form.
 * `template(*)`
 Define the template to be displayed (can be a string or a function).
 
+## General Field Parameters
+
+* `title(String)`
+The title of the view.
+
+* `description(String)`
+A text displayed below the title.
+
+* `extraParams(function|Object)`
+Add extras params to each API request.
+
+* `headers(function|Object)`
+Add headers to each API request.
+
+* `interceptor(function)`
+Used to transform data from the API into an array of element.
+
+## DashboardView Customization
+
+* `order(Number)`
+Defines the order Dashboard panel in the dashboard
+
 ## ListView Customization
+
+* `perPage(Number)`
+Defines the number of element displayed in a page
+
+* `pagination(function)`
+Defines parameters used to paginate the API:
+
+```js
+new ListView('myView')
+	.pagination(function(page, maxPerPage) {
+		return {
+			begin: (page - 1) * maxPerPage, 
+			end: page * maxPerPage
+		};
+	});
+```
+
+* `filterQuery(function)`
+Defines parameters used to query the API:
+
+```js
+new ListView('myView')
+	.filterQuery(function(q) {
+		return {
+			query: q
+		};
+	});
+```
+
+* `filterQuery(function)`
+Defines parameters used to query the API. See below.
+
+* `infinitePagination(boolean)`
+Enable or disable lazy loading.
+
+* `totalItems(function)`
+Define a function that return the total of items:
+
+```js
+new ListView('myView')
+	.totalItems(function(response) {
+		 return response.headers('X-Total-Count');
+	});
+```
+
+* `sortParams(function)`
+Defines parameters used to sort the API:
+
+```js
+new ListView('myView')
+	.sortParams(function(field, dir) {
+		return {
+			params: {
+				_sort: field,
+                _sortDir: dir
+            },
+            headers: {}
+        };
+	});
+```
 
 You can add quick filters on a list view with:
 
@@ -355,7 +437,7 @@ listView.addQuickFilter('Today', function () {
 Quickfilters can be customised with the `filterParams` of the `ListView`:
 
 ```js
-lstView.filterParams(function (param) {
+listView.filterParams(function (param) {
    if (param) {
        param.abc = '';
    }
