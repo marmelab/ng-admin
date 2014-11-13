@@ -39,13 +39,23 @@
         var app = new Application('ng-admin backend demo') // application main title
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
-        var comment = new Entity('comments'), // so the API endpoint for comments will be http://localhost:3000/comments
-            tag = new Entity('tags'),
-            post = new Entity('posts');
+        // define all entities at the top to allow references between them
+        var comment = new Entity('comments')
+            .identifier(new Field('id')) // the API endpoint for comments will be http://localhost:3000/comments/:id
+            .addMappedField(new Field('post_id')); // fields to be read from the API, even if not displayed (used later in template field)
+        app.addEntity(comment);
+        
+        var tag = new Entity('tags')
+            .identifier(new Field('id')); // the API endpoint for tags will be http://localhost:3000/tags/:id
+        app.addEntity(tag);
+        
+        var post = new Entity('posts')
+            .identifier(new Field('id')); // the API endpoint for posts will be http://localhost:3000/posts/:id
+        app.addEntity(post);
 
+        // customize entities and views
         post
             .order(1) // post should be the first item in the sidebar menu
-            .identifier(new Field('id')) // the identifier to pass in the API endpoints
             .addView(new DashboardView('post-dashboard') // initialize a view with a name to ease routing
                 .order(1) // display the post panel first in the dashboard
                 .limit(5) // limit the panel to the 5 latest posts
@@ -90,8 +100,6 @@
 
         comment
             .order(2) // comment should be the second item in the sidebar menu
-            .identifier(new Field('id'))
-            .addMappedField(new Field('post_id')) // fields to be read from the API, even if not displayed (used later in template field)
             .addView(new DashboardView('comment-dashboard')
                 .order(2) // display the comment panel second in the dashboard
                 .limit(5)
@@ -162,7 +170,6 @@
 
         tag
             .order(3)
-            .identifier(new Field('id'))
             .addView(new DashboardView('tag-dashboard')
                 .order(3)
                 .limit(10)
@@ -204,11 +211,6 @@
             .addView(new DeleteView('tags-delete')
                 .title('Delete a tag')
             );
-
-        app
-            .addEntity(post)
-            .addEntity(comment)
-            .addEntity(tag);
 
         NgAdminConfigurationProvider.configure(app);
     });
