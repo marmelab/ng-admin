@@ -28,7 +28,7 @@
 
         <wysiwyg-field ng-switch-when="wysiwyg"></wysiwyg-field>
 
-        <callback-field ng-switch-when="callback"></callback-field>
+        <template-field ng-switch-when="template"></template-field>
 
         <span ng-if="view.showAttributeSuccess()" class="glyphicon glyphicon-ok form-control-feedback" ng-show="true === {{ formController.name }}.{{ field.name() }}.$valid"></span>
 

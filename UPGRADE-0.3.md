@@ -110,5 +110,6 @@ These options are now part of the `DashboardView` & `ListView` :
  ## Minor changes
  
  - `value` is now a function so the value of a field should be retrieved with `views.getField('fieldName').value()` instead of `views.getField('fieldName').value`.
+ - `callback` field type & method are now called `template`.
  - `targetField` of a `ReferencedList` is now called a `targetReferenceField`.
  - `targetFields` of a `ReferencedList` & `targetField` for a `ReferenceMany` or a `ReferenceMany` should not be necessary the same field used in the description of the targeted entity.

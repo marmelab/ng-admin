@@ -24,17 +24,33 @@ define(function (require) {
                 expect(field.name()).not.toBe(null);
             });
 
-            it('should camelCase the name as the label by default .', function () {
+            iit('should camelCase the name as the label by default.', function () {
                 var field = new Field('myField');
 
-                expect(field.name()).toEqual('MyField');
+                expect(field.label()).toEqual('MyField');
+            });
+
+            it('should accept string for template value.', function () {
+                var field = new Field('myField')
+                    .type('template')
+                    .template('hello!');
+
+                expect(field.getTemplateValue()).toEqual('hello!');
+            });
+
+            it('should accept function for template value.', function () {
+                var field = new Field('myField')
+                    .type('template')
+                    .template(function () { return 'hello function !'; });
+
+                expect(field.getTemplateValue()).toEqual('hello function !');
             });
 
             it('should not allows type other type.', function () {
                 var field = new Field();
 
                 expect(function () { field.type('myType');  })
-                    .toThrow('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "callback" but "myType" was given.');
+                    .toThrow('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "template" but "myType" was given.');
             });
 
         });

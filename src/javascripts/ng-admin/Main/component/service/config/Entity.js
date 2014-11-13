@@ -140,7 +140,7 @@ define(function (require) {
 
     /**
      * Add extra field to map
-     * Useful when we need a field that is not in the Entity view in a callback
+     * Useful when we need a field that is not in the Entity view in a template
      *
      * @param {Field} field
      *

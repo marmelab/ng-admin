@@ -121,7 +121,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .addField(new Field('name').isEditLink(true))
             .addField(new Field('published').type('boolean'))
             .addField(new Field() // Define a custom column with angular template
-                .type('callback')
+                .type('template')
                 .label('Upper name')
                  // This template will be displayed in the list using the current scope
                 .template('{{ entry.getField("name").value().toUpperCase() }}')
@@ -251,7 +251,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 * `name(string)`
 Map the Field name with the entity
 
-* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'callback'])`
+* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'template'])`
 Define the field type.
 
 * `label(string label)`
@@ -307,6 +307,9 @@ Tell how to validate the view
  
 * `defaultValue(*)`
 Define the default value of the field.
+
+* `template(*)`
+Define the template to be displayed (can be a string or a function).
 
 ### ListView
 

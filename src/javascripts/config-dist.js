@@ -120,10 +120,11 @@
                     .map(truncate)
                     )
                 .addField(new Field()
-                    .type('callback')
+                    .type('template')
                     .label('Actions')
                     .isEditLink(false)
-                    .callback(function () {
+                    .template(function () {
+                        // It can be a function
                         return '<custom-post-link></custom-post-link>';
                     })
                     )

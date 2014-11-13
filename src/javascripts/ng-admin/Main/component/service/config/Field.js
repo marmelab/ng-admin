@@ -6,9 +6,9 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils'),
-        availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'callback'];
+        availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'template'];
 
-    function defaultValueCallback(entry) {
+    function defaultValueTemplate(entry) {
         return '';
     }
 
@@ -21,7 +21,7 @@ define(function (require) {
         order: null,
         identifier : false,
         format : 'yyyy-MM-dd',
-        callback: defaultValueCallback,
+        template: defaultValueTemplate,
         isEditLink: false,
         list: true,
         dashboard: true,
@@ -143,8 +143,8 @@ define(function (require) {
       *
       * @returns mixed
       */
-    Field.prototype.getCallbackValue = function (data) {
-        return this.callback()(data);
+    Field.prototype.getTemplateValue = function (data) {
+        return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
     };
 
     /**

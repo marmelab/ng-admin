@@ -33,7 +33,7 @@ define(function (require) {
     CrudModule.directive('referenceField', require('ng-admin/Crud/component/directive/field/ReferenceField'));
     CrudModule.directive('referenceManyField', require('ng-admin/Crud/component/directive/field/ReferenceManyField'));
     CrudModule.directive('wysiwygField', require('ng-admin/Crud/component/directive/field/WysiwygField'));
-    CrudModule.directive('callbackField', require('ng-admin/Crud/component/directive/field/CallbackField'));
+    CrudModule.directive('templateField', require('ng-admin/Crud/component/directive/field/TemplateField'));
 
     CrudModule.directive('stringColumn', require('ng-admin/Crud/component/directive/column/StringColumn'));
     CrudModule.directive('passwordColumn', require('ng-admin/Crud/component/directive/column/PasswordColumn'));
@@ -47,7 +47,7 @@ define(function (require) {
     CrudModule.directive('referenceColumn', require('ng-admin/Crud/component/directive/column/ReferenceColumn'));
     CrudModule.directive('referenceManyColumn', require('ng-admin/Crud/component/directive/column/ReferenceManyColumn'));
     CrudModule.directive('wysiwygColumn', require('ng-admin/Crud/component/directive/column/WysiwygColumn'));
-    CrudModule.directive('callbackColumn', require('ng-admin/Crud/component/directive/column/CallbackColumn'));
+    CrudModule.directive('templateColumn', require('ng-admin/Crud/component/directive/column/TemplateColumn'));
 
     CrudModule.directive('datagrid', require('ng-admin/Crud/component/directive/Datagrid'));
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/component/directive/DatagridPagination'));

@@ -45,7 +45,7 @@ define(function (require) {
             expect(params.q).toEqual('mizu');
         });
 
-        iit('should truncate list values.', function () {
+        it('should truncate list values.', function () {
             var list = new ListView('allCats'),
                 entity = new Entity('cats');
 
@@ -56,11 +56,11 @@ define(function (require) {
                 return value.substr(0, 5) + '...';
             }));
 
-            var entries = list.getMappedValue(list.mapEntries([
+            var entries = list.mapEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
                 { id: 2, human_id: 2, name: 'Boby'},
                 { id: 3, human_id: 1, name: 'Mizute'}
-            ]));
+            ]);
 
             expect(entries[0].values.id).toEqual(1);
             expect(entries[0].values.name).toEqual('Suna...');

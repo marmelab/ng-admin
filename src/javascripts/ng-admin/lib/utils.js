@@ -20,11 +20,17 @@ define(function () {
      * camelCase a string
      *
      * @see http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
+     * @see http://phpjs.org/functions/ucfirst/
+     *
      * @param {String} input
      * @returns {string}
      */
     function camelCase(input) {
-        return input.toLowerCase().replace(/-(.)/g, function (match, group1) {
+        var f = input.charAt(0).toUpperCase();
+
+        input = f + input.substr(1);
+
+        return input.replace(/-(.)/g, function (match, group1) {
             return group1.toUpperCase();
         });
     }
