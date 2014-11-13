@@ -9,17 +9,12 @@ define(function (require) {
         Field = require('ng-admin/Main/component/service/config/Field'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultValueTransformer(value) {
-        return value;
-    }
-
     var config = {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
         targetEntity : null,
         targetField : null,
-        valueTransformer : defaultValueTransformer,
         isEditLink: true,
         validation: {
             required: false

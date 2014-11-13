@@ -8,10 +8,6 @@ define(function (require) {
         utils = require('ng-admin/lib/utils'),
         availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'callback'];
 
-    function defaultValueTransformer(value) {
-        return value;
-    }
-
     function defaultValueCallback(entry) {
         return '';
     }
@@ -25,7 +21,6 @@ define(function (require) {
         order: null,
         identifier : false,
         format : 'yyyy-MM-dd',
-        valueTransformer : defaultValueTransformer,
         callback: defaultValueCallback,
         isEditLink: false,
         list: true,

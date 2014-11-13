@@ -208,7 +208,7 @@ define(function (require) {
             for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];
                 entries = [];
-                identifier = reference.valueTransformer()(entry.values[referenceField]);
+                identifier = reference.getMappedValue(entry.values[referenceField]);
 
                 if (reference.type() === 'ReferenceMany') {
                     for (j in identifier) {

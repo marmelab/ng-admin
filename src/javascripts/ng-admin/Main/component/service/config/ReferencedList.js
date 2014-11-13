@@ -7,10 +7,6 @@ define(function (require) {
         Reference = require('ng-admin/Main/component/service/config/Reference'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultValueTransformer(value) {
-        return value;
-    }
-
     var config = {
         name: 'myReference',
         type: 'ReferencedList',
@@ -18,7 +14,6 @@ define(function (require) {
         edition : 'editable',
         list: false,
         order: null,
-        valueTransformer : defaultValueTransformer,
         targetReferenceField : null,
         targetFields : [],
         isEditLink: false,

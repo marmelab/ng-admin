@@ -275,14 +275,23 @@ Tell if the value is a link in the list view
 * `choices([{value: '', label: ''}, ...])
 Define array of choices for `choice` type. A choice has both a value and a label.
 
-* `valueTransformer(function)`
+* `map(function)`
 Define a custom function to transform the value.
 
 ```js
 .addField(new Field('characters')
-    .valueTransformer(function(value) {
+    .map(function(value) {
         return value && value.items ? value.items[0] : value;
     })
+)
+```
+
+Multiple `map` can be defined for a field:
+
+```js
+.addField(new Field('characters')
+    .map(/*...*/)
+    .map(/*...*/)
 )
 ```
 
@@ -333,7 +342,7 @@ lstView.filterParams(function (param) {
 
 ### Reference
 
-The `Reference` type also defines `label`, `order`, `valueTransformer`, `list` & `validation` options like the `Field` type.
+The `Reference` type also defines `label`, `order`, `map`, `list` & `validation` options like the `Field` type.
 
 * `targetEntity(Entity)`
 Define the referenced entity.
@@ -352,7 +361,7 @@ myView.addField(new Reference('post_id')
 
 ### ReferencedList
 
-The `ReferencedList` type also defines `label`, `order`, `valueTransformer`, `list` & `validation` options like the `Field` type.
+The `ReferencedList` type also defines `label`, `order`, `map`, `list` & `validation` options like the `Field` type.
 
 * `targetEntity(Entity)`
 Define the referenced entity.
@@ -378,7 +387,7 @@ myEditView.addField(new ReferencedList('comments') // Define a N-1 relationship 
 
 ### ReferenceMany
 
-The `ReferenceMany` type also defines `label`, `order`, `valueTransformer` & `validation` options like the `Field` type.
+The `ReferenceMany` type also defines `label`, `order`, `map` & `validation` options like the `Field` type.
 
 * `targetEntity(Entity)`
 Define the referenced entity.

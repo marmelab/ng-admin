@@ -311,7 +311,7 @@ define(function (require) {
             field = fields[fieldName];
 
             if (field.name() in rawEntry) {
-                entry.values[fieldName] = field.valueTransformer()(rawEntry[field.name()]);
+                entry.values[fieldName] = field.getMappedValue(rawEntry[field.name()]);
             }
         }
 
