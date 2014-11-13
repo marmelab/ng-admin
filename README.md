@@ -84,7 +84,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
     // Declare a new entity
     var tag = new Entity('tags')
-        .label('Tags')
         .order(3) // Order of this element in the menu
         .identifier(new Field('id')) // Map the identifier field
         .addView(new DashboardView('tag-dashboard') // Add a view for the dashboard
@@ -93,7 +92,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .limit(10) // Limit the number of element displayed in the dashboard
             .pagination(pagination) // Use customer parameter for pagination with a function that takes page & maxPerPage arguments
             .addField(new Field('id').label('ID')) // Add a first field to display
-            .addField(new Field('name').label('Name').type('string')) // Field can have multiple type
+            .addField(new Field('name')) // Field can have multiple type
             .addField(new Field('published').label('Is published ?').type('boolean')) // Like type boolean
             )
         .addView(new ListView('tags-list') // Add a list view
@@ -118,32 +117,28 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                     created_at: [year, month, day].join('-')
                 };
             })
-            .addField(new Field('id').label('ID')) // Add a first field
-            .addField(new Field('name').label('Name').type('string'))
-            .addField(new Field('published').label('Published').type('boolean'))
-            .addField(new Field('custom') // Define a custom column with angular template
+            .addField(new Field('id').label('ID').isEditLink(false)) // Add a first field & disable edit link
+            .addField(new Field('name').isEditLink(true))
+            .addField(new Field('published').type('boolean'))
+            .addField(new Field() // Define a custom column with angular template
                 .type('callback')
                 .label('Upper name')
-                .isEditLink(false) // Disable edition link in the column
-                .callback(function () { // This template will be displayed in the list using the current scope
-                    return '{{ entry.getField("name").value().toUpperCase() }}';
-                })
+                 // This template will be displayed in the list using the current scope
+                .template('{{ entry.getField("name").value().toUpperCase() }}')
                 )
             )
         .addView(new CreateView('tags-create') // This view will be used when creating a new tag
             .addField(new Field('name')
-                .label('Name')
-                .type('string')
                 .validation({ // The name is required with a max length of 150 characters
                     "required": true,
                     "max-length" : 150
                 })
                 )
-            .addField(new Field('published').label('Published').type('boolean'))
+            .addField(new Field('published').type('boolean'))
             )
         .addView(new EditView('tags_edit')
-            .addField(new Field('name').label('Name').type('string').editable(true)) // We can skip validation in edit view
-            .addField(new Field('published').label('Published').type('boolean'))
+            .addField(new Field('name').editable(false)) // We can disable edition
+            .addField(new Field('published').type('boolean'))
             )
         .addView(new DeleteView('tags-delete') // The delete view does not need any field
             .title('Delete a tag')
@@ -151,7 +146,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
     // Add another entity
     var post = new Entity('posts')
-        .label('Posts')
         .order(1)
         .identifier(new Field('id'))
         .addView(new DashboardView('post-dashboard')
@@ -160,8 +154,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .pagination(pagination)
             .label('Recent posts')
             .addField(new Field('title')
-                .label('Title')
-                .type('string')
                 .map(truncate) // Define a customer method that truncate the value in the list view
                 )
             )
@@ -192,11 +184,8 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                 .label('ID')
                 )
             .addField(new Field('title')
-                .label('Title')
                 )
             .addField(new ReferenceMany('tags') // Define a 1-N relationship with the tag entity
-                .label('Tags')
-                .isEditLink(false)
                 .targetEntity(tag) // Which entity is referenced
                 .targetField(new Field('name')) // Define field of this entity to display
                 )
@@ -204,13 +193,8 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addView(new CreateView('post-create')
             .title('Add a new post')
             .addField(new Field('title')
-                .label('Title')
-                .isEditLink(false)
-                .type('string')
                 )
             .addField(new Field('body')
-                .label('Body')
-                .isEditLink(false)
                 .type('wysiwyg')
                 .validation({
                     // define your custom validation function
@@ -225,18 +209,11 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addView(new EditView('post-edit')
             .title('Edit a post')
             .addField(new Field('title')
-                .label('Title')
-                .isEditLink(false)
-                .type('string')
                 )
             .addField(new Field('body')
-                .label('Body')
-                .isEditLink(false)
                 .type('wysiwyg')
                 )
             .addField(new ReferenceMany('tags')
-                .label('Tags')
-                .isEditLink(false)
                 .targetEntity(tag)
                 .targetField(new Field('name'))
                 )

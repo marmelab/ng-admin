@@ -5,6 +5,7 @@ define(function (require) {
 
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+        utils = require('ng-admin/lib/utils'),
         availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'callback'];
 
     function defaultValueTransformer(value) {
@@ -26,7 +27,7 @@ define(function (require) {
         format : 'yyyy-MM-dd',
         valueTransformer : defaultValueTransformer,
         callback: defaultValueCallback,
-        isEditLink: true,
+        isEditLink: false,
         list: true,
         dashboard: true,
         validation: {
@@ -47,6 +48,8 @@ define(function (require) {
     function Field(fieldName) {
         this.config = angular.copy(config);
         this.config.name = fieldName || Math.random().toString(36).substring(7);
+        this.config.label = utils.camelCase(this.config.name);
+        this.config.isEditLink = fieldName === 'id';
         this.entity = null; // Used when this field is an identifier
         this.view = null;
         this.maps = [];

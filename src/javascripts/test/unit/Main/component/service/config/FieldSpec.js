@@ -21,7 +21,13 @@ define(function (require) {
             it('should set a random string as name when not set.', function () {
                 var field = new Field();
 
-                expect(field.name()).toNotEqual(null);
+                expect(field.name()).not.toBe(null);
+            });
+
+            it('should camelCase the name as the label by default .', function () {
+                var field = new Field('myField');
+
+                expect(field.name()).toEqual('MyField');
             });
 
             it('should not allows type other type.', function () {

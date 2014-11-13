@@ -4,6 +4,7 @@ define(function (require) {
     'use strict';
 
     var angular = require('angular'),
+        utils = require('ng-admin/lib/utils'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
     var config = {
@@ -24,6 +25,7 @@ define(function (require) {
         this.mappedFields = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
+        this.config.label = utils.camelCase(this.config.name);
         this.identifierField = null;
     }
 
