@@ -1,6 +1,6 @@
 # Upgrade to 0.3
 
-0.3 is a majot version, and introduces a few BC breaks.
+0.3 is a major version, and introduces a few BC breaks.
 
 ## Views
 
