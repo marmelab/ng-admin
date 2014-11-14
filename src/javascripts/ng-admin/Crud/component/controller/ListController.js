@@ -9,7 +9,6 @@ define(function () {
         this.data = data;
         this.$anchorScroll = $anchorScroll;
         this.view = this.data.view;
-        this.entityLabel = this.view.label();
         this.title = this.view.getTitle();
         this.description = this.view.getDescription();
         this.displayFilterQuery = this.view.filterQuery() !== false;

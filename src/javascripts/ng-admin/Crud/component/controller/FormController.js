@@ -16,7 +16,6 @@ define(function () {
         this.name = view.getFormName();
 
         this.fields = view.getFields();
-        this.entityLabel = view.label();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
         this.$scope.view = view;
