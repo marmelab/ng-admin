@@ -5,7 +5,7 @@
 </div>
 
 <div class="row dashboard-content">
-    <div class="panel panel-default col-lg-5" ng-repeat="panel in dashboardController.panels" ng-init="columns=panel.columns;entries=panel.entries">
+    <div class="panel panel-default col-lg-5" ng-repeat="panel in dashboardController.panels" ng-init="columns=panel.columns;entries=panel.entries;view=panel.view">
         <dashboard-panel></dashboard-panel>
     </div>
 </div>
