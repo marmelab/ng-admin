@@ -13,6 +13,12 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     left: 50%;
 }
 
+.nav {
+    a {
+        cursor: pointer;
+    }
+}
+
 .navbar-static-top {
     margin-bottom: 0;
 }
