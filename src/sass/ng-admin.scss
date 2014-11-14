@@ -95,8 +95,8 @@ menu {
 }
 
 .grid {
-    background-color: #FFFFFF;
-    width: 100%;
+
+    background-color: #fff;
 
     .label-default {
         margin-right: 5px;
@@ -106,20 +106,7 @@ menu {
         text-decoration: none;
     }
 
-    tr {
-        height: 40px;
-    }
-
     td {
-        padding-left:10px;
-        padding-right:10px;
-        background-color: #FFFFFF;
-
-        a {
-            color: #428bca;
-            cursor: pointer;
-        }
-
         a.multiple:hover {
             text-decoration: none;
         }
@@ -127,24 +114,10 @@ menu {
 
     thead {
         tr {
-            border-bottom: 1px solid #E7E7E7;
-            font-weight: bold;
-            background-color: #FFFFFF;
-
             .glyphicon {
                 font-size: 13px;
                 color: #aaa;
             }
-        }
-    }
-
-    tbody {
-        tr {
-            border-bottom: 1px solid #E7E7E7;
-        }
-
-        .tr:hover, .fa-surface:hover div {
-            background-color: #f6f9fe;
         }
     }
 }
