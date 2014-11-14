@@ -1,7 +1,7 @@
 $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_components/", "../../") + "bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 
 // bower:scss
-@import "../javascripts/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+@import "../javascripts/bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 @import "sb-admin";
@@ -13,30 +13,13 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     left: 50%;
 }
 
-.nav {
-    a {
-        cursor: pointer;
-    }
-
-    > li.heading {
-        position: relative;
-        display: block;
-        padding: 10px 15px;
-        color: #777777;
-    }
+.navbar-static-top {
+    margin-bottom: 0;
 }
 
-#header {
-    padding: 30px 0;
-
-    h1 {
-        margin: 0;
-    }
-
-    h2 {
-        font-size: 14px;
-        margin-top: 5px;
-    }
+menu {
+    margin: 0;
+    padding: 0;
 }
 
 /**
@@ -73,13 +56,9 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     }
 }
 
-menu {
-    margin: 0;
-    padding: 0;
-}
-
 .controls {
     text-align: right;
+    margin-top: 1.5em;
 }
 
 /**
@@ -97,6 +76,10 @@ menu {
 .grid {
 
     background-color: #fff;
+
+    a {
+        cursor: pointer;
+    }
 
     .label-default {
         margin-right: 5px;
@@ -190,52 +173,3 @@ div.bottom-loader {
     }
 }
 
-#header-nav {
-    background: #FFFFFF;
-    border-bottom: 1px solid #e6e6e6;
-    z-index: 2;
-}
-
-#wrapper {
-    background-color: #FFFFFF;
-
-    #page-wrapper {
-        min-height: inherit;
-    }
-}
-
-.navbar-static-side {
-  margin-top: 10px;
-}
-
-#side-menu {
-    background-color: #FFFFFF;
-    font-size: 12px;
-
-    a {
-        color: #767676;
-    }
-
-    li {
-        margin: 0 10px 10px 10px;
-        padding: 3px 0;
-        border-radius: 3px;
-        background-color: #F1F2F7;
-    }
-
-    li.active, li:hover, li:hover a {
-        background-color: #FDD752;
-        font-weight: bold;
-    }
-}
-
-#filter {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 2;
-
-    button {
-        padding-bottom: 7px;
-    }
-}
