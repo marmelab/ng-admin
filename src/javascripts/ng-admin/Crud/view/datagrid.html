@@ -1,13 +1,13 @@
 <table class="grid">
     <thead>
         <tr>
-            <td ng-repeat="column in columns">
+            <th ng-repeat="column in columns">
                 <a ng-click="datagrid.sort(column.field)">
                     <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(column.field)"></span>
 
                     {{ column.label }}
                 </a>
-            </td>
+            </th>
         </tr>
     </thead>
 
