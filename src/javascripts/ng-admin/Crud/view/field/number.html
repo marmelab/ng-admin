@@ -2,7 +2,7 @@
        name="{{ field.name() }}"
        class="{{ field.getCssClasses() }}"
        type="number"
-       step="{{ field.validation().step || 1 }}"
+       step="{{ field.validation().step || 'any' }}"
        max="{{ field.validation().max }}"
        ng-model="entry.values[field.name()]"
        ng-required="field.validation().required" />
