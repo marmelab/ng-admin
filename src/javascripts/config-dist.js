@@ -61,7 +61,7 @@
                 .order(1) // display the post panel first in the dashboard
                 .limit(5) // limit the panel to the 5 latest posts
                 .pagination(pagination) // use the custom pagination function to format the API request correctly
-                .label('Recent posts')
+                .title('Recent posts')
                 .addField(new Field('title').isEditLink(true).map(truncate))
             )
             .addView(new ListView('post-list') // initialize the datagrid
@@ -105,7 +105,7 @@
                 .order(2) // display the comment panel second in the dashboard
                 .limit(5)
                 .pagination(pagination)
-                .label('Last comments')
+                .title('Last comments')
                 .addField(new Field('id'))
                 .addField(new Field('body').label('Comment').map(truncate))
                 .addField(new Field() // template fields don't need a name
@@ -175,7 +175,7 @@
                 .order(3)
                 .limit(10)
                 .pagination(pagination)
-                .label('Recent tags')
+                .title('Recent tags')
                 .addField(new Field('id').label('ID'))
                 .addField(new Field('name'))
                 .addField(new Field('published').label('Is published ?').type('boolean'))
