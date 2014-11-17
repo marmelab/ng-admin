@@ -1,16 +1,16 @@
 <div id="wrapper">
-    <nav id="header-nav" class="navbar navbar-default navbar-fixed-top">
+    <nav id="header-nav" class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="navbar-header">
             <a href="#" class="navbar-brand">{{ appController.applicationName }}</a>
         </div>
+
+        <span ng-controller="SidebarController as sidebarController">
+            <menu></menu>
+        </span>
     </nav>
 
-    <div class="navbar-default navbar-static-side" role="navigation" ng-controller="SidebarController as sidebarController">
-        <menu></menu>
-    </div>
-
     <div id="page-wrapper">
-        <div class="main-container" ui-view></div>
+        <div class="main-container container-fluid" ui-view></div>
     </div>
     <div id="loader"></div>
 </div>

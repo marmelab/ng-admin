@@ -1,7 +1,9 @@
-<div class="sidebar-collapse">
-    <ul class="nav" id="side-menu">
-        <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities | orderElement" ng-class="{'active': sidebarController.isActive(entity)}">
-            <a ng-click="sidebarController.displayList(entity, $event)"><span class="glyphicon glyphicon-list"></span> {{ entity.label() }}</a>
-        </li>
-    </ul>
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities | orderElement">
+                <a ng-click="sidebarController.displayList(entity, $event)" ng-class="{'active': sidebarController.isActive(entity)}"><span class="glyphicon glyphicon-list"></span> {{ entity.label() }}</a>
+            </li>
+        </ul>
+    </div>
 </div>

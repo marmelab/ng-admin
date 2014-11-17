@@ -1,24 +1,29 @@
 <div class="row" id="header">
-    <div class="col-sm-5">
+    <div class="col-md-5 col-sm-6">
         <h1>{{ listController.title }}</h1>
-        <h2 ng-if="listController.description">{{ listController.description }}</h2>
     </div>
 
-    <div class="controls col-sm-7">
+    <div class="controls col-md-4 col-sm-2">
         <a class="btn btn-info" ng-click="listController.create()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
     </div>
 
-    <form id="filter" class="navbar-form" ng-if="listController.displayFilterQuery" ng-submit="listController.filter()">
-        <div class="input-group">
-            <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
-            </span>
-        </div>
-    </form>
-
-    <quick-filter></quick-filter>
+    <div class="controls col-md-3 col-sm-4">
+        <form id="filter" ng-if="listController.displayFilterQuery" ng-submit="listController.filter()">
+            <div class="input-group">
+                <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
+                </span>
+            </div>
+        </form>
+    </div>
 </div>
+
+<div class="row hidden-xs" ng-if="listController.description">
+    <div class="col-md-12"><p class="lead">{{ listController.description }}</p></div>
+</div>
+
+<quick-filter></quick-filter>
 
 <datagrid></datagrid>
