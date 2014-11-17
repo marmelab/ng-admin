@@ -17,11 +17,11 @@ define(function (require) {
         name: 'entity',
         label: 'My entity',
         order: null,
-        dashboardView: new DashboardView(),
-        listView: new ListView(),
-        createView: new CreateView(),
-        editView: new EditView(),
-        deleteView: new DeleteView()
+        dashboardView: null,
+        listView: null,
+        createView: null,
+        editView: null,
+        deleteView: null
     };
 
     /**
@@ -36,6 +36,7 @@ define(function (require) {
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
         this.identifierField = new Field('id');
+        this.initViews();
     }
 
     Configurable(Entity.prototype, config);
@@ -65,26 +66,51 @@ define(function (require) {
         return this;
     };
 
+    Entity.prototype.initViews = function() {
+        this.config.dashboardView = new DashboardView().setEntity(this);
+        this.config.listView = new ListView().setEntity(this);
+        this.config.createView = new CreateView().setEntity(this);
+        this.config.editView = new EditView().setEntity(this);
+        this.config.deleteView = new DeleteView().setEntity(this);
+    };
+
     /**
      * Returns one view by type
      *
      * @returns {View}
      */
-    Entity.prototype.getViewByType = function (type) {
+    Entity.prototype.getViewByType = function getViewByType(type) {
         switch (type) {
             case 'DashboardView':
-                return this.dashboardView;
+                return this.dashboardView();
             case 'ListView':
-                return this.listView;
+                return this.listView();
             case 'CreateView':
-                return this.createView;
+                return this.createView();
             case 'EditView':
-                return this.editView;
+                return this.editView();
             case 'DeleteView':
-                return this.deleteView;
+                return this.deleteView();
             default:
                 throw new Error('Unkonwn view type ' + type);
         }
+    };
+
+    /**
+     * Add (set) a view top the entity
+     *
+     * @deprecated access the view getter instead (e.g. `listView()`)
+     */
+    Entity.prototype.addView = function addView(view) {
+        var supportedViewConstructors = ['DashboardView', 'ListView', 'CreateView', 'EditView', 'DeleteView'];
+        if (supportedViewConstructors.indexOf(view.constructor.name) == -1) {
+            throw new Error('Unkonwn view type ' + type);
+        }
+        var viewName = view.charAt(0).toLowercaseCase() + string.slice(1);
+        view.setEntity(this);
+        this[viewName](view);
+        console.log('addView() is deprecated. Views are added by default, use ' + viewName + '() instead to retreive the view and customize it');
+        return this;
     };
 
     /**
