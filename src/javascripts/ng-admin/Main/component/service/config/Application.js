@@ -74,16 +74,10 @@ define(function (require) {
      * @returns {[View]}
      */
     Application.prototype.getViewsOfType = function (type) {
-        var views = [],
-            entityViews,
-            entity,
-            i;
+        var views = [], i;
 
         for (i in this.entities) {
-            entity = this.entities[i];
-            entityViews = entity.getViewsOfType(type);
-
-            views = views.concat(entityViews);
+            views.push(this.entities[i].getViewByType(type));
         }
 
         return views;
@@ -100,7 +94,7 @@ define(function (require) {
     Application.prototype.getViewByEntityAndType = function (entityName, type) {
         var entity = this.getEntity(entityName);
 
-        return entity.getOneViewOfType(type);
+        return entity.getViewByType(type);
     };
 
     Configurable(Application.prototype, config);

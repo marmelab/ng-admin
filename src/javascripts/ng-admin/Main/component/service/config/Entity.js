@@ -6,12 +6,22 @@ define(function (require) {
     var angular = require('angular'),
         utils = require('ng-admin/lib/utils'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        Field = require('ng-admin/Main/component/service/config/Field');
+        Field = require('ng-admin/Main/component/service/config/Field'),
+        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
+        EditView = require('ng-admin/Main/component/service/config/view/EditView'),
+        DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
 
     var config = {
         name: 'entity',
         label: 'My entity',
-        order: null
+        order: null,
+        dashboardView: new DashboardView(),
+        listView: new ListView(),
+        createView: new CreateView(),
+        editView: new EditView(),
+        deleteView: new DeleteView()
     };
 
     /**
@@ -20,7 +30,6 @@ define(function (require) {
      * @constructor
      */
     function Entity(entityName) {
-        this.views = {};
         this.values = {};
         this.mappedFields = {};
         this.config = angular.copy(config);
@@ -30,15 +39,6 @@ define(function (require) {
     }
 
     Configurable(Entity.prototype, config);
-
-    /**
-     * Returns all views
-     *
-     * @returns {[View]}
-     */
-    Entity.prototype.getViews = function () {
-        return this.views;
-    };
 
     /**
      * Returns the value of a fieldName
@@ -66,36 +66,25 @@ define(function (require) {
     };
 
     /**
-     * Returns all views by type
-     *
-     * @returns {[View]}
-     */
-    Entity.prototype.getViewsOfType = function (type) {
-        var views = [],
-            view,
-            i;
-
-        for (i in this.views) {
-            view = this.views[i];
-
-            if (view.type === type) {
-                views.push(view);
-            }
-        }
-
-        return views;
-    };
-
-
-    /**
      * Returns one view by type
      *
      * @returns {View}
      */
-    Entity.prototype.getOneViewOfType = function (type) {
-        var views = this.getViewsOfType(type);
-
-        return views.length ? views[0] : null;
+    Entity.prototype.getViewByType = function (type) {
+        switch (type) {
+            case 'DashboardView':
+                return this.dashboardView;
+            case 'ListView':
+                return this.listView;
+            case 'CreateView':
+                return this.createView;
+            case 'EditView':
+                return this.editView;
+            case 'DeleteView':
+                return this.deleteView;
+            default:
+                throw new Error('Unkonwn view type ' + type);
+        }
     };
 
     /**
@@ -110,29 +99,6 @@ define(function (require) {
         }
 
         this.identifierField = identifier;
-
-        return this;
-    };
-
-    /**
-     * Returns a view by it's name
-     *
-     * @returns {View}
-     */
-    Entity.prototype.getView = function (name) {
-        return this.views[name];
-    };
-
-    /**
-     * Add a view
-     *
-     * @param {View} view
-     *
-     * @returns {Entity}
-     */
-    Entity.prototype.addView = function (view) {
-        view.setEntity(this);
-        this.views[view.name()] = view;
 
         return this;
     };

@@ -51,7 +51,7 @@ define(function (require) {
                         )
                     );
 
-            expect(comment.getOneViewOfType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
+            expect(comment.getViewByType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
         });
 
     });
