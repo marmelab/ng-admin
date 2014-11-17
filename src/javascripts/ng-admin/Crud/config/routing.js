@@ -15,9 +15,9 @@ define(function (require) {
                 parent: 'main',
                 url: '/list/:entity?q&page&sortField&sortDir&quickFilter',
                 params: {
-                    entity: {},
+                    entity: null,
                     q: null,
-                    page: 1,
+                    page: null,
                     quickFilter: null,
                     sortField: null,
                     sortDir: null
