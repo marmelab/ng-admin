@@ -10,7 +10,6 @@ require.config({
     paths: {
         'angular-resource': 'bower_components/angular-resource/angular-resource',
         'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
-        'angular-route': 'bower_components/angular-route/angular-route',
         'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
         'lodash': 'bower_components/lodash/dist/lodash.min',
         'text' : 'bower_components/requirejs-text/text',
