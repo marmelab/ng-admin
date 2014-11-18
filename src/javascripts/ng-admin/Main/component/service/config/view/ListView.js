@@ -184,7 +184,7 @@ define(function (require) {
             for (fieldName in fields) {
                 field = fields[fieldName];
 
-                entries[i].values[fieldName] = field.getMappedValue(entries[i].values[fieldName]);
+                entries[i].values[fieldName] = field.getMappedValue(entries[i].values[fieldName], entries[i]);
             }
         }
 
