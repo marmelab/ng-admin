@@ -13,10 +13,10 @@ define(function (require) {
 
         it('should retrieve panels', function () {
             var view1 = new DashboardView('view1')
-                    .label('dashboard1')
+                    .title('dashboard1')
                     .addField(new Field('title').label('Title')),
                 view2 = new DashboardView('MyView2')
-                    .label('my dashboard 2')
+                    .title('my dashboard 2')
                     .addField(new Field('name').label('Name'));
 
             var responses = [

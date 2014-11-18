@@ -24,7 +24,7 @@ define(function (require) {
                 expect(field.name()).not.toBe(null);
             });
 
-            iit('should camelCase the name as the label by default.', function () {
+            it('should camelCase the name as the label by default.', function () {
                 var field = new Field('myField');
 
                 expect(field.label()).toEqual('MyField');
