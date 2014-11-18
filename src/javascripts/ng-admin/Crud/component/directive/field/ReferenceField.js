@@ -8,7 +8,10 @@ define(function (require) {
     function ReferenceField() {
         return {
             restrict: 'E',
-            template: referenceFieldView
+            template: referenceFieldView,
+            link: function (scope) {
+                scope.choices = scope.field.getChoices();
+            }
         };
     }
 

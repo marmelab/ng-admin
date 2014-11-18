@@ -5,8 +5,7 @@
         ng-required="field.validation().required">
 
     <option ng-if="!field.validation().required">-- select a value --</option>
-
-    <option ng-repeat="(key, value) in field.getChoices()" value="{{ key }}" ng-selected="entry.values[field.name()] == key">
-        {{ value }}
+    <option ng-repeat="choice in choices" value="{{ choice.id }}" ng-selected="entry.values[field.name()] == choice.id">
+        {{ choice.value }}
     </option>
 </select>

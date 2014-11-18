@@ -32,7 +32,7 @@ define(function (require) {
                 .identifier(new Field('id'))
                 .addView(editView);
 
-            var choices = ref.getChoices();
+            var choices = ref.getChoicesById();
             expect(ref.type()).toEqual('Reference');
             expect(choices[1]).toEqual('Suna');
             expect(choices[2]).toEqual('Boby');

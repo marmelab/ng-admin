@@ -39,11 +39,11 @@ define(function (require) {
     Configurable(Reference.prototype, config);
 
     /**
-     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
+     * Returns all choices by id for a Reference from values : [{targetIdentifier: targetLabel}]
      *
      * @returns {Object}
      */
-    Reference.prototype.getChoices = function () {
+    Reference.prototype.getChoicesById = function () {
         var result = {},
             entry,
             targetEntity = this.targetEntity(),
@@ -56,6 +56,29 @@ define(function (require) {
             entry = this.entries[i];
 
             result[entry[targetIdentifier]] = entry[targetLabel];
+        }
+
+        return result;
+    };
+
+    /**
+     * Returns all choices for a Reference from values : [{id: targetIdentifier, value: targetLabel}]
+     *
+     * @returns {Array}
+     */
+    Reference.prototype.getChoices = function () {
+        var result = [],
+            entry,
+            targetEntity = this.targetEntity(),
+            targetLabel = this.targetField().name(),
+            targetIdentifier = targetEntity.identifier().name(),
+            i,
+            l;
+
+        for (i = 0, l = this.entries.length; i < l; i++) {
+            entry = this.entries[i];
+
+            result.push({id: entry[targetIdentifier], value: entry[targetLabel]});
         }
 
         return result;

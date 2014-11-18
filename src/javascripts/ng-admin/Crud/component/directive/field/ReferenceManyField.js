@@ -27,7 +27,10 @@ define(function (require) {
             restrict: 'E',
             template: referenceManyFieldView,
             controller: ReferenceManyField,
-            controllerAs: 'referenceManyField'
+            controllerAs: 'referenceManyField',
+            link: function (scope) {
+                $scope.choices = $scope.field.getChoices();
+            }
         };
     }
 

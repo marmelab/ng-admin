@@ -203,7 +203,7 @@ define(function (require) {
 
         for (referenceField in referencedValues) {
             reference = referencedValues[referenceField];
-            choices = reference.getChoices();
+            choices = reference.getChoicesById();
 
             for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];
