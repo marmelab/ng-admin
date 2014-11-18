@@ -29,7 +29,7 @@ define(function (require) {
             controller: ReferenceManyField,
             controllerAs: 'referenceManyField',
             link: function (scope) {
-                $scope.choices = $scope.field.getChoices();
+                scope.choices = scope.field.getChoices();
             }
         };
     }
