@@ -103,10 +103,11 @@ define(function (require) {
      */
     Entity.prototype.addView = function addView(view) {
         var supportedViewConstructors = ['DashboardView', 'ListView', 'CreateView', 'EditView', 'DeleteView'];
-        if (supportedViewConstructors.indexOf(view.constructor.name) == -1) {
+        var viewName = view.constructor.name;
+        if (supportedViewConstructors.indexOf(viewName) == -1) {
             throw new Error('Unkonwn view type ' + type);
         }
-        var viewName = view.charAt(0).toLowercaseCase() + string.slice(1);
+        var viewName = viewName.charAt(0).toLowerCase() + viewName.slice(1);
         view.setEntity(this);
         this[viewName](view);
         console.log('addView() is deprecated. Views are added by default, use ' + viewName + '() instead to retreive the view and customize it');
