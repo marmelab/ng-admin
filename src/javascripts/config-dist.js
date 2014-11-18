@@ -49,8 +49,8 @@
 
         // set the application entities
         app
-            .addEntity(tag)
             .addEntity(post)
+            .addEntity(tag)
             .addEntity(comment);
 
         // customize entities and views
@@ -58,14 +58,14 @@
         // post.menuView()
         //     .order(1); // post should be the first item in the sidebar menu
 
-        post.dashboardView() 
+        post.dashboardView()
+            .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
             .pagination(pagination) // use the custom pagination function to format the API request correctly
-            .label('Recent posts')
             .addField(new Field('title').isEditLink(true).map(truncate));
 
-        post.listView() 
+        post.listView()
             .title('All posts') // default title is "List of posts"
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
@@ -75,12 +75,12 @@
                 .targetField(new Field('name')) // the field to be displayed in this list
             );
 
-        post.createView() 
+        post.creationView()
             .title('Add a new post') // default title is "Create a post"
             .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
 
-        post.editView() 
+        post.editionView()
             .addField(new Field('title'))
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')
@@ -96,17 +96,14 @@
                 ])
             );
 
-        post.deleteView()
-            .title('Delete a post')
-
         // comment.menuView()
         //     .order(2); // comment should be the second item in the sidebar menu
 
         comment.dashboardView()
+            .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
             .limit(5)
             .pagination(pagination)
-            .label('Last comments')
             .addField(new Field('id'))
             .addField(new Field('body').label('Comment').map(truncate))
             .addField(new Field() // template fields don't need a name
@@ -142,7 +139,7 @@
                 };
             });
 
-        comment.createView()
+        comment.creationView()
             .addField(new Reference('post_id')
                 .label('Post title')
                 .map(truncate)
@@ -151,7 +148,7 @@
             )
             .addField(new Field('body').type('wysiwyg'));
 
-        comment.editView()
+        comment.editionView()
             .addField(new Reference('post_id')
                 .label('Post title')
                 .map(truncate)
@@ -166,17 +163,17 @@
                 .template('<custom-post-link></custom-post-link>') // template() can take a function or a string
             );
 
-        comment.deleteView()
-            .title('Delete a comment');
+        comment.deletionView()
+            .title('Deletion confirmation'); // customize the deletion confirmation message
 
         // tag.menuView()
         //     .order(3);
 
         tag.dashboardView()
+            .title('Recent tags')
             .order(3)
             .limit(10)
             .pagination(pagination)
-            .label('Recent tags')
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
             .addField(new Field('published').label('Is published ?').type('boolean'));
@@ -196,7 +193,7 @@
                 })
             );
 
-        tag.createView()
+        tag.creationView()
             .addField(new Field('name')
                 .type('string')
                 .validation({
@@ -206,12 +203,9 @@
             )
             .addField(new Field('published').type('boolean'));
 
-        tag.editView('tags_edit')
+        tag.editionView()
             .addField(new Field('name').editable(false))
             .addField(new Field('published').type('boolean'));
-        
-        tag.deleteView()
-            .title('Delete a tag');
 
         NgAdminConfigurationProvider.configure(app);
     });

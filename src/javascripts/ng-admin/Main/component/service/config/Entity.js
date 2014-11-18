@@ -19,9 +19,9 @@ define(function (require) {
         order: null,
         dashboardView: null,
         listView: null,
-        createView: null,
-        editView: null,
-        deleteView: null
+        creationView: null,
+        editionView: null,
+        deletionView: null
     };
 
     /**
@@ -69,48 +69,50 @@ define(function (require) {
     Entity.prototype.initViews = function() {
         this.config.dashboardView = new DashboardView().setEntity(this);
         this.config.listView = new ListView().setEntity(this);
-        this.config.createView = new CreateView().setEntity(this);
-        this.config.editView = new EditView().setEntity(this);
-        this.config.deleteView = new DeleteView().setEntity(this);
+        this.config.creationView = new CreateView().setEntity(this);
+        this.config.editionView = new EditView().setEntity(this);
+        this.config.deletionView = new DeleteView().setEntity(this);
     };
 
+    function getPropertyNameBasedOnViewType(viewType) {
+        switch (viewType) {
+            case 'DashboardView':
+                return 'dashboardView';
+            case 'ListView':
+                return 'listView';
+            case 'CreateView':
+                return 'creationView';
+            case 'EditView':
+                return 'editionView';
+            case 'DeleteView':
+                return 'deletionView';
+            default:
+                throw new Error('Unkonwn view type ' + viewType);
+        }
+    }
+
     /**
-     * Returns one view by type
+     * Return one of the internal views
+     *
+     * Uses accessors added by Configurable on the view properties.
      *
      * @returns {View}
      */
     Entity.prototype.getViewByType = function getViewByType(type) {
-        switch (type) {
-            case 'DashboardView':
-                return this.dashboardView();
-            case 'ListView':
-                return this.listView();
-            case 'CreateView':
-                return this.createView();
-            case 'EditView':
-                return this.editView();
-            case 'DeleteView':
-                return this.deleteView();
-            default:
-                throw new Error('Unkonwn view type ' + type);
-        }
+        return this[getPropertyNameBasedOnViewType(type)]();
     };
 
     /**
-     * Add (set) a view top the entity
+     * Add (set) a view to the entity
      *
      * @deprecated access the view getter instead (e.g. `listView()`)
      */
     Entity.prototype.addView = function addView(view) {
-        var supportedViewConstructors = ['DashboardView', 'ListView', 'CreateView', 'EditView', 'DeleteView'];
-        var viewName = view.constructor.name;
-        if (supportedViewConstructors.indexOf(viewName) == -1) {
-            throw new Error('Unkonwn view type ' + type);
-        }
-        var viewName = viewName.charAt(0).toLowerCase() + viewName.slice(1);
+        var viewType = view.type;
+        var propertyName = getPropertyNameBasedOnViewType(viewType);
         view.setEntity(this);
-        this[viewName](view);
-        console.log('addView() is deprecated. Views are added by default, use ' + viewName + '() instead to retreive the view and customize it');
+        this[propertyName](view);
+        console.warn('addView() is deprecated. Views are added by default, use ' + propertyName + '() instead to retrieve the view and customize it');
         return this;
     };
 
