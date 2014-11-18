@@ -120,7 +120,7 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
             var view = reference.getReferencedView();
-            calls.push(self.getRawValues(view, 1, false, view.name() + '.' + reference.targetField().name(), 'ASC'));
+            calls.push(self.getRawValues(view, 1, false, reference.getSortField(), 'ASC'));
         }
 
         return this.$q.all(calls)

@@ -117,6 +117,7 @@ define(function (require) {
             }];
 
             authorRef.targetEntity(author);
+            authorRef.targetField(new Field('name'));
             postList.addField(authorRef);
             post.addView(postList);
 

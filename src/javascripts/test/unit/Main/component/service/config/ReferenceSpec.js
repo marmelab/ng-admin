@@ -54,5 +54,32 @@ define(function (require) {
             expect(comment.getViewByType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
         });
 
+        describe('getSortField', function () {
+            it('should retrieve sortField', function () {
+                var ref = new Reference('human_id'),
+                    human = new Entity('human').addView(new ListView('human-list')),
+                    editView = new EditView();
+
+                editView.addField(new Field('id').identifier(true));
+
+                ref.setEntries([
+                    { id: 1, human_id: 1, name: 'Suna'},
+                    { id: 2, human_id: 2, name: 'Boby'},
+                    { id: 3, human_id: 1, name: 'Mizute'}
+                ]);
+
+                ref
+                    .targetEntity(human)
+                    .targetField(new Field('name'))
+                ;
+
+                human
+                    .identifier(new Field('id'))
+                    .addView(editView);
+
+                expect(ref.getSortField()).toEqual('human-list.name');
+            });
+        });
+
     });
 });

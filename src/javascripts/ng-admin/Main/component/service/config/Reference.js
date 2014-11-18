@@ -142,6 +142,10 @@ define(function (require) {
         return this.referencedView;
     };
 
+    Reference.prototype.getSortField = function () {
+        return this.getReferencedView().name() + '.' + this.targetField().name();
+    }
+
     /**
      * @returns {[Object]}
      */
