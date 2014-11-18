@@ -67,7 +67,7 @@ define(function (require) {
      * @returns {Array}
      */
     Reference.prototype.getChoices = function () {
-        var result = [],
+        var results = [],
             entry,
             targetEntity = this.targetEntity(),
             targetLabel = this.targetField().name(),
@@ -78,10 +78,13 @@ define(function (require) {
         for (i = 0, l = this.entries.length; i < l; i++) {
             entry = this.entries[i];
 
-            result.push({id: entry[targetIdentifier], value: entry[targetLabel]});
+            results.push({
+                id: entry[targetIdentifier],
+                value: entry[targetLabel]
+            });
         }
 
-        return result;
+        return results;
     };
 
     /**
