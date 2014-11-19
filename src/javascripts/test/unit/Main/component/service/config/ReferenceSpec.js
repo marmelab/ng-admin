@@ -119,7 +119,7 @@ define(function (require) {
             expect(comment.getViewByType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
         });
 
-        describe('getSortField', function () {
+        describe('getSortFieldName', function () {
             it('should retrieve sortField', function () {
                 var ref = new Reference('human_id'),
                     human = new Entity('human').addView(new ListView('human-list')),
@@ -142,7 +142,7 @@ define(function (require) {
                     .identifier(new Field('id'))
                     .addView(editView);
 
-                expect(ref.getSortField()).toEqual('human-list.name');
+                expect(ref.getSortFieldName()).toEqual('human-list.name');
             });
         });
 

@@ -371,11 +371,11 @@ Tell if the value is a link in the list view. Default to true for the identifier
 Define array of choices for `choice` type. A choice has both a value and a label.
 
 * `map(function)`
-Define a custom function to transform the value. Works in list and edit views.
+Define a custom function to transform the value. It receive the value and the corresponding entry. Works in list, edit views en references.
 
         myView.addField(new Field('characters')
-            .map(function truncate(value) {
-                return value.length > 50 ? value.substr(0, 50) + '...' : value;
+            .map(function truncate(value, entry) {
+                return value + '(' + entry.subValue + ')';
             })
         );
 
