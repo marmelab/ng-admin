@@ -6,12 +6,22 @@ define(function (require) {
     var angular = require('angular'),
         utils = require('ng-admin/lib/utils'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        Field = require('ng-admin/Main/component/service/config/Field');
+        Field = require('ng-admin/Main/component/service/config/Field'),
+        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
+        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
+        EditView = require('ng-admin/Main/component/service/config/view/EditView'),
+        DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
 
     var config = {
         name: 'entity',
         label: 'My entity',
-        order: null
+        order: null,
+        dashboardView: null,
+        listView: null,
+        creationView: null,
+        editionView: null,
+        deletionView: null
     };
 
     /**
@@ -20,25 +30,16 @@ define(function (require) {
      * @constructor
      */
     function Entity(entityName) {
-        this.views = {};
         this.values = {};
         this.mappedFields = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
         this.identifierField = new Field('id');
+        this.initViews();
     }
 
     Configurable(Entity.prototype, config);
-
-    /**
-     * Returns all views
-     *
-     * @returns {[View]}
-     */
-    Entity.prototype.getViews = function () {
-        return this.views;
-    };
 
     /**
      * Returns the value of a fieldName
@@ -65,37 +66,54 @@ define(function (require) {
         return this;
     };
 
-    /**
-     * Returns all views by type
-     *
-     * @returns {[View]}
-     */
-    Entity.prototype.getViewsOfType = function (type) {
-        var views = [],
-            view,
-            i;
-
-        for (i in this.views) {
-            view = this.views[i];
-
-            if (view.type === type) {
-                views.push(view);
-            }
-        }
-
-        return views;
+    Entity.prototype.initViews = function() {
+        this.config.dashboardView = new DashboardView().setEntity(this);
+        this.config.listView = new ListView().setEntity(this);
+        this.config.creationView = new CreateView().setEntity(this);
+        this.config.editionView = new EditView().setEntity(this);
+        this.config.deletionView = new DeleteView().setEntity(this);
     };
 
+    function getPropertyNameBasedOnViewType(viewType) {
+        switch (viewType) {
+            case 'DashboardView':
+                return 'dashboardView';
+            case 'ListView':
+                return 'listView';
+            case 'CreateView':
+                return 'creationView';
+            case 'EditView':
+                return 'editionView';
+            case 'DeleteView':
+                return 'deletionView';
+            default:
+                throw new Error('Unkonwn view type ' + viewType);
+        }
+    }
 
     /**
-     * Returns one view by type
+     * Return one of the internal views
+     *
+     * Uses accessors added by Configurable on the view properties.
      *
      * @returns {View}
      */
-    Entity.prototype.getOneViewOfType = function (type) {
-        var views = this.getViewsOfType(type);
+    Entity.prototype.getViewByType = function getViewByType(type) {
+        return this[getPropertyNameBasedOnViewType(type)]();
+    };
 
-        return views.length ? views[0] : null;
+    /**
+     * Add (set) a view to the entity
+     *
+     * @deprecated access the view getter instead (e.g. `listView()`)
+     */
+    Entity.prototype.addView = function addView(view) {
+        var viewType = view.type;
+        var propertyName = getPropertyNameBasedOnViewType(viewType);
+        view.setEntity(this);
+        this[propertyName](view);
+        console.warn('addView() is deprecated. Views are added by default, use ' + propertyName + '() instead to retrieve the view and customize it');
+        return this;
     };
 
     /**
@@ -110,29 +128,6 @@ define(function (require) {
         }
 
         this.identifierField = identifier;
-
-        return this;
-    };
-
-    /**
-     * Returns a view by it's name
-     *
-     * @returns {View}
-     */
-    Entity.prototype.getView = function (name) {
-        return this.views[name];
-    };
-
-    /**
-     * Add a view
-     *
-     * @param {View} view
-     *
-     * @returns {Entity}
-     */
-    Entity.prototype.addView = function (view) {
-        view.setEntity(this);
-        this.views[view.name()] = view;
 
         return this;
     };

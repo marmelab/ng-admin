@@ -107,7 +107,7 @@ define(function (require) {
         // otherwise the ListView should not be defined when setting a targetEntity
         if (!this.referencedViewConfigured) {
             // Use the same configuration as the listView of this entity
-            var listView = this.targetEntity().getOneViewOfType('ListView');
+            var listView = this.targetEntity().getViewByType('ListView');
             if (listView) {
                 this.referencedView.config = angular.copy(listView.config);
                 this.referencedView.config.pagination = false;

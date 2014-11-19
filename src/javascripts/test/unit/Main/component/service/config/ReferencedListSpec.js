@@ -80,7 +80,7 @@ define(function (require) {
 
             comment.addView(new ListView('comment-list'));
 
-            expect(post.getOneViewOfType('EditView').getField('comments').targetEntity().views['comment-list']).not.toBe(null);
+            expect(post.getViewByType('EditView').getField('comments').targetEntity().views['comment-list']).not.toBe(null);
         });
 
     });
