@@ -58,10 +58,9 @@ define(function (require) {
         describe('entity', function () {
             it('should set view.', function () {
                 var field = new Field('field1'),
-                    entity = new Entity('myEntity1'),
                     view = new ListView('list1');
 
-                entity.addView(view);
+                view.setEntity(new Entity('myEntity1'));
                 field.setView(view);
 
                 expect(field.getSortName()).toBe('list1.field1');

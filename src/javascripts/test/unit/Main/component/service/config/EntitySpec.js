@@ -9,13 +9,12 @@ define(function (require) {
 
     describe("Service: Entity config", function () {
 
-        describe('getViewsByType', function () {
+        describe('getViewByType', function () {
 
-            it('should retrieve views by type.', function () {
+            it('should retrieve a view by type', function () {
                 var entity = new Entity('myEntity1');
-
-                expect(entity.getViewByType('DashboardView').isA('DashboardView'));
-                expect(entity.getViewByType('CreateView').isA('CreateView'));
+                expect(entity.getViewByType('DashboardView').constructor.name).toBe('DashboardView');
+                expect(entity.getViewByType('CreateView').constructor.name).toBe('CreateView');
             });
 
         });

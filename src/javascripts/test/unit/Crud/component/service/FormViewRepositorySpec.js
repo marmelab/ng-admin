@@ -23,14 +23,11 @@ define(function (require) {
             };
 
             entity = new Entity('cat');
-            view = new CreateView('myFormView')
+            view = entity.creationView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'));
-
-            entity.addView(view);
-
-            view.extraParams(null);
-            view.interceptor(null);
+                .addField(new Field('name').type('text'))
+                .extraParams(null)
+                .interceptor(null);
         });
 
         describe("getOne", function () {

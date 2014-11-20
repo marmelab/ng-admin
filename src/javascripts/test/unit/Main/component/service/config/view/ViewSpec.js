@@ -48,35 +48,26 @@ define(function (require) {
 
         it('should add actions.', function () {
             var view = new View();
-            var action = new Action('doSomething');
-            view.addAction(action);
+            view.addAction(new Action('doSomething'));
 
             expect(view.getActions()['doSomething'].order()).toEqual(0);
         });
 
         it('should returns the identifier.', function () {
-            var view = new View(),
-                entity = new Entity(),
-                field1 = new Field('post_id').identifier(true),
-                field2 = new Field('name').identifier(false);
-
-            view.addField(field1).addField(field2);
-            entity.addView(view);
+            var view = new View();
+            view
+                .addField(new Field('post_id').identifier(true))
+                .addField(new Field('name').identifier(false));
 
             expect(view.identifier().name()).toEqual('post_id');
         });
 
         it('should map some raw entities', function () {
-            var view = new View(),
-                entity = new Entity(),
-                field1 = new Field('post_id').identifier(true),
-                field2 = new Field('title');
-
-            entity.addView(view);
-
+            var view = new View();
             view
-                .addField(field1)
-                .addField(field2);
+                .addField(new Field('post_id').identifier(true))
+                .addField(new Field('title'))
+                .setEntity(new Entity());
 
             var entries = view.mapEntries([
                 { post_id: 1, title: 'Hello', published: true},
@@ -96,11 +87,11 @@ define(function (require) {
                 entity = new Entity('posts');
 
             view
-                .addField(field);
+                .addField(field)
+                .setEntity(entity);
 
             entity
-                .identifier(new Field('post_id'))
-                .addView(view);
+                .identifier(new Field('post_id'));
 
             var entry = view.mapEntry({ post_id: 1, title: 'Hello', published: true});
             expect(entry.identifierValue).toEqual(1);

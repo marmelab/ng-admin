@@ -19,22 +19,16 @@ define(function (require) {
         });
 
         it('should returns extra params.', function () {
-            var list = new ListView('allCats'),
-                entity = new Entity('cat');
-
-            list.perPage(10);
-            list.extraParams(function () {
-                return {token: 'abcde1'};
-            });
-
-            list.pagination(function (page, maxPerPage) {
-                return {
-                    begin: page,
-                    end: page * maxPerPage
-                };
-            });
-
-            entity.addView(list);
+            var list = new ListView('allCats');
+            list
+                .setEntity(new Entity('cat'))
+                .perPage(10)
+                .extraParams(function () {
+                    return { token: 'abcde1' };
+                })
+                .pagination(function (page, maxPerPage) {
+                    return { begin: page, end: page * maxPerPage };
+                });
 
             var params = list.getAllParams(12, {params: {_sort: 'name'}}, 'mizu');
 
@@ -46,15 +40,13 @@ define(function (require) {
         });
 
         it('should truncate list values.', function () {
-            var list = new ListView('allCats'),
-                entity = new Entity('cats');
-
-            entity.addView(list);
-
-            list.addField(new Field('id').identifier(true));
-            list.addField(new Field('name').map(function (value) {
-                return value.substr(0, 5) + '...';
-            }));
+            var list = new ListView('allCats');
+            list
+                .setEntity(new Entity('cats'))
+                .addField(new Field('id').identifier(true))
+                .addField(new Field('name').map(function (value) {
+                    return value.substr(0, 5) + '...';
+                }));
 
             var entries = list.mapEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
