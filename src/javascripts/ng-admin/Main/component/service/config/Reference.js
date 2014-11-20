@@ -39,11 +39,11 @@ define(function (require) {
     Configurable(Reference.prototype, config);
 
     /**
-     * Returns all choices for a Reference from values : [{targetIdentifier: targetLabel}]
+     * Returns all choices by id for a Reference from values : [{targetIdentifier: targetLabel}]
      *
      * @returns {Object}
      */
-    Reference.prototype.getChoices = function () {
+    Reference.prototype.getChoicesById = function () {
         var result = {},
             entry,
             targetEntity = this.targetEntity(),
@@ -59,6 +59,33 @@ define(function (require) {
         }
 
         return result;
+    };
+
+    /**
+     * Returns all choices for a Reference from values : [{id: targetIdentifier, value: targetLabel}]
+     *
+     * @returns {Array}
+     */
+    Reference.prototype.getChoices = function () {
+        var results = [],
+            entry,
+            targetEntity = this.targetEntity(),
+            targetLabel = this.targetField().name(),
+            targetIdentifier = targetEntity.identifier().name(),
+            getMappedValue = this.targetField().getMappedValue.bind(this.targetField()),
+            i,
+            l;
+
+        for (i = 0, l = this.entries.length; i < l; i++) {
+            entry = this.entries[i];
+
+            results.push({
+                id: entry[targetIdentifier],
+                value: getMappedValue(entry[targetLabel], entry)
+            });
+        }
+
+        return results;
     };
 
     /**
@@ -118,6 +145,10 @@ define(function (require) {
 
         return this.referencedView;
     };
+
+    Reference.prototype.getSortFieldName = function () {
+        return this.getReferencedView().name() + '.' + this.targetField().name();
+    }
 
     /**
      * @returns {[Object]}

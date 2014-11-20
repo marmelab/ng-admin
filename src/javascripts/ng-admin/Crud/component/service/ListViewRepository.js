@@ -119,8 +119,8 @@ define(function (require) {
 
         for (i in references) {
             reference = references[i];
-
-            calls.push(self.getRawValues(reference.getReferencedView(), 1, false));
+            var view = reference.getReferencedView();
+            calls.push(self.getRawValues(view, 1, false, reference.getSortFieldName(), 'ASC'));
         }
 
         return this.$q.all(calls)
@@ -203,7 +203,7 @@ define(function (require) {
 
         for (referenceField in referencedValues) {
             reference = referencedValues[referenceField];
-            choices = reference.getChoices();
+            choices = reference.getChoicesById();
 
             for (i = 0, l = collection.length; i < l; i++) {
                 entry = collection[i];

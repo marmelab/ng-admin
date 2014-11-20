@@ -93,9 +93,9 @@ define(function (require) {
      *
      * @returns {*}
      */
-    Field.prototype.getMappedValue = function (value) {
+    Field.prototype.getMappedValue = function (value, entry) {
         for (var i in this.maps) {
-            value = this.maps[i](value);
+            value = this.maps[i](value, entry);
         }
 
         return value;
