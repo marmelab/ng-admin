@@ -265,6 +265,9 @@ Add headers to each API request.
 * `interceptor(function)`
 Used to transform data from the API into an array of element.
 
+* `disable()`
+Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
+
 ### dashboardView Settings
 
 * `order(Number)`
