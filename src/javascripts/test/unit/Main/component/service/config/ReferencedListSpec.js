@@ -41,19 +41,16 @@ define(function (require) {
 
         it('should filter entries.', function () {
             var referencedList = new ReferencedList('cats'),
-                human = new Entity('human'),
-                editView = new EditView();
+                human = new Entity('human');
 
-            editView
+            human.editionView()
                 .addField(new Field('id'))
                 .addField(new Field('human_id'))
                 .addField(new Field('name'));
 
-            human.addView(editView);
-
             referencedList
                 .targetReferenceField('human_id')
-                .setEntries(editView.mapEntries([
+                .setEntries(human.editionView().mapEntries([
                     { id: 1, human_id: 1, name: 'Suna'},
                     { id: 2, human_id: 2, name: 'Boby'},
                     { id: 3, human_id: 1, name: 'Mizute'}
@@ -70,17 +67,14 @@ define(function (require) {
         it('should store target entity configuration', function () {
             var comment = new Entity('comments');
 
-            var post = new Entity('posts')
-                .addView(new EditView('post-edit')
-                    .addField(new ReferencedList('comments')
-                        .targetEntity(comment)
-                        .targetField(new Field('id'))
-                        )
-                    );
+            var post = new Entity('posts');
+            post.editionView()
+                .addField(new ReferencedList('comments')
+                    .targetEntity(comment)
+                    .targetField(new Field('id'))
+                );
 
-            comment.addView(new ListView('comment-list'));
-
-            expect(post.getViewByType('EditView').getField('comments').targetEntity().views['comment-list']).not.toBe(null);
+            expect(post.getViewByType('EditView').getField('comments').targetEntity().listView()).not.toBe(null);
         });
 
     });

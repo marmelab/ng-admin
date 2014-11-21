@@ -32,12 +32,11 @@ define(function (require) {
 
             catEntity = new Entity('cat');
             humanEntity = new Entity('human');
-            catView = new ListView('myListView')
+            catView = catEntity.listView()
                 .addField(new Field('id').identifier(true))
                 .addField(new Field('name').type('text'))
                 .addField(new Reference('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
 
-            catEntity.addView(catView);
             humanEntity.identifier(new Field('id'));
 
             rawCats = [{
@@ -104,7 +103,6 @@ define(function (require) {
         it('should return all references values for a View', function () {
             var listViewRepository = new ListViewRepository($q, Restangular, config),
                 post = new Entity('posts'),
-                postList = new ListView(),
                 author = new Entity('authors'),
                 authorRef = new Reference('author');
 
@@ -118,13 +116,13 @@ define(function (require) {
 
             authorRef.targetEntity(author);
             authorRef.targetField(new Field('name'));
-            postList.addField(authorRef);
-            post.addView(postList);
+            post.listView()
+                .addField(authorRef);
 
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawAuthors}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
 
-            listViewRepository.getReferencedValues(postList)
+            listViewRepository.getReferencedValues(post.listView())
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].id).toEqual('abc');
@@ -136,7 +134,6 @@ define(function (require) {
             var listViewRepository = new ListViewRepository($q, Restangular, config),
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
-                stateList = new ListView(),
                 character = new Entity('characters'),
                 stateCharacters = new ReferencedList('character');
 
@@ -169,15 +166,14 @@ define(function (require) {
                 ])
                 .targetEntity(character);
 
-            stateList
+            state.listView()
                 .addField(stateId)
                 .addField(stateCharacters);
-            state.addView(stateList);
 
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 
-            listViewRepository.getReferencedListValues(stateList, null, null, 1)
+            listViewRepository.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
                     var entries = references.character.getEntries();
 
@@ -192,11 +188,13 @@ define(function (require) {
                 entry1 = new Entry(),
                 entry2 = new Entry('catList'),
                 entry3 = new Entry('catList'),
-                human = new Entity('humans').addView(new EditView('human-list')).identifier(new Field('id')),
-                tag = new Entity('tags').addView(new EditView('tags-list')).identifier(new Field('id')),
+                human = new Entity('humans'),
+                tag = new Entity('tags'),
                 ref1 = new Reference('human_id'),
                 ref2 = new ReferenceMany('tags');
 
+            human.editionView().identifier(new Field('id'));
+            tag.editionView().identifier(new Field('id'));
             ref1
                 .targetEntity(human)
                 .targetField(new Field('name'))

@@ -13,24 +13,22 @@ define(function (require) {
         describe('getChoicesById', function () {
             it('should retrieve choices by id.', function () {
                 var ref = new Reference('human_id'),
-                    human = new Entity('human'),
-                    editView = new EditView();
+                    human = new Entity('human');
 
-                editView.addField(new Field('id').identifier(true));
+                human
+                    .identifier(new Field('id'))
+                    .editionView()
+                        .addField(new Field('id').identifier(true));
+
+                ref
+                    .targetField(new Field('name'))
+                    .targetEntity(human);
 
                 ref.setEntries([
                     { id: 1, human_id: 1, name: 'Suna'},
                     { id: 2, human_id: 2, name: 'Boby'},
                     { id: 3, human_id: 1, name: 'Mizute'}
                 ]);
-
-                ref
-                    .targetField(new Field('name'))
-                    .targetEntity(human);
-
-                human
-                    .identifier(new Field('id'))
-                    .addView(editView);
 
                 var choices = ref.getChoicesById();
                 expect(ref.type()).toEqual('Reference');
@@ -43,24 +41,22 @@ define(function (require) {
         describe('getChoices', function () {
             it('should retrieve choices.', function () {
                 var ref = new Reference('human_id'),
-                    human = new Entity('human'),
-                    editView = new EditView();
+                    human = new Entity('human');
 
-                editView.addField(new Field('id').identifier(true));
+                human
+                    .identifier(new Field('id'))
+                    .editionView()
+                        .addField(new Field('id').identifier(true));
+
+                ref
+                    .targetField(new Field('name'))
+                    .targetEntity(human);
 
                 ref.setEntries([
                     { id: 1, human_id: 1, name: 'Suna'},
                     { id: 2, human_id: 2, name: 'Boby'},
                     { id: 3, human_id: 1, name: 'Mizute'}
                 ]);
-
-                ref
-                    .targetField(new Field('name'))
-                    .targetEntity(human);
-
-                human
-                    .identifier(new Field('id'))
-                    .addView(editView);
 
                 var choices = ref.getChoices();
                 expect(ref.type()).toEqual('Reference');
@@ -73,16 +69,12 @@ define(function (require) {
 
             it('should apply given map to each choices.', function () {
                 var ref = new Reference('human_id'),
-                    human = new Entity('human'),
-                    editView = new EditView();
+                    human = new Entity('human');
 
-                editView.addField(new Field('id').identifier(true));
-
-                ref.setEntries([
-                    { id: 1, human_id: 1, name: 'Suna', gender: 'F'},
-                    { id: 2, human_id: 2, name: 'Boby', gender: 'M'},
-                    { id: 3, human_id: 1, name: 'Mizute', gender: 'M'}
-                ]);
+                human
+                    .identifier(new Field('id'))
+                    .editionView()
+                        .addField(new Field('id').identifier(true));
 
                 ref
                     .targetField(new Field('name').map(function (value, entry) {
@@ -90,9 +82,11 @@ define(function (require) {
                     }))
                     .targetEntity(human);
 
-                human
-                    .identifier(new Field('id'))
-                    .addView(editView);
+                ref.setEntries([
+                    { id: 1, human_id: 1, name: 'Suna', gender: 'F'},
+                    { id: 2, human_id: 2, name: 'Boby', gender: 'M'},
+                    { id: 3, human_id: 1, name: 'Mizute', gender: 'M'}
+                ]);
 
                 var choices = ref.getChoices();
                 expect(ref.type()).toEqual('Reference');
@@ -108,13 +102,11 @@ define(function (require) {
             var post = new Entity('posts'),
                 comment = new Entity('comments');
 
-            comment
-                .addView(new ListView('comment-list')
-                    .addField(new Reference('post_id')
-                        .targetEntity(post)
-                        .targetField(new Field('id'))
-                        )
-                    );
+            comment.listView()
+                .addField(new Reference('post_id')
+                    .targetEntity(post)
+                    .targetField(new Field('id'))
+                );
 
             expect(comment.getViewByType('ListView').getField('post_id').getReferencedView().getEntity().name()).toEqual('posts');
         });
