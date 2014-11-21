@@ -48,11 +48,26 @@ define(function (require) {
      * @constructor
      */
     function View(name) {
+        this.enabled = true;
         this.fields = {};
         this.actions = {};
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name || this.config.name;
+    }
+
+    View.prototype.isEnabled = function() {
+        return this.enabled;
+    }
+
+    View.prototype.disable = function() {
+        this.enabled = false;
+        return this;
+    }
+
+    View.prototype.enable = function() {
+        this.enabled = true;
+        return this;
     }
 
     /**

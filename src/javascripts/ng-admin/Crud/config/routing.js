@@ -36,6 +36,10 @@ define(function (require) {
                             quickFilter = $stateParams.quickFilter,
                             filters = null;
 
+                        if (!listView.isEnabled()) {
+                            throw new Error('the list view is disabled for this entity');
+                        }
+
                         if (quickFilter) {
                             filters = listView.getQuickFilterParams(quickFilter);
                         }
@@ -54,9 +58,11 @@ define(function (require) {
                 template: createTemplate,
                 resolve: {
                     view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var config = Configuration();
-
-                        return config.getViewByEntityAndType($stateParams.entity, 'CreateView');
+                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'CreateView');
+                        if (!view.isEnabled()) {
+                            throw new Error('the creation view is disabled for this entity');
+                        }
+                        return view;
                     }],
                     entry: ['view', function (view) {
                         var entry = view
@@ -88,9 +94,11 @@ define(function (require) {
                 },
                 resolve: {
                     view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var config = Configuration();
-
-                        return config.getViewByEntityAndType($stateParams.entity, 'EditView');
+                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'EditView');
+                        if (!view.isEnabled()) {
+                            throw new Error('the edition view is disabled for this entity');
+                        }
+                        return view;
                     }],
                     entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
                         return FormViewRepository.getOne(view, $stateParams.id);
@@ -117,7 +125,14 @@ define(function (require) {
                 resolve: {
                     params: ['$stateParams', function ($stateParams) {
                         return $stateParams;
-                    }]
+                    }],
+                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'DeleteView');
+                        if (!view.isEnabled()) {
+                            throw new Error('the deletion view is disabled for this entity');
+                        }
+                        return view;
+                    }],
                 }
             });
 

@@ -34,7 +34,7 @@ define(function () {
 
         for (i in dashboards) {
             dashboardView = dashboards[i];
-
+            if (!dashboardView.isEnabled()) continue;
             promises.push(self.ListViewRepository.getAll(dashboardView));
         }
 
