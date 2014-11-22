@@ -86,6 +86,23 @@ define(function (require) {
         return this;
     };
 
+    Field.prototype.validation = function(obj) {
+        if (typeof obj === 'undefined') {
+            // getter
+            return this.config.validation;
+        }
+        // setter
+        for (var property in obj) {
+            if (!obj.hasOwnProperty(property)) continue;
+            if (obj[property] === null) {
+                delete this.config.validation[property];
+            } else {
+                this.config.validation[property] = obj[property];
+            }
+        }
+        return this;
+    }
+
     /**
      * Truncate the value based after applying all maps
      *

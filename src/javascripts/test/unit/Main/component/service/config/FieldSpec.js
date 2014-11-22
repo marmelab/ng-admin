@@ -55,6 +55,22 @@ define(function (require) {
 
         });
 
+        describe('validation', function() {
+            it('should have sensible defaults', function() {
+                expect(new Field().validation()).toEqual({required: false, minlength : 0, maxlength : 99999});
+            });
+
+            it('should allow to override parts of the validation settings', function() {
+                var field = new Field().validation({ required: true });
+                expect(field.validation()).toEqual({required: true, minlength : 0, maxlength : 99999}); 
+            });
+
+            it('should allow to remove parts of the validation settings', function() {
+                var field = new Field().validation({ minlength: null });
+                expect(field.validation()).toEqual({required: false, maxlength : 99999}); 
+            });
+        });
+
         describe('entity', function () {
             it('should set view.', function () {
                 var field = new Field('field1'),
