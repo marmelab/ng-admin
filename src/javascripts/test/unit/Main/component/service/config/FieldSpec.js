@@ -10,6 +10,24 @@ define(function (require) {
 
     describe("Service: Field config", function () {
 
+        describe('label', function() {
+            it('should return the camelCased name by default', function () {
+                var field;
+                field = new Field('myField');
+                expect(field.label()).toEqual('MyField');
+                field = new Field('my_field_1');
+                expect(field.label()).toEqual('MyField1');
+                field = new Field('my-field-2');
+                expect(field.label()).toEqual('MyField2');
+            });
+
+            it('should allow to set a custom label', function () {
+                var field = new Field('myField').label('foobar');
+                expect(field.label()).toEqual('foobar');
+            });
+
+        });
+
         describe('type', function () {
             it('should set type string.', function () {
                 var field = new Field();
@@ -18,16 +36,10 @@ define(function (require) {
                 expect(field.type()).toBe('string');
             });
 
-            it('should set a random string as name when not set.', function () {
+            it('should have a name even when not set.', function () {
                 var field = new Field();
 
                 expect(field.name()).not.toBe(null);
-            });
-
-            it('should camelCase the name as the label by default.', function () {
-                var field = new Field('myField');
-
-                expect(field.label()).toEqual('MyField');
             });
 
             it('should accept string for template value.', function () {
