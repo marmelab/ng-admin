@@ -1,6 +1,10 @@
 {
   "name": "ng-admin",
   "version": "0.3.2",
+  "main": [
+    "build/ng-admin.min.css",
+    "build/ng-admin.min.js"
+  ],
   "dependencies": {
     "angular": "~1.3.1",
     "angular-bootstrap": "~0.12.0",
