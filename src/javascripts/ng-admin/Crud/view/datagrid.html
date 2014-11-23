@@ -1,7 +1,7 @@
 <table class="grid table table-condensed table-hover table-striped">
     <thead>
         <tr>
-            <th ng-repeat="column in columns">
+            <th ng-repeat="column in columns" ng-class="'ng-admin-column-' + column.field.name()">
                 <a ng-click="datagrid.sort(column.field)">
                     <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(column.field)"></span>
 
