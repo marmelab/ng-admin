@@ -87,7 +87,7 @@ define(function (require) {
     };
 
     Field.prototype.validation = function(obj) {
-        if (typeof obj === 'undefined') {
+        if (!arguments.length) {
             // getter
             return this.config.validation;
         }
