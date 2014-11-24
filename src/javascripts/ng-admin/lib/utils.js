@@ -31,7 +31,7 @@ define(function () {
         input = f + input.substr(1);
 
         return input.replace(/[-_](.)/g, function (match, group1) {
-            return group1.toUpperCase();
+            return ' ' + group1.toUpperCase();
         });
     }
 

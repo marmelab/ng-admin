@@ -12,13 +12,10 @@ define(function (require) {
 
         describe('label', function() {
             it('should return the camelCased name by default', function () {
-                var field;
-                field = new Field('myField');
-                expect(field.label()).toEqual('MyField');
-                field = new Field('my_field_1');
-                expect(field.label()).toEqual('MyField1');
-                field = new Field('my-field-2');
-                expect(field.label()).toEqual('MyField2');
+                expect(new Field('myField').label()).toEqual('MyField');
+                expect(new Field('my_field_1').label()).toEqual('My Field 1');
+                expect(new Field('my-field-2').label()).toEqual('My Field 2');
+                expect(new Field('my_field-3').label()).toEqual('My Field 3');
             });
 
             it('should allow to set a custom label', function () {
