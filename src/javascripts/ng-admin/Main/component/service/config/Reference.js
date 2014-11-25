@@ -15,7 +15,7 @@ define(function (require) {
         label: 'My reference',
         targetEntity : null,
         targetField : null,
-        isEditLink: true,
+        isEditLink: null,
         validation: {
             required: false
         }
@@ -26,7 +26,7 @@ define(function (require) {
      */
     function Reference(fieldName) {
         Field.apply(this, arguments);
-
+        this.config.isEditLink = true; // because the Field constructor overrides the default
         this.referencedValue = null;
         this.entries = {};
         this.config.name = fieldName || 'reference';
