@@ -94,7 +94,6 @@ define(function (require) {
             field.order(Object.keys(this.fields).length);
         }
 
-        field.setView(this);
         this.fields[field.name()] = field;
 
         return this;

@@ -1,6 +1,6 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
 
     /**
@@ -52,7 +52,7 @@ define(function (require) {
      * @returns {Boolean}
      */
     DatagridController.prototype.isSorting = function (field) {
-        return this.sortField === field.getSortName();
+        return this.sortField === this.getSortName(field);
     };
 
     /**
@@ -71,7 +71,7 @@ define(function (require) {
      */
     DatagridController.prototype.sort = function (field) {
         var dir = 'ASC',
-            fieldName = field.getSortName();
+            fieldName = this.getSortName(field);
 
         if (this.sortField === fieldName) {
             dir = this.sortDir === 'ASC' ? 'DESC' : 'ASC';
@@ -79,6 +79,17 @@ define(function (require) {
 
         this.$location.search('sortField', fieldName);
         this.$location.search('sortDir', dir);
+    };
+
+    /**
+     * Return fieldName like (view.fieldName) to sort
+     *
+     * @param {Field} field
+     *
+     * @returns {String}
+     */
+    DatagridController.prototype.getSortName = function (field) {
+        return this.$scope.name + '.' + field.name();
     };
 
     DatagridController.$inject = ['$scope', '$location'];

@@ -32,7 +32,7 @@ define(function (require) {
         },
         choices: [],
         defaultValue: null,
-        cssClasses: []
+        cssClasses: ['form-control']
     };
 
     /**
@@ -46,8 +46,6 @@ define(function (require) {
         this.config.name = fieldName || Math.random().toString(36).substring(7);
         this.config.label = utils.camelCase(this.config.name);
         this.config.isEditLink = fieldName === 'id';
-        this.entity = null; // Used when this field is an identifier
-        this.view = null;
         this.maps = [];
     }
 
@@ -86,7 +84,7 @@ define(function (require) {
         return this;
     };
 
-    Field.prototype.validation = function(obj) {
+    Field.prototype.validation = function (obj) {
         if (!arguments.length) {
             // getter
             return this.config.validation;
@@ -101,12 +99,13 @@ define(function (require) {
             }
         }
         return this;
-    }
+    };
 
     /**
      * Truncate the value based after applying all maps
      *
      * @param {*} value
+     * @param {*} entry
      *
      * @returns {*}
      */
@@ -124,36 +123,13 @@ define(function (require) {
      * @returns {string}
      */
     Field.prototype.getCssClasses = function () {
-        var classes = 'form-control';
+        var classes = '';
 
         if (this.config.cssClasses) {
-            classes += ' ' + this.config.cssClasses.join(' ');
+            classes = this.config.cssClasses.join(' ');
         }
 
         return classes;
-    }
-
-    /**
-     * @param {View} view
-     */
-    Field.prototype.setView = function (view) {
-        this.view = view;
-
-        return this;
-    };
-
-    /**
-     * @return {View}
-     */
-    Field.prototype.getView = function () {
-        return this.view;
-    };
-
-    /**
-     * @return {string}
-     */
-    Field.prototype.getSortName = function () {
-        return this.view.name() + '.' + this.name();
     };
 
     /**
@@ -163,20 +139,6 @@ define(function (require) {
       */
     Field.prototype.getTemplateValue = function (data) {
         return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
-    };
-
-    /**
-     * Return the entity attached to the Field
-     * this.entity is set first when this Field is used as an identifier
-     *
-     * @return {Entity}
-     */
-    Field.prototype.getEntity = function () {
-        if (this.entity === null) {
-            this.entity = this.view.getEntity();
-        }
-
-        return this.entity;
     };
 
     return Field;

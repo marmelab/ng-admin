@@ -128,7 +128,7 @@ define(function () {
      * @param {View} entry
      */
     FormController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.getEntity().name() + '/' + entry.identifierValue);
+        this.$location.path('/edit/' + entry.entityName  + '/' + entry.identifierValue);
     };
 
     FormController.prototype.destroy = function () {
