@@ -71,12 +71,12 @@ define(function (require) {
 
             it('should allow to override parts of the validation settings', function() {
                 var field = new Field().validation({ required: true });
-                expect(field.validation()).toEqual({required: true, minlength : 0, maxlength : 99999}); 
+                expect(field.validation()).toEqual({required: true, minlength : 0, maxlength : 99999});
             });
 
             it('should allow to remove parts of the validation settings', function() {
                 var field = new Field().validation({ minlength: null });
-                expect(field.validation()).toEqual({required: false, maxlength : 99999}); 
+                expect(field.validation()).toEqual({required: false, maxlength : 99999});
             });
         });
 
@@ -86,9 +86,8 @@ define(function (require) {
                     view = new ListView('list1');
 
                 view.setEntity(new Entity('myEntity1'));
-                field.setView(view);
 
-                expect(field.getSortName()).toBe('list1.field1');
+                expect(view.name() + '.' + field.name()).toBe('list1.field1');
             });
         });
 
