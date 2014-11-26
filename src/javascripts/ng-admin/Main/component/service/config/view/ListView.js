@@ -86,6 +86,9 @@ define(function (require) {
      * @return {ListView}
      */
     ListView.prototype.listActions = function(actions) {
+        if (!(actions instanceof Array)) {
+            throw new Error('Invalid argument: listActions expects a list of action button names');
+        }
         var template = '';
         for (var i = 0, l = actions.length; i < l; i++) {
             template += getDirectiveByName(actions[i]);
