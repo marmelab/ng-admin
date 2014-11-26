@@ -15,6 +15,7 @@ define(function (require) {
     var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection']);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/component/controller/ListController'));
+    CrudModule.controller('ShowController', require('ng-admin/Crud/component/controller/ShowController'));
     CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/component/controller/DeleteController'));
 

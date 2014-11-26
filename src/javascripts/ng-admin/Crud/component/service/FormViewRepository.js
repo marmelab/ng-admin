@@ -17,7 +17,7 @@ define(function (require) {
     /**
      * Get one entity
      *
-     * @param {View}   view      the list view associated to the entity
+     * @param {View}   view      the edit view associated to the entity
      * @param {Number} entityId  id of the entity
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
