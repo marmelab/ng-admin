@@ -5,14 +5,27 @@ define(function (require) {
 
     var referenceColumnView = require('text!../../../view/column/reference.html');
 
-    function ReferenceColumn() {
+    function ReferenceColumn($location, Configuration) {
         return {
             restrict: 'E',
-            template: referenceColumnView
+            template: referenceColumnView,
+            link: function ($scope) {
+                var field = $scope.column.field;
+                var referenceEntity = field.targetEntity().name();
+                var relatedEntity = Configuration().getEntity(referenceEntity);
+                $scope.hasRelatedAdmin = function() {
+                    if (!relatedEntity) return false;
+                    return relatedEntity.editionView().isEnabled();
+                };
+                $scope.gotoReference = function (entry) {
+                    var referenceId = entry.values[field.name()];
+                    $location.path('/edit/' + referenceEntity + '/' + referenceId);
+                };
+            }
         };
     }
 
-    ReferenceColumn.$inject = [];
+    ReferenceColumn.$inject = ['$location', 'NgAdminConfiguration'];
 
     return ReferenceColumn;
 });
