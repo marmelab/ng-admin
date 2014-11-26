@@ -5,6 +5,7 @@ define(function (require) {
 
     var angular = require('angular'),
         View = require('ng-admin/Main/component/service/config/view/View'),
+        Field = require('ng-admin/Main/component/service/config/Field'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
@@ -44,6 +45,17 @@ define(function (require) {
         return response.headers('X-Total-Count') || response.data.length;
     }
 
+    function getDirectiveByName(name) {
+        switch (name) {
+            case 'edit':
+                return '<edit-button></edit-button>';
+            case 'delete':
+                return '<delete-button></delete-button>';
+            default:
+                throw new Error('unknown directive name ' + name);
+        }
+    }
+
     var config = {
         perPage: 30,
         pagination: defaultPaginationLink,
@@ -67,6 +79,20 @@ define(function (require) {
 
     utils.inherits(ListView, View);
     Configurable(ListView.prototype, config);
+
+    /**
+     * @param {Array} actions
+     * 
+     * @return {ListView}
+     */
+    ListView.prototype.listActions = function(actions) {
+        var template = '';
+        for (var i = 0, l = actions.length; i < l; i++) {
+            template += getDirectiveByName(actions[i]);
+        }
+        this.addField(new Field('actions').type('template').template(template));
+        return this;
+    }
 
     /**
      *

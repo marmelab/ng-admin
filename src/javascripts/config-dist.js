@@ -73,7 +73,8 @@
             .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
                 .targetEntity(tag) // the tag entity is defined later in this file
                 .targetField(new Field('name')) // the field to be displayed in this list
-            );
+            )
+            .listActions(['edit', 'delete']);
 
         post.creationView()
             .title('Add a new post') // default title is "Create a post"

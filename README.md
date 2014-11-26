@@ -336,6 +336,12 @@ Add button to set several filter parameters at once.
            return param;
         });
 
+* `listActions([actions])`
+Add an action column with action buttons on each line. Possible actions are `edit`, and `delete`. See "reusable directives" below.
+
+        listView.listActions(['edit', 'delete']);
+
+
 ## Fields
 
 A field is the representation of a property of an entity. 
@@ -413,12 +419,25 @@ A button linking to the edit view for the current entry.
 ```js
 entity.listView()
    //
-   .addField(new Field('actions').type('template').template('<edit-button></edit-button'));
+   .addField(new Field('actions').type('template').template('<edit-button></edit-button>'));
 ```
 
 ### `delete-button`
 
 A button linking to the edit view for the current entry.
+
+### `listView.listActions()`
+
+The `listActions()` method available on the listView is a shortcut to adding a template field with one of the directives listed above. In practice, calling:
+
+    listView.listActions(['edit', 'delete']);
+
+Is equivalent to:
+
+    listView.addField(
+        new Field('actions').type('template')
+        .template('<edit-button></edit-button><delete-button></delete-button>')
+    );
 
 ## Relationships
 
