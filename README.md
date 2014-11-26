@@ -402,6 +402,24 @@ Define the default value of the field in the creation form.
 * `template(*)`
 Define the template to be displayed (can be a string or a function).
 
+## Reusable Directives
+
+The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views.
+
+### `edit-button`
+
+A button linking to the edit view for the current entry.
+
+```js
+entity.listView()
+   //
+   .addField(new Field('actions').type('template').template('<edit-button></edit-button'));
+```
+
+### `delete-button`
+
+A button linking to the edit view for the current entry.
+
 ## Relationships
 
 ### Reference
