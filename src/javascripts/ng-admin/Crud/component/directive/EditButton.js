@@ -8,11 +8,15 @@ define(function (require) {
   function EditButtonDirective($location) {
     return {
         restrict: 'E',
+        scope: {
+          'entity': '&',
+          'entry': '&'
+        },
         template: editButtonTemplate,
-        link: function ($scope, $element, $attributes) {
-            $scope.gotoEdit = function (entry) {
-                var entity = $scope.view.getEntity();
-                $location.path('/edit/' + entity.name() + '/' + entry.values[entity.identifier().name()]);
+        link: function ($scope) {
+            $scope.gotoEdit = function () {
+                var entity = $scope.entity();
+                $location.path('/edit/' + entity.name() + '/' + $scope.entry().values[entity.identifier().name()]);
             };
         }
     };

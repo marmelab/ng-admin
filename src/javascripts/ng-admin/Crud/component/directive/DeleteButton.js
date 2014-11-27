@@ -8,11 +8,15 @@ define(function (require) {
   function DeleteButtonDirective($location) {
     return {
         restrict: 'E',
+        scope: {
+          'entity': '&',
+          'entry': '&'
+        },
         template: deleteButtonTemplate,
-        link: function ($scope, $element, $attributes) {
-            $scope.gotoDelete = function (entry) {
-                var entity = $scope.view.getEntity();
-                $location.path('/delete/' + entity.name() + '/' + entry.values[entity.identifier().name()]);
+        link: function ($scope) {
+            $scope.gotoDelete = function () {
+                var entity = $scope.entity();
+                $location.path('/delete/' + entity.name() + '/' + $scope.entry().values[entity.identifier().name()]);
             };
         }
     };

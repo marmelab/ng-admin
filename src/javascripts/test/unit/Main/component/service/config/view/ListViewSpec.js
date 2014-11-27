@@ -18,6 +18,11 @@ define(function (require) {
                 expect(function () { new ListView().listActions('foo'); })
                     .toThrow(new Error('Invalid argument: listActions expects a list of action button names'));
             });
+            it('should throw an error when called on a view with already an action field', function() {
+                expect(function () {
+                    new ListView().listActions(['edit']).listActions(['edit']);
+                }).toThrow(new Error('This view already has an actions field'));
+            });
             it('should return the view', function() {
                 var view = new ListView();
                 expect(view.listActions(['edit'])).toBe(view);
@@ -27,7 +32,7 @@ define(function (require) {
             });
             it('should set a template field with directives ordered like the arguments', function() {
                 var addedField = new ListView().listActions(['delete', 'edit']).getFields()['actions'];
-                expect(addedField.template()).toEqual('<delete-button></delete-button><edit-button></edit-button>');
+                expect(addedField.template()).toEqual('<delete-button entry="entry" entity="view.entity"></delete-button><edit-button entry="entry" entity="view.entity"></edit-button>');
             });
         });
 

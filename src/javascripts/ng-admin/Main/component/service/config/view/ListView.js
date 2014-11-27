@@ -48,9 +48,9 @@ define(function (require) {
     function getDirectiveByName(name) {
         switch (name) {
             case 'edit':
-                return '<edit-button></edit-button>';
+                return '<edit-button entry="entry" entity="view.entity"></edit-button>';
             case 'delete':
-                return '<delete-button></delete-button>';
+                return '<delete-button entry="entry" entity="view.entity"></delete-button>';
             default:
                 throw new Error('unknown directive name ' + name);
         }
@@ -88,6 +88,9 @@ define(function (require) {
     ListView.prototype.listActions = function(actions) {
         if (!(actions instanceof Array)) {
             throw new Error('Invalid argument: listActions expects a list of action button names');
+        }
+        if (this.getField('actions')) {
+            throw new Error('This view already has an actions field');
         }
         var template = '';
         for (var i = 0, l = actions.length; i < l; i++) {
