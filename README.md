@@ -336,6 +336,12 @@ Add button to set several filter parameters at once.
            return param;
         });
 
+* `listActions([actions])`
+Add an action column with action buttons on each line. Possible actions are `edit`, and `delete`. See "reusable directives" below.
+
+        listView.listActions(['edit', 'delete']);
+
+
 ## Fields
 
 A field is the representation of a property of an entity. 
@@ -401,6 +407,38 @@ Define the default value of the field in the creation form.
 
 * `template(*)`
 Define the template to be displayed (can be a string or a function).
+
+## Reusable Directives
+
+The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views.
+
+### `<edit-button>`
+
+A button linking to the edit view for the current entry.
+
+```js
+entity.listView()
+   //
+   .addField(new Field('actions').type('template').template('<edit-button entry="entry" entity="view.entity"></edit-button>'));
+```
+
+### `<delete-button>`
+
+A button linking to the edit view for the current entry.
+
+### `listView.listActions()`
+
+The `listActions()` method available on the listView is a shortcut to adding a template field with one of the directives listed above. In practice, calling:
+
+    listView.listActions(['edit', 'delete']);
+
+Is equivalent to:
+
+    var template = '<edit-button entry="entry" entity="view.entity">' +
+                   '</edit-button>' +
+                   '<delete-button entry="entry" entity="view.entity">' +
+                   '</delete-button>';
+    listView.addField(new Field('actions').type('template').template(template));
 
 ## Relationships
 
