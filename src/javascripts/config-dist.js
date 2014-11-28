@@ -147,7 +147,12 @@
                 .targetEntity(post)
                 .targetField(new Field('title'))
             )
-            .addField(new Field('body').type('wysiwyg'));
+            .addField(new Field('body').type('wysiwyg'))
+            .addField(new Field('created_at')
+                .label('Creation date')
+                .type('date') // to edit a date type field, ng-admin offers a datepicker
+                .defaultValue(new Date()) // preset fields in creation view with defaultValue
+            );
 
         comment.editionView()
             .addField(new Reference('post_id')
