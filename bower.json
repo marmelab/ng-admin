@@ -18,7 +18,7 @@
     "requirejs-text": "~2.0.12",
     "bootstrap-sass-official": "~3.3.0",
     "restangular": "~1.4.0",
-    "angular-ui-router": "~0.2.12",
+    "angular-ui-router": "~0.2.13",
     "bootstrap": "~3.3.1",
     "fontawesome": "~4.1.0",
     "humane": "~3.2.0",
