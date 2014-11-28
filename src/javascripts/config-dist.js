@@ -75,6 +75,24 @@
             )
             .listActions(['edit', 'delete']);
 
+        post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
+            .addField(new Field('id'))
+            .addField(new Field('title'))
+            .addField(new Field('body').type('wysiwyg'))
+            .addField(new ReferenceMany('tags')
+                .targetEntity(tag)
+                .targetField(new Field('name'))
+            )
+            .addField(new ReferencedList('comments')
+                .targetEntity(comment)
+                .targetReferenceField('post_id')
+                .targetFields([
+                    new Field('id'),
+                    new Field('body').label('Comment')
+                ])
+            )
+            .addField(new Field('actions').type('template').template('<edit-button entry="entry" entity="view.getEntity()"></edit-button>'));
+
         post.creationView()
             .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body

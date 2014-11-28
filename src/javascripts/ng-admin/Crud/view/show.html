@@ -1,0 +1,56 @@
+<div class="row" id="header">
+    <div class="col-md-5 col-sm-6">
+        <h1>{{ showController.title }}</h1>
+        <h2 ng-if="showController.description">{{ showController.description }}</h2>
+    </div>
+
+    <div class="controls col-md-4 col-sm-2">
+        <a class="btn btn-info" ng-click="showController.create()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+    </div>
+
+    <div class="controls col-sm-4">
+        <a class="btn btn-default" ng-click="showController.list()"><span class="glyphicon glyphicon-chevron-left"></span> Back to list</a>
+    </div>
+
+</div>
+
+<div class="row form-horizontal" id="list-container">
+
+        <div class="form-group" ng-repeat="field in showController.fields | orderElement track by $index">
+            
+            <label class="col-sm-2 control-label">{{ field.label() }}</label>
+            
+            <div class="col-sm-10" ng-switch="field.type()">
+                <string-column ng-switch-when="string"></string-column>
+
+                <password-column ng-switch-when="password"></password-column>
+
+                <text-column ng-switch-when="text"></text-column>
+
+                <email-column ng-switch-when="email"></email-column>
+
+                <number-column ng-switch-when="number"></number-column>
+
+                <date-column ng-switch-when="date"></date-column>
+
+                <boolean-column ng-switch-when="boolean"></boolean-column>
+
+                <choice-column ng-switch-when="choice"></choice-column>
+
+                <reference-column ng-switch-when="Reference"></reference-column>
+
+                <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
+
+                <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
+
+                <template-column ng-switch-when="template"></template-column>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-4">
+                <a class="btn btn-danger pull-right" ng-click="showController.deleteOne()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
+            </div>
+        </div>
+</div>

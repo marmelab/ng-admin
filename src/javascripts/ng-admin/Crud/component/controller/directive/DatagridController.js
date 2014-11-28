@@ -16,33 +16,8 @@ define(function () {
         var searchParams = this.$location.search();
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
-
-        this.retrieveColumns();
+        this.$scope.fields = this.$scope.view.getDisplayedFields();
     }
-
-    DatagridController.prototype.retrieveColumns = function () {
-        // Column can be set in edit form to display certain column of a ReferencedEntity
-        if (this.$scope.columns) {
-            return;
-        }
-
-        var columns = [],
-            fields = this.$scope.view.getDisplayedFields(),
-            field,
-            i;
-
-        // Get identifier field, and build columns array (with only the fields defined with `"list" : true`)
-        for (i in fields) {
-            field = fields[i];
-
-            columns.push({
-                field: field,
-                label: field.label()
-            });
-        }
-
-        this.$scope.columns = columns;
-    };
 
     /**
      * Return true if a column is being sorted

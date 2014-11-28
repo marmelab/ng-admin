@@ -71,6 +71,15 @@ define(function (require) {
                     }],
                     entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
                         return FormViewRepository.getOne(view, $stateParams.id);
+                    }],
+                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
+                        return ListViewRepository.getReferencedValues(view);
+                    }],
+                    referencedListValues: ['$stateParams', 'ListViewRepository', 'view', 'entry', function ($stateParams, ListViewRepository, view, entry) {
+                        var sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
+
+                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
                     }]
                 }
             });
