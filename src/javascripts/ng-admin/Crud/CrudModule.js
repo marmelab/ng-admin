@@ -1,16 +1,18 @@
 /*global define*/
-
+var inflection;
 define(function (require) {
     'use strict';
 
     var angular = require('angular');
+    inflection = require('inflection');
 
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
     require('textangular');
+    require('ngInflection');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular']);
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection']);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/component/controller/ListController'));
     CrudModule.controller('FormController', require('ng-admin/Crud/component/controller/FormController'));
