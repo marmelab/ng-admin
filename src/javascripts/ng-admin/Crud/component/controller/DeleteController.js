@@ -3,15 +3,16 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $location, FormViewRepository, params, view) {
+    var DeleteController = function ($scope, $location, FormViewRepository, params, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
         this.FormViewRepository = FormViewRepository;
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = view;
-        this.title = this.view.title();
+        this.titleTemplate = view.getTitle();
 
+        this.$scope.entry = entry;
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
@@ -34,7 +35,7 @@ define(function () {
         this.view = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'FormViewRepository', 'params', 'view'];
+    DeleteController.$inject = ['$scope', '$location', 'FormViewRepository', 'params', 'view', 'entry'];
 
     return DeleteController;
 });

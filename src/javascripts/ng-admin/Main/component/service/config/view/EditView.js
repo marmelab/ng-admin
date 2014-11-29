@@ -14,10 +14,6 @@ define(function (require) {
         View.apply(this, arguments);
 
         this.type = 'EditView';
-
-        this.config.title = function (view) {
-            return 'Edit ' + view.getEntity().name();
-        };
     }
 
     utils.inherits(EditView, View);

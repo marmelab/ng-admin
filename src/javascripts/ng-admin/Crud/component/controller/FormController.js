@@ -11,7 +11,7 @@ define(function () {
         this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
-        this.title = view.getTitle();
+        this.titleTemplate = view.getTitle();
         this.description = view.getDescription();
         this.name = view.getFormName();
 

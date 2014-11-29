@@ -132,6 +132,9 @@ define(function (require) {
                             throw new Error('the deletion view is disabled for this entity');
                         }
                         return view;
+                    }],
+                    entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
+                        return FormViewRepository.getOne(view, $stateParams.id);
                     }]
                 }
             });

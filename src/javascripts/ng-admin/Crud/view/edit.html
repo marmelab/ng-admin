@@ -1,6 +1,6 @@
 <div class="row" id="header">
     <div class="col-sm-5">
-        <h1>{{ formController.title }}</h1>
+        <h1 compile="formController.titleTemplate || 'Edit {{ formController.view.entity.name() }}  #{{ entry.identifierValue }}'"></span>
         <h2 ng-if="formController.description">{{ formController.description }}</h2>
     </div>
 

@@ -7,38 +7,14 @@ define(function (require) {
         Entry = require('ng-admin/Main/component/service/config/Entry'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    /**
-     * Return the title depending if the config is a string or a function
-     *
-     * @param {Function} value
-     * @param {Entity} entity
-     * @returns {String}
-     */
-    function getTitle(value, entity) {
-        var title = value;
-        if (typeof (title) === 'function') {
-            title = title(entity);
-        }
-
-        return title;
-    }
-
-    function defaultTitle(view) {
-        return null;
-    }
-
-    function defaultDescription(entry) {
-        return null;
-    }
-
     function defaultHeaders() {
         return {};
     }
 
     var config = {
         name: 'myView',
-        title: defaultTitle,
-        description: defaultDescription,
+        title: '',
+        description: '',
         extraParams: null,
         interceptor: null,
         headers: defaultHeaders
@@ -187,7 +163,7 @@ define(function (require) {
      * @returns {String}
      */
     View.prototype.getTitle = function () {
-        return getTitle(this.config.title, this);
+        return getValueOrFunctionResult(this.config.title, this.getEntity());
     };
 
     /**
@@ -195,7 +171,21 @@ define(function (require) {
      * @returns {String}
      */
     View.prototype.getDescription = function () {
-        return getTitle(this.config.description, this);
+        return getValueOrFunctionResult(this.config.description, this.getEntity());
+    };
+
+    /**
+     * Return the value depending if the config is a string or a function
+     *
+     * @param {Function} param
+     * @param {Entry} Entry
+     * @returns {String}
+     */
+    function getValueOrFunctionResult(param, entity) {
+        if (typeof (param) === 'function') {
+            return param(entity);
+        }
+        return param;
     };
 
     /**
