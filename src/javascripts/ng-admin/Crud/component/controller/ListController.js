@@ -9,8 +9,8 @@ define(function () {
         this.data = data;
         this.$anchorScroll = $anchorScroll;
         this.view = this.data.view;
-        this.titleTemplate = this.view.getTitle();
-        this.description = this.view.getDescription();
+        this.title = this.view.title();
+        this.description = this.view.description();
         this.displayFilterQuery = this.view.filterQuery() !== false;
 
         var searchParams = this.$location.search();

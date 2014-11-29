@@ -1,7 +1,9 @@
 <div class="row" id="header">
-    <div class="col-sm-5">
-        <h1 compile="deleteController.titleTemplate || 'Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}'"></span>
-        <h2 ng-if="deleteController.description">{{ deleteController.description }}</h2>
+    <div class="col-md-12">
+        <h1 compile="deleteController.title">
+            Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+        </h1>
+        <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
     </div>
 </div>
 

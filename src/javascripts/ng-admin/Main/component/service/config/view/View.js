@@ -13,7 +13,7 @@ define(function (require) {
 
     var config = {
         name: 'myView',
-        title: '',
+        title: false,
         description: '',
         extraParams: null,
         interceptor: null,
@@ -155,37 +155,6 @@ define(function (require) {
      */
     View.prototype.getActions = function () {
         return this.actions;
-    };
-
-    /**
-     * Returns the views title
-     *
-     * @returns {String}
-     */
-    View.prototype.getTitle = function () {
-        return getValueOrFunctionResult(this.config.title, this.getEntity());
-    };
-
-    /**
-     * Returns the views description
-     * @returns {String}
-     */
-    View.prototype.getDescription = function () {
-        return getValueOrFunctionResult(this.config.description, this.getEntity());
-    };
-
-    /**
-     * Return the value depending if the config is a string or a function
-     *
-     * @param {Function} param
-     * @param {Entry} Entry
-     * @returns {String}
-     */
-    function getValueOrFunctionResult(param, entity) {
-        if (typeof (param) === 'function') {
-            return param(entity);
-        }
-        return param;
     };
 
     /**

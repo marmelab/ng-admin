@@ -66,7 +66,7 @@
             .addField(new Field('title').isEditLink(true).map(truncate));
 
         post.listView()
-            .title('All posts') // default title is "List of posts"
+            .title('All posts') // default title is "List of [entity_name]s"
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
@@ -77,11 +77,11 @@
             .listActions(['edit', 'delete']);
 
         post.creationView()
-            .title('Add a new post') // default title is "Create a post"
             .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
 
         post.editionView()
+            .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
             .addField(new Field('title'))
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')

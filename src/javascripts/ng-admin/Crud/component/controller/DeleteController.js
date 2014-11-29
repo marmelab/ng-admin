@@ -10,7 +10,8 @@ define(function () {
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = view;
-        this.titleTemplate = view.getTitle();
+        this.title = view.title();
+        this.description = view.description();
 
         this.$scope.entry = entry;
         $scope.$on('$destroy', this.destroy.bind(this));
