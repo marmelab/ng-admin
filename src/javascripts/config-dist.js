@@ -42,8 +42,7 @@
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
 
         var comment = new Entity('comments')
-            .identifier(new Field('id')) // you can optionally customize the identifier used in the api ('id' by default)
-            .addMappedField(new Field('post_id')); // a field to be read from the API, even if not displayed in any view (used later in template field)
+            .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
         var tag = new Entity('tags');
 

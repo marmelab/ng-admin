@@ -269,7 +269,6 @@ define(function (require) {
      */
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
-            extraFields = this.getEntity().getMappedFields(),
             entry = new Entry(),
             resultEntity = this.getEntity(),
             identifier = this.identifier(),
@@ -278,24 +277,28 @@ define(function (require) {
 
         entry.entityName = resultEntity.name();
 
-        for (fieldName in fields) {
-            field = fields[fieldName];
-
-            if (field.name() in rawEntry) {
-                entry.values[fieldName] = field.getMappedValue(rawEntry[field.name()]);
-            }
-        }
-
         // Add identifier value
         if (identifier) {
             entry.identifierValue = rawEntry[identifier.name()];
         }
 
-        // Add extra field to map
-        for (fieldName in extraFields) {
-            field = extraFields[fieldName];
+        for (fieldName in fields) {
+            field = fields[fieldName];
 
-            entry.values[fieldName] = rawEntry[field.name()];
+            if (field.name() in rawEntry) {
+                entry.values[fieldName] = field.getMappedValue(rawEntry[field.name()]);
+                delete rawEntry[field.name()];
+            }
+        }
+
+        // Some fields from the REST response weren't mapped to the entry,
+        // we map them under their raw name
+        for (fieldName in rawEntry) {
+            if (typeof entry.values[fieldName] !== 'undefined') {
+                // another field already uses this name
+                continue;
+            }
+            entry.values[fieldName] = rawEntry[fieldName];
         }
 
         return entry;

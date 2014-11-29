@@ -78,7 +78,7 @@ define(function (require) {
             expect(entries.length).toEqual(3);
             expect(entries[0].identifierValue).toEqual(1);
             expect(entries[1].values.title).toEqual('World');
-            expect(entries[1].values.published).toEqual(null);
+            expect(entries[1].values.published).toEqual(false);
         });
 
         it('should map some one entity when the identifier in not in the view', function () {

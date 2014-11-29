@@ -72,8 +72,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
     var comment = new Entity('comments')
-        .identifier(new Field('id')) // you can optionally customize the identifier used in the api ('id' by default)
-        .addMappedField(new Field('post_id')); // a field to be read from the API, even if not displayed in any view (used later in template field)
+        .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
     var tag = new Entity('tags');
 
     // set the application entities
@@ -259,9 +258,7 @@ Add a column to a list, or a form control to a form, mapped by a property in the
 * `title(String)`
 The title of the view. ng-admin sees it as a template, and compiles it with the view scope. That means you can customize the title of a view using details from the current entry.
 
-        editView.
-            .title('Edit item "{{ entry.values.title }}"')
-            .addField(new Field('title')); // fields in the title template must be mapped in the view
+        editView.title('Edit item "{{ entry.values.title }}"');
 
 * `description(String)`
 A text displayed below the title.
