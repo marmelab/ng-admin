@@ -277,28 +277,21 @@ define(function (require) {
 
         entry.entityName = resultEntity.name();
 
-        // Add identifier value
-        if (identifier) {
-            entry.identifierValue = rawEntry[identifier.name()];
-        }
+        // copy all properties from the REST response in the entry
+        entry.values = rawEntry;
 
+        // set values based on fields
         for (fieldName in fields) {
             field = fields[fieldName];
 
             if (field.name() in rawEntry) {
                 entry.values[fieldName] = field.getMappedValue(rawEntry[field.name()]);
-                delete rawEntry[field.name()];
             }
         }
 
-        // Some fields from the REST response weren't mapped to the entry,
-        // we map them under their raw name
-        for (fieldName in rawEntry) {
-            if (typeof entry.values[fieldName] !== 'undefined') {
-                // another field already uses this name
-                continue;
-            }
-            entry.values[fieldName] = rawEntry[fieldName];
+        // Add identifier value
+        if (identifier) {
+            entry.identifierValue = rawEntry[identifier.name()];
         }
 
         return entry;
