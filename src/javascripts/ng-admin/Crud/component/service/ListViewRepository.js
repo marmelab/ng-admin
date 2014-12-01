@@ -182,7 +182,7 @@ define(function (require) {
     /**
      * Fill ReferencedMany & Reference values from a collection a values
      *
-     * @param {[View]}  collection
+     * @param {[Entry]}  collection
      * @param {Object}  referencedValues
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
@@ -190,40 +190,51 @@ define(function (require) {
     ListViewRepository.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
         fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
-        var choices,
-            entry,
-            entries = [],
-            reference,
+        var i, l;
+
+        for (i = 0, l = collection.length; i < l; i++) {
+            collection[i] = this.fillReferencesValuesFromEntry(collection[i], referencedValues, fillSimpleReference);
+        }
+
+        return collection;
+    };
+
+    /**
+     * Fill ReferencedMany & Reference values from a collection a values
+     *
+     * @param {Entry}  entry
+     * @param {Object}  referencedValues
+     * @param {Boolean} fillSimpleReference
+     * @returns {Array}
+     */
+    ListViewRepository.prototype.fillReferencesValuesFromEntry = function (entry, referencedValues, fillSimpleReference) {
+        var reference,
             referenceField,
-            i,
-            j,
-            l,
+            choices,
+            entries,
+            identifier,
             id,
-            identifier;
+            i;
 
         for (referenceField in referencedValues) {
             reference = referencedValues[referenceField];
             choices = reference.getChoicesById();
+            entries = [];
+            identifier = reference.getMappedValue(entry.values[referenceField]);
 
-            for (i = 0, l = collection.length; i < l; i++) {
-                entry = collection[i];
-                entries = [];
-                identifier = reference.getMappedValue(entry.values[referenceField]);
-
-                if (reference.type() === 'ReferenceMany') {
-                    for (j in identifier) {
-                        id = identifier[j];
-                        entries.push(choices[id]);
-                    }
-
-                    entry.listValues[referenceField] = entries;
-                } else if (fillSimpleReference && identifier && identifier in choices) {
-                    entry.listValues[referenceField] = reference.getMappedValue(choices[identifier]);
+            if (reference.type() === 'ReferenceMany') {
+                for (i in identifier) {
+                    id = identifier[i];
+                    entries.push(choices[id]);
                 }
+
+                entry.listValues[referenceField] = entries;
+            } else if (fillSimpleReference && identifier && identifier in choices) {
+                entry.listValues[referenceField] = reference.getMappedValue(choices[identifier]);
             }
         }
 
-        return collection;
+        return entry;
     };
 
     ListViewRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];

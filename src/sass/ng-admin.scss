@@ -185,5 +185,18 @@ div.bottom-loader {
             z-index: 1;
         }
     }
+
+    &#show-view {
+        .label-default {
+            margin-right: 5px;
+            font-weight: normal;
+            font-size: 12px;
+            padding-top: 4px;
+        }
+
+        .control-label {
+            padding-top: 0;
+        }
+    }
 }
 
