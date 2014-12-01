@@ -1,6 +1,8 @@
 <div class="row" id="header">
     <div class="col-md-5 col-sm-6">
-        <h1>{{ showController.title }}</h1>
+        <h1 compile="showController.title">
+            {{ showController.view.entity.name() | singularize | capitalize }}  #{{ entry.identifierValue }} Detail
+        </h1>
         <h2 ng-if="showController.description">{{ showController.description }}</h2>
     </div>
 

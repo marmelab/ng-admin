@@ -7,8 +7,8 @@ define(function () {
         this.$scope = $scope;
         this.$location = $location;
         this.FormViewRepository = FormViewRepository;
-        this.title = view.getTitle();
-        this.description = view.getDescription();
+        this.title = view.title();
+        this.description = view.description();
 
         this.fields = view.getFields();
         this.$scope.entry = entry;

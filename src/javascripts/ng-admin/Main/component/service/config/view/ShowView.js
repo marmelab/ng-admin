@@ -13,9 +13,6 @@ define(function (require) {
     function ShowView() {
         View.apply(this, arguments);
         this.type = 'ShowView';
-        this.config.title = function (view) {
-            return 'Show ' + view.getEntity().name();
-        };
     }
 
     utils.inherits(ShowView, View);
