@@ -19,10 +19,6 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    ShowController.prototype.list = function () {
-        this.$location.path('/list/' + this.entity.name());
-    };
-
     ShowController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;

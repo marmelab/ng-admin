@@ -25,10 +25,6 @@ define(function () {
         });
     };
 
-    DeleteController.prototype.back = function () {
-        this.$location.path('/edit/' + this.entityLabel + '/' + this.entityId);
-    };
-
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;

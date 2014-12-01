@@ -56,8 +56,11 @@ define(function (require) {
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/component/directive/DatagridPagination'));
     CrudModule.directive('quickFilter', require('ng-admin/Crud/component/directive/QuickFilter'));
 
-    CrudModule.directive('showButton', require('ng-admin/Crud/component/directive/ShowButton'));
+    CrudModule.directive('backButton', require('ng-admin/Crud/component/directive/BackButton'));
+    CrudModule.directive('createButton', require('ng-admin/Crud/component/directive/CreateButton'));
     CrudModule.directive('editButton', require('ng-admin/Crud/component/directive/EditButton'));
+    CrudModule.directive('showButton', require('ng-admin/Crud/component/directive/ShowButton'));
+    CrudModule.directive('listButton', require('ng-admin/Crud/component/directive/ListButton'));
     CrudModule.directive('deleteButton', require('ng-admin/Crud/component/directive/DeleteButton'));
 
     CrudModule.run(require('ng-admin/Crud/run/cacheTemplate'));

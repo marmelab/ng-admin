@@ -3,7 +3,7 @@
 define(function (require) {
   'use strict';
 
-  var editButtonTemplate = require('text!../../view/show-button.html');
+  var showButtonTemplate = require('text!../../view/show-button.html');
 
   function ShowButtonDirective($location) {
     return {
@@ -13,7 +13,7 @@ define(function (require) {
           'entry': '&',
           'size': '@'
         },
-        template: editButtonTemplate,
+        template: showButtonTemplate,
         link: function ($scope) {
             $scope.gotoShow = function () {
                 var entity = $scope.entity();
