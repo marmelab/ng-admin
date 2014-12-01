@@ -14,10 +14,6 @@ define(function (require) {
         View.apply(this, arguments);
 
         this.type = 'CreateView';
-
-        this.config.title = function (view) {
-            return 'Create ' + view.getEntity().name();
-        };
     }
 
     utils.inherits(CreateView, View);

@@ -31,7 +31,6 @@ define(function (require) {
      */
     function Entity(entityName) {
         this.values = {};
-        this.mappedFields = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
@@ -130,29 +129,6 @@ define(function (require) {
         this.identifierField = identifier;
 
         return this;
-    };
-
-    /**
-     * Add extra field to map
-     * Useful when we need a field that is not in the Entity view in a template
-     *
-     * @param {Field} field
-     *
-     * @returns {Entity}
-     */
-    Entity.prototype.addMappedField = function (field) {
-        this.mappedFields[field.name()] = field;
-
-        return this;
-    };
-
-    /**
-     * Return all field to map
-     *
-     * @returns {Object}
-     */
-    Entity.prototype.getMappedFields = function () {
-        return this.mappedFields;
     };
 
     /**

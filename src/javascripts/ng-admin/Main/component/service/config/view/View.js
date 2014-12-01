@@ -7,38 +7,14 @@ define(function (require) {
         Entry = require('ng-admin/Main/component/service/config/Entry'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    /**
-     * Return the title depending if the config is a string or a function
-     *
-     * @param {Function} value
-     * @param {Entity} entity
-     * @returns {String}
-     */
-    function getTitle(value, entity) {
-        var title = value;
-        if (typeof (title) === 'function') {
-            title = title(entity);
-        }
-
-        return title;
-    }
-
-    function defaultTitle(view) {
-        return null;
-    }
-
-    function defaultDescription(entry) {
-        return null;
-    }
-
     function defaultHeaders() {
         return {};
     }
 
     var config = {
         name: 'myView',
-        title: defaultTitle,
-        description: defaultDescription,
+        title: false,
+        description: '',
         extraParams: null,
         interceptor: null,
         headers: defaultHeaders
@@ -182,23 +158,6 @@ define(function (require) {
     };
 
     /**
-     * Returns the views title
-     *
-     * @returns {String}
-     */
-    View.prototype.getTitle = function () {
-        return getTitle(this.config.title, this);
-    };
-
-    /**
-     * Returns the views description
-     * @returns {String}
-     */
-    View.prototype.getDescription = function () {
-        return getTitle(this.config.description, this);
-    };
-
-    /**
      * Returns all references
      *
      * @returns {Object}
@@ -310,7 +269,6 @@ define(function (require) {
      */
     View.prototype.mapEntry = function (rawEntry) {
         var fields = this.getFields(),
-            extraFields = this.getEntity().getMappedFields(),
             entry = new Entry(),
             resultEntity = this.getEntity(),
             identifier = this.identifier(),
@@ -319,6 +277,10 @@ define(function (require) {
 
         entry.entityName = resultEntity.name();
 
+        // copy all properties from the REST response in the entry
+        entry.values = rawEntry;
+
+        // set values based on fields
         for (fieldName in fields) {
             field = fields[fieldName];
 
@@ -330,13 +292,6 @@ define(function (require) {
         // Add identifier value
         if (identifier) {
             entry.identifierValue = rawEntry[identifier.name()];
-        }
-
-        // Add extra field to map
-        for (fieldName in extraFields) {
-            field = extraFields[fieldName];
-
-            entry.values[fieldName] = rawEntry[field.name()];
         }
 
         return entry;

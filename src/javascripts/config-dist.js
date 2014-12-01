@@ -42,8 +42,7 @@
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
 
         var comment = new Entity('comments')
-            .identifier(new Field('id')) // you can optionally customize the identifier used in the api ('id' by default)
-            .addMappedField(new Field('post_id')); // a field to be read from the API, even if not displayed in any view (used later in template field)
+            .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
         var tag = new Entity('tags');
 
@@ -66,7 +65,7 @@
             .addField(new Field('title').isEditLink(true).map(truncate));
 
         post.listView()
-            .title('All posts') // default title is "List of posts"
+            .title('All posts') // default title is "List of [entity_name]s"
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
@@ -77,11 +76,11 @@
             .listActions(['edit', 'delete']);
 
         post.creationView()
-            .title('Add a new post') // default title is "Create a post"
             .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
 
         post.editionView()
+            .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
             .addField(new Field('title'))
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')

@@ -8,13 +8,21 @@ define(function () {
         var $compile = $injector.get('$compile');
 
         return {
-            link: function (scope, element, attrs) {
+            transclude: true,
+            link: function (scope, element, attrs, controller, transcludeFn) {
                 scope.$watch(
                     function (scope) {
                         // watch the 'compile' expression for changes
                         return scope.$eval(attrs.compile);
                     },
                     function (value) {
+                        if (false === value) {
+                            // use the default tag content
+                            transcludeFn(scope, function(clone) {
+                                element.append(clone);
+                            });
+                            return;
+                        }
                         // when the 'compile' expression changes assign it into the current DOM
                         element.html(value);
 

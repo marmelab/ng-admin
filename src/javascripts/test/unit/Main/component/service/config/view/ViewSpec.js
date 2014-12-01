@@ -18,17 +18,13 @@ define(function (require) {
             expect(view.name()).toEqual('view-abx');
         });
 
-        it('should returns a title and description from a function.', function () {
+        it('should returns a title and description.', function () {
             var view = new View();
-            view.title(function () {
-                return 'my-title';
-            });
-            view.description(function () {
-                return 'my desc';
-            });
+            view.title('my-title');
+            view.description('my desc');
 
-            expect(view.getTitle()).toEqual('my-title');
-            expect(view.getDescription()).toEqual('my desc');
+            expect(view.title()).toEqual('my-title');
+            expect(view.description()).toEqual('my desc');
         });
 
         it('should add a return field types.', function () {
@@ -78,7 +74,7 @@ define(function (require) {
             expect(entries.length).toEqual(3);
             expect(entries[0].identifierValue).toEqual(1);
             expect(entries[1].values.title).toEqual('World');
-            expect(entries[1].values.published).toEqual(null);
+            expect(entries[1].values.published).toEqual(false);
         });
 
         it('should map some one entity when the identifier in not in the view', function () {

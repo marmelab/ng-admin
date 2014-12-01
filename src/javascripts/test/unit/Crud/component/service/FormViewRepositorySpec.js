@@ -50,8 +50,8 @@ define(function (require) {
                         expect(entry.values.id).toBe(1);
                         expect(entry.values.name).toBe('Mizoute');
 
-                        // Non mapped field should not be retrieved
-                        expect(entry.values.summary).toBe(undefined);
+                        // Non mapped field should also be retrieved
+                        expect(entry.values.summary).toBe("A Cat");
                     });
             });
 

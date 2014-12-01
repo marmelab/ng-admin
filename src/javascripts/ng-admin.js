@@ -16,6 +16,8 @@ require.config({
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
         'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         'restangular': 'bower_components/restangular/dist/restangular',
+        'ngInflection': 'bower_components/ngInflection/ngInflection',
+        'inflection': 'bower_components/inflection/inflection.min',
         'humane': 'bower_components/humane/humane',
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
