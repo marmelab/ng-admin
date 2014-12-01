@@ -19,28 +19,16 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    ShowController.prototype.create = function () {
-        this.$location.path('/create/' + this.entity.name());
-    };
-
-    ShowController.prototype.deleteOne = function () {
+    ShowController.prototype.delete = function () {
         this.$location.path('/delete/' + this.entity.name() + '/' + this.$scope.entry.identifierValue);
     };
 
-    /**
-     * Link to entity list page
-     */
     ShowController.prototype.list = function () {
         this.$location.path('/list/' + this.entity.name());
     };
 
-    /**
-     * Link to edit entity page
-     *
-     * @param {View} entry
-     */
-    ShowController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.entityName  + '/' + entry.identifierValue);
+    ShowController.prototype.edit = function () {
+        this.$location.path('/edit/' + this.entity.name()  + '/' + this.$scope.entry.identifierValue);
     };
 
     ShowController.prototype.destroy = function () {

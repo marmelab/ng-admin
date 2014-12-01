@@ -1,60 +1,62 @@
 <div class="row" id="header">
-    <div class="col-md-5 col-sm-6">
+    <div class="col-md-10">
         <h1 compile="showController.title">
             {{ showController.view.entity.name() | singularize | capitalize }}  #{{ entry.identifierValue }} Detail
         </h1>
-        <h2 ng-if="showController.description">{{ showController.description }}</h2>
+        <p class="lead" ng-if="showController.description">{{ showController.description }}</p>
     </div>
 
-    <div class="controls col-md-4 col-sm-2">
-        <a class="btn btn-info" ng-click="showController.create()"><span class="glyphicon glyphicon-plus"></span> Add new</a>
-    </div>
-
-    <div class="controls col-sm-4">
+    <div class="controls col-md-2">
         <a class="btn btn-default" ng-click="showController.list()"><span class="glyphicon glyphicon-chevron-left"></span> Back to list</a>
     </div>
 
 </div>
 
+
 <div class="row form-horizontal" id="show-view">
 
-        <div class="form-group" ng-repeat="field in showController.fields | orderElement track by $index">
+    <div class="form-group" ng-repeat="field in showController.fields | orderElement track by $index">
 
-            <label class="col-sm-2 control-label">{{ field.label() }}</label>
+        <label class="col-sm-2 control-label">{{ field.label() }}</label>
 
-            <div class="col-sm-10 show-value" ng-switch="field.type()">
-                <string-column ng-switch-when="string"></string-column>
+        <div class="col-sm-10 show-value" ng-switch="field.type()">
 
-                <password-column ng-switch-when="password"></password-column>
+            <string-column ng-switch-when="string"></string-column>
 
-                <text-column ng-switch-when="text"></text-column>
+            <password-column ng-switch-when="password"></password-column>
 
-                <email-column ng-switch-when="email"></email-column>
+            <text-column ng-switch-when="text"></text-column>
 
-                <number-column ng-switch-when="number"></number-column>
+            <email-column ng-switch-when="email"></email-column>
 
-                <date-column ng-switch-when="date"></date-column>
+            <number-column ng-switch-when="number"></number-column>
 
-                <boolean-column ng-switch-when="boolean"></boolean-column>
+            <date-column ng-switch-when="date"></date-column>
 
-                <choice-column ng-switch-when="choice"></choice-column>
+            <boolean-column ng-switch-when="boolean"></boolean-column>
 
-                <reference-column ng-switch-when="Reference"></reference-column>
+            <choice-column ng-switch-when="choice"></choice-column>
 
-                <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
+            <reference-column ng-switch-when="Reference"></reference-column>
 
-                <datagrid ng-switch-when="ReferencedList" ng-init="columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
+            <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
 
-                <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
+            <datagrid ng-switch-when="ReferencedList" ng-init="columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
 
-                <template-column ng-switch-when="template"></template-column>
-            </div>
+            <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
+
+            <template-column ng-switch-when="template"></template-column>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <a class="btn btn-default" ng-click="showController.edit()"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
         </div>
 
-
-        <div class="form-group">
-            <div class="col-sm-4">
-                <a class="btn btn-danger pull-right" ng-click="showController.deleteOne()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
-            </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger pull-right" ng-click="showController.delete()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
         </div>
+    </div>
 </div>

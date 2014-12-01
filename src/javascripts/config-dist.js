@@ -73,7 +73,7 @@
                 .targetEntity(tag) // the tag entity is defined later in this file
                 .targetField(new Field('name')) // the field to be displayed in this list
             )
-            .listActions(['edit', 'delete']);
+            .listActions(['show', 'edit', 'delete']);
 
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
             .addField(new Field('id'))
@@ -90,8 +90,7 @@
                     new Field('id'),
                     new Field('body').label('Comment')
                 ])
-            )
-            .addField(new Field('actions').type('template').template('<edit-button entry="entry" entity="view.getEntity()"></edit-button>'));
+            );
 
         post.creationView()
             .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
