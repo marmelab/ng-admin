@@ -47,6 +47,8 @@ define(function (require) {
 
     function getDirectiveByName(name) {
         switch (name) {
+            case 'show':
+                return '<show-button entry="entry" entity="view.entity"></show-button>';
             case 'edit':
                 return '<edit-button entry="entry" entity="view.entity"></edit-button>';
             case 'delete':

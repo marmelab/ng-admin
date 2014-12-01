@@ -419,15 +419,19 @@ Define the template to be displayed (can be a string or a function).
 
 The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views.
 
-### `<edit-button>`
+### `<show-button>`
 
-A button linking to the edit view for the current entry.
+A button linking to the show view for the current entry.
 
 ```js
 entity.listView()
    //
-   .addField(new Field('actions').type('template').template('<edit-button entry="entry" entity="view.entity"></edit-button>'));
+   .addField(new Field('actions').type('template').template('<show-button entry="entry" entity="view.entity"></show-button>'));
 ```
+
+### `<edit-button>`
+
+A button linking to the edit view for the current entry.
 
 ### `<delete-button>`
 

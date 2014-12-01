@@ -56,6 +56,7 @@ define(function (require) {
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/component/directive/DatagridPagination'));
     CrudModule.directive('quickFilter', require('ng-admin/Crud/component/directive/QuickFilter'));
 
+    CrudModule.directive('showButton', require('ng-admin/Crud/component/directive/ShowButton'));
     CrudModule.directive('editButton', require('ng-admin/Crud/component/directive/EditButton'));
     CrudModule.directive('deleteButton', require('ng-admin/Crud/component/directive/DeleteButton'));
 
