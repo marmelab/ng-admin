@@ -1,10 +1,10 @@
 /*global define*/
-var inflection;
+
 define(function (require) {
     'use strict';
 
     var angular = require('angular');
-    inflection = require('inflection');
+    var inflection = require('inflection');
 
     require('angular-ui-router');
     require('angular-sanitize');
