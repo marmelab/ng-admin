@@ -437,7 +437,7 @@ A button linking to the show view for the current entry.
 ```js
 entity.listView()
    //
-   .addField(new Field('actions').type('template').template('<show-button entry="entry" entity="view.entity"></show-button>'));
+   .addField(new Field('actions').type('template').template('<show-button entry="entry" entity="view.entity" size="xs"></show-button>'));
 ```
 
 ### `<edit-button>`
@@ -456,9 +456,9 @@ The `listActions()` method available on the listView is a shortcut to adding a t
 
 Is equivalent to:
 
-    var template = '<edit-button entry="entry" entity="view.entity">' +
+    var template = '<edit-button entry="entry" entity="view.entity" size="xs">' +
                    '</edit-button>' +
-                   '<delete-button entry="entry" entity="view.entity">' +
+                   '<delete-button entry="entry" entity="view.entity" size="xs">' +
                    '</delete-button>';
     listView.addField(new Field('actions').type('template').template(template));
 

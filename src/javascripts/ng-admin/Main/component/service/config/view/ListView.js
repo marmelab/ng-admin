@@ -48,11 +48,11 @@ define(function (require) {
     function getDirectiveByName(name) {
         switch (name) {
             case 'show':
-                return '<show-button entry="entry" entity="view.entity"></show-button>';
+                return '<show-button entry="entry" entity="view.entity" size="xs"></show-button>';
             case 'edit':
-                return '<edit-button entry="entry" entity="view.entity"></edit-button>';
+                return '<edit-button entry="entry" entity="view.entity" size="xs"></edit-button>';
             case 'delete':
-                return '<delete-button entry="entry" entity="view.entity"></delete-button>';
+                return '<delete-button entry="entry" entity="view.entity" size="xs"></delete-button>';
             default:
                 throw new Error('unknown directive name ' + name);
         }

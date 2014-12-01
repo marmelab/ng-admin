@@ -52,11 +52,13 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
-            <a class="btn btn-default" ng-click="showController.edit()"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+            <edit-button entry="entry" entity="view.entity"></edit-button>
         </div>
 
         <div class="col-sm-4">
-            <a class="btn btn-danger pull-right" ng-click="showController.delete()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
+            <span class="pull-right">
+                <delete-button entry="entry" entity="view.entity"></delete-button>
+            </span>
         </div>
     </div>
 </div>

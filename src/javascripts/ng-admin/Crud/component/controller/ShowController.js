@@ -19,16 +19,8 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    ShowController.prototype.delete = function () {
-        this.$location.path('/delete/' + this.entity.name() + '/' + this.$scope.entry.identifierValue);
-    };
-
     ShowController.prototype.list = function () {
         this.$location.path('/list/' + this.entity.name());
-    };
-
-    ShowController.prototype.edit = function () {
-        this.$location.path('/edit/' + this.entity.name()  + '/' + this.$scope.entry.identifierValue);
     };
 
     ShowController.prototype.destroy = function () {
