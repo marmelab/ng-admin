@@ -98,7 +98,8 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
             .targetEntity(tag) // the tag entity is defined later in this file
             .targetField(new Field('name')) // the field to be displayed in this list
-        );
+        )
+        .listActions(['show', 'edit', 'delete']);
 
     post.creationView()
         .title('Add a new post') // default title is "Create a post"
@@ -120,6 +121,15 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                 new Field('id'),
                 new Field('body').label('Comment')
             ])
+        );
+
+    post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
+        .addField(new Field('id'))
+        .addField(new Field('title'))
+        .addField(new Field('body').type('wysiwyg'))
+        .addField(new ReferenceMany('tags') 
+            .targetEntity(tag) 
+            .targetField(new Field('name')) 
         );
 
     comment.dashboardView()
@@ -240,11 +250,12 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
 ### View Types
 
-Each entity has 5 views that you can customize:
+Each entity has 6 views that you can customize:
 
 - `listView`:
 - `creationView`
 - `editionView`
+- `showView` (unused by default)
 - `deletionView`
 - `dashboardView`: this is a special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
 
