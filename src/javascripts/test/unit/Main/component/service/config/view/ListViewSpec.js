@@ -10,30 +10,15 @@ define(function (require) {
     describe("Service: ListView config", function () {
 
         describe('listActions()', function() {
-            it('should throw an error on unkown button', function() {
-                expect(function () { new ListView().listActions(['foo']); })
-                    .toThrow(new Error('unknown directive name foo'));
-            });
-            it('should throw an error when passed anything else than an array', function() {
-                expect(function () { new ListView().listActions('foo'); })
-                    .toThrow(new Error('Invalid argument: listActions expects a list of action button names'));
-            });
-            it('should throw an error when called on a view with already an action field', function() {
-                expect(function () {
-                    new ListView().listActions(['edit']).listActions(['edit']);
-                }).toThrow(new Error('This view already has an actions field'));
-            });
             it('should return the view', function() {
                 var view = new ListView();
                 expect(view.listActions(['edit'])).toBe(view);
             });
-            it('should add an action field', function() {
-                expect(new ListView().listActions(['edit']).getFields()['actions']).toBeDefined();
-            });
-            it('should set a template field with directives ordered like the arguments', function() {
-                var addedField = new ListView().listActions(['delete', 'edit']).getFields()['actions'];
-                expect(addedField.template()).toEqual('<delete-button entry="entry" entity="view.entity" size="xs"></delete-button><edit-button entry="entry" entity="view.entity" size="xs"></edit-button>');
-            });
+
+            it('should store the listActions for the Datagrid', function() {
+                var view = new ListView();
+                expect(view.listActions(['edit']).listActions()).toEqual(['edit']);
+            })
         });
 
         describe('addQuickFilter()', function() {
