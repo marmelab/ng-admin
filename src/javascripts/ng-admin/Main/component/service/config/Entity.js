@@ -37,6 +37,7 @@ define(function (require) {
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
         this.identifierField = new Field('id');
+        this.isReadOnly = false;
         this.initViews();
     }
 
@@ -145,6 +146,14 @@ define(function (require) {
     Entity.prototype.getMappedValue = function (fieldName) {
         return this.values[fieldName];
     };
+
+    Entity.prototype.readOnly = function() {
+        this.isReadOnly = true;
+        this.config.creationView.disable();
+        this.config.editionView.disable();
+        this.config.deletionView.disable();
+        return this;
+    }
 
     return Entity;
 });

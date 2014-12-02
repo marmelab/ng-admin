@@ -5,14 +5,27 @@ define(function (require) {
 
     var referenceManyColumnView = require('text!../../../view/column/referenceMany.html');
 
-    function ReferenceManyColumn() {
+    function ReferenceManyColumn($location, Configuration) {
         return {
             restrict: 'E',
-            template: referenceManyColumnView
+            template: referenceManyColumnView,
+            link: function ($scope) {
+                var field = $scope.field;
+                var referenceEntity = field.targetEntity().name();
+                var relatedEntity = Configuration().getEntity(referenceEntity);
+                $scope.hasRelatedAdmin = function() {
+                    if (!relatedEntity) return false;
+                    return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
+                };
+                $scope.gotoReference = function (referenceId) {
+                    var route = relatedEntity.isReadOnly ? 'show' : 'edit'
+                    $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
+                };
+            }
         };
     }
 
-    ReferenceManyColumn.$inject = [];
+    ReferenceManyColumn.$inject = ['$location', 'NgAdminConfiguration'];
 
     return ReferenceManyColumn;
 });

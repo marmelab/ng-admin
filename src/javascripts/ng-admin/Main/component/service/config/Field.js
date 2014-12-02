@@ -22,7 +22,7 @@ define(function (require) {
         identifier : false,
         format : 'yyyy-MM-dd',
         template: defaultValueTemplate,
-        isEditLink: false,
+        isDetailLink: false,
         list: true,
         dashboard: true,
         validation: {
@@ -45,7 +45,7 @@ define(function (require) {
         this.config = angular.copy(config);
         this.config.name = fieldName || Math.random().toString(36).substring(7);
         this.config.label = utils.camelCase(this.config.name);
-        this.config.isEditLink = fieldName === 'id';
+        this.config.isDetailLink = fieldName === 'id';
         this.maps = [];
     }
 
@@ -140,6 +140,11 @@ define(function (require) {
     Field.prototype.getTemplateValue = function (data) {
         return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
     };
+
+    Field.prototype.isEditLink = function() {
+        console.warn('Field.isEditLink() is deprecated - use Field.isDetailLink() instead');
+        return this.isDetailLink();
+    }
 
     return Field;
 });

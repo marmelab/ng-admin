@@ -212,6 +212,7 @@ define(function (require) {
             referenceField,
             choices,
             entries,
+            entryIds,
             identifier,
             id,
             i;
@@ -220,15 +221,18 @@ define(function (require) {
             reference = referencedValues[referenceField];
             choices = reference.getChoicesById();
             entries = [];
+            entryIds = [];
             identifier = reference.getMappedValue(entry.values[referenceField]);
 
             if (reference.type() === 'ReferenceMany') {
                 for (i in identifier) {
                     id = identifier[i];
                     entries.push(choices[id]);
+                    entryIds.push(id);
                 }
 
                 entry.listValues[referenceField] = entries;
+                entry.listValueIds[referenceField] = entryIds;
             } else if (fillSimpleReference && identifier && identifier in choices) {
                 entry.listValues[referenceField] = reference.getMappedValue(choices[identifier]);
             }

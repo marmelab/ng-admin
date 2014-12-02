@@ -1,12 +1,14 @@
-<div ng-switch="field.isEditLink()">
-    <a ng-switch-when="true" ng-click="edit(entry)" class="multiple">
-        <span ng-repeat="ref in entry.listValues[field.name()] track by $index" class="label label-default">
-            {{ ref }}
-        </span>
-    </a>
+<div ng-switch="field.isDetailLink() && hasRelatedAdmin()">
+    <span ng-switch-when="true" ng-repeat="ref in entry.listValues[field.name()] track by $index">
+        <a ng-click="gotoReference(entry.listValueIds[field.name()][$index])" class="multiple">
+            <span class="label label-default">
+                {{ ref }}
+            </span>
+        </a>
+    </span>
 
-    <span ng-switch-default>
-        <span ng-repeat="ref in entry.listValues[field.name()] track by $index" class="label label-default">
+    <span ng-switch-default ng-repeat="ref in entry.listValues[field.name()] track by $index">
+        <span class="label label-default">
             {{ ref }}
         </span>
     </span>

@@ -1,4 +1,4 @@
-<div ng-switch="field.isEditLink() && hasRelatedAdmin()" ng-init="value = entry.listValues[field.name()]">
+<div ng-switch="field.isDetailLink() && hasRelatedAdmin()" ng-init="value = entry.listValues[field.name()]">
     <a ng-switch-when="true" ng-click="gotoReference(entry)">{{ value }}</a>
 
     <span ng-switch-default>{{ value }}</span>

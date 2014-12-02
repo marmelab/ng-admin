@@ -17,7 +17,7 @@ define(function () {
         var searchParams = this.$location.search();
 
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
-        this.$scope.edit = this.edit.bind(this);
+        this.$scope.gotoDetail = this.gotoDetail.bind(this);
         this.$scope.entries = data.entries;
         this.$scope.view = this.view;
         this.$scope.totalItems = this.data.totalItems;
@@ -37,10 +37,10 @@ define(function () {
      *
      * @param {ListView} entry
      */
-    ListController.prototype.edit = function (entry) {
+    ListController.prototype.gotoDetail = function (entry) {
         this.clearParams();
-
-        this.$location.path('/edit/' + entry.entityName + '/' + entry.identifierValue);
+        var route = this.view.getEntity().isReadOnly ? 'show' : 'edit';
+        this.$location.path('/' + route + '/' + entry.entityName + '/' + entry.identifierValue);
         this.$anchorScroll(0);
     };
 

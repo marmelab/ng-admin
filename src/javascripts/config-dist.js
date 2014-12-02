@@ -44,7 +44,8 @@
         var comment = new Entity('comments')
             .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
-        var tag = new Entity('tags');
+        var tag = new Entity('tags')
+            .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
         // set the application entities
         app
@@ -62,7 +63,7 @@
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
             .pagination(pagination) // use the custom pagination function to format the API request correctly
-            .addField(new Field('title').isEditLink(true).map(truncate));
+            .addField(new Field('title').isDetailLink(true).map(truncate));
 
         post.listView()
             .title('All posts') // default title is "List of [entity_name]s"
@@ -214,20 +215,11 @@
                 .template(function () {
                     return '{{ entry.values.name.toUpperCase() }}';
                 })
-            );
-
-        tag.creationView()
-            .addField(new Field('name')
-                .type('string')
-                .validation({
-                    "required": true,
-                    "max-length" : 150
-                })
             )
-            .addField(new Field('published').type('boolean'));
+            .listActions(['show']);
 
-        tag.editionView()
-            .addField(new Field('name').editable(false))
+        tag.showView()
+            .addField(new Field('name'))
             .addField(new Field('published').type('boolean'));
 
         NgAdminConfigurationProvider.configure(app);

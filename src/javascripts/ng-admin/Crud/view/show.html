@@ -2,8 +2,8 @@
 
     <view-actions override="showController.actions" entry="entry" entity="view.entity">
         <list-button entity="entity"></list-button>
-        <edit-button entry="entry" entity="entity"></edit-button>
-        <delete-button entry="entry" entity="entity"></delete-button>
+        <edit-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></edit-button>
+        <delete-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></delete-button>
     </view-actions>
 
     <div class="page-header">
