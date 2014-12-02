@@ -98,6 +98,7 @@
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
+            .actions(['list', 'show', 'delete']) // choose which buttons appear in the action bar
             .addField(new Field('title'))
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')
