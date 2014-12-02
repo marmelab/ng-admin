@@ -12,6 +12,7 @@ define(function () {
         this.title = this.view.title();
         this.description = this.view.description();
         this.displayFilterQuery = this.view.filterQuery() !== false;
+        this.actions = this.view.actions();
 
         var searchParams = this.$location.search();
 

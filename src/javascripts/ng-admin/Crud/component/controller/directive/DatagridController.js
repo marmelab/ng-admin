@@ -17,6 +17,8 @@ define(function () {
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
         this.$scope.fields = this.$scope.view.getDisplayedFields();
+        this.$scope.listActions = this.$scope.view.listActions();
+        this.$scope.entity = this.$scope.view.getEntity();
     }
 
     /**

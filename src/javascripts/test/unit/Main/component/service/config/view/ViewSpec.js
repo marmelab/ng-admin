@@ -4,7 +4,6 @@ define(function (require) {
     'use strict';
 
     var View = require('ng-admin/Main/component/service/config/view/View'),
-        Action = require('ng-admin/Main/component/service/config/Action'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
@@ -40,13 +39,6 @@ define(function (require) {
             expect(view.getReferences()['refMany'].name()).toEqual('refMany');
             expect(view.getReferences()['myRef'].name()).toEqual('myRef');
             expect(view.getFields()['body'].order()).toEqual(2);
-        });
-
-        it('should add actions.', function () {
-            var view = new View();
-            view.addAction(new Action('doSomething'));
-
-            expect(view.getActions()['doSomething'].order()).toEqual(0);
         });
 
         it('should returns the identifier.', function () {

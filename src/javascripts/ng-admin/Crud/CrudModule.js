@@ -23,6 +23,8 @@ define(function (require) {
     CrudModule.service('FormViewRepository', require('ng-admin/Crud/component/service/FormViewRepository'));
 
     CrudModule.directive('compile', require('ng-admin/Crud/component/directive/Compile'));
+    CrudModule.directive('viewActions', require('ng-admin/Crud/component/directive/ViewActions'));
+    CrudModule.directive('listActions', require('ng-admin/Crud/component/directive/ListActions'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/component/directive/field/StringField'));
     CrudModule.directive('passwordField', require('ng-admin/Crud/component/directive/field/PasswordField'));

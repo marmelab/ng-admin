@@ -12,8 +12,10 @@ define(function () {
         this.view = view;
         this.title = view.title();
         this.description = view.description();
+        this.actions = view.actions();
 
         this.$scope.entry = entry;
+        this.$scope.view = view;
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 

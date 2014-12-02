@@ -8,6 +8,9 @@
                     {{ field.label() }}
                 </a>
             </th>
+            <th ng-if="listActions">
+                Actions
+            </th>
         </tr>
     </thead>
 
@@ -38,6 +41,10 @@
 
                 <template-column ng-switch-when="template"></template-column>
             </td>
+            <th ng-if="listActions">
+                <list-actions entry="entry" entity="entity" buttons="listActions"></list-actions>
+            </th>
+
         </tr>
     </tbody>
 </table>
