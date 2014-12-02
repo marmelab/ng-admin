@@ -1,16 +1,14 @@
-<div class="row" id="header">
-    <div class="col-md-10">
-        <h1 compile="formController.title">
-            Create new {{ formController.view.entity.name() | singularize }}
-        </h1>
-        <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
-    </div>
+<div class="page-header">
 
-    <div class="controls col-md-2">
-        <actions override="showController.actions" entry="entry" entity="view.entity">
-            <back-button></back-button>
-        </actions>
-    </div>
+    <view-actions override="showController.actions" entry="entry" entity="view.entity">
+        <list-button entity="entity"></list-button>
+    </view-actions>
+
+    <h1 compile="formController.title">
+        Create new {{ formController.view.entity.name() | singularize }}
+    </h1>
+    <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+
 </div>
 
 <div class="row" id="edit-container">

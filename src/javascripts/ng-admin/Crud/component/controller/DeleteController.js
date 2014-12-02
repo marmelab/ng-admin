@@ -15,6 +15,7 @@ define(function () {
         this.actions = view.actions();
 
         this.$scope.entry = entry;
+        this.$scope.view = view;
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 

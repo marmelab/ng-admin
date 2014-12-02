@@ -1,16 +1,15 @@
-<div class="row" id="header">
-    <div class="col-md-10">
-        <h1 compile="formController.title">
-            Edit {{ formController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
-        </h1>
-        <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
-    </div>
+<div class="page-header">
 
-    <div class="controls col-md-2">
-        <actions override="showController.actions" entry="entry" entity="view.entity">
-            <back-button></back-button>
-        </actions>
-    </div>
+    <view-actions override="showController.actions" entry="entry" entity="view.entity">
+        <list-button entity="entity"></list-button>
+        <delete-button entry="entry" entity="entity"></delete-button>
+    </view-actions>
+
+    <h1 compile="formController.title">
+        Edit {{ formController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+    </h1>
+    <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+
 </div>
 
 <div class="row" id="edit-container">
@@ -18,13 +17,8 @@
         <div class="form-field form-group" ng-include="'ng-admin/Crud/view/edit-attribute.html'" ng-repeat="field in formController.fields | orderElement track by $index"></div>
 
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-6">
+            <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
-            </div>
-            <div class="col-sm-4">
-                <span class="pull-right">
-                    <delete-button entry="entry" entity="view.entity"></delete-button>
-                </span>
             </div>
         </div>
     </form>
