@@ -9,6 +9,7 @@ define(function (require) {
         Field = require('ng-admin/Main/component/service/config/Field'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
+        ShowView = require('ng-admin/Main/component/service/config/view/ShowView'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
@@ -19,6 +20,7 @@ define(function (require) {
         order: null,
         dashboardView: null,
         listView: null,
+        showView: null,
         creationView: null,
         editionView: null,
         deletionView: null
@@ -68,6 +70,7 @@ define(function (require) {
     Entity.prototype.initViews = function() {
         this.config.dashboardView = new DashboardView().setEntity(this);
         this.config.listView = new ListView().setEntity(this);
+        this.config.showView = new ShowView().setEntity(this);
         this.config.creationView = new CreateView().setEntity(this);
         this.config.editionView = new EditView().setEntity(this);
         this.config.deletionView = new DeleteView().setEntity(this);
@@ -79,6 +82,8 @@ define(function (require) {
                 return 'dashboardView';
             case 'ListView':
                 return 'listView';
+            case 'ShowView':
+                return 'showView';
             case 'CreateView':
                 return 'creationView';
             case 'EditView':

@@ -32,16 +32,6 @@ define(function () {
     };
 
     /**
-     * Link to entity creation page
-     */
-    ListController.prototype.create = function () {
-        this.clearParams();
-
-        this.$location.path('/create/' + this.view.getEntity().name());
-        this.$anchorScroll(0);
-    };
-
-    /**
      * Link to edit entity page
      *
      * @param {ListView} entry

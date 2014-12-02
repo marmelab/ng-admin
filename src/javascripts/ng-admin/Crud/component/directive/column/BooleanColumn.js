@@ -10,7 +10,7 @@ define(function (require) {
             restrict: 'E',
             template: booleanColumnView,
             controller: ['$scope', function ($scope) {
-                $scope.isOk = !!$scope.entry.values[$scope.column.field.name()];
+                $scope.isOk = !!$scope.entry.values[$scope.field.name()];
             }]
         };
     }

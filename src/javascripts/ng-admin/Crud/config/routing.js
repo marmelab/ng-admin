@@ -4,6 +4,7 @@ define(function (require) {
     'use strict';
 
     var listTemplate = require('text!../view/list.html'),
+        showTemplate = require('text!../view/show.html'),
         createTemplate = require('text!../view/create.html'),
         editTemplate = require('text!../view/edit.html'),
         deleteTemplate = require('text!../view/delete.html');
@@ -49,6 +50,42 @@ define(function (require) {
                 }
             });
 
+        $stateProvider
+            .state('show', {
+                parent: 'main',
+                url: '/show/:entity/:id',
+                controller: 'ShowController',
+                controllerAs: 'showController',
+                template: showTemplate,
+                params: {
+                    entity: {},
+                    id: null
+                },
+                resolve: {
+                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'ShowView');
+                        if (!view.isEnabled()) {
+                            throw new Error('the show view is disabled for this entity');
+                        }
+                        return view;
+                    }],
+                    rawEntry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
+                        return FormViewRepository.getOne(view, $stateParams.id);
+                    }],
+                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
+                        return ListViewRepository.getReferencedValues(view);
+                    }],
+                    referencedListValues: ['$stateParams', 'ListViewRepository', 'view', 'rawEntry', function ($stateParams, ListViewRepository, view, rawEntry) {
+                        var sortField = $stateParams.sortField,
+                            sortDir = $stateParams.sortDir;
+
+                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
+                    }],
+                    entry: ['ListViewRepository', 'rawEntry', 'referencedValues', function(ListViewRepository, rawEntry, referencedValues) {
+                        return ListViewRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    }]
+                }
+            });
         $stateProvider
             .state('create', {
                 parent: 'main',

@@ -98,7 +98,8 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
             .targetEntity(tag) // the tag entity is defined later in this file
             .targetField(new Field('name')) // the field to be displayed in this list
-        );
+        )
+        .listActions(['show', 'edit', 'delete']);
 
     post.creationView()
         .title('Add a new post') // default title is "Create a post"
@@ -120,6 +121,15 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
                 new Field('id'),
                 new Field('body').label('Comment')
             ])
+        );
+
+    post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
+        .addField(new Field('id'))
+        .addField(new Field('title'))
+        .addField(new Field('body').type('wysiwyg'))
+        .addField(new ReferenceMany('tags') 
+            .targetEntity(tag) 
+            .targetField(new Field('name')) 
         );
 
     comment.dashboardView()
@@ -240,11 +250,12 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
 ### View Types
 
-Each entity has 5 views that you can customize:
+Each entity has 6 views that you can customize:
 
 - `listView`:
 - `creationView`
 - `editionView`
+- `showView` (unused by default)
 - `deletionView`
 - `dashboardView`: this is a special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
 
@@ -417,21 +428,24 @@ Define the template to be displayed (can be a string or a function).
 
 ## Reusable Directives
 
-The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views.
+The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views:
 
-### `<edit-button>`
+* `<show-button>`
+* `<edit-button>`
+* `<delete-button>`
 
-A button linking to the edit view for the current entry.
+Buttons linking to the related view for the given entry.
 
 ```js
 entity.listView()
    //
-   .addField(new Field('actions').type('template').template('<edit-button entry="entry" entity="view.entity"></edit-button>'));
+   .addField(new Field('actions').type('template').template('<show-button entry="entry" entity="view.entity" size="xs"></show-button>'));
 ```
 
-### `<delete-button>`
+* `<create-button>`
+* `<list-button>`
 
-A button linking to the edit view for the current entry.
+A button linking to the related view for the given entity.
 
 ### `listView.listActions()`
 
@@ -441,9 +455,9 @@ The `listActions()` method available on the listView is a shortcut to adding a t
 
 Is equivalent to:
 
-    var template = '<edit-button entry="entry" entity="view.entity">' +
+    var template = '<edit-button entry="entry" entity="view.entity" size="xs">' +
                    '</edit-button>' +
-                   '<delete-button entry="entry" entity="view.entity">' +
+                   '<delete-button entry="entry" entity="view.entity" size="xs">' +
                    '</delete-button>';
     listView.addField(new Field('actions').type('template').template(template));
 

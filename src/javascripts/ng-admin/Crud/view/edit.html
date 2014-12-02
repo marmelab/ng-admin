@@ -7,7 +7,7 @@
     </div>
 
     <div class="controls col-md-2">
-        <a class="btn btn-default" ng-click="formController.back()"><span class="glyphicon glyphicon-chevron-left"></span> Back to list</a>
+        <back-button></back-button>
     </div>
 </div>
 
@@ -20,7 +20,9 @@
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
             </div>
             <div class="col-sm-4">
-                <a class="btn btn-danger pull-right" ng-click="formController.deleteOne()"><span class="glyphicon glyphicon-remove-circle"></span> Delete</a>
+                <span class="pull-right">
+                    <delete-button entry="entry" entity="view.entity"></delete-button>
+                </span>
             </div>
         </div>
     </form>

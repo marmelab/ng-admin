@@ -10,13 +10,14 @@ define(function (require) {
         restrict: 'E',
         scope: {
           'entity': '&',
-          'entry': '&'
+          'entry': '&',
+          'size': '@'
         },
         template: editButtonTemplate,
         link: function ($scope) {
             $scope.gotoEdit = function () {
                 var entity = $scope.entity();
-                $location.path('/edit/' + entity.name() + '/' + $scope.entry().values[entity.identifier().name()]);
+                $location.path('/edit/' + entity.name() + '/' + $scope.entry().identifierValue);
             };
         }
     };

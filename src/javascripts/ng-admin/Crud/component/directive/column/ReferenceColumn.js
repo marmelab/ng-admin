@@ -10,7 +10,7 @@ define(function (require) {
             restrict: 'E',
             template: referenceColumnView,
             link: function ($scope) {
-                var field = $scope.column.field;
+                var field = $scope.field;
                 var referenceEntity = field.targetEntity().name();
                 var relatedEntity = Configuration().getEntity(referenceEntity);
                 $scope.hasRelatedAdmin = function() {

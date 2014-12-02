@@ -25,18 +25,6 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    FormController.prototype.create = function () {
-        this.$location.path('/create/' + this.entity.name());
-    };
-
-    FormController.prototype.deleteOne = function () {
-        this.$location.path('/delete/' + this.entity.name() + '/' + this.$scope.entry.identifierValue);
-    };
-
-    FormController.prototype.back = function () {
-        this.$location.path('/list/' + this.entity.name());
-    };
-
     FormController.prototype.validate = function (form, $event) {
         $event.preventDefault();
         this.progression.start();

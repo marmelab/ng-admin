@@ -1,9 +1,13 @@
 <div class="row" id="header">
-    <div class="col-md-12">
+    <div class="col-md-10">
         <h1 compile="deleteController.title">
             Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
         </h1>
         <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
+    </div>
+
+    <div class="controls col-md-2">
+        <back-button></back-button>
     </div>
 </div>
 

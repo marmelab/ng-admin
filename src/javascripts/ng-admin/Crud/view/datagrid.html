@@ -1,11 +1,11 @@
 <table class="grid table table-condensed table-hover table-striped">
     <thead>
         <tr>
-            <th ng-repeat="column in columns" ng-class="'ng-admin-column-' + column.field.name()">
-                <a ng-click="datagrid.sort(column.field)">
-                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(column.field)"></span>
+            <th ng-repeat="field in fields | orderElement track by $index" ng-class="'ng-admin-column-' + field.name()">
+                <a ng-click="datagrid.sort(field)">
+                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
-                    {{ column.label }}
+                    {{ field.label() }}
                 </a>
             </th>
         </tr>
@@ -13,7 +13,7 @@
 
     <tbody>
         <tr ng-class="datagrid.itemClass($index)" ng-repeat="entry in entries track by $index">
-            <td ng-repeat="column in columns" ng-switch="column.field.type()">
+            <td ng-repeat="field in fields | orderElement track by $index" ng-switch="field.type()">
                 <string-column ng-switch-when="string"></string-column>
 
                 <password-column ng-switch-when="password"></password-column>
