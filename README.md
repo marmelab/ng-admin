@@ -367,10 +367,16 @@ Add button to set several filter parameters at once.
            return param;
         });
 
-* `listActions([actions])`
-Add an action column with action buttons on each line. Possible actions are `edit`, and `delete`. See "reusable directives" below.
+* `listActions(String|Array)`
+Add an action column with action buttons on each line. You can pass a list of button names among 'show', 'edit', and 'delete'.
 
         listView.listActions(['edit', 'delete']);
+
+Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to add custom actions on each line:
+
+    var template = '<show-button entry="entry" entity="posts" size="xs"></show-button>'+
+                   '<my-custom-directive entry="entry"></my-custom-directive>';
+    listView.listActions(template);
 
 
 ## Fields
