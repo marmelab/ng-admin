@@ -1,10 +1,10 @@
 /*global define*/
-
+var inflection; // FIXME
 define(function (require) {
     'use strict';
 
     var angular = require('angular');
-    var inflection = require('inflection');
+    inflection = require('inflection');
 
     require('angular-ui-router');
     require('angular-sanitize');
