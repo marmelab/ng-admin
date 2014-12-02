@@ -9,7 +9,6 @@ define(function () {
     function Entry() {
         this.values = {};
         this.listValues = {};
-        this.listValueIds = {};
         this.identifierValue = null;
         this.entityName = null;
     }

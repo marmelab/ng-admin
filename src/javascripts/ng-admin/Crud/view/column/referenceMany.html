@@ -1,6 +1,6 @@
 <div ng-switch="field.isDetailLink() && hasRelatedAdmin()">
     <span ng-switch-when="true" ng-repeat="ref in entry.listValues[field.name()] track by $index">
-        <a ng-click="gotoReference(entry.listValueIds[field.name()][$index])" class="multiple">
+        <a ng-click="gotoReference(entry.values[field.name()][$index])" class="multiple">
             <span class="label label-default">
                 {{ ref }}
             </span>
