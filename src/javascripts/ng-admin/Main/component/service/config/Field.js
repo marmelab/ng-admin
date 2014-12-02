@@ -141,6 +141,9 @@ define(function (require) {
         return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
     };
 
+    /**
+     * @deprecated use Field.isDetailLink() instead
+     */
     Field.prototype.isEditLink = function() {
         console.warn('Field.isEditLink() is deprecated - use Field.isDetailLink() instead');
         return this.isDetailLink();
