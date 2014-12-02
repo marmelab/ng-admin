@@ -32,7 +32,7 @@ define(function (require) {
             });
             it('should set a template field with directives ordered like the arguments', function() {
                 var addedField = new ListView().listActions(['delete', 'edit']).getFields()['actions'];
-                expect(addedField.template()).toEqual('<delete-button entry="entry" entity="view.entity"></delete-button><edit-button entry="entry" entity="view.entity"></edit-button>');
+                expect(addedField.template()).toEqual('<delete-button entry="entry" entity="view.entity" size="xs"></delete-button><edit-button entry="entry" entity="view.entity" size="xs"></edit-button>');
             });
         });
 
