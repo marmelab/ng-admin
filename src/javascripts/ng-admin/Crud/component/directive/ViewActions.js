@@ -5,7 +5,7 @@ define(function (require) {
 
     var viewActionsTemplate = require('text!../../view/view-actions.html');
 
-    function ViewActionDirective($injector) {
+    function ViewActionsDirective($injector) {
         var $compile = $injector.get('$compile');
 
         return {
@@ -38,7 +38,7 @@ define(function (require) {
         };
     }
 
-    ViewActionDirective.$inject = ['$injector'];
+    ViewActionsDirective.$inject = ['$injector'];
 
-    return ViewActionDirective;
+    return ViewActionsDirective;
 });
