@@ -9,6 +9,7 @@ define(function () {
         this.FormViewRepository = FormViewRepository;
         this.title = view.title();
         this.description = view.description();
+        this.actions = view.actions();
 
         this.fields = view.getFields();
         this.$scope.entry = entry;

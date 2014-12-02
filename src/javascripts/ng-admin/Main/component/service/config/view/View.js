@@ -14,6 +14,7 @@ define(function (require) {
     var config = {
         name: 'myView',
         title: false,
+        actions: null,
         description: '',
         extraParams: null,
         interceptor: null,
@@ -26,7 +27,6 @@ define(function (require) {
     function View(name) {
         this.enabled = true;
         this.fields = {};
-        this.actions = {};
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name || this.config.name;
@@ -133,28 +133,6 @@ define(function (require) {
      */
     View.prototype.getField = function (name) {
         return this.fields[name];
-    };
-
-    /**
-     * @param {Action} action
-     */
-    View.prototype.addAction = function (action) {
-        if (action.order() === null) {
-            action.order(Object.keys(this.actions).length);
-        }
-
-        this.actions[action.name()] = action;
-
-        return this;
-    };
-
-    /**
-     * Returns all actions
-     *
-     * @returns {Array}
-     */
-    View.prototype.getActions = function () {
-        return this.actions;
     };
 
     /**
