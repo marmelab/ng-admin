@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="row">
 
     <view-actions override="showController.actions" entity="view.entity">
         <create-button entity="entity"></create-button>
@@ -16,13 +16,17 @@
         </form>
     </div>
 
-    <h1 compile="listController.title">
-        List {{ listController.view.entity.name() | pluralize }}
-    </h1>
-    <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
+    <div class="page-header">
+        <h1 compile="listController.title">
+            List {{ listController.view.entity.name() | pluralize }}
+        </h1>
+        <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
+    </div>
 
 </div>
 
 <quick-filter></quick-filter>
 
-<datagrid ng-init="name=view.name()"></datagrid>
+<div class="row">
+    <datagrid ng-init="name=view.name()"></datagrid>
+</div>

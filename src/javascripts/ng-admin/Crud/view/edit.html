@@ -1,14 +1,16 @@
-<div class="page-header">
+<div class="row">
 
     <view-actions override="showController.actions" entry="entry" entity="view.entity">
         <list-button entity="entity"></list-button>
         <delete-button entry="entry" entity="entity"></delete-button>
     </view-actions>
 
-    <h1 compile="formController.title">
-        Edit {{ formController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
-    </h1>
-    <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+    <div class="page-header">
+        <h1 compile="formController.title">
+            Edit {{ formController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+        </h1>
+        <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+    </div>
 
 </div>
 
@@ -18,7 +20,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save Changes</button>
             </div>
         </div>
     </form>

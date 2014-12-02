@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="row">
 
     <view-actions override="showController.actions" entry="entry" entity="view.entity">
         <list-button entity="entity"></list-button>
@@ -6,10 +6,12 @@
         <delete-button entry="entry" entity="entity"></delete-button>
     </view-actions>
 
-    <h1 compile="showController.title">
-        {{ showController.view.entity.name() | singularize | capitalize }}  #{{ entry.identifierValue }} Detail
-    </h1>
-    <p class="lead" ng-if="showController.description">{{ showController.description }}</p>
+    <div class="page-header">
+        <h1 compile="showController.title">
+            {{ showController.view.entity.name() | singularize | capitalize }}  #{{ entry.identifierValue }} Detail
+        </h1>
+        <p class="lead" ng-if="showController.description">{{ showController.description }}</p>
+    </div>
 
 </div>
 

@@ -1,13 +1,15 @@
-<div class="page-header">
+<div class="row">
 
     <view-actions override="showController.actions" entry="entry" entity="view.entity">
         <list-button entity="entity"></list-button>
     </view-actions>
 
-    <h1 compile="deleteController.title">
-        Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
-    </h1>
-    <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
+    <div class="page-header">
+        <h1 compile="deleteController.title">
+            Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+        </h1>
+        <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
+    </div>
 
 </div>
 
