@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var FormViewRepository = require('ng-admin/Crud/component/service/FormViewRepository'),
+    var FormViewRepository = require('ng-admin/Crud/repository/FormViewRepository'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),

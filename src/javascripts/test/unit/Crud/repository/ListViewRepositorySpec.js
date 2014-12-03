@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var ListViewRepository = require('ng-admin/Crud/component/service/ListViewRepository'),
+    var ListViewRepository = require('ng-admin/Crud/repository/ListViewRepository'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Field = require('ng-admin/Main/component/service/config/Field'),
