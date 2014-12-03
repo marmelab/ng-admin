@@ -16,7 +16,7 @@ define(function (require) {
         order: null,
         targetReferenceField : null,
         targetFields : [],
-        isEditLink: false,
+        isDetailLink: false,
         validation: {
             required: false
         }

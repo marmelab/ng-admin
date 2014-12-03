@@ -15,11 +15,12 @@ define(function (require) {
                 var relatedEntity = Configuration().getEntity(referenceEntity);
                 $scope.hasRelatedAdmin = function() {
                     if (!relatedEntity) return false;
-                    return relatedEntity.editionView().isEnabled();
+                    return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
                 };
                 $scope.gotoReference = function (entry) {
                     var referenceId = entry.values[field.name()];
-                    $location.path('/edit/' + referenceEntity + '/' + referenceId);
+                    var route = relatedEntity.isReadOnly ? 'show' : 'edit'
+                    $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
                 };
             }
         };

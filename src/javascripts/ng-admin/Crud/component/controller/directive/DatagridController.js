@@ -17,7 +17,7 @@ define(function () {
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
         this.$scope.fields = this.$scope.view.getDisplayedFields();
-        this.$scope.listActions = this.$scope.view.listActions();
+        this.$scope.listActions = this.$scope.view.listActions ? this.$scope.view.listActions() : false; // FIXME the embedded datagrid inside an edition view points to the parent EditView instead of the ListView
         this.$scope.entity = this.$scope.view.getEntity();
     }
 

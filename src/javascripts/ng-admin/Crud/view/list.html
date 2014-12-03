@@ -1,7 +1,7 @@
 <div class="row">
 
     <view-actions override="listController.actions" entity="view.entity">
-        <create-button entity="entity"></create-button>
+        <create-button ng-if="!entity.isReadOnly" entity="entity"></create-button>
     </view-actions>
 
     <div class="filters col-md-3">
