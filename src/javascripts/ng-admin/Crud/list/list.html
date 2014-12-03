@@ -18,7 +18,7 @@
 
     <div class="page-header">
         <h1 compile="listController.title">
-            List {{ listController.view.entity.name() | pluralize }}
+            List {{ listController.view.entity.name() | humanize:true | pluralize }}
         </h1>
         <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
     </div>

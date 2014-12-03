@@ -7,7 +7,7 @@
 
     <div class="page-header">
         <h1 compile="formController.title">
-            Edit {{ formController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+            Edit {{ formController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }}
         </h1>
         <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
     </div>

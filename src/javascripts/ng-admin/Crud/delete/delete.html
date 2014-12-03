@@ -6,7 +6,7 @@
 
     <div class="page-header">
         <h1 compile="deleteController.title">
-            Delete {{ deleteController.view.entity.name() | singularize }}  #{{ entry.identifierValue }}
+            Delete {{ deleteController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }}
         </h1>
         <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
     </div>
