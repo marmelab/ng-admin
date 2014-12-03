@@ -144,9 +144,12 @@ define(function (require) {
     /**
      * @deprecated use Field.isDetailLink() instead
      */
-    Field.prototype.isEditLink = function() {
+    Field.prototype.isEditLink = function(bool) {
         console.warn('Field.isEditLink() is deprecated - use Field.isDetailLink() instead');
-        return this.isDetailLink();
+        if (arguments.length === 0) {
+            return this.isDetailLink();
+        }
+        return this.isDetailLink(bool);
     }
 
     return Field;

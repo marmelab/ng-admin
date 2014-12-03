@@ -155,5 +155,13 @@ define(function (require) {
         return this;
     }
 
+    /**
+     * @deprecated not necessary anymore
+     */
+    Entity.prototype.addMappedField = function(bool) {
+        console.warn('Enity.addMappedField() is deprecated and not useful anymore');
+        return this;
+    }
+
     return Entity;
 });
