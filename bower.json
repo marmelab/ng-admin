@@ -1,6 +1,6 @@
 {
   "name": "ng-admin",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "main": [
     "build/ng-admin.min.css",
     "build/ng-admin.min.js"
