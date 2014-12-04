@@ -75,6 +75,17 @@ module.exports = function (grunt) {
             }
         },
 
+        json_server: {
+            api: {
+                options: {
+                    port: 3000,
+                    hostname: 'localhost',
+                    db: 'src/javascripts/test/stub-server.json',
+                    keepalive: true
+                }
+            }
+        },
+
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             configFiles: {
@@ -103,9 +114,18 @@ module.exports = function (grunt) {
             }
         },
 
+        protractor: {
+            e2e: {
+                configFile: "src/javascripts/test/protractor.conf.js",
+                keepAlive: true,
+                debug: true
+            }
+        },
+
         concurrent: {
             assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            connect_watch: ['connect', 'watch']
+            connect_watch: ['connect', 'watch'],
+            protractor: ['json_server', 'build:dev', 'connect', 'protractor']
         }
     });
 
@@ -119,12 +139,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
     grunt.registerTask('test', ['karma']);
+    grunt.registerTask('testp', ['concurrent:protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
 

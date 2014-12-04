@@ -1,11 +1,30 @@
 {
-    "posts": [
-        { "id": 1, "body": "foo" },
-        { "id": 1, "body": "Post 2" }
-    ],
-    "comments": [
-        { "id": 1, "post_id": 1, "body": "hello!" },
-        { "id": 2, "post_id": 1, "body": "C'est moi!" },
-        { "id": 3, "post_id": 1, "body": "Commentaire post 2" }
-    ]
+  "posts": [
+    {
+      "id": 1,
+      "body": "foo"
+    },
+    {
+      "id": 1,
+      "body": "Post 2"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "post_id": 1,
+      "body": "hello!"
+    },
+    {
+      "id": 2,
+      "post_id": 1,
+      "body": "C'est moi!"
+    },
+    {
+      "id": 3,
+      "post_id": 1,
+      "body": "Commentaire post 2"
+    }
+  ],
+  "tags": []
 }
