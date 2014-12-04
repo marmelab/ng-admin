@@ -16,9 +16,12 @@ define(function () {
         var searchParams = this.$location.search();
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
-        this.$scope.fields = this.$scope.view.getDisplayedFields();
-        this.$scope.listActions = this.$scope.view.listActions ? this.$scope.view.listActions() : false; // FIXME the embedded datagrid inside an edition view points to the parent EditView instead of the ListView
-        this.$scope.entity = this.$scope.view.getEntity();
+        $scope.$watch("view", function() {
+            var view = $scope.view;
+            $scope.fields = view.getDisplayedFields();
+            $scope.listActions = view.listActions();
+            $scope.entity = view.getEntity();
+        });
     }
 
     /**

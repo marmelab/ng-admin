@@ -24,7 +24,7 @@
 
         <reference-many-field ng-switch-when="ReferenceMany"></reference-many-field>
 
-        <datagrid ng-switch-when="ReferencedList" ng-init="columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
+        <datagrid ng-switch-when="ReferencedList" ng-init="view=field.getReferencedView();columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
 
         <wysiwyg-field ng-switch-when="wysiwyg"></wysiwyg-field>
 
