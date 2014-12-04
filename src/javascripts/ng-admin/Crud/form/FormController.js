@@ -3,11 +3,14 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, FormViewRepository, Validator, progression, notification, view, entry) {
+    var FormController = function ($scope, $location, $filter, CreateRepository,
+                                   UpdateRepository, Validator, progression, notification, view, entry) {
+
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
-        this.FormViewRepository = FormViewRepository;
+        this.CreateRepository = CreateRepository;
+        this.UpdateRepository = UpdateRepository;
         this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
@@ -82,7 +85,7 @@ define(function () {
             return;
         }
 
-        this.FormViewRepository
+        this.CreateRepository
             .createOne(this.view, object)
             .then(function (response) {
                 self.progression.done();
@@ -103,7 +106,7 @@ define(function () {
             return;
         }
 
-        this.FormViewRepository
+        this.UpdateRepository
             .updateOne(this.view, object)
             .then(function () {
                 self.progression.done();
@@ -124,12 +127,13 @@ define(function () {
         this.$scope = undefined;
         this.$filter = undefined;
         this.$location = undefined;
-        this.FormViewRepository = undefined;
+        this.CreateRepository = undefined;
+        this.UpdateRepository = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'FormViewRepository', 'Validator', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CreateRepository', 'UpdateRepository', 'Validator', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

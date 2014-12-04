@@ -3,10 +3,9 @@
 define(function () {
     'use strict';
 
-    var ShowController = function ($scope, $location, FormViewRepository, view, entry) {
+    var ShowController = function ($scope, $location, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
-        this.FormViewRepository = FormViewRepository;
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
@@ -23,12 +22,11 @@ define(function () {
     ShowController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
-        this.FormViewRepository = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    ShowController.$inject = ['$scope', '$location', 'FormViewRepository', 'view', 'entry'];
+    ShowController.$inject = ['$scope', '$location', 'view', 'entry'];
 
     return ShowController;
 });

@@ -27,7 +27,7 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'ListViewRepository', 'NgAdminConfiguration', function ($stateParams, ListViewRepository, Configuration) {
+                    data: ['$stateParams', 'ListRepository', 'NgAdminConfiguration', function ($stateParams, ListRepository, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
                             page = $stateParams.page,
@@ -45,7 +45,7 @@ define(function (require) {
                             filters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return ListViewRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
+                        return ListRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
                     }]
                 }
             });
@@ -69,20 +69,20 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    rawEntry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
-                        return FormViewRepository.getOne(view, $stateParams.id);
+                    rawEntry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
+                        return RetrieveRepository.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
-                        return ListViewRepository.getReferencedValues(view);
+                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
+                        return ListRepository.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'ListViewRepository', 'view', 'rawEntry', function ($stateParams, ListViewRepository, view, rawEntry) {
+                    referencedListValues: ['$stateParams', 'ListRepository', 'view', 'rawEntry', function ($stateParams, ListRepository, view, rawEntry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
+                        return ListRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
                     }],
-                    entry: ['ListViewRepository', 'rawEntry', 'referencedValues', function(ListViewRepository, rawEntry, referencedValues) {
-                        return ListViewRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    entry: ['ListRepository', 'rawEntry', 'referencedValues', function(ListRepository, rawEntry, referencedValues) {
+                        return ListRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });
@@ -110,8 +110,8 @@ define(function (require) {
                         return entry;
 
                     }],
-                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
-                        return ListViewRepository.getReferencedValues(view);
+                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
+                        return ListRepository.getReferencedValues(view);
                     }]
                 }
             });
@@ -137,17 +137,17 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
-                        return FormViewRepository.getOne(view, $stateParams.id);
+                    entry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
+                        return RetrieveRepository.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['ListViewRepository', 'view', function (ListViewRepository, view) {
-                        return ListViewRepository.getReferencedValues(view);
+                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
+                        return ListRepository.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'ListViewRepository', 'view', 'entry', function ($stateParams, ListViewRepository, view, entry) {
+                    referencedListValues: ['$stateParams', 'ListRepository', 'view', 'entry', function ($stateParams, ListRepository, view, entry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListViewRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
+                        return ListRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
                     }]
                 }
             });
@@ -170,8 +170,8 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    entry: ['$stateParams', 'FormViewRepository', 'view', function ($stateParams, FormViewRepository, view) {
-                        return FormViewRepository.getOne(view, $stateParams.id);
+                    entry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
+                        return RetrieveRepository.getOne(view, $stateParams.id);
                     }]
                 }
             });

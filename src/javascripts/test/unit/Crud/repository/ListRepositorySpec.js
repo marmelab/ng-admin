@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var ListViewRepository = require('ng-admin/Crud/repository/ListViewRepository'),
+    var ListRepository = require('ng-admin/Crud/repository/ListRepository'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Field = require('ng-admin/Main/component/service/config/Field'),
@@ -22,7 +22,7 @@ define(function (require) {
         catView,
         rawHumans;
 
-    describe("Service: ListViewRepository", function () {
+    describe("Service: ListRepository", function () {
         beforeEach(function () {
             config = function () {
                 return {
@@ -67,9 +67,9 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawHumans}]));
 
-            var listViewRepository = new ListViewRepository($q, Restangular, config);
+            var listRepository = new ListRepository($q, Restangular, config);
 
-            listViewRepository.getAll(catView)
+            listRepository.getAll(catView)
                 .then(function (result) {
                     expect(result.currentPage).toEqual(1);
                     expect(result.perPage).toEqual(30);
@@ -87,12 +87,12 @@ define(function (require) {
         it('should return all rawEntities with an extra header', function () {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
 
-            var listViewRepository = new ListViewRepository({}, Restangular, config);
+            var listRepository = new ListRepository({}, Restangular, config);
 
             catView.perPage(10)
                 .headers({token: 'def'});
 
-            listViewRepository.getRawValues(catView)
+            listRepository.getRawValues(catView)
                 .then(function (rawEntities) {
                     expect(Restangular.all).toHaveBeenCalledWith('cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
@@ -101,7 +101,7 @@ define(function (require) {
         });
 
         it('should return all references values for a View', function () {
-            var listViewRepository = new ListViewRepository($q, Restangular, config),
+            var listRepository = new ListRepository($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
                 authorRef = new Reference('author');
@@ -122,7 +122,7 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawAuthors}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
 
-            listViewRepository.getReferencedValues(post.listView())
+            listRepository.getReferencedValues(post.listView())
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].id).toEqual('abc');
@@ -131,7 +131,7 @@ define(function (require) {
         });
 
         it('should return all referencedLists values for a View', function () {
-            var listViewRepository = new ListViewRepository($q, Restangular, config),
+            var listRepository = new ListRepository($q, Restangular, config),
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
                 character = new Entity('characters'),
@@ -173,7 +173,7 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 
-            listViewRepository.getReferencedListValues(state.listView(), null, null, 1)
+            listRepository.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
                     var entries = references.character.getEntries();
 
@@ -184,7 +184,7 @@ define(function (require) {
         });
 
         it('should fill reference values of a collection', function () {
-            var listViewRepository = new ListViewRepository({}, Restangular, config),
+            var listRepository = new ListRepository({}, Restangular, config),
                 entry1 = new Entry(),
                 entry2 = new Entry('catList'),
                 entry3 = new Entry('catList'),
@@ -225,7 +225,7 @@ define(function (require) {
                 tags: ref2
             };
 
-            collection = listViewRepository.fillReferencesValuesFromCollection(collection, referencedValues, true);
+            collection = listRepository.fillReferencesValuesFromCollection(collection, referencedValues, true);
 
             expect(collection.length).toEqual(3);
             expect(collection[0].listValues.human_id).toEqual('Bob');

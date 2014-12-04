@@ -3,8 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var FormViewRepository = require('ng-admin/Crud/repository/FormViewRepository'),
-        CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
+    var RetrieveRepository = require('ng-admin/Crud/repository/FormViewRepository'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         Restangular = require('mock/Restangular'),
@@ -41,9 +40,9 @@ define(function (require) {
                     }
                 }));
 
-                var formViewRepository = new FormViewRepository({}, Restangular, config);
+                var retrieveRepository = new RetrieveRepository({}, Restangular, config);
 
-                formViewRepository.getOne(view, 1)
+                retrieveRepository.getOne(view, 1)
                     .then(function (entry) {
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
                         expect(entry.identifierValue).toBe(1);
@@ -81,51 +80,13 @@ define(function (require) {
                     }
                 }));
 
-                var formViewRepository = new FormViewRepository({}, Restangular, config);
+                var retrieveRepository = new RetrieveRepository({}, Restangular, config);
 
-                formViewRepository.getOne(view, 1)
+                retrieveRepository.getOne(view, 1)
                     .then(function () {
                         expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
                         expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {pwd: '123456'});
                         expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
-                    });
-            });
-
-            it('should POST an entity when calling createOne', function () {
-                var formViewRepository = new FormViewRepository({}, Restangular, config),
-                    rawEntity = {name: 'Mizu'};
-
-                Restangular.post = jasmine.createSpy('post').andReturn(mixins.buildPromise({data: rawEntity}));
-
-                formViewRepository.createOne(view, rawEntity)
-                    .then(function (entry) {
-                        expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
-                        expect(Restangular.post).toHaveBeenCalledWith(null, rawEntity, null, {});
-                        expect(entry.values.name).toEqual('Mizu');
-                    });
-            });
-
-            it('should PUT an entity when calling updateOne', function () {
-                var formViewRepository = new FormViewRepository({}, Restangular, config),
-                    rawEntity = {name: 'Mizu'};
-
-                Restangular.put = jasmine.createSpy('put').andReturn(mixins.buildPromise({data: rawEntity}));
-
-                formViewRepository.updateOne(view, rawEntity)
-                    .then(function (entry) {
-                        expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
-                        expect(Restangular.put).toHaveBeenCalledWith(null, {});
-                        expect(entry.values.name).toEqual('Mizu');
-                    });
-            });
-
-            it('should DELETE an entity when calling deleteone', function () {
-                var formViewRepository = new FormViewRepository({}, Restangular, config);
-
-                formViewRepository.deleteOne(view, 1)
-                    .then(function () {
-                        expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
-                        expect(Restangular.remove).toHaveBeenCalledWith(null, {});
                     });
             });
         });
