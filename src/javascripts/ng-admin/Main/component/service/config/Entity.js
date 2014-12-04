@@ -159,7 +159,7 @@ define(function (require) {
      * @deprecated not necessary anymore
      */
     Entity.prototype.addMappedField = function(bool) {
-        console.warn('Enity.addMappedField() is deprecated and not useful anymore');
+        console.warn('Entity.addMappedField() is deprecated and not useful anymore');
         return this;
     }
 

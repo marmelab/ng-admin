@@ -92,7 +92,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new Field('title').isDetailLink(true).map(truncate));
 
     post.listView()
-        .title('All posts') // default title is "List of [entity_name]s"
+        .title('All posts') // default title is "[Entity_name] list"
         .pagination(pagination)
         .addField(new Field('id').label('ID'))
         .addField(new Field('title')) // the default list field type is "string", and displays as a string
@@ -296,8 +296,8 @@ Customize the list of actions for this view. You can pass a list of button names
 
 Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to easily add custom actions, or customize the buttons appearance:
 
-    var template = '<show-button entry="entry" entity="posts" size="sm"></show-button>' +
-                   '<delete-button entry="entry" entity="posts" size="sm"></delete-button>' +
+    var template = '<show-button entry="entry" entity="entity" size="sm"></show-button>' +
+                   '<delete-button entry="entry" entity="entity" size="sm"></delete-button>' +
                    '<my-custom-directive entry="entry"></my-custom-directive>' +
                    '<back-button></back-button>';
     editView.actions(template);
@@ -389,7 +389,7 @@ Add an action column with action buttons on each line. You can pass a list of bu
 
 Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to add custom actions on each line:
 
-    var template = '<show-button entry="entry" entity="posts" size="xs"></show-button>'+
+    var template = '<show-button entry="entry" entity="entity" size="xs"></show-button>'+
                    '<my-custom-directive entry="entry"></my-custom-directive>';
     listView.listActions(template);
 
