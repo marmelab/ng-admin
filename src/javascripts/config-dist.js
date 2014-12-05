@@ -36,7 +36,7 @@
         }
 
         var app = new Application('ng-admin backend demo') // application main title
-            .baseApiUrl('http://localhost:3000/'); // main API endpoint
+            .baseApiUrl('@@backend_url'); // main API endpoint
 
         // define all entities at the top to allow references between them
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id

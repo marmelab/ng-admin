@@ -1,6 +1,6 @@
-describe('ng-admin dashboard', function() {
-    describe('Controller: MainCtrl', function () {
-        it('should work', function () {
+describe('ng-admin', function() {
+    describe('Dashboard', function () {
+        it('should display a navigation menu linking to all entities', function () {
             browser.get(browser.baseUrl);
 
             $$('.nav li').then(function (items) {
@@ -9,7 +9,11 @@ describe('ng-admin dashboard', function() {
                 expect(items[1].getText()).toBe('Tags');
                 expect(items[2].getText()).toBe('Comments');
             });
+        });
 
+        it('should display a panel for each entity with a list of recent items', function () {
+            browser.get(browser.baseUrl);
+            
             element.all(by.repeater('panel in dashboardController.panels')).then(function (panels) {
                 expect(panels.length).toBe(3);
 
@@ -17,6 +21,6 @@ describe('ng-admin dashboard', function() {
                 expect(panels[1].all(by.css('.panel-heading')).first().getText()).toBe('Last comments');
                 expect(panels[2].all(by.css('.panel-heading')).first().getText()).toBe('Recent tags');
             });
-        })
+        });
     });
 });

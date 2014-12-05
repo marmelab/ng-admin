@@ -62,6 +62,19 @@ module.exports = function (grunt) {
             css_dev: {
                 src: 'build/ng-admin.css',
                 dest: 'build/ng-admin.min.css'
+            },
+            config: {
+                src: 'src/javascripts/config-dist.js',
+                dest: 'src/javascripts/config.js',
+                options: {
+                    process: function (content, srcpath) {
+                        return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8080/' : 'http://localhost:3000/');
+                    },
+                },
+            },
+            server: {
+                src: 'src/javascripts/server-dist.json',
+                dest: 'src/javascripts/server.json'
             }
         },
 
@@ -70,7 +83,7 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000,
                     base: '.',
-                    keepalive: true
+                    keepalive: false
                 }
             }
         },
@@ -79,9 +92,15 @@ module.exports = function (grunt) {
             api: {
                 options: {
                     port: 3000,
-                    hostname: 'localhost',
-                    db: 'src/javascripts/test/stub-server.json',
+                    db: 'src/javascripts/server.json',
                     keepalive: true
+                }
+            },
+            stub: {
+                options: {
+                    port: 3000,
+                    db: 'src/javascripts/test/stub-server.json',
+                    keepalive: false
                 }
             }
         },
@@ -124,8 +143,8 @@ module.exports = function (grunt) {
 
         concurrent: {
             assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            connect_watch: ['connect', 'watch'],
-            protractor: ['json_server', 'build:dev', 'connect', 'protractor']
+            connect_watch: ['json_server', 'connect::keepalive', 'watch'],
+            config_files: ['copy:config', 'copy:server']
         }
     });
 
@@ -146,10 +165,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma']);
-    grunt.registerTask('testp', ['concurrent:protractor']);
+    grunt.registerTask('test', ['karma', 'init', 'build:dev', 'connect', 'protractor']);
+    grunt.registerTask('test-local', ['karma', 'json_server:stub', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('init', ['concurrent:config_files']);
 
     // register default task
     grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);

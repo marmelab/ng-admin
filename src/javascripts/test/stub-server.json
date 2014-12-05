@@ -1,30 +1,64 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "body": "foo"
-    },
-    {
-      "id": 1,
-      "body": "Post 2"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "post_id": 1,
-      "body": "hello!"
-    },
-    {
-      "id": 2,
-      "post_id": 1,
-      "body": "C'est moi!"
-    },
-    {
-      "id": 3,
-      "post_id": 1,
-      "body": "Commentaire post 2"
-    }
-  ],
-  "tags": []
+    "posts": [
+        {
+            "id": 1,
+            "title": "Mouse, turning to Alice. 'What IS the fun?' said Alice..",
+            "body": "Exactly as we were. My notion was that you couldn't cut off a bit of the doors of the door and.",
+            "tags": [1, 3]
+        },
+        {
+            "id": 2,
+            "title": "Duchess said to herself, 'in my going out.",
+            "body": "I fancy--Who's to go with the end of every line: 'Speak roughly to your little boy, And beat him when he pleases!' CHORUS. 'Wow! wow! wow!'.",
+            "tags": [3, 4]
+        },
+        {
+            "id": 3,
+            "title": "MARMALADE', but to her feet in the air. She did not wish to offend the Dormouse began.",
+            "body": "Duchess; 'and that's a fact.' Alice did not get hold of anything, but she stopped hastily, for the moment.",
+            "tags": [1, 2]
+        }
+    ],
+    "comments": [
+        {
+            "id": 1,
+            "post_id": 1,
+            "body": "Queen, tossing her head through the wood. 'If it had lost something; and she felt sure it.",
+            "created_at": "2012-08-02"
+        },
+        {
+            "id": 2,
+            "post_id": 2,
+            "body": "White Rabbit: it was indeed: she was out of the ground--and I should frighten them out of its right paw round, 'lives a March Hare. 'Sixteenth,'.",
+            "created_at": "2012-08-08"
+        },
+        {
+            "id": 3,
+            "post_id": 3,
+            "body": "I'm not Ada,' she said, 'and see whether it's marked \"poison\" or.",
+            "created_at": "2012-08-02"
+        }
+    ],
+    "tags": [
+        {
+            "id": 1,
+            "name": "Sport",
+            "published": 1
+        },
+        {
+            "id": 2,
+            "name": "Technology",
+            "published": false
+        },
+        {
+            "id": 3,
+            "name": "Code",
+            "published": true
+        },
+        {
+            "id": 4,
+            "name": "Photo",
+            "published": false
+        }
+    ]
 }
