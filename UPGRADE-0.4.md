@@ -4,7 +4,7 @@
 
 ## New Features : see announcement blog post
 
-We've described what's new in a [blog post](), make sure you read it to use the latest features.
+We've described what's new in a [blog post](http://marmelab.com/blog/2014/12/05/ngadmin-04-eating-our-own-dog-food.html), make sure you read it to use the latest features.
 
 Check the [example configuration](src/javascripts/config-dist.js) for an overview of the updated syntax.
 
