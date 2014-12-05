@@ -66,7 +66,7 @@
             .addField(new Field('title').isDetailLink(true).map(truncate));
 
         post.listView()
-            .title('All posts') // default title is "List of [entity_name]s"
+            .title('All posts') // default title is "[Entity_name] list"
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
@@ -203,7 +203,6 @@
             .addField(new Field('published').label('Is published ?').type('boolean'));
 
         tag.listView()
-            .title('List of all tags')
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
@@ -212,9 +211,7 @@
             .addField(new Field('custom')
                 .type('template')
                 .label('Upper name')
-                .template(function () {
-                    return '{{ entry.values.name.toUpperCase() }}';
-                })
+                .template('{{ entry.values.name.toUpperCase() }}')
             )
             .listActions(['show']);
 
