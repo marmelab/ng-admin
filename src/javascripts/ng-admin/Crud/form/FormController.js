@@ -3,14 +3,14 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, CreateRepository,
-                                   UpdateRepository, Validator, progression, notification, view, entry) {
+    var FormController = function ($scope, $location, $filter, CreateQueries,
+                                   UpdateQueries, Validator, progression, notification, view, entry) {
 
         this.$scope = $scope;
         this.$location = $location;
         this.$filter = $filter;
-        this.CreateRepository = CreateRepository;
-        this.UpdateRepository = UpdateRepository;
+        this.CreateQueries = CreateQueries;
+        this.UpdateQueries = UpdateQueries;
         this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
@@ -85,7 +85,7 @@ define(function () {
             return;
         }
 
-        this.CreateRepository
+        this.CreateQueries
             .createOne(this.view, object)
             .then(function (response) {
                 self.progression.done();
@@ -106,7 +106,7 @@ define(function () {
             return;
         }
 
-        this.UpdateRepository
+        this.UpdateQueries
             .updateOne(this.view, object)
             .then(function () {
                 self.progression.done();
@@ -127,13 +127,13 @@ define(function () {
         this.$scope = undefined;
         this.$filter = undefined;
         this.$location = undefined;
-        this.CreateRepository = undefined;
-        this.UpdateRepository = undefined;
+        this.CreateQueries = undefined;
+        this.UpdateQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CreateRepository', 'UpdateRepository', 'Validator', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

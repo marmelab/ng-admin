@@ -3,16 +3,16 @@ define(function (require) {
     'use strict';
 
     var utils = require('ng-admin/lib/utils'),
-        Repository = require('ng-admin/Crud/repository/Repository');
+        Queries = require('ng-admin/Crud/repository/Queries');
 
     /**
      * @constructor
      */
-    function DeleteRepository() {
-        Repository.apply(this, arguments);
+    function DeleteQueries() {
+        Queries.apply(this, arguments);
     }
 
-    utils.inherits(DeleteRepository, Repository);
+    utils.inherits(DeleteQueries, Queries);
 
     /**
      * Delete an entity
@@ -23,7 +23,7 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    DeleteRepository.prototype.deleteOne = function (view, entityId) {
+    DeleteQueries.prototype.deleteOne = function (view, entityId) {
         var entityName = view.getEntity().name(),
             headers = view.getHeaders();
 
@@ -32,7 +32,7 @@ define(function (require) {
             .remove(null, headers);
     };
 
-    DeleteRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
-    return DeleteRepository;
+    return DeleteQueries;
 });

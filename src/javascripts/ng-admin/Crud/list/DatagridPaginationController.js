@@ -3,13 +3,13 @@
 define(function () {
     'use strict';
 
-    function DatagridPaginationController($scope, $location, $anchorScroll, progression, ListRepository) {
+    function DatagridPaginationController($scope, $location, $anchorScroll, progression, RetrieveRepository) {
         this.$scope = $scope;
         this.$location = $location;
         this.loadingPage = false;
         this.$anchorScroll = $anchorScroll;
         this.progression = progression;
-        this.ListRepository = ListRepository;
+        this.RetrieveRepository = RetrieveRepository;
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
@@ -59,7 +59,7 @@ define(function () {
         this.currentPage++;
 
         this.progression.start();
-        this.ListRepository
+        this.RetrieveRepository
             .getAll(view, this.currentPage, true, null, sortField, sortDir)
             .then(function (nextData) {
                 self.progression.done();
@@ -83,7 +83,7 @@ define(function () {
         this.$anchorScroll(0);
     };
 
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'progression', 'ListRepository'];
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'progression', 'RetrieveRepository'];
 
     return DatagridPaginationController;
 });

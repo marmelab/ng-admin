@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var CreateRepository = require('ng-admin/Crud/repository/CreateRepository'),
+    var CreateQueries = require('ng-admin/Crud/repository/CreateQueries'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         Restangular = require('mock/Restangular'),
@@ -12,7 +12,7 @@ define(function (require) {
         entity,
         view;
 
-    describe("Service: FormViewRepository", function () {
+    describe("Service: CreateQueries", function () {
 
         beforeEach(function () {
             config = function () {
@@ -32,12 +32,12 @@ define(function (require) {
         describe("createOne", function () {
 
             it('should POST an entity when calling createOne', function () {
-                var createRepository = new CreateRepository({}, Restangular, config),
+                var createQueries = new CreateQueries({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
                 Restangular.post = jasmine.createSpy('post').andReturn(mixins.buildPromise({data: rawEntity}));
 
-                createRepository.createOne(view, rawEntity)
+                createQueries.createOne(view, rawEntity)
                     .then(function (entry) {
                         expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
                         expect(Restangular.post).toHaveBeenCalledWith(null, rawEntity, null, {});

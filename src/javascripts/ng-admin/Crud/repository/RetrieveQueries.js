@@ -1,19 +1,44 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
 
     var utils = require('ng-admin/lib/utils'),
-        Repository = require('ng-admin/Crud/repository/Repository');
+        Queries = require('ng-admin/Crud/repository/Queries');
 
     /**
      * @constructor
      */
-    function ListRepository() {
-        Repository.apply(this, arguments);
+    function RetrieveQueries() {
+        Queries.apply(this, arguments);
     }
 
-    utils.inherits(ListRepository, Repository);
+    utils.inherits(RetrieveQueries, Queries);
+
+    /**
+     * Get one entity
+     *
+     * @param {View}   view      the edit view associated to the entity
+     * @param {Number} entityId  id of the entity
+     *
+     * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
+     */
+    RetrieveQueries.prototype.getOne = function (view, entityId) {
+        var interceptor = view.interceptor(),
+            params = view.getExtraParams(),
+            headers = view.getHeaders();
+
+        if (interceptor) {
+            this.Restangular.addResponseInterceptor(interceptor);
+        }
+
+        // Get element data
+        return this.Restangular
+            .one(view.getEntity().name(), entityId)
+            .get(params, headers)
+            .then(function (response) {
+                return view.mapEntry(response.data);
+            });
+    };
 
     /**
      * Return the list of all object of entityName type
@@ -29,7 +54,7 @@ define(function (require) {
      *
      * @returns {promise} the entity config & the list of objects
      */
-    ListRepository.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
+    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
         var rawEntries,
             entries,
             referencedValues,
@@ -74,7 +99,7 @@ define(function (require) {
      *
      * @returns {promise} the entity config & the list of objects
      */
-    ListRepository.prototype.getRawValues = function (listView, page, query, sortField, sortDir, filters) {
+    RetrieveQueries.prototype.getRawValues = function (listView, page, query, sortField, sortDir, filters) {
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
@@ -109,7 +134,7 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    ListRepository.prototype.getReferencedValues = function (view) {
+    RetrieveQueries.prototype.getReferencedValues = function (view) {
         var self = this,
             references = view.getReferences(),
             calls = [],
@@ -147,7 +172,7 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    ListRepository.prototype.getReferencedListValues = function (view, sortField, sortDir, entityId) {
+    RetrieveQueries.prototype.getReferencedListValues = function (view, sortField, sortDir, entityId) {
         var self = this,
             referenceLists = view.getReferencedLists(),
             calls = [],
@@ -190,7 +215,7 @@ define(function (require) {
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
      */
-    ListRepository.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
+    RetrieveQueries.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
         fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
 
         var i, l;
@@ -210,7 +235,7 @@ define(function (require) {
      * @param {Boolean} fillSimpleReference
      * @returns {Array}
      */
-    ListRepository.prototype.fillReferencesValuesFromEntry = function (entry, referencedValues, fillSimpleReference) {
+    RetrieveQueries.prototype.fillReferencesValuesFromEntry = function (entry, referencedValues, fillSimpleReference) {
         var reference,
             referenceField,
             choices,
@@ -240,7 +265,7 @@ define(function (require) {
         return entry;
     };
 
-    ListRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
-    return ListRepository;
+    return RetrieveQueries;
 });

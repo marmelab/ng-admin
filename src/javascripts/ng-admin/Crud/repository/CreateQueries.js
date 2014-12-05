@@ -3,16 +3,16 @@ define(function (require) {
     'use strict';
 
     var utils = require('ng-admin/lib/utils'),
-        Repository = require('ng-admin/Crud/repository/Repository');
+        Queries = require('ng-admin/Crud/repository/Queries');
 
     /**
      * @constructor
      */
-    function CreateRepository() {
-        Repository.apply(this, arguments);
+    function CreateQueries() {
+        Queries.apply(this, arguments);
     }
 
-    utils.inherits(CreateRepository, Repository);
+    utils.inherits(CreateQueries, Queries);
 
     /**
      * Create a new entity
@@ -23,7 +23,7 @@ define(function (require) {
      *
      * @returns {promise}  the new object
      */
-    CreateRepository.prototype.createOne = function (view, rawEntity) {
+    CreateQueries.prototype.createOne = function (view, rawEntity) {
         var entityName = view.getEntity().name(),
             headers = view.getHeaders();
 
@@ -36,7 +36,7 @@ define(function (require) {
             });
     };
 
-    CreateRepository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    CreateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
-    return CreateRepository;
+    return CreateQueries;
 });

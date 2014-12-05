@@ -27,7 +27,7 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'ListRepository', 'NgAdminConfiguration', function ($stateParams, ListRepository, Configuration) {
+                    data: ['$stateParams', 'RetrieveRepository', 'NgAdminConfiguration', function ($stateParams, RetrieveRepository, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
                             page = $stateParams.page,
@@ -45,7 +45,7 @@ define(function (require) {
                             filters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return ListRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
+                        return RetrieveRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
                     }]
                 }
             });
@@ -72,17 +72,17 @@ define(function (require) {
                     rawEntry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
                         return RetrieveRepository.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
-                        return ListRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
+                        return RetrieveRepository.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'ListRepository', 'view', 'rawEntry', function ($stateParams, ListRepository, view, rawEntry) {
+                    referencedListValues: ['$stateParams', 'RetrieveRepository', 'view', 'rawEntry', function ($stateParams, RetrieveRepository, view, rawEntry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
+                        return RetrieveRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
                     }],
-                    entry: ['ListRepository', 'rawEntry', 'referencedValues', function(ListRepository, rawEntry, referencedValues) {
-                        return ListRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    entry: ['RetrieveRepository', 'rawEntry', 'referencedValues', function(RetrieveRepository, rawEntry, referencedValues) {
+                        return RetrieveRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });
@@ -110,8 +110,8 @@ define(function (require) {
                         return entry;
 
                     }],
-                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
-                        return ListRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
+                        return RetrieveRepository.getReferencedValues(view);
                     }]
                 }
             });
@@ -140,14 +140,14 @@ define(function (require) {
                     entry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
                         return RetrieveRepository.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['ListRepository', 'view', function (ListRepository, view) {
-                        return ListRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
+                        return RetrieveRepository.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'ListRepository', 'view', 'entry', function ($stateParams, ListRepository, view, entry) {
+                    referencedListValues: ['$stateParams', 'RetrieveRepository', 'view', 'entry', function ($stateParams, RetrieveRepository, view, entry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return ListRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
+                        return RetrieveRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
                     }]
                 }
             });

@@ -10,7 +10,7 @@ define(function () {
      * @param {Application} Configuration
      * @constructor
      */
-    function Repository($q, Restangular, Configuration) {
+    function Queries($q, Restangular, Configuration) {
         this.$q = $q;
         this.Restangular = Restangular;
         this.config = Configuration();
@@ -19,7 +19,7 @@ define(function () {
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
-    Repository.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    Queries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
-    return Repository;
+    return Queries;
 });
