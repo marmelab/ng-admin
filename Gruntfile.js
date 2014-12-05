@@ -165,7 +165,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma', 'init', 'build:dev', 'connect', 'protractor']);
+    grunt.registerTask('test', ['karma', 'init', 'connect', 'protractor']);
     grunt.registerTask('test-local', ['karma', 'json_server:stub', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
