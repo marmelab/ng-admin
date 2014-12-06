@@ -6,21 +6,71 @@ define(function (require) {
     var RetrieveQueries = require('ng-admin/Crud/repository/RetrieveQueries'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
+        Entry = require('ng-admin/Main/component/service/config/Entry'),
+        Reference = require('ng-admin/Main/component/service/config/Reference'),
+        ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
+        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
+        $q = require('mock/q'),
         config,
+        rawCats,
+        catEntity,
+        humanEntity,
+        catView,
         entity,
-        view;
+        view,
+        rawHumans;
 
     describe("Service: RetrieveQueries", function () {
+
+        beforeEach(function () {
+            config = function () {
+                return {
+                    baseApiUrl: angular.noop
+                };
+            };
+
+            catEntity = new Entity('cat');
+            humanEntity = new Entity('human');
+            catView = catEntity.listView()
+                .addField(new Field('id').identifier(true))
+                .addField(new Field('name').type('text'))
+                .addField(new Reference('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
+
+            humanEntity.identifier(new Field('id'));
+
+            rawCats = [{
+                "id": 1,
+                "human_id": 1,
+                "name": "Mizoute",
+                "summary": "A Cat"
+            }, {
+                "id": 2,
+                "human_id": 1,
+                "name": "Suna",
+                "summary": "A little Cat"
+            }];
+
+            rawHumans = [{
+                "id": 1,
+                "firstName": "Daph"
+            }, {
+                "id": 2,
+                "firstName": "Manu"
+            }, {
+                "id": 3,
+                "firstName": "Daniel"
+            }];
+        });
 
         it('should return all data to display a ListView', function () {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawHumans}]));
 
-            var listQueries = new ListQueries($q, Restangular, config);
+            var retrieveQueries = new RetrieveQueries($q, Restangular, config);
 
-            listQueries.getAll(catView)
+            retrieveQueries.getAll(catView)
                 .then(function (result) {
                     expect(result.currentPage).toEqual(1);
                     expect(result.perPage).toEqual(30);
@@ -38,12 +88,12 @@ define(function (require) {
         it('should return all rawEntities with an extra header', function () {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
 
-            var listQueries = new ListQueries({}, Restangular, config);
+            var retrieveQueries = new RetrieveQueries({}, Restangular, config);
 
             catView.perPage(10)
                 .headers({token: 'def'});
 
-            listQueries.getRawValues(catView)
+            retrieveQueries.getRawValues(catView)
                 .then(function (rawEntities) {
                     expect(Restangular.all).toHaveBeenCalledWith('cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
@@ -52,7 +102,7 @@ define(function (require) {
         });
 
         it('should return all references values for a View', function () {
-            var listQueries = new ListQueries($q, Restangular, config),
+            var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
                 authorRef = new Reference('author');
@@ -73,7 +123,7 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawAuthors}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
 
-            listQueries.getReferencedValues(post.listView())
+            retrieveQueries.getReferencedValues(post.listView())
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].id).toEqual('abc');
@@ -82,7 +132,7 @@ define(function (require) {
         });
 
         it('should return all referencedLists values for a View', function () {
-            var listQueries = new ListQueries($q, Restangular, config),
+            var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
                 character = new Entity('characters'),
@@ -124,7 +174,7 @@ define(function (require) {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
             $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
 
-            listQueries.getReferencedListValues(state.listView(), null, null, 1)
+            retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
                     var entries = references.character.getEntries();
 
@@ -135,7 +185,7 @@ define(function (require) {
         });
 
         it('should fill reference values of a collection', function () {
-            var listQueries = new ListQueries({}, Restangular, config),
+            var retrieveQueries = new RetrieveQueries({}, Restangular, config),
                 entry1 = new Entry(),
                 entry2 = new Entry('catList'),
                 entry3 = new Entry('catList'),
@@ -176,7 +226,7 @@ define(function (require) {
                 tags: ref2
             };
 
-            collection = listQueries.fillReferencesValuesFromCollection(collection, referencedValues, true);
+            collection = retrieveQueries.fillReferencesValuesFromCollection(collection, referencedValues, true);
 
             expect(collection.length).toEqual(3);
             expect(collection[0].listValues.human_id).toEqual('Bob');
@@ -186,22 +236,22 @@ define(function (require) {
             expect(collection[2].listValues.tags).toEqual([]);
         });
 
-        beforeEach(function () {
-            config = function () {
-                return {
-                    baseApiUrl: angular.noop
-                };
-            };
-
-            entity = new Entity('cat');
-            view = entity.creationView()
-                .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'))
-                .extraParams(null)
-                .interceptor(null);
-        });
-
         describe("getOne", function () {
+
+            beforeEach(function () {
+                config = function () {
+                    return {
+                        baseApiUrl: angular.noop
+                    };
+                };
+
+                entity = new Entity('cat');
+                view = entity.creationView()
+                    .addField(new Field('id').identifier(true))
+                    .addField(new Field('name').type('text'))
+                    .extraParams(null)
+                    .interceptor(null);
+            });
 
             it('should return the entity with all fields.', function () {
                 Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({

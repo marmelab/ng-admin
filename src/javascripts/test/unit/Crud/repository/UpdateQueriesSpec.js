@@ -42,7 +42,6 @@ define(function (require) {
                         expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
                         expect(Restangular.put).toHaveBeenCalledWith(null, {});
                         expect(entry.values.name).toEqual('Mizu');
-                        console.log(entry.values.name);
                     });
             });
         });
