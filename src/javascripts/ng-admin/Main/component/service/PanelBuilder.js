@@ -6,15 +6,15 @@ define(function () {
     /**
      * @param {$q}                 $q
      * @param {$filter}            $filter
-     * @param {RetrieveRepository} RetrieveRepository
+     * @param {RetrieveQueries}    RetrieveQueries
      * @param {Configuration}      Configuration
      *
      * @constructor
      */
-    function PanelBuilder($q, $filter, RetrieveRepository, Configuration) {
+    function PanelBuilder($q, $filter, RetrieveQueries, Configuration) {
         this.$q = $q;
         this.$filter = $filter;
-        this.RetrieveRepository = RetrieveRepository;
+        this.RetrieveQueries = RetrieveQueries;
         this.Configuration = Configuration();
     }
 
@@ -38,13 +38,13 @@ define(function () {
                 continue;
             }
 
-            promises.push(self.RetrieveRepository.getAll(dashboardView));
+            promises.push(self.RetrieveQueries.getAll(dashboardView));
         }
 
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', 'RetrieveRepository', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', '$filter', 'RetrieveQueries', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });

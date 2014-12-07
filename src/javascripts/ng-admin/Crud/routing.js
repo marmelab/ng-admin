@@ -27,7 +27,7 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'RetrieveRepository', 'NgAdminConfiguration', function ($stateParams, RetrieveRepository, Configuration) {
+                    data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
                             page = $stateParams.page,
@@ -45,7 +45,7 @@ define(function (require) {
                             filters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return RetrieveRepository.getAll(listView, page, true, query, sortField, sortDir, filters);
+                        return RetrieveQueries.getAll(listView, page, true, query, sortField, sortDir, filters);
                     }]
                 }
             });
@@ -69,20 +69,20 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    rawEntry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
-                        return RetrieveRepository.getOne(view, $stateParams.id);
+                    rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
-                        return RetrieveRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'RetrieveRepository', 'view', 'rawEntry', function ($stateParams, RetrieveRepository, view, rawEntry) {
+                    referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'rawEntry', function ($stateParams, RetrieveQueries, view, rawEntry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return RetrieveRepository.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
+                        return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
                     }],
-                    entry: ['RetrieveRepository', 'rawEntry', 'referencedValues', function(RetrieveRepository, rawEntry, referencedValues) {
-                        return RetrieveRepository.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    entry: ['RetrieveQueries', 'rawEntry', 'referencedValues', function(RetrieveQueries, rawEntry, referencedValues) {
+                        return RetrieveQueries.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });
@@ -110,8 +110,8 @@ define(function (require) {
                         return entry;
 
                     }],
-                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
-                        return RetrieveRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view);
                     }]
                 }
             });
@@ -137,17 +137,17 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    entry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
-                        return RetrieveRepository.getOne(view, $stateParams.id);
+                    entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveRepository', 'view', function (RetrieveRepository, view) {
-                        return RetrieveRepository.getReferencedValues(view);
+                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view);
                     }],
-                    referencedListValues: ['$stateParams', 'RetrieveRepository', 'view', 'entry', function ($stateParams, RetrieveRepository, view, entry) {
+                    referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return RetrieveRepository.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
+                        return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
                     }]
                 }
             });
@@ -170,8 +170,8 @@ define(function (require) {
                         }
                         return view;
                     }],
-                    entry: ['$stateParams', 'RetrieveRepository', 'view', function ($stateParams, RetrieveRepository, view) {
-                        return RetrieveRepository.getOne(view, $stateParams.id);
+                    entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        return RetrieveQueries.getOne(view, $stateParams.id);
                     }]
                 }
             });

@@ -3,10 +3,10 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $location, DeleteRepository, params, view, entry) {
+    var DeleteController = function ($scope, $location, DeleteQueries, params, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
-        this.DeleteRepository = DeleteRepository;
+        this.DeleteQueries = DeleteQueries;
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = view;
@@ -22,7 +22,7 @@ define(function () {
     DeleteController.prototype.deleteOne = function () {
         var self = this;
 
-        this.DeleteRepository.deleteOne(this.view, this.entityId).then(function () {
+        this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
             self.$location.path('/list/' + self.entityLabel);
         });
     };
@@ -34,11 +34,11 @@ define(function () {
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
-        this.DeleteRepository = undefined;
+        this.DeleteQueries = undefined;
         this.view = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'DeleteRepository', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$location', 'DeleteQueries', 'params', 'view', 'entry'];
 
     return DeleteController;
 });
