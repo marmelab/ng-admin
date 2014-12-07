@@ -6,15 +6,15 @@ define(function () {
     /**
      * @param {$q}                 $q
      * @param {$filter}            $filter
-     * @param {ListViewRepository} ListViewRepository
+     * @param {RetrieveQueries}    RetrieveQueries
      * @param {Configuration}      Configuration
      *
      * @constructor
      */
-    function PanelBuilder($q, $filter, ListViewRepository, Configuration) {
+    function PanelBuilder($q, $filter, RetrieveQueries, Configuration) {
         this.$q = $q;
         this.$filter = $filter;
-        this.ListViewRepository = ListViewRepository;
+        this.RetrieveQueries = RetrieveQueries;
         this.Configuration = Configuration();
     }
 
@@ -34,14 +34,17 @@ define(function () {
 
         for (i in dashboards) {
             dashboardView = dashboards[i];
-            if (!dashboardView.isEnabled()) continue;
-            promises.push(self.ListViewRepository.getAll(dashboardView));
+            if (!dashboardView.isEnabled()) {
+                continue;
+            }
+
+            promises.push(self.RetrieveQueries.getAll(dashboardView));
         }
 
         return this.$q.all(promises);
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', 'ListViewRepository', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', '$filter', 'RetrieveQueries', 'NgAdminConfiguration'];
 
     return PanelBuilder;
 });

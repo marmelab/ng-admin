@@ -19,8 +19,10 @@ define(function (require) {
     CrudModule.controller('FormController', require('ng-admin/Crud/form/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
 
-    CrudModule.service('ListViewRepository', require('ng-admin/Crud/repository/ListViewRepository'));
-    CrudModule.service('FormViewRepository', require('ng-admin/Crud/repository/FormViewRepository'));
+    CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
+    CrudModule.service('CreateQueries', require('ng-admin/Crud/repository/CreateQueries'));
+    CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
+    CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
     CrudModule.directive('stringField', require('ng-admin/Crud/field/StringField'));
     CrudModule.directive('passwordField', require('ng-admin/Crud/field/PasswordField'));
