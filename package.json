@@ -1,6 +1,6 @@
 {
   "name": "ng-admin",
-  "version": "0.4.0",
+  "version": "0.5.0-dev",
   "private": false,
   "main": "build/ng-admin.min.js",
   "repository": {
