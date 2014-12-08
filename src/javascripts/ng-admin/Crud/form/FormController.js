@@ -91,7 +91,7 @@ define(function () {
                 self.progression.done();
                 self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
                 self.$location.path('/edit/' + self.entity.name() + '/' + response.identifierValue);
-            });
+            }, self.handleError.bind(self));
     };
 
     /**
@@ -111,7 +111,7 @@ define(function () {
             .then(function () {
                 self.progression.done();
                 self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-            });
+            }, self.handleError.bind(self));
     };
 
     /**
@@ -121,6 +121,21 @@ define(function () {
      */
     FormController.prototype.edit = function (entry) {
         this.$location.path('/edit/' + entry.entityName  + '/' + entry.identifierValue);
+    };
+
+    /**
+     * Handle create or update errors
+     *
+     * @param {Object} response
+     */
+    FormController.prototype.handleError = function (response) {
+        var body = response.data;
+        if (typeof body === 'object') {
+            body = JSON.stringify(body);
+        }
+
+        this.progression.done();
+        this.notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
     };
 
     FormController.prototype.destroy = function () {
