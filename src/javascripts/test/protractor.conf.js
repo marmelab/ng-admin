@@ -9,10 +9,6 @@ exports.config =  {
         { browserName: 'chrome' }
     ],
 
-    onPrepare: function() {
-        //browser.driver.setContext('sauce:job-name=ng-admin')
-    },
-
     jasmineNodeOpts: {
         onComplete: null,
         isVerbose: true,

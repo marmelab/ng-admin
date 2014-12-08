@@ -71,10 +71,6 @@ module.exports = function (grunt) {
                         return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8080/' : 'http://localhost:3000/');
                     },
                 },
-            },
-            server: {
-                src: 'src/javascripts/server-dist.json',
-                dest: 'src/javascripts/server.json'
             }
         },
 
@@ -89,13 +85,6 @@ module.exports = function (grunt) {
         },
 
         json_server: {
-            api: {
-                options: {
-                    port: 3000,
-                    db: 'src/javascripts/server.json',
-                    keepalive: true
-                }
-            },
             stub: {
                 options: {
                     port: 3000,
@@ -135,7 +124,7 @@ module.exports = function (grunt) {
 
         protractor: {
             e2e: {
-                configFile: "src/javascripts/test/protractor.conf.js",
+                configFile: 'src/javascripts/test/protractor.conf.js',
                 keepAlive: true,
                 debug: true
             }
@@ -143,8 +132,7 @@ module.exports = function (grunt) {
 
         concurrent: {
             assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            connect_watch: ['json_server', 'connect::keepalive', 'watch'],
-            config_files: ['copy:config', 'copy:server']
+            connect_watch: ['connect::keepalive', 'watch']
         }
     });
 
@@ -165,11 +153,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma', 'init', 'connect', 'protractor']);
-    grunt.registerTask('test-local', ['karma', 'json_server:stub', 'init', 'build:dev', 'connect', 'protractor']);
+    if (parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0) {
+        grunt.registerTask('test', ['karma']);
+    } else {
+        grunt.registerTask('test', ['karma', 'init', 'connect', 'protractor']);
+    }
+    grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
-    grunt.registerTask('init', ['concurrent:config_files']);
+    grunt.registerTask('init', ['copy:config']);
 
     // register default task
     grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);
