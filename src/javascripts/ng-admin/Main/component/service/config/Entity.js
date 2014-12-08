@@ -8,6 +8,7 @@ define(function (require) {
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
+        MenuView = require('ng-admin/Main/component/service/config/view/MenuView'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         ShowView = require('ng-admin/Main/component/service/config/view/ShowView'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
@@ -19,6 +20,7 @@ define(function (require) {
         label: 'My entity',
         order: null,
         dashboardView: null,
+        menuView: null,
         listView: null,
         showView: null,
         creationView: null,
@@ -70,6 +72,7 @@ define(function (require) {
 
     Entity.prototype.initViews = function() {
         this.config.dashboardView = new DashboardView().setEntity(this);
+        this.config.menuView = new MenuView();
         this.config.listView = new ListView().setEntity(this);
         this.config.showView = new ShowView().setEntity(this);
         this.config.creationView = new CreateView().setEntity(this);

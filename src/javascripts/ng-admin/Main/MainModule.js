@@ -25,6 +25,7 @@ define(function (require) {
     MainModule.constant('ReferenceMany', require('ng-admin/Main/component/service/config/ReferenceMany'));
 
     // Configuration view
+    MainModule.constant('MenuView', require('ng-admin/Main/component/service/config/view/MenuView'));
     MainModule.constant('DashboardView', require('ng-admin/Main/component/service/config/view/DashboardView'));
     MainModule.constant('ListView', require('ng-admin/Main/component/service/config/view/ListView'));
     MainModule.constant('CreateView', require('ng-admin/Main/component/service/config/view/CreateView'));

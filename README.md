@@ -84,6 +84,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
     // customize entities and views
 
+    post.menuView()
+        .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
+
     post.dashboardView()
         .title('Recent posts')
         .order(1) // display the post panel first in the dashboard
@@ -132,6 +135,10 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             .targetEntity(tag) 
             .targetField(new Field('name')) 
         );
+
+    comment.menuView()
+        .order(2) // set the menu position in the sidebar
+        .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
     comment.dashboardView()
         .title('Last comments')
@@ -205,6 +212,10 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     comment.deletionView()
         .title('Deletion confirmation'); // customize the deletion confirmation message
 
+    tag.menuView()
+        .order(3)
+        .icon('<span class="glyphicon glyphicon-tags"></span>');
+
     tag.dashboardView()
         .title('Recent tags')
         .order(3)
@@ -265,7 +276,7 @@ A read-only entity doesn't allow access to the mutation views (editionView, crea
 
 ### View Types
 
-Each entity has 6 views that you can customize:
+Each entity has 7 views that you can customize:
 
 - `listView`:
 - `creationView`
@@ -273,6 +284,7 @@ Each entity has 6 views that you can customize:
 - `showView` (unused by default)
 - `deletionView`
 - `dashboardView`: this is a special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
+- `menuView`: another special view to define the appearance of the entity menu in the sidebar
 
 ### General View Settings
 
@@ -318,6 +330,19 @@ Disable this view. Useful e.g. to hide the panel for one entity in the dashboard
 
 * `order(Number)`
 Define the order of the Dashboard panel for this entity in the dashboard
+
+### menuView Settings
+
+* `icon(String)`
+Override the default icon for the Entity in the sidebar menu. You can use any of Bootstrap's Gmyphicons, or any HTML markup that fits your need.
+
+        post.menuView().icon('<span class="glyphicon glyphicon-file"></span>');
+
+* `order(Integer)`
+Set the menu position in the sidebar. By default, Entities appear in the order in which they were added to the application.
+
+* `disable()`
+Hide the entity from the sidebar.
 
 ### listView Settings
 

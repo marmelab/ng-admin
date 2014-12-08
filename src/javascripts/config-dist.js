@@ -55,8 +55,8 @@
 
         // customize entities and views
 
-        // post.menuView()
-        //     .order(1); // post should be the first item in the sidebar menu
+        post.menuView()
+            .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
 
         post.dashboardView()
             .title('Recent posts')
@@ -115,8 +115,9 @@
                 ])
             );
 
-        // comment.menuView()
-        //     .order(2); // comment should be the second item in the sidebar menu
+        comment.menuView()
+            .order(2) // set the menu position in the sidebar
+            .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
         comment.dashboardView()
             .title('Last comments')
@@ -190,8 +191,9 @@
         comment.deletionView()
             .title('Deletion confirmation'); // customize the deletion confirmation message
 
-        // tag.menuView()
-        //     .order(3);
+        tag.menuView()
+            .order(3)
+            .icon('<span class="glyphicon glyphicon-tags"></span>');
 
         tag.dashboardView()
             .title('Recent tags')

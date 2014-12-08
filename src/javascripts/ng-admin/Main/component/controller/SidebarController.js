@@ -3,15 +3,31 @@
 define(function () {
     'use strict';
 
-    var SidebarController = function ($scope, $location, Configuration) {
+    var SidebarController = function ($scope, $location, $sce, Configuration) {
         this.$scope = $scope;
         this.$location = $location;
-        this.entities = Configuration().getEntities();
-
+        this.$sce = $sce;
+        this.entities = getEntities(Configuration);
         this.computeCurrentEntity();
         $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));
         $scope.$on('$destroy', this.destroy.bind(this));
     };
+
+    function getEntities(Configuration) {
+        var entitiesWithOrder = [];
+        angular.forEach(Configuration().getEntities(), function(entity, index) {
+            if (!entity.menuView().isEnabled()) return;
+            entitiesWithOrder.push({ entity: entity, order: entity.menuView().order() || index });
+        });
+        entitiesWithOrder.sort(function (a, b) {
+            return a.order - b.order;
+        });
+        var entities = [];
+        angular.forEach(entitiesWithOrder, function(entity) {
+            entities.push(entity.entity);
+        });
+        return entities;
+    }
 
     /**
      * Inject the current entity in the controller
@@ -36,12 +52,16 @@ define(function () {
         return this.currentEntity === entity.name();
     };
 
+    SidebarController.prototype.getIconForEntity = function(entity) {
+        return this.$sce.trustAsHtml(entity.menuView().icon());
+    };
+
     SidebarController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
     };
 
-    SidebarController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
+    SidebarController.$inject = ['$scope', '$location', '$sce', 'NgAdminConfiguration'];
 
     return SidebarController;
 });
