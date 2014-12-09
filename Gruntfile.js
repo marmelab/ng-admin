@@ -62,6 +62,15 @@ module.exports = function (grunt) {
             css_dev: {
                 src: 'build/ng-admin.css',
                 dest: 'build/ng-admin.min.css'
+            },
+            config: {
+                src: 'src/javascripts/config-dist.js',
+                dest: 'src/javascripts/config.js',
+                options: {
+                    process: function (content, srcpath) {
+                        return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8080/' : 'http://localhost:3000/');
+                    },
+                },
             }
         },
 
@@ -70,7 +79,17 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000,
                     base: '.',
-                    keepalive: true
+                    keepalive: false
+                }
+            }
+        },
+
+        json_server: {
+            stub: {
+                options: {
+                    port: 3000,
+                    db: 'src/javascripts/test/stub-server.json',
+                    keepalive: false
                 }
             }
         },
@@ -103,9 +122,17 @@ module.exports = function (grunt) {
             }
         },
 
+        protractor: {
+            e2e: {
+                configFile: 'src/javascripts/test/protractor.conf.js',
+                keepAlive: true,
+                debug: true
+            }
+        },
+
         concurrent: {
             assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            connect_watch: ['connect', 'watch']
+            connect_watch: ['connect::keepalive', 'watch']
         }
     });
 
@@ -119,14 +146,22 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma']);
+    if (parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0) {
+        grunt.registerTask('test', ['karma']);
+    } else {
+        grunt.registerTask('test', ['karma', 'init', 'connect', 'protractor']);
+    }
+    grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('init', ['copy:config']);
 
     // register default task
     grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);

@@ -22,16 +22,21 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-uglify": "~0.6.0",
     "grunt-contrib-watch": "~0.5.2",
+    "grunt-json-server": "^0.1.1",
     "grunt-karma": "^0.8.3",
     "grunt-ng-annotate": "^0.4.0",
+    "grunt-protractor-runner": "^1.1.4",
     "jshint-stylish": "~0.1.3",
+    "json-server": "git://github.com/jeromemacias/grunt-json-server.git#1e1d8cb1996cfef1f21d812c6405fdc37d504194",
     "karma": "~0.12.14",
     "karma-chrome-launcher": "^0.1.4",
     "karma-jasmine": "~0.1.5",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-ng-scenario": "~0.1.0",
     "karma-phantomjs-launcher": "^0.1.4",
-    "karma-requirejs": "~0.2.2"
+    "karma-requirejs": "~0.2.2",
+    "protractor": "~1.4.0",
+    "superagent": "^0.18.2"
   },
   "engines": {
     "node": ">=0.10.0"
