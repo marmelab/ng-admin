@@ -35,7 +35,7 @@ define(function () {
 
         var value,
             entry = this.$scope.entry,
-            self = this,
+            $filter = this.$filter,
             fields = this.view.getFields(),
             mappedObject,
             field,
@@ -48,7 +48,7 @@ define(function () {
             field = fields[i];
             value = entry.values[field.name()];
             if (field.type() === 'date') {
-                value = self.$filter('date')(value, field.validation().format);
+                value = $filter('date')(value, field.validation().format);
             }
 
             object[field.name()] = value;
@@ -79,7 +79,10 @@ define(function () {
         }
 
         var object = this.validate(form, $event),
-            self = this;
+            progression = this.progression,
+            notification = this.notification,
+            entity = this.entity,
+            $location = this.$location;
 
         if (!object) {
             return;
@@ -88,10 +91,10 @@ define(function () {
         this.CreateQueries
             .createOne(this.view, object)
             .then(function (response) {
-                self.progression.done();
-                self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-                self.$location.path('/edit/' + self.entity.name() + '/' + response.identifierValue);
-            }, self.handleError.bind(self));
+                progression.done();
+                notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+                $location.path('/edit/' + entity.name() + '/' + response.identifierValue);
+            }, this.handleError.bind(this));
     };
 
     /**
@@ -99,7 +102,8 @@ define(function () {
      * @param {$event} $event
      */
     FormController.prototype.submitEdition = function (form, $event) {
-        var self = this,
+        var progression = this.progression,
+            notification = this.notification,
             object = this.validate(form, $event);
 
         if (!object) {
@@ -109,9 +113,9 @@ define(function () {
         this.UpdateQueries
             .updateOne(this.view, object)
             .then(function () {
-                self.progression.done();
-                self.notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-            }, self.handleError.bind(self));
+                progression.done();
+                notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+            }, this.handleError.bind(this));
     };
 
     /**
