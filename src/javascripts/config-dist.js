@@ -100,7 +100,7 @@
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the action bar
-            .addField(new Field('title'))
+            .addField(new Field('title').validation({"required": true, "maxlength": 100})) // add validation rules for fields
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')
                 .targetEntity(tag)

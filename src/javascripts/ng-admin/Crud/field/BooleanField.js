@@ -3,12 +3,27 @@
 define(function (require) {
     'use strict';
 
-    var booleanFieldView = require('text!./BooleanField.html');
-
+    /**
+     * Edition field for a boolean - a checkbox.
+     *
+     * @example <boolean-field field="field" value="value"></boolean-field>
+     */
     function BooleanField() {
         return {
+            scope: {
+                'field': '&',
+                'value': '='
+            },
             restrict: 'E',
-            template: booleanFieldView
+            link: function($scope) {
+                var field = $scope.field();
+                $scope.fieldClasses = field.getCssClasses();
+                $scope.name = field.name();
+                $scope.v = field.validation();
+            },
+            template: '<input type="checkbox" ng-model="value" '+
+                        'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
+                        'ng-required="v.required"/>'
         };
     }
 

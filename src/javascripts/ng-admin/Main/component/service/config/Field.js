@@ -32,7 +32,7 @@ define(function (require) {
         },
         choices: [],
         defaultValue: null,
-        cssClasses: ['form-control']
+        cssClasses: []
     };
 
     /**
