@@ -21,31 +21,25 @@ define(function () {
     };
 
     DeleteController.prototype.deleteOne = function () {
-        var self = this;
+        var notification = this.notification,
+            $location = this.$location,
+            entityLabel = this.entityLabel;
 
         this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
-            self.$location.path('/list/' + self.entityLabel);
-        }, self.handleError.bind(self));
+            $location.path('/list/' + entityLabel);
+        }, function (response) {
+            // @TODO: share this method when splitting controllers
+            var body = response.data;
+            if (typeof body === 'object') {
+                body = JSON.stringify(body);
+            }
+
+            notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
+        });
     };
 
     DeleteController.prototype.back = function () {
         this.$location.path('/edit/' + this.entityLabel + '/' + this.entityId);
-    };
-
-    /**
-     * @TODO: shard this method when splitting controllers
-     *
-     * Handle create or update errors
-     *
-     * @param {Object} response
-     */
-    DeleteController.prototype.handleError = function (response) {
-        var body = response.data;
-        if (typeof body === 'object') {
-            body = JSON.stringify(body);
-        }
-
-        this.notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
     };
 
     DeleteController.prototype.destroy = function () {
