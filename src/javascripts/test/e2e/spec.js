@@ -6,8 +6,8 @@ describe('ng-admin', function() {
             $$('.nav li').then(function (items) {
                 expect(items.length).toBe(3);
                 expect(items[0].getText()).toBe('Posts');
-                expect(items[1].getText()).toBe('Tags');
-                expect(items[2].getText()).toBe('Comments');
+                expect(items[1].getText()).toBe('✉ Comments');
+                expect(items[2].getText()).toBe('Tags');
             });
         });
 
