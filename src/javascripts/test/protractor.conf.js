@@ -6,7 +6,12 @@ exports.config =  {
     baseUrl: 'http://' + (process.env.CI ? 'ngadmin' : 'localhost') + ':8000',
     maxSessions: 1,
     multiCapabilities: [
-        { browserName: 'chrome' }
+        {
+            browserName: 'chrome',
+            build: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : null,
+            'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER ? process.env.TRAVIS_JOB_NUMBER : null,
+            name: 'ng-admin'
+        }
     ],
 
     jasmineNodeOpts: {
