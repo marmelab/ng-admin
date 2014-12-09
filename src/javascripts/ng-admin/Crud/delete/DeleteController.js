@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $location, DeleteQueries, params, view, entry) {
+    var DeleteController = function ($scope, $location, DeleteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
         this.DeleteQueries = DeleteQueries;
@@ -13,6 +13,7 @@ define(function () {
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
+        this.notification = notification;
 
         this.$scope.entry = entry;
         this.$scope.view = view;
@@ -20,10 +21,20 @@ define(function () {
     };
 
     DeleteController.prototype.deleteOne = function () {
-        var self = this;
+        var notification = this.notification,
+            $location = this.$location,
+            entityLabel = this.entityLabel;
 
         this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
-            self.$location.path('/list/' + self.entityLabel);
+            $location.path('/list/' + entityLabel);
+        }, function (response) {
+            // @TODO: share this method when splitting controllers
+            var body = response.data;
+            if (typeof body === 'object') {
+                body = JSON.stringify(body);
+            }
+
+            notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
         });
     };
 
@@ -38,7 +49,7 @@ define(function () {
         this.view = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'DeleteQueries', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$location', 'DeleteQueries', 'notification', 'params', 'view', 'entry'];
 
     return DeleteController;
 });
