@@ -4,13 +4,14 @@ define(function (require) {
     'use strict';
 
     /**
-     * Edition field for a multiline string - a textarea.
+     * Generic edition field
      *
-     * @example <text-field field="field" value="value"></text-field>
+     * @example <ma-input-field type="text" field="field" value="value"></ma-input-field>
      */
-    function TextField() {
+    function maInputField() {
         return {
             scope: {
+                'type': '@',
                 'field': '&',
                 'value': '='
             },
@@ -26,15 +27,15 @@ define(function (require) {
                     input[name] = attributes[name];
                 }
             },
-            template: 
-'<textarea ng-model="value" ' +
+            template:
+'<input type="{{ type || text }}" ng-model="value" ' +
     'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' + 
     'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength">' +
-'</textarea>'
+'</type>'
         };
     }
 
-    TextField.$inject = [];
+    maInputField.$inject = [];
 
-    return TextField;
+    return maInputField;
 });

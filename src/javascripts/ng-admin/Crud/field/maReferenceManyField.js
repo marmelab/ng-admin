@@ -22,7 +22,7 @@ define(function (require) {
         return false;
     };
 
-    function ReferenceManyFieldDirective() {
+    function maReferenceManyFieldDirective() {
         return {
             restrict: 'E',
             template: referenceManyFieldView,
@@ -34,7 +34,7 @@ define(function (require) {
         };
     }
 
-    ReferenceManyFieldDirective.$inject = [];
+    maReferenceManyFieldDirective.$inject = [];
 
-    return ReferenceManyFieldDirective;
+    return maReferenceManyFieldDirective;
 });

@@ -6,9 +6,9 @@ define(function (require) {
     /**
      * Edition field for a date - a text input with a datepicker.
      *
-     * @example <date-field field="field" value="value"></date-field>
+     * @example <ma-date-field field="field" value="value"></ma-date-field>
      */
-    function DateField() {
+    function maDateField() {
         return {
             scope: {
                 'field': '&',
@@ -46,7 +46,7 @@ define(function (require) {
         };
     }
 
-    DateField.$inject = [];
+    maDateField.$inject = [];
 
-    return DateField;
+    return maDateField;
 });

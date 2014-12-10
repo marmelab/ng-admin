@@ -3,55 +3,53 @@
 define(function (require) {
     'use strict';
 
-    describe('directive: text-field', function() {
-        var directive = require('ng-admin/Crud/field/TextField');
+    describe('directive: date-field', function() {
+        var directive = require('ng-admin/Crud/field/maDateField');
         var Field = require('ng-admin/Main/component/service/config/Field');
-        angular.module('testapp_TextField', []).directive('textField', directive);
+        angular.module('testapp_DateField', []).directive('maDateField', directive);
         require('angular-mocks');
 
         var $compile,
             scope,
-            directiveUsage = '<text-field type="{{ type }}" field="field" value="value"></text-field>';
+            directiveUsage = '<ma-date-field type="{{ type }}" field="field" value="value"></ma-date-field>';
 
-        beforeEach(module('testapp_TextField'));
+        beforeEach(module('testapp_DateField'));
 
         beforeEach(inject(function(_$compile_, _$rootScope_){
             $compile = _$compile_;
             scope = _$rootScope_;
         }));
 
-        it("should contain a textarea tag", function() {
+        it("should contain an input tag", function() {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.children()[0].nodeName).toBe('TEXTAREA');
+            expect(element.find('input').eq(0).attr('type')).toBe('text');
         });
 
         it("should add any supplied attribute", function() {
-            scope.field = new Field().attributes({ placeholder: 'fill me!' });
+            scope.field = new Field().attributes({ placeholder: 'here the date' });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.children()[0].placeholder).toEqual('fill me!');
+            expect(element.find('input').eq(0).attr('placeholder')).toEqual('here the date');
         });
 
         it("should contain the field classes", function() {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            var classList = element.children()[0].classList;
-            expect(classList.contains('foo')).toBeTruthy();
-            expect(classList.contains('bar')).toBeTruthy();
+            var input = element.find('input').eq(0);
+            expect(input.hasClass('foo')).toBeTruthy();
+            expect(input.hasClass('bar')).toBeTruthy();
         });
 
         it("should contain the bounded value", function() {
             scope.field = new Field();
-            scope.value= "foobar";
+            var now = new Date();
+            scope.value = now;
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.find('textarea').val()).toBe('foobar');
-            scope.value= "baz";
-            scope.$digest();
-            expect(element.find('textarea').val()).toBe('baz');
+            expect(element.find('input').eq(0).val()).toBe(now.toString());
         });
 
     });

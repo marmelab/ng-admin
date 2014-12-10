@@ -4,14 +4,13 @@ define(function (require) {
     'use strict';
 
     /**
-     * Generic edition field
+     * Edition field for a number - a number input.
      *
-     * @example <input-field type="text" field="field" value="value"></input-field>
+     * @example <ma-number-field field="field" value="value"></ma-number-field>
      */
-    function InputField() {
+    function maNumberField() {
         return {
             scope: {
-                'type': '@',
                 'field': '&',
                 'value': '='
             },
@@ -20,22 +19,22 @@ define(function (require) {
                 var field = scope.field();
                 scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
+                scope.a = field.attributes();
                 scope.v = field.validation();
-                var input = element.children()[0];
                 var attributes = field.attributes();
+                var input = element.children()[0];
                 for (var name in attributes) {
                     input[name] = attributes[name];
                 }
             },
-            template:
-'<input type="{{ type || text }}" ng-model="value" ' +
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' + 
-    'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength">' +
-'</type>'
+            template: 
+'<input type="number" ng-model="value" '+
+    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
+    'ng-required="v.required" max="{{ v.max }}" min="{{ v.min }}" />'
         };
     }
 
-    InputField.$inject = [];
+    maNumberField.$inject = [];
 
-    return InputField;
+    return maNumberField;
 });

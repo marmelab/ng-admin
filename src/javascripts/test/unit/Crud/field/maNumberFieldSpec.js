@@ -3,44 +3,48 @@
 define(function (require) {
     'use strict';
 
-    describe('directive: input-field', function() {
-        var directive = require('ng-admin/Crud/field/InputField');
+    describe('directive: number-field', function() {
+        var directive = require('ng-admin/Crud/field/maNumberField');
         var Field = require('ng-admin/Main/component/service/config/Field');
-        angular.module('testapp_InputField', []).directive('inputField', directive);
+        angular.module('testapp_NumberField', []).directive('maNumberField', directive);
         require('angular-mocks');
 
         var $compile,
             scope,
-            directiveUsage = '<input-field type="{{ type }}" field="field" value="value"></input-field>';
+            directiveUsage = '<ma-number-field field="field" value="value"></ma-number-field>';
 
-        beforeEach(module('testapp_InputField'));
+        beforeEach(module('testapp_NumberField'));
 
         beforeEach(inject(function(_$compile_, _$rootScope_){
             $compile = _$compile_;
             scope = _$rootScope_;
         }));
 
-        it("should contain an input tag", function() {
+        it("should contain an input tag of type number", function() {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.children()[0].nodeName).toBe('INPUT');
-            expect(element.children()[0].type).toBe('text');
-        });
-
-        it("should use the passed type", function() {
-            scope.field = new Field();
-            scope.type = "checkbox";
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            expect(element.children()[0].type).toBe('checkbox');
+            var input = element.children()[0];
+            expect(input.nodeName).toBe('INPUT');
+            expect(input.type).toBe('number');
+            expect(input.max).toEqual('');
+            expect(input.min).toEqual('');
         });
 
         it("should add any supplied attribute", function() {
-            scope.field = new Field().attributes({ autocomplete: 'off' });
+            scope.field = new Field().attributes({ step: 2 });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.children()[0].autocomplete).toEqual('off');
+            expect(element.children()[0].step).toEqual('2');
+        });
+
+        it("should use the field min and max validation", function() {
+            scope.field = new Field().validation({ min: -2, max: 2 });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            var input = element.children()[0];
+            expect(input.min).toEqual('-2');
+            expect(input.max).toEqual('2');
         });
 
         it("should contain the field classes", function() {
@@ -54,13 +58,13 @@ define(function (require) {
 
         it("should contain the bounded value", function() {
             scope.field = new Field();
-            scope.value= "foobar";
+            scope.value= 12;
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.find('input').val()).toBe('foobar');
-            scope.value= "baz";
+            expect(element.find('input').val()).toEqual('12');
+            scope.value= 43;
             scope.$digest();
-            expect(element.find('input').val()).toBe('baz');
+            expect(element.find('input').val()).toEqual('43');
         });
 
     });

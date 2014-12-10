@@ -4,11 +4,11 @@ define(function (require) {
     'use strict';
 
     /**
-     * Edition field for a number - a number input.
+     * Edition field for a multiline string - a textarea.
      *
-     * @example <number-field field="field" value="value"></number-field>
+     * @example <ma-text-field field="field" value="value"></ma-text-field>
      */
-    function NumberField() {
+    function maTextField() {
         return {
             scope: {
                 'field': '&',
@@ -19,22 +19,22 @@ define(function (require) {
                 var field = scope.field();
                 scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
-                scope.a = field.attributes();
                 scope.v = field.validation();
-                var attributes = field.attributes();
                 var input = element.children()[0];
+                var attributes = field.attributes();
                 for (var name in attributes) {
                     input[name] = attributes[name];
                 }
             },
             template: 
-'<input type="number" ng-model="value" '+
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-    'ng-required="v.required" max="{{ v.max }}" min="{{ v.min }}" />'
+'<textarea ng-model="value" ' +
+    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' + 
+    'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength">' +
+'</textarea>'
         };
     }
 
-    NumberField.$inject = [];
+    maTextField.$inject = [];
 
-    return NumberField;
+    return maTextField;
 });

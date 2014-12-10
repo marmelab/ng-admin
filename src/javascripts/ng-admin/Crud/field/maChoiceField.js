@@ -4,11 +4,11 @@ define(function (require) {
     'use strict';
 
     /**
-     * Edition field for a selection of elements in a list - a multiple select.
+     * Edition field for an element in a list - a select.
      *
-     * @example <choices-field field="field" value="value"></choices-field>
+     * @example <ma-choice-field field="field" value="value"></ma-choice-field>
      */
-    function ChoicesField() {
+    function maChoiceField() {
         return {
             scope: {
                 'field': '&',
@@ -23,15 +23,17 @@ define(function (require) {
                 $scope.v = field.validation();
             },
             template: 
-'<select multiple ng-model="value" '+
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-    'ng-options="option as option for option in choices" ' +
-    'ng-required="v.required">' +
+'<select ng-model="value" ng-required="v.required" ' +
+  'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"> '+
+  '<option ng-if="!v.required">-- select a value --</option>' +
+  '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
+    '{{ choice.label }}' +
+  '</option>' +
 '</select>'
         };
     }
 
-    ChoicesField.$inject = [];
+    maChoiceField.$inject = [];
 
-    return ChoicesField;
+    return maChoiceField;
 });

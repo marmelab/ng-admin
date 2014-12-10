@@ -6,9 +6,9 @@ define(function (require) {
     /**
      * Edition field for a multiline HTML string - a rich text editor.
      *
-     * @example <wysiwyg-field field="field" value="value"></wysiwyg-field>
+     * @example <ma-wysiwyg-field field="field" value="value"></ma-wysiwyg-field>
      */
-    function WysiwygField() {
+    function maWysiwygField() {
         return {
             scope: {
                 'field': '&',
@@ -28,7 +28,7 @@ define(function (require) {
         };
     }
 
-    WysiwygField.$inject = [];
+    maWysiwygField.$inject = [];
 
-    return WysiwygField;
+    return maWysiwygField;
 });

@@ -5,7 +5,7 @@ define(function (require) {
 
     var referenceFieldView = require('text!./ReferenceField.html');
 
-    function ReferenceField() {
+    function maReferenceField() {
         return {
             restrict: 'E',
             template: referenceFieldView,
@@ -15,7 +15,7 @@ define(function (require) {
         };
     }
 
-    ReferenceField.$inject = [];
+    maReferenceField.$inject = [];
 
-    return ReferenceField;
+    return maReferenceField;
 });

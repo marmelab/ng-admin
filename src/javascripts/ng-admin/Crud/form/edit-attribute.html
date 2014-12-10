@@ -4,29 +4,29 @@
     </label>
 
     <div class="col-sm-10" ng-if="field.editable()" ng-switch="field.type()">
-        <input-field ng-switch-when="string" field="field" value="entry.values[field.name()]"></input-field>
+        <ma-input-field ng-switch-when="string" field="field" value="entry.values[field.name()]"></ma-input-field>
 
-        <input-field ng-switch-when="password" type="password" field="field" value="entry.values[field.name()]"></input-field>
+        <ma-input-field ng-switch-when="password" type="password" field="field" value="entry.values[field.name()]"></ma-input-field>
 
-        <input-field ng-switch-when="email" type="email" field="field" value="entry.values[field.name()]"></input-field>
+        <ma-input-field ng-switch-when="email" type="email" field="field" value="entry.values[field.name()]"></ma-input-field>
 
-        <input-field ng-switch-when="boolean" type="checkbox" field="field" value="entry.values[field.name()]"></input-field>
+        <ma-input-field ng-switch-when="boolean" type="checkbox" field="field" value="entry.values[field.name()]"></ma-input-field>
 
-        <text-field ng-switch-when="text" field="field" value="entry.values[field.name()]"></text-field>
+        <ma-text-field ng-switch-when="text" field="field" value="entry.values[field.name()]"></ma-text-field>
 
-        <number-field ng-switch-when="number" field="field" value="entry.values[field.name()]"></number-field>
+        <ma-number-field ng-switch-when="number" field="field" value="entry.values[field.name()]"></ma-number-field>
 
-        <date-field ng-switch-when="date" field="field" value="entry.values[field.name()]"></date-field>
+        <ma-date-field ng-switch-when="date" field="field" value="entry.values[field.name()]"></ma-date-field>
 
-        <choice-field ng-switch-when="choice" field="field" value="entry.values[field.name()]"></choice-field>
+        <ma-choice-field ng-switch-when="choice" field="field" value="entry.values[field.name()]"></ma-choice-field>
 
-        <reference-field ng-switch-when="Reference"></reference-field>
+        <ma-reference-field ng-switch-when="Reference"></ma-reference-field>
 
-        <reference-many-field ng-switch-when="ReferenceMany"></reference-many-field>
+        <ma-reference-many-field ng-switch-when="ReferenceMany"></ma-reference-many-field>
 
         <datagrid ng-switch-when="ReferencedList" ng-init="view=field.getReferencedView();columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
 
-        <wysiwyg-field ng-switch-when="wysiwyg" field="field" value="entry.values[field.name()]"></wysiwyg-field>
+        <ma-wysiwyg-field ng-switch-when="wysiwyg" field="field" value="entry.values[field.name()]"></ma-wysiwyg-field>
 
         <template-field ng-switch-when="template"></template-field>
 
