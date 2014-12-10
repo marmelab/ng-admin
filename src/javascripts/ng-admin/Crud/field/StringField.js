@@ -15,15 +15,7 @@ define(function (require) {
                 'value': '='
             },
             restrict: 'E',
-            link: function($scope) {
-                var field = $scope.field();
-                $scope.fieldClasses = field.getCssClasses();
-                $scope.name = field.name();
-                $scope.v = field.validation();
-            },
-            template: '<input type="text" ng-model="value" ' +
-                        'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' + 
-                        'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength"/>'
+            template: '<input-field type="text" field="field()" value="value"></input-field>'
         };
     }
 

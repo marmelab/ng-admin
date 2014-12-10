@@ -21,9 +21,7 @@ define(function (require) {
                 $scope.name = field.name();
                 $scope.v = field.validation();
             },
-            template: '<input type="checkbox" ng-model="value" '+
-                        'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-                        'ng-required="v.required"/>'
+            template: '<input-field type="checkbox" field="field()" value="value"></input-field>'
         };
     }
 

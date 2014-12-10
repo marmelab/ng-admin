@@ -3,15 +3,16 @@
 define(function (require) {
     'use strict';
 
-    require('angular-mocks');
-    var Field = require('ng-admin/Main/component/service/config/Field');
-
     describe('directive: string-field', function() {
-        var $compile,
-            scope;
-        var directiveUsage = '<string-field field="field" value="value"></string-field>';
+        var Field = require('ng-admin/Main/component/service/config/Field');
+        var testapp = angular.module('testapp', []);
+        testapp.directive('inputField', require('ng-admin/Crud/field/InputField'));
+        testapp.directive('stringField', require('ng-admin/Crud/field/StringField'));
+        require('angular-mocks');
 
-        angular.module('testapp', []).directive('stringField', require('ng-admin/Crud/field/StringField'));
+        var $compile,
+            scope,
+            directiveUsage = '<string-field field="field" value="value"></string-field>';
 
         beforeEach(module('testapp'));
 
