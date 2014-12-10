@@ -15,7 +15,6 @@ define(function (require) {
                 'field': '&',
                 'value': '='
             },
-            replace: true,
             restrict: 'E',
             link: function($scope) {
                 var field = $scope.field();
@@ -23,7 +22,7 @@ define(function (require) {
                 $scope.name = field.name();
                 $scope.v = field.validation();
             },
-            template: '<input type="{{ type }}" ng-model="value" ' +
+            template: '<input type="{{ type || text }}" ng-model="value" ' +
                         'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' + 
                         'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength">' +
                       '</type>'

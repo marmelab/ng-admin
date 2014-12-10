@@ -3,16 +3,15 @@
 define(function (require) {
     'use strict';
 
-    describe('directive: string-field', function() {
+    describe('directive: input-field', function() {
+        var directive = require('ng-admin/Crud/field/InputField');
         var Field = require('ng-admin/Main/component/service/config/Field');
-        var testapp = angular.module('testapp', []);
-        testapp.directive('inputField', require('ng-admin/Crud/field/InputField'));
-        testapp.directive('stringField', require('ng-admin/Crud/field/StringField'));
+        angular.module('testapp', []).directive('inputField', directive);
         require('angular-mocks');
 
         var $compile,
             scope,
-            directiveUsage = '<string-field field="field" value="value"></string-field>';
+            directiveUsage = '<input-field type="{{ type }}" field="field" value="value"></input-field>';
 
         beforeEach(module('testapp'));
 
@@ -21,12 +20,20 @@ define(function (require) {
             scope = _$rootScope_;
         }));
 
-        it("should contain an input tag of type text", function() {
+        it("should contain an input tag", function() {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].nodeName).toBe('INPUT');
             expect(element.children()[0].type).toBe('text');
+        });
+
+        it("should use the passed type", function() {
+            scope.field = new Field();
+            scope.type = "checkbox";
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            expect(element.children()[0].type).toBe('checkbox');
         });
 
         it("should contain the field classes", function() {

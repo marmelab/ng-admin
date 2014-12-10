@@ -25,13 +25,9 @@ define(function (require) {
     CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
     CrudModule.directive('inputField', require('ng-admin/Crud/field/InputField'));
-    CrudModule.directive('stringField', require('ng-admin/Crud/field/StringField'));
-    CrudModule.directive('passwordField', require('ng-admin/Crud/field/PasswordField'));
-    CrudModule.directive('emailField', require('ng-admin/Crud/field/EmailField'));
     CrudModule.directive('textField', require('ng-admin/Crud/field/TextField'));
     CrudModule.directive('numberField', require('ng-admin/Crud/field/NumberField'));
     CrudModule.directive('dateField', require('ng-admin/Crud/field/DateField'));
-    CrudModule.directive('booleanField', require('ng-admin/Crud/field/BooleanField'));
     CrudModule.directive('choiceField', require('ng-admin/Crud/field/ChoiceField'));
     CrudModule.directive('choicesField', require('ng-admin/Crud/field/ChoicesField'));
     CrudModule.directive('referenceField', require('ng-admin/Crud/field/ReferenceField'));

@@ -4,19 +4,19 @@
     </label>
 
     <div class="col-sm-10" ng-if="field.editable()" ng-switch="field.type()">
-        <string-field ng-switch-when="string" field="field" value="entry.values[field.name()]"></string-field>
+        <input-field ng-switch-when="string" field="field" value="entry.values[field.name()]"></input-field>
 
-        <password-field ng-switch-when="password" field="field" value="entry.values[field.name()]"></password-field>
+        <input-field ng-switch-when="password" type="password" field="field" value="entry.values[field.name()]"></input-field>
+
+        <input-field ng-switch-when="email" type="email" field="field" value="entry.values[field.name()]"></input-field>
+
+        <input-field ng-switch-when="boolean" type="checkbox" field="field" value="entry.values[field.name()]"></input-field>
 
         <text-field ng-switch-when="text" field="field" value="entry.values[field.name()]"></text-field>
-
-        <email-field ng-switch-when="email" field="field" value="entry.values[field.name()]"></email-field>
 
         <number-field ng-switch-when="number" field="field" value="entry.values[field.name()]"></number-field>
 
         <date-field ng-switch-when="date" field="field" value="entry.values[field.name()]"></date-field>
-
-        <boolean-field ng-switch-when="boolean" field="field" value="entry.values[field.name()]"></boolean-field>
 
         <choice-field ng-switch-when="choice" field="field" value="entry.values[field.name()]"></choice-field>
 
