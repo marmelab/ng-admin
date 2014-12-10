@@ -19,12 +19,13 @@ define(function (require) {
                 var field = $scope.field();
                 $scope.fieldClasses = field.getCssClasses();
                 $scope.name = field.name();
+                $scope.a = field.attributes();
                 $scope.v = field.validation();
             },
             template: '<input type="number" ng-model="value" '+
                         'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-                        'step="{{ v.step || \'any\' }}" max="{{ v.max }}" ' +
-                        'ng-required="v.required"/>'
+                        'step="{{ a.step || \'any\' }}" ' +
+                        'ng-required="v.required" max="{{ v.max }}" min="{{ v.min }}" />'
         };
     }
 

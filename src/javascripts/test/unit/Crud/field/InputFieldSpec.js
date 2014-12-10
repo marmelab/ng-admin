@@ -6,14 +6,14 @@ define(function (require) {
     describe('directive: input-field', function() {
         var directive = require('ng-admin/Crud/field/InputField');
         var Field = require('ng-admin/Main/component/service/config/Field');
-        angular.module('testapp', []).directive('inputField', directive);
+        angular.module('testapp_InputField', []).directive('inputField', directive);
         require('angular-mocks');
 
         var $compile,
             scope,
             directiveUsage = '<input-field type="{{ type }}" field="field" value="value"></input-field>';
 
-        beforeEach(module('testapp'));
+        beforeEach(module('testapp_InputField'));
 
         beforeEach(inject(function(_$compile_, _$rootScope_){
             $compile = _$compile_;

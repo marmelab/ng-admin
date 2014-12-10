@@ -32,6 +32,7 @@ define(function (require) {
         },
         choices: [],
         defaultValue: null,
+        attributes: {},
         cssClasses: []
     };
 
@@ -96,6 +97,23 @@ define(function (require) {
                 delete this.config.validation[property];
             } else {
                 this.config.validation[property] = obj[property];
+            }
+        }
+        return this;
+    };
+
+    Field.prototype.attributes = function (obj) {
+        if (!arguments.length) {
+            // getter
+            return this.config.attributes;
+        }
+        // setter
+        for (var property in obj) {
+            if (!obj.hasOwnProperty(property)) continue;
+            if (obj[property] === null) {
+                delete this.config.attributes[property];
+            } else {
+                this.config.attributes[property] = obj[property];
             }
         }
         return this;
