@@ -580,23 +580,43 @@ Define the field name used to link the referenced entity.
            .targetField(new Field('name')) // Label Field to display in the list
         )
 
-## Build
+## Development
+
+### Install dependencies
+
+Install bower and npm dependencies (for tests) wi calling the `install` target:
+
+```sh
+make install
+```
+
+### Run the example app
+
+To test your changes, run the example app, which is bundled with a sample REST api, by calling:
+
+```sh
+make run
+```
+
+Then, connect to `http://localhost:8000/` to browse the admin app.
+
+### Build
 
 Concatenate and minify the app with:
 
 ```sh
-grunt build
-```
-
-## Tests
-
-Tests are launched with karma by grunt:
-
-```
-grunt test
+make build
 ```
 
 A new `build/ng-admin.min.js` file will be created.
+
+### Tests
+
+ng-admin has unit tests (powered by karma) and end to end tests (powered by protractor). Launch the entire tests suite by calling:
+
+```
+make test
+```
 
 ## Contributing
 

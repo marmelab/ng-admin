@@ -164,5 +164,5 @@ module.exports = function (grunt) {
     grunt.registerTask('init', ['copy:config']);
 
     // register default task
-    grunt.registerTask('default', ['build:dev', 'concurrent:connect_watch']);
+    grunt.registerTask('default', ['build:dev', 'json_server', 'concurrent:connect_watch']);
 };
