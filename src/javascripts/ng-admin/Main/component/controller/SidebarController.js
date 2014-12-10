@@ -15,9 +15,11 @@ define(function () {
 
     function getEntities(Configuration) {
         var entitiesWithOrder = [];
-        angular.forEach(Configuration().getEntities(), function(entity, index) {
+        var index = 0;
+        angular.forEach(Configuration().getEntities(), function(entity) {
             if (!entity.menuView().isEnabled()) return;
             entitiesWithOrder.push({ entity: entity, order: entity.menuView().order() || index });
+            index++;
         });
         entitiesWithOrder.sort(function (a, b) {
             return a.order - b.order;
