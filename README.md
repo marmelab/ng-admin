@@ -478,7 +478,14 @@ Tell how to validate the view
  - `validator`: function(value){}
  - `min-length`: number
  - `max-length`: number
- 
+
+* `attributes(object)`
+A list of attributes to be added to the corresponding field.
+
+        editView.addField(new Field('title')
+            .attributes({ placeholder: 'fill me !'})
+        );
+
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
 

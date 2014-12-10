@@ -36,6 +36,13 @@ define(function (require) {
             expect(element.children()[0].type).toBe('checkbox');
         });
 
+        it("should add any supplied attribute", function() {
+            scope.field = new Field().attributes({ autocomplete: 'off' });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            expect(element.children()[0].autocomplete).toEqual('off');
+        });
+
         it("should contain the field classes", function() {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);

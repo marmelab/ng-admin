@@ -22,11 +22,12 @@ define(function (require) {
                 $scope.choices = field.choices();
                 $scope.v = field.validation();
             },
-            template: '<select multiple ng-model="value" '+
-                        'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-                        'ng-options="option as option for option in choices" ' +
-                        'ng-required="v.required">' +
-                      '</select>'
+            template: 
+'<select multiple ng-model="value" '+
+    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
+    'ng-options="option as option for option in choices" ' +
+    'ng-required="v.required">' +
+'</select>'
         };
     }
 

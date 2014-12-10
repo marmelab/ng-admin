@@ -22,13 +22,14 @@ define(function (require) {
                 $scope.choices = field.choices();
                 $scope.v = field.validation();
             },
-            template: '<select ng-model="value" ng-required="v.required" ' +
-                        'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"> '+
-                          '<option ng-if="!v.required">-- select a value --</option>' +
-                          '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
-                            '{{ choice.label }}' +
-                          '</option>' +
-                       '</select>'
+            template: 
+'<select ng-model="value" ng-required="v.required" ' +
+  'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"> '+
+  '<option ng-if="!v.required">-- select a value --</option>' +
+  '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
+    '{{ choice.label }}' +
+  '</option>' +
+'</select>'
         };
     }
 
