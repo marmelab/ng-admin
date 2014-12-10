@@ -12,5 +12,7 @@ node_js:
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - gem update --system
+  - gem install compass
   - "npm install -g grunt-cli bower"
   - "make"

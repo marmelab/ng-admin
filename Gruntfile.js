@@ -156,7 +156,7 @@ module.exports = function (grunt) {
     if (parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0) {
         grunt.registerTask('test', ['karma']);
     } else {
-        grunt.registerTask('test', ['karma', 'init', 'connect', 'protractor']);
+        grunt.registerTask('test', ['karma', 'init', 'build', 'connect', 'protractor']);
     }
     grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
