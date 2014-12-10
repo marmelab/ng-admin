@@ -79,7 +79,8 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000,
                     base: '.',
-                    keepalive: false
+                    keepalive: false,
+                    livereload: true
                 }
             }
         },
@@ -106,11 +107,19 @@ module.exports = function (grunt) {
             },
             javascripts: {
                 files: ['src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['requirejs:dev']
+                tasks: ['requirejs:dev'],
+                options: {
+                    atBegin: true,
+                    livereload: true
+                }
             },
             sass: {
                 files: ['src/sass/*.scss'],
-                tasks: ['build:dev']
+                tasks: ['compass:dev', 'copy:css_dev', 'concat:css'],
+                options: {
+                    atBegin: true,
+                    livereload: true
+                }
             }
         },
 
@@ -128,12 +137,8 @@ module.exports = function (grunt) {
                 keepAlive: true,
                 debug: true
             }
-        },
-
-        concurrent: {
-            assets_all_dev: ['requirejs:dev', 'compass:dev'],
-            connect_watch: ['connect::keepalive', 'watch']
         }
+
     });
 
     // load npm tasks
@@ -149,7 +154,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-protractor-runner');
     grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-ng-annotate');
-    grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
@@ -159,10 +163,10 @@ module.exports = function (grunt) {
         grunt.registerTask('test', ['karma', 'init', 'build', 'connect', 'protractor']);
     }
     grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
-    grunt.registerTask('build:dev', ['concurrent:assets_all_dev', 'copy:css_dev', 'concat:css', 'clean']);
+    grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
     grunt.registerTask('init', ['copy:config']);
 
     // register default task
-    grunt.registerTask('default', ['build:dev', 'json_server', 'concurrent:connect_watch']);
+    grunt.registerTask('default', ['json_server', 'connect', 'watch']);
 };
