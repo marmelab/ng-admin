@@ -15,17 +15,22 @@ define(function (require) {
                 'value': '='
             },
             restrict: 'E',
-            link: function($scope) {
-                var field = $scope.field();
-                $scope.fieldClasses = field.getCssClasses();
-                $scope.name = field.name();
-                $scope.choices = field.choices();
-                $scope.v = field.validation();
+            link: function(scope, element) {
+                var field = scope.field();
+                scope.fieldClasses = field.getCssClasses();
+                scope.name = field.name();
+                scope.choices = field.choices();
+                scope.v = field.validation();
+                var select = element.children()[0];
+                var attributes = field.attributes();
+                for (var name in attributes) {
+                    select[name] = attributes[name];
+                }
             },
             template: 
 '<select ng-model="value" ng-required="v.required" ' +
-  'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"> '+
-  '<option ng-if="!v.required">-- select a value --</option>' +
+  'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control">'+
+  '<option ng-if="!v.required" value="" ng-selected="!value">-- select a value --</option>' +
   '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
     '{{ choice.label }}' +
   '</option>' +

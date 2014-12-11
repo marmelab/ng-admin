@@ -11,7 +11,7 @@ define(function (require) {
 
         var $compile,
             scope,
-            directiveUsage = '<ma-text-field type="{{ type }}" field="field" value="value"></ma-text-field>';
+            directiveUsage = '<ma-text-field field="field" value="value"></ma-text-field>';
 
         beforeEach(module('testapp_TextField'));
 

@@ -11,7 +11,7 @@ define(function (require) {
 
         var $compile,
             scope,
-            directiveUsage = '<ma-date-field type="{{ type }}" field="field" value="value"></ma-date-field>';
+            directiveUsage = '<ma-date-field field="field" value="value"></ma-date-field>';
 
         beforeEach(module('testapp_DateField'));
 
