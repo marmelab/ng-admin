@@ -28,8 +28,6 @@ define(function (require) {
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
     CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
-    CrudModule.directive('maReferenceField', require('ng-admin/Crud/field/maReferenceField'));
-    CrudModule.directive('maReferenceManyField', require('ng-admin/Crud/field/maReferenceManyField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));

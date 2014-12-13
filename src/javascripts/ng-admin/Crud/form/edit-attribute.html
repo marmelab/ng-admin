@@ -20,9 +20,11 @@
 
         <ma-choice-field ng-switch-when="choice" field="field" value="entry.values[field.name()]"></ma-choice-field>
 
-        <ma-reference-field ng-switch-when="Reference"></ma-reference-field>
+        <ma-choice-field ng-switch-when="Reference" field="field" value="entry.values[field.name()]"></ma-choice-field>
 
-        <ma-reference-many-field ng-switch-when="ReferenceMany"></ma-reference-many-field>
+        <ma-choices-field ng-switch-when="choices" field="field" value="entry.values[field.name()]"></ma-choices-field>
+
+        <ma-choices-field ng-switch-when="ReferenceMany" field="field" value="entry.values[field.name()]"></ma-choices-field>
 
         <datagrid ng-switch-when="ReferencedList" ng-init="view=field.getReferencedView();columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
 

@@ -62,11 +62,11 @@ define(function (require) {
     };
 
     /**
-     * Returns all choices for a Reference from values : [{id: targetIdentifier, value: targetLabel}]
+     * Returns all choices for a Reference from values : [{value: targetIdentifier, label: targetLabel}]
      *
      * @returns {Array}
      */
-    Reference.prototype.getChoices = function () {
+    Reference.prototype.choices = function () {
         var results = [],
             entry,
             targetEntity = this.targetEntity(),
@@ -80,8 +80,8 @@ define(function (require) {
             entry = this.entries[i];
 
             results.push({
-                id: entry[targetIdentifier],
-                value: getMappedValue(entry[targetLabel], entry)
+                value: entry[targetIdentifier],
+                label: getMappedValue(entry[targetLabel], entry)
             });
         }
 

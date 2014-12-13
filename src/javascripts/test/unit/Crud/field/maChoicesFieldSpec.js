@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    ddescribe('directive: choices-field', function() {
+    describe('directive: choices-field', function() {
         var directive = require('ng-admin/Crud/field/maChoicesField');
         var Field = require('ng-admin/Main/component/service/config/Field');
         angular.module('testapp_ChoicesField', []).directive('maChoicesField', directive);

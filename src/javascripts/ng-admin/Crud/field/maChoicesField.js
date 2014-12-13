@@ -26,16 +26,29 @@ define(function (require) {
                 for (var name in attributes) {
                     select[name] = attributes[name];
                 }
+                scope.contains = contains;
             },
             template: 
 '<select multiple ng-model="value" '+
     'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
     'ng-required="v.required">' +
-  '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value.indexOf(choice.value) !== -1">' +
+  '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="contains(value, choice.value)">' +
     '{{ choice.label }}' +
   '</option>' +
 '</select>'
         };
+    }
+
+    function contains (collection, item) {
+        if (!collection) {
+            return false;
+        }
+        for (var i = 0, l = collection.length; i < l; i++) {
+            if (collection[i] == item) { // == is intentional here
+                return true;
+            }
+        }
+        return false;
     }
 
     maChoicesField.$inject = [];

@@ -38,7 +38,7 @@ define(function (require) {
             });
         });
 
-        describe('getChoices', function () {
+        describe('choices', function () {
             it('should retrieve choices.', function () {
                 var ref = new Reference('human_id'),
                     human = new Entity('human');
@@ -58,12 +58,11 @@ define(function (require) {
                     { id: 3, human_id: 1, name: 'Mizute'}
                 ]);
 
-                var choices = ref.getChoices();
                 expect(ref.type()).toEqual('Reference');
-                expect(ref.getChoices()).toEqual([
-                    { id: 1, value: 'Suna'},
-                    { id: 2, value: 'Boby'},
-                    { id: 3, value: 'Mizute'}
+                expect(ref.choices()).toEqual([
+                    { value: 1, label: 'Suna'},
+                    { value: 2, label: 'Boby'},
+                    { value: 3, label: 'Mizute'}
                 ]);
             });
 
@@ -88,12 +87,11 @@ define(function (require) {
                     { id: 3, human_id: 1, name: 'Mizute', gender: 'M'}
                 ]);
 
-                var choices = ref.getChoices();
                 expect(ref.type()).toEqual('Reference');
-                expect(ref.getChoices()).toEqual([
-                    { id: 1, value: 'Suna(F)'},
-                    { id: 2, value: 'Boby(M)'},
-                    { id: 3, value: 'Mizute(M)'}
+                expect(ref.choices()).toEqual([
+                    { value: 1, label: 'Suna(F)'},
+                    { value: 2, label: 'Boby(M)'},
+                    { value: 3, label: 'Mizute(M)'}
                 ]);
             });
         });
