@@ -43,6 +43,15 @@ define(function (require) {
             expect(element.children()[0].autocomplete).toEqual('off');
         });
 
+        it("should use the field min and max attributes", function() {
+            scope.field = new Field().attributes({ min: -2, max: 2 });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            var input = element.children()[0];
+            expect(input.min).toEqual('-2');
+            expect(input.max).toEqual('2');
+        });
+
         it("should contain the field classes", function() {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);
