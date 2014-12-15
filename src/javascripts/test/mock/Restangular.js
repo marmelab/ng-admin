@@ -9,6 +9,7 @@ define('mock/Restangular', [
 
     Restangular.one = jasmine.createSpy('one').andReturn(Restangular);
     Restangular.all = jasmine.createSpy('all').andReturn(Restangular);
+    Restangular.allUrl = jasmine.createSpy('allUrl').andReturn(Restangular);
     Restangular.setBaseUrl = jasmine.createSpy('setBaseUrl').andReturn(Restangular);
     Restangular.setFullResponse = jasmine.createSpy('setFullResponse').andReturn(Restangular);
     Restangular.restangularizeElement = jasmine.createSpy('restangularizeElement').andReturn(Restangular);

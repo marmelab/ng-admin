@@ -27,7 +27,10 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: angular.noop
+                    baseApiUrl: function () {
+                        return 'http://localhost/';
+                    },
+                    getRouteFor: angular.noop
                 };
             };
 
@@ -95,7 +98,7 @@ define(function (require) {
 
             retrieveQueries.getRawValues(catView)
                 .then(function (rawEntities) {
-                    expect(Restangular.all).toHaveBeenCalledWith('cat');
+                    expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
                     expect(rawEntities.data.length).toEqual(2);
                 });

@@ -56,5 +56,37 @@ define(function (require) {
 
         });
 
+        describe('getRouteFor', function () {
+            it('should returns the url specified in a view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().url('http://localhost/dashboard');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://localhost/dashboard');
+            });
+
+            it('should returns the url specified in the entity when the URL is not specified in the view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                entity1.baseURL('http://api.com/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://api.com/comments');
+            });
+
+            it('should returns the url specified in the app when the URL is not specified in the view nor in the entity', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('https://elastic.local/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('https://elastic.local/comments');
+            });
+        });
+
     });
 });
