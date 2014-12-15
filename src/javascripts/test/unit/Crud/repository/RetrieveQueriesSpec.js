@@ -28,8 +28,8 @@ define(function (require) {
             config = function () {
                 return {
                     baseApiUrl: angular.noop,
-                    getRouteFor: function () {
-                        return 'http://localhost/';
+                    getRouteFor: function (view) {
+                        return 'http://localhost/' + view.getEntity().name();
                     }
                 };
             };
@@ -98,7 +98,7 @@ define(function (require) {
 
             retrieveQueries.getRawValues(catView)
                 .then(function (rawEntities) {
-                    expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/');
+                    expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
                     expect(rawEntities.data.length).toEqual(2);
                 });
