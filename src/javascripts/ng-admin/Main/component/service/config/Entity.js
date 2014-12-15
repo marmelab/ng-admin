@@ -15,10 +15,17 @@ define(function (require) {
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
 
+    function defaultTransformParams(params) {
+        return params;
+    }
+
     var config = {
         name: 'entity',
         label: 'My entity',
         order: null,
+        baseApiUrl: null,
+        url: null,
+        transformParams: defaultTransformParams,
         dashboardView: null,
         menuView: null,
         listView: null,
@@ -70,7 +77,17 @@ define(function (require) {
         return this;
     };
 
-    Entity.prototype.initViews = function() {
+    /**
+     * @param {View} view
+     * @param {*} entityId
+     *
+     * @return String
+     */
+    Entity.prototype.getUrl = function (view, entityId) {
+        return typeof (this.config.url) === 'function' ? this.config.url(view, entityId) : this.config.url;
+    };
+
+    Entity.prototype.initViews = function () {
         this.config.dashboardView = new DashboardView().setEntity(this);
         this.config.menuView = new MenuView();
         this.config.listView = new ListView().setEntity(this);
@@ -116,11 +133,13 @@ define(function (require) {
      * @deprecated access the view getter instead (e.g. `listView()`)
      */
     Entity.prototype.addView = function addView(view) {
-        var viewType = view.type;
-        var propertyName = getPropertyNameBasedOnViewType(viewType);
+        var viewType = view.type,
+            propertyName = getPropertyNameBasedOnViewType(viewType);
+
         view.setEntity(this);
         this[propertyName](view);
         console.warn('addView() is deprecated. Views are added by default, use ' + propertyName + '() instead to retrieve the view and customize it');
+
         return this;
     };
 
@@ -150,21 +169,31 @@ define(function (require) {
         return this.values[fieldName];
     };
 
-    Entity.prototype.readOnly = function() {
+    /**
+     * Allows to override query params
+     *
+     * @param {Object} params
+     * @returns {Object}
+     */
+    Entity.prototype.getQueryParams = function (params) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
+    };
+
+    Entity.prototype.readOnly = function () {
         this.isReadOnly = true;
         this.config.creationView.disable();
         this.config.editionView.disable();
         this.config.deletionView.disable();
         return this;
-    }
+    };
 
     /**
      * @deprecated not necessary anymore
      */
-    Entity.prototype.addMappedField = function(bool) {
+    Entity.prototype.addMappedField = function () {
         console.warn('Entity.addMappedField() is deprecated and not useful anymore');
         return this;
-    }
+    };
 
     return Entity;
 });

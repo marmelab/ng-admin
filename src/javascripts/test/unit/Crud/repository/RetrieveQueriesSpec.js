@@ -27,7 +27,13 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: angular.noop
+                    baseApiUrl: angular.noop,
+                    getQueryParamsFor: function (view, params) {
+                        return params;
+                    },
+                    getRouteFor: function (view) {
+                        return 'http://localhost/' + view.getEntity().name();
+                    }
                 };
             };
 
@@ -95,7 +101,7 @@ define(function (require) {
 
             retrieveQueries.getRawValues(catView)
                 .then(function (rawEntities) {
-                    expect(Restangular.all).toHaveBeenCalledWith('cat');
+                    expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
                     expect(rawEntities.data.length).toEqual(2);
                 });
@@ -241,7 +247,13 @@ define(function (require) {
             beforeEach(function () {
                 config = function () {
                     return {
-                        baseApiUrl: angular.noop
+                        baseApiUrl: angular.noop,
+                        getQueryParamsFor: function (view, params) {
+                            return params;
+                        },
+                        getRouteFor: function (view, identyId) {
+                            return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
+                        }
                     };
                 };
 
@@ -266,7 +278,8 @@ define(function (require) {
 
                 retrieveQueries.getOne(view, 1)
                     .then(function (entry) {
-                        expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
+                        expect(Restangular.get).toHaveBeenCalledWith({}, {});
                         expect(entry.identifierValue).toBe(1);
                         expect(entry.values.id).toBe(1);
                         expect(entry.values.name).toBe('Mizoute');
@@ -306,7 +319,7 @@ define(function (require) {
 
                 retrieveQueries.getOne(view, 1)
                     .then(function () {
-                        expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
                         expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {pwd: '123456'});
                         expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
                     });

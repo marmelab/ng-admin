@@ -42,6 +42,7 @@
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
 
         var comment = new Entity('comments')
+            .baseApiUrl('@@backend_url') // The base API endpoint can be customized by entity
             .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
         var tag = new Entity('tags')
@@ -67,6 +68,14 @@
 
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
+            .transformParams(function (params) {
+                // Sort by title by default
+                if (typeof params._sort === 'undefined') {
+                    params._sort = 'title';
+                }
+
+                return params;
+            })
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
@@ -96,7 +105,7 @@
         post.creationView()
             .addField(new Field('title') // the default edit field type is "string", and displays as a text input
                 .attributes({'placeholder': 'the post title'}) // you can add custom attributes, too
-            ) 
+            )
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
 
         post.editionView()

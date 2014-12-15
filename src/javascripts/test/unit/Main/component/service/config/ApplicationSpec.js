@@ -56,5 +56,144 @@ define(function (require) {
 
         });
 
+        describe('getRouteFor', function () {
+            it('should return the url specified in a view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().url('http://localhost/dashboard');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://localhost/dashboard');
+            });
+
+            it('should not consider protocol relative URL as a relative path', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().url('//localhost/dashboard');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('//localhost/dashboard');
+            });
+
+            it('should return the url specified in the entity when the URL is not specified in the view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                entity1.baseApiUrl('http://api.com/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://api.com/comments');
+            });
+
+            it('should return the url specified in the entity when the app also define a base URL', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                entity1.baseApiUrl('//api.com/');
+                app.baseApiUrl('http://api-entity.com/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('//api.com/comments');
+            });
+
+            it('should return the url specified in the app when the URL is not specified in the view nor in the entity', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('https://elastic.local/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('https://elastic.local/comments');
+            });
+
+            it('should call url() defined in the view if it\'s a function', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.editionView().url(function (entityId) {
+                    return '/post/:' + entityId;
+                });
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/post/:1');
+            });
+
+            it('should call url() defined in the entity if it\'s a function', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.url(function (view, entityId) {
+                    return '/' + view.name() + '/:' + entityId;
+                });
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/myView/:1');
+            });
+
+            it('should not prepend baseApiUrl when the URL begins with http', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.url('http://mock.local/entity');
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://mock.local/entity');
+            });
+        });
+
+        describe('getQueryParamsFor', function () {
+            it('should retrieve params from the view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().transformParams(function (params) {
+                    params._sort = 'viewTitle';
+                    return params;
+                });
+
+                entity1.transformParams(function (params) {
+                    params._sort = 'entityTitle';
+                    return params;
+                });
+
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'viewTitle'});
+            });
+
+            it('should retrieve params from the entity', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                app.transformParams(function (params) {
+                    params._sort = 'appTitle';
+                    return params;
+                });
+
+                entity1.transformParams(function (params) {
+                    params._sort = 'entityTitle';
+                    return params;
+                });
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'entityTitle'});
+            });
+
+            it('should retrieve params from the application', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                app.transformParams(function (params) {
+                    params._sort = 'appTitle';
+                    return params;
+                });
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'appTitle'});
+            });
+        });
+
     });
 });

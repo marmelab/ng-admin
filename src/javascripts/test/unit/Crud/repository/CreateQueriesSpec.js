@@ -17,7 +17,13 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: angular.noop
+                    baseApiUrl: angular.noop,
+                    getQueryParamsFor: function () {
+                        return null;
+                    },
+                    getRouteFor: function (view) {
+                        return 'http://localhost/' + view.getEntity().name();
+                    }
                 };
             };
 
@@ -35,12 +41,12 @@ define(function (require) {
                 var createQueries = new CreateQueries({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
-                Restangular.post = jasmine.createSpy('post').andReturn(mixins.buildPromise({data: rawEntity}));
+                Restangular.customPOST = jasmine.createSpy('customPOST').andReturn(mixins.buildPromise({data: rawEntity}));
 
                 createQueries.createOne(view, rawEntity)
                     .then(function (entry) {
-                        expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
-                        expect(Restangular.post).toHaveBeenCalledWith(null, rawEntity, null, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
+                        expect(Restangular.customPOST).toHaveBeenCalledWith(rawEntity, null, null, {});
                         expect(entry.values.name).toEqual('Mizu');
                     });
             });

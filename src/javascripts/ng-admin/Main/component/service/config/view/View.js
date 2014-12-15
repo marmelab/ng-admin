@@ -11,6 +11,10 @@ define(function (require) {
         return {};
     }
 
+    function defaultTransformParams(params) {
+        return params;
+    }
+
     var config = {
         name: 'myView',
         title: false,
@@ -18,6 +22,8 @@ define(function (require) {
         description: '',
         extraParams: null,
         interceptor: null,
+        transformParams: defaultTransformParams,
+        url: null,
         headers: defaultHeaders
     };
 
@@ -32,19 +38,19 @@ define(function (require) {
         this.config.name = name || this.config.name;
     }
 
-    View.prototype.isEnabled = function() {
+    View.prototype.isEnabled = function () {
         return this.enabled;
-    }
+    };
 
-    View.prototype.disable = function() {
+    View.prototype.disable = function () {
         this.enabled = false;
         return this;
-    }
+    };
 
-    View.prototype.enable = function() {
+    View.prototype.enable = function () {
         this.enabled = true;
         return this;
-    }
+    };
 
     /**
      * @param {Entity} entity
@@ -55,11 +61,20 @@ define(function (require) {
         return this;
     };
 
-    /***
+    /**
      * @return {Entity}
      */
     View.prototype.getEntity = function () {
         return this.entity;
+    };
+
+    /**
+     * @param {*} entityId
+     *
+     * @return String
+     */
+    View.prototype.getUrl = function (entityId) {
+        return typeof (this.config.url) === 'function' ? this.config.url(entityId) : this.config.url;
     };
 
     /**
@@ -78,7 +93,7 @@ define(function (require) {
     /**
      * Returns fields by type
      *
-     * @param {String }type
+     * @param {String} type
      * @returns {Array}
      */
     View.prototype.getFieldsOfType = function (type) {
@@ -176,6 +191,16 @@ define(function (require) {
     };
 
     /**
+     * Allows to override query params
+     *
+     * @param {Object} params
+     * @returns {Object}
+     */
+    View.prototype.getQueryParams = function (params) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
+    };
+
+    /**
      * Return view headers
      *
      * @returns {Object}
@@ -189,10 +214,9 @@ define(function (require) {
     /**
      * Return the identifier field
      *
-     * @param {*} identifierValue
      * @returns {Field}
      */
-    View.prototype.identifier = function (identifierValue) {
+    View.prototype.identifier = function () {
         var i,
             identifier,
             field;

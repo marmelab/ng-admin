@@ -15,7 +15,6 @@ define(function () {
         this.Restangular = Restangular;
         this.config = Configuration();
 
-        this.Restangular.setBaseUrl(this.config.baseApiUrl());
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 

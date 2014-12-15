@@ -6,9 +6,14 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
+    function defaultTransformParams(params) {
+        return params;
+    }
+
     var config = {
         title: "Angular admin",
-        baseApiUrl: "http://localhost:3000/"
+        baseApiUrl: "http://localhost:3000/",
+        transformParams: defaultTransformParams
     };
 
     function Application(title) {
@@ -81,6 +86,60 @@ define(function (require) {
         }
 
         return views;
+    };
+
+    /**
+     * Return the route to call for a view
+     *
+     * @param {View} view
+     * @param {*} entityId
+     *
+     * @return String
+     */
+    Application.prototype.getRouteFor = function (view, entityId) {
+        var entity = view.getEntity(),
+            baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
+            url = view.getUrl(entityId) || entity.getUrl(view, entityId);
+
+        // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
+        if (!url) {
+            url = baseApiUrl + entity.name();
+            if (entityId) {
+                url += '/' + entityId;
+            }
+        }
+
+        // Add baseUrl for relative URL
+        if (!/^(?:[a-z]+:)?\/\//.test(url)) {
+            url = baseApiUrl + url;
+        }
+
+        return url;
+    };
+
+    /**
+     * Allows to change query params for a view
+     *
+     * @param {View} view
+     * @param {Object} params
+     * @returns {Object}
+     */
+    Application.prototype.getQueryParamsFor = function (view, params) {
+        var entity = view.getEntity();
+
+        if (typeof params === 'undefined') {
+            params = {};
+        }
+
+        params = this.getQueryParams(params);
+        params = entity.getQueryParams(params);
+        params = view.getQueryParams(params);
+
+        return params;
+    };
+
+    Application.prototype.getQueryParams = function (params) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
     };
 
     /**

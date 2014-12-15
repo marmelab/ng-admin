@@ -67,13 +67,25 @@ var app = angular.module('myApp', ['ng-admin']);
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
     var app = new Application('ng-admin backend demo') // application main title
+        .transformParams(function(params) {
+            // Sort by title by default
+            if (typeof params._sort === 'undefined') {
+                params._sort = 'title';
+            }
+            
+            return params; 
+        })
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
     var comment = new Entity('comments')
+        .baseApiUrl('http://localhost:3000/') // Base API endpoint can be customized by entity
         .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
     var tag = new Entity('tags')
+        .url(function (view, entityId) { // API endpoint can be defined with string or a function in a entity
+            return view + (entityId ? '/' + entityId : null);
+        })
         .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
     // set the application entities
@@ -217,6 +229,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .icon('<span class="glyphicon glyphicon-tags"></span>');
 
     tag.dashboardView()
+        .url(function (entityId) { // API endpoint can be defined for a view with string or a function in a entity
+            return view + (entityId ? '/' + entityId : null);
+        })
         .title('Recent tags')
         .order(3)
         .limit(10)
@@ -271,6 +286,29 @@ Defines the name of the entity, as displayed on screen
 A read-only entity doesn't allow access to the mutation views (editionView, creationView, deletionView). In addition, all links to the editionView are replaced by links to the showView.
 
         var tag = new Entity('tags').readOnly();
+        
+* `baseURL()`
+Defines the base API endpoint for all views of this entity
+
+        var comment = new Entity('comments').baseURL('http://localhost:3001/');
+        
+* `url()`
+Defines the API endpoint for all views of this entity. It can be a string or a function.
+
+        var comment = new Entity('comments').url(function(view, entityId) {
+            return '/comments/' + view.name() + '/' + entityId; // Can be absolute or relative
+        });
+
+* `transformParams()`
+Allows to overrides all query parameters.
+
+        var comment = new Entity('comments').transformParams(function(params) {
+            params._sort = params.sort;
+            
+            return params;
+        });
+        
+Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
 
 ## View Configuration
 
@@ -325,6 +363,23 @@ Used to transform data from the API into an array of element.
 
 * `disable()`
 Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
+
+* `url()`
+Defines the API endpoint for a view. It can be a string or a function.
+
+        comment.listView().url(function(entityId) {
+            return '/comments/id/' + entityId; // Can be absolute or relative
+        });
+
+* `transformParams()`
+Allows to overrides all query parameters.
+
+        comment.listView().transformParams(function(params) {
+            params._sort = params.sort;
+            delete params.sort;
+            
+            return params;
+        });
 
 ### dashboardView Settings
 
@@ -624,6 +679,7 @@ ng-admin has unit tests (powered by karma) and end to end tests (powered by prot
 ```
 make test
 ```
+
 
 ## Contributing
 
