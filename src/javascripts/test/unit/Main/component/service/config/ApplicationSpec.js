@@ -125,5 +125,54 @@ define(function (require) {
             });
         });
 
+        describe('getQueryParamsFor', function () {
+            it('should retrieve params from the view', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().transformParams(function (params) {
+                    params._sort = 'viewTitle';
+                    return params;
+                });
+
+                entity1.transformParams(function (params) {
+                    params._sort = 'entityTitle';
+                    return params;
+                });
+
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'viewTitle'});
+            });
+
+            it('should retrieve params from the entity', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                app.transformParams(function (params) {
+                    params._sort = 'appTitle';
+                    return params;
+                });
+
+                entity1.transformParams(function (params) {
+                    params._sort = 'entityTitle';
+                    return params;
+                });
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'entityTitle'});
+            });
+
+            it('should retrieve params from the application', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                app.transformParams(function (params) {
+                    params._sort = 'appTitle';
+                    return params;
+                });
+
+                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'appTitle'});
+            });
+        });
+
     });
 });

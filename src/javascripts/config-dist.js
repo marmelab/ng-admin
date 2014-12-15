@@ -73,7 +73,9 @@
             .title('All posts') // default title is "[Entity_name] list"
             .transformParams(function (params) {
                 // Sort by title by default
-                params._sort = 'title';
+                if (typeof params._sort === 'undefined') {
+                    params._sort = 'title';
+                }
 
                 return params;
             })

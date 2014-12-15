@@ -131,9 +131,9 @@ define(function (require) {
             params = {};
         }
 
-        params = view.getQueryParams(params);
-        params = entity.getQueryParams(params);
         params = this.getQueryParams(params);
+        params = entity.getQueryParams(params);
+        params = view.getQueryParams(params);
 
         return params;
     };

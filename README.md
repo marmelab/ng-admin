@@ -67,12 +67,16 @@ var app = angular.module('myApp', ['ng-admin']);
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
     var app = new Application('ng-admin backend demo') // application main title
+        .transformParams(function(params) {
+            // Override query params here
+            return params; 
+        })
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
     var comment = new Entity('comments')
-        .baseURL('http://localhost:3000/') // The base API endpoint can be customized by entity
+        .baseURL('http://localhost:3000/') // Base API endpoint can be customized by entity
         .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
     var tag = new Entity('tags')
         .url(function (view, entityId) { // API endpoint can be defined with string or a function in a entity
@@ -291,6 +295,16 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
             return '/comments/' + view.name() + '/' + entityId; // Can be absolute or relative
         });
 
+* `transformParams()`
+Allows to overrides all query parameters.
+
+        var comment = new Entity('comments').transformParams(function(params) {
+            params._sort = params.sort;
+            delete params.sort;
+            
+            return params;
+        });
+
 ## View Configuration
 
 ### View Types
@@ -350,6 +364,16 @@ Defines the API endpoint for a view. It can be a string or a function.
 
         comment.listView().url(function(entityId) {
             return '/comments/id/' + entityId; // Can be absolute or relative
+        });
+
+* `transformParams()`
+Allows to overrides all query parameters.
+
+        comment.listView().transformParams(function(params) {
+            params._sort = params.sort;
+            delete params.sort;
+            
+            return params;
         });
 
 ### dashboardView Settings
@@ -645,11 +669,18 @@ A new `build/ng-admin.min.js` file will be created.
 
 ### Tests
 
+To install selenium (used by protractor):
+
+```sh
+./node_modules/protractor/bin/webdriver-manager update
+```
+
 ng-admin has unit tests (powered by karma) and end to end tests (powered by protractor). Launch the entire tests suite by calling:
 
 ```
 make test
 ```
+
 
 ## Contributing
 

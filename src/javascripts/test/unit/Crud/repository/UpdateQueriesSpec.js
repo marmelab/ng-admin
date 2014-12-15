@@ -18,6 +18,9 @@ define(function (require) {
             config = function () {
                 return {
                     baseApiUrl: angular.noop,
+                    getQueryParamsFor: function () {
+                        return null;
+                    },
                     getRouteFor: function (view, identyId) {
                         return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
                     }

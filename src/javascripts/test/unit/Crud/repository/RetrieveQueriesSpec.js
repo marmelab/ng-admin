@@ -28,6 +28,9 @@ define(function (require) {
             config = function () {
                 return {
                     baseApiUrl: angular.noop,
+                    getQueryParamsFor: function (view, params) {
+                        return params;
+                    },
                     getRouteFor: function (view) {
                         return 'http://localhost/' + view.getEntity().name();
                     }
@@ -245,6 +248,9 @@ define(function (require) {
                 config = function () {
                     return {
                         baseApiUrl: angular.noop,
+                        getQueryParamsFor: function (view, params) {
+                            return params;
+                        },
                         getRouteFor: function (view, identyId) {
                             return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
                         }
@@ -313,7 +319,7 @@ define(function (require) {
 
                 retrieveQueries.getOne(view, 1)
                     .then(function () {
-                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
                         expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {pwd: '123456'});
                         expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
                     });
