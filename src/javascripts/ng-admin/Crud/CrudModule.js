@@ -24,18 +24,12 @@ define(function (require) {
     CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
     CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
-    CrudModule.directive('stringField', require('ng-admin/Crud/field/StringField'));
-    CrudModule.directive('passwordField', require('ng-admin/Crud/field/PasswordField'));
-    CrudModule.directive('emailField', require('ng-admin/Crud/field/EmailField'));
-    CrudModule.directive('textField', require('ng-admin/Crud/field/TextField'));
-    CrudModule.directive('numberField', require('ng-admin/Crud/field/NumberField'));
-    CrudModule.directive('dateField', require('ng-admin/Crud/field/DateField'));
-    CrudModule.directive('booleanField', require('ng-admin/Crud/field/BooleanField'));
-    CrudModule.directive('choiceField', require('ng-admin/Crud/field/ChoiceField'));
-    CrudModule.directive('choicesField', require('ng-admin/Crud/field/ChoicesField'));
-    CrudModule.directive('referenceField', require('ng-admin/Crud/field/ReferenceField'));
-    CrudModule.directive('referenceManyField', require('ng-admin/Crud/field/ReferenceManyField'));
-    CrudModule.directive('wysiwygField', require('ng-admin/Crud/field/WysiwygField'));
+    CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
+    CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
+    CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
+    CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
+    CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
+    CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));

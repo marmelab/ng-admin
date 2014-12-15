@@ -476,9 +476,16 @@ Define a custom function to transform the value. It receive the value and the co
 Tell how to validate the view
  - `required`: boolean
  - `validator`: function(value){}
- - `min-length`: number
- - `max-length`: number
- 
+ - `minlength`: number
+ - `maxlength`: number
+
+* `attributes(object)`
+A list of attributes to be added to the corresponding field.
+
+        editView.addField(new Field('title')
+            .attributes({ placeholder: 'fill me !'})
+        );
+
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
 
