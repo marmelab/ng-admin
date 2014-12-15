@@ -56,11 +56,20 @@ define(function (require) {
         return this;
     };
 
-    /***
+    /**
      * @return {Entity}
      */
     View.prototype.getEntity = function () {
         return this.entity;
+    };
+
+    /**
+     * @param {*} entityId
+     *
+     * @return String
+     */
+    View.prototype.getUrl = function (entityId) {
+        return typeof (this.config.url) === 'function' ? this.config.url(entityId) : this.config.url;
     };
 
     /**
@@ -79,7 +88,7 @@ define(function (require) {
     /**
      * Returns fields by type
      *
-     * @param {String }type
+     * @param {String} type
      * @returns {Array}
      */
     View.prototype.getFieldsOfType = function (type) {
@@ -190,10 +199,9 @@ define(function (require) {
     /**
      * Return the identifier field
      *
-     * @param {*} identifierValue
      * @returns {Field}
      */
-    View.prototype.identifier = function (identifierValue) {
+    View.prototype.identifier = function () {
         var i,
             identifier,
             field;

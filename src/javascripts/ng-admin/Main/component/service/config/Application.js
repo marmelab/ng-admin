@@ -85,18 +85,23 @@ define(function (require) {
 
     /**
      * Return the route to call for a view
+     *
      * @param {View} view
+     * @param {*} entityId
      *
      * @return String
      */
-    Application.prototype.getRouteFor = function (view) {
+    Application.prototype.getRouteFor = function (view, entityId) {
         var entity = view.getEntity(),
             baseUrl = entity.baseURL() || this.baseApiUrl(),
-            url = view.url();
+            url = view.getUrl(entityId) || entity.getUrl(view, entityId);
 
-        // If the view doesn't define the url, retrieve it from the entity or the app
+        // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
         if (!url) {
             url = baseUrl + entity.name();
+            if (entityId) {
+                url += '/' + entityId;
+            }
         }
 
         // Add baseUrl for relative URL
