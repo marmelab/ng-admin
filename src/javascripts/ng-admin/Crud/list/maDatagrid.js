@@ -6,7 +6,7 @@ define(function (require) {
     var datagridView = require('text!./Datagrid.html'),
         DatagridController = require('./DatagridController');
 
-    function DatagridDirective() {
+    function maDatagridDirective() {
         return {
             restrict: 'E',
             template: datagridView,
@@ -25,7 +25,7 @@ define(function (require) {
         };
     }
 
-    DatagridDirective.$inject = [];
+    maDatagridDirective.$inject = [];
 
-    return DatagridDirective;
+    return maDatagridDirective;
 });

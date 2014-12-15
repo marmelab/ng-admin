@@ -33,9 +33,9 @@ define(function (require) {
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
-    CrudModule.directive('datagrid', require('ng-admin/Crud/list/Datagrid'));
+    CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/list/DatagridPagination'));
-    CrudModule.directive('quickFilter', require('ng-admin/Crud/list/QuickFilter'));
+    CrudModule.directive('maQuickFilter', require('ng-admin/Crud/list/maQuickFilter'));
 
     CrudModule.directive('stringColumn', require('ng-admin/Crud/column/StringColumn'));
     CrudModule.directive('passwordColumn', require('ng-admin/Crud/column/PasswordColumn'));

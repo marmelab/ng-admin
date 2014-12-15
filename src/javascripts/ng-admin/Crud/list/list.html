@@ -25,10 +25,10 @@
 
 </div>
 
-<quick-filter quick-filters="listController.quickFilters"></quick-filter>
+<ma-quick-filter quick-filters="listController.quickFilters"></ma-quick-filter>
 
 <div class="row">
-    <datagrid name="{{ listController.view.name() }}"
+    <ma-datagrid name="{{ listController.view.name() }}"
               entries="listController.entries"
               fields="listController.fields"
               listActions="listController.listActions"
@@ -37,5 +37,5 @@
               per-page="listController.itemsPerPage"
               total-items="{{ listController.totalItems }}"
               infinite-pagination="listController.infinitePagination">
-    </datagrid>
+    </ma-datagrid>
 </div>

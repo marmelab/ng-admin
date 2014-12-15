@@ -80,6 +80,10 @@ define(function () {
         this.$location.search('sortDir', dir);
     };
 
+    DatagridController.prototype.filter = function() {
+
+    };
+
     /**
      * Return fieldName like (view.fieldName) to sort
      *

@@ -6,7 +6,7 @@ define(function (require) {
     var quickFilterView = require('text!./QuickFilter.html'),
         QuickFilterController = require('./QuickFilterController');
 
-    function QuickFilterDirective() {
+    function maQuickFilterDirective() {
         return {
             restrict: 'E',
             scope: {
@@ -18,7 +18,7 @@ define(function (require) {
         };
     }
 
-    QuickFilterDirective.$inject = [];
+    maQuickFilterDirective.$inject = [];
 
-    return QuickFilterDirective;
+    return maQuickFilterDirective;
 });

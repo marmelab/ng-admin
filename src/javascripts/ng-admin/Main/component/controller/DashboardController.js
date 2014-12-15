@@ -54,8 +54,10 @@ define(function (require) {
 
                 self.panels.push({
                     label: view.title(),
-                    view: view,
-                    columns: columns,
+                    viewName: view.name(),
+                    fields: panel.view.getDisplayedFields(),
+                    entity: panel.view.getEntity(),
+                    perPage: panel.view.perPage(),
                     entries: entries
                 });
             }

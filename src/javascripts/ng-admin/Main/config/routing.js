@@ -17,7 +17,11 @@ define(function (require) {
 
         $stateProvider.state('dashboard', {
             parent: 'main',
-            url: '/dashboard',
+            url: '/dashboard?sortField&sortDir',
+            params: {
+                sortField: null,
+                sortDir: null
+            },
             controller: 'DashboardController',
             controllerAs: 'dashboardController',
             template: dashboardTemplate

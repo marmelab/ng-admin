@@ -1,52 +1,56 @@
-<table class="grid table table-condensed table-hover table-striped">
-    <thead>
-        <tr>
-            <th ng-repeat="field in fields | orderElement track by $index" ng-class="'ng-admin-column-' + field.name()">
-                <a ng-click="datagrid.sort(field)">
-                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
+<form id="filter" ng-submit="datagrid.filter()">
+    <table class="grid table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th ng-repeat="field in fields | orderElement track by $index" ng-class="'ng-admin-column-' + field.name()">
+                    <a ng-click="datagrid.sort(field)">
+                        <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
-                    {{ field.label() }}
-                </a>
-            </th>
-            <th ng-if="listActions">
-                Actions
-            </th>
-        </tr>
-    </thead>
+                        {{ field.label() }}
+                    </a>
 
-    <tbody>
-        <tr ng-class="datagrid.itemClass($index)" ng-repeat="entry in entries track by $index">
-            <td ng-repeat="field in fields | orderElement track by $index" ng-switch="field.type()">
-                <string-column ng-switch-when="string"></string-column>
+                    <input type="text" />
+                </th>
+                <th ng-if="listActions">
+                    Actions
+                </th>
+            </tr>
+        </thead>
 
-                <password-column ng-switch-when="password"></password-column>
+        <tbody>
+            <tr ng-class="datagrid.itemClass($index)" ng-repeat="entry in entries track by $index">
+                <td ng-repeat="field in fields | orderElement track by $index" ng-switch="field.type()">
+                    <string-column ng-switch-when="string"></string-column>
 
-                <text-column ng-switch-when="text"></text-column>
+                    <password-column ng-switch-when="password"></password-column>
 
-                <email-column ng-switch-when="email"></email-column>
+                    <text-column ng-switch-when="text"></text-column>
 
-                <number-column ng-switch-when="number"></number-column>
+                    <email-column ng-switch-when="email"></email-column>
 
-                <date-column ng-switch-when="date"></date-column>
+                    <number-column ng-switch-when="number"></number-column>
 
-                <boolean-column ng-switch-when="boolean"></boolean-column>
+                    <date-column ng-switch-when="date"></date-column>
 
-                <choice-column ng-switch-when="choice"></choice-column>
+                    <boolean-column ng-switch-when="boolean"></boolean-column>
 
-                <reference-column ng-switch-when="Reference"></reference-column>
+                    <choice-column ng-switch-when="choice"></choice-column>
 
-                <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
+                    <reference-column ng-switch-when="Reference"></reference-column>
 
-                <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
+                    <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
 
-                <template-column ng-switch-when="template"></template-column>
-            </td>
-            <th ng-if="listActions">
-                <list-actions entry="entry" entity="entity" buttons="listActions"></list-actions>
-            </th>
+                    <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
 
-        </tr>
-    </tbody>
-</table>
+                    <template-column ng-switch-when="template"></template-column>
+                </td>
+                <th ng-if="listActions">
+                    <list-actions entry="entry" entity="entity" buttons="listActions"></list-actions>
+                </th>
+
+            </tr>
+        </tbody>
+    </table>
+</form>
 
 <datagrid-pagination></datagrid-pagination>
