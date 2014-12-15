@@ -24,13 +24,15 @@ define(function (require) {
      * @returns {promise} the updated object
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
-        var entityName = view.getEntity().name(),
+        var identifierField = view.getEntity().identifier(),
+            entityId = rawEntity[identifierField.name()],
+            routeUrl = this.config.getRouteFor(view, entityId),
             headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
-            .restangularizeElement(null, rawEntity, entityName)
-            .put(null, headers)
+            .oneUrl(view.name(), routeUrl)
+            .customPUT(rawEntity, null, null, headers)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

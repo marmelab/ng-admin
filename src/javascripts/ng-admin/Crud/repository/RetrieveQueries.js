@@ -25,7 +25,8 @@ define(function (require) {
     RetrieveQueries.prototype.getOne = function (view, entityId) {
         var interceptor = view.interceptor(),
             params = view.getExtraParams(),
-            headers = view.getHeaders();
+            headers = view.getHeaders(),
+            routeUrl = this.config.getRouteFor(view, entityId);
 
         if (interceptor) {
             this.Restangular.addResponseInterceptor(interceptor);
@@ -33,7 +34,7 @@ define(function (require) {
 
         // Get element data
         return this.Restangular
-            .one(view.getEntity().name(), entityId)
+            .oneUrl(view.name(), routeUrl)
             .get(params, headers)
             .then(function (response) {
                 return view.mapEntry(response.data);

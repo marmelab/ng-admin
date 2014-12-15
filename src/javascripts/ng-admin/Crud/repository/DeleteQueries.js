@@ -24,12 +24,12 @@ define(function (require) {
      * @returns {promise}
      */
     DeleteQueries.prototype.deleteOne = function (view, entityId) {
-        var entityName = view.getEntity().name(),
+        var routeUrl = this.config.getRouteFor(view, entityId),
             headers = view.getHeaders();
 
         return this.Restangular
-            .one(entityName, entityId)
-            .remove(null, headers);
+            .oneUrl(view.name(), routeUrl)
+            .customDELETE(null, null, headers);
     };
 
     DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];

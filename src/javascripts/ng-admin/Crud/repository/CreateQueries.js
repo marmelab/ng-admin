@@ -24,13 +24,14 @@ define(function (require) {
      * @returns {promise}  the new object
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
-        var entityName = view.getEntity().name(),
+        var routeUrl = this.config.getRouteFor(view),
             headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
-            .restangularizeElement(null, rawEntity, entityName)
-            .post(null, rawEntity, null, headers)
+            .restangularizeElement(null, rawEntity, null)
+            .oneUrl(view.name(), routeUrl)
+            .customPOST(rawEntity, null, null, headers)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

@@ -37,12 +37,14 @@ define(function () {
             entry = this.$scope.entry,
             $filter = this.$filter,
             fields = this.view.getFields(),
+            identifierField = this.view.getEntity().identifier(),
             mappedObject,
             field,
             i,
-            object = {
-                id: entry.identifierValue
-            };
+            object = {};
+
+        // Inject identifier
+        object[identifierField.name()] = entry.identifierValue;
 
         for (i in fields) {
             field = fields[i];
