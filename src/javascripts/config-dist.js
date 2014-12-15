@@ -71,6 +71,12 @@
 
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
+            .transformParams(function (params) {
+                // Sort by title by default
+                params._sort = 'title';
+
+                return params;
+            })
             .pagination(pagination)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string

@@ -25,12 +25,13 @@ define(function (require) {
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
         var routeUrl = this.config.getRouteFor(view),
+            params = this.config.getQueryParamsFor(view),
             headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
             .oneUrl(view.name(), routeUrl)
-            .customPOST(rawEntity, null, null, headers)
+            .customPOST(rawEntity, null, params, headers)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

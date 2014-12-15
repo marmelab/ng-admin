@@ -11,6 +11,10 @@ define(function (require) {
         return {};
     }
 
+    function defaultTransformParams(params) {
+        return params;
+    }
+
     var config = {
         name: 'myView',
         title: false,
@@ -18,6 +22,7 @@ define(function (require) {
         description: '',
         extraParams: null,
         interceptor: null,
+        transformParams: defaultTransformParams,
         url: null,
         headers: defaultHeaders
     };
@@ -183,6 +188,16 @@ define(function (require) {
         }
 
         return params;
+    };
+
+    /**
+     * Allows to override query params
+     *
+     * @param {Object} params
+     * @returns {Object}
+     */
+    View.prototype.getQueryParams = function (params) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
     };
 
     /**

@@ -27,12 +27,13 @@ define(function (require) {
         var identifierField = view.getEntity().identifier(),
             entityId = rawEntity[identifierField.name()],
             routeUrl = this.config.getRouteFor(view, entityId),
+            params = this.config.getQueryParamsFor(view),
             headers = view.getHeaders();
 
         // Get element data
         return this.Restangular
             .oneUrl(view.name(), routeUrl)
-            .customPUT(rawEntity, null, null, headers)
+            .customPUT(rawEntity, null, params, headers)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

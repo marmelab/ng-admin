@@ -24,7 +24,7 @@ define(function (require) {
      */
     RetrieveQueries.prototype.getOne = function (view, entityId) {
         var interceptor = view.interceptor(),
-            params = view.getExtraParams(),
+            params = this.config.getQueryParamsFor(view, view.getExtraParams()),
             headers = view.getHeaders(),
             routeUrl = this.config.getRouteFor(view, entityId);
 
@@ -107,7 +107,7 @@ define(function (require) {
         var interceptor = listView.interceptor(),
             sortView = sortField ? sortField.split('.')[0] : '',
             sortParams = sortView === listView.name() ? listView.getSortParams(sortField.split('.').pop(), sortDir) : null,
-            params = listView.getAllParams(page, sortParams, query),
+            params = this.config.getQueryParamsFor(listView, listView.getAllParams(page, sortParams, query)),
             headers = listView.getAllHeaders(sortParams),
             routeUrl = this.config.getRouteFor(listView),
             fieldName;
