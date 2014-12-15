@@ -84,6 +84,30 @@ define(function (require) {
     };
 
     /**
+     * Return the route to call for a view
+     * @param {View} view
+     *
+     * @return String
+     */
+    Application.prototype.getRouteFor = function (view) {
+        var entity = view.getEntity(),
+            baseUrl = entity.baseURL() || this.baseApiUrl(),
+            url = view.url();
+
+        // If the view doesn't define the url, retrieve it from the entity or the app
+        if (!url) {
+            url = baseUrl + entity.name();
+        }
+
+        // Add baseUrl for relative URL
+        if (url.indexOf('http') !== 0) {
+            url = baseUrl + url;
+        }
+
+        return url;
+    };
+
+    /**
      * Return one view of a type for an entity
      *
      * @param {String} entityName

@@ -18,6 +18,7 @@ define(function (require) {
         description: '',
         extraParams: null,
         interceptor: null,
+        url: null,
         headers: defaultHeaders
     };
 
@@ -32,19 +33,19 @@ define(function (require) {
         this.config.name = name || this.config.name;
     }
 
-    View.prototype.isEnabled = function() {
+    View.prototype.isEnabled = function () {
         return this.enabled;
-    }
+    };
 
-    View.prototype.disable = function() {
+    View.prototype.disable = function () {
         this.enabled = false;
         return this;
-    }
+    };
 
-    View.prototype.enable = function() {
+    View.prototype.enable = function () {
         this.enabled = true;
         return this;
-    }
+    };
 
     /**
      * @param {Entity} entity

@@ -108,6 +108,7 @@ define(function (require) {
             sortParams = sortView === listView.name() ? listView.getSortParams(sortField.split('.').pop(), sortDir) : null,
             params = listView.getAllParams(page, sortParams, query),
             headers = listView.getAllHeaders(sortParams),
+            routeUrl = this.config.getRouteFor(listView),
             fieldName;
 
         filters = listView.filterParams()(filters);
@@ -123,7 +124,7 @@ define(function (require) {
 
         // Get grid data
         return this.Restangular
-            .all(listView.getEntity().name())
+            .allUrl(listView.name(), routeUrl)
             .getList(params, headers);
     };
 

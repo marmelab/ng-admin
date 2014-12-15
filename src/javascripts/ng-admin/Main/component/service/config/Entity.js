@@ -19,6 +19,7 @@ define(function (require) {
         name: 'entity',
         label: 'My entity',
         order: null,
+        baseURL: null,
         dashboardView: null,
         menuView: null,
         listView: null,
