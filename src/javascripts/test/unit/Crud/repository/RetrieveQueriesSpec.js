@@ -27,10 +27,10 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: function () {
+                    baseApiUrl: angular.noop,
+                    getRouteFor: function () {
                         return 'http://localhost/';
-                    },
-                    getRouteFor: angular.noop
+                    }
                 };
             };
 
