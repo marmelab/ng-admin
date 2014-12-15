@@ -17,7 +17,10 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: angular.noop
+                    baseApiUrl: angular.noop,
+                    getRouteFor: function (view, identyId) {
+                        return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
+                    }
                 };
             };
 
@@ -33,14 +36,14 @@ define(function (require) {
 
             it('should PUT an entity when calling updateOne', function () {
                 var updateQueries = new UpdateQueries({}, Restangular, config),
-                    rawEntity = {name: 'Mizu'};
+                    rawEntity = {id: 3, name: 'Mizu'};
 
-                Restangular.put = jasmine.createSpy('put').andReturn(mixins.buildPromise({data: rawEntity}));
+                Restangular.customPUT = jasmine.createSpy('customPUT').andReturn(mixins.buildPromise({data: rawEntity}));
 
                 updateQueries.updateOne(view, rawEntity)
                     .then(function (entry) {
-                        expect(Restangular.restangularizeElement).toHaveBeenCalledWith(null, rawEntity, 'cat');
-                        expect(Restangular.put).toHaveBeenCalledWith(null, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/3');
+                        expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity, null, null, {});
                         expect(entry.values.name).toEqual('Mizu');
                     });
             });

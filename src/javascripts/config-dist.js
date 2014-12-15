@@ -42,9 +42,13 @@
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
 
         var comment = new Entity('comments')
+            .baseURL('http://localhost:3000/') // The base API endpoint can be customized by entity
             .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
         var tag = new Entity('tags')
+            .url(function (view, entityId) { // API endpoint can be defined with string or a function in a entity
+                return view + (entityId ? '/' + entityId : null);
+            })
             .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
         // set the application entities
@@ -96,7 +100,7 @@
         post.creationView()
             .addField(new Field('title') // the default edit field type is "string", and displays as a text input
                 .attributes({'placeholder': 'the post title'}) // you can add custom attributes, too
-            ) 
+            )
             .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
 
         post.editionView()

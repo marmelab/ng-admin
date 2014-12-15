@@ -86,6 +86,43 @@ define(function (require) {
 
                 expect(app.getRouteFor(entity1.dashboardView())).toBe('https://elastic.local/comments');
             });
+
+            it('should call url() defined in the view if it\'s a function', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.editionView().url(function (entityId) {
+                    return '/post/:' + entityId;
+                });
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/post/:1');
+            });
+
+            it('should call url() defined in the entity if it\'s a function', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.url(function (view, entityId) {
+                    return '/' + view.name() + '/:' + entityId;
+                });
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/myView/:1');
+            });
+
+            it('should not prepend baseURL when the URL begins with http', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                app.baseApiUrl('http://api.local');
+
+                entity1.url('http://mock.local/entity');
+
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://mock.local/entity');
+            });
         });
 
     });

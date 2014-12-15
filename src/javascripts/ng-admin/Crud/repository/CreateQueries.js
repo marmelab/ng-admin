@@ -29,7 +29,6 @@ define(function (require) {
 
         // Get element data
         return this.Restangular
-            .restangularizeElement(null, rawEntity, null)
             .oneUrl(view.name(), routeUrl)
             .customPOST(rawEntity, null, null, headers)
             .then(function (response) {

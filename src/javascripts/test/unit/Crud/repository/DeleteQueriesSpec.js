@@ -17,7 +17,10 @@ define(function (require) {
         beforeEach(function () {
             config = function () {
                 return {
-                    baseApiUrl: angular.noop
+                    baseApiUrl: angular.noop,
+                    getRouteFor: function (view, identyId) {
+                        return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
+                    }
                 };
             };
 
@@ -35,8 +38,8 @@ define(function (require) {
 
                 deleteQueries.deleteOne(view, 1)
                     .then(function () {
-                        expect(Restangular.one).toHaveBeenCalledWith('cat', 1);
-                        expect(Restangular.remove).toHaveBeenCalledWith(null, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
+                        expect(Restangular.customDELETE).toHaveBeenCalledWith(null, null, {});
                     });
             });
         });
