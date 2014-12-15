@@ -23,7 +23,7 @@ define(function (require) {
         name: 'entity',
         label: 'My entity',
         order: null,
-        baseURL: null,
+        baseApiUrl: null,
         url: null,
         transformParams: defaultTransformParams,
         dashboardView: null,

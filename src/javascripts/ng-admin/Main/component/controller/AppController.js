@@ -18,10 +18,6 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    AppController.prototype.displayHome = function () {
-        this.$location.path('dashboard');
-    };
-
     AppController.prototype.destroy = function () {
         this.$scope = undefined;
     };

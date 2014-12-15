@@ -68,7 +68,11 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 
     var app = new Application('ng-admin backend demo') // application main title
         .transformParams(function(params) {
-            // Override query params here
+            // Sort by title by default
+            if (typeof params._sort === 'undefined') {
+                params._sort = 'title';
+            }
+            
             return params; 
         })
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
@@ -76,7 +80,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
     var comment = new Entity('comments')
-        .baseURL('http://localhost:3000/') // Base API endpoint can be customized by entity
+        .baseApiUrl('http://localhost:3000/') // Base API endpoint can be customized by entity
         .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
     var tag = new Entity('tags')
         .url(function (view, entityId) { // API endpoint can be defined with string or a function in a entity
@@ -300,10 +304,11 @@ Allows to overrides all query parameters.
 
         var comment = new Entity('comments').transformParams(function(params) {
             params._sort = params.sort;
-            delete params.sort;
             
             return params;
         });
+        
+Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
 
 ## View Configuration
 
@@ -668,12 +673,6 @@ make build
 A new `build/ng-admin.min.js` file will be created.
 
 ### Tests
-
-To install selenium (used by protractor):
-
-```sh
-./node_modules/protractor/bin/webdriver-manager update
-```
 
 ng-admin has unit tests (powered by karma) and end to end tests (powered by protractor). Launch the entire tests suite by calling:
 

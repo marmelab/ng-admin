@@ -98,20 +98,20 @@ define(function (require) {
      */
     Application.prototype.getRouteFor = function (view, entityId) {
         var entity = view.getEntity(),
-            baseUrl = entity.baseURL() || this.baseApiUrl(),
+            baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
             url = view.getUrl(entityId) || entity.getUrl(view, entityId);
 
         // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
         if (!url) {
-            url = baseUrl + entity.name();
+            url = baseApiUrl + entity.name();
             if (entityId) {
                 url += '/' + entityId;
             }
         }
 
         // Add baseUrl for relative URL
-        if (url.indexOf('http') !== 0) {
-            url = baseUrl + url;
+        if (!/^(?:[a-z]+:)?\/\//.test(url)) {
+            url = baseApiUrl + url;
         }
 
         return url;

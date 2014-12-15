@@ -57,7 +57,7 @@ define(function (require) {
         });
 
         describe('getRouteFor', function () {
-            it('should returns the url specified in a view', function () {
+            it('should return the url specified in a view', function () {
                 var app = new Application(),
                     entity1 = new Entity('myEntity1');
 
@@ -67,17 +67,38 @@ define(function (require) {
                 expect(app.getRouteFor(entity1.dashboardView())).toBe('http://localhost/dashboard');
             });
 
-            it('should returns the url specified in the entity when the URL is not specified in the view', function () {
+            it('should not consider protocol relative URL as a relative path', function () {
+                var app = new Application(),
+                    entity1 = new Entity('myEntity1');
+
+                entity1.dashboardView().url('//localhost/dashboard');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('//localhost/dashboard');
+            });
+
+            it('should return the url specified in the entity when the URL is not specified in the view', function () {
                 var app = new Application(),
                     entity1 = new Entity('comments');
 
-                entity1.baseURL('http://api.com/');
+                entity1.baseApiUrl('http://api.com/');
                 app.addEntity(entity1);
 
                 expect(app.getRouteFor(entity1.dashboardView())).toBe('http://api.com/comments');
             });
 
-            it('should returns the url specified in the app when the URL is not specified in the view nor in the entity', function () {
+            it('should return the url specified in the entity when the app also define a base URL', function () {
+                var app = new Application(),
+                    entity1 = new Entity('comments');
+
+                entity1.baseApiUrl('//api.com/');
+                app.baseApiUrl('http://api-entity.com/');
+                app.addEntity(entity1);
+
+                expect(app.getRouteFor(entity1.dashboardView())).toBe('//api.com/comments');
+            });
+
+            it('should return the url specified in the app when the URL is not specified in the view nor in the entity', function () {
                 var app = new Application(),
                     entity1 = new Entity('comments');
 
@@ -113,7 +134,7 @@ define(function (require) {
                 expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/myView/:1');
             });
 
-            it('should not prepend baseURL when the URL begins with http', function () {
+            it('should not prepend baseApiUrl when the URL begins with http', function () {
                 var app = new Application(),
                     entity1 = new Entity('comments');
 
