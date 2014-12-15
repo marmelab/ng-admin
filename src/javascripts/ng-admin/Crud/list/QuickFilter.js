@@ -9,6 +9,9 @@ define(function (require) {
     function QuickFilterDirective() {
         return {
             restrict: 'E',
+            scope: {
+                quickFilters: '='
+            },
             template: quickFilterView,
             controllerAs: 'quickFilterCtrl',
             controller: QuickFilterController

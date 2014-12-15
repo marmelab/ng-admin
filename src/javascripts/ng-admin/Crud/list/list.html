@@ -25,8 +25,17 @@
 
 </div>
 
-<quick-filter></quick-filter>
+<quick-filter quick-filters="listController.quickFilters"></quick-filter>
 
 <div class="row">
-    <datagrid ng-init="name=view.name()"></datagrid>
+    <datagrid name="{{ listController.view.name() }}"
+              entries="listController.entries"
+              fields="listController.fields"
+              listActions="listController.listActions"
+              entity="listController.entity"
+              next-page="listController.nextPage"
+              per-page="listController.itemsPerPage"
+              total-items="{{ listController.totalItems }}"
+              infinite-pagination="listController.infinitePagination">
+    </datagrid>
 </div>

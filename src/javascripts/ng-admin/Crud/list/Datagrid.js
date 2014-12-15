@@ -10,6 +10,16 @@ define(function (require) {
         return {
             restrict: 'E',
             template: datagridView,
+            scope: {
+                name: '@',
+                entries: '=',
+                fields: '=',
+                listActions: '=',
+                entity: '=',
+                perPage: '=',
+                nextPage: '=',
+                totalItems: '@'
+            },
             controllerAs: 'datagrid',
             controller: DatagridController
         };

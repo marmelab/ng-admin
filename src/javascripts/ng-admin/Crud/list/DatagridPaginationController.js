@@ -3,21 +3,18 @@
 define(function () {
     'use strict';
 
-    function DatagridPaginationController($scope, $location, $anchorScroll, progression, RetrieveQueries) {
+    function DatagridPaginationController($scope, $location, $anchorScroll) {
         this.$scope = $scope;
         this.$location = $location;
-        this.loadingPage = false;
         this.$anchorScroll = $anchorScroll;
-        this.progression = progression;
-        this.RetrieveQueries = RetrieveQueries;
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
-        var perPage = this.$scope.view.perPage(),
+        var perPage = this.$scope.perPage,
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
-        this.infinitePagination = this.$scope.hasPagination && this.$scope.view.infinitePagination();
+        this.infinitePagination = this.$scope.hasPagination && this.$scope.infinitePagination;
         this.currentPage = currentPage;
         this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
@@ -45,28 +42,17 @@ define(function () {
     };
 
     DatagridPaginationController.prototype.nextPage = function () {
-        var view = this.$scope.view;
-        if (this.loadingPage || !this.infinitePagination || this.currentPage === this.nbPages) {
+        if (!this.infinitePagination || this.currentPage === this.nbPages) {
             return;
         }
 
-        var self = this,
-            searchParams = this.$location.search(),
+        var searchParams = this.$location.search(),
             sortField = 'sortField' in searchParams ? searchParams.sortField : '',
             sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
 
-        this.loadingPage = true;
         this.currentPage++;
 
-        this.progression.start();
-        this.RetrieveQueries
-            .getAll(view, this.currentPage, true, null, sortField, sortDir)
-            .then(function (nextData) {
-                self.progression.done();
-
-                self.$scope.entries = self.$scope.entries.concat(nextData.entries);
-                self.loadingPage = false;
-            });
+        this.$scope.nextPage(this.currentPage, sortField, sortDir);
     };
 
     /**
@@ -83,7 +69,7 @@ define(function () {
         this.$anchorScroll(0);
     };
 
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', 'progression', 'RetrieveQueries'];
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll'];
 
     return DatagridPaginationController;
 });

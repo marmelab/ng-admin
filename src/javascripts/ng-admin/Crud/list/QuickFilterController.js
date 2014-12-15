@@ -14,10 +14,12 @@ define(function () {
         this.$location = $location;
 
         var searchParams = this.$location.search();
-        this.quickFilters = this.$scope.view.getQuickFilterNames();
         this.currentQuickFilter = 'quickFilter' in searchParams ? searchParams.quickFilter : null;
-        this.displayFilterQuery = this.$scope.view.filterQuery() !== false;
     }
+
+    QuickFilterController.prototype.canDisplayQuickFilters = function () {
+        return this.$scope.quickFilters.length > 0;
+    };
 
     QuickFilterController.prototype.filter = function (label) {
         this.$location.search('quickFilter', label);
