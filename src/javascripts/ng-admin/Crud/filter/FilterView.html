@@ -1,10 +1,27 @@
+<form class="filters" ng-if="filterFields()" ng-submit="filterViewCtrl.filter()">
 
-<form class="filters" ng-if="filterViewCtrl.displayFilterQuery" ng-submit="filterViewCtrl.filter()">
-    <div class="input-group">
-        <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-            <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
-        </span>
+    <div ng-repeat="field in filterFields() | orderElement track by $index" ng-switch="field.type()">
+        <ma-input-field ng-switch-when="string" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+
+        <ma-input-field ng-switch-when="password" type="password" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+
+        <ma-input-field ng-switch-when="email" type="email" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+
+        <ma-input-field ng-switch-when="boolean" type="checkbox" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+
+        <ma-input-field ng-switch-when="number" type="number" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+
+        <ma-text-field ng-switch-when="text" field="::field" value="filterViewCtrl.values[field.name()]"></ma-text-field>
+
+        <ma-date-field ng-switch-when="date" field="::field" value="filterViewCtrl.values[field.name()]"></ma-date-field>
+
+        <ma-choice-field ng-switch-when="choice" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choice-field>
+
+        <ma-choices-field ng-switch-when="choices" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choices-field>
     </div>
+
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+        <button class="btn btn-default" type="button" ng-click="filterViewCtrl.clearFilters()"><span class="glyphicon glyphicon-remove"></span></button>
+    </span>
 </form>

@@ -4,11 +4,7 @@
         <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
     </ma-view-actions>
 
-    <ma-field-view>
-
-    </ma-field-view>
-
-    </div>
+    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
 
     <div class="page-header">
         <h1 compile="listController.title">

@@ -48,14 +48,14 @@ define(function (require) {
      * @param {ListView} view                the view associated to the entity
      * @param {Number}   page                the page number
      * @param {Boolean}  fillSimpleReference should we fill Reference list
-     * @param {String}   query               searchQuery to filter elements
+     * @param {Object}   searchParams        searchQuery to filter elements
      * @param {String}   sortField           the field to be sorted ex: entity.fieldName
      * @param {String}   sortDir             the direction of the sort
      * @param {Object}   filters             filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, query, sortField, sortDir, filters) {
+    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, searchParams, sortField, sortDir, filters) {
         var rawEntries,
             entries,
             referencedValues,
@@ -64,7 +64,7 @@ define(function (require) {
         page = page || 1;
         fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
 
-        return this.getRawValues(view, page, query, sortField, sortDir, filters)
+        return this.getRawValues(view, page, searchParams, sortField, sortDir, filters)
             .then(function (values) {
                 rawEntries = values;
 
@@ -91,23 +91,23 @@ define(function (require) {
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {ListView} listView  the view associated to the entity
-     * @param {Number}   page      the page number
-     * @param {String}   query     searchQuery to filter elements
-     * @param {String}   sortField the field to be sorted ex: entity.fieldName
-     * @param {String}   sortDir   the direction of the sort
-     * @param {Object}   filters   filter specific fields
+     * @param {ListView} listView     the view associated to the entity
+     * @param {Number}   page         the page number
+     * @param {Object}   searchParams searchQuery to filter elements
+     * @param {String}   sortField    the field to be sorted ex: entity.fieldName
+     * @param {String}   sortDir      the direction of the sort
+     * @param {Object}   filters      filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getRawValues = function (listView, page, query, sortField, sortDir, filters) {
+    RetrieveQueries.prototype.getRawValues = function (listView, page, searchParams, sortField, sortDir, filters) {
         page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
         filters = (typeof (filters) === 'undefined') ? {} : filters;
 
         var interceptor = listView.interceptor(),
             sortView = sortField ? sortField.split('.')[0] : '',
             sortParams = sortView === listView.name() ? listView.getSortParams(sortField.split('.').pop(), sortDir) : null,
-            params = this.config.getQueryParamsFor(listView, listView.getAllParams(page, sortParams, query)),
+            params = this.config.getQueryParamsFor(listView, listView.getAllParams(page, sortParams, searchParams)),
             headers = listView.getAllHeaders(sortParams),
             routeUrl = this.config.getRouteFor(listView),
             fieldName;

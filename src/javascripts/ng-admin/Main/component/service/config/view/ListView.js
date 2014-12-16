@@ -27,10 +27,8 @@ define(function (require) {
         };
     }
 
-    function defaultFilterQuery (query) {
-        return {
-            q: query
-        };
+    function defaultFilterQuery (searchParams) {
+        return searchParams;
     }
 
     function defaultFilterParams(params) {
@@ -118,11 +116,11 @@ define(function (require) {
      *
      * @param {Number} page
      * @param {Object} sortParams
-     * @param {String} query
+     * @param {Object} searchParams
      *
      * @returns {Object}
      */
-    ListView.prototype.getAllParams = function (page, sortParams, query) {
+    ListView.prototype.getAllParams = function (page, sortParams, searchParams) {
         var params = this.getExtraParams(),
             pagination = this.pagination(),
             perPage = this.perPage();
@@ -137,10 +135,10 @@ define(function (require) {
             params = angular.extend(params, sortParams.params);
         }
 
-        // Add query params
-        if (query && query.length) {
+        // Add search params
+        if (searchParams) {
             var filterQuery = this.filterQuery();
-            params = angular.extend(params, filterQuery(query));
+            params = angular.extend(params, filterQuery(searchParams));
         }
 
         return params;

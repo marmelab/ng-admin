@@ -14,11 +14,11 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?q&page&sortField&sortDir&quickFilter',
+                url: '/list/:entity?search&page&sortField&sortDir&quickFilter',
                 params: {
                     entity: null,
-                    q: null,
                     page: null,
+                    search: null,
                     quickFilter: null,
                     sortField: null,
                     sortDir: null
@@ -27,25 +27,39 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
+                    data: ['$stateParams', '$location', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, $location, RetrieveQueries, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
+                            entity = config.getEntity($stateParams.entity),
+                            filterFields = entity.filterView().getFields(),
+                            queryParams = $location.search(),
+                            quickFilters,
+                            filterName,
                             page = $stateParams.page,
-                            query = $stateParams.q,
+                            searchParams = {},
                             sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir,
                             quickFilter = $stateParams.quickFilter,
-                            filters = null;
+                            i;
 
                         if (!listView.isEnabled()) {
                             throw new Error('the list view is disabled for this entity');
                         }
 
-                        if (quickFilter) {
-                            filters = listView.getQuickFilterParams(quickFilter);
+                        for (i in filterFields) {
+                            // angular-ui router doesn't handle query params like search[q]=test&search[title]=hello
+                            filterName = 'search[' + i + ']';
+
+                            if (filterName in queryParams) {
+                                searchParams[i] = queryParams[filterName];
+                            }
                         }
 
-                        return RetrieveQueries.getAll(listView, page, true, query, sortField, sortDir, filters);
+                        if (quickFilter) {
+                            quickFilters = listView.getQuickFilterParams(quickFilter);
+                        }
+
+                        return RetrieveQueries.getAll(listView, page, true, searchParams, sortField, sortDir, quickFilters);
                     }]
                 }
             });

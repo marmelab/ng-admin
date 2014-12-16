@@ -11,8 +11,7 @@ define(function (require) {
             restrict: 'E',
             template: datagridView,
             scope: {
-                name: '@',
-                fields: '@'
+                filterFields: '&'
             },
             controllerAs: 'filterViewCtrl',
             controller: FilterViewController
