@@ -20,7 +20,7 @@ define(function () {
 
         this.$scope.filterQuery = 'q' in searchParams ? searchParams.q : '';
         this.entries = data.entries;
-        this.fields = this.view.getDisplayedFields();
+        this.fields = this.view.displayedFields;
         this.listActions = this.view.listActions();
         this.entity = this.view.getEntity();
         this.quickFilters = this.view.getQuickFilterNames();

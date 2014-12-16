@@ -15,6 +15,7 @@ define(function () {
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
+        this.filters = {};
 
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
@@ -80,8 +81,8 @@ define(function () {
         this.$location.search('sortDir', dir);
     };
 
-    DatagridController.prototype.filter = function() {
-
+    DatagridController.prototype.filter = function (form, $event) {
+        $event.preventDefault();
     };
 
     /**

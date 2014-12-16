@@ -36,7 +36,7 @@ define(function (require) {
                 panel = panels[i];
 
                 var view = panel.view,
-                    fields = view.getDisplayedFields(),
+                    fields = view.displayedFields,
                     field,
                     j,
                     entries = panel.entries,
@@ -55,7 +55,7 @@ define(function (require) {
                 self.panels.push({
                     label: view.title(),
                     viewName: view.name(),
-                    fields: panel.view.getDisplayedFields(),
+                    fields: panel.view.displayedFields,
                     entity: panel.view.getEntity(),
                     perPage: panel.view.perPage(),
                     entries: entries

@@ -9,7 +9,7 @@
                         {{ field.label() }}
                     </a>
 
-                    <input type="text" />
+                    <input type="text" ng-model="datagrid.filters[field.name()]" />
                 </th>
                 <th ng-if="listActions">
                     Actions
