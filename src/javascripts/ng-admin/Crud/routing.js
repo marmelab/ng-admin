@@ -14,7 +14,7 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?search&page&sortField&sortDir&quickFilter',
+                url: '/list/:entity?{search:json}&page&sortField&sortDir&quickFilter',
                 params: {
                     entity: null,
                     page: null,
@@ -27,32 +27,18 @@ define(function (require) {
                 controllerAs: 'listController',
                 template: listTemplate,
                 resolve: {
-                    data: ['$stateParams', '$location', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, $location, RetrieveQueries, Configuration) {
+                    data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
-                            entity = config.getEntity($stateParams.entity),
-                            filterFields = entity.filterView().getFields(),
-                            queryParams = $location.search(),
+                            searchParams = $stateParams.search,
                             quickFilters,
-                            filterName,
                             page = $stateParams.page,
-                            searchParams = {},
                             sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir,
-                            quickFilter = $stateParams.quickFilter,
-                            i;
+                            quickFilter = $stateParams.quickFilter;
 
                         if (!listView.isEnabled()) {
                             throw new Error('the list view is disabled for this entity');
-                        }
-
-                        for (i in filterFields) {
-                            // angular-ui router doesn't handle query params like search[q]=test&search[title]=hello
-                            filterName = 'search[' + i + ']';
-
-                            if (filterName in queryParams) {
-                                searchParams[i] = queryParams[filterName];
-                            }
                         }
 
                         if (quickFilter) {

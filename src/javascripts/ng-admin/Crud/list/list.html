@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row list-header">
+
+    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
 
     <ma-view-actions override="listController.actions" entity="view.entity">
         <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
     </ma-view-actions>
-
-    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
 
     <div class="page-header">
         <h1 compile="listController.title">

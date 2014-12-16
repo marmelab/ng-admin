@@ -1,6 +1,6 @@
 <form class="filters" ng-if="filterFields()" ng-submit="filterViewCtrl.filter()">
 
-    <div ng-repeat="field in filterFields() | orderElement track by $index" ng-switch="field.type()">
+    <div class="filter" ng-repeat="field in filterFields() | orderElement track by $index" ng-switch="field.type()">
         <ma-input-field ng-switch-when="string" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
         <ma-input-field ng-switch-when="password" type="password" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
@@ -20,7 +20,7 @@
         <ma-choices-field ng-switch-when="choices" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choices-field>
     </div>
 
-    <span class="input-group-btn">
+    <span class="btn-group" role="group">
         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
         <button class="btn btn-default" type="button" ng-click="filterViewCtrl.clearFilters()"><span class="glyphicon glyphicon-remove"></span></button>
     </span>

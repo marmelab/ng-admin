@@ -5,38 +5,33 @@ define(function () {
 
     /**
      *
-     * @param {$scope}    $scope
-     * @param {$location} $location
-     * @param {$window}   $window
+     * @param {$scope}       $scope
+     * @param {$state}       $state
+     * @param {$stateParams} $stateParams
      *
      * @constructor
      */
-    function FilterViewController($scope, $location, $window) {
+    function FilterViewController($scope, $state, $stateParams) {
         this.$scope = $scope;
-        this.$location = $location;
-        this.$window = $window;
+        this.$state = $state;
+        this.$stateParams = $stateParams;
         this.values = {};
 
-        var searchParams = this.$location.search(),
-            filters = this.$scope.filterFields(),
-            paramName,
-            i;
-
-        for (i in filters) {
-            paramName = this.getParamName(i);
-
-            this.values[i] = paramName in searchParams ? searchParams[paramName] : null;
-        }
+        this.values = this.$stateParams.search;
     }
 
     FilterViewController.prototype.filter = function () {
-        var i;
+        var values = {},
+            i;
 
         for (i in this.values) {
-            this.$location.search(this.getParamName(i), this.values[i]);
+            if (this.values[i]) {
+                values[i] = this.values[i];
+            }
         }
 
-        this.$window.location.reload();
+        this.$stateParams.search = values;
+        this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
     };
 
     FilterViewController.prototype.clearFilters = function () {
@@ -49,11 +44,7 @@ define(function () {
         this.filter();
     };
 
-    FilterViewController.prototype.getParamName = function (fieldName) {
-        return 'search[' + fieldName + ']';
-    };
-
-    FilterViewController.$inject = ['$scope', '$location', '$window'];
+    FilterViewController.$inject = ['$scope', '$state', '$stateParams'];
 
     return FilterViewController;
 });
