@@ -1,8 +1,8 @@
 <span ng-repeat="button in buttons" ng-switch="button" class="view_actions">
-    <back-button ng-switch-when="back"></back-button>
-    <list-button ng-switch-when="list" entity="entity"></list-button>
-    <create-button ng-switch-when="create" entity="entity"></create-button>
-    <show-button ng-switch-when="show" entry="entry" entity="entity"></show-button>
-    <edit-button ng-switch-when="edit" entry="entry" entity="entity"></edit-button>
-    <delete-button ng-switch-when="delete" entry="entry" entity="entity"></delete-button>
+    <ma-back-button ng-switch-when="back"></ma-back-button>
+    <ma-list-button ng-switch-when="list" entity="entity"></ma-list-button>
+    <ma-create-button ng-switch-when="create" entity="entity"></ma-create-button>
+    <ma-show-button ng-switch-when="show" entry="entry" entity="entity"></ma-show-button>
+    <ma-edit-button ng-switch-when="edit" entry="entry" entity="entity"></ma-edit-button>
+    <ma-delete-button ng-switch-when="delete" entry="entry" entity="entity"></ma-delete-button>
 </span>

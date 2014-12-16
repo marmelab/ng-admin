@@ -31,7 +31,7 @@ define(function () {
      */
     DatagridController.prototype.gotoDetail = function (entry) {
         this.clearRouteParams();
-        var route = this.$scope.entity.isReadOnly ? 'show' : 'edit';
+        var route = this.$scope.entity().isReadOnly ? 'show' : 'edit';
 
         this.$location.path('/' + route + '/' + entry.entityName + '/' + entry.identifierValue);
         this.$anchorScroll(0);
@@ -79,10 +79,6 @@ define(function () {
 
         this.$location.search('sortField', fieldName);
         this.$location.search('sortDir', dir);
-    };
-
-    DatagridController.prototype.filter = function (form, $event) {
-        $event.preventDefault();
     };
 
     /**

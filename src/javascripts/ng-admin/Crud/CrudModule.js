@@ -35,7 +35,8 @@ define(function (require) {
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
     CrudModule.directive('datagridPagination', require('ng-admin/Crud/list/DatagridPagination'));
-    CrudModule.directive('maQuickFilter', require('ng-admin/Crud/list/maQuickFilter'));
+    CrudModule.directive('maQuickFilter', require('ng-admin/Crud/filter/maQuickFilter'));
+    CrudModule.directive('maFilterView', require('ng-admin/Crud/filter/maFilterView'));
 
     CrudModule.directive('stringColumn', require('ng-admin/Crud/column/StringColumn'));
     CrudModule.directive('passwordColumn', require('ng-admin/Crud/column/PasswordColumn'));
@@ -51,12 +52,12 @@ define(function (require) {
     CrudModule.directive('wysiwygColumn', require('ng-admin/Crud/column/WysiwygColumn'));
     CrudModule.directive('templateColumn', require('ng-admin/Crud/column/TemplateColumn'));
 
-    CrudModule.directive('backButton', require('ng-admin/Crud/button/BackButton'));
-    CrudModule.directive('createButton', require('ng-admin/Crud/button/CreateButton'));
-    CrudModule.directive('editButton', require('ng-admin/Crud/button/EditButton'));
-    CrudModule.directive('showButton', require('ng-admin/Crud/button/ShowButton'));
-    CrudModule.directive('listButton', require('ng-admin/Crud/button/ListButton'));
-    CrudModule.directive('deleteButton', require('ng-admin/Crud/button/DeleteButton'));
+    CrudModule.directive('maBackButton', require('ng-admin/Crud/button/maBackButton'));
+    CrudModule.directive('maCreateButton', require('ng-admin/Crud/button/maCreateButton'));
+    CrudModule.directive('maEditButton', require('ng-admin/Crud/button/maEditButton'));
+    CrudModule.directive('maShowButton', require('ng-admin/Crud/button/maShowButton'));
+    CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
+    CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
 
     CrudModule.directive('viewActions', require('ng-admin/Crud/misc/ViewActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));

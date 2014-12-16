@@ -9,19 +9,19 @@ define(function (require) {
 
     describe("Service: ListView config", function () {
 
-        describe('listActions()', function() {
-            it('should return the view', function() {
+        describe('listActions()', function () {
+            it('should return the view', function () {
                 var view = new ListView();
                 expect(view.listActions(['edit'])).toBe(view);
             });
 
-            it('should store the listActions for the Datagrid', function() {
+            it('should store the listActions for the Datagrid', function () {
                 var view = new ListView();
                 expect(view.listActions(['edit']).listActions()).toEqual(['edit']);
-            })
+            });
         });
 
-        describe('addQuickFilter()', function() {
+        describe('addQuickFilter()', function () {
             it('should store quickfilter by name', function () {
                 var list = new ListView();
 
@@ -29,10 +29,10 @@ define(function (require) {
 
                 expect(list.getQuickFilterNames()).toEqual(['Today']);
                 expect(list.getQuickFilterParams('Today')).toEqual({'now': 1});
-            });            
+            });
         });
 
-        describe('extraParams()', function() {
+        describe('extraParams()', function () {
             it('should set extra params', function () {
                 var list = new ListView('allCats');
                 list
@@ -55,7 +55,7 @@ define(function (require) {
             });
         });
 
-        describe('map()', function() {
+        describe('map()', function () {
             it('should apply the function argument to all list values', function () {
                 var list = new ListView('allCats');
                 list

@@ -1,10 +1,10 @@
 <div class="row">
 
-    <view-actions override="showController.actions" entry="entry" entity="view.entity">
-        <list-button entity="entity"></list-button>
-        <edit-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></edit-button>
-        <delete-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></delete-button>
-    </view-actions>
+    <ma-view-actions override="showController.actions" entry="entry" entity="view.entity">
+        <ma-list-button entity="entity"></ma-list-button>
+        <ma-edit-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></ma-edit-button>
+        <ma-delete-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></ma-delete-button>
+    </ma-view-actions>
 
     <div class="page-header">
         <h1 compile="showController.title">
@@ -44,7 +44,16 @@
 
             <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
 
-            <datagrid ng-switch-when="ReferencedList" ng-init="view=field.getReferencedView();columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
+            <ma-datagrid ng-switch-when="ReferencedList"
+                         name="{{ field.getReferencedView().name() }}"
+                         entries="field.entries"
+                         fields="field.getReferencedView().displayedFields"
+                         entity="field.getReferencedView().entity"
+                         per-page="field.getReferencedView().perPage()"
+                         listActions="[]"
+                         infinite-pagination="false"
+                         with-pagination="false">
+            </ma-datagrid>
 
             <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
 

@@ -13,12 +13,12 @@ define(function (require) {
             scope: {
                 'buttons': '=',
                 'entry': '=',
-                'entity': '='
+                'entity': '&'
             },
             template: listActionsTemplate,
-            link: function($scope) {
+            link: function ($scope) {
                 $scope.customTemplate = false;
-                if (typeof $scope.buttons == 'string') {
+                if (typeof $scope.buttons === 'string') {
                     $scope.customTemplate = $scope.buttons;
                     $scope.buttons = null;
                 }

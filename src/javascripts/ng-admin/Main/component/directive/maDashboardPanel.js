@@ -12,8 +12,8 @@ define(function (require) {
                 label: '@',
                 viewName: '@',
                 entries: '=',
-                fields: '=',
-                entity: '=',
+                fields: '&',
+                entity: '&',
                 perPage: '='
             },
             template: dashboardPanelView

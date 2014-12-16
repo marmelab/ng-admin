@@ -1,0 +1,10 @@
+
+<form class="filters" ng-if="filterViewCtrl.displayFilterQuery" ng-submit="filterViewCtrl.filter()">
+    <div class="input-group">
+        <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+            <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
+        </span>
+    </div>
+</form>

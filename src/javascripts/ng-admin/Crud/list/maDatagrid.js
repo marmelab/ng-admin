@@ -13,9 +13,9 @@ define(function (require) {
             scope: {
                 name: '@',
                 entries: '=',
-                fields: '=',
-                listActions: '=',
-                entity: '=',
+                fields: '&',
+                listActions: '&',
+                entity: '&',
                 perPage: '=',
                 nextPage: '=',
                 totalItems: '@'
