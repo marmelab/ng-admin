@@ -68,7 +68,7 @@ define(function (require) {
             .then(function (values) {
                 rawEntries = values;
 
-                return self.getReferencedValues(view);
+                return self.getReferencedValues(view, view.getIdentifierValues(rawEntries.data));
             }).then(function (refValues) {
                 referencedValues = refValues;
 
@@ -132,14 +132,16 @@ define(function (require) {
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      *
-     * @param {View} view
+     * @param {View}  view
+     * @param {Array} identifiers
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedValues = function (view) {
+    RetrieveQueries.prototype.getReferencedValues = function (view, identifiers) {
         var self = this,
             references = view.getReferences(),
             calls = [],
+            filter,
             reference,
             referencedView,
             i,
@@ -148,8 +150,9 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
             referencedView = reference.getReferencedView();
+            filter = reference.getFilter(identifiers);
 
-            calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC'));
+            calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', filter));
         }
 
         return this.$q.all(calls)

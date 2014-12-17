@@ -13,6 +13,7 @@ define(function (require) {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
+        filter: null,
         targetEntity : null,
         targetField : null,
         isDetailLink: null,
@@ -144,6 +145,10 @@ define(function (require) {
         }
 
         return this.referencedView;
+    };
+
+    Reference.prototype.getFilter = function (identifiers) {
+        return typeof this.config.filter === 'function' ? this.config.filter(identifiers) : this.config.filter;
     };
 
     Reference.prototype.getSortFieldName = function () {

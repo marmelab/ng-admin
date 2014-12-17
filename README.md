@@ -175,6 +175,11 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new Reference('post_id')
             .label('Post title')
             .map(truncate)
+            .filter(function (postIds) { // If your API support it, you can pass the list of identifiers to retrieve (instead of retrieve element by element)
+                return {
+                    'post_id[]': postIds
+                };
+            })
             .targetEntity(post)
             .targetField(new Field('title'))
         )
@@ -600,6 +605,16 @@ Define the target field name used to retrieve the label of the referenced elemen
             .targetEntity(post) // Select a target Entity
             .targetField(new Field('title')) // Select a label Field
         );
+        
+* `filter(function(entityIds) {}`
+Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
+
+		// Will call /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
+		commentList.addField(new Reference('post_id').filter(function (postIds) {
+          return {
+            'post_id[]': postIds
+          };
+        })
 
 ### ReferencedList
 
@@ -641,6 +656,16 @@ Define the field name used to link the referenced entity.
            .targetEntity(tag) // Targeted entity
            .targetField(new Field('name')) // Label Field to display in the list
         )
+        
+* `filter(function(entityIds) {}`
+Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
+
+		// Will call /tags?tag_id[]=1&tag_id[]=2&tag_id%[]=5...
+		postList.addField(new ReferenceMany('tags').filter(function (tagIds) {
+          return {
+            'tag_id[]': tagIds
+          };
+        })
 
 ## Development
 

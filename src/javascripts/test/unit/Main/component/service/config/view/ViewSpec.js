@@ -86,5 +86,15 @@ define(function (require) {
             expect(entry.values.title).toEqual('Hello');
         });
 
+        it('Should return identifier values', function () {
+            var view = new View(),
+                identifiers;
+
+            view.addField(new Field('_id').identifier(true));
+
+            identifiers = view.getIdentifierValues([{_id: 1, name:'cat'}, {_id:3, id:6, title:'hello'}]);
+            expect(identifiers).toEqual(['1', '3']);
+        });
+
     });
 });

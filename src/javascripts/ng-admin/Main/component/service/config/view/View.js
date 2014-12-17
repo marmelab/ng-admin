@@ -228,6 +228,25 @@ define(function (require) {
     };
 
     /**
+     * Returns identifier values from a collection of raw values
+     *
+     * @param {Array} rawValues
+     *
+     * @returns {Array}
+     */
+    View.prototype.getIdentifierValues = function (rawValues) {
+        var results = {},
+            identifierName = this.identifier().name(),
+            i, l;
+
+        for (i = 0, l = rawValues.length; i < l; i++) {
+            results[rawValues[i][identifierName]] = true;
+        }
+
+        return Object.keys(results);
+    };
+
+    /**
      * Map raw entities (from REST response) into entries & fill reference values
      *
      * @param {[Object]} rawEntries
