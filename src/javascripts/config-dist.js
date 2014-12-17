@@ -68,7 +68,7 @@
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
-            .transformParams(transformParams) // use the custom pagination function to format the API request correctly
+            .transformParams(transformParams) // use the custom query parameters function to format the API request correctly
             .addField(new Field('title').isDetailLink(true).map(truncate));
 
         post.listView()
