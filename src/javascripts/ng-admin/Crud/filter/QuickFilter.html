@@ -5,7 +5,7 @@
     <li ng-class="{active: !quickFilterCtrl.currentQuickFilter}">
         <a ng-click="quickFilterCtrl.filter(null)">None</a>
     </li>
-    <li ng-repeat="label in quickFilterCtrl.quickFilters" ng-class="{active: quickFilterCtrl.currentQuickFilter === label}">
+    <li ng-repeat="label in quickFilters" ng-class="{active: quickFilterCtrl.currentQuickFilter === label}">
         <a ng-click="quickFilterCtrl.filter(label)">{{ label }}</a>
     </li>
 </ul>

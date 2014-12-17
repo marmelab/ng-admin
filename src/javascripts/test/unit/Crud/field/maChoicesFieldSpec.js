@@ -15,12 +15,12 @@ define(function (require) {
 
         beforeEach(module('testapp_ChoicesField'));
 
-        beforeEach(inject(function(_$compile_, _$rootScope_){
+        beforeEach(inject(function (_$compile_, _$rootScope_) {
             $compile = _$compile_;
             scope = _$rootScope_;
         }));
 
-        it("should contain a select multiple tag", function() {
+        it("should contain a select multiple tag", function () {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -28,14 +28,14 @@ define(function (require) {
             expect(element.children()[0].multiple).toBeTruthy();
         });
 
-        it("should add any supplied attribute", function() {
+        it("should add any supplied attribute", function () {
             scope.field = new Field().attributes({ disabled: true });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].disabled).toBeTruthy();
         });
 
-        it("should contain the field classes", function() {
+        it("should contain the field classes", function () {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -44,9 +44,9 @@ define(function (require) {
             expect(select.hasClass('bar')).toBeTruthy();
         });
 
-        it("should contain the choices as options", function() {
+        it("should contain the choices as options", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'bar'}, 
+                {label: 'foo', value: 'bar'},
                 {label: 'baz', value: 'bazValue'}
             ]);
             var element = $compile(directiveUsage)(scope);
@@ -58,11 +58,11 @@ define(function (require) {
             expect(options[1].value).toEqual('bazValue');
         });
 
-        it("should have the options with the bounded value selected", function() {
+        it("should have the options with the bounded value selected", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'fooValue'}, 
-                {label: 'bar', value: 'barValue'}, 
-                {label: 'baz', value: 'bazValue'}, 
+                {label: 'foo', value: 'fooValue'},
+                {label: 'bar', value: 'barValue'},
+                {label: 'baz', value: 'bazValue'}
             ]);
             scope.value = ['fooValue', 'bazValue'];
             var element = $compile(directiveUsage)(scope);

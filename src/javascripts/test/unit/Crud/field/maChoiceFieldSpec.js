@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    describe('directive: choice-field', function() {
+    describe('directive: choice-field', function () {
         var directive = require('ng-admin/Crud/field/maChoiceField');
         var Field = require('ng-admin/Main/component/service/config/Field');
         angular.module('testapp_ChoiceField', []).directive('maChoiceField', directive);
@@ -15,26 +15,26 @@ define(function (require) {
 
         beforeEach(module('testapp_ChoiceField'));
 
-        beforeEach(inject(function(_$compile_, _$rootScope_){
+        beforeEach(inject(function (_$compile_, _$rootScope_) {
             $compile = _$compile_;
             scope = _$rootScope_;
         }));
 
-        it("should contain a select tag", function() {
+        it("should contain a select tag", function () {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].nodeName).toBe('SELECT');
         });
 
-        it("should add any supplied attribute", function() {
+        it("should add any supplied attribute", function () {
             scope.field = new Field().attributes({ disabled: true });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].disabled).toBeTruthy();
         });
 
-        it("should contain the field classes", function() {
+        it("should contain the field classes", function () {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -43,9 +43,9 @@ define(function (require) {
             expect(select.hasClass('bar')).toBeTruthy();
         });
 
-        it("should provide an initial option for non-required fields", function() {
+        it("should provide an initial option for non-required fields", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'bar'}, 
+                {label: 'foo', value: 'bar'}
             ]);
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -57,9 +57,9 @@ define(function (require) {
             expect(options[1].selected).toBeTruthy();
         });
 
-        it("should provide an initial option for non-required fields", function() {
+        it("should provide an initial option for non-required fields", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'bar'}, 
+                {label: 'foo', value: 'bar'}
             ]).validation({ required: true });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -70,10 +70,10 @@ define(function (require) {
             expect(options[1].value).toEqual('bar');
         });
 
-        it("should contain the choices as options", function() {
+        it("should contain the choices as options", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'bar'}, 
-                {label: 'baz', value: 'bazValue'}, 
+                {label: 'foo', value: 'bar'},
+                {label: 'baz', value: 'bazValue'}
             ]);
             scope.value = 'bar';
             var element = $compile(directiveUsage)(scope);
@@ -85,10 +85,10 @@ define(function (require) {
             expect(options[2].value).toEqual('bazValue');
         });
 
-        it("should have the option with the bounded value selected", function() {
+        it("should have the option with the bounded value selected", function () {
             scope.field = new Field().choices([
-                {label: 'foo', value: 'bar'}, 
-                {label: 'baz', value: 'bazValue'}, 
+                {label: 'foo', value: 'bar'},
+                {label: 'baz', value: 'bazValue'}
             ]);
             scope.value = 'bazValue';
             var element = $compile(directiveUsage)(scope);

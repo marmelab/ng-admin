@@ -20,5 +20,5 @@ exports.config =  {
         showColors: true,
         includeStackTrace: true,
         defaultTimeoutInterval: 360000
-    },
+    }
 };

@@ -41,9 +41,9 @@
 
                 <template-column ng-switch-when="template"></template-column>
             </td>
-            <th ng-if="listActions()">
+            <td ng-if="listActions()">
                 <list-actions entry="entry" entity="::entity()" buttons="listActions()"></list-actions>
-            </th>
+            </td>
         </tr>
     </tbody>
 </table>
