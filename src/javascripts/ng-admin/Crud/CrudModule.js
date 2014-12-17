@@ -28,6 +28,7 @@ define(function (require) {
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
     CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
+    CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));

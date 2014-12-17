@@ -6,21 +6,21 @@ define(function (require) {
     /**
      * Generic edition field
      *
-     * @example <ma-input-field type="text" field="field" value="value"></ma-input-field>
+     * @example <ma-checkbox-field type="text" field="field" value="value"></ma-checkbox-field>
      */
-    function maInputField() {
+    function maCheckboxField() {
         return {
             scope: {
-                'type': '@',
                 'field': '&',
                 'value': '='
             },
             restrict: 'E',
-            link: function(scope, element) {
+            link: function (scope, element) {
                 var field = scope.field();
                 scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.v = field.validation();
+                scope.value = !!scope.value;
                 var input = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
@@ -28,13 +28,12 @@ define(function (require) {
                 }
             },
             template:
-'<input type="{{ type || text }}" ng-model="value" ' +
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' +
-    'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength" />'
+            '<input type="checkbox" ng-model="value" ' +
+            'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" />'
         };
     }
 
-    maInputField.$inject = [];
+    maCheckboxField.$inject = [];
 
-    return maInputField;
+    return maCheckboxField;
 });
