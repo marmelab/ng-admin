@@ -5,28 +5,40 @@ define(function () {
 
     /**
      *
-     * @param {$scope}       $scope
-     * @param {$state}       $state
-     * @param {$stateParams} $stateParams
+     * @param {$scope}        $scope
+     * @param {$state}        $state
+     * @param {$stateParams}  $stateParams
+     * @param {$filter}       $filter
+     * @param {Configuration} Configuration
      *
      * @constructor
      */
-    function FilterViewController($scope, $state, $stateParams) {
+    function FilterViewController($scope, $state, $stateParams, $filter, Configuration) {
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
-        this.values = {};
-
+        this.$filter = $filter;
         this.values = this.$stateParams.search;
+        this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'ListView');
     }
 
     FilterViewController.prototype.filter = function () {
         var values = {},
+            fields = this.view.getFields(),
+            fieldName,
+            field,
             i;
 
-        for (i in this.values) {
-            if (this.values[i]) {
-                values[i] = this.values[i];
+        for (i in fields) {
+            field = fields[i];
+            fieldName = field.name();
+
+            if (this.values[fieldName]) {
+                values[fieldName] = this.values[fieldName];
+
+                if (field.type() === 'date') {
+                    values[fieldName] = this.$filter('date')(values[fieldName], field.format());
+                }
             }
         }
 
@@ -44,7 +56,7 @@ define(function () {
         this.filter();
     };
 
-    FilterViewController.$inject = ['$scope', '$state', '$stateParams'];
+    FilterViewController.$inject = ['$scope', '$state', '$stateParams', '$filter', 'NgAdminConfiguration'];
 
     return FilterViewController;
 });

@@ -50,7 +50,7 @@ define(function () {
             field = fields[i];
             value = entry.values[field.name()];
             if (field.type() === 'date') {
-                value = $filter('date')(value, field.validation().format);
+                value = $filter('date')(value, field.format());
             }
 
             object[field.name()] = value;

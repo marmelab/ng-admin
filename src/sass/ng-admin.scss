@@ -102,6 +102,10 @@ view-actions {
         .filter {
             float: left;
             margin-right: 5px;
+
+            .input-group-btn {
+                width: auto;
+            }
         }
 
         .form-control {
