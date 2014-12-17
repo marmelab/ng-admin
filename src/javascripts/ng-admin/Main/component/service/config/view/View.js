@@ -255,6 +255,10 @@ define(function (require) {
      * @returns {Entry}
      */
     View.prototype.mapEntry = function (rawEntry) {
+        if (!rawEntry) {
+            return new Entry();
+        }
+
         var fields = this.getFields(),
             entry = new Entry(),
             resultEntity = this.getEntity(),
