@@ -29,8 +29,7 @@ define(function (require) {
             },
             template:
             '<input type="checkbox" ng-model="value" ' +
-            'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' +
-            '</type>'
+            'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" />'
         };
     }
 
