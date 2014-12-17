@@ -6,16 +6,19 @@ define(function (require) {
     var quickFilterView = require('text!./QuickFilter.html'),
         QuickFilterController = require('./QuickFilterController');
 
-    function QuickFilterDirective() {
+    function maQuickFilterDirective() {
         return {
             restrict: 'E',
+            scope: {
+                quickFilters: '='
+            },
             template: quickFilterView,
             controllerAs: 'quickFilterCtrl',
             controller: QuickFilterController
         };
     }
 
-    QuickFilterDirective.$inject = [];
+    maQuickFilterDirective.$inject = [];
 
-    return QuickFilterDirective;
+    return maQuickFilterDirective;
 });

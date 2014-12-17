@@ -7,6 +7,7 @@ module.exports = function (config) {
         plugins: ['karma-requirejs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
 
         files: [
+            {pattern: 'bower_components/requirejs-text/text.js', included: false},
             {pattern: 'bower_components/angular/angular.js', included: false},
             {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
             {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
@@ -15,6 +16,7 @@ module.exports = function (config) {
             {pattern: 'ng-admin/**/**/**/*.js', included: false},
             {pattern: 'ng-admin/lib/**/*.js', included: false},
             {pattern: 'ng-admin/**/view/**/*.html', included: false},
+            {pattern: 'ng-admin/**/*/*.html', included: false},
 
             // Test files
             {pattern: 'test/unit/**/**/*.js', included: false},

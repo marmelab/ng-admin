@@ -9,6 +9,7 @@ define(function (require) {
         Field = require('ng-admin/Main/component/service/config/Field'),
         DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
         MenuView = require('ng-admin/Main/component/service/config/view/MenuView'),
+        FilterView = require('ng-admin/Main/component/service/config/view/FilterView'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         ShowView = require('ng-admin/Main/component/service/config/view/ShowView'),
         CreateView = require('ng-admin/Main/component/service/config/view/CreateView'),
@@ -27,6 +28,7 @@ define(function (require) {
         url: null,
         transformParams: defaultTransformParams,
         dashboardView: null,
+        filterView: null,
         menuView: null,
         listView: null,
         showView: null,
@@ -90,6 +92,7 @@ define(function (require) {
     Entity.prototype.initViews = function () {
         this.config.dashboardView = new DashboardView().setEntity(this);
         this.config.menuView = new MenuView();
+        this.config.filterView = new FilterView();
         this.config.listView = new ListView().setEntity(this);
         this.config.showView = new ShowView().setEntity(this);
         this.config.creationView = new CreateView().setEntity(this);
@@ -103,6 +106,8 @@ define(function (require) {
                 return 'dashboardView';
             case 'ListView':
                 return 'listView';
+            case 'FilterView':
+                return 'filterView';
             case 'ShowView':
                 return 'showView';
             case 'CreateView':
@@ -112,7 +117,7 @@ define(function (require) {
             case 'DeleteView':
                 return 'deletionView';
             default:
-                throw new Error('Unkonwn view type ' + viewType);
+                throw new Error('Unknown view type ' + viewType);
         }
     }
 

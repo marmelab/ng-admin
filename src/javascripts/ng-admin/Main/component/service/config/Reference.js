@@ -148,7 +148,7 @@ define(function (require) {
 
     Reference.prototype.getSortFieldName = function () {
         return this.getReferencedView().name() + '.' + this.targetField().name();
-    }
+    };
 
     /**
      * @returns {[Object]}

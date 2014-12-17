@@ -36,7 +36,7 @@ define(function (require) {
 
     MainModule.filter('orderElement', require('ng-admin/Main/component/filter/OrderElement'));
 
-    MainModule.directive('dashboardPanel', require('ng-admin/Main/component/directive/DashboardPanel'));
+    MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
 
     MainModule.config(require('ng-admin/Main/config/http'));

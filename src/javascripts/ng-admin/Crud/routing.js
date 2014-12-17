@@ -14,11 +14,11 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?q&page&sortField&sortDir&quickFilter',
+                url: '/list/:entity?{search:json}&page&sortField&sortDir&quickFilter',
                 params: {
                     entity: null,
-                    q: null,
                     page: null,
+                    search: null,
                     quickFilter: null,
                     sortField: null,
                     sortDir: null
@@ -30,22 +30,22 @@ define(function (require) {
                     data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
                         var config = Configuration(),
                             listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
+                            searchParams = $stateParams.search,
+                            quickFilters,
                             page = $stateParams.page,
-                            query = $stateParams.q,
                             sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir,
-                            quickFilter = $stateParams.quickFilter,
-                            filters = null;
+                            quickFilter = $stateParams.quickFilter;
 
                         if (!listView.isEnabled()) {
                             throw new Error('the list view is disabled for this entity');
                         }
 
                         if (quickFilter) {
-                            filters = listView.getQuickFilterParams(quickFilter);
+                            quickFilters = listView.getQuickFilterParams(quickFilter);
                         }
 
-                        return RetrieveQueries.getAll(listView, page, true, query, sortField, sortDir, filters);
+                        return RetrieveQueries.getAll(listView, page, true, searchParams, sortField, sortDir, quickFilters);
                     }]
                 }
             });

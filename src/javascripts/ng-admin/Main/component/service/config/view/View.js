@@ -36,6 +36,7 @@ define(function (require) {
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name || this.config.name;
+        this.displayedFields = [];
     }
 
     View.prototype.isEnabled = function () {
@@ -87,6 +88,10 @@ define(function (require) {
 
         this.fields[field.name()] = field;
 
+        if (field.displayed()) {
+            this.displayedFields[field.name()] = field;
+        }
+
         return this;
     };
 
@@ -119,26 +124,6 @@ define(function (require) {
      */
     View.prototype.getFields = function () {
         return this.fields;
-    };
-
-    /**
-     * Returns all fields to display
-     *
-     * @returns {[Field]}
-     */
-    View.prototype.getDisplayedFields = function () {
-        var result = {},
-            field,
-            i;
-
-        for (i in this.fields) {
-            field = this.fields[i];
-            if (field.displayed()) {
-                result[i] = field;
-            }
-        }
-
-        return result;
     };
 
     /**

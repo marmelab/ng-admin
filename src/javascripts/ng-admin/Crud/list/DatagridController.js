@@ -7,25 +7,21 @@ define(function () {
      *
      * @param {$scope} $scope
      * @param {$location} $location
+     * @param {$anchorScroll} $anchorScroll
+     *
      * @constructor
      */
     function DatagridController($scope, $location, $anchorScroll) {
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
+        this.filters = {};
 
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
         var searchParams = this.$location.search();
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
-
-        $scope.$watch("view", function () {
-            var view = $scope.view;
-            $scope.fields = view.getDisplayedFields();
-            $scope.listActions = view.listActions();
-            $scope.entity = view.getEntity();
-        });
     }
 
     /**
@@ -35,7 +31,7 @@ define(function () {
      */
     DatagridController.prototype.gotoDetail = function (entry) {
         this.clearRouteParams();
-        var route = this.$scope.view.getEntity().isReadOnly ? 'show' : 'edit';
+        var route = this.$scope.entity().isReadOnly ? 'show' : 'edit';
 
         this.$location.path('/' + route + '/' + entry.entityName + '/' + entry.identifierValue);
         this.$anchorScroll(0);

@@ -10,15 +10,18 @@ define(function (require) {
             restrict: 'E',
             template: referenceManyColumnView,
             link: function ($scope) {
-                var field = $scope.field;
-                var referenceEntity = field.targetEntity().name();
-                var relatedEntity = Configuration().getEntity(referenceEntity);
-                $scope.hasRelatedAdmin = function() {
+                var field = $scope.field,
+                    referenceEntity = field.targetEntity().name(),
+                    relatedEntity = Configuration().getEntity(referenceEntity);
+
+                $scope.hasRelatedAdmin = function () {
                     if (!relatedEntity) return false;
                     return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
                 };
+
                 $scope.gotoReference = function (referenceId) {
-                    var route = relatedEntity.isReadOnly ? 'show' : 'edit'
+                    var route = relatedEntity.isReadOnly ? 'show' : 'edit';
+
                     $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
                 };
             }

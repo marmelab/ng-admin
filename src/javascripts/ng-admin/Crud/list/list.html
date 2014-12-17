@@ -1,20 +1,10 @@
-<div class="row">
+<div class="row list-header">
 
-    <view-actions override="listController.actions" entity="view.entity">
-        <create-button ng-if="!entity.isReadOnly" entity="entity"></create-button>
-    </view-actions>
+    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
 
-    <div class="filters col-md-3">
-        <form id="filter" ng-if="listController.displayFilterQuery" ng-submit="listController.filter()">
-            <div class="input-group">
-                <input type="text" placeholder="Filter" class="form-control" ng-model="$parent.filterQuery">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                    <button class="btn btn-default" type="button" ng-click="listController.clearFilter()"><span class="glyphicon glyphicon-remove"></span></button>
-                </span>
-            </div>
-        </form>
-    </div>
+    <ma-view-actions override="listController.actions" entity="view.entity">
+        <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
+    </ma-view-actions>
 
     <div class="page-header">
         <h1 compile="listController.title">
@@ -25,8 +15,17 @@
 
 </div>
 
-<quick-filter></quick-filter>
+<ma-quick-filter quick-filters="listController.quickFilters"></ma-quick-filter>
 
 <div class="row">
-    <datagrid ng-init="name=view.name()"></datagrid>
+    <ma-datagrid name="{{ listController.view.name() }}"
+              entries="listController.entries"
+              fields="::listController.fields"
+              list-actions="::listController.listActions"
+              entity="::listController.entity"
+              next-page="listController.nextPage"
+              per-page="listController.itemsPerPage"
+              total-items="{{ listController.totalItems }}"
+              infinite-pagination="listController.infinitePagination">
+    </ma-datagrid>
 </div>

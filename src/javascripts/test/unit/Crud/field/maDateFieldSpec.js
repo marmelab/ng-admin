@@ -20,21 +20,21 @@ define(function (require) {
             scope = _$rootScope_;
         }));
 
-        it("should contain an input tag", function() {
+        it("should contain an input tag", function () {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.find('input').eq(0).attr('type')).toBe('text');
         });
 
-        it("should add any supplied attribute", function() {
+        it("should add any supplied attribute", function () {
             scope.field = new Field().attributes({ placeholder: 'here the date' });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.find('input').eq(0).attr('placeholder')).toEqual('here the date');
         });
 
-        it("should contain the field classes", function() {
+        it("should contain the field classes", function () {
             scope.field = new Field().cssClasses(['foo', 'bar']);
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
@@ -43,7 +43,7 @@ define(function (require) {
             expect(input.hasClass('bar')).toBeTruthy();
         });
 
-        it("should contain the bounded value", function() {
+        it("should contain the bounded value", function () {
             scope.field = new Field();
             var now = new Date();
             scope.value = now;

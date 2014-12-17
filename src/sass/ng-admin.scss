@@ -67,11 +67,6 @@ view-actions {
     float: right;
 }
 
-.filters {
-    margin: 40px 0 20px 20px;
-    float: right;
-}
-
 /**
 * Grid
 */
@@ -81,6 +76,52 @@ view-actions {
     li > span {
         padding: 10px 15px;
         display: block;
+    }
+}
+
+.list-header {
+
+    ma-filter-view {
+        margin: 25px 0 15px 0;
+        float: left;
+    }
+
+    ma-view-actions {
+        margin: 25px 0 15px 0;
+        float: right;
+    }
+
+    .page-header {
+        clear: both;
+    }
+
+    /**
+     * Filters
+     */
+    .filters {
+        .filter {
+            float: left;
+            margin-right: 5px;
+
+            .input-group-btn {
+                width: auto;
+            }
+        }
+
+        .datepicker {
+            .form-control {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .btn-default {
+              height: 34px;
+            }
+        }
+
+        .form-control {
+            width: auto;
+        }
     }
 }
 

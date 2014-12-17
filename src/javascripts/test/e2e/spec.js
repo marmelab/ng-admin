@@ -1,4 +1,8 @@
-describe('ng-admin', function() {
+/*global describe,it,expect,$$,element,browser,by*/
+
+describe('ng-admin', function () {
+    'use strict';
+
     describe('Dashboard', function () {
         it('should display a navigation menu linking to all entities', function () {
             browser.get(browser.baseUrl);
@@ -13,7 +17,7 @@ describe('ng-admin', function() {
 
         it('should display a panel for each entity with a list of recent items', function () {
             browser.get(browser.baseUrl);
-            
+
             element.all(by.repeater('panel in dashboardController.panels')).then(function (panels) {
                 expect(panels.length).toBe(3);
 

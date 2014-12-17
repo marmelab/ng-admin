@@ -16,7 +16,7 @@
 
         <ma-text-field ng-switch-when="text" field="::field" value="entry.values[field.name()]"></ma-text-field>
 
-        <ma-date-field ng-switch-when="date" field="::field" value="entry.values[field.name()]"></ma-date-field>
+        <ma-date-field ng-switch-when="date" field="::field" value="entry.values[field.name()]" class="col-sm-4"></ma-date-field>
 
         <ma-choice-field ng-switch-when="choice" field="::field" value="entry.values[field.name()]"></ma-choice-field>
 
@@ -26,7 +26,16 @@
 
         <ma-choices-field ng-switch-when="ReferenceMany" field="::field" value="entry.values[field.name()]"></ma-choices-field>
 
-        <datagrid ng-switch-when="ReferencedList" ng-init="view=field.getReferencedView();columns=field.getGridColumns();entries=field.getEntries();name=field.getReferencedView().name()" with-pagination="false"></datagrid>
+        <ma-datagrid ng-switch-when="ReferencedList"
+                  name="{{ field.getReferencedView().name() }}"
+                  entries="field.entries"
+                  fields="field.getReferencedView().displayedFields"
+                  entity="field.getReferencedView().entity"
+                  per-page="field.getReferencedView().perPage()"
+                  listActions="[]"
+                  infinite-pagination="false"
+                  with-pagination="false">
+        </ma-datagrid>
 
         <ma-wysiwyg-field ng-switch-when="wysiwyg" field="::field" value="entry.values[field.name()]"></ma-wysiwyg-field>
 

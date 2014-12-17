@@ -1,7 +1,7 @@
 <span compile="customTemplate">
     <span ng-repeat="button in buttons" ng-switch="button">
-        <show-button ng-switch-when="show" entry="entry" entity="entity" size="xs"></show-button>
-        <edit-button ng-switch-when="edit" entry="entry" entity="entity" size="xs"></edit-button>
-        <delete-button ng-switch-when="delete" entry="entry" entity="entity" size="xs"></delete-button>
+        <ma-show-button ng-switch-when="show" entry="entry" entity="entity()" size="xs"></ma-show-button>
+        <ma-edit-button ng-switch-when="edit" entry="entry" entity="entity()" size="xs"></ma-edit-button>
+        <ma-delete-button ng-switch-when="delete" entry="entry" entity="entity()" size="xs"></ma-delete-button>
     </span>
 </span>

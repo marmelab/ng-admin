@@ -33,14 +33,14 @@ define(function (require) {
                     scope.isOpen = !scope.isOpen;
                 };
             },
-            template: 
-'<div class="input-group datepicker col-sm-4">' +
+            template:
+'<div class="input-group datepicker">' +
     '<input type="text" ng-model="value" ' +
            'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' +
-           'datepicker-popup="{{ field.format() }}" is-open="isOpen" close-text="Close" ' +
+           'datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ' +
            'ng-required="v.required" />' +
     '<span class="input-group-btn">' +
-        '<button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>' + 
+        '<button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
     '</span>' +
 '</div>'
         };
