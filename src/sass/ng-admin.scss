@@ -108,6 +108,17 @@ view-actions {
             }
         }
 
+        .datepicker {
+            .form-control {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+            
+            .btn-default {
+              height: 34px;
+            }
+        }
+
         .form-control {
             width: auto;
         }

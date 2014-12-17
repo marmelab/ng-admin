@@ -1,23 +1,30 @@
-<form class="filters" ng-if="filterFields()" ng-submit="filterViewCtrl.filter()">
+<form class="filters navbar-form" ng-if="filterFields()" ng-submit="filterViewCtrl.filter()">
 
-    <div class="filter" ng-repeat="field in filterFields() | orderElement track by $index" ng-switch="field.type()">
-        <ma-input-field ng-switch-when="string" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+    <div class="filter form-group input-group" ng-repeat="field in filterFields() | orderElement track by $index">
 
-        <ma-input-field ng-switch-when="password" type="password" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+        <label for="{{ field.name() }}" ng-if="field.label()" class="input-group-addon">
+            {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
+        </label>
 
-        <ma-input-field ng-switch-when="email" type="email" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+        <div ng-switch="field.type()">
+            <ma-input-field ng-switch-when="string" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
-        <ma-input-field ng-switch-when="boolean" type="checkbox" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+            <ma-input-field ng-switch-when="password" type="password" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
-        <ma-input-field ng-switch-when="number" type="number" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
+            <ma-input-field ng-switch-when="email" type="email" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
-        <ma-text-field ng-switch-when="text" field="::field" value="filterViewCtrl.values[field.name()]"></ma-text-field>
+            <ma-input-field ng-switch-when="boolean" type="checkbox" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
-        <ma-date-field ng-switch-when="date" field="::field" value="filterViewCtrl.values[field.name()]"></ma-date-field>
+            <ma-input-field ng-switch-when="number" type="number" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
-        <ma-choice-field ng-switch-when="choice" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choice-field>
+            <ma-text-field ng-switch-when="text" field="::field" value="filterViewCtrl.values[field.name()]"></ma-text-field>
 
-        <ma-choices-field ng-switch-when="choices" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choices-field>
+            <ma-date-field ng-switch-when="date" field="::field" value="filterViewCtrl.values[field.name()]"></ma-date-field>
+
+            <ma-choice-field ng-switch-when="choice" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choice-field>
+
+            <ma-choices-field ng-switch-when="choices" field="::field" value="filterViewCtrl.values[field.name()]"></ma-choices-field>
+        </div>
     </div>
 
     <span class="btn-group" role="group">

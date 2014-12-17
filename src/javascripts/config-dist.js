@@ -28,11 +28,16 @@
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
 
-        function pagination(page, maxPerPage) {
-            return {
-                _start: (page - 1) * maxPerPage,
-                _end: page * maxPerPage
-            };
+        function transformParams(params) {
+            if ('page' in params) {
+                params._start = (params.page - 1) * params.per_page;
+                params._end = params.page * params.per_page;
+
+                delete params.page;
+                delete params.per_page;
+            }
+
+            return params;
         }
 
         var app = new Application('ng-admin backend demo') // application main title
@@ -63,7 +68,7 @@
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
-            .pagination(pagination) // use the custom pagination function to format the API request correctly
+            .transformParams(transformParams) // use the custom pagination function to format the API request correctly
             .addField(new Field('title').isDetailLink(true).map(truncate));
 
         post.listView()
@@ -76,7 +81,7 @@
 
                 return params;
             })
-            .pagination(pagination)
+            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
             .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
@@ -106,7 +111,7 @@
             .addField(new Field('title') // the default edit field type is "string", and displays as a text input
                 .attributes({'placeholder': 'the post title'}) // you can add custom attributes, too
             )
-            .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
+            .addField(new Field('body').type('wysiwyg')); // overriding the type allows rich text editing for the body
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
@@ -130,11 +135,15 @@
             .order(2) // set the menu position in the sidebar
             .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
+        comment.filterView()
+            .addField(new Field('q').type('string').attributes({'placeholder': 'Global Search'}))
+            .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
+
         comment.dashboardView()
             .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
             .limit(5)
-            .pagination(pagination)
+            .transformParams(transformParams)
             .addField(new Field('id'))
             .addField(new Field('body').label('Comment').map(truncate))
             .addField(new Field() // template fields don't need a name
@@ -148,7 +157,7 @@
         comment.listView()
             .title('Comments')
             .description('List of all comments with an infinite pagination') // description appears under the title
-            .pagination(pagination)
+            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Reference('post_id')
                 .label('Post title')
@@ -210,14 +219,14 @@
             .title('Recent tags')
             .order(3)
             .limit(10)
-            .pagination(pagination)
+            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
             .addField(new Field('published').label('Is published ?').type('boolean'));
 
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
-            .pagination(pagination)
+            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
             .addField(new Field('published').type('boolean'))
