@@ -1,5 +1,5 @@
 /*global angular*/
-(function () {
+(function (require) {
     "use strict";
 
     var app = angular.module('myApp', ['ng-admin']);
@@ -136,7 +136,7 @@
             .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
         comment.filterView()
-            .addField(new Field('q').type('string').attributes({'placeholder': 'Global Search'}))
+            .addField(new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}))
             .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
 
         comment.dashboardView()

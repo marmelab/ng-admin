@@ -68,9 +68,9 @@ module.exports = function (grunt) {
                 dest: 'src/javascripts/config.js',
                 options: {
                     process: function (content, srcpath) {
-                        return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8080/' : 'http://localhost:3000/');
-                    },
-                },
+                        return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8081/' : 'http://localhost:3000/');
+                    }
+                }
             }
         },
 

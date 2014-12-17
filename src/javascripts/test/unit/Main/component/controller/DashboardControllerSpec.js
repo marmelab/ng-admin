@@ -11,7 +11,7 @@ define(function (require) {
 
     describe("Controller: Dashboard", function () {
 
-        iit('should retrieve panels', function () {
+        it('should retrieve panels', function () {
             var view1 = new DashboardView('view1')
                     .title('dashboard1')
                     .addField(new Field('title').label('Title')),

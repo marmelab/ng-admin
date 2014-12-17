@@ -106,6 +106,8 @@ define(function (require) {
                 return 'dashboardView';
             case 'ListView':
                 return 'listView';
+            case 'FilterView':
+                return 'filterView';
             case 'ShowView':
                 return 'showView';
             case 'CreateView':
@@ -115,7 +117,7 @@ define(function (require) {
             case 'DeleteView':
                 return 'deletionView';
             default:
-                throw new Error('Unkonwn view type ' + viewType);
+                throw new Error('Unknown view type ' + viewType);
         }
     }
 

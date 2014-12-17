@@ -19,7 +19,7 @@ define(function () {
         this.$stateParams = $stateParams;
         this.$filter = $filter;
         this.values = this.$stateParams.search;
-        this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'ListView');
+        this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'FilterView');
     }
 
     FilterViewController.prototype.filter = function () {
