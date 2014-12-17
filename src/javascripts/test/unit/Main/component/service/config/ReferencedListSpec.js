@@ -39,31 +39,6 @@ define(function (require) {
             expect(columns[1].field.name()).toBe('f2');
         });
 
-        it('should filter entries.', function () {
-            var referencedList = new ReferencedList('cats'),
-                human = new Entity('human');
-
-            human.editionView()
-                .addField(new Field('id'))
-                .addField(new Field('human_id'))
-                .addField(new Field('name'));
-
-            referencedList
-                .targetReferenceField('human_id')
-                .setEntries(human.editionView().mapEntries([
-                    { id: 1, human_id: 1, name: 'Suna'},
-                    { id: 2, human_id: 2, name: 'Boby'},
-                    { id: 3, human_id: 1, name: 'Mizute'}
-                ]));
-
-            referencedList.filterEntries(1);
-            var entries = referencedList.getEntries();
-
-            expect(entries.length).toEqual(2);
-            expect(entries[0].values.name).toEqual('Suna');
-            expect(entries[1].values.name).toEqual('Mizute');
-        });
-
         it('should store target entity configuration', function () {
             var comment = new Entity('comments');
 

@@ -180,13 +180,16 @@ define(function (require) {
             calls = [],
             referenceList,
             referencedView,
+            filter,
             i,
             j;
 
         for (i in referenceLists) {
             referenceList = referenceLists[i];
+            filter = {};
+            filter[referenceList.targetReferenceField()] = entityId;
 
-            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, null, sortField, sortDir));
+            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, null, sortField, sortDir, filter));
         }
 
         return this.$q.all(calls)
@@ -197,12 +200,8 @@ define(function (require) {
                     referenceList = referenceLists[i];
                     referencedView = referenceList.getReferencedView();
 
-
-                    referenceList
-                        .setEntries(responses[j++].data)
-                        // Map entries
-                        .setEntries(referencedView.mapEntries(referenceList.getEntries()))
-                        .filterEntries(entityId);
+                    // Map entries
+                    referenceList.setEntries(referencedView.mapEntries(responses[j++].data));
                 }
 
                 return referenceLists;
