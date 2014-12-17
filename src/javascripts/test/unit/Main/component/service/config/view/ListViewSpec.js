@@ -45,7 +45,7 @@ define(function (require) {
                         return { begin: page, end: page * maxPerPage };
                     });
 
-                var params = list.getAllParams(12, {params: {_sort: 'name'}}, 'mizu');
+                var params = list.getAllParams(12, {params: {_sort: 'name'}}, {q: 'mizu'});
 
                 expect(params.token).toEqual('abcde1');
                 expect(params.begin).toEqual(12);

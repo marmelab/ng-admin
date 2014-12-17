@@ -11,7 +11,7 @@ define(function (require) {
 
     describe("Controller: Dashboard", function () {
 
-        it('should retrieve panels', function () {
+        iit('should retrieve panels', function () {
             var view1 = new DashboardView('view1')
                     .title('dashboard1')
                     .addField(new Field('title').label('Title')),
@@ -36,7 +36,7 @@ define(function (require) {
                 }
             ];
 
-            var panelBuilder = new PanelBuilder(null, null, null, angular.noop);
+            var panelBuilder = new PanelBuilder(null, null, null, null, angular.noop);
             panelBuilder.getPanelsData = jasmine.createSpy('getPanelsData').andReturn(mixins.buildPromise(responses));
 
             var controller = new DashboardController({$on: angular.noop}, {}, panelBuilder);
@@ -45,9 +45,9 @@ define(function (require) {
             expect(controller.panels[0].label).toEqual('dashboard1');
             expect(controller.panels[1].label).toEqual('my dashboard 2');
 
-            expect(controller.panels[1].columns.length).toEqual(1);
-            expect(controller.panels[1].columns[0].label).toEqual('Name');
-            expect(controller.panels[1].columns[0].field.name()).toEqual('name');
+            expect(Object.keys(controller.panels[1].fields).length).toEqual(1);
+            expect(controller.panels[1].fields['name'].label()).toEqual('Name');
+            expect(controller.panels[1].fields['name'].name()).toEqual('name');
         });
 
     });
