@@ -8,7 +8,7 @@ If you need it, it's easy to re-add:
 
 ```
 myEntity.filterView()
-    .addField(new Field('q').label('').attributes({ placegolder: 'search' }));
+    .addField(new Field('q').label('').attributes({ placeholder: 'search' }));
 ```
 
 The resulting API call will be the same:
