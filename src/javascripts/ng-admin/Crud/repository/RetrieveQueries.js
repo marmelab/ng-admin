@@ -278,7 +278,7 @@ define(function (require) {
             reference = referencedValues[referenceField];
             choices = reference.getChoicesById();
             entries = [];
-            identifier = reference.getMappedValue(entry.values[referenceField], entry);
+            identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
 
             if (reference.type() === 'ReferenceMany') {
                 for (i in identifier) {
@@ -288,7 +288,7 @@ define(function (require) {
 
                 entry.listValues[referenceField] = entries;
             } else if (fillSimpleReference && identifier && identifier in choices) {
-                entry.listValues[referenceField] = reference.getMappedValue(choices[identifier]);
+                entry.listValues[referenceField] = reference.getMappedValue(choices[identifier], entry.values);
             }
         }
 
