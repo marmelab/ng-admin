@@ -47,6 +47,7 @@ define(function () {
         this.$location.search('sortField', null);
         this.$location.search('sortOrder', null);
         this.$location.search('quickFilters', null);
+        this.$location.search('search', null);
         this.$location.path('/list/' + entity.name());
     };
 
