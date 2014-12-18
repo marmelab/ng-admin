@@ -191,6 +191,12 @@ define(function (require) {
         return entries;
     };
 
+    /**
+     * @deprecated
+     *
+     * @param {function|Object} pagination
+     * @returns {*}
+     */
     ListView.prototype.pagination = function (pagination) {
         console.warn('pagination() is deprecated. Query parameters should be customized via transformParams() instead');
 
@@ -203,6 +209,12 @@ define(function (require) {
         return this;
     };
 
+    /**
+     * @deprecated
+     *
+     * @param {function|Object} sortParams
+     * @returns {*}
+     */
     ListView.prototype.sortParams = function (sortParams) {
         console.warn('sortParams() is deprecated. Query parameters should be customized via transformParams() instead');
 
