@@ -62,11 +62,6 @@ menu {
     }
 }
 
-view-actions {
-    margin: 40px 0 20px 20px;
-    float: right;
-}
-
 /**
 * Grid
 */
@@ -79,20 +74,33 @@ view-actions {
     }
 }
 
+.page-header {
+    margin: 10px 0 15px;
+
+    .lead {
+        margin-bottom: 0;
+    }
+}
+
+ma-view-actions {
+    margin: 25px 0 15px 0;
+    float: right;
+}
+
 .list-header {
 
     ma-filter-view {
-        margin: 25px 0 15px 0;
+        margin: 10px 0 15px 0;
         float: left;
+
+        form {
+            padding-left: 0px;
+        }
     }
 
-    ma-view-actions {
-        margin: 25px 0 15px 0;
-        float: right;
-    }
-
-    .page-header {
-        clear: both;
+    ma-quick-filter {
+        margin-top: 15px;
+        float: left;
     }
 
     /**

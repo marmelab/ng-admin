@@ -1,9 +1,7 @@
 <div class="row list-header">
 
-    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
-
-    <ma-view-actions override="listController.actions" entity="view.entity">
-        <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
+    <ma-view-actions override="listController.actions" entity="listController.entity">
+        <ma-create-button ng-if="!entity.isReadOnly" entity="listController.entity"></ma-create-button>
     </ma-view-actions>
 
     <div class="page-header">
@@ -13,9 +11,9 @@
         <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
     </div>
 
+    <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
+    <ma-quick-filter quick-filters="listController.quickFilters"></ma-quick-filter>
 </div>
-
-<ma-quick-filter quick-filters="listController.quickFilters"></ma-quick-filter>
 
 <div class="row">
     <ma-datagrid name="{{ listController.view.name() }}"
