@@ -25,9 +25,9 @@ define(function (require) {
                     .targetEntity(human);
 
                 ref.setEntries([
-                    { id: 1, human_id: 1, name: 'Suna'},
-                    { id: 2, human_id: 2, name: 'Boby'},
-                    { id: 3, human_id: 1, name: 'Mizute'}
+                    {values: { id: 1, human_id: 1, name: 'Suna'}},
+                    {values: { id: 2, human_id: 2, name: 'Boby'}},
+                    {values: { id: 3, human_id: 1, name: 'Mizute'}}
                 ]);
 
                 var choices = ref.getChoicesById();
@@ -125,14 +125,23 @@ define(function (require) {
 
                 ref
                     .targetEntity(human)
-                    .targetField(new Field('name'))
-                ;
+                    .targetField(new Field('name'));
 
                 human
                     .identifier(new Field('id'))
                     .addView(editView);
 
                 expect(ref.getSortFieldName()).toEqual('human-list.name');
+            });
+        });
+
+        describe('getIdentifierValues', function () {
+            it('Should return identifier values', function () {
+                var view = new Reference('tags'),
+                    identifiers;
+
+                identifiers = view.getIdentifierValues([{_id: 1, tags:[1, 3]}, {_id:3, id:6, tags:[4, 3]}]);
+                expect(identifiers).toEqual(['1', '3', '4']);
             });
         });
 

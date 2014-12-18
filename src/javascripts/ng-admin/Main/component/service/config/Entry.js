@@ -6,8 +6,8 @@ define(function () {
     /**
      * @constructor
      */
-    function Entry() {
-        this.values = {};
+    function Entry(values) {
+        this.values = values || {};
         this.listValues = {};
         this.identifierValue = null;
         this.entityName = null;
