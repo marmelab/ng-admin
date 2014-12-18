@@ -1,6 +1,6 @@
 <form class="filters navbar-form" ng-if="filterViewCtrl.shouldFilter()" ng-submit="filterViewCtrl.filter()">
 
-    <div class="filter form-group input-group" ng-repeat="field in fields | orderElement track by $index">
+    <div class="filter form-group" ng-repeat="field in fields | orderElement track by $index" ng-class="{'input-group':field.label()}">
 
         <label for="{{ field.name() }}" ng-if="field.label()" class="input-group-addon">
             {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
