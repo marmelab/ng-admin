@@ -152,13 +152,14 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
             referencedView = reference.getReferencedView();
-            identifiers = reference.getIdentifierValues(rawValues);
             singleCallFilters = reference.getSingleApiCall(identifiers);
 
             // Check if we should retrieve values with 1 or multiple requests
-            if (singleCallFilters) {
+            if (singleCallFilters || !rawValues) {
                 calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', singleCallFilters));
             } else {
+                identifiers = reference.getIdentifierValues(rawValues);
+
                 for (k in identifiers) {
                     calls.push(self.getOne(referencedView, identifiers[k]));
                 }
@@ -175,7 +176,7 @@ define(function (require) {
                     singleCallFilters = reference.getSingleApiCall(identifiers);
 
                     // Retrieve entries depending on 1 or many request was done
-                    if (singleCallFilters) {
+                    if (singleCallFilters || !rawValues) {
                         references[j].setEntries(reference.getReferencedView().mapEntries(responses[i++].data));
                     } else {
                         entries = [];

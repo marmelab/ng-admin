@@ -81,8 +81,8 @@ define(function (require) {
             entry = this.entries[i];
 
             results.push({
-                value: entry[targetIdentifier],
-                label: getMappedValue(entry[targetLabel], entry)
+                value: entry.values[targetIdentifier],
+                label: getMappedValue(entry.values[targetLabel], entry)
             });
         }
 

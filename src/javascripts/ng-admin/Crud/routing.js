@@ -109,9 +109,6 @@ define(function (require) {
 
                         return entry;
 
-                    }],
-                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedValues(view);
                     }]
                 }
             });
@@ -140,8 +137,8 @@ define(function (require) {
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedValues(view);
+                    referencedValues: ['RetrieveQueries', 'view', 'entry', function (RetrieveQueries, view, entry) {
+                        return RetrieveQueries.getReferencedValues(view, null);
                     }],
                     referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
                         var sortField = $stateParams.sortField,
