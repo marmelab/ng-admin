@@ -122,7 +122,7 @@ define(function (require) {
      */
     ListView.prototype.getAllParams = function (page, sortParams, searchParams) {
         var params = this.getExtraParams(),
-            pagination = this.pagination(),
+            pagination = this.config.pagination,
             perPage = this.perPage();
 
         // Add pagination params
@@ -189,6 +189,42 @@ define(function (require) {
         }
 
         return entries;
+    };
+
+    /**
+     * @deprecated
+     *
+     * @param {function|Object} pagination
+     * @returns {*}
+     */
+    ListView.prototype.pagination = function (pagination) {
+        console.warn('pagination() is deprecated. Query parameters should be customized via transformParams() instead');
+
+        if (arguments.length === 0) {
+            return this.config.pagination;
+        }
+
+        this.config.pagination = pagination;
+
+        return this;
+    };
+
+    /**
+     * @deprecated
+     *
+     * @param {function|Object} sortParams
+     * @returns {*}
+     */
+    ListView.prototype.sortParams = function (sortParams) {
+        console.warn('sortParams() is deprecated. Query parameters should be customized via transformParams() instead');
+
+        if (arguments.length === 0) {
+            return this.config.sortParams;
+        }
+
+        this.config.sortParams = sortParams;
+
+        return this;
     };
 
     return ListView;

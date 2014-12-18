@@ -41,7 +41,8 @@
         }
 
         var app = new Application('ng-admin backend demo') // application main title
-            .baseApiUrl('@@backend_url'); // main API endpoint
+            .baseApiUrl('@@backend_url') // main API endpoint
+            .transformParams(transformParams); // use the custom query parameters function to format the API request correctly
 
         // define all entities at the top to allow references between them
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
@@ -68,20 +69,10 @@
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
-            .transformParams(transformParams) // use the custom pagination function to format the API request correctly
             .addField(new Field('title').isDetailLink(true).map(truncate));
 
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
-            .transformParams(function (params) {
-                // Sort by title by default
-                if (typeof params._sort === 'undefined') {
-                    params._sort = 'title';
-                }
-
-                return params;
-            })
-            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('title')) // the default list field type is "string", and displays as a string
             .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
@@ -143,7 +134,6 @@
             .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
             .limit(5)
-            .transformParams(transformParams)
             .addField(new Field('id'))
             .addField(new Field('body').label('Comment').map(truncate))
             .addField(new Field() // template fields don't need a name
@@ -157,7 +147,6 @@
         comment.listView()
             .title('Comments')
             .description('List of all comments with an infinite pagination') // description appears under the title
-            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Reference('post_id')
                 .label('Post title')
@@ -219,14 +208,12 @@
             .title('Recent tags')
             .order(3)
             .limit(10)
-            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
             .addField(new Field('published').label('Is published ?').type('boolean'));
 
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
-            .transformParams(transformParams)
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
             .addField(new Field('published').type('boolean'))
