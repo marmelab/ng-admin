@@ -85,33 +85,6 @@ define(function (require) {
         return columns;
     };
 
-    /**
-     * Returns only referencedList values for an entity (filter it by identifier value)
-     *
-     * @param {String|Number}  entityId
-     *
-     * @returns {ReferencedList}
-     */
-    ReferencedList.prototype.filterEntries = function (entityId) {
-        var results = [],
-            entry,
-            targetRefField = this.targetReferenceField(),
-            i,
-            l;
-
-        for (i = 0, l = this.entries.length; i < l; i++) {
-            entry = this.entries[i];
-
-            if (entry.values[targetRefField] == entityId) {
-                results.push(entry);
-            }
-        }
-
-        this.entries = results;
-
-        return this;
-    };
-
     ReferencedList.prototype.getEntries = function () {
         return this.entries;
     };

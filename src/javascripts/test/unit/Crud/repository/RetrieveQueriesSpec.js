@@ -14,13 +14,15 @@ define(function (require) {
         mixins = require('mixins'),
         $q = require('mock/q'),
         config,
+        cats,
         rawCats,
+        humans,
+        rawHumans,
         catEntity,
         humanEntity,
         catView,
         entity,
-        view,
-        rawHumans;
+        view;
 
     describe("Service: RetrieveQueries", function () {
 
@@ -46,33 +48,32 @@ define(function (require) {
 
             humanEntity.identifier(new Field('id'));
 
-            rawCats = [{
-                "id": 1,
-                "human_id": 1,
-                "name": "Mizoute",
-                "summary": "A Cat"
-            }, {
-                "id": 2,
-                "human_id": 1,
-                "name": "Suna",
-                "summary": "A little Cat"
-            }];
+            rawCats = [
+                {"id": 1, "human_id": 1, "name": "Mizoute", "summary": "A Cat"},
+                {"id": 2, "human_id": 1, "name": "Suna", "summary": "A little Cat"}
+            ];
 
-            rawHumans = [{
-                "id": 1,
-                "firstName": "Daph"
-            }, {
-                "id": 2,
-                "firstName": "Manu"
-            }, {
-                "id": 3,
-                "firstName": "Daniel"
-            }];
+            cats = [
+                new Entry(rawCats[0]),
+                new Entry(rawCats[1])
+            ];
+
+            rawHumans = [
+                {"id": 1, "firstName": "Daph"},
+                {"id": 2, "firstName": "Manu"},
+                {"id": 3, "firstName": "Daniel"}
+            ];
+
+            humans = [
+                new Entry(rawHumans[0]),
+                new Entry(rawHumans[1]),
+                new Entry(rawHumans[2])
+            ];
         });
 
         it('should return all data to display a ListView', function () {
             Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawHumans}]));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise(humans));
 
             var retrieveQueries = new RetrieveQueries($q, Restangular, config);
 
@@ -107,33 +108,79 @@ define(function (require) {
                 });
         });
 
-        it('should return all references values for a View', function () {
+        it('should return all references values for a View with multiple calls', function () {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
                 authorRef = new Reference('author');
 
-            var rawAuthors = [{
-                id: 'abc',
-                name: 'Rollo'
-            }, {
-                id: '19DFE',
-                name: 'Ragna'
-            }];
+            var rawPosts = [
+                {id: 1, author: 'abc'},
+                {id: 2, author: '19DFE'}
+            ];
+
+            var authors = [
+                new Entry({id: 'abc', name: 'Rollo'}),
+                new Entry({id: '19DFE', name: 'Ragna'})
+            ];
 
             authorRef.targetEntity(author);
             authorRef.targetField(new Field('name'));
             post.listView()
                 .addField(authorRef);
 
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawAuthors}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
+            Restangular.getList = jasmine.createSpy('get').andReturn(mixins.buildPromise({}));
+            Restangular.getList = jasmine.createSpy('get').andReturn(mixins.buildPromise({}));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([authors[0], authors[1]]));
 
-            retrieveQueries.getReferencedValues(post.listView())
+            retrieveQueries.getReferencedValues(post.listView(), rawPosts)
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
-                    expect(references.author.getEntries()[0].id).toEqual('abc');
-                    expect(references.author.getEntries()[1].name).toEqual('Ragna');
+                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
+                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                });
+        });
+
+        it('should return all references values for a View with one call', function () {
+            var retrieveQueries = new RetrieveQueries($q, Restangular, config),
+                post = new Entity('posts'),
+                author = new Entity('authors'),
+                authorRef = new Reference('author');
+
+            authorRef.singleApiCall(function (ids) {
+                return {
+                    id: ids
+                };
+            });
+
+            var rawPosts = [
+                {id: 1, author: 'abc'},
+                {id: 2, author: '19DFE'}
+            ];
+
+            var rawAuthors = [
+                {id: 'abc', name: 'Rollo'},
+                {id: '19DFE', name: 'Ragna'}
+            ];
+
+            var authors = [
+                new Entry(rawAuthors[0]),
+                new Entry(rawAuthors[1])
+            ];
+
+            authorRef.targetEntity(author);
+            authorRef.targetField(new Field('name'));
+            post.listView()
+                .addField(authorRef);
+
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({}));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
+
+            retrieveQueries.getReferencedValues(post.listView(), rawPosts)
+                .then(function (references) {
+                    expect(references.author.getEntries().length).toEqual(2);
+                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
+                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
                 });
         });
 
@@ -144,25 +191,11 @@ define(function (require) {
                 character = new Entity('characters'),
                 stateCharacters = new ReferencedList('character');
 
-            var rawCharacters = [{
-                id: 'abc',
-                state_id: 1,
-                name: 'Rollo',
-                age: 35,
-                eyes: 'blue'
-            }, {
-                id: '19DFE',
-                state_id: 1,
-                name: 'Ragna',
-                age: 33,
-                eyes: 'brown'
-            }, {
-                id: '1G53a',
-                state_id: 2,
-                name: 'Aelle',
-                age: 45,
-                eyes: 'brown'
-            }];
+            var rawCharacters = [
+                {id: 'abc', state_id: 1, name: 'Rollo', age: 35, eyes: 'blue'},
+                {id: '19DFE', state_id: 1, name: 'Ragna', age: 33, eyes: 'brown'},
+                {id: '1G53a', state_id: 2, name: 'Aelle', age: 45, eyes: 'brown'}
+            ];
 
             stateCharacters
                 .targetReferenceField('state_id')
@@ -184,7 +217,7 @@ define(function (require) {
                 .then(function (references) {
                     var entries = references.character.getEntries();
 
-                    expect(entries.length).toEqual(2);
+                    expect(entries.length).toEqual(3);
                     expect(entries[0].values.name).toEqual('Rollo');
                     expect(entries[1].values.id).toEqual('19DFE');
                 });
@@ -193,8 +226,8 @@ define(function (require) {
         it('should fill reference values of a collection', function () {
             var retrieveQueries = new RetrieveQueries({}, Restangular, config),
                 entry1 = new Entry(),
-                entry2 = new Entry('catList'),
-                entry3 = new Entry('catList'),
+                entry2 = new Entry(),
+                entry3 = new Entry(),
                 human = new Entity('humans'),
                 tag = new Entity('tags'),
                 ref1 = new Reference('human_id'),
@@ -206,18 +239,18 @@ define(function (require) {
                 .targetEntity(human)
                 .targetField(new Field('name'))
                 .setEntries([
-                    {id: 1, name: 'Bob'},
-                    {id: 2, name: 'Daniel'},
-                    {id: 3, name: 'Jack'}
+                    {values: {id: 1, name: 'Bob'}},
+                    {values: {id: 2, name: 'Daniel'}},
+                    {values: {id: 3, name: 'Jack'}}
                 ]);
 
             ref2
                 .targetEntity(tag)
                 .targetField(new Field('label'))
                 .setEntries([
-                    {id: 1, label: 'Photo'},
-                    {id: 2, label: 'Watch'},
-                    {id: 3, label: 'Panda'}
+                    {values: {id: 1, label: 'Photo'}},
+                    {values: {id: 2, label: 'Watch'}},
+                    {values: {id: 3, label: 'Panda'}}
                 ]);
 
             entry1.values.human_id = 1;

@@ -13,6 +13,7 @@ define(function (require) {
         name: 'myReference',
         type: 'reference',
         label: 'My reference',
+        singleApiCall: null,
         targetEntity : null,
         targetField : null,
         isDetailLink: null,
@@ -55,7 +56,7 @@ define(function (require) {
         for (i = 0, l = this.entries.length; i < l; i++) {
             entry = this.entries[i];
 
-            result[entry[targetIdentifier]] = entry[targetLabel];
+            result[entry.values[targetIdentifier]] = entry.values[targetLabel];
         }
 
         return result;
@@ -146,8 +147,41 @@ define(function (require) {
         return this.referencedView;
     };
 
+    Reference.prototype.getSingleApiCall = function (identifiers) {
+        return typeof this.config.singleApiCall === 'function' ? this.config.singleApiCall(identifiers) : this.config.singleApiCall;
+    };
+
     Reference.prototype.getSortFieldName = function () {
         return this.getReferencedView().name() + '.' + this.targetField().name();
+    };
+
+    /**
+     * Returns identifier values from a collection of raw values
+     *
+     * @param {Array} rawValues
+     *
+     * @returns {Array}
+     */
+    Reference.prototype.getIdentifierValues = function (rawValues) {
+        var results = {},
+            identifierName = this.name(),
+            identifier,
+            i, j, l;
+
+        for (i = 0, l = rawValues.length; i < l; i++) {
+            identifier = rawValues[i][identifierName];
+
+            // Handle array identifier (for ReferencedMany)
+            if (identifier instanceof Array) {
+                for (j in identifier) {
+                    results[identifier[j]] = true;
+                }
+            } else {
+                results[identifier] = true;
+            }
+        }
+
+        return Object.keys(results);
     };
 
     /**

@@ -68,12 +68,11 @@ define(function (require) {
             .then(function (values) {
                 rawEntries = values;
 
-                return self.getReferencedValues(view);
+                return self.getReferencedValues(view, rawEntries.data);
             }).then(function (refValues) {
                 referencedValues = refValues;
 
                 entries = view.mapEntries(rawEntries.data);
-
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
                 entries = view.getMappedValue(entries);
 
@@ -132,32 +131,61 @@ define(function (require) {
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      *
-     * @param {View} view
+     * @param {View}  view
+     * @param {Array} rawValues
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedValues = function (view) {
+    RetrieveQueries.prototype.getReferencedValues = function (view, rawValues) {
         var self = this,
             references = view.getReferences(),
             calls = [],
+            singleCallFilters,
+            identifiers,
             reference,
             referencedView,
+            entries,
             i,
-            j;
+            j,
+            k;
 
         for (i in references) {
             reference = references[i];
             referencedView = reference.getReferencedView();
+            identifiers = reference.getIdentifierValues(rawValues);
+            singleCallFilters = reference.getSingleApiCall(identifiers);
 
-            calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC'));
+            // Check if we should retrieve values with 1 or multiple requests
+            if (singleCallFilters) {
+                calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', singleCallFilters));
+            } else {
+                for (k in identifiers) {
+                    calls.push(self.getOne(referencedView, identifiers[k]));
+                }
+            }
         }
 
+        // Fill all reference entries
         return this.$q.all(calls)
             .then(function (responses) {
                 i = 0;
 
                 for (j in references) {
-                    references[j].setEntries(responses[i++].data);
+                    reference = references[j];
+                    singleCallFilters = reference.getSingleApiCall(identifiers);
+
+                    // Retrieve entries depending on 1 or many request was done
+                    if (singleCallFilters) {
+                        references[j].setEntries(reference.getReferencedView().mapEntries(responses[i++].data));
+                    } else {
+                        entries = [];
+                        for (k in identifiers) {
+                            entries.push(responses[i++]);
+                        }
+
+                        // Entry are already mapped by getOne
+                        references[j].setEntries(entries);
+                    }
                 }
 
                 return references;
@@ -180,13 +208,16 @@ define(function (require) {
             calls = [],
             referenceList,
             referencedView,
+            filter,
             i,
             j;
 
         for (i in referenceLists) {
             referenceList = referenceLists[i];
+            filter = {};
+            filter[referenceList.targetReferenceField()] = entityId;
 
-            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, null, sortField, sortDir));
+            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, null, sortField, sortDir, filter));
         }
 
         return this.$q.all(calls)
@@ -197,12 +228,8 @@ define(function (require) {
                     referenceList = referenceLists[i];
                     referencedView = referenceList.getReferencedView();
 
-
-                    referenceList
-                        .setEntries(responses[j++].data)
-                        // Map entries
-                        .setEntries(referencedView.mapEntries(referenceList.getEntries()))
-                        .filterEntries(entityId);
+                    // Map entries
+                    referenceList.setEntries(referencedView.mapEntries(responses[j++].data));
                 }
 
                 return referenceLists;
