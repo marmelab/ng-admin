@@ -606,11 +606,11 @@ Define the target field name used to retrieve the label of the referenced elemen
             .targetField(new Field('title')) // Select a label Field
         );
         
-* `filter(function(entityIds) {}`
+* `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
 		// Will call /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
-		commentList.addField(new Reference('post_id').filter(function (postIds) {
+		commentList.addField(new Reference('post_id').singleApiCall(function (postIds) {
           return {
             'post_id[]': postIds
           };
@@ -657,11 +657,11 @@ Define the field name used to link the referenced entity.
            .targetField(new Field('name')) // Label Field to display in the list
         )
         
-* `filter(function(entityIds) {}`
+* `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
 		// Will call /tags?tag_id[]=1&tag_id[]=2&tag_id%[]=5...
-		postList.addField(new ReferenceMany('tags').filter(function (tagIds) {
+		postList.addField(new ReferenceMany('tags').singleApiCall(function (tagIds) {
           return {
             'tag_id[]': tagIds
           };
