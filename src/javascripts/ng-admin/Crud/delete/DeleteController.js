@@ -13,6 +13,7 @@ define(function () {
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
+        this.entity = view.getEntity();
         this.notification = notification;
 
         this.$scope.entry = entry;
