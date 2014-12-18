@@ -20,6 +20,7 @@ define(function () {
         this.$filter = $filter;
         this.values = this.$stateParams.search;
         this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'FilterView');
+        this.$scope.fields = this.$scope.filterFields();
     }
 
     FilterViewController.prototype.filter = function () {
@@ -44,6 +45,10 @@ define(function () {
 
         this.$stateParams.search = values;
         this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
+    };
+
+    FilterViewController.prototype.shouldFilter = function () {
+        return Object.keys(this.$scope.fields).length;
     };
 
     FilterViewController.prototype.clearFilters = function () {
