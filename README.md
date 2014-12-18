@@ -667,6 +667,32 @@ Define a function that returns parameters for filtering API calls. You can use i
           };
         })
 
+## Assumptions
+
+REST is not specific enough to know how to handle an API. ng-admin makes some assumptions about how your API is designed.
+All of these assumptions can be overrided via the configuration file.
+ 
+### Pagination
+ng-admin assumes that you API takes `page` & `per_page` query parameters to paginate lists. 
+It can be changed with the `transformParams()` method of the listView, the entity or the application.
+The default item number par page is `30`. It can be customized with the `perPage()` method of the listView.
+
+For each list view, the API should should return all data in an array at the root of the response.
+
+To know how much data to paginate through, ng-admin retrieve the total count from the `X-Total-Count` header.
+This can be changed with the `totalItems()` method of the listView.
+
+### Sorting
+To sort each list view, ng-admin uses `_sort` & `_sortDir` query parameters.
+It can be changed with the `transformParams()` method of the listView, the entity or the application.
+
+### Identifier
+ng-admin assumes that the identifier name of your entities is `id`.
+You can change it with the `identifier()` method of the entity.
+
+### Date
+The default date field format is `yyyy-MM-dd`. You can change it with the `format()` method of the field.
+
 ## Development
 
 ### Install dependencies
