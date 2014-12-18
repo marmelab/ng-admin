@@ -131,7 +131,7 @@ define(function (require) {
             params = {};
         }
 
-        var oldParams = angular.clone(params);
+        var oldParams = angular.copy(params);
 
         params = this.getQueryParams(params, oldParams);
         params = entity.getQueryParams(params, oldParams);
