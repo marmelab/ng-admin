@@ -32,11 +32,11 @@ define(function (require) {
         }
 
         return isValid ? '' : 'has-error';
-    }
+    };
 
     EditView.prototype.showAttributeSuccess = function () {
         return false;
-    }
+    };
 
     return EditView;
 });
