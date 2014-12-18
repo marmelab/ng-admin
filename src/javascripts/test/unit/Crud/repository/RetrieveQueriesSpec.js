@@ -141,32 +141,61 @@ define(function (require) {
                 });
         });
 
-        iit('should return all referencedLists values for a View', function () {
+        it('should return all references values for a View with one call', function () {
+            var retrieveQueries = new RetrieveQueries($q, Restangular, config),
+                post = new Entity('posts'),
+                author = new Entity('authors'),
+                authorRef = new Reference('author');
+
+            authorRef.singleApiCall(function (ids) {
+                return {
+                    id: ids
+                };
+            });
+
+            var rawPosts = [
+                {id: 1, author: 'abc'},
+                {id: 2, author: '19DFE'}
+            ];
+
+            var rawAuthors = [
+                {id: 'abc', name: 'Rollo'},
+                {id: '19DFE', name: 'Ragna'}
+            ];
+
+            var authors = [
+                new Entry(rawAuthors[0]),
+                new Entry(rawAuthors[1])
+            ];
+
+            authorRef.targetEntity(author);
+            authorRef.targetField(new Field('name'));
+            post.listView()
+                .addField(authorRef);
+
+            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({}));
+            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
+
+            retrieveQueries.getReferencedValues(post.listView(), rawPosts)
+                .then(function (references) {
+                    expect(references.author.getEntries().length).toEqual(2);
+                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
+                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                });
+        });
+
+        it('should return all referencedLists values for a View', function () {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
                 character = new Entity('characters'),
                 stateCharacters = new ReferencedList('character');
 
-            var rawCharacters = [{
-                id: 'abc',
-                state_id: 1,
-                name: 'Rollo',
-                age: 35,
-                eyes: 'blue'
-            }, {
-                id: '19DFE',
-                state_id: 1,
-                name: 'Ragna',
-                age: 33,
-                eyes: 'brown'
-            }, {
-                id: '1G53a',
-                state_id: 2,
-                name: 'Aelle',
-                age: 45,
-                eyes: 'brown'
-            }];
+            var rawCharacters = [
+                {id: 'abc', state_id: 1, name: 'Rollo', age: 35, eyes: 'blue'},
+                {id: '19DFE', state_id: 1, name: 'Ragna', age: 33, eyes: 'brown'},
+                {id: '1G53a', state_id: 2, name: 'Aelle', age: 45, eyes: 'brown'}
+            ];
 
             stateCharacters
                 .targetReferenceField('state_id')

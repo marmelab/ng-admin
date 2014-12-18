@@ -175,7 +175,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new Reference('post_id')
             .label('Post title')
             .map(truncate)
-            .filter(function (postIds) { // If your API support it, you can pass the list of identifiers to retrieve (instead of retrieve element by element)
+            .singleApiCall(function (postIds) { // If your API support it, you can pass the list of identifiers to retrieve (instead of retrieve element by element)
                 return {
                     'post_id[]': postIds
                 };
