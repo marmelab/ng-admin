@@ -131,15 +131,17 @@ define(function (require) {
             params = {};
         }
 
-        params = this.getQueryParams(params);
-        params = entity.getQueryParams(params);
-        params = view.getQueryParams(params);
+        var oldParams = angular.clone(params);
+
+        params = this.getQueryParams(params, oldParams);
+        params = entity.getQueryParams(params, oldParams);
+        params = view.getQueryParams(params, oldParams);
 
         return params;
     };
 
-    Application.prototype.getQueryParams = function (params) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
+    Application.prototype.getQueryParams = function (params, oldParams) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
     };
 
     /**

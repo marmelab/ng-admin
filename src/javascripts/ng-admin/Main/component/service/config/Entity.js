@@ -178,10 +178,11 @@ define(function (require) {
      * Allows to override query params
      *
      * @param {Object} params
+     * @param {Object} oldParams
      * @returns {Object}
      */
-    Entity.prototype.getQueryParams = function (params) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params) : this.config.transformParams;
+    Entity.prototype.getQueryParams = function (params, oldParams) {
+        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
     };
 
     Entity.prototype.readOnly = function () {
