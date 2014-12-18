@@ -5,6 +5,7 @@ define(function (require) {
 
     var Reference = require('ng-admin/Main/component/service/config/Reference'),
         Field = require('ng-admin/Main/component/service/config/Field'),
+        Entry = require('ng-admin/Main/component/service/config/Entry'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
@@ -53,9 +54,9 @@ define(function (require) {
                     .targetEntity(human);
 
                 ref.setEntries([
-                    { id: 1, human_id: 1, name: 'Suna'},
-                    { id: 2, human_id: 2, name: 'Boby'},
-                    { id: 3, human_id: 1, name: 'Mizute'}
+                    new Entry({ id: 1, human_id: 1, name: 'Suna'}),
+                    new Entry({ id: 2, human_id: 2, name: 'Boby'}),
+                    new Entry({ id: 3, human_id: 1, name: 'Mizute'})
                 ]);
 
                 expect(ref.type()).toEqual('Reference');
@@ -82,9 +83,9 @@ define(function (require) {
                     .targetEntity(human);
 
                 ref.setEntries([
-                    { id: 1, human_id: 1, name: 'Suna', gender: 'F'},
-                    { id: 2, human_id: 2, name: 'Boby', gender: 'M'},
-                    { id: 3, human_id: 1, name: 'Mizute', gender: 'M'}
+                    new Entry({ id: 1, human_id: 1, name: 'Suna', gender: 'F'}),
+                    new Entry({ id: 2, human_id: 2, name: 'Boby', gender: 'M'}),
+                    new Entry({ id: 3, human_id: 1, name: 'Mizute', gender: 'M'})
                 ]);
 
                 expect(ref.type()).toEqual('Reference');

@@ -82,7 +82,7 @@ define(function (require) {
 
             results.push({
                 value: entry.values[targetIdentifier],
-                label: getMappedValue(entry.values[targetLabel], entry)
+                label: getMappedValue(entry.values[targetLabel], entry.values)
             });
         }
 
