@@ -18,7 +18,7 @@ define(function () {
         this.$state = $state;
         this.$stateParams = $stateParams;
         this.$filter = $filter;
-        this.values = this.$stateParams.search;
+        this.values = this.$stateParams.search || {};
         this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'FilterView');
         this.$scope.fields = this.$scope.filterFields();
     }

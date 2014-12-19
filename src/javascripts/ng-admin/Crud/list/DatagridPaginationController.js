@@ -16,8 +16,9 @@ define(function () {
 
         this.infinitePagination = this.$scope.hasPagination && this.$scope.infinitePagination;
         this.currentPage = currentPage;
-        this.offsetBegin = (currentPage - 1) * perPage + 1;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
+        this.offsetBegin = Math.min((currentPage - 1) * perPage + 1, this.offsetEnd);
+
         this.totalItems = totalItems;
 
         this.nbPages = Math.ceil(totalItems / (perPage || 1)) || 1;

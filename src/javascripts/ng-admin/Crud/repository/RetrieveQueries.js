@@ -180,6 +180,7 @@ define(function (require) {
                         references[j].setEntries(reference.getReferencedView().mapEntries(responses[i++].data));
                     } else {
                         entries = [];
+                        identifiers = reference.getIdentifierValues(rawValues);
                         for (k in identifiers) {
                             entries.push(responses[i++]);
                         }
