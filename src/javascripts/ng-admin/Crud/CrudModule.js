@@ -60,7 +60,7 @@ define(function (require) {
     CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
     CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
 
-    CrudModule.directive('viewActions', require('ng-admin/Crud/misc/ViewActions'));
+    CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
     CrudModule.run(require('ng-admin/Crud/misc/cacheTemplate'));
 
