@@ -108,7 +108,9 @@ define(function (require) {
                         view.processFieldsDefaultValue(entry);
 
                         return entry;
-
+                    }],
+                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view);
                     }]
                 }
             });
