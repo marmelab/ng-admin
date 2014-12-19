@@ -28,11 +28,11 @@ define(function (require) {
 
     CreateView.prototype.getAttributeClass = function (isValid) {
         return isValid ? 'has-success' : '';
-    }
+    };
 
     CreateView.prototype.showAttributeSuccess = function () {
         return true;
-    }
+    };
 
     return CreateView;
 });

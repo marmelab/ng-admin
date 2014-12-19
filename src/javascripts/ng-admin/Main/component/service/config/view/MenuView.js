@@ -21,14 +21,14 @@ define(function (require) {
         this.type = 'MenuView';
     }
 
-    MenuView.prototype.isEnabled = function() {
+    MenuView.prototype.isEnabled = function () {
         return this.enabled;
-    }
+    };
 
-    MenuView.prototype.disable = function() {
+    MenuView.prototype.disable = function () {
         this.enabled = false;
         return this;
-    }
+    };
 
     Configurable(MenuView.prototype, config);
 
