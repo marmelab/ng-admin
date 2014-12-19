@@ -90,7 +90,7 @@ ma-view-actions {
 .list-header {
 
     .filters {
-        margin: 10px 0 15px 0;
+        margin: 0;
         float: left;
 
         form {
@@ -100,10 +100,6 @@ ma-view-actions {
 
     ma-quick-filter {
         float: left;
-    }
-
-    .quick-filters {
-        margin-top: 5px;
     }
 
     form {

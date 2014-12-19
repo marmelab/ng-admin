@@ -21,6 +21,14 @@ define(function () {
         this.values = this.$stateParams.search || {};
         this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'FilterView');
         this.$scope.fields = this.$scope.filterFields();
+        this.isFilterEmpty = isEmpty(this.values);
+    }
+
+    function isEmpty(values) {
+        for (i in values) {
+            if (values[i] != '') return false;
+        }
+        return true;
     }
 
     FilterViewController.prototype.filter = function () {
