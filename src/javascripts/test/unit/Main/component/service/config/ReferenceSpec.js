@@ -66,35 +66,6 @@ define(function (require) {
                     { value: 3, label: 'Mizute'}
                 ]);
             });
-
-            it('should apply given map to each choices.', function () {
-                var ref = new Reference('human_id'),
-                    human = new Entity('human');
-
-                human
-                    .identifier(new Field('id'))
-                    .editionView()
-                        .addField(new Field('id').identifier(true));
-
-                ref
-                    .targetField(new Field('name').map(function (value, entry) {
-                        return entry.name + '(' + entry.gender + ')';
-                    }))
-                    .targetEntity(human);
-
-                ref.setEntries([
-                    new Entry({ id: 1, human_id: 1, name: 'Suna', gender: 'F'}),
-                    new Entry({ id: 2, human_id: 2, name: 'Boby', gender: 'M'}),
-                    new Entry({ id: 3, human_id: 1, name: 'Mizute', gender: 'M'})
-                ]);
-
-                expect(ref.type()).toEqual('Reference');
-                expect(ref.choices()).toEqual([
-                    { value: 1, label: 'Suna(F)'},
-                    { value: 2, label: 'Boby(M)'},
-                    { value: 3, label: 'Mizute(M)'}
-                ]);
-            });
         });
 
         it('Should create a fake view to keep entity', function () {
