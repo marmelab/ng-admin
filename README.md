@@ -667,31 +667,88 @@ Define a function that returns parameters for filtering API calls. You can use i
           };
         })
 
-## Assumptions
+## Customizing the API Mapping
 
-REST is not specific enough to know how to handle an API. ng-admin makes some assumptions about how your API is designed.
-All of these assumptions can be overrided via the configuration file.
+REST is not specific enough to know how to handle an API. ng-admin makes some assumptions about how your API is designed. All of these assumptions can be overridden via the configuration file.
  
 ### Pagination
-ng-admin assumes that you API takes `page` & `per_page` query parameters to paginate lists. 
-It can be changed with the `transformParams()` method of the listView, the entity or the application.
-The default item number par page is `30`. It can be customized with the `perPage()` method of the listView.
 
-For each list view, the API should should return all data in an array at the root of the response.
+ng-admin assumes that your API accepts `page` and `per_page` query parameters to paginate lists:
 
-To know how much data to paginate through, ng-admin retrieve the total count from the `X-Total-Count` header.
-This can be changed with the `totalItems()` method of the listView.
+http://your.api.domain/entityName?page=2&per_page=20
+
+You can change it with the `transformParams()` method on the listView, the entity, or the application. For instance, to use `offset` and `limit` instead of `page` and `per_page` across the entire application, use the following code:
+
+```js
+app.transformParams(function(params) {
+    if (params.page) {
+        params.offset = (params.page - 1) * params.per_page;
+        params.limit = params.per_page;
+        delete params.page;
+        delete params.per_page;
+    }
+});
+```
+
+The default number of items per page is `30`. You can customize it with the `perPage()` method of the listView.
+
+For each list view, the API should should return all items as an array at the root of the response.
+
+```
+GET /entityName?page=2&per_page=20 HTTP1.1
+
+HTTP/1.1 200 OK
+X-Total-Count: 26
+Content-Type: application/json
+[
+  { date: "2014-01-01T00:00:00Z", "name": "foo", "age": 8 },
+  { date: "2014-02-01T00:00:00Z", "name": "bar", "age": 12 },
+  { date: "2014-03-01T00:00:00Z", "name": "baz", "age": 4 },
+  ...
+]
+```
+
+To know how many items to paginate through, ng-admin retrieves the total count from the `X-Total-Count` header. This can be changed with the `totalItems()` method of the listView.
 
 ### Sorting
+
 To sort each list view, ng-admin uses `_sort` & `_sortDir` query parameters.
-It can be changed with the `transformParams()` method of the listView, the entity or the application.
+
+http://your.api.domain/entityName?_sort=name&_sortDir=ASC
+
+Once again, you can change it with the `transformParams()` method. For instance, to sort by id desc by default:
+
+```js
+app.transformParams(function(params) {
+    if (params.page) {
+        params._sort = params._sort || 'id';
+        params._sortDir = params._sortDir || 'DESC';
+    }
+});
+```
+
+### Filtering
+
+All filter fields are added as pure query parameters, based on the field name (the one defined in the constructor). For instance, the following `filterView()` configuration:
+
+```js
+myEntity.filterView()
+    .addField(new Field('q').label('').attributes({placeholder: Full text}))
+    .addField(new Field('tag'))
+```
+
+...will lead to API calls formatted like the following:
+
+http://your.api.domain/entityName?q=foo&tag=bar
 
 ### Identifier
+
 ng-admin assumes that the identifier name of your entities is `id`.
 You can change it with the `identifier()` method of the entity.
 
 ### Date
-The default date field format is `yyyy-MM-dd`. You can change it with the `format()` method of the field.
+
+The default date field format is `yyyy-MM-dd`. You can change it with the `format()` method in fields of type `date`.
 
 ## Development
 
