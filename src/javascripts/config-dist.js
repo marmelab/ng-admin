@@ -18,7 +18,38 @@
         };
     }]);
 
-    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
+    app.directive('otherPageLink', ['$location', function ($location) {
+        return {
+            restrict: 'E',
+            scope: true,
+            template: '<a ng-click="changePage()">Change page</a>',
+            link: function ($scope) {
+                $scope.changePage = function () {
+                    $location.path('/new-page');
+                };
+            }
+        };
+    }]);
+
+    app.controller('NewPageController', function ($scope, $location) {
+        $scope.title = 'Custom page';
+
+        $scope.goToDashboard = function () {
+            $location.path('dashboard');
+        };
+    });
+
+    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany, $stateProvider) {
+
+        // Create a new route for a custom page
+        $stateProvider
+            .state('new-page', {
+                parent: 'main',
+                url: '/new-page',
+                controller: 'NewPageController',
+                controllerAs: 'listController',
+                template: '<h1>{{ title }}</h1><a ng-click="goToDashboard()">Go to dashboard</a>'
+            });
 
         function truncate(value) {
             if (!value) {
@@ -96,7 +127,8 @@
                     new Field('id'),
                     new Field('body').label('Comment')
                 ])
-            );
+            )
+            .addField(new Field('other_page').type('template').template('<other-page-link></other-link-link>'));
 
         post.creationView()
             .addField(new Field('title') // the default edit field type is "string", and displays as a text input
