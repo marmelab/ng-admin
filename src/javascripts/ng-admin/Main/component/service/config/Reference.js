@@ -73,7 +73,6 @@ define(function (require) {
             targetEntity = this.targetEntity(),
             targetLabel = this.targetField().name(),
             targetIdentifier = targetEntity.identifier().name(),
-            getMappedValue = this.targetField().getMappedValue.bind(this.targetField()),
             i,
             l;
 
@@ -82,7 +81,7 @@ define(function (require) {
 
             results.push({
                 value: entry.values[targetIdentifier],
-                label: getMappedValue(entry.values[targetLabel], entry.values)
+                label: entry.values[targetLabel]
             });
         }
 
