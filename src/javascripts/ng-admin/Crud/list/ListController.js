@@ -21,6 +21,7 @@ define(function () {
         this.fields = this.view.displayedFields;
         this.listActions = this.view.listActions();
         this.quickFilters = this.view.getQuickFilterNames();
+        this.hasFilters = this.quickFilters.length > 0 || Object.keys(this.filters).length > 0;
         this.totalItems = this.data.totalItems;
         this.itemsPerPage = this.view.perPage();
         this.infinitePagination = this.view.infinitePagination();

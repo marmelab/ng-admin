@@ -27,8 +27,7 @@
         </div>
     </div>
 
-    <span class="btn-group" role="group">
-        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-        <button class="btn btn-default" type="button" ng-click="filterViewCtrl.clearFilters()"><span class="glyphicon glyphicon-remove"></span></button>
-    </span>
+    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> Filter</button>
+    <button ng-if="!filterViewCtrl.isFilterEmpty" class="btn btn-default" type="button" ng-click="filterViewCtrl.clearFilters()"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+
 </form>
