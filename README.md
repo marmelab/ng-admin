@@ -43,7 +43,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     post.listView().addField(/* see example below */);
     post.creationView().addField(/* see example below */);
     post.editionView().addField(/* see example below */);
-    
+
     NgAdminConfigurationProvider.configure(app);
 });
 ```
@@ -72,8 +72,8 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             if (typeof params._sort === 'undefined') {
                 params._sort = 'title';
             }
-            
-            return params; 
+
+            return params;
         })
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
@@ -143,9 +143,9 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new Field('id'))
         .addField(new Field('title'))
         .addField(new Field('body').type('wysiwyg'))
-        .addField(new ReferenceMany('tags') 
-            .targetEntity(tag) 
-            .targetField(new Field('name')) 
+        .addField(new ReferenceMany('tags')
+            .targetEntity(tag)
+            .targetField(new Field('name'))
         );
 
     comment.menuView()
@@ -291,12 +291,12 @@ Defines the name of the entity, as displayed on screen
 A read-only entity doesn't allow access to the mutation views (editionView, creationView, deletionView). In addition, all links to the editionView are replaced by links to the showView.
 
         var tag = new Entity('tags').readOnly();
-        
+
 * `baseURL()`
 Defines the base API endpoint for all views of this entity
 
         var comment = new Entity('comments').baseURL('http://localhost:3001/');
-        
+
 * `url()`
 Defines the API endpoint for all views of this entity. It can be a string or a function.
 
@@ -309,10 +309,10 @@ Allows to overrides all query parameters.
 
         var comment = new Entity('comments').transformParams(function(params) {
             params._sort = params.sort;
-            
+
             return params;
         });
-        
+
 Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
 
 ## View Configuration
@@ -382,7 +382,7 @@ Allows to overrides all query parameters.
         comment.listView().transformParams(function(params) {
             params._sort = params.sort;
             delete params.sort;
-            
+
             return params;
         });
 
@@ -414,7 +414,7 @@ Define the parameters used to paginate the API:
 
         listView.pagination(function(page, maxPerPage) {
             return {
-                begin: (page - 1) * maxPerPage, 
+                begin: (page - 1) * maxPerPage,
                 end: page * maxPerPage
             };
         });
@@ -481,7 +481,7 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
 
 ## Fields
 
-A field is the representation of a property of an entity. 
+A field is the representation of a property of an entity.
 
 ### Field Classes
 
@@ -605,7 +605,7 @@ Define the target field name used to retrieve the label of the referenced elemen
             .targetEntity(post) // Select a target Entity
             .targetField(new Field('title')) // Select a label Field
         );
-        
+
 * `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
@@ -656,7 +656,7 @@ Define the field name used to link the referenced entity.
            .targetEntity(tag) // Targeted entity
            .targetField(new Field('name')) // Label Field to display in the list
         )
-        
+
 * `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
@@ -670,7 +670,7 @@ Define a function that returns parameters for filtering API calls. You can use i
 ## Customizing the API Mapping
 
 REST is not specific enough to know how to handle an API. ng-admin makes some assumptions about how your API is designed. All of these assumptions can be overridden via the configuration file.
- 
+
 ### Pagination
 
 ng-admin assumes that your API accepts `page` and `per_page` query parameters to paginate lists:
@@ -757,7 +757,7 @@ The default date field format is `yyyy-MM-dd`. You can change it with the `forma
 Install bower and npm dependencies (for tests) wi calling the `install` target:
 
 ```sh
-make install
+npm install
 ```
 
 ### Run the example app
@@ -765,7 +765,7 @@ make install
 To test your changes, run the example app, which is bundled with a sample REST api, by calling:
 
 ```sh
-make run
+npm start
 ```
 
 Then, connect to `http://localhost:8000/` to browse the admin app.
@@ -775,7 +775,7 @@ Then, connect to `http://localhost:8000/` to browse the admin app.
 Concatenate and minify the app with:
 
 ```sh
-make build
+npm run build
 ```
 
 A new `build/ng-admin.min.js` file will be created.
@@ -785,7 +785,7 @@ A new `build/ng-admin.min.js` file will be created.
 ng-admin has unit tests (powered by karma) and end to end tests (powered by protractor). Launch the entire tests suite by calling:
 
 ```
-make test
+npm test
 ```
 
 
@@ -793,7 +793,7 @@ make test
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
 
-All contributions are welcome. New applications or options should be tested with `make test` command.
+All contributions are welcome. New applications or options should be tested with `npm test` command.
 
 ## License
 

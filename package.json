@@ -41,6 +41,9 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "postinstall": "bower install && ./node_modules/protractor/bin/webdriver-manager update",
+    "test": "grunt test:local",
+    "build": "grunt build",
+    "start": "grunt"
   }
 }
