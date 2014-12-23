@@ -163,6 +163,7 @@ module.exports = function (grunt) {
         grunt.registerTask('test', ['karma', 'init', 'build', 'connect', 'protractor']);
     }
     grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
+    grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'copy:css_dev', 'concat:css', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
     grunt.registerTask('init', ['copy:config']);
