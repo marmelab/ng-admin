@@ -1,4 +1,4 @@
-<div id="row-{{ field.name() }}" class="has-feedback" ng-class="view.getAttributeClass({{ formController.name }}.{{ field.name() }}.$valid)">
+<div id="row-{{ field.name() }}" class="has-feedback" ng-class="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }})">
     <label for="{{ field.name() }}" class="col-sm-2 control-label">
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>

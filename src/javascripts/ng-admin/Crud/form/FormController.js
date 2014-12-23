@@ -99,6 +99,18 @@ define(function () {
             }, this.handleError.bind(this));
     };
 
+    FormController.prototype.getValidationClassForField = function(input) {
+        if (typeof input === 'undefined') {
+            // non-editable fields, or template fields, may not have a corresponding input
+            return;
+        }
+        if (!input.$dirty) {
+            // do not fidsplay validation status unless the input has been altered
+            return;
+        }
+        return input.$valid ? 'has-success' : 'has-error';
+    }
+
     /**
      * @param {Object} form
      * @param {$event} $event

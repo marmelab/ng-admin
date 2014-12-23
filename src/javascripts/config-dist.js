@@ -132,14 +132,15 @@
 
         post.creationView()
             .addField(new Field('title') // the default edit field type is "string", and displays as a text input
-                .attributes({'placeholder': 'the post title'}) // you can add custom attributes, too
+                .attributes({ placeholder: 'the post title' }) // you can add custom attributes, too
+                .validation({ required: true, minlength: 3, maxlength: 100 }) // add validation rules for fields
             )
             .addField(new Field('body').type('wysiwyg')); // overriding the type allows rich text editing for the body
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the action bar
-            .addField(new Field('title').validation({"required": true, "maxlength": 100})) // add validation rules for fields
+            .addField(new Field('title').validation({ required: true, minlength: 3, maxlength: 100 }))
             .addField(new Field('body').type('wysiwyg'))
             .addField(new ReferenceMany('tags')
                 .targetEntity(tag)
