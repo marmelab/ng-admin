@@ -77,7 +77,6 @@ define(function (require) {
                 entries = view.getMappedValue(entries);
 
                 return {
-                    view: view,
                     entries: entries,
                     currentPage: page,
                     perPage: view.perPage(),

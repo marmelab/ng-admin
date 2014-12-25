@@ -26,7 +26,7 @@ define(function () {
      * @returns {promise}
      */
     PanelBuilder.prototype.getPanelsData = function () {
-        var dashboards = this.Configuration.getViewsOfType('DashboardView'),
+        var dashboardViews = this.Configuration.getViewsOfType('DashboardView'),
             searchParams = this.$location.search(),
             sortField = searchParams.sortField,
             sortDir = searchParams.sortDir,
@@ -35,10 +35,10 @@ define(function () {
             self = this,
             i;
 
-        dashboards = this.$filter('orderElement')(dashboards);
+        dashboardViews = this.$filter('orderElement')(dashboardViews);
 
-        for (i in dashboards) {
-            dashboardView = dashboards[i];
+        for (i in dashboardViews) {
+            dashboardView = dashboardViews[i];
             if (!dashboardView.isEnabled()) {
                 continue;
             }
@@ -46,7 +46,27 @@ define(function () {
             promises.push(self.RetrieveQueries.getAll(dashboardView, 1, true, null, sortField, sortDir));
         }
 
-        return this.$q.all(promises);
+        return this.$q.all(promises).then(function (panelData) {
+            var i,
+                data,
+                view,
+                panels = [];
+
+            for (i in panelData) {
+                data = panelData[i];
+                view = dashboardViews[i]
+                panels.push({
+                    label: view.title(),
+                    viewName: view.name(),
+                    fields: view.displayedFields,
+                    entity: view.getEntity(),
+                    perPage: view.perPage(),
+                    entries: data.entries
+                });
+            }
+
+            return panels;
+        });
     };
 
     PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdminConfiguration'];
