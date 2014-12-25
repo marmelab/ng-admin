@@ -3,32 +3,34 @@
 define(function (require) {
     'use strict';
 
-    var referenceColumnView = require('text!./ReferenceColumn.html');
-
-    function ReferenceColumn($location, Configuration) {
+    function maReferenceColumn($location, Configuration) {
         return {
             restrict: 'E',
-            template: referenceColumnView,
-            link: function ($scope) {
-                var field = $scope.field;
+            link: function (scope) {
+                var field = scope.field;
                 var referenceEntity = field.targetEntity().name();
                 var relatedEntity = Configuration().getEntity(referenceEntity);
 
-                $scope.hasRelatedAdmin = function () {
+                scope.hasRelatedAdmin = function () {
                     if (!relatedEntity) return false;
                     return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
                 };
-                $scope.gotoReference = function (entry) {
+                scope.gotoReference = function (entry) {
                     var referenceId = entry.values[field.name()];
                     var route = relatedEntity.isReadOnly ? 'show' : 'edit';
 
                     $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
                 };
-            }
+            },
+            template:
+'<div ng-switch="field.isDetailLink() && hasRelatedAdmin()" ng-init="value = entry.listValues[field.name()]">' +
+    '<a ng-switch-when="true" ng-click="gotoReference(entry)">{{ value }}</a>' +
+    '<span ng-switch-default>{{ value }}</span>' +
+'</div>'
         };
     }
 
-    ReferenceColumn.$inject = ['$location', 'NgAdminConfiguration'];
+    maReferenceColumn.$inject = ['$location', 'NgAdminConfiguration'];
 
-    return ReferenceColumn;
+    return maReferenceColumn;
 });

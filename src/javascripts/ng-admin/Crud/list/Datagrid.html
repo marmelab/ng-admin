@@ -16,26 +16,8 @@
 
     <tbody>
         <tr ng-repeat="entry in entries track by $index">
-            <td ng-repeat="field in fields() | orderElement track by $index" ng-switch="field.type()">
-                <string-column ng-switch-when="choice"></string-column>
-                <string-column ng-switch-when="email"></string-column>
-                <string-column ng-switch-when="number"></string-column>
-                <string-column ng-switch-when="string"></string-column>
-                <string-column ng-switch-when="text"></string-column>
-
-                <password-column ng-switch-when="password"></password-column>
-
-                <date-column ng-switch-when="date"></date-column>
-
-                <boolean-column ng-switch-when="boolean"></boolean-column>
-
-                <reference-column ng-switch-when="Reference"></reference-column>
-
-                <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
-
-                <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
-
-                <template-column ng-switch-when="template"></template-column>
+            <td ng-repeat="field in fields() | orderElement track by $index">
+                <ma-column></ma-column>
             </td>
             <td ng-if="listActions()" class="ng-admin-column-actions">
                 <list-actions entry="entry" entity="::entity()" buttons="listActions()"></list-actions>

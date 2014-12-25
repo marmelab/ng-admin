@@ -3,12 +3,9 @@
 define(function (require) {
     'use strict';
 
-    var referenceManyColumnView = require('text!./ReferenceManyColumn.html');
-
-    function ReferenceManyColumn($location, Configuration) {
+    function maReferenceManyColumn($location, Configuration) {
         return {
             restrict: 'E',
-            template: referenceManyColumnView,
             link: function ($scope) {
                 var field = $scope.field,
                     referenceEntity = field.targetEntity().name(),
@@ -24,11 +21,26 @@ define(function (require) {
 
                     $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
                 };
-            }
+            },
+            template:
+'<div ng-switch="field.isDetailLink() && hasRelatedAdmin()">' +
+    '<span ng-switch-when="true" ng-repeat="ref in entry.listValues[field.name()] track by $index">' +
+        '<a ng-click="gotoReference(entry.values[field.name()][$index])" class="multiple">' +
+            '<span class="label label-default">' +
+                '{{ ref }}' +
+            '</span>' +
+        '</a>' +
+    '</span>' +
+    '<span ng-switch-default ng-repeat="ref in entry.listValues[field.name()] track by $index">' +
+        '<span class="label label-default">' +
+            '{{ ref }}' +
+        '</span>' +
+    '</span>' +
+'</div>'
         };
     }
 
-    ReferenceManyColumn.$inject = ['$location', 'NgAdminConfiguration'];
+    maReferenceManyColumn.$inject = ['$location', 'NgAdminConfiguration'];
 
-    return ReferenceManyColumn;
+    return maReferenceManyColumn;
 });
