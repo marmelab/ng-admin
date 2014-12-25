@@ -6,11 +6,8 @@ define(function (require) {
     function maPasswordColumn() {
         return {
             restrict: 'E',
-            template:
-'<div ng-switch="field.isDetailLink()">' +
-    '<a ng-switch-when="true" ng-click="gotoDetail(entry)">xxx</a>' +
-    '<span ng-switch-default>xxx</span>' +
-'</div>'
+            scope: {},
+            template: '<span>xxx</span>'
         };
     }
 

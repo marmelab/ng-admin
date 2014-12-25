@@ -6,11 +6,10 @@ define(function (require) {
     function maWysiwygColumn() {
         return {
             restrict: 'E',
-            template:
-'<div ng-switch="field.isDetailLink()" ng-init="value = entry.values[field.name()]">' +
-    '<a ng-switch-when="true" ng-bind-html="value" ng-click="gotoDetail(entry)"></a>' +
-    '<span ng-switch-default ng-bind-html="value"></span>' +
-'</div>'
+            scope: {
+                value: '&'
+            },
+            template: '<span ng-bind-html="value()"></span>'
         };
     }
 

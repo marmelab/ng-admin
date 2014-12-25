@@ -22,42 +22,10 @@
 
         <label class="col-sm-2 control-label">{{ field.label() }}</label>
 
-        <div class="col-sm-10 show-value" ng-switch="field.type()">
+        <div class="col-sm-10 show-value">
 
-            <string-column ng-switch-when="string"></string-column>
+            <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
 
-            <password-column ng-switch-when="password"></password-column>
-
-            <text-column ng-switch-when="text"></text-column>
-
-            <email-column ng-switch-when="email"></email-column>
-
-            <number-column ng-switch-when="number"></number-column>
-
-            <date-column ng-switch-when="date"></date-column>
-
-            <boolean-column ng-switch-when="boolean"></boolean-column>
-
-            <choice-column ng-switch-when="choice"></choice-column>
-
-            <reference-column ng-switch-when="Reference"></reference-column>
-
-            <reference-many-column ng-switch-when="ReferenceMany"></reference-many-column>
-
-            <ma-datagrid ng-switch-when="ReferencedList"
-                         name="{{ field.getReferencedView().name() }}"
-                         entries="field.entries"
-                         fields="field.getReferencedView().displayedFields"
-                         entity="field.getReferencedView().entity"
-                         per-page="field.getReferencedView().perPage()"
-                         listActions="[]"
-                         infinite-pagination="false"
-                         with-pagination="false">
-            </ma-datagrid>
-
-            <wysiwyg-column ng-switch-when="wysiwyg"></wysiwyg-column>
-
-            <template-column ng-switch-when="template"></template-column>
         </div>
     </div>
 

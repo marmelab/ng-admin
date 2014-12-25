@@ -6,11 +6,10 @@ define(function (require) {
     function maStringColumn() {
         return {
             restrict: 'E',
-            template:
-'<div ng-switch="field.isDetailLink()" ng-init="value = entry.values[field.name()]">' +
-    '<a ng-switch-when="true" ng-click="gotoDetail(entry)">{{ value }}</a>' +
-    '<span ng-switch-default>{{ value }}</span>' +
-'</div>'
+            scope: {
+                value: '&'
+            },
+            template: '<span>{{ value() }}</span>'
         };
     }
 
