@@ -9,22 +9,22 @@ define(function (require) {
         editTemplate = require('text!./form/edit.html'),
         deleteTemplate = require('text!./delete/delete.html');
 
-    function templateFinder(viewName, defaultView) {
-        return function ($stateParams, Configuration) {
+    function templateProvider(viewName, defaultView) {
+        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
             var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
             var customTemplate = view.template();
             return customTemplate ? customTemplate : defaultView;
-        }
+        }];
     }
 
-    function viewFinder(viewName) {
-        return function ($stateParams, Configuration) {
+    function viewProvider(viewName) {
+        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
             var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
             if (!view.isEnabled()) {
                 throw new Error('The ' + viewName + ' is disabled for this entity');
             }
             return view;
-        }
+        }];
     }
 
     function routing($stateProvider) {
@@ -43,9 +43,9 @@ define(function (require) {
                 },
                 controller: 'ListController',
                 controllerAs: 'listController',
-                templateProvider: ['$stateParams', 'NgAdminConfiguration', templateFinder('ListView', listTemplate)],
+                templateProvider: templateProvider('ListView', listTemplate),
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', viewFinder('ListView')],
+                    view: viewProvider('ListView'),
                     data: ['$stateParams', 'RetrieveQueries', 'view', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, view, Configuration) {
                         var config = Configuration(),
                             searchParams = $stateParams.search,
@@ -70,13 +70,13 @@ define(function (require) {
                 url: '/show/:entity/:id',
                 controller: 'ShowController',
                 controllerAs: 'showController',
-                templateProvider: ['$stateParams', 'NgAdminConfiguration', templateFinder('ShowView', showTemplate)],
+                templateProvider: templateProvider('ShowView', showTemplate),
                 params: {
                     entity: {},
                     id: null
                 },
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', viewFinder('ShowView')],
+                    view: viewProvider('ShowView'),
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
@@ -101,9 +101,9 @@ define(function (require) {
                 url: '/create/:entity',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                templateProvider: ['$stateParams', 'NgAdminConfiguration', templateFinder('CreateView', createTemplate)],
+                templateProvider: templateProvider('CreateView', createTemplate),
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', viewFinder('CreateView')],
+                    view: viewProvider('CreateView'),
                     entry: ['view', function (view) {
                         var entry = view
                             .mapEntry({});
@@ -124,7 +124,7 @@ define(function (require) {
                 url: '/edit/:entity/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                templateProvider: ['$stateParams', 'NgAdminConfiguration', templateFinder('EditView', editTemplate)],
+                templateProvider: templateProvider('EditView', editTemplate),
                 params: {
                     entity: {},
                     id: null,
@@ -132,7 +132,7 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', viewFinder('EditView')],
+                    view: viewProvider('EditView'),
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
@@ -154,9 +154,9 @@ define(function (require) {
                 url: '/delete/:entity/:id',
                 controller: 'DeleteController',
                 controllerAs: 'deleteController',
-                templateProvider: ['$stateParams', 'NgAdminConfiguration', templateFinder('DeleteView', deleteTemplate)],
+                templateProvider: templateProvider('DeleteView', deleteTemplate),
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', viewFinder('DeleteView')],
+                    view: viewProvider('DeleteView'),
                     params: ['$stateParams', function ($stateParams) {
                         return $stateParams;
                     }],
