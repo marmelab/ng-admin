@@ -75,30 +75,28 @@ define(function (require) {
     '</span>' +
 
     '<span ng-switch-when="true" ng-switch="isReference">' + 
-        '<span ng-switch-when="true" ng-switch="type">' + 
+        '<a ng-switch-when="false" ng-click="gotoDetail()" ng-switch="type">' +
 
+            '<ma-string-column   ng-switch-when="choice"   value="::value"></ma-string-column>' +
+            '<ma-string-column   ng-switch-when="email"    value="::value"></ma-string-column>' +
+            '<ma-string-column   ng-switch-when="number"   value="::value"></ma-string-column>' +
+            '<ma-string-column   ng-switch-when="string"   value="::value"></ma-string-column>' +
+            '<ma-string-column   ng-switch-when="text"     value="::value"></ma-string-column>' +
+            '<ma-boolean-column  ng-switch-when="boolean"  value="::value"></ma-boolean-column>' +
+            '<ma-password-column ng-switch-when="password" value="::value"></ma-password-column>' +
+            '<ma-wysiwyg-column  ng-switch-when="wysiwyg"  value="::value"></ma-wysiwyg-column>' +
+            '<ma-date-column     ng-switch-when="date"     value="::value" field="::field"></ma-date-column>' +
+            '<ma-template-column ng-switch-when="template" entry="::entry" field="::field" entity="::entity"></ma-template-column>' +
+
+        '</a>' +
+
+        '<span ng-switch-when="true" ng-switch="type">' + 
             '<a ng-switch-when="Reference" ng-click="gotoReference()">' +
                 '<ma-string-column value="::entry.listValues[field.name()]"></ma-string-column>' +
             '</a>' +
             '<ma-reference-many-link-column ng-switch-when="ReferenceMany" ids="::value" values="::entry.listValues[field.name()]" field="::field"></ma-reference-many-link-column>' +
-
         '</span>' +
-        '<a ng-switch-when="false" ng-click="gotoDetail()" ng-switch="type">' +
 
-            '<ma-string-column   value="::value" ng-switch-when="choice"></ma-string-column>' +
-            '<ma-string-column   value="::value" ng-switch-when="email"></ma-string-column>' +
-            '<ma-string-column   value="::value" ng-switch-when="number"></ma-string-column>' +
-            '<ma-string-column   value="::value" ng-switch-when="string"></ma-string-column>' +
-            '<ma-string-column   value="::value" ng-switch-when="text"></ma-string-column>' +
-            '<ma-boolean-column  value="::value" ng-switch-when="boolean"></ma-boolean-column>' +
-            '<ma-password-column value="::value" ng-switch-when="password"></ma-password-column>' +
-            '<ma-wysiwyg-column  value="::value" ng-switch-when="wysiwyg"></ma-wysiwyg-column>' +
-
-            '<ma-date-column value="::value" field="::field" ng-switch-when="date"></ma-date-column>' +
-
-            '<ma-template-column entry="::entry" field="::field" entity="::entity" ng-switch-when="template"></ma-template-column>' +
-
-        '</span>' +
     '</span>' +
 '</div>'
         };
