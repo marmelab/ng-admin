@@ -59,7 +59,7 @@ define(function (require) {
                 var field = new Field();
 
                 expect(function () { field.type('myType');  })
-                    .toThrow('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "template" but "myType" was given.');
+                    .toThrow(new Error('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "template" but "myType" was given.'));
             });
 
         });

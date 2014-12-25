@@ -37,18 +37,20 @@ define(function (require) {
 
         describe("updateOne", function () {
 
-            it('should PUT an entity when calling updateOne', function () {
+            it('should PUT an entity when calling updateOne', function (done) {
                 var updateQueries = new UpdateQueries({}, Restangular, config),
                     rawEntity = {id: 3, name: 'Mizu'};
 
-                Restangular.customPUT = jasmine.createSpy('customPUT').andReturn(mixins.buildPromise({data: rawEntity}));
+                spyOn(Restangular, 'oneUrl').and.callThrough();
+                spyOn(Restangular, 'customPUT').and.returnValue(mixins.buildPromise({data: rawEntity}));
 
                 updateQueries.updateOne(view, rawEntity)
                     .then(function (entry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/3');
                         expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity, null, null, {});
                         expect(entry.values.name).toEqual('Mizu');
-                    });
+                    })
+                    .then(done, done.fail);
             });
         });
     });

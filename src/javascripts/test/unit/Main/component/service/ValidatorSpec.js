@@ -31,7 +31,7 @@ define(function (require) {
                 return true;
             };
 
-            expect(function () { validator.validate(view, entry); }).toThrow('Field "Complex" is not valid.');
+            expect(function () { validator.validate(view, entry); }).toThrow(new Error('Field "Complex" is not valid.'));
         });
 
     });
