@@ -25,7 +25,11 @@ define(function (require) {
                 },
                 controller: 'ListController',
                 controllerAs: 'listController',
-                template: listTemplate,
+                templateProvider: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                    var listView = Configuration().getViewByEntityAndType($stateParams.entity, 'ListView');
+                    var customTemplate = listView.template();
+                    return customTemplate ? customTemplate : listTemplate;
+                }],
                 resolve: {
                     data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
                         var config = Configuration(),
@@ -56,7 +60,11 @@ define(function (require) {
                 url: '/show/:entity/:id',
                 controller: 'ShowController',
                 controllerAs: 'showController',
-                template: showTemplate,
+                templateProvider: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                    var showView = Configuration().getViewByEntityAndType($stateParams.entity, 'ShowView');
+                    var customTemplate = showView.template();
+                    return customTemplate ? customTemplate : showTemplate;
+                }],
                 params: {
                     entity: {},
                     id: null
@@ -86,13 +94,18 @@ define(function (require) {
                     }]
                 }
             });
+
         $stateProvider
             .state('create', {
                 parent: 'main',
                 url: '/create/:entity',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                template: createTemplate,
+                templateProvider: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                    var createView = Configuration().getViewByEntityAndType($stateParams.entity, 'CreateView');
+                    var customTemplate = createView.template();
+                    return customTemplate ? customTemplate : createTemplate;
+                }],
                 resolve: {
                     view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
                         var view = Configuration().getViewByEntityAndType($stateParams.entity, 'CreateView');
@@ -121,7 +134,11 @@ define(function (require) {
                 url: '/edit/:entity/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                template: editTemplate,
+                templateProvider: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                    var editView = Configuration().getViewByEntityAndType($stateParams.entity, 'EditView');
+                    var customTemplate = editView.template();
+                    return customTemplate ? customTemplate : editTemplate;
+                }],
                 params: {
                     entity: {},
                     id: null,
@@ -157,7 +174,11 @@ define(function (require) {
                 url: '/delete/:entity/:id',
                 controller: 'DeleteController',
                 controllerAs: 'deleteController',
-                template: deleteTemplate,
+                templateProvider: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+                    var deleteView = Configuration().getViewByEntityAndType($stateParams.entity, 'DeleteView');
+                    var customTemplate = deleteView.template();
+                    return customTemplate ? customTemplate : deleteTemplate;
+                }],
                 resolve: {
                     params: ['$stateParams', function ($stateParams) {
                         return $stateParams;

@@ -20,6 +20,7 @@ define(function (require) {
         title: false,
         actions: null,
         description: '',
+        template: null,
         extraParams: null,
         interceptor: null,
         transformParams: defaultTransformParams,
