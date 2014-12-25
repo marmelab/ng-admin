@@ -124,13 +124,9 @@ define(function (require) {
      * @returns {string}
      */
     Field.prototype.getCssClasses = function () {
-        var classes = '';
-
         if (this.config.cssClasses) {
-            classes = this.config.cssClasses.join(' ');
+            return this.config.cssClasses.join(' ');
         }
-
-        return classes;
     };
 
     /**

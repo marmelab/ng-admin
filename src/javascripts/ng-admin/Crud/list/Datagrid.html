@@ -16,7 +16,7 @@
 
     <tbody>
         <tr ng-repeat="entry in entries track by $index">
-            <td ng-repeat="field in fields() | orderElement track by $index">
+            <td ng-repeat="field in fields() | orderElement track by $index" ng-class="field.getCssClasses()">
                 <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
             </td>
             <td ng-if="listActions()" class="ng-admin-column-actions">

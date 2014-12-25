@@ -246,7 +246,7 @@
 
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
-            .addField(new Field('id').label('ID'))
+            .addField(new Field('id').label('ID').cssClasses(['bg-info'])) // add custom CSS classes to inputs and columns
             .addField(new Field('name'))
             .addField(new Field('published').type('boolean'))
             .addField(new Field('custom')

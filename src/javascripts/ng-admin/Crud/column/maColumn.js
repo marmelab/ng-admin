@@ -98,7 +98,8 @@ define(function (require) {
         '</span>' +
 
     '</span>' +
-'</div>'
+
+'</span>'
         };
     }
 
