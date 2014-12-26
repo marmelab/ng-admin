@@ -17,7 +17,6 @@ define(function (require) {
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.choices = field.choices();
                 scope.v = field.validation();
@@ -28,8 +27,7 @@ define(function (require) {
                 }
             },
             template: 
-'<select ng-model="value" ng-required="v.required" ' +
-  'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control">'+
+'<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control">' +
   '<option ng-if="!v.required" value="" ng-selected="!value">-- select a value --</option>' +
   '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
     '{{ choice.label }}' +

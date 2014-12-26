@@ -17,7 +17,6 @@ define(function (require) {
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.choices = field.choices();
                 scope.v = field.validation();
@@ -29,9 +28,7 @@ define(function (require) {
                 scope.contains = contains;
             },
             template: 
-'<select multiple ng-model="value" '+
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' + 
-    'ng-required="v.required">' +
+'<select multiple ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ng-required="v.required">' +
   '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="contains(value, choice.value)">' +
     '{{ choice.label }}' +
   '</option>' +

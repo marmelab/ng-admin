@@ -34,15 +34,6 @@ define(function (require) {
             expect(element.find('input').eq(0).attr('placeholder')).toEqual('here the date');
         });
 
-        it("should contain the field classes", function () {
-            scope.field = new Field().cssClasses(['foo', 'bar']);
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            var input = element.find('input').eq(0);
-            expect(input.hasClass('foo')).toBeTruthy();
-            expect(input.hasClass('bar')).toBeTruthy();
-        });
-
         it("should contain the bounded value", function () {
             scope.field = new Field();
             var now = new Date();

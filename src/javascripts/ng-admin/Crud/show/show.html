@@ -22,7 +22,7 @@
 
         <label class="col-sm-2 control-label">{{ field.label() }}</label>
 
-        <div class="col-sm-10 show-value" ng-class="field.getCssClasses()">
+        <div class="col-sm-10 show-value" ng-class="field.getCssClasses(entry)">
 
             <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
 
