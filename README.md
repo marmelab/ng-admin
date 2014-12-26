@@ -7,6 +7,17 @@ Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-m
 
 Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://github.com/marmelab/ng-admin-demo)), and the [launch post](http://marmelab.com/blog/2014/09/15/easy-backend-for-your-restful-api.html).
 
+* [Installation](#installation)
+* [Example Configuration](#example-configuration)
+* [Entity Configuration](#entity-configuration)
+* [View Configuration](#view-configuration)
+* [Reusable Directives](#reusable-directives)
+* [Relationships](#Relationships)
+* [Customizing the API Mapping](#customizing-the-api-mapping)
+* [Theming](#theming)
+* [Contributing](#contributing)
+* [License](#license)
+
 ## Installation
 
 Retrieve the module from bower:
@@ -842,7 +853,11 @@ app.customTemplate(function(viewName) {
 })
 ```
 
-## Development
+## Contributing
+
+Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
+
+All contributions are welcome. New applications or options should be tested with the `make test` command.
 
 ### Install dependencies
 
@@ -879,13 +894,6 @@ ng-admin has unit tests (powered by karma) and end to end tests (powered by prot
 ```
 make test
 ```
-
-
-## Contributing
-
-Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
-
-All contributions are welcome. New applications or options should be tested with `make test` command.
 
 ## License
 
