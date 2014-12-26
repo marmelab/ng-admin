@@ -10,10 +10,14 @@ define(function (require) {
         return params;
     }
 
+    function defaultCustomTemplate(viewName) {
+    }
+
     var config = {
         title: "Angular admin",
         baseApiUrl: "http://localhost:3000/",
-        transformParams: defaultTransformParams
+        transformParams: defaultTransformParams,
+        customTemplate: defaultCustomTemplate
     };
 
     function Application(title) {

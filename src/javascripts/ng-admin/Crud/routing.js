@@ -11,9 +11,13 @@ define(function (require) {
 
     function templateProvider(viewName, defaultView) {
         return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+            var customTemplate;
             var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
-            var customTemplate = view.template();
-            return customTemplate ? customTemplate : defaultView;
+            customTemplate = view.template();
+            if (customTemplate) return customTemplate;
+            customTemplate = Configuration().customTemplate()(viewName);
+            if (customTemplate) return customTemplate;
+            return defaultView;
         }];
     }
 

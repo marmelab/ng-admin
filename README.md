@@ -792,7 +792,7 @@ myEntity.listView()
     }));
 ```
 
-### Directives Templates
+### Customizing Directives Templates
 
 Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, and the ability to decorate another provider, you can customize the templates of all the directives used by ng-admin. Here is an example of customization of the 'text' input field customization:
 
@@ -816,9 +816,9 @@ app.config(function(NgAdminConfigurationProvider, ..., $provide) {
 });
 ```
 
-### View Template
+### Customizing The View Template For A Given Entity
 
-Each of the main views (`list`, `show`, `create`, `edit`, `delete`) can use a custom HTML template instead of the default one. Just pass it to the `template()` function on the view:
+For a given entity, each of the main views (`list`, `show`, `create`, `edit`, `delete`) can use a custom HTML template instead of the default one. Just pass it to the `template()` function on the view:
 
 ```js
 var myTemplate = require('text!./path/to/list.html');
@@ -827,6 +827,19 @@ myEntity.listView().template(myTemplate);
 // continue myEntity configuration
 // ...
 app.addEntity(myEntity);
+```
+
+### Customizing The View Templates For The Entire Application
+
+You can use the `app.customTemplate()` method to customize the template of a given view across the entire application (for all entities). This method expects a function argument, which should return the template as a string.
+
+```js
+var myTemplate = require('text!./path/to/list.html');
+app.customTemplate(function(viewName) {
+    if (viewName === 'ListView') {
+        return myTemplate;
+    }
+})
 ```
 
 ## Development

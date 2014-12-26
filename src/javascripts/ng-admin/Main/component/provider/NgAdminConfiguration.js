@@ -12,10 +12,9 @@ define(function () {
     };
 
     NgAdminConfiguration.prototype.$get = function () {
-        var self = this;
-
+        var config = this.config;
         return function () {
-            return self.config;
+            return config;
         };
     };
 

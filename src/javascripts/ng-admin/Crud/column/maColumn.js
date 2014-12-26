@@ -36,7 +36,7 @@ define(function (require) {
                     this.clearRouteParams();
                     var route = scope.entity().isReadOnly ? 'show' : 'edit';
 
-                    $location.path('/' + route + '/' + entry.entityName + '/' + scope.entry.identifierValue);
+                    $location.path('/' + route + '/' + scope.entry.entityName + '/' + scope.entry.identifierValue);
                     $anchorScroll(0);
                 };
                 scope.gotoReference = function () {
