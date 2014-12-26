@@ -20,7 +20,7 @@
                 <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
             </td>
             <td ng-if="listActions()" class="ng-admin-column-actions">
-                <list-actions entry="entry" entity="::entity()" buttons="listActions()"></list-actions>
+                <list-actions entry="::entry" entity="::entity" buttons="listActions()"></list-actions>
             </td>
         </tr>
     </tbody>

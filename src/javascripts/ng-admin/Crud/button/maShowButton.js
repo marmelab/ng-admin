@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var showButtonTemplate = require('text!./ShowButton.html');
 
     function maShowButtonDirective($location) {
         return {
@@ -13,13 +11,16 @@ define(function (require) {
                 'entry': '&',
                 'size': '@'
             },
-            template: showButtonTemplate,
             link: function ($scope) {
                 $scope.gotoShow = function () {
                     var entity = $scope.entity();
                     $location.path('/show/' + entity.name() + '/' + $scope.entry().identifierValue);
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoShow()">' +
+    '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;Show' +
+'</a>'
         };
     }
 

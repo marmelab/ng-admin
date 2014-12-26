@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var editButtonTemplate = require('text!./EditButton.html');
 
     function maEditButtonDirective($location) {
         return {
@@ -13,13 +11,16 @@ define(function (require) {
                 'entry': '&',
                 'size': '@'
             },
-            template: editButtonTemplate,
             link: function ($scope) {
                 $scope.gotoEdit = function () {
                     var entity = $scope.entity();
                     $location.path('/edit/' + entity.name() + '/' + $scope.entry().identifierValue);
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoEdit()">' +
+    '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;Edit' +
+'</a>'
         };
     }
 

@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var deleteButtonTemplate = require('text!./DeleteButton.html');
 
     function maDeleteButtonDirective($location) {
         return {
@@ -13,13 +11,17 @@ define(function (require) {
                 'entry': '&',
                 'size': '@'
             },
-            template: deleteButtonTemplate,
             link: function ($scope) {
                 $scope.gotoDelete = function () {
                     var entity = $scope.entity();
                     $location.path('/delete/' + entity.name() + '/' + $scope.entry().identifierValue);
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">' +
+    '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete' +
+'</a>'
+
         };
     }
 

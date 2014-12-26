@@ -12,6 +12,7 @@ define(function () {
      * @constructor
      */
     function DatagridController($scope, $location, $anchorScroll) {
+        $scope.entity = $scope.entity();
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
@@ -31,7 +32,7 @@ define(function () {
      */
     DatagridController.prototype.gotoDetail = function (entry) {
         this.clearRouteParams();
-        var route = this.$scope.entity().isReadOnly ? 'show' : 'edit';
+        var route = this.$scope.entity.isReadOnly ? 'show' : 'edit';
 
         this.$location.path('/' + route + '/' + entry.entityName + '/' + entry.identifierValue);
         this.$anchorScroll(0);
