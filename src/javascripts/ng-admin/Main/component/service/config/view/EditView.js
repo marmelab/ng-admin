@@ -26,14 +26,6 @@ define(function (require) {
         return 'editForm';
     };
 
-    EditView.prototype.getAttributeClass = function (isValid) {
-        if (undefined === isValid) {
-            return '';
-        }
-
-        return isValid ? '' : 'has-error';
-    };
-
     EditView.prototype.showAttributeSuccess = function () {
         return false;
     };

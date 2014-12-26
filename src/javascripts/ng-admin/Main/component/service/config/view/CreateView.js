@@ -26,10 +26,6 @@ define(function (require) {
         return 'createForm';
     };
 
-    CreateView.prototype.getAttributeClass = function (isValid) {
-        return isValid ? 'has-success' : '';
-    };
-
     CreateView.prototype.showAttributeSuccess = function () {
         return true;
     };
