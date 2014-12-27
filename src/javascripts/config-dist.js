@@ -7,7 +7,7 @@
     app.directive('customPostLink', ['$location', function ($location) {
         return {
             restrict: 'E',
-            template: '<a ng-click="displayPost(entry)">View&nbsp;post</a>',
+            template: '<p class="form-control-static"><a ng-click="displayPost(entry)">View&nbsp;post</a></p>',
             link: function ($scope) {
                 $scope.displayPost = function (entry) {
                     var postId = entry.values.post_id;
@@ -22,7 +22,7 @@
         return {
             restrict: 'E',
             scope: true,
-            template: '<a ng-click="changePage()">Change page</a>',
+            template: '<p class="form-control-static"><a ng-click="changePage()">Change page</a></p>',
             link: function ($scope) {
                 $scope.changePage = function () {
                     $location.path('/new-page');
