@@ -84,10 +84,7 @@ define(function (require) {
         describe('getSortFieldName', function () {
             it('should retrieve sortField', function () {
                 var ref = new Reference('human_id'),
-                    human = new Entity('human').addView(new ListView('human-list')),
-                    editView = new EditView();
-
-                editView.addField(new Field('id').identifier(true));
+                    human = new Entity('human');
 
                 ref.setEntries([
                     { id: 1, human_id: 1, name: 'Suna'},
@@ -101,9 +98,10 @@ define(function (require) {
 
                 human
                     .identifier(new Field('id'))
-                    .addView(editView);
+                    .editionView()
+                      .addField(new Field('id').identifier(true));
 
-                expect(ref.getSortFieldName()).toEqual('human-list.name');
+                expect(ref.getSortFieldName()).toEqual('myView.name');
             });
         });
 

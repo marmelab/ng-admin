@@ -1,4 +1,4 @@
-/*global define,jasmine,angular,describe,it,expect,beforeEach*/
+/*global define,jasmine,angular,describe,it,expect,beforeEach,spyOn*/
 
 define(function (require) {
     'use strict';
@@ -37,18 +37,20 @@ define(function (require) {
 
         describe("createOne", function () {
 
-            it('should POST an entity when calling createOne', function () {
+            it('should POST an entity when calling createOne', function (done) {
                 var createQueries = new CreateQueries({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
-                Restangular.customPOST = jasmine.createSpy('customPOST').andReturn(mixins.buildPromise({data: rawEntity}));
+                spyOn(Restangular, 'customPOST').and.returnValue(mixins.buildPromise({data: rawEntity}));
+                spyOn(Restangular, 'oneUrl').and.callThrough();
 
                 createQueries.createOne(view, rawEntity)
                     .then(function (entry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
                         expect(Restangular.customPOST).toHaveBeenCalledWith(rawEntity, null, null, {});
                         expect(entry.values.name).toEqual('Mizu');
-                    });
+                    })
+                    .then(done, done.fail);
             });
         });
     });

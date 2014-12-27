@@ -33,7 +33,7 @@ define(function (require) {
         choices: [],
         defaultValue: null,
         attributes: {},
-        cssClasses: []
+        cssClasses: ''
     };
 
     /**
@@ -123,14 +123,14 @@ define(function (require) {
      *
      * @returns {string}
      */
-    Field.prototype.getCssClasses = function () {
-        var classes = '';
-
-        if (this.config.cssClasses) {
-            classes = this.config.cssClasses.join(' ');
+    Field.prototype.getCssClasses = function (entry) {
+        if (typeof this.config.cssClasses === 'function') {
+            return this.config.cssClasses(entry);
         }
-
-        return classes;
+        if (typeof this.config.cssClasses.constructor === Array) {
+            return this.config.cssClasses.join(' ');
+        }
+        return this.config.cssClasses;
     };
 
     /**

@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var backButtonTemplate = require('text!./BackButton.html');
 
     function maBackButtonDirective($window) {
         return {
@@ -11,12 +9,15 @@ define(function (require) {
             scope: {
                 'size': '@'
             },
-            template: backButtonTemplate,
             link: function ($scope) {
                 $scope.back = function () {
                     $window.history.back();
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">' +
+    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back' + 
+'</a>'
         };
     }
 

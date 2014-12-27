@@ -1,4 +1,4 @@
-/*global define,jasmine,angular,describe,it,expect,beforeEach*/
+/*global define,jasmine,spyOn,angular,describe,it,expect,beforeEach*/
 
 define(function (require) {
     'use strict';
@@ -71,9 +71,9 @@ define(function (require) {
             ];
         });
 
-        it('should return all data to display a ListView', function () {
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise(humans));
+        it('should return all data to display a ListView', function (done) {
+            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats}));
+            spyOn($q, 'all').and.returnValue(mixins.buildPromise(humans));
 
             var retrieveQueries = new RetrieveQueries($q, Restangular, config);
 
@@ -89,11 +89,13 @@ define(function (require) {
 
                     expect(result.entries[0].values.human_id).toEqual(1);
                     expect(result.entries[0].listValues.human_id).toEqual('Daph');
-                });
+                })
+                .then(done, done.fail);
         });
 
-        it('should return all rawEntities with an extra header', function () {
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCats}));
+        it('should return all rawEntities with an extra header', function (done) {
+            spyOn(Restangular, 'allUrl').and.callThrough();
+            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats}));
 
             var retrieveQueries = new RetrieveQueries({}, Restangular, config);
 
@@ -105,10 +107,11 @@ define(function (require) {
                     expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
                     expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
                     expect(rawEntities.data.length).toEqual(2);
-                });
+                })
+                .then(done, done.fail);
         });
 
-        it('should return all references values for a View with multiple calls', function () {
+        it('should return all references values for a View with multiple calls', function (done) {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
@@ -129,19 +132,19 @@ define(function (require) {
             post.listView()
                 .addField(authorRef);
 
-            Restangular.getList = jasmine.createSpy('get').andReturn(mixins.buildPromise({}));
-            Restangular.getList = jasmine.createSpy('get').andReturn(mixins.buildPromise({}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([authors[0], authors[1]]));
+            spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
+            spyOn($q, 'all').and.returnValue(mixins.buildPromise([authors[0], authors[1]]));
 
             retrieveQueries.getReferencedValues(post.listView(), rawPosts)
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].values.id).toEqual('abc');
                     expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
-                });
+                })
+                .then(done, done.fail);
         });
 
-        it('should return all references values for a View with one call', function () {
+        it('should return all references values for a View with one call', function (done) {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
@@ -173,18 +176,19 @@ define(function (require) {
             post.listView()
                 .addField(authorRef);
 
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawAuthors}]));
+            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
+            spyOn($q, 'all').and.returnValue(mixins.buildPromise([{data: rawAuthors}]));
 
             retrieveQueries.getReferencedValues(post.listView(), rawPosts)
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].values.id).toEqual('abc');
                     expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
-                });
+                })
+                .then(done, done.fail);
         });
 
-        it('should return all referencedLists values for a View', function () {
+        it('should return all referencedLists values for a View', function (done) {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
@@ -210,8 +214,8 @@ define(function (require) {
                 .addField(stateId)
                 .addField(stateCharacters);
 
-            Restangular.getList = jasmine.createSpy('getList').andReturn(mixins.buildPromise({data: rawCharacters}));
-            $q.all = jasmine.createSpy('all').andReturn(mixins.buildPromise([{data: rawCharacters}]));
+            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({data: rawCharacters})));
+            spyOn($q, 'all').and.returnValue(mixins.buildPromise([{data: rawCharacters}]));
 
             retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
@@ -220,7 +224,8 @@ define(function (require) {
                     expect(entries.length).toEqual(3);
                     expect(entries[0].values.name).toEqual('Rollo');
                     expect(entries[1].values.id).toEqual('19DFE');
-                });
+                })
+                .then(done, done.fail);
         });
 
         it('should fill reference values of a collection', function () {
@@ -298,8 +303,9 @@ define(function (require) {
                     .interceptor(null);
             });
 
-            it('should return the entity with all fields.', function () {
-                Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({
+            it('should return the entity with all fields.', function (done) {
+                spyOn(Restangular, 'oneUrl').and.callThrough();
+                spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise({
                     data: {
                         "id": 1,
                         "name": "Mizoute",
@@ -319,10 +325,11 @@ define(function (require) {
 
                         // Non mapped field should also be retrieved
                         expect(entry.values.summary).toBe("A Cat");
-                    });
+                    })
+                    .then(done, done.fail);
             });
 
-            it('should add response interceptor, extra params & headers when calling getOne', function () {
+            it('should add response interceptor, extra params & headers when calling getOne', function (done) {
                 var catInterceptor;
                 view.interceptor(catInterceptor = function () {
                 });
@@ -340,7 +347,8 @@ define(function (require) {
                 });
 
                 Restangular.addResponseInterceptor = jasmine.createSpy('addResponseInterceptor');
-                Restangular.get = jasmine.createSpy('get').andReturn(mixins.buildPromise({
+                spyOn(Restangular, 'oneUrl').and.callThrough();
+                spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise({
                     data: {
                         id: 1,
                         name: "Mizoute",
@@ -355,7 +363,8 @@ define(function (require) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
                         expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {pwd: '123456'});
                         expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
-                    });
+                    })
+                    .then(done, done.fail);
             });
         });
     });

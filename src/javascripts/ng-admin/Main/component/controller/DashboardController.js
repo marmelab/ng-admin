@@ -25,43 +25,11 @@ define(function (require) {
      * Retrieve all dashboard panels
      */
     DashboardController.prototype.retrievePanels = function () {
-        var self = this,
-            panel;
+        var self = this;
         this.panels = [];
 
         this.PanelBuilder.getPanelsData().then(function (panels) {
-            var i;
-
-            for (i in panels) {
-                panel = panels[i];
-
-                var view = panel.view,
-                    fields = view.displayedFields,
-                    field,
-                    j,
-                    entries = panel.entries,
-                    columns = [];
-
-                // Retrieve all DashboardView
-                for (j in fields) {
-                    field = fields[j];
-
-                    columns.push({
-                        field: field,
-                        label: field.label()
-                    });
-                }
-
-                self.panels.push({
-                    label: view.title(),
-                    viewName: view.name(),
-                    fields: panel.view.displayedFields,
-                    entity: panel.view.getEntity(),
-                    perPage: panel.view.perPage(),
-                    entries: entries
-                });
-            }
-
+            self.panels = panels
         });
     };
 

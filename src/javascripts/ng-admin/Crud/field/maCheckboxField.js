@@ -17,7 +17,6 @@ define(function (require) {
             restrict: 'E',
             link: function (scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.v = field.validation();
                 scope.value = !!scope.value;
@@ -28,8 +27,7 @@ define(function (require) {
                 }
             },
             template:
-            '<input type="checkbox" ng-model="value" ' +
-            'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" />'
+            '<input type="checkbox" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" />'
         };
     }
 

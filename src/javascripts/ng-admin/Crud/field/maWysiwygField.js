@@ -17,12 +17,10 @@ define(function (require) {
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
             },
             template: 
-'<div text-angular ng-model="value" ' +
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }}"'+
+'<div text-angular ng-model="value" id="{{ name }}" name="{{ name }}" '+
     'ta-text-editor-class="border-around" ta-html-editor-class="border-around">' +
 '</div>'
         };

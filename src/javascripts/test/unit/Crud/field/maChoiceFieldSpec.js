@@ -34,15 +34,6 @@ define(function (require) {
             expect(element.children()[0].disabled).toBeTruthy();
         });
 
-        it("should contain the field classes", function () {
-            scope.field = new Field().cssClasses(['foo', 'bar']);
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            var select = element.find('select').eq(0);
-            expect(select.hasClass('foo')).toBeTruthy();
-            expect(select.hasClass('bar')).toBeTruthy();
-        });
-
         it("should provide an initial option for non-required fields", function () {
             scope.field = new Field().choices([
                 {label: 'foo', value: 'bar'}

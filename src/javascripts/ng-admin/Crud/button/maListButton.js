@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var listButtonTemplate = require('text!./ListButton.html');
 
     function maListButtonDirective($location) {
         return {
@@ -12,12 +10,15 @@ define(function (require) {
                 'entity': '&',
                 'size': '@'
             },
-            template: listButtonTemplate,
             link: function ($scope) {
                 $scope.gotoList = function () {
                     $location.path('/list/' + $scope.entity().name());
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">' +
+    '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;List' +
+'</a>'
         };
     }
 

@@ -17,7 +17,6 @@ define(function (require) {
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.format = field.format();
                 scope.v = field.validation();
@@ -35,8 +34,7 @@ define(function (require) {
             },
             template:
 '<div class="input-group datepicker">' +
-    '<input type="text" ng-model="value" ' +
-           'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control" ' +
+    '<input type="text" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ' +
            'datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ' +
            'ng-required="v.required" />' +
     '<span class="input-group-btn">' +

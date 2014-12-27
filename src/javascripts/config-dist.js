@@ -145,6 +145,7 @@
             .addField(new ReferenceMany('tags')
                 .targetEntity(tag)
                 .targetField(new Field('name'))
+                .cssClasses('col-sm-4') // customize look and feel through CSS classes
             )
             .addField(new ReferencedList('comments')
                 .targetEntity(comment)
@@ -249,7 +250,12 @@
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
             .addField(new Field('id').label('ID'))
             .addField(new Field('name'))
-            .addField(new Field('published').type('boolean'))
+            .addField(new Field('published').type('boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
+                if (entry.values.published) {
+                    return 'bg-success text-center';
+                }
+                return 'bg-warning text-center';
+            }))
             .addField(new Field('custom')
                 .type('template')
                 .label('Upper name')

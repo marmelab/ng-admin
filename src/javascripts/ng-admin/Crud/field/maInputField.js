@@ -18,7 +18,6 @@ define(function (require) {
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
-                scope.fieldClasses = field.getCssClasses();
                 scope.name = field.name();
                 scope.v = field.validation();
                 var input = element.children()[0];
@@ -28,8 +27,7 @@ define(function (require) {
                 }
             },
             template:
-'<input type="{{ type || text }}" ng-model="value" ' +
-    'id="{{ name }}" name="{{ name }}" class="{{ fieldClasses }} form-control"' +
+'<input type="{{ type || text }}" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control"' +
     'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength" />'
         };
     }

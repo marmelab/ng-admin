@@ -3,28 +3,28 @@
 define(function () {
     'use strict';
 
-    var ListController = function ($scope, $location, RetrieveQueries, progression, data) {
+    var ListController = function ($scope, $location, RetrieveQueries, progression, view, data) {
         this.$scope = $scope;
         this.$location = $location;
+        this.view = view;
         this.data = data;
-        this.view = this.data.view;
-        this.entity = this.view.getEntity();
-        this.title = this.view.title();
-        this.description = this.view.description();
+        this.entity = view.getEntity();
+        this.title = view.title();
+        this.description = view.description();
         this.progression = progression;
         this.RetrieveQueries = RetrieveQueries;
-        this.actions = this.view.actions();
+        this.actions = view.actions();
         this.loadingPage = false;
         this.filters = this.entity.filterView().getFields();
 
         this.entries = data.entries;
-        this.fields = this.view.displayedFields;
-        this.listActions = this.view.listActions();
-        this.quickFilters = this.view.getQuickFilterNames();
+        this.fields = view.displayedFields;
+        this.listActions = view.listActions();
+        this.quickFilters = view.getQuickFilterNames();
         this.hasFilters = this.quickFilters.length > 0 || Object.keys(this.filters).length > 0;
         this.totalItems = this.data.totalItems;
-        this.itemsPerPage = this.view.perPage();
-        this.infinitePagination = this.view.infinitePagination();
+        this.itemsPerPage = view.perPage();
+        this.infinitePagination = view.infinitePagination();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -55,7 +55,7 @@ define(function () {
         this.$location = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', 'RetrieveQueries', 'progression', 'data'];
+    ListController.$inject = ['$scope', '$location', 'RetrieveQueries', 'progression', 'view', 'data'];
 
     return ListController;
 });

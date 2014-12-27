@@ -39,19 +39,17 @@ define(function (require) {
     CrudModule.directive('maQuickFilter', require('ng-admin/Crud/filter/maQuickFilter'));
     CrudModule.directive('maFilterView', require('ng-admin/Crud/filter/maFilterView'));
 
-    CrudModule.directive('stringColumn', require('ng-admin/Crud/column/StringColumn'));
-    CrudModule.directive('passwordColumn', require('ng-admin/Crud/column/PasswordColumn'));
-    CrudModule.directive('emailColumn', require('ng-admin/Crud/column/EmailColumn'));
-    CrudModule.directive('textColumn', require('ng-admin/Crud/column/TextColumn'));
-    CrudModule.directive('numberColumn', require('ng-admin/Crud/column/NumberColumn'));
-    CrudModule.directive('dateColumn', require('ng-admin/Crud/column/DateColumn'));
-    CrudModule.directive('booleanColumn', require('ng-admin/Crud/column/BooleanColumn'));
-    CrudModule.directive('choiceColumn', require('ng-admin/Crud/column/ChoiceColumn'));
-    CrudModule.directive('choicesColumn', require('ng-admin/Crud/column/ChoicesColumn'));
-    CrudModule.directive('referenceColumn', require('ng-admin/Crud/column/ReferenceColumn'));
-    CrudModule.directive('referenceManyColumn', require('ng-admin/Crud/column/ReferenceManyColumn'));
-    CrudModule.directive('wysiwygColumn', require('ng-admin/Crud/column/WysiwygColumn'));
-    CrudModule.directive('templateColumn', require('ng-admin/Crud/column/TemplateColumn'));
+    CrudModule.directive('maColumn', require('ng-admin/Crud/column/maColumn'));
+    CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));
+    CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
+    CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
+    CrudModule.directive('maPasswordColumn', require('ng-admin/Crud/column/maPasswordColumn'));
+    CrudModule.directive('maReferencedListColumn', require('ng-admin/Crud/column/maReferencedListColumn'));
+    CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
+    CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
+    CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
+    CrudModule.directive('maTemplateColumn', require('ng-admin/Crud/column/maTemplateColumn'));
+    CrudModule.directive('maWysiwygColumn', require('ng-admin/Crud/column/maWysiwygColumn'));
 
     CrudModule.directive('maBackButton', require('ng-admin/Crud/button/maBackButton'));
     CrudModule.directive('maCreateButton', require('ng-admin/Crud/button/maCreateButton'));

@@ -52,15 +52,6 @@ define(function (require) {
             expect(input.max).toEqual('2');
         });
 
-        it("should contain the field classes", function () {
-            scope.field = new Field().cssClasses(['foo', 'bar']);
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            var classList = element.children()[0].classList;
-            expect(classList.contains('foo')).toBeTruthy();
-            expect(classList.contains('bar')).toBeTruthy();
-        });
-
         it("should contain the bounded value", function () {
             scope.field = new Field();
             scope.value = "foobar";

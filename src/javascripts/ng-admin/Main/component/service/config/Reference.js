@@ -11,7 +11,7 @@ define(function (require) {
 
     var config = {
         name: 'myReference',
-        type: 'reference',
+        type: 'Reference',
         label: 'My reference',
         singleApiCall: null,
         targetEntity : null,

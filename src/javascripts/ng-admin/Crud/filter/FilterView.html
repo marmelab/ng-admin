@@ -6,7 +6,7 @@
             {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
         </label>
 
-        <div ng-switch="field.type()">
+        <div ng-switch="field.type()" ng-class="field.getCssClasses(entry)">
             <ma-input-field ng-switch-when="string" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>
 
             <ma-input-field ng-switch-when="password" type="password" field="::field" value="filterViewCtrl.values[field.name()]"></ma-input-field>

@@ -66,7 +66,7 @@ define(function (require) {
         });
 
 
-        it("should add list actions", function () {
+        it("should add columns", function () {
             var entry1 = new Entry(),
                 element = $compile(directiveUsage)(scope);
             entry1.values.title = 'Small cat';
@@ -76,7 +76,7 @@ define(function (require) {
             scope.$digest();
 
 
-            expect(element[0].querySelector('tbody tr td:nth-child(1) text-column').nodeName).toContain('TEXT-COLUMN');
+            expect(element[0].querySelector('tbody tr td:nth-child(1) ma-column').nodeName).toContain('MA-COLUMN');
         });
     });
 });

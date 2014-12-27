@@ -9,7 +9,29 @@ define(function (require) {
         editTemplate = require('text!./form/edit.html'),
         deleteTemplate = require('text!./delete/delete.html');
 
-    var routing = function ($stateProvider) {
+    function templateProvider(viewName, defaultView) {
+        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+            var customTemplate;
+            var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+            customTemplate = view.template();
+            if (customTemplate) return customTemplate;
+            customTemplate = Configuration().customTemplate()(viewName);
+            if (customTemplate) return customTemplate;
+            return defaultView;
+        }];
+    }
+
+    function viewProvider(viewName) {
+        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+            var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+            if (!view.isEnabled()) {
+                throw new Error('The ' + viewName + ' is disabled for this entity');
+            }
+            return view;
+        }];
+    }
+
+    function routing($stateProvider) {
 
         $stateProvider
             .state('list', {
@@ -25,11 +47,11 @@ define(function (require) {
                 },
                 controller: 'ListController',
                 controllerAs: 'listController',
-                template: listTemplate,
+                templateProvider: templateProvider('ListView', listTemplate),
                 resolve: {
-                    data: ['$stateParams', 'RetrieveQueries', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, Configuration) {
+                    view: viewProvider('ListView'),
+                    data: ['$stateParams', 'RetrieveQueries', 'view', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, view, Configuration) {
                         var config = Configuration(),
-                            listView = config.getViewByEntityAndType($stateParams.entity, 'ListView'),
                             searchParams = $stateParams.search,
                             quickFilters,
                             page = $stateParams.page,
@@ -37,15 +59,11 @@ define(function (require) {
                             sortDir = $stateParams.sortDir,
                             quickFilter = $stateParams.quickFilter;
 
-                        if (!listView.isEnabled()) {
-                            throw new Error('the list view is disabled for this entity');
-                        }
-
                         if (quickFilter) {
-                            quickFilters = listView.getQuickFilterParams(quickFilter);
+                            quickFilters = view.getQuickFilterParams(quickFilter);
                         }
 
-                        return RetrieveQueries.getAll(listView, page, true, searchParams, sortField, sortDir, quickFilters);
+                        return RetrieveQueries.getAll(view, page, true, searchParams, sortField, sortDir, quickFilters);
                     }]
                 }
             });
@@ -56,19 +74,13 @@ define(function (require) {
                 url: '/show/:entity/:id',
                 controller: 'ShowController',
                 controllerAs: 'showController',
-                template: showTemplate,
+                templateProvider: templateProvider('ShowView', showTemplate),
                 params: {
                     entity: {},
                     id: null
                 },
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'ShowView');
-                        if (!view.isEnabled()) {
-                            throw new Error('the show view is disabled for this entity');
-                        }
-                        return view;
-                    }],
+                    view: viewProvider('ShowView'),
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
@@ -86,21 +98,16 @@ define(function (require) {
                     }]
                 }
             });
+
         $stateProvider
             .state('create', {
                 parent: 'main',
                 url: '/create/:entity',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                template: createTemplate,
+                templateProvider: templateProvider('CreateView', createTemplate),
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'CreateView');
-                        if (!view.isEnabled()) {
-                            throw new Error('the creation view is disabled for this entity');
-                        }
-                        return view;
-                    }],
+                    view: viewProvider('CreateView'),
                     entry: ['view', function (view) {
                         var entry = view
                             .mapEntry({});
@@ -121,7 +128,7 @@ define(function (require) {
                 url: '/edit/:entity/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
-                template: editTemplate,
+                templateProvider: templateProvider('EditView', editTemplate),
                 params: {
                     entity: {},
                     id: null,
@@ -129,13 +136,7 @@ define(function (require) {
                     sortDir: null
                 },
                 resolve: {
-                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'EditView');
-                        if (!view.isEnabled()) {
-                            throw new Error('the edition view is disabled for this entity');
-                        }
-                        return view;
-                    }],
+                    view: viewProvider('EditView'),
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
@@ -157,17 +158,11 @@ define(function (require) {
                 url: '/delete/:entity/:id',
                 controller: 'DeleteController',
                 controllerAs: 'deleteController',
-                template: deleteTemplate,
+                templateProvider: templateProvider('DeleteView', deleteTemplate),
                 resolve: {
+                    view: viewProvider('DeleteView'),
                     params: ['$stateParams', function ($stateParams) {
                         return $stateParams;
-                    }],
-                    view: ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-                        var view = Configuration().getViewByEntityAndType($stateParams.entity, 'DeleteView');
-                        if (!view.isEnabled()) {
-                            throw new Error('the deletion view is disabled for this entity');
-                        }
-                        return view;
                     }],
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
@@ -175,7 +170,7 @@ define(function (require) {
                 }
             });
 
-    };
+    }
 
     routing.$inject = ['$stateProvider'];
 

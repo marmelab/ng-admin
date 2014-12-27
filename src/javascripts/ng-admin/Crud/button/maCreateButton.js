@@ -1,9 +1,7 @@
 /*global define*/
 
-define(function (require) {
+define(function () {
     'use strict';
-
-    var createButtonTemplate = require('text!./CreateButton.html');
 
     function maCreateButtonDirective($location) {
         return {
@@ -12,12 +10,15 @@ define(function (require) {
                 'entity': '&',
                 'size': '@'
             },
-            template: createButtonTemplate,
             link: function ($scope) {
                 $scope.gotoCreate = function () {
                     $location.path('/create/' + $scope.entity().name());
                 };
-            }
+            },
+            template:
+'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoCreate()">' +
+    '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create' +
+'</a>'
         };
     }
 

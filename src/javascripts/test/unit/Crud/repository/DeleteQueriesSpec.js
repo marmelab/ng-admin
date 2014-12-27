@@ -36,14 +36,17 @@ define(function (require) {
         });
 
         describe("deleteOne", function () {
-            it('should DELETE an entity when calling deleteone', function () {
+            it('should DELETE an entity when calling deleteone', function (done) {
                 var deleteQueries = new DeleteQueries({}, Restangular, config);
+                spyOn(Restangular, 'oneUrl').and.callThrough();
+                spyOn(Restangular, 'customDELETE').and.callThrough();
 
                 deleteQueries.deleteOne(view, 1)
                     .then(function () {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
                         expect(Restangular.customDELETE).toHaveBeenCalledWith(null, null, {});
-                    });
+                    })
+                    .then(done, done.fail);
             });
         });
     });
