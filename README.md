@@ -68,8 +68,7 @@ Your application should use a `ui-view`:
 
 We chose to define the entities & views directly in JavaScript to allow greater freedom in the configuration.
 
-Here is a full example for a backend that will let you create, update, and delete some posts (`posts` entity).
-Those posts can be tagged (`tags` entity) and commented (`comments` entity).
+Here is a full example for a backend that will let you create, update, and delete some posts (`posts` entity). Those posts can be tagged (`tags` entity) and commented (`comments` entity).
 
 ```js
 
@@ -78,25 +77,25 @@ var app = angular.module('myApp', ['ng-admin']);
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
     var app = new Application('ng-admin backend demo') // application main title
-        .transformParams(function(params) {
-            // Sort by title by default
-            if (typeof params._sort === 'undefined') {
-                params._sort = 'title';
+        .baseApiUrl('http://localhost:3000/') // main API endpoint
+        .transformParams(function (params) { // use the custom query parameters function to format the API request correctly
+            if ('page' in params) {
+                params._start = (params.page - 1) * params.per_page;
+                params._end = params.page * params.per_page;
+                delete params.page;
+                delete params.per_page;
             }
-            
-            return params; 
-        })
-        .baseApiUrl('http://localhost:3000/'); // main API endpoint
+            return params;
+        });
 
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
+
     var comment = new Entity('comments')
-        .baseApiUrl('http://localhost:3000/') // Base API endpoint can be customized by entity
+        .baseApiUrl('http://localhost:3000/') // The base API endpoint can be customized by entity
         .identifier(new Field('id')); // you can optionally customize the identifier used in the api ('id' by default)
+
     var tag = new Entity('tags')
-        .url(function (view, entityId) { // API endpoint can be defined with string or a function in a entity
-            return view + (entityId ? '/' + entityId : null);
-        })
         .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
     // set the application entities
@@ -110,16 +109,14 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     post.menuView()
         .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
 
-    post.dashboardView()
+    post.dashboardView() // customize the dashboard panel for this entity
         .title('Recent posts')
         .order(1) // display the post panel first in the dashboard
         .limit(5) // limit the panel to the 5 latest posts
-        .pagination(pagination) // use the custom pagination function to format the API request correctly
         .addField(new Field('title').isDetailLink(true).map(truncate));
 
     post.listView()
         .title('All posts') // default title is "[Entity_name] list"
-        .pagination(pagination)
         .addField(new Field('id').label('ID'))
         .addField(new Field('title')) // the default list field type is "string", and displays as a string
         .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
@@ -128,14 +125,35 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         )
         .listActions(['show', 'edit', 'delete']);
 
+    post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
+        .addField(new Field('id'))
+        .addField(new Field('title'))
+        .addField(new Field('body').type('wysiwyg'))
+        .addField(new ReferenceMany('tags')
+            .targetEntity(tag)
+            .targetField(new Field('name'))
+        )
+        .addField(new ReferencedList('comments')
+            .targetEntity(comment)
+            .targetReferenceField('post_id')
+            .targetFields([
+                new Field('id'),
+                new Field('body').label('Comment')
+            ])
+        )
+        .addField(new Field('other_page').type('template').template('<other-page-link></other-link-link>'));
+
     post.creationView()
-        .title('Add a new post') // default title is "Create a post"
-        .addField(new Field('title')) // the default edit field type is "string", and displays as a text input
-        .addField(new Field('body').type('wysiwyg')) // overriding the type allows rich text editing for the body
+        .addField(new Field('title') // the default edit field type is "string", and displays as a text input
+            .attributes({ placeholder: 'the post title' }) // you can add custom attributes, too
+            .validation({ required: true, minlength: 3, maxlength: 100 }) // add validation rules for fields
+        )
+        .addField(new Field('body').type('wysiwyg')); // overriding the type allows rich text editing for the body
 
     post.editionView()
         .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
-        .addField(new Field('title'))
+        .actions(['list', 'show', 'delete']) // choose which buttons appear in the action bar
+        .addField(new Field('title').validation({ required: true, minlength: 3, maxlength: 100 }))
         .addField(new Field('body').type('wysiwyg'))
         .addField(new ReferenceMany('tags')
             .targetEntity(tag)
@@ -151,15 +169,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             ])
         );
 
-    post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
-        .addField(new Field('id'))
-        .addField(new Field('title'))
-        .addField(new Field('body').type('wysiwyg'))
-        .addField(new ReferenceMany('tags') 
-            .targetEntity(tag) 
-            .targetField(new Field('name')) 
-        );
-
     comment.menuView()
         .order(2) // set the menu position in the sidebar
         .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
@@ -168,7 +177,6 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .title('Last comments')
         .order(2) // display the comment panel second in the dashboard
         .limit(5)
-        .pagination(pagination)
         .addField(new Field('id'))
         .addField(new Field('body').label('Comment').map(truncate))
         .addField(new Field() // template fields don't need a name
@@ -182,12 +190,11 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
     comment.listView()
         .title('Comments')
         .description('List of all comments with an infinite pagination') // description appears under the title
-        .pagination(pagination)
         .addField(new Field('id').label('ID'))
         .addField(new Reference('post_id')
             .label('Post title')
             .map(truncate)
-            .singleApiCall(function (postIds) { // If your API support it, you can pass the list of identifiers to retrieve (instead of retrieve element by element)
+            .singleApiCall(function (postIds) { // If your API supports it, you can pass the list of identifiers to retrieve (instead of retrieving element by element)
                 return {
                     'post_id[]': postIds
                 };
@@ -209,6 +216,10 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
             };
         });
 
+    comment.filterView() // a filterView defines the fields displayed in the filter form
+        .addField(new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}))
+        .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
+
     comment.creationView()
         .addField(new Reference('post_id')
             .label('Post title')
@@ -220,7 +231,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .addField(new Field('created_at')
             .label('Creation date')
             .type('date') // to edit a date type field, ng-admin offers a datepicker
-            .defaultValue(new Date()) // preset values with defaultValue
+            .defaultValue(new Date()) // preset fields in creation view with defaultValue
         );
 
     comment.editionView()
@@ -246,30 +257,27 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
         .icon('<span class="glyphicon glyphicon-tags"></span>');
 
     tag.dashboardView()
-        .url(function (entityId) { // API endpoint can be defined for a view with string or a function in a entity
-            return view + (entityId ? '/' + entityId : null);
-        })
         .title('Recent tags')
         .order(3)
         .limit(10)
-        .pagination(pagination)
         .addField(new Field('id').label('ID'))
         .addField(new Field('name'))
         .addField(new Field('published').label('Is published ?').type('boolean'));
 
     tag.listView()
-        .title('List of all tags')
         .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
-        .pagination(pagination)
         .addField(new Field('id').label('ID'))
         .addField(new Field('name'))
-        .addField(new Field('published').type('boolean'))
+        .addField(new Field('published').type('boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
+            if (entry.values.published) {
+                return 'bg-success text-center';
+            }
+            return 'bg-warning text-center';
+        }))
         .addField(new Field('custom')
             .type('template')
             .label('Upper name')
-            .template(function () {
-                return '{{ entry.values.name.toUpperCase() }}';
-            })
+            .template('{{ entry.values.name.toUpperCase() }}')
         )
         .listActions(['show']);
 
@@ -331,14 +339,15 @@ Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
 
 ### View Types
 
-Each entity has 7 views that you can customize:
+Each entity has 8 views that you can customize:
 
-- `listView`:
+- `listView`
+- `filterView`: this is a special view to define the filter forms present in the `listView`
 - `creationView`
 - `editionView`
 - `showView` (unused by default)
 - `deletionView`
-- `dashboardView`: this is a special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
+- `dashboardView`: another special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
 - `menuView`: another special view to define the appearance of the entity menu in the sidebar
 
 ### General View Settings
@@ -421,26 +430,6 @@ Hide the entity from the sidebar.
 * `perPage(Number)`
 Define the number of element displayed in a page
 
-* `pagination(function)`
-Define the parameters used to paginate the API:
-
-        listView.pagination(function(page, maxPerPage) {
-            return {
-                begin: (page - 1) * maxPerPage, 
-                end: page * maxPerPage
-            };
-        });
-
-* `filterQuery(function)`
-Define the parameters used to query the API:
-
-        listView.filterQuery(function(searchQuery) {
-            return { q: searchQuery };
-        });
-
-* `filterQuery(function)`
-Define parameters used to query the API. See below.
-
 * `infinitePagination(boolean)`
 Enable or disable lazy loading.
 
@@ -449,16 +438,6 @@ Define a function that return the total of items:
 
         listView.totalItems(function(response) {
             return response.headers('X-Total-Count');
-        });
-
-* `sortParams(function)`
-Define parameters used to sort the API:
-
-        listView.sortParams(function(field, dir) {
-            return {
-                params: { _sort: field, _sortDir: dir },
-                headers: {}
-            };
         });
 
 * `addQuickFilter(function)`
@@ -489,7 +468,6 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
     var template = '<show-button entry="entry" entity="entity" size="xs"></show-button>'+
                    '<my-custom-directive entry="entry"></my-custom-directive>';
     listView.listActions(template);
-
 
 ## Fields
 
@@ -758,7 +736,7 @@ All filter fields are added as pure query parameters, based on the field name (t
 
 ```js
 myEntity.filterView()
-    .addField(new Field('q').label('').attributes({placeholder: Full text}))
+    .addField(new Field('q').label('').attributes({ placeholder: 'Full text' }))
     .addField(new Field('tag'))
 ```
 

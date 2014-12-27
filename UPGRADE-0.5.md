@@ -1,8 +1,44 @@
 # Upgrade to 0.5
 
+## `listView.pagination()` and `listView.sortParams()` are deprecated
+
+A new method is available on all views (and can even be set at the application and entity level). It's called `transformParams()`. I supersedes and deprecates `pagination()` and `sortParams()`.
+
+```js
+// replace
+myEntity.listView().pagination(function(page, maxPerPage) {
+    return {
+        begin: (page - 1) * maxPerPage,
+        end: page * maxPerPage
+    };
+});
+// with
+myEntity.listView().transformParams(function(params) {
+    params.begin = (params.page - 1) * params.per_page;
+    params.end = params.page * params.per_page;
+    delete params.page;
+    delete params.per_page;
+});
+
+// replace
+myEntity.listView().sortParams(function(field, dir) {
+    return {
+        params: { sort: field || 'id', sortDir: dir || 'DESC' },
+        headers: {}
+    };
+});
+// with
+myEntity.listView().transformParams(function(params) {
+    params.sort = params._sort || 'id';
+    params.sortDir = params._sortDir || 'DESC';
+    delete params.page;
+    delete params.per_page;
+});
+```
+
 ## Filters are now off by default
 
-Up to 0.4, ng-admin included a full-text search input on the list view by default. Now that ng-admin has the ability to define custom filters, the default fullt-text search has been removed.
+Up to 0.4, ng-admin included a full-text search input on the list view by default. Now that ng-admin has the ability to define custom filters, the default full-text search has been removed.
 
 If you need it, it's easy to re-add:
 

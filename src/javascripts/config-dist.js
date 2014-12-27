@@ -96,7 +96,7 @@
         post.menuView()
             .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
 
-        post.dashboardView()
+        post.dashboardView() // customize the dashboard panel for this entity
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
@@ -160,10 +160,6 @@
             .order(2) // set the menu position in the sidebar
             .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
-        comment.filterView()
-            .addField(new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}))
-            .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
-
         comment.dashboardView()
             .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
@@ -201,6 +197,10 @@
                     created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
                 };
             });
+
+        comment.filterView() // a filterView defines the fields displayed in the filter form
+            .addField(new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}))
+            .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
 
         comment.creationView()
             .addField(new Reference('post_id')
