@@ -12,14 +12,10 @@ define(function (require) {
             template: datagridView,
             scope: {
                 name: '@',
-                entries: '=',
+                entries: '&',
                 fields: '&',
                 listActions: '&',
-                entity: '&',
-                perPage: '=',
-                nextPage: '=',
-                totalItems: '@',
-                infinitePagination: '='
+                entity: '&'
             },
             controllerAs: 'datagrid',
             controller: DatagridController
