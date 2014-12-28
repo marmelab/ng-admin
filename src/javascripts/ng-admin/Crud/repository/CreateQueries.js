@@ -26,7 +26,12 @@ define(function (require) {
     CreateQueries.prototype.createOne = function (view, rawEntity) {
         var routeUrl = this.config.getRouteFor(view),
             params = this.config.getQueryParamsFor(view),
-            headers = view.getHeaders();
+            headers = view.getHeaders(),
+            interceptor = view.interceptor();
+
+        if (interceptor) {
+            this.Restangular.addRequestInterceptor(interceptor);
+        }
 
         // Get element data
         return this.Restangular

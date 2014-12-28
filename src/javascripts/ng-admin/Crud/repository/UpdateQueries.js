@@ -28,7 +28,12 @@ define(function (require) {
             entityId = rawEntity[identifierField.name()],
             routeUrl = this.config.getRouteFor(view, entityId),
             params = this.config.getQueryParamsFor(view),
-            headers = view.getHeaders();
+            headers = view.getHeaders(),
+            interceptor = view.interceptor();
+
+        if (interceptor) {
+            this.Restangular.addRequestInterceptor(interceptor);
+        }
 
         // Get element data
         return this.Restangular

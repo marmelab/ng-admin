@@ -387,6 +387,26 @@ Add headers to each API request.
 * `interceptor(function)`
 Used to transform data from the API into an array of element.
 
+```js
+// Interceptor for listview can be used to count the total of item, returns the rawResult of an API call.
+comment.listView()
+	.interceptor(function (data, operation, what, url, response, deferred) {
+		if (operation === 'get') {
+			return ('results' in data) ? data.results : data;
+		}
+	});
+
+// Interceptor for creationView & editionView are used to change to data sent to the API.
+comment.creationView()
+	.interceptor(function (element, operation, what, url) {
+		var results = {
+			data: element
+		};
+	
+		return results;
+	});
+```
+
 * `disable()`
 Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
 
