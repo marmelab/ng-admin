@@ -84,8 +84,8 @@ define(function (require) {
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedValues(view);
+                    referencedValues: ['RetrieveQueries', 'view', 'rawEntry', function (RetrieveQueries, view, rawEntry) {
+                        return RetrieveQueries.getReferencedValues(view, [rawEntry.values]);
                     }],
                     referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'rawEntry', function ($stateParams, RetrieveQueries, view, rawEntry) {
                         var sortField = $stateParams.sortField,
