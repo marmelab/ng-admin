@@ -25,6 +25,7 @@ define(function () {
         this.totalItems = this.data.totalItems;
         this.itemsPerPage = view.perPage();
         this.infinitePagination = view.infinitePagination();
+        this.nextPageCallback = this.nextPage.bind(this);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -35,7 +36,7 @@ define(function () {
         }
 
         var progression = this.progression,
-            $scope = this.$scope,
+            self = this,
             loadingPage = this.loadingPage;
 
         progression.start();
@@ -45,7 +46,7 @@ define(function () {
             .then(function (nextData) {
                 progression.done();
 
-                $scope.entries = $scope.entries.concat(nextData.entries);
+                self.entries = self.entries.concat(nextData.entries);
                 loadingPage = false;
             });
     };

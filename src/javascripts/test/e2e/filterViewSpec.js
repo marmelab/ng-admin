@@ -3,7 +3,7 @@ describe('Global filter', function () {
     'use strict';
 
     beforeEach(function() {
-        browser.get(browser.baseUrl + '#/list/comments');    
+        browser.get(browser.baseUrl + '#/list/comments');
     });
 
     it('should display filters uppon the listview', function () {
@@ -30,7 +30,7 @@ describe('Global filter', function () {
         // Filter globally for 'rabbit'
         $$('.filters .filter:nth-child(1) input').sendKeys('rabbit');
         $$('.filters button[type="submit"]').click();
-        $$('datagrid-pagination .total').then(function (totalElements) {
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 1 on 1');
         });
     });
@@ -38,7 +38,7 @@ describe('Global filter', function () {
     it('should reset all filters', function () {
         $$('.filters .glyphicon-remove').click();
 
-        $$('datagrid-pagination .total').then(function (totalElements) {
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 11 on 11');
         });
     });

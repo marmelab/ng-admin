@@ -18,7 +18,8 @@ define(function (require) {
                 entity: '&',
                 perPage: '=',
                 nextPage: '=',
-                totalItems: '@'
+                totalItems: '@',
+                infinitePagination: '='
             },
             controllerAs: 'datagrid',
             controller: DatagridController

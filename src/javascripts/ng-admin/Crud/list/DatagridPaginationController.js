@@ -14,7 +14,7 @@ define(function () {
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
-        this.infinitePagination = this.$scope.hasPagination && this.$scope.infinitePagination;
+        this.displayPagination = this.$scope.hasPagination && !this.$scope.infinite;
         this.currentPage = currentPage;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
         this.offsetBegin = Math.min((currentPage - 1) * perPage + 1, this.offsetEnd);
@@ -43,7 +43,7 @@ define(function () {
     };
 
     DatagridPaginationController.prototype.nextPage = function () {
-        if (!this.infinitePagination || this.currentPage === this.nbPages) {
+        if (!this.$scope.infinite || this.currentPage === this.nbPages) {
             return;
         }
 
