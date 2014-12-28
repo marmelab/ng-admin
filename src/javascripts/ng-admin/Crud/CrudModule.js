@@ -35,7 +35,7 @@ define(function (require) {
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
-    CrudModule.directive('datagridPagination', require('ng-admin/Crud/list/DatagridPagination'));
+    CrudModule.directive('maDatagridPagination', require('ng-admin/Crud/list/maDatagridPagination'));
     CrudModule.directive('maQuickFilter', require('ng-admin/Crud/filter/maQuickFilter'));
     CrudModule.directive('maFilterView', require('ng-admin/Crud/filter/maFilterView'));
 
