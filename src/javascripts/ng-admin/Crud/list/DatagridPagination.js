@@ -10,6 +10,13 @@ define(function (require) {
     function DatagridPaginationDirective($window, $document) {
         return {
             restrict: 'E',
+            scope: {
+                entries: '=',
+                perPage: '=',
+                nextPage: '=',
+                totalItems: '@',
+                infinite: '='
+            },
             template: paginationView,
             controllerAs: 'paginationCtrl',
             controller: DatagridPaginationController,
