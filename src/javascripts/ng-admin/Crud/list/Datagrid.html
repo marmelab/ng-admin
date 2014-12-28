@@ -3,7 +3,7 @@
         <tr>
             <th ng-repeat="field in fields() | orderElement track by $index" ng-class="'ng-admin-column-' + field.name()">
                 <a ng-click="datagrid.sort(field)">
-                    <span class="glyphicon {{ sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
+                    <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
                     {{ field.label() }}
                 </a>
