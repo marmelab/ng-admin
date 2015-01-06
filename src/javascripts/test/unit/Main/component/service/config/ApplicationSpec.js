@@ -131,7 +131,7 @@ define(function (require) {
                     return '/' + view.name() + '/:' + entityId;
                 });
 
-                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/myView/:1');
+                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/comments_EditView/:1');
             });
 
             it('should not prepend baseApiUrl when the URL begins with http', function () {
@@ -143,55 +143,6 @@ define(function (require) {
                 entity1.url('http://mock.local/entity');
 
                 expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://mock.local/entity');
-            });
-        });
-
-        describe('getQueryParamsFor', function () {
-            it('should retrieve params from the view', function () {
-                var app = new Application(),
-                    entity1 = new Entity('myEntity1');
-
-                entity1.dashboardView().transformParams(function (params) {
-                    params._sort = 'viewTitle';
-                    return params;
-                });
-
-                entity1.transformParams(function (params) {
-                    params._sort = 'entityTitle';
-                    return params;
-                });
-
-
-                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'viewTitle'});
-            });
-
-            it('should retrieve params from the entity', function () {
-                var app = new Application(),
-                    entity1 = new Entity('myEntity1');
-
-                app.transformParams(function (params) {
-                    params._sort = 'appTitle';
-                    return params;
-                });
-
-                entity1.transformParams(function (params) {
-                    params._sort = 'entityTitle';
-                    return params;
-                });
-
-                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'entityTitle'});
-            });
-
-            it('should retrieve params from the application', function () {
-                var app = new Application(),
-                    entity1 = new Entity('myEntity1');
-
-                app.transformParams(function (params) {
-                    params._sort = 'appTitle';
-                    return params;
-                });
-
-                expect(app.getQueryParamsFor(entity1.dashboardView())).toEqual({_sort: 'appTitle'});
             });
         });
 

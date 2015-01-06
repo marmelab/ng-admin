@@ -16,17 +16,12 @@ define(function (require) {
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
 
-    function defaultTransformParams(params) {
-        return params;
-    }
-
     var config = {
         name: 'entity',
         label: 'My entity',
         order: null,
         baseApiUrl: null,
         url: null,
-        transformParams: defaultTransformParams,
         dashboardView: null,
         filterView: null,
         menuView: null,
@@ -172,17 +167,6 @@ define(function (require) {
      */
     Entity.prototype.getMappedValue = function (fieldName) {
         return this.values[fieldName];
-    };
-
-    /**
-     * Allows to override query params
-     *
-     * @param {Object} params
-     * @param {Object} oldParams
-     * @returns {Object}
-     */
-    Entity.prototype.getQueryParams = function (params, oldParams) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
     };
 
     Entity.prototype.readOnly = function () {
