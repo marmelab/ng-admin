@@ -1,5 +1,9 @@
 # Upgrade to 0.5
 
+ng-admin v0.5 breaks compatibility with v0.4. You will need to update your congiguration to be able to use this new version.
+
+Breaking compatibility allows us to make ng-admin compatible with much more types of REST APIs.
+
 ## Query parameters were renamed
 
 The list query parameters were renamed, as follows:
@@ -21,14 +25,17 @@ You can use Restangular's `addFullRequestInterceptor` to transform these into pa
 
 ## HTTP query manipulation methods are removed
 
-To transform parameters on outgoing requests, ng-admin no longer offers any hook. But you have the full power of Restangular's request interceptors, which allow you to customize pretty much everything about outgoing requests. 
-Therefore the following methods are removed are now removed.
+To transform parameters on outgoing requests, ng-admin no longer offers any built-in hook. But you have the full power of Restangular's request interceptors, which allow you to customize pretty much everything about outgoing requests.
+Therefore the following methods are now removed:
 
 * `view.extraParams(function|Object)`
 * `view.headers(function|Object)`
 * `view.interceptor(function)`
 * `listView.pagination()`
 * `listView.sortParams()`
+* `listView.filterQuery()`
+* `listView.filterParams()`
+* `listView.totalItems()`
 
 Here is an example of using Restangular built-in capabilities in order to manipulate the request before it is sent:
 

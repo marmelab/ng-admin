@@ -101,7 +101,14 @@ define(function (require) {
             params._filters = filters;
         }
         if (quickFilters && Object.keys(quickFilters).length !== 0) {
-            params._quickFilters = quickFilters;
+            if (!params._filters) {
+                params._filters = quickFilters;
+            } else {
+                for (var filter in quickFilters) {
+                    if (!quickFilters.hasOwnProperty(filter)) continue;
+                    params._filters[filter] = quickFilters[filter];
+                }
+            }
         }
 
         // Get grid data

@@ -28,7 +28,7 @@ ng-admin expects the `GET http://your.api.domain/books/12` route to return a JSO
 {
     "id": 12,
     "name": "War and Peace",
-    "author_id": 345
+    "author_id": 345,
     "publication_date": "2014-01-01T00:00:00Z",
 }
 ```

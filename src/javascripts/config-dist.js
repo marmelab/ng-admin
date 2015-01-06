@@ -79,13 +79,6 @@
                     }
                     delete params._filters;
                 }
-                // custom quick filters
-                if (params._quickFilters) {
-                    for (var filter in params._quickFilters) {
-                        params[filter] = params._quickFilters[filter];
-                    }
-                    delete params._quickFilters;
-                }
             }
             return { params: params };
         });

@@ -315,17 +315,6 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
             return '/comments/' + view.name() + '/' + entityId; // Can be absolute or relative
         });
 
-* `transformParams()`
-Allows to overrides all query parameters.
-
-        var comment = new Entity('comments').transformParams(function(params) {
-            params._sort = params.sort;
-            
-            return params;
-        });
-        
-Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
-
 ## View Configuration
 
 ### View Types
@@ -412,15 +401,6 @@ Add button to set several filter parameters at once.
             return {
                 published: true
             };
-        });
-
-    Quickfilters can be customised with `filterParams`:
-
-        listView.filterParams(function (param) {
-           if (param) {
-               param.abc = '';
-           }
-           return param;
         });
 
 * `listActions(String|Array)`
