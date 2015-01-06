@@ -13,7 +13,7 @@ The list query parameters were renamed, as follows:
 * `_sort    => _sortField`
 * `_sortDir => _sortDir` (unchanged)
 
-In addition, filters and quickfilters are not directly appended as query parameters, but as the value of the `_filters` and `_quickFilters` parameters.
+In addition, filters and quickfilters are not directly appended as query parameters, but as the value of the `_filters` parameter.
 
 That means that all params added by ng-admin are now prefixed by an underscore, and in camelCase.
 
