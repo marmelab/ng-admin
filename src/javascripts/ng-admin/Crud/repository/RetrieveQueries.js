@@ -23,19 +23,12 @@ define(function (require) {
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     RetrieveQueries.prototype.getOne = function (view, entityId) {
-        var interceptor = view.interceptor(),
-            params = this.config.getQueryParamsFor(view, view.getExtraParams()),
-            headers = view.getHeaders(),
-            routeUrl = this.config.getRouteFor(view, entityId);
-
-        if (interceptor) {
-            this.Restangular.addResponseInterceptor(interceptor);
-        }
+        var routeUrl = this.config.getRouteFor(view, entityId);
 
         // Get element data
         return this.Restangular
-            .oneUrl(view.name(), routeUrl)
-            .get(params, headers)
+            .oneUrl(view.entity.name(), routeUrl)
+            .get()
             .then(function (response) {
                 return view.mapEntry(response.data);
             });
@@ -56,7 +49,7 @@ define(function (require) {
      * @returns {promise} the entity config & the list of objects
      */
     RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, searchParams, sortField, sortDir, filters) {
-        var rawEntries,
+        var response,
             entries,
             referencedValues,
             self = this;
@@ -66,13 +59,13 @@ define(function (require) {
 
         return this.getRawValues(view, page, searchParams, sortField, sortDir, filters)
             .then(function (values) {
-                rawEntries = values;
+                response = values;
 
-                return self.getReferencedValues(view, rawEntries.data);
+                return self.getReferencedValues(view, response.data);
             }).then(function (refValues) {
                 referencedValues = refValues;
 
-                entries = view.mapEntries(rawEntries.data);
+                entries = view.mapEntries(response.data);
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
                 entries = view.getMappedValue(entries);
 
@@ -80,7 +73,7 @@ define(function (require) {
                     entries: entries,
                     currentPage: page,
                     perPage: view.perPage(),
-                    totalItems: view.totalItems()(rawEntries)
+                    totalItems: response.totalCount || response.headers('X-Total-Count') || response.data.length
                 };
             });
     };
@@ -91,40 +84,33 @@ define(function (require) {
      *
      * @param {ListView} listView     the view associated to the entity
      * @param {Number}   page         the page number
-     * @param {Object}   searchParams searchQuery to filter elements
+     * @param {Object}   filters      query to retrieve a subset of entries based on field value
      * @param {String}   sortField    the field to be sorted ex: entity.fieldName
      * @param {String}   sortDir      the direction of the sort
-     * @param {Object}   filters      filter specific fields
+     * @param {Object}   quickFilters query to retrieve a subset of entries based on arbitrary value
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getRawValues = function (listView, page, searchParams, sortField, sortDir, filters) {
-        page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
-        filters = (typeof (filters) === 'undefined') ? {} : filters;
-
-        var interceptor = listView.interceptor(),
-            sortView = sortField ? sortField.split('.')[0] : '',
-            sortParams = sortView === listView.name() ? listView.getSortParams(sortField.split('.').pop(), sortDir) : null,
-            params = this.config.getQueryParamsFor(listView, listView.getAllParams(page, sortParams, searchParams)),
-            headers = listView.getAllHeaders(sortParams),
-            routeUrl = this.config.getRouteFor(listView),
-            fieldName;
-
-        filters = listView.filterParams()(filters);
-
-        // Add filters
-        for (fieldName in filters) {
-            params[fieldName] = filters[fieldName];
+    RetrieveQueries.prototype.getRawValues = function (listView, page, filters, sortField, sortDir, quickFilters) {
+        var params = {
+            _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
+            _perPage: listView.perPage()
+        };
+        if (sortField && sortField.split('.')[0] === listView.name()) {
+            params._sortField = sortField.split('.')[1];
+            params._sortDir = sortDir;
         }
-
-        if (interceptor) {
-            this.Restangular.addResponseInterceptor(interceptor);
+        if (filters && Object.keys(filters).length !== 0) {
+            params._filters = filters;
+        }
+        if (quickFilters && Object.keys(quickFilters).length !== 0) {
+            params._quickFilters = quickFilters;
         }
 
         // Get grid data
         return this.Restangular
-            .allUrl(listView.name(), routeUrl)
-            .getList(params, headers);
+            .allUrl(listView.entity.name(), this.config.getRouteFor(listView))
+            .getList(params);
     };
 
     /**

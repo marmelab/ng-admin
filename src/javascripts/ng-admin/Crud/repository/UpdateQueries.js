@@ -26,14 +26,12 @@ define(function (require) {
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
         var identifierField = view.getEntity().identifier(),
             entityId = rawEntity[identifierField.name()],
-            routeUrl = this.config.getRouteFor(view, entityId),
-            params = this.config.getQueryParamsFor(view),
-            headers = view.getHeaders();
+            routeUrl = this.config.getRouteFor(view, entityId);
 
         // Get element data
         return this.Restangular
-            .oneUrl(view.name(), routeUrl)
-            .customPUT(rawEntity, null, params, headers)
+            .oneUrl(view.entity.name(), routeUrl)
+            .customPUT(rawEntity)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

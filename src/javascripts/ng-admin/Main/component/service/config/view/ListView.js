@@ -9,48 +9,9 @@ define(function (require) {
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultSortParams(field, dir) {
-        return {
-            params: {
-                _sort: field,
-                _sortDir: dir
-            },
-            headers: {
-            }
-        };
-    }
-
-    function defaultPaginationLink(page, maxPerPage) {
-        return {
-            page: page,
-            per_page: maxPerPage
-        };
-    }
-
-    function defaultFilterQuery (searchParams) {
-        return searchParams;
-    }
-
-    function defaultFilterParams(params) {
-        return params;
-    }
-
-    function defaultTotalItems(response) {
-        if (!response.headers && response.data.length) {
-            return response.data.length;
-        }
-
-        return response.headers('X-Total-Count') || response.data.length;
-    }
-
     var config = {
         perPage: 30,
-        pagination: defaultPaginationLink,
-        filterQuery: defaultFilterQuery,
-        filterParams: defaultFilterParams,
         infinitePagination: false,
-        totalItems: defaultTotalItems,
-        sortParams: defaultSortParams,
         listActions: null
     };
 
@@ -103,66 +64,6 @@ define(function (require) {
     };
 
     /**
-     * Return configurable sorting params
-     *
-     * @returns {Object}
-     */
-    ListView.prototype.getSortParams = function (sortField, sortDir) {
-        return typeof (this.config.sortParams) === 'function' ? this.config.sortParams(sortField, sortDir) : this.config.sortParams;
-    };
-
-    /**
-     * Returns all params used to retrieve all elements
-     *
-     * @param {Number} page
-     * @param {Object} sortParams
-     * @param {Object} searchParams
-     *
-     * @returns {Object}
-     */
-    ListView.prototype.getAllParams = function (page, sortParams, searchParams) {
-        var params = this.getExtraParams(),
-            pagination = this.config.pagination,
-            perPage = this.perPage();
-
-        // Add pagination params
-        if (pagination) {
-            params = angular.extend(params, pagination(page, perPage));
-        }
-
-        // Add sort params
-        if (sortParams && 'params' in sortParams) {
-            params = angular.extend(params, sortParams.params);
-        }
-
-        // Add search params
-        if (searchParams) {
-            var filterQuery = this.filterQuery();
-            params = angular.extend(params, filterQuery(searchParams));
-        }
-
-        return params;
-    };
-
-    /**
-     * Returns all headers used to retrieve all elements
-     *
-     * @param {Object} sortParams
-     *
-     * @returns {Object}
-     */
-    ListView.prototype.getAllHeaders = function (sortParams) {
-        var headers = this.getHeaders();
-
-        // Add sort param headers
-        if (sortParams && sortParams.headers) {
-            headers = angular.extend(headers, sortParams.headers);
-        }
-
-        return headers;
-    };
-
-    /**
      * Map all values depending of the `map` configuration of a field
      *
      * @param {[Object]} entries
@@ -189,42 +90,6 @@ define(function (require) {
         }
 
         return entries;
-    };
-
-    /**
-     * @deprecated
-     *
-     * @param {function|Object} pagination
-     * @returns {*}
-     */
-    ListView.prototype.pagination = function (pagination) {
-        console.warn('pagination() is deprecated. Query parameters should be customized via transformParams() instead');
-
-        if (arguments.length === 0) {
-            return this.config.pagination;
-        }
-
-        this.config.pagination = pagination;
-
-        return this;
-    };
-
-    /**
-     * @deprecated
-     *
-     * @param {function|Object} sortParams
-     * @returns {*}
-     */
-    ListView.prototype.sortParams = function (sortParams) {
-        console.warn('sortParams() is deprecated. Query parameters should be customized via transformParams() instead');
-
-        if (arguments.length === 0) {
-            return this.config.sortParams;
-        }
-
-        this.config.sortParams = sortParams;
-
-        return this;
     };
 
     return ListView;
