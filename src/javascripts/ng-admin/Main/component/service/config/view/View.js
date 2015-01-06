@@ -174,7 +174,7 @@ define(function (require) {
 
         // No identifier fields on this view, try to find it on other view
         if (!identifier) {
-            identifier = this.entity.identifierField;
+            identifier = this.entity.identifier();
         }
 
         if (arguments.length === 0) {

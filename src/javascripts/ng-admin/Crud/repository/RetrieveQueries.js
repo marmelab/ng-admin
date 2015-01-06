@@ -23,11 +23,8 @@ define(function (require) {
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     RetrieveQueries.prototype.getOne = function (view, entityId) {
-        var routeUrl = this.config.getRouteFor(view, entityId);
-
-        // Get element data
         return this.Restangular
-            .oneUrl(view.entity.name(), routeUrl)
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .get()
             .then(function (response) {
                 return view.mapEntry(response.data);

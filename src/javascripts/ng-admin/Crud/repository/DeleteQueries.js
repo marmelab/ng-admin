@@ -24,11 +24,8 @@ define(function (require) {
      * @returns {promise}
      */
     DeleteQueries.prototype.deleteOne = function (view, entityId) {
-        var routeUrl = this.config.getRouteFor(view, entityId);
-
-        // delete element
         return this.Restangular
-            .oneUrl(view.entity.name(), routeUrl)
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .customDELETE();
     };
 

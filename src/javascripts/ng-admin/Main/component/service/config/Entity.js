@@ -21,6 +21,7 @@ define(function (require) {
         label: 'My entity',
         order: null,
         baseApiUrl: null,
+        identifier: null,
         url: null,
         dashboardView: null,
         filterView: null,
@@ -42,7 +43,7 @@ define(function (require) {
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
-        this.identifierField = new Field('id');
+        this.config.identifier = new Field('id');
         this.isReadOnly = false;
         this.initViews();
     }
@@ -139,22 +140,6 @@ define(function (require) {
         view.setEntity(this);
         this[propertyName](view);
         console.warn('addView() is deprecated. Views are added by default, use ' + propertyName + '() instead to retrieve the view and customize it');
-
-        return this;
-    };
-
-    /**
-     * Set or get the identifier
-     *
-     * @param {Field} identifier
-     * @returns Field|Entity
-     */
-    Entity.prototype.identifier = function (identifier) {
-        if (arguments.length === 0) {
-            return this.identifierField;
-        }
-
-        this.identifierField = identifier;
 
         return this;
     };
