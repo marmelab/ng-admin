@@ -39,7 +39,7 @@
         };
     });
 
-    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany, $stateProvider) {
+    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany, RestangularProvider, $stateProvider) {
 
         // Create a new route for a custom page
         $stateProvider
@@ -59,21 +59,32 @@
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
 
-        function transformParams(params) {
-            if ('page' in params) {
-                params._start = (params.page - 1) * params.per_page;
-                params._end = params.page * params.per_page;
-
-                delete params.page;
-                delete params.per_page;
+        // use the custom query parameters function to format the API request correctly
+        RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+            if (operation == "getList") {
+                // custom pagination params
+                params._start = (params._page - 1) * params._perPage;
+                params._end = params._page * params._perPage;
+                delete params._page;
+                delete params._perPage;
+                // custom sort params
+                if (params._sortField) {
+                    params._sort = params._sortField;
+                    delete params._sortField;
+                }
+                // custom filters
+                if (params._filters) {
+                    for (var filter in params._filters) {
+                        params[filter] = params._filters[filter];
+                    }
+                    delete params._filters;
+                }
             }
-
-            return params;
-        }
+            return { params: params };
+        });
 
         var app = new Application('ng-admin backend demo') // application main title
-            .baseApiUrl('@@backend_url') // main API endpoint
-            .transformParams(transformParams); // use the custom query parameters function to format the API request correctly
+            .baseApiUrl('@@backend_url'); // main API endpoint
 
         // define all entities at the top to allow references between them
         var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id

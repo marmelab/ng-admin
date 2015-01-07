@@ -7,25 +7,13 @@ define(function (require) {
         Entry = require('ng-admin/Main/component/service/config/Entry'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    function defaultHeaders() {
-        return {};
-    }
-
-    function defaultTransformParams(params) {
-        return params;
-    }
-
     var config = {
-        name: 'myView',
+        name: null,
         title: false,
         actions: null,
         description: '',
         template: null,
-        extraParams: null,
-        interceptor: null,
-        transformParams: defaultTransformParams,
         url: null,
-        headers: defaultHeaders
     };
 
     /**
@@ -36,7 +24,7 @@ define(function (require) {
         this.fields = {};
         this.entity = null;
         this.config = angular.copy(config);
-        this.config.name = name || this.config.name;
+        this.config.name = name;
         this.displayedFields = [];
     }
 
@@ -59,6 +47,9 @@ define(function (require) {
      */
     View.prototype.setEntity = function (entity) {
         this.entity = entity;
+        if (!this.config.name) {
+            this.config.name = entity.name() + '_' + this.type;
+        }
 
         return this;
     };
@@ -163,42 +154,6 @@ define(function (require) {
     };
 
     /**
-     * Return configurable extra params
-     *
-     * @returns {Object}
-     */
-    View.prototype.getExtraParams = function () {
-        var params = {};
-        if (this.config.extraParams) {
-            params = typeof (this.config.extraParams) === 'function' ? this.config.extraParams() : this.config.extraParams;
-        }
-
-        return params;
-    };
-
-    /**
-     * Allows to override query params
-     *
-     * @param {Object} params
-     * @param {Object} oldParams
-     * @returns {Object}
-     */
-    View.prototype.getQueryParams = function (params, oldParams) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
-    };
-
-    /**
-     * Return view headers
-     *
-     * @returns {Object}
-     */
-    View.prototype.getHeaders = function () {
-        var headers = this.headers();
-
-        return typeof (headers) === 'function' ? headers(this) : headers;
-    };
-
-    /**
      * Return the identifier field
      *
      * @returns {Field}
@@ -219,7 +174,7 @@ define(function (require) {
 
         // No identifier fields on this view, try to find it on other view
         if (!identifier) {
-            identifier = this.entity.identifierField;
+            identifier = this.entity.identifier();
         }
 
         if (arguments.length === 0) {

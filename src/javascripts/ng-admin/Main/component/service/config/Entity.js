@@ -16,17 +16,13 @@ define(function (require) {
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         DeleteView = require('ng-admin/Main/component/service/config/view/DeleteView');
 
-    function defaultTransformParams(params) {
-        return params;
-    }
-
     var config = {
         name: 'entity',
         label: 'My entity',
         order: null,
         baseApiUrl: null,
+        identifier: null,
         url: null,
-        transformParams: defaultTransformParams,
         dashboardView: null,
         filterView: null,
         menuView: null,
@@ -47,7 +43,7 @@ define(function (require) {
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
-        this.identifierField = new Field('id');
+        this.config.identifier = new Field('id');
         this.isReadOnly = false;
         this.initViews();
     }
@@ -149,22 +145,6 @@ define(function (require) {
     };
 
     /**
-     * Set or get the identifier
-     *
-     * @param {Field} identifier
-     * @returns Field|Entity
-     */
-    Entity.prototype.identifier = function (identifier) {
-        if (arguments.length === 0) {
-            return this.identifierField;
-        }
-
-        this.identifierField = identifier;
-
-        return this;
-    };
-
-    /**
      * Return the value of a mapped field
      *
      * @param {String} fieldName
@@ -172,17 +152,6 @@ define(function (require) {
      */
     Entity.prototype.getMappedValue = function (fieldName) {
         return this.values[fieldName];
-    };
-
-    /**
-     * Allows to override query params
-     *
-     * @param {Object} params
-     * @param {Object} oldParams
-     * @returns {Object}
-     */
-    Entity.prototype.getQueryParams = function (params, oldParams) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
     };
 
     Entity.prototype.readOnly = function () {

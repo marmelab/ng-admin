@@ -13,8 +13,8 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [View Configuration](#view-configuration)
 * [Reusable Directives](#reusable-directives)
 * [Relationships](#Relationships)
-* [Customizing the API Mapping](#customizing-the-api-mapping)
-* [Theming](#theming)
+* [Customizing the API Mapping](doc/API-mapping.md)
+* [Theming](doc/Theming.md)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -77,16 +77,7 @@ var app = angular.module('myApp', ['ng-admin']);
 app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany) {
 
     var app = new Application('ng-admin backend demo') // application main title
-        .baseApiUrl('http://localhost:3000/') // main API endpoint
-        .transformParams(function (params) { // use the custom query parameters function to format the API request correctly
-            if ('page' in params) {
-                params._start = (params.page - 1) * params.per_page;
-                params._end = params.page * params.per_page;
-                delete params.page;
-                delete params.per_page;
-            }
-            return params;
-        });
+        .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
     // define all entities at the top to allow references between them
     var post = new Entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
@@ -324,17 +315,6 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
             return '/comments/' + view.name() + '/' + entityId; // Can be absolute or relative
         });
 
-* `transformParams()`
-Allows to overrides all query parameters.
-
-        var comment = new Entity('comments').transformParams(function(params) {
-            params._sort = params.sort;
-            
-            return params;
-        });
-        
-Default parameters to override: `page`, `per_page`, `q`, `_sort`, `_sortDir`.
-
 ## View Configuration
 
 ### View Types
@@ -378,15 +358,6 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
                    '<back-button></back-button>';
     editView.actions(template);
 
-* `extraParams(function|Object)`
-Add extras params to each API request.
-
-* `headers(function|Object)`
-Add headers to each API request.
-
-* `interceptor(function)`
-Used to transform data from the API into an array of element.
-
 * `disable()`
 Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
 
@@ -395,16 +366,6 @@ Defines the API endpoint for a view. It can be a string or a function.
 
         comment.listView().url(function(entityId) {
             return '/comments/id/' + entityId; // Can be absolute or relative
-        });
-
-* `transformParams()`
-Allows to overrides all query parameters.
-
-        comment.listView().transformParams(function(params) {
-            params._sort = params.sort;
-            delete params.sort;
-            
-            return params;
         });
 
 ### dashboardView Settings
@@ -433,13 +394,6 @@ Define the number of element displayed in a page
 * `infinitePagination(boolean)`
 Enable or disable lazy loading.
 
-* `totalItems(function)`
-Define a function that return the total of items:
-
-        listView.totalItems(function(response) {
-            return response.headers('X-Total-Count');
-        });
-
 * `addQuickFilter(function)`
 Add button to set several filter parameters at once.
 
@@ -447,15 +401,6 @@ Add button to set several filter parameters at once.
             return {
                 published: true
             };
-        });
-
-    Quickfilters can be customised with `filterParams`:
-
-        listView.filterParams(function (param) {
-           if (param) {
-               param.abc = '';
-           }
-           return param;
         });
 
 * `listActions(String|Array)`
@@ -669,171 +614,6 @@ Define a function that returns parameters for filtering API calls. You can use i
             'tag_id[]': tagIds
           };
         })
-
-## Customizing the API Mapping
-
-REST is not specific enough to know how to handle an API. ng-admin makes some assumptions about how your API is designed. All of these assumptions can be overridden via the configuration file.
- 
-### Pagination
-
-ng-admin assumes that your API accepts `page` and `per_page` query parameters to paginate lists:
-
-http://your.api.domain/entityName?page=2&per_page=20
-
-You can change it with the `transformParams()` method on the listView, the entity, or the application. For instance, to use `offset` and `limit` instead of `page` and `per_page` across the entire application, use the following code:
-
-```js
-app.transformParams(function(params) {
-    if (params.page) {
-        params.offset = (params.page - 1) * params.per_page;
-        params.limit = params.per_page;
-        delete params.page;
-        delete params.per_page;
-    }
-});
-```
-
-The default number of items per page is `30`. You can customize it with the `perPage()` method of the listView.
-
-For each list view, the API should should return all items as an array at the root of the response.
-
-```
-GET /entityName?page=2&per_page=20 HTTP1.1
-
-HTTP/1.1 200 OK
-X-Total-Count: 26
-Content-Type: application/json
-[
-  { date: "2014-01-01T00:00:00Z", "name": "foo", "age": 8 },
-  { date: "2014-02-01T00:00:00Z", "name": "bar", "age": 12 },
-  { date: "2014-03-01T00:00:00Z", "name": "baz", "age": 4 },
-  ...
-]
-```
-
-To know how many items to paginate through, ng-admin retrieves the total count from the `X-Total-Count` header. This can be changed with the `totalItems()` method of the listView.
-
-### Sorting
-
-To sort each list view, ng-admin uses `_sort` & `_sortDir` query parameters.
-
-http://your.api.domain/entityName?_sort=name&_sortDir=ASC
-
-Once again, you can change it with the `transformParams()` method. For instance, to sort by id desc by default:
-
-```js
-app.transformParams(function(params) {
-    if (params.page) {
-        params._sort = params._sort || 'id';
-        params._sortDir = params._sortDir || 'DESC';
-    }
-});
-```
-
-### Filtering
-
-All filter fields are added as pure query parameters, based on the field name (the one defined in the constructor). For instance, the following `filterView()` configuration:
-
-```js
-myEntity.filterView()
-    .addField(new Field('q').label('').attributes({ placeholder: 'Full text' }))
-    .addField(new Field('tag'))
-```
-
-...will lead to API calls formatted like the following:
-
-http://your.api.domain/entityName?q=foo&tag=bar
-
-### Identifier
-
-ng-admin assumes that the identifier name of your entities is `id`.
-You can change it with the `identifier()` method of the entity.
-
-### Date
-
-The default date field format is `yyyy-MM-dd`. You can change it with the `format()` method in fields of type `date`.
-
-## Theming
-
-You can override pretty much all the HTML generated by ng-admin, at different levels.
-
-### Stylesheet
-
-Ng-admin CSS is composed of styles from [sb-admin](http://ironsummitmedia.github.io/startbootstrap-sb-admin-2/), on top of [Bootstrap 3](http://getbootstrap.com/). By using your own CSS in addition to the ng-admin CSS, you can customize the look and feel of every displayed component. 
-
-To ease styling, ng-admin adds custom classes for the entities and fields currently displayed, to allow a finer styling. For instance, the datagrid in the list view always uses a class named `ng-admin-entity-[entityName]`. In the datagrid also, each header in the table uses a class named `ng-admin-column-[fieldName]`, which should allow precise sizing of columns. 
-
-Don't hesitate to inspect the generated source to look for the right CSS selector.
-
-### Custom Classes
-
-To ease theming, you can add a custom class to your fields in every view, using the `cssClasses()` method.
-
-```js
-myEntity.listView()
-    .addField(new Field('title').cssClasses(['foo', 'bar']));
-```
-
-`cssClasses()` can optionally accept a function, to return a class depending on the current entry.
-
-```js
-myEntity.listView()
-    .addField(new Field('title').cssClasses(function(entry) {
-        if (entry.values.publishDate >= Date.now()) {
-            return 'bg-success';
-        }
-    }));
-```
-
-### Customizing Directives Templates
-
-Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, and the ability to decorate another provider, you can customize the templates of all the directives used by ng-admin. Here is an example of customization of the 'text' input field customization:
-
-```js
-var app = angular.module('myApp', ['ng-admin']);
-
-app.config(function(NgAdminConfigurationProvider, ..., $provide) {
-        // Override textarea template
-        $provide.decorator('maTextFieldDirective', ['$delegate', function ($delegate) {
-            // You can modify directly the template
-            $delegate[0].template = angular.element($delegate[0].template).addClass('MyClass')[0].outerHTML;
-
-            // or use a templateURL (loaded from a file or a <script type="text/ng-template" id="string.html"></script> tag)
-            $delegate[0].template = '';
-            $delegate[0].templateUrl = 'string.html';
-
-            return $delegate;
-        }]);
-
-        // ...
-});
-```
-
-### Customizing The View Template For A Given Entity
-
-For a given entity, each of the main views (`list`, `show`, `create`, `edit`, `delete`) can use a custom HTML template instead of the default one. Just pass it to the `template()` function on the view:
-
-```js
-var myTemplate = require('text!./path/to/list.html');
-var myEntity = new Entity('foo_endpoint');
-myEntity.listView().template(myTemplate);
-// continue myEntity configuration
-// ...
-app.addEntity(myEntity);
-```
-
-### Customizing The View Templates For The Entire Application
-
-You can use the `app.customTemplate()` method to customize the template of a given view across the entire application (for all entities). This method expects a function argument, which should return the template as a string.
-
-```js
-var myTemplate = require('text!./path/to/list.html');
-app.customTemplate(function(viewName) {
-    if (viewName === 'ListView') {
-        return myTemplate;
-    }
-})
-```
 
 ## Contributing
 

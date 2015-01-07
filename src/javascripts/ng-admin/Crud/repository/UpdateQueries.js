@@ -24,16 +24,12 @@ define(function (require) {
      * @returns {promise} the updated object
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
-        var identifierField = view.getEntity().identifier(),
-            entityId = rawEntity[identifierField.name()],
-            routeUrl = this.config.getRouteFor(view, entityId),
-            params = this.config.getQueryParamsFor(view),
-            headers = view.getHeaders();
+        var entityId = rawEntity[view.getEntity().identifier().name()];
 
         // Get element data
         return this.Restangular
-            .oneUrl(view.name(), routeUrl)
-            .customPUT(rawEntity, null, params, headers)
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
+            .customPUT(rawEntity)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

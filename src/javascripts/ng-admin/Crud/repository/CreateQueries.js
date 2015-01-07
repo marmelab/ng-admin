@@ -24,14 +24,9 @@ define(function (require) {
      * @returns {promise}  the new object
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
-        var routeUrl = this.config.getRouteFor(view),
-            params = this.config.getQueryParamsFor(view),
-            headers = view.getHeaders();
-
-        // Get element data
         return this.Restangular
-            .oneUrl(view.name(), routeUrl)
-            .customPOST(rawEntity, null, params, headers)
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view))
+            .customPOST(rawEntity)
             .then(function (response) {
                 return view.mapEntry(response.data);
             });

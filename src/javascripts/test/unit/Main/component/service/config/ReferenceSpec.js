@@ -101,7 +101,7 @@ define(function (require) {
                     .editionView()
                       .addField(new Field('id').identifier(true));
 
-                expect(ref.getSortFieldName()).toEqual('myView.name');
+                expect(ref.getSortFieldName()).toEqual('human_ListView.name');
             });
         });
 

@@ -1,40 +1,86 @@
 # Upgrade to 0.5
 
-## `listView.pagination()` and `listView.sortParams()` are deprecated
+ng-admin v0.5 breaks compatibility with v0.4. You will need to update your congiguration to be able to use this new version.
 
-A new method is available on all views (and can even be set at the application and entity level). It's called `transformParams()`. I supersedes and deprecates `pagination()` and `sortParams()`.
+Breaking compatibility allows us to make ng-admin compatible with much more types of REST APIs.
+
+## Query parameters were renamed
+
+The list query parameters were renamed, as follows:
+
+* `page     => _page`
+* `per_page => _perPage`
+* `_sort    => _sortField`
+* `_sortDir => _sortDir` (unchanged)
+
+In addition, filters and quickfilters are not directly appended as query parameters, but as the value of the `_filters` parameter.
+
+That means that all params added by ng-admin are now prefixed by an underscore, and in camelCase.
+
+Here is how a typical HTTP call from ng-admin to a backend API looks like:
+
+http://my.api.backend/posts?_filters=%7B%22created_at%22:%222015-01-13%22%7D&_page=1&_perPage=30&_sortDir=ASC&_sortField=author_id
+
+You can use Restangular's `addFullRequestInterceptor` to transform these into params that your API can understand (see example below).
+
+## HTTP query manipulation methods are removed
+
+To transform parameters on outgoing requests, ng-admin no longer offers any built-in hook. But you have the full power of Restangular's request interceptors, which allow you to customize pretty much everything about outgoing requests.
+Therefore the following methods are now removed:
+
+* `view.extraParams(function|Object)`
+* `view.headers(function|Object)`
+* `view.interceptor(function)`
+* `listView.pagination()`
+* `listView.sortParams()`
+* `listView.filterQuery()`
+* `listView.filterParams()`
+* `listView.totalItems()`
+
+Here is an example of using Restangular built-in capabilities in order to manipulate the request before it is sent:
 
 ```js
 // replace
-myEntity.listView().pagination(function(page, maxPerPage) {
+var Book = new Entity('books')
+Book.listView().pagination(function(page, maxPerPage) {
     return {
         begin: (page - 1) * maxPerPage,
         end: page * maxPerPage
     };
 });
 // with
-myEntity.listView().transformParams(function(params) {
-    params.begin = (params.page - 1) * params.per_page;
-    params.end = params.page * params.per_page;
-    delete params.page;
-    delete params.per_page;
+RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
+    if (operation == 'getList' && what == 'books') {
+        params.begin = (params._page - 1) * params._perPage;
+        params.end = params._page * params._perPage;
+        delete params._page;
+        delete params._perPage;
+    }
+    return { params: params };
 });
 
 // replace
-myEntity.listView().sortParams(function(field, dir) {
+Book.listView().sortParams(function(field, dir) {
     return {
         params: { sort: field || 'id', sortDir: dir || 'DESC' },
         headers: {}
     };
 });
 // with
-myEntity.listView().transformParams(function(params) {
-    params.sort = params._sort || 'id';
-    params.sortDir = params._sortDir || 'DESC';
-    delete params.page;
-    delete params.per_page;
+RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
+    if (operation == 'getList' && what == 'books') {
+        params.sort = params._sortField || 'id';
+        params.sortDir = params._sortDir || 'DESC';
+        delete params._sortField;
+        delete params._sortDir;
+    }
+    return { params: params };
 });
 ```
+
+The advantage of request interceptors is that they can run on several entities, or on several verbs.
+
+The same method can be used to add response interceptors.
 
 ## Filters are now off by default
 

@@ -30,9 +30,6 @@ define(function (require) {
             config = function () {
                 return {
                     baseApiUrl: angular.noop,
-                    getQueryParamsFor: function (view, params) {
-                        return params;
-                    },
                     getRouteFor: function (view) {
                         return 'http://localhost/' + view.getEntity().name();
                     }
@@ -72,7 +69,7 @@ define(function (require) {
         });
 
         it('should return all data to display a ListView', function (done) {
-            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats}));
+            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats, headers: function() {}}));
             spyOn($q, 'all').and.returnValue(mixins.buildPromise(humans));
 
             var retrieveQueries = new RetrieveQueries($q, Restangular, config);
@@ -89,24 +86,6 @@ define(function (require) {
 
                     expect(result.entries[0].values.human_id).toEqual(1);
                     expect(result.entries[0].listValues.human_id).toEqual('Daph');
-                })
-                .then(done, done.fail);
-        });
-
-        it('should return all rawEntities with an extra header', function (done) {
-            spyOn(Restangular, 'allUrl').and.callThrough();
-            spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats}));
-
-            var retrieveQueries = new RetrieveQueries({}, Restangular, config);
-
-            catView.perPage(10)
-                .headers({token: 'def'});
-
-            retrieveQueries.getRawValues(catView)
-                .then(function (rawEntities) {
-                    expect(Restangular.allUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat');
-                    expect(Restangular.getList).toHaveBeenCalledWith({page : 1, per_page : 10}, {token: 'def'});
-                    expect(rawEntities.data.length).toEqual(2);
                 })
                 .then(done, done.fail);
         });
@@ -298,9 +277,7 @@ define(function (require) {
                 entity = new Entity('cat');
                 view = entity.creationView()
                     .addField(new Field('id').identifier(true))
-                    .addField(new Field('name').type('text'))
-                    .extraParams(null)
-                    .interceptor(null);
+                    .addField(new Field('name').type('text'));
             });
 
             it('should return the entity with all fields.', function (done) {
@@ -317,8 +294,8 @@ define(function (require) {
 
                 retrieveQueries.getOne(view, 1)
                     .then(function (entry) {
-                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
-                        expect(Restangular.get).toHaveBeenCalledWith({}, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/1');
+                        expect(Restangular.get).toHaveBeenCalledWith();
                         expect(entry.identifierValue).toBe(1);
                         expect(entry.values.id).toBe(1);
                         expect(entry.values.name).toBe('Mizoute');
@@ -329,43 +306,6 @@ define(function (require) {
                     .then(done, done.fail);
             });
 
-            it('should add response interceptor, extra params & headers when calling getOne', function (done) {
-                var catInterceptor;
-                view.interceptor(catInterceptor = function () {
-                });
-
-                view.extraParams(function () {
-                    return {
-                        key: 'abc'
-                    };
-                });
-
-                view.headers(function () {
-                    return {
-                        pwd: '123456'
-                    };
-                });
-
-                Restangular.addResponseInterceptor = jasmine.createSpy('addResponseInterceptor');
-                spyOn(Restangular, 'oneUrl').and.callThrough();
-                spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise({
-                    data: {
-                        id: 1,
-                        name: "Mizoute",
-                        summary: "A Cat"
-                    }
-                }));
-
-                var retrieveQueries = new RetrieveQueries({}, Restangular, config);
-
-                retrieveQueries.getOne(view, 1)
-                    .then(function () {
-                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
-                        expect(Restangular.get).toHaveBeenCalledWith({key: 'abc'}, {pwd: '123456'});
-                        expect(Restangular.addResponseInterceptor).toHaveBeenCalledWith(catInterceptor);
-                    })
-                    .then(done, done.fail);
-            });
         });
     });
 });

@@ -32,29 +32,6 @@ define(function (require) {
             });
         });
 
-        describe('extraParams()', function () {
-            it('should set extra params', function () {
-                var list = new ListView('allCats');
-                list
-                    .setEntity(new Entity('cat'))
-                    .perPage(10)
-                    .extraParams(function () {
-                        return { token: 'abcde1' };
-                    })
-                    .pagination(function (page, maxPerPage) {
-                        return { begin: page, end: page * maxPerPage };
-                    });
-
-                var params = list.getAllParams(12, {params: {_sort: 'name'}}, {q: 'mizu'});
-
-                expect(params.token).toEqual('abcde1');
-                expect(params.begin).toEqual(12);
-                expect(params.end).toEqual(120);
-                expect(params._sort).toEqual('name');
-                expect(params.q).toEqual('mizu');
-            });
-        });
-
         describe('map()', function () {
             it('should apply the function argument to all list values', function () {
                 var list = new ListView('allCats');

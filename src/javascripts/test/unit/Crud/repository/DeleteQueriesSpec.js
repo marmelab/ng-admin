@@ -30,9 +30,7 @@ define(function (require) {
             entity = new Entity('cat');
             view = entity.creationView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'))
-                .extraParams(null)
-                .interceptor(null);
+                .addField(new Field('name').type('text'));
         });
 
         describe("deleteOne", function () {
@@ -43,8 +41,8 @@ define(function (require) {
 
                 deleteQueries.deleteOne(view, 1)
                     .then(function () {
-                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/1');
-                        expect(Restangular.customDELETE).toHaveBeenCalledWith(null, null, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/1');
+                        expect(Restangular.customDELETE).toHaveBeenCalledWith();
                     })
                     .then(done, done.fail);
             });

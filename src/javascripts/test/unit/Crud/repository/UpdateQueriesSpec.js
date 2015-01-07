@@ -30,9 +30,7 @@ define(function (require) {
             entity = new Entity('cat');
             view = entity.creationView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'))
-                .extraParams(null)
-                .interceptor(null);
+                .addField(new Field('name').type('text'));
         });
 
         describe("updateOne", function () {
@@ -46,8 +44,8 @@ define(function (require) {
 
                 updateQueries.updateOne(view, rawEntity)
                     .then(function (entry) {
-                        expect(Restangular.oneUrl).toHaveBeenCalledWith('myView', 'http://localhost/cat/3');
-                        expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity, null, null, {});
+                        expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/3');
+                        expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity);
                         expect(entry.values.name).toEqual('Mizu');
                     })
                     .then(done, done.fail);

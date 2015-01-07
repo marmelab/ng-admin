@@ -6,17 +6,12 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    function defaultTransformParams(params) {
-        return params;
-    }
-
     function defaultCustomTemplate(viewName) {
     }
 
     var config = {
         title: "Angular admin",
         baseApiUrl: "http://localhost:3000/",
-        transformParams: defaultTransformParams,
         customTemplate: defaultCustomTemplate
     };
 
@@ -119,33 +114,6 @@ define(function (require) {
         }
 
         return url;
-    };
-
-    /**
-     * Allows to change query params for a view
-     *
-     * @param {View} view
-     * @param {Object} params
-     * @returns {Object}
-     */
-    Application.prototype.getQueryParamsFor = function (view, params) {
-        var entity = view.getEntity();
-
-        if (typeof params === 'undefined') {
-            params = {};
-        }
-
-        var oldParams = angular.copy(params);
-
-        params = this.getQueryParams(params, oldParams);
-        params = entity.getQueryParams(params, oldParams);
-        params = view.getQueryParams(params, oldParams);
-
-        return params;
-    };
-
-    Application.prototype.getQueryParams = function (params, oldParams) {
-        return typeof (this.config.transformParams) === 'function' ? this.config.transformParams(params, oldParams) : this.config.transformParams;
     };
 
     /**
