@@ -1,5 +1,5 @@
 /*global angular*/
-(function (require) {
+(function () {
     "use strict";
 
     var app = angular.module('myApp', ['ng-admin']);
@@ -111,61 +111,62 @@
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .limit(5) // limit the panel to the 5 latest posts
-            .addField(new Field('title').isDetailLink(true).map(truncate));
+            .fields([new Field('title').isDetailLink(true).map(truncate)]); // fields() called with arguments add fields to the view
 
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
-            .addField(new Field('id').label('ID'))
-            .addField(new Field('title')) // the default list field type is "string", and displays as a string
-            .addField(new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
-                .targetEntity(tag) // the tag entity is defined later in this file
-                .targetField(new Field('name')) // the field to be displayed in this list
-            )
+            .description('List of posts with infinite pagination') // description appears under the title
+            .infinitePagination(true) // load pages as the user scrolls
+            .fields([
+                new Field('id').label('ID'), // The default displayed name is the camelCase field name. label() overrides id
+                new Field('title'), // the default list field type is "string", and displays as a string
+                new Field('published_at').type('date'), // Date field type allows date formatting
+                new Field('views').type('number'),
+                new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
+                    .targetEntity(tag) // the tag entity is defined later in this file
+                    .targetField(new Field('name')) // the field to be displayed in this list
+            ])
             .listActions(['show', 'edit', 'delete']);
 
-        post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
-            .addField(new Field('id'))
-            .addField(new Field('title'))
-            .addField(new Field('body').type('wysiwyg'))
-            .addField(new ReferenceMany('tags')
-                .targetEntity(tag)
-                .targetField(new Field('name'))
-            )
-            .addField(new ReferencedList('comments')
-                .targetEntity(comment)
-                .targetReferenceField('post_id')
-                .targetFields([
-                    new Field('id'),
-                    new Field('body').label('Comment')
-                ])
-            )
-            .addField(new Field('other_page').type('template').template('<other-page-link></other-link-link>'));
-
         post.creationView()
-            .addField(new Field('title') // the default edit field type is "string", and displays as a text input
-                .attributes({ placeholder: 'the post title' }) // you can add custom attributes, too
-                .validation({ required: true, minlength: 3, maxlength: 100 }) // add validation rules for fields
-            )
-            .addField(new Field('body').type('wysiwyg')); // overriding the type allows rich text editing for the body
+            .fields([
+                new Field('title') // the default edit field type is "string", and displays as a text input
+                    .attributes({ placeholder: 'the post title' }) // you can add custom attributes, too
+                    .validation({ required: true, minlength: 3, maxlength: 100 }), // add validation rules for fields
+                new Field('teaser').type('text'), // text field type translates to a textarea
+                new Field('body').type('wysiwyg'), // overriding the type allows rich text editing for the body
+                new Field('published_at').type('date') // Date field type translates to a datepicker
+            ]);
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
-            .actions(['list', 'show', 'delete']) // choose which buttons appear in the action bar
-            .addField(new Field('title').validation({ required: true, minlength: 3, maxlength: 100 }))
-            .addField(new Field('body').type('wysiwyg'))
-            .addField(new ReferenceMany('tags')
-                .targetEntity(tag)
-                .targetField(new Field('name'))
-                .cssClasses('col-sm-4') // customize look and feel through CSS classes
-            )
-            .addField(new ReferencedList('comments')
-                .targetEntity(comment)
-                .targetReferenceField('post_id')
-                .targetFields([
-                    new Field('id'),
-                    new Field('body').label('Comment')
-                ])
-            );
+            .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
+            .fields([
+                post.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
+                new ReferenceMany('tags') // ReferenceMany translates to a select multiple
+                    .targetEntity(tag)
+                    .targetField(new Field('name'))
+                    .cssClasses('col-sm-4'), // customize look and feel through CSS classes
+                new Field('views')
+                    .type('number')
+                    .cssClasses('col-sm-4'),
+                new ReferencedList('comments') // display list of related comments
+                    .targetEntity(comment)
+                    .targetReferenceField('post_id')
+                    .targetFields([
+                        new Field('id'),
+                        new Field('body').label('Comment')
+                    ])
+            ]);
+
+        post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
+            .fields([
+                new Field('id'),
+                post.editionView().fields(), // reuse fields from another view in another order
+                new Field('custom_action')
+                    .type('template')
+                    .template('<other-page-link></other-link-link>')
+            ]);
 
         comment.menuView()
             .order(2) // set the menu position in the sidebar
@@ -175,28 +176,30 @@
             .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
             .limit(5)
-            .addField(new Field('id'))
-            .addField(new Field('body').label('Comment').map(truncate))
-            .addField(new Field() // template fields don't need a name
-                .type('template') // a field which uses a custom template
-                .label('Actions')
-                .template(function () { // template() can take a function or a string
-                    return '<custom-post-link></custom-post-link>'; // you can use custom directives, too
-                })
-            );
+            .fields([
+                new Field('id'),
+                new Field('body').label('Comment').map(truncate),
+                new Field() // template fields don't need a name in dashboard view
+                    .type('template') // a field which uses a custom template
+                    .label('Actions')
+                    .template('<custom-post-link></custom-post-link>') // you can use custom directives, too
+            ]);
 
         comment.listView()
             .title('Comments')
-            .description('List of all comments with an infinite pagination') // description appears under the title
-            .addField(new Field('id').label('ID'))
-            .addField(new Reference('post_id')
-                .label('Post title')
-                .map(truncate)
-                .targetEntity(post)
-                .targetField(new Field('title'))
-            )
-            .addField(new Field('body').map(truncate))
-            .addField(new Field('created_at').label('Creation date').type('date'))
+            .perPage(10) // limit the number of elements displayed per page. Default is 30.
+            .fields([
+                new Field('created_at')
+                    .label('Posted')
+                    .type('date'),
+                new Field('author'),
+                new Field('body').map(truncate),
+                new Reference('post_id')
+                    .label('Post')
+                    .map(truncate)
+                    .targetEntity(post)
+                    .targetField(new Field('title').map(truncate))
+            ])
             .addQuickFilter('Today', function () { // a quick filter displays a button to filter the list based on a set of query parameters passed to the API
                 var now = new Date(),
                     year = now.getFullYear(),
@@ -207,40 +210,41 @@
                 return {
                     created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
                 };
-            });
+            })
+            .listActions(['edit', 'delete']);
 
         comment.filterView() // a filterView defines the fields displayed in the filter form
-            .addField(new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}))
-            .addField(new Field('created_at').type('date').attributes({'placeholder': 'Filter by date'}).format('yyyy-MM-dd'));
+            .fields([
+                new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}),
+                new Field('created_at')
+                    .label('Posted')
+                    .type('date')
+                    .attributes({'placeholder': 'Filter by date'})
+                    .format('yyyy-MM-dd')
+            ]);
 
         comment.creationView()
-            .addField(new Reference('post_id')
-                .label('Post title')
-                .map(truncate)
-                .targetEntity(post)
-                .targetField(new Field('title'))
-            )
-            .addField(new Field('body').type('wysiwyg'))
-            .addField(new Field('created_at')
-                .label('Creation date')
-                .type('date') // to edit a date type field, ng-admin offers a datepicker
-                .defaultValue(new Date()) // preset fields in creation view with defaultValue
-            );
+            .fields([
+                new Field('created_at')
+                    .label('Posted')
+                    .type('date')
+                    .defaultValue(new Date()), // preset fields in creation view with defaultValue
+                new Field('author'),
+                new Field('body').type('wysiwyg'),
+                new Reference('post_id')
+                    .label('Post')
+                    .map(truncate)
+                    .targetEntity(post)
+                    .targetField(new Field('title')),
+            ]);
 
         comment.editionView()
-            .addField(new Reference('post_id')
-                .label('Post title')
-                .map(truncate)
-                .targetEntity(post)
-                .targetField(new Field('title'))
-            )
-            .addField(new Field('body').type('wysiwyg'))
-            .addField(new Field('created_at').label('Creation date').type('date'))
-            .addField(new Field()
+            .fields(comment.creationView().fields())
+            .fields([new Field()
                 .type('template')
                 .label('Actions')
                 .template('<custom-post-link></custom-post-link>') // template() can take a function or a string
-            );
+            ]);
 
         comment.deletionView()
             .title('Deletion confirmation'); // customize the deletion confirmation message
@@ -253,30 +257,35 @@
             .title('Recent tags')
             .order(3)
             .limit(10)
-            .addField(new Field('id').label('ID'))
-            .addField(new Field('name'))
-            .addField(new Field('published').label('Is published ?').type('boolean'));
+            .fields([
+                new Field('id'),
+                new Field('name'),
+                new Field('published').label('Is published ?').type('boolean')
+            ]);
 
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
-            .addField(new Field('id').label('ID'))
-            .addField(new Field('name'))
-            .addField(new Field('published').type('boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
-                if (entry.values.published) {
-                    return 'bg-success text-center';
-                }
-                return 'bg-warning text-center';
-            }))
-            .addField(new Field('custom')
-                .type('template')
-                .label('Upper name')
-                .template('{{ entry.values.name.toUpperCase() }}')
-            )
+            .fields([
+                new Field('id').label('ID'),
+                new Field('name'),
+                new Field('published').type('boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
+                    if (entry.values.published) {
+                        return 'bg-success text-center';
+                    }
+                    return 'bg-warning text-center';
+                }),
+                new Field('custom')
+                    .type('template')
+                    .label('Upper name')
+                    .template('{{ entry.values.name.toUpperCase() }}')
+            ])
             .listActions(['show']);
 
         tag.showView()
-            .addField(new Field('name'))
-            .addField(new Field('published').type('boolean'));
+            .fields([
+                new Field('name'),
+                new Field('published').type('boolean')
+            ]);
 
         NgAdminConfigurationProvider.configure(app);
     });
