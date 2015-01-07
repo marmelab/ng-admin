@@ -212,13 +212,21 @@ Each entity has 8 views that you can customize:
 
 These settings are available on all views.
 
-* `addField(Field)`
-Add a column to a list, or a form control to a form, mapped by a property in the API endpoint result.
+* `fields([field1, field2, ...])`
+Add fields to a view (columns to a list, or a form controls to a form). Each field maps a property in the API endpoint result.
+
+        listView.fields([
+            new Field('first_name'),
+            new Field('last_name'),
+            new Field('age').type('number')
+        ]);
+
+* `fields()` Retrieve the list of fields added to a view. The result can be added to another view, to avoid repetition.
 
 * `title(String)`
 The title of the view. ng-admin sees it as a template, and compiles it with the view scope. That means you can customize the title of a view using details from the current entry.
 
-        editView.title('Edit item "{{ entry.values.title }}"');
+        editionView.title('Edit item "{{ entry.values.title }}"');
 
 * `description(String)`
 A text displayed below the title.
@@ -226,7 +234,7 @@ A text displayed below the title.
 * `actions(String|Array)`
 Customize the list of actions for this view. You can pass a list of button names among 'back', 'list', 'show', create', 'edit', 'delete':
 
-        editView.actions(['show', 'list', 'delete']);
+        editionView.actions(['show', 'list', 'delete']);
 
 Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to easily add custom actions, or customize the buttons appearance:
 
@@ -234,7 +242,7 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
                    '<delete-button entry="entry" entity="entity" size="sm"></delete-button>' +
                    '<my-custom-directive entry="entry"></my-custom-directive>' +
                    '<back-button></back-button>';
-    editView.actions(template);
+    editionView.actions(template);
 
 * `disable()`
 Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
@@ -355,14 +363,14 @@ Tell how to validate the view
 * `attributes(object)`
 A list of attributes to be added to the corresponding field.
 
-        editView.addField(new Field('title')
+        editionView.addField(new Field('title')
             .attributes({ placeholder: 'fill me !'})
         );
 
 * `cssClasses(String|Function)`
 A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values.
 
-        editView.addField(new Field('title')
+        editionView.addField(new Field('title')
             .cssClasses(function(entry) {
                return entry.values.needsAttention ? 'bg-warning' : '';
             })
@@ -455,7 +463,7 @@ Define the field name used to link the referenced entity.
 * `targetFields(Array(Field))`
 Define an array of fields that will be displayed in the list of the form.
 
-        myEditView.addField(new ReferencedList('comments') // Define a N-1 relationship with the comment entity
+        myEditionView.addField(new ReferencedList('comments') // Define a N-1 relationship with the comment entity
             .label('Comments')
             .targetEntity(comment) // Target the comment Entity
             .targetReferenceField('post_id') // Each comment with post_id = post.id (the identifier) will be displayed
