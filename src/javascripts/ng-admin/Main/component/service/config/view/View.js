@@ -46,6 +46,7 @@ define(function (require) {
 
     /**
      * @param {Entity} entity
+     * @returns {View} The current view
      */
     View.prototype.setEntity = function (entity) {
         this.entity = entity;
@@ -57,7 +58,7 @@ define(function (require) {
     };
 
     /**
-     * @return {Entity}
+     * @returns {Entity}
      */
     View.prototype.getEntity = function () {
         return this.entity;
@@ -66,7 +67,7 @@ define(function (require) {
     /**
      * @param {*} entityId
      *
-     * @return String
+     * @returns String
      */
     View.prototype.getUrl = function (entityId) {
         return typeof (this.config.url) === 'function' ? this.config.url(entityId) : this.config.url;
