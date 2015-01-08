@@ -54,11 +54,12 @@ define(function (require) {
         });
 
         it("should add list actions", function () {
-            var element = $compile(directiveUsage)(scope);
-
             scope.fields = [new Field('title')];
             scope.listActions = ['edit'];
             scope.entries = [new Entry()];
+
+            var element = $compile(directiveUsage)(scope);
+
             scope.$digest();
 
             expect(element[0].querySelector('thead th:nth-child(2)').innerHTML).toContain('Actions');
@@ -68,13 +69,14 @@ define(function (require) {
 
         it("should add columns", function () {
             var entry1 = new Entry(),
-                element = $compile(directiveUsage)(scope);
-            entry1.values.title = 'Small cat';
+                element;
 
+            entry1.values.title = 'Small cat';
             scope.fields = [new Field('title').type('text')];
             scope.entries = [entry1];
-            scope.$digest();
 
+            element  = $compile(directiveUsage)(scope);
+            scope.$digest();
 
             expect(element[0].querySelector('tbody tr td:nth-child(1) ma-column').nodeName).toContain('MA-COLUMN');
         });
