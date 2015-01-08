@@ -13,7 +13,6 @@ define(function () {
      */
     function DatagridController($scope, $location, $anchorScroll) {
         $scope.entity = $scope.entity();
-        $scope.entries = $scope.entries();
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;

@@ -12,7 +12,7 @@ define(function (require) {
             template: datagridView,
             scope: {
                 name: '@',
-                entries: '&',
+                entries: '=',
                 fields: '&',
                 listActions: '&',
                 entity: '&'
