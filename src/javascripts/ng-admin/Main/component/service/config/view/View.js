@@ -7,12 +7,10 @@ define(function (require) {
         Entry = require('ng-admin/Main/component/service/config/Entry'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable');
 
-    function FieldCollection() {}
-
     var config = {
         name: null,
         title: false,
-        fields: new FieldCollection(),
+        fields: {},
         actions: null,
         description: '',
         template: null,
@@ -98,7 +96,7 @@ define(function (require) {
     View.prototype.addFields = function (fields) {
         var i, len, key;
         for (i = 0, len = fields.length; i < len ; i++) {
-            if (fields[i].constructor.name === 'FieldCollection') {
+            if (!fields[i].config) { // not a field - probably a hash of fields
                 for (key in fields[i]) {
                     if (!fields[i].hasOwnProperty(key)) continue;
                     this.addField(fields[i][key]);
