@@ -123,7 +123,7 @@ define(function (require) {
                 return this.config.fields;
             case 1: // setter
                 var fields = arguments[0];
-                if (fields.length) { // array argument
+                if (fields instanceof Array) {
                     this.addFields(fields);
                 } else {
                     this.addFields([fields]);
