@@ -8,6 +8,7 @@ define(function () {
         var propertyName;
 
         for (propertyName in config) {
+            if (target[propertyName]) continue;
             (function (propertyName) {
                 target[propertyName] = function (value) {
                     if (!arguments.length) return this.config[propertyName];

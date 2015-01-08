@@ -10,6 +10,7 @@ define(function (require) {
     var config = {
         name: null,
         title: false,
+        fields: {},
         actions: null,
         description: '',
         template: null,
@@ -21,7 +22,6 @@ define(function (require) {
      */
     function View(name) {
         this.enabled = true;
-        this.fields = {};
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name;
@@ -44,6 +44,7 @@ define(function (require) {
 
     /**
      * @param {Entity} entity
+     * @returns {View} The current view
      */
     View.prototype.setEntity = function (entity) {
         this.entity = entity;
@@ -55,7 +56,7 @@ define(function (require) {
     };
 
     /**
-     * @return {Entity}
+     * @returns {Entity}
      */
     View.prototype.getEntity = function () {
         return this.entity;
@@ -64,7 +65,7 @@ define(function (require) {
     /**
      * @param {*} entityId
      *
-     * @return String
+     * @returns String
      */
     View.prototype.getUrl = function (entityId) {
         return typeof (this.config.url) === 'function' ? this.config.url(entityId) : this.config.url;
@@ -72,16 +73,62 @@ define(function (require) {
 
     /**
      * @param {Field} field
+     * @returns {View} The current view
      */
     View.prototype.addField = function (field) {
         if (field.order() === null) {
-            field.order(Object.keys(this.fields).length);
+            field.order(Object.keys(this.config.fields).length);
         }
 
-        this.fields[field.name()] = field;
+        this.config.fields[field.name()] = field;
 
         if (field.displayed()) {
             this.displayedFields[field.name()] = field;
+        }
+
+        return this;
+    };
+
+    /**
+     * @param {Array} A list of fields
+     * @returns {View} The current view
+     */
+    View.prototype.addFields = function (fields) {
+        var i, len, key;
+        for (i = 0, len = fields.length; i < len ; i++) {
+            if (!fields[i].config) { // not a field - probably a hash of fields
+                for (key in fields[i]) {
+                    if (!fields[i].hasOwnProperty(key)) continue;
+                    this.addField(fields[i][key]);
+                }
+            } else {
+                this.addField(fields[i]);
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Smart getter / setter for fields
+     *
+     * @param {Array|Object|Null}
+     * @returns {Array|View} The current view
+     */
+    View.prototype.fields = function () {
+        switch (arguments.length) {
+            case 0: // getter
+                return this.config.fields;
+            case 1: // setter
+                var fields = arguments[0];
+                if (fields instanceof Array) {
+                    this.addFields(fields);
+                } else {
+                    this.addFields([fields]);
+                }
+                break;
+            default: // multiple setter
+                this.addFields(arguments);
         }
 
         return this;
@@ -95,12 +142,12 @@ define(function (require) {
      */
     View.prototype.getFieldsOfType = function (type) {
         var results = {},
+            fields = this.config.fields,
             field,
             i;
 
-        for (i in this.fields) {
-            field = this.fields[i];
-
+        for (i in fields) {
+            field = fields[i];
             if (field.type() === type) {
                 results[i] = field;
             }
@@ -111,11 +158,12 @@ define(function (require) {
 
     /**
      * Returns all fields
+     * Alias for fields()
      *
      * @returns {[Field]}
      */
     View.prototype.getFields = function () {
-        return this.fields;
+        return this.fields();
     };
 
     /**
@@ -124,7 +172,7 @@ define(function (require) {
      * @returns {Field}
      */
     View.prototype.getField = function (name) {
-        return this.fields[name];
+        return this.config.fields[name];
     };
 
     /**
@@ -161,13 +209,11 @@ define(function (require) {
     View.prototype.identifier = function () {
         var i,
             identifier,
-            field;
+            fields = this.config.fields;
 
-        for (i in this.fields) {
-            field = this.fields[i];
-
-            if (field.identifier()) {
-                identifier = field;
+        for (i in fields) {
+            if (fields[i].identifier()) {
+                identifier = fields[i];
                 break;
             }
         }
@@ -216,7 +262,7 @@ define(function (require) {
             return new Entry();
         }
 
-        var fields = this.getFields(),
+        var fields = this.config.fields,
             entry = new Entry(),
             resultEntity = this.getEntity(),
             identifier = this.identifier(),

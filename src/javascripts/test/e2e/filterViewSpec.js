@@ -19,10 +19,9 @@ describe('Global filter', function () {
         // Filter globally for 'rabbit'
         $$('.filters .filter:nth-child(1) input').sendKeys('rabbit');
         $$('.filters button[type="submit"]').click();
-        $$('.grid tr td:nth-child(2)').then(function (tdElements) {
+        $$('.grid tr td:nth-child(3)').then(function (tdElements) {
             expect(tdElements.length).toBe(1);
-
-            expect(tdElements[0].getText()).toBe('THEN--she found herself in Wonderland, though she ...');
+            expect(tdElements[0].getText()).toBe('White Rabbit: it was indeed: she was out of the gr...');
         });
     });
 
@@ -39,7 +38,7 @@ describe('Global filter', function () {
         $$('.filters .glyphicon-remove').click();
 
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
-            expect(totalElements[0].getText()).toBe('1 - 11 on 11');
+            expect(totalElements[0].getText()).toBe('1 - 10 on 11');
         });
     });
 });
