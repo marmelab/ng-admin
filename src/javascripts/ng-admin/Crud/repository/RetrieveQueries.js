@@ -141,15 +141,19 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
             referencedView = reference.getReferencedView();
-            identifiers = reference.getIdentifierValues(rawValues);
-            singleCallFilters = reference.getSingleApiCall(identifiers);
 
-            // Check if we should retrieve values with 1 or multiple requests
-            if (singleCallFilters || !rawValues) {
-                calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', singleCallFilters));
+            if (!rawValues) {
+                calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC'));
             } else {
-                for (k in identifiers) {
-                    calls.push(self.getOne(referencedView, identifiers[k]));
+                identifiers = reference.getIdentifierValues(rawValues);
+                // Check if we should retrieve values with 1 or multiple requests
+                if (reference.hasSingleApiCall()) {
+                    singleCallFilters = reference.getSingleApiCall(identifiers);
+                    calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', singleCallFilters));
+                } else {
+                    for (k in identifiers) {
+                        calls.push(self.getOne(referencedView, identifiers[k]));
+                    }
                 }
             }
         }

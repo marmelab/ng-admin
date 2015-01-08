@@ -146,8 +146,12 @@ define(function (require) {
         return this.referencedView;
     };
 
+    Reference.prototype.hasSingleApiCall = function () {
+        return typeof this.config.singleApiCall === 'function';
+    };
+
     Reference.prototype.getSingleApiCall = function (identifiers) {
-        return typeof this.config.singleApiCall === 'function' ? this.config.singleApiCall(identifiers) : this.config.singleApiCall;
+        return this.hasSingleApiCall() ? this.config.singleApiCall(identifiers) : this.config.singleApiCall;
     };
 
     Reference.prototype.getSortFieldName = function () {
