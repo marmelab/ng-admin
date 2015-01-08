@@ -841,7 +841,7 @@ Your feedback about the usage of ng-admin in your specific context is valuable, 
 
 All contributions are welcome. New applications or options should be tested with the `make test` command.
 
-### Install dependencies
+### Installing Dependencies
 
 Install bower and npm dependencies (for tests) wi calling the `install` target:
 
@@ -849,7 +849,7 @@ Install bower and npm dependencies (for tests) wi calling the `install` target:
 make install
 ```
 
-### Run the example app
+### Running the example app
 
 To test your changes, run the example app, which is bundled with a sample REST api, by calling:
 
@@ -859,17 +859,17 @@ make run
 
 Then, connect to `http://localhost:8000/` to browse the admin app.
 
-### Build
+### Rebuilding the Compiled JS and CSS Files
 
 Concatenate and minify the app with:
 
 ```sh
-make build
+make build-dev
 ```
 
-A new `build/ng-admin.min.js` file will be created.
+The two files `build/ng-admin.min.css` and `build/ng-admin.min.js` will be updated, without minification. Use `make build` instead to build a minified, production-ready version of the two files.
 
-### Tests
+### Testing
 
 ng-admin has unit tests (powered by karma) and end to end tests (powered by protractor). Launch the entire tests suite by calling:
 
