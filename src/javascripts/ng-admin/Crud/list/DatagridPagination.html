@@ -1,18 +1,12 @@
 <div ng-if="paginationCtrl.displayPagination">
-    <div class="grid-detail row pull-right">
-    <span class="total">
-        <strong>{{ paginationCtrl.offsetBegin }}</strong> - <strong>{{ paginationCtrl.offsetEnd }}</strong> on <strong>{{ paginationCtrl.totalItems }}</strong>
-    </span>
-        <ul class="pagination pagination-sm">
-            <li ng-class="{ disabled: paginationCtrl.currentPage == 1}">
-                <a href ng-click="paginationCtrl.setPage(paginationCtrl.currentPage - 1)">« Prev</a>
-            </li>
-            <li ng-repeat="n in paginationCtrl.range(1, paginationCtrl.nbPages)" ng-class="{active: n == paginationCtrl.currentPage}" ng-click="paginationCtrl.setPage(n)">
-                <a href>{{ n }}</a>
-            </li>
-            <li ng-class="{disabled: paginationCtrl.currentPage == paginationCtrl.nbPages}">
-                <a href ng-click="paginationCtrl.setPage(paginationCtrl.currentPage + 1)">Next »</a>
-            </li>
-        </ul>
+    <div class="grid-detail">
+        <span class="total">
+            <strong>{{ paginationCtrl.offsetBegin }}</strong> - <strong>{{ paginationCtrl.offsetEnd }}</strong> on <strong>{{ paginationCtrl.totalItems }}</strong>
+        </span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="pagination">
+            <a href class="btn btn-default" ng-if="paginationCtrl.currentPage != 1" ng-click="paginationCtrl.setPage(paginationCtrl.currentPage - 1)">« Prev</a>
+            <a href class="btn btn-default" ng-if="paginationCtrl.nbPages > 1" ng-repeat="n in paginationCtrl.range(1, paginationCtrl.nbPages)" ng-class="{'active': n == paginationCtrl.currentPage}" ng-click="paginationCtrl.setPage(n)">{{ n }}</a>
+            <a href class="btn btn-default" ng-if="paginationCtrl.currentPage != paginationCtrl.nbPages" ng-click="paginationCtrl.setPage(paginationCtrl.currentPage + 1)">Next »</a>
+        </div>
     </div>
 </div>

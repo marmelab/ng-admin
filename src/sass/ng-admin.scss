@@ -186,14 +186,10 @@ div.bottom-loader {
 }
 
 .grid-detail {
+    text-align: right;
+    margin-bottom: 20px;
     .total {
-        float: left;
-        display: inline-block;
-        margin: 25px 10px 0 0;
-    }
-
-    .pagination {
-        float: right;
+        padding-right: 10px;
     }
 }
 
