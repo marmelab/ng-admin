@@ -11,7 +11,6 @@ define(function (require) {
         return {
             restrict: 'E',
             scope: {
-                entries: '=',
                 perPage: '=',
                 nextPage: '=',
                 totalItems: '@',

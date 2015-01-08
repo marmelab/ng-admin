@@ -23,10 +23,16 @@
               entries="listController.entries"
               fields="::listController.fields"
               list-actions="::listController.listActions"
-              entity="::listController.entity"
-              next-page="listController.nextPageCallback"
-              per-page="listController.itemsPerPage"
-              total-items="{{ listController.totalItems }}"
-              infinite-pagination="listController.infinitePagination">
+              entity="::listController.entity">
     </ma-datagrid>
+</div>
+
+<div class="row">
+    <ma-datagrid-pagination
+            infinite="listController.infinitePagination"
+            next-page="listController.nextPageCallback"
+            per-page="listController.itemsPerPage"
+            total-items="{{ listController.totalItems }}">
+    </ma-datagrid-pagination>
+
 </div>

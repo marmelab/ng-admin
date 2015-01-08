@@ -15,11 +15,7 @@ define(function (require) {
                 entries: '=',
                 fields: '&',
                 listActions: '&',
-                entity: '&',
-                perPage: '=',
-                nextPage: '=',
-                totalItems: '@',
-                infinitePagination: '='
+                entity: '&'
             },
             controllerAs: 'datagrid',
             controller: DatagridController

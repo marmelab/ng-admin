@@ -17,8 +17,7 @@ define(function (require) {
              'entries="field.entries"' +
              'fields="field.getReferencedView().displayedFields"' +
              'entity="field.getReferencedView().entity"' +
-             'per-page="field.getReferencedView().perPage()"' +
-             'listActions="[]" infinite-pagination="false" with-pagination="false">' +
+             'listActions="[]">' +
 '</ma-datagrid>'
         };
     }
