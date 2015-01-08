@@ -157,11 +157,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    if (parseInt(process.env.TRAVIS_PULL_REQUEST, 10) > 0) {
-        grunt.registerTask('test', ['karma']);
-    } else {
-        grunt.registerTask('test', ['karma', 'init', 'build', 'connect', 'protractor']);
-    }
+    grunt.registerTask('test', ['karma', 'init', 'build', 'connect', 'protractor']);
     grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'copy:css_dev', 'concat:css', 'clean']);
