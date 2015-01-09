@@ -28,7 +28,8 @@ define(function (require) {
         showView: null,
         creationView: null,
         editionView: null,
-        deletionView: null
+        deletionView: null,
+        errorMessage: null
     };
 
     /**
@@ -124,6 +125,18 @@ define(function (require) {
     Entity.prototype.getViewByType = function getViewByType(type) {
         return this[getPropertyNameBasedOnViewType(type)]();
     };
+
+    /**
+     * Return the error message defined for the entity
+     *
+     * @param {Object} response
+     *
+     * @returns {String}
+     */
+    Entity.prototype.getErrorMessage = function (response) {
+        return typeof (this.config.errorMessage) === 'function' ? this.config.errorMessage(response) : this.config.errorMessage;
+    };
+
 
     /**
      * Add (set) a view to the entity
