@@ -35,14 +35,11 @@ define(function () {
             self = this,
             i;
 
+        dashboardViews = this.$filter('enabled')(dashboardViews);
         dashboardViews = this.$filter('orderElement')(dashboardViews);
 
         for (i in dashboardViews) {
             dashboardView = dashboardViews[i];
-            if (!dashboardView.isEnabled()) {
-                continue;
-            }
-
             promises.push(self.RetrieveQueries.getAll(dashboardView, 1, true, null, sortField, sortDir));
         }
 
