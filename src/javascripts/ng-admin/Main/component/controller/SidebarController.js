@@ -3,33 +3,21 @@
 define(function () {
     'use strict';
 
-    var SidebarController = function ($scope, $location, $sce, Configuration) {
+    var SidebarController = function ($scope, $location, $sce, $filter, Configuration) {
         this.$scope = $scope;
         this.$location = $location;
         this.$sce = $sce;
-        this.entities = getEntities(Configuration);
+        this.$filter = $filter;
+        var menuViews = Configuration().getViewsOfType('MenuView');
+        menuViews = this.$filter('enabled')(menuViews);
+        menuViews = this.$filter('orderElement')(menuViews);
+        this.entities = menuViews.map(function(menuView) {
+            return menuView.getEntity();
+        });
         this.computeCurrentEntity();
         $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));
         $scope.$on('$destroy', this.destroy.bind(this));
     };
-
-    function getEntities(Configuration) {
-        var entitiesWithOrder = [];
-        var index = 0;
-        angular.forEach(Configuration().getEntities(), function(entity) {
-            if (!entity.menuView().isEnabled()) return;
-            entitiesWithOrder.push({ entity: entity, order: entity.menuView().order() || index });
-            index++;
-        });
-        entitiesWithOrder.sort(function (a, b) {
-            return a.order - b.order;
-        });
-        var entities = [];
-        angular.forEach(entitiesWithOrder, function(entity) {
-            entities.push(entity.entity);
-        });
-        return entities;
-    }
 
     /**
      * Inject the current entity in the controller
@@ -62,9 +50,11 @@ define(function () {
     SidebarController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
+        this.$sce = undefined;
+        this.$filer = undefined;
     };
 
-    SidebarController.$inject = ['$scope', '$location', '$sce', 'NgAdminConfiguration'];
+    SidebarController.$inject = ['$scope', '$location', '$sce', '$filter', 'NgAdminConfiguration'];
 
     return SidebarController;
 });

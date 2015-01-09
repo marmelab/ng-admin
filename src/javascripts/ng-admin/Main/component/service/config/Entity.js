@@ -87,7 +87,7 @@ define(function (require) {
 
     Entity.prototype.initViews = function () {
         this.config.dashboardView = new DashboardView().setEntity(this);
-        this.config.menuView = new MenuView();
+        this.config.menuView = new MenuView().setEntity(this);
         this.config.filterView = new FilterView();
         this.config.listView = new ListView().setEntity(this);
         this.config.showView = new ShowView().setEntity(this);
@@ -112,6 +112,8 @@ define(function (require) {
                 return 'editionView';
             case 'DeleteView':
                 return 'deletionView';
+            case 'MenuView':
+                return 'menuView';
             default:
                 throw new Error('Unknown view type ' + viewType);
         }

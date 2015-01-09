@@ -30,6 +30,22 @@ define(function (require) {
         return this;
     };
 
+    /**
+     * @param {Entity} entity
+     * @returns {View} The current view
+     */
+    MenuView.prototype.setEntity = function (entity) {
+        this.entity = entity;
+        return this;
+    };
+
+    /**
+     * @returns {Entity}
+     */
+    MenuView.prototype.getEntity = function () {
+        return this.entity;
+    };
+
     Configurable(MenuView.prototype, config);
 
     return MenuView;

@@ -35,6 +35,7 @@ define(function (require) {
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 
     MainModule.filter('orderElement', require('ng-admin/Main/component/filter/OrderElement'));
+    MainModule.filter('enabled', require('ng-admin/Main/component/filter/Enabled'));
 
     MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
