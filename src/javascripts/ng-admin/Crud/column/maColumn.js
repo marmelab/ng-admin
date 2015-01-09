@@ -65,7 +65,7 @@ define(function (require) {
         '<ma-string-column   ng-switch-when="text"      value="::value"></ma-string-column>' +
         '<ma-boolean-column  ng-switch-when="boolean"   value="::value"></ma-boolean-column>' +
         '<ma-password-column ng-switch-when="password"  value="::value"></ma-password-column>' +
-        '<ma-wysiwyg-column  ng-switch-when="wysiwyg"   value="::value"></ma-wysiwyg-column>' +
+        '<ma-wysiwyg-column  ng-switch-when="wysiwyg"   value="::value|stripTags"></ma-wysiwyg-column>' +
         '<ma-string-column   ng-switch-when="Reference" value="::entry.listValues[field.name()]"></ma-string-column>' +
         '<ma-date-column     ng-switch-when="date"      value="::value" field="::field"></ma-date-column>' +
         '<ma-template-column ng-switch-when="template" entry="::entry" field="::field" entity="::entity"></ma-template-column>' +
