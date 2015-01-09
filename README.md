@@ -319,9 +319,6 @@ Define the field type. Default type is 'string', so you can omit it.
 * `label(string label)`
 Define the label of the field. Defaults to the uppercased field name.
 
-* `displayed(boolean)`
-Should the field be displayed in the view ? Useful when we need to retrieve data for custom field
-
 * `editable(boolean)`
 Define if the field is editable in the edition form. Usefult to display a field without allowing edition (e.g for creation date).
 

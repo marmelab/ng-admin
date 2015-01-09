@@ -33,7 +33,6 @@ define(function (require) {
         this.config.name = fieldName || 'reference';
         this.config.type = 'Reference';
         this.referencedView = new ListView();
-        this.referencedViewConfigured = false;
     }
 
     utils.inherits(Reference, Field);
@@ -130,19 +129,6 @@ define(function (require) {
      * @returns {ListView} a fake view that keep information about the targeted entity
      */
     Reference.prototype.getReferencedView = function () {
-        // The configuration of the referencedView should be done after all entities are defined
-        // otherwise the ListView should not be defined when setting a targetEntity
-        if (!this.referencedViewConfigured) {
-            // Use the same configuration as the listView of this entity
-            var listView = this.targetEntity().getViewByType('ListView');
-            if (listView) {
-                this.referencedView.config = angular.copy(listView.config);
-                this.referencedView.config.pagination = false;
-            }
-
-            this.referencedViewConfigured = true;
-        }
-
         return this.referencedView;
     };
 
@@ -155,7 +141,7 @@ define(function (require) {
     };
 
     Reference.prototype.getSortFieldName = function () {
-        return this.getReferencedView().name() + '.' + this.targetField().name();
+        return this.referencedView.name() + '.' + this.targetField().name();
     };
 
     /**

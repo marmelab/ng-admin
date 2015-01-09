@@ -99,6 +99,10 @@ The resulting API call will be the same:
 GET http://myapi.com/my_entity?q=foo
 ```
 
+## `Field.displayed()` has been removed
+
+`Field.displayed()` wasn't used and has been removed.
+
 ## Reusable directives are now prefixed with 'ma-'
 
 All directives created by ng-admin have nowe been prefixed with 'ma-'. If you use any of the reusable directives (like `<edit-button>`), you must switch to the prefixed version (like `<ma-edit-button>`).

@@ -18,7 +18,7 @@ define(function () {
         this.filters = this.entity.filterView().getFields();
 
         this.entries = data.entries;
-        this.fields = view.displayedFields;
+        this.fields = view.fields();
         this.listActions = view.listActions();
         this.quickFilters = view.getQuickFilterNames();
         this.hasFilters = this.quickFilters.length > 0 || Object.keys(this.filters).length > 0;

@@ -25,7 +25,6 @@ define(function (require) {
         this.entity = null;
         this.config = angular.copy(config);
         this.config.name = name;
-        this.displayedFields = [];
     }
 
     View.prototype.isEnabled = function () {
@@ -76,59 +75,68 @@ define(function (require) {
      * @returns {View} The current view
      */
     View.prototype.addField = function (field) {
-        if (field.order() === null) {
-            field.order(Object.keys(this.config.fields).length);
-        }
-
-        this.config.fields[field.name()] = field;
-
-        if (field.displayed()) {
-            this.displayedFields[field.name()] = field;
-        }
-
+        this.addElement('fields', field);
         return this;
     };
 
     /**
-     * @param {Array} A list of fields
-     * @returns {View} The current view
-     */
-    View.prototype.addFields = function (fields) {
-        var i, len, key;
-        for (i = 0, len = fields.length; i < len ; i++) {
-            if (!fields[i].config) { // not a field - probably a hash of fields
-                for (key in fields[i]) {
-                    if (!fields[i].hasOwnProperty(key)) continue;
-                    this.addField(fields[i][key]);
-                }
-            } else {
-                this.addField(fields[i]);
-            }
-        }
-
-        return this;
-    };
-
-    /**
-     * Smart getter / setter for fields
+     * Smart getter / adder for fields
      *
      * @param {Array|Object|Null}
      * @returns {Array|View} The current view
      */
     View.prototype.fields = function () {
-        switch (arguments.length) {
-            case 0: // getter
-                return this.config.fields;
-            case 1: // setter
-                var fields = arguments[0];
-                if (fields instanceof Array) {
-                    this.addFields(fields);
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('fields');
+        return this.smartElementGetterSetter.apply(this, args);
+    };
+
+    View.prototype.addElement = function (elementName, element) {
+        if (element.order() === null) {
+            element.order(Object.keys(this.config[elementName]).length);
+        }
+        this.config[elementName][element.name()] = element;
+
+        return this;
+    };
+
+    /**
+     * Smart getter / adder for anything
+     *
+     * @param {String} elementName
+     * @param {Array|Object|Null}
+     * @returns {Array|View} The current view
+     */
+    View.prototype.smartElementGetterSetter = function () {
+        var args = Array.prototype.slice.call(arguments);
+        var elementName = args.shift();
+        var addElement = this.addElement.bind(this);
+        function addElements(elements) {
+            var i, len, key;
+            for (i = 0, len = elements.length; i < len ; i++) {
+                if (!elements[i].config) { // not a field - probably a hash of elements
+                    for (key in elements[i]) {
+                        if (!elements[i].hasOwnProperty(key)) continue;
+                        addElement(elementName, elements[i][key]);
+                    }
                 } else {
-                    this.addFields([fields]);
+                    addElement(elementName, elements[i]);
+                }
+            }
+        }
+        switch (args.length) {
+            case 0: // getter
+                return this.config[elementName];
+            case 1: // setter
+                var arg = args[0];
+                if (arg instanceof Array) {
+                    addElements(arg);
+                } else {
+                    addElements([arg]);
                 }
                 break;
             default: // multiple setter
-                this.addFields(arguments);
+                addElements(args);
         }
 
         return this;
@@ -297,7 +305,7 @@ define(function (require) {
      * @return {View}
      */
     View.prototype.removeFields = function () {
-        this.fields = {};
+        this.config.fields = {};
 
         return this;
     };

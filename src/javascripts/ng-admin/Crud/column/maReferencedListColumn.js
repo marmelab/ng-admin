@@ -15,7 +15,7 @@ define(function (require) {
             template:
 '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
              'entries="field.entries"' +
-             'fields="field.getReferencedView().displayedFields"' +
+             'fields="field.getReferencedView().fields()"' +
              'entity="field.getReferencedView().entity"' +
              'listActions="[]">' +
 '</ma-datagrid>'

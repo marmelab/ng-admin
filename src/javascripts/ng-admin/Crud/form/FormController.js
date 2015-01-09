@@ -18,8 +18,7 @@ define(function () {
         this.description = view.description();
         this.name = view.getFormName();
         this.actions = view.actions();
-
-        this.fields = view.getFields();
+        this.fields = view.fields();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
         this.$scope.view = view;
