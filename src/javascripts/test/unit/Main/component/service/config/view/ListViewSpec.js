@@ -21,17 +21,6 @@ define(function (require) {
             });
         });
 
-        describe('addQuickFilter()', function () {
-            it('should store quickfilter by name', function () {
-                var list = new ListView();
-
-                list.addQuickFilter('Today', {'now': 1});
-
-                expect(list.getQuickFilterNames()).toEqual(['Today']);
-                expect(list.getQuickFilterParams('Today')).toEqual({'now': 1});
-            });
-        });
-
         describe('map()', function () {
             it('should apply the function argument to all list values', function () {
                 var list = new ListView('allCats');

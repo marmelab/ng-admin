@@ -101,6 +101,10 @@ define(function (require) {
         return this;
     };
 
+    Field.prototype.hasMaps = function () {
+        return this.maps.length > 0;
+    };
+
     /**
      * Truncate the value based after applying all maps
      *

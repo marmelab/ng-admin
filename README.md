@@ -197,10 +197,9 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 
 ### View Types
 
-Each entity has 8 views that you can customize:
+Each entity has 7 views that you can customize:
 
 - `listView`
-- `filterView`: this is a special view to define the filter forms present in the `listView`
 - `creationView`
 - `editionView`
 - `showView` (unused by default)
@@ -280,14 +279,14 @@ Define the number of element displayed in a page
 * `infinitePagination(boolean)`
 Enable or disable lazy loading.
 
-* `addQuickFilter(function)`
-Add button to set several filter parameters at once.
+* `filters()[field1, field2, ...])`
+Add filters to the list. Each field maps a property in the API endpoint result.
 
-        listView.addQuickFilter('Published', function () {
-            return {
-                published: true
-            };
-        });
+        listView.filters([
+            new Field('first_name'),
+            new Field('last_name'),
+            new Field('age').type('number')
+        ]);
 
 * `listActions(String|Array)`
 Add an action column with action buttons on each line. You can pass a list of button names among 'show', 'edit', and 'delete'.

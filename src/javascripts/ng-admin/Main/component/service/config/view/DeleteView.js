@@ -11,8 +11,6 @@ define(function (require) {
      * @constructor
      */
     function DeleteView() {
-        this.quickFilters = {};
-
         View.apply(this, arguments);
         this.type = 'DeleteView';
     }

@@ -89,14 +89,51 @@ Up to 0.4, ng-admin included a full-text search input on the list view by defaul
 If you need it, it's easy to re-add:
 
 ```
-myEntity.filterView()
-    .addField(new Field('q').label('').attributes({ placeholder: 'search' }));
+myEntity.listView()
+    .filters([
+        new Field('q').label('').attributes({ placeholder: 'search' })
+    ]);
 ```
 
 The resulting API call will be the same:
 
 ```
 GET http://myapi.com/my_entity?q=foo
+```
+
+## `listView.addQuickFilter()` has been removed
+
+Quick Filters are now filters like others. The same feature can be achieved with classical filters.
+
+```js
+// replace
+myEntity.listView()
+    .addQuickFilter('Today', function () {
+        var now = new Date(),
+            year = now.getFullYear(),
+            month = now.getMonth() + 1,
+            day = now.getDate();
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        return {
+            created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
+        };
+    })
+// with
+myEntity.listView()
+    .filters([
+        new Field('today').type('boolean').map(function() {
+            var now = new Date(),
+                year = now.getFullYear(),
+                month = now.getMonth() + 1,
+                day = now.getDate();
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+            return {
+                created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
+            };
+        })
+    ])
 ```
 
 ## `Field.displayed()` has been removed

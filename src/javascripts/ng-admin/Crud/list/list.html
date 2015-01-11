@@ -11,11 +11,7 @@
         <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
     </div>
 
-    <div class="well well-sm" ng-if="listController.hasFilters">
-      <ma-filter-view filter-fields="::listController.filters"></ma-filter-view>
-      <ma-quick-filter quick-filters="listController.quickFilters"></ma-quick-filter>
-      <span class="clearfix"></span>
-    </div>
+    <ma-filter ng-if="listController.hasFilters" filters="::listController.filters"></ma-filter>
 </div>
 
 <div class="row" ng-class="'ng-admin-entity-' + listController.entity.name()">

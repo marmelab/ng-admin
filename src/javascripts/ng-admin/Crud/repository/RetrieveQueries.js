@@ -3,6 +3,7 @@ define(function (require) {
     'use strict';
 
     var utils = require('ng-admin/lib/utils'),
+        angular = require('angular'),
         Queries = require('ng-admin/Crud/repository/Queries');
 
     /**
@@ -38,14 +39,13 @@ define(function (require) {
      * @param {ListView} view                the view associated to the entity
      * @param {Number}   page                the page number
      * @param {Boolean}  fillSimpleReference should we fill Reference list
-     * @param {Object}   searchParams        searchQuery to filter elements
+     * @param {Object}   filters             searchQuery to filter elements
      * @param {String}   sortField           the field to be sorted ex: entity.fieldName
      * @param {String}   sortDir             the direction of the sort
-     * @param {Object}   filters             filter specific fields
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, searchParams, sortField, sortDir, filters) {
+    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, filters, sortField, sortDir) {
         var response,
             entries,
             referencedValues,
@@ -54,7 +54,7 @@ define(function (require) {
         page = page || 1;
         fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
 
-        return this.getRawValues(view, page, searchParams, sortField, sortDir, filters)
+        return this.getRawValues(view, page, filters, sortField, sortDir)
             .then(function (values) {
                 response = values;
 
@@ -84,11 +84,10 @@ define(function (require) {
      * @param {Object}   filters      query to retrieve a subset of entries based on field value
      * @param {String}   sortField    the field to be sorted ex: entity.fieldName
      * @param {String}   sortDir      the direction of the sort
-     * @param {Object}   quickFilters query to retrieve a subset of entries based on arbitrary value
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getRawValues = function (listView, page, filters, sortField, sortDir, quickFilters) {
+    RetrieveQueries.prototype.getRawValues = function (listView, page, filters, sortField, sortDir) {
         var params = {
             _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
             _perPage: listView.perPage()
@@ -98,15 +97,14 @@ define(function (require) {
             params._sortDir = sortDir;
         }
         if (filters && Object.keys(filters).length !== 0) {
-            params._filters = filters;
-        }
-        if (quickFilters && Object.keys(quickFilters).length !== 0) {
-            if (!params._filters) {
-                params._filters = quickFilters;
-            } else {
-                for (var filter in quickFilters) {
-                    if (!quickFilters.hasOwnProperty(filter)) continue;
-                    params._filters[filter] = quickFilters[filter];
+            var filterFields = listView.filters(),
+                filterName;
+            params._filters = {};
+            for (filterName in filters) {
+                if (filterFields[filterName].hasMaps()) {
+                    angular.extend(params._filters, filterFields[filterName].getMappedValue(filters[filterName]));
+                } else {
+                    params._filters[filterName] = filters[filterName];
                 }
             }
         }

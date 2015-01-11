@@ -36,12 +36,11 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?{search:json}&page&sortField&sortDir&quickFilter',
+                url: '/list/:entity?{search:json}&page&sortField&sortDir',
                 params: {
                     entity: null,
                     page: null,
                     search: null,
-                    quickFilter: null,
                     sortField: null,
                     sortDir: null
                 },
@@ -50,20 +49,13 @@ define(function (require) {
                 templateProvider: templateProvider('ListView', listTemplate),
                 resolve: {
                     view: viewProvider('ListView'),
-                    data: ['$stateParams', 'RetrieveQueries', 'view', 'NgAdminConfiguration', function ($stateParams, RetrieveQueries, view, Configuration) {
-                        var config = Configuration(),
-                            searchParams = $stateParams.search,
-                            quickFilters,
-                            page = $stateParams.page,
+                    data: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        var page = $stateParams.page,
+                            filters = $stateParams.search,
                             sortField = $stateParams.sortField,
-                            sortDir = $stateParams.sortDir,
-                            quickFilter = $stateParams.quickFilter;
+                            sortDir = $stateParams.sortDir;
 
-                        if (quickFilter) {
-                            quickFilters = view.getQuickFilterParams(quickFilter);
-                        }
-
-                        return RetrieveQueries.getAll(view, page, true, searchParams, sortField, sortDir, quickFilters);
+                        return RetrieveQueries.getAll(view, page, true, filters, sortField, sortDir);
                     }]
                 }
             });
