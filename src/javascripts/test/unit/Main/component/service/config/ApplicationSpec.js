@@ -146,5 +146,73 @@ define(function (require) {
             });
         });
 
+        describe('getErrorMessageFor', function () {
+            it('should return the global message with a simple string as body', function () {
+                var app = new Application(),
+                    entity = new Entity(),
+                    response = {
+                        status: 500,
+                        data: 'myBody'
+                    };
+
+                app.addEntity(entity);
+
+                expect(app.getErrorMessageFor(entity.creationView(), response)).toBe('Oops, an error occured : (code: 500) myBody');
+            });
+
+            it('should return the global message with an object as body', function () {
+                var app = new Application(),
+                    entity = new Entity(),
+                    response = {
+                        status: 500,
+                        data: {
+                            error: 'Internal error'
+                        }
+                    };
+
+                app.addEntity(entity);
+
+                expect(app.getErrorMessageFor(entity.listView(), response)).toBe('Oops, an error occured : (code: 500) {"error":"Internal error"}');
+            });
+
+            it('should return the message defined by the entity', function () {
+                var app = new Application(),
+                    entity = new Entity(),
+                    response = {
+                        status: 500,
+                        data: {
+                            error: 'Internal error'
+                        }
+                    };
+
+                entity.errorMessage(function (response) {
+                    return 'error: ' + response.status;
+                });
+
+                app.addEntity(entity);
+
+                expect(app.getErrorMessageFor(entity.listView(), response)).toBe('error: 500');
+            });
+
+            it('should return the message defined by the view', function () {
+                var app = new Application(),
+                    entity = new Entity(),
+                    response = {
+                        status: 500,
+                        data: {
+                            error: 'Internal error'
+                        }
+                    };
+
+                entity.listView().errorMessage(function (response) {
+                    return 'Error during listing: ' + response.status;
+                });
+
+                app.addEntity(entity);
+
+                expect(app.getErrorMessageFor(entity.listView(), response)).toBe('Error during listing: 500');
+            });
+        });
+
     });
 });

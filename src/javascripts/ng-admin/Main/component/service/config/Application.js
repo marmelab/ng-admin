@@ -137,7 +137,7 @@ define(function (require) {
      */
     Application.prototype.getErrorMessageFor = function (view, response) {
         var entity = view.getEntity(),
-            errorMessage = null;
+            errorMessage;
 
         // Get view's error message
         errorMessage = view.getErrorMessage(response);
