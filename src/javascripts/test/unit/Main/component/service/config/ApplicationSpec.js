@@ -175,6 +175,22 @@ define(function (require) {
                 expect(app.getErrorMessageFor(entity.listView(), response)).toBe('Oops, an error occured : (code: 500) {"error":"Internal error"}');
             });
 
+            it('should return the error message defined globally', function () {
+                var app = new Application(),
+                    entity = new Entity(),
+                    response = {
+                        status: 500
+                    };
+
+                app.errorMessage(function (response) {
+                    return 'Global error: ' + response.status;
+                });
+
+                app.addEntity(entity);
+
+                expect(app.getErrorMessageFor(entity.listView(), response)).toBe('Global error: 500');
+            });
+
             it('should return the message defined by the entity', function () {
                 var app = new Application(),
                     entity = new Entity(),

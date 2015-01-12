@@ -79,3 +79,13 @@ app.customTemplate(function(viewName) {
     }
 })
 ```
+
+## Customizing Error Messages
+
+You can use the `app.errorMessage()`, `entity.errorMessage()` or `view.errorMessage()` methods to customize the message displayed when an error occurred with the API. These methods expect a function argument with the response as parameter, which should return the message as a string.
+
+```js
+entity.errorMessage(function (response) {
+    return 'Global error: ' + response.status + '(' + response.data + ')';
+});
+```
