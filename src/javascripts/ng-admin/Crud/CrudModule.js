@@ -24,6 +24,7 @@ define(function (require) {
     CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
     CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
+    CrudModule.directive('maButtonField', require('ng-admin/Crud/field/maButtonField'));
     CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
@@ -36,8 +37,7 @@ define(function (require) {
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
     CrudModule.directive('maDatagridPagination', require('ng-admin/Crud/list/maDatagridPagination'));
-    CrudModule.directive('maQuickFilter', require('ng-admin/Crud/filter/maQuickFilter'));
-    CrudModule.directive('maFilterView', require('ng-admin/Crud/filter/maFilterView'));
+    CrudModule.directive('maFilter', require('ng-admin/Crud/filter/maFilter'));
 
     CrudModule.directive('maColumn', require('ng-admin/Crud/column/maColumn'));
     CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));

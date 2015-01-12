@@ -12,7 +12,8 @@ define(function (require) {
     var config = {
         perPage: 30,
         infinitePagination: false,
-        listActions: null
+        listActions: null,
+        filters: {}
     };
 
     /**
@@ -23,44 +24,29 @@ define(function (require) {
 
         this.config = angular.extend(this.config, angular.copy(config));
         this.type = 'ListView';
-        this.quickFilters = {};
     }
 
     utils.inherits(ListView, View);
-    Configurable(ListView.prototype, config);
 
     /**
-     *
-     * @param {string} label
-     * @param {Object} params
-     *
-     * @returns {ListView}
+     * @param {Field} field
+     * @returns {View} The current view
      */
-    ListView.prototype.addQuickFilter = function (label, params) {
-        this.quickFilters[label] = params;
-
+    View.prototype.addFilter = function (field) {
+        this.addElement('filters', field);
         return this;
     };
 
     /**
+     * Smart getter / adder for filters
      *
-     * @returns {Object}
+     * @param {Array|Object|Null}
+     * @returns {Array|View} The current view
      */
-    ListView.prototype.getQuickFilterNames = function () {
-        return Object.keys(this.quickFilters);
-    };
-
-    /**
-     * @param {String} name
-     * @returns {Object}
-     */
-    ListView.prototype.getQuickFilterParams = function (name) {
-        var params = this.quickFilters[name];
-        if (typeof (params) === 'function') {
-            params = params();
-        }
-
-        return params;
+    View.prototype.filters = function () {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('filters');
+        return this.smartElementGetterSetter.apply(this, args);
     };
 
     /**
@@ -91,6 +77,8 @@ define(function (require) {
 
         return entries;
     };
+
+    Configurable(ListView.prototype, config);
 
     return ListView;
 });

@@ -15,13 +15,11 @@ define(function () {
         this.RetrieveQueries = RetrieveQueries;
         this.actions = view.actions();
         this.loadingPage = false;
-        this.filters = this.entity.filterView().getFields();
-
+        this.filters = view.filters();
+        this.hasFilters = Object.keys(this.filters).length > 0;
         this.entries = data.entries;
-        this.fields = view.displayedFields;
+        this.fields = view.fields();
         this.listActions = view.listActions();
-        this.quickFilters = view.getQuickFilterNames();
-        this.hasFilters = this.quickFilters.length > 0 || Object.keys(this.filters).length > 0;
         this.totalItems = this.data.totalItems;
         this.itemsPerPage = view.perPage();
         this.infinitePagination = view.infinitePagination();

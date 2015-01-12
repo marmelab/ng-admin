@@ -65,14 +65,6 @@ menu {
 /**
 * Grid
 */
-.quick-filters {
-    clear: both;
-
-    li > span {
-        padding: 10px 15px;
-        display: block;
-    }
-}
 
 .page-header {
     margin: 10px 0 15px;
@@ -88,23 +80,6 @@ ma-view-actions {
 }
 
 .list-header {
-
-    .filters {
-        margin: 0;
-        float: left;
-
-        form {
-            padding-left: 0px;
-        }
-    }
-
-    ma-quick-filter {
-        float: left;
-    }
-
-    form {
-        padding-left: 0;
-    }
 
     /**
      * Filters

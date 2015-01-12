@@ -55,7 +55,7 @@ define(function () {
                 panels.push({
                     label: view.title(),
                     viewName: view.name(),
-                    fields: view.displayedFields,
+                    fields: view.fields(),
                     entity: view.getEntity(),
                     perPage: view.perPage(),
                     entries: data.entries

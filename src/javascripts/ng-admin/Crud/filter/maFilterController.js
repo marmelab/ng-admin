@@ -13,14 +13,13 @@ define(function () {
      *
      * @constructor
      */
-    function FilterViewController($scope, $state, $stateParams, $filter, Configuration) {
+    function maFilterViewController($scope, $state, $stateParams, $filter) {
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
         this.$filter = $filter;
         this.values = this.$stateParams.search || {};
-        this.view = Configuration().getViewByEntityAndType($stateParams.entity, 'FilterView');
-        this.$scope.fields = this.$scope.filterFields();
+        this.$scope.filters = this.$scope.filters();
         this.isFilterEmpty = isEmpty(this.values);
     }
 
@@ -31,15 +30,15 @@ define(function () {
         return true;
     }
 
-    FilterViewController.prototype.filter = function () {
+    maFilterViewController.prototype.filter = function () {
         var values = {},
-            fields = this.view.getFields(),
+            filters = this.$scope.filters,
             fieldName,
             field,
             i;
 
-        for (i in fields) {
-            field = fields[i];
+        for (i in filters) {
+            field = filters[i];
             fieldName = field.name();
 
             if (this.values[fieldName]) {
@@ -55,11 +54,11 @@ define(function () {
         this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
     };
 
-    FilterViewController.prototype.shouldFilter = function () {
-        return Object.keys(this.$scope.fields).length;
+    maFilterViewController.prototype.shouldFilter = function () {
+        return Object.keys(this.$scope.filters).length;
     };
 
-    FilterViewController.prototype.clearFilters = function () {
+    maFilterViewController.prototype.clearFilters = function () {
         var i;
 
         for (i in this.values) {
@@ -69,7 +68,7 @@ define(function () {
         this.filter();
     };
 
-    FilterViewController.$inject = ['$scope', '$state', '$stateParams', '$filter', 'NgAdminConfiguration'];
+    maFilterViewController.$inject = ['$scope', '$state', '$stateParams', '$filter'];
 
-    return FilterViewController;
+    return maFilterViewController;
 });

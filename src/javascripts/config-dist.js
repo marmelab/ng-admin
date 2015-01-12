@@ -200,28 +200,26 @@
                     .targetEntity(post)
                     .targetField(new Field('title').map(truncate))
             ])
-            .addQuickFilter('Today', function () { // a quick filter displays a button to filter the list based on a set of query parameters passed to the API
-                var now = new Date(),
-                    year = now.getFullYear(),
-                    month = now.getMonth() + 1,
-                    day = now.getDate();
-                month = month < 10 ? '0' + month : month;
-                day = day < 10 ? '0' + day : day;
-                return {
-                    created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
-                };
-            })
-            .listActions(['edit', 'delete']);
-
-        comment.filterView() // a filterView defines the fields displayed in the filter form
-            .fields([
+            .filters([
                 new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}),
                 new Field('created_at')
                     .label('Posted')
                     .type('date')
                     .attributes({'placeholder': 'Filter by date'})
-                    .format('yyyy-MM-dd')
-            ]);
+                    .format('yyyy-MM-dd'),
+                new Field('today').type('boolean').map(function() {
+                    var now = new Date(),
+                        year = now.getFullYear(),
+                        month = now.getMonth() + 1,
+                        day = now.getDate();
+                    month = month < 10 ? '0' + month : month;
+                    day = day < 10 ? '0' + day : day;
+                    return {
+                        created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
+                    };                    
+                })
+            ])
+            .listActions(['edit', 'delete']);
 
         comment.creationView()
             .fields([
