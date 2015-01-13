@@ -156,7 +156,7 @@ app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, R
 });
 ```
 
-You can find a more detailed configuration in the [blog demon configuration](src/javascripts/config-dist.js).
+You can find a more detailed configuration in the [blog demo configuration](examples/blog/config.js).
 
 ## Entity Configuration
 

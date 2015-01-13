@@ -61,14 +61,33 @@ module.exports = function (grunt) {
         copy: {
             css_dev: {
                 src: 'build/ng-admin.css',
-                dest: 'build/ng-admin.min.css'
+                dest: 'examples/blog/build/ng-admin.css',
+                options: {
+                    process: function(content) {
+                        return content.replace(/url\("\.\.\/src\/javascripts\/bower_components\/bootstrap-sass-official\/assets\/fonts\/bootstrap/g, 'url(".');
+                    }
+                }
+            },
+            fonts_dev: {
+                cwd: 'src/javascripts/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/',
+                src: ['**'],
+                dest: 'examples/blog/build/',
+                expand: true
+            },
+            js_dev: {
+                src: 'build/ng-admin.min.js',
+                dest: 'examples/blog/build/ng-admin.js'
+            },
+            angular: {
+                src: 'src/javascripts/bower_components/angular/angular.js',
+                dest: 'examples/blog/build/angular.js'
             },
             config: {
-                src: 'src/javascripts/config-dist.js',
-                dest: 'src/javascripts/config.js',
+                src: 'examples/blog/config.js',
+                dest: 'examples/blog/config.js',
                 options: {
-                    process: function (content, srcpath) {
-                        return content.replace(/@@backend_url/g, process.env.CI ? 'http://ng-admin.marmelab.com:8081/' : 'http://localhost:3000/');
+                    process: function (content) {
+                        return process.env.CI ? content.replace(/http:\/\/localhost:3000\//g, 'http://ng-admin.marmelab.com:8081/') : content;
                     }
                 }
             }
@@ -78,7 +97,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     port: 8000,
-                    base: '.',
+                    base: 'examples/blog/',
                     keepalive: false,
                     livereload: true
                 }
@@ -89,7 +108,7 @@ module.exports = function (grunt) {
             stub: {
                 options: {
                     port: 3000,
-                    db: 'src/javascripts/test/stub-server.json',
+                    db: 'examples/blog/stub-server.json',
                     keepalive: false
                 }
             }
@@ -107,7 +126,7 @@ module.exports = function (grunt) {
             },
             javascripts: {
                 files: ['src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['requirejs:dev'],
+                tasks: ['requirejs:dev', 'copy:js_dev'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -158,12 +177,12 @@ module.exports = function (grunt) {
 
     // register tasks
     grunt.registerTask('test', ['karma', 'json_server', 'init', 'build', 'connect', 'protractor']);
-    grunt.registerTask('test:local', ['karma', 'json_server', 'init', 'build:dev', 'connect', 'protractor']);
+    grunt.registerTask('test:local', ['karma', 'json_server', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
-    grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'copy:css_dev', 'concat:css', 'clean']);
+    grunt.registerTask('build:dev', ['requirejs:dev', 'copy:js_dev', 'copy:angular', 'compass:dev', 'concat:css', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
     grunt.registerTask('init', ['copy:config']);
 
     // register default task
-    grunt.registerTask('default', ['json_server', 'connect', 'watch']);
+    grunt.registerTask('default', ['copy:angular', 'json_server', 'connect', 'watch']);
 };
