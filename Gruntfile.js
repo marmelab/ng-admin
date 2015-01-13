@@ -176,12 +176,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma', 'json_server', 'init', 'build', 'connect', 'protractor']);
+    grunt.registerTask('test', ['karma', 'json_server', 'copy:config', 'copy:angular', 'build', 'connect', 'protractor']);
     grunt.registerTask('test:local', ['karma', 'json_server', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'copy:js_dev', 'copy:angular', 'compass:dev', 'concat:css', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
-    grunt.registerTask('init', ['copy:config']);
 
     // register default task
     grunt.registerTask('default', ['copy:angular', 'json_server', 'connect', 'watch']);
