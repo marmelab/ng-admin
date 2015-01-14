@@ -28,11 +28,18 @@ define(function (require) {
                     controller.computePagination();
                 }
 
-                angular.element($window).bind('scroll', function () {
-                    if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
-                        scope.$apply(controller.nextPage.bind(controller));
-                    }
-                });
+                if (scope.infinite) {
+                    var handler = function () {
+                        if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
+                            scope.$apply(controller.nextPage.bind(controller));
+                        }
+                    };
+                    var windowElement = angular.element($window);
+                    windowElement.bind('scroll', handler);
+                    element.on('$destroy', function() {
+                        windowElement.unbind('scroll', handler);
+                    });
+                }
             }
         };
     }
