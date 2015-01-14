@@ -13,7 +13,9 @@ define(function (require) {
         perPage: 30,
         infinitePagination: false,
         listActions: null,
-        filters: {}
+        filters: {},
+        sortField: 'id',
+        sortDir: 'DESC'
     };
 
     /**

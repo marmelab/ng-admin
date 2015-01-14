@@ -276,6 +276,12 @@ Hide the entity from the sidebar.
 * `perPage(Number)`
 Define the number of element displayed in a page
 
+* `sortField(String)`
+Set the default field for list sorting. Defaults to 'id'
+
+* `sortDir(String)`
+Set the default direction for list sorting. Defaults to 'DESC'
+
 * `infinitePagination(boolean)`
 Enable or disable lazy loading.
 
