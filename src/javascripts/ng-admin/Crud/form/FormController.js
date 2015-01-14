@@ -4,7 +4,7 @@ define(function () {
     'use strict';
 
     var FormController = function ($scope, $location, $filter, CreateQueries,
-                                   UpdateQueries, Validator, progression, notification, view, entry) {
+                                   UpdateQueries, Validator, Configuration, progression, notification, view, entry) {
 
         this.$scope = $scope;
         this.$location = $location;
@@ -19,6 +19,7 @@ define(function () {
         this.name = view.getFormName();
         this.actions = view.actions();
         this.fields = view.fields();
+        this.config = Configuration();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
         this.$scope.view = view;
@@ -146,13 +147,10 @@ define(function () {
      * @param {Object} response
      */
     FormController.prototype.handleError = function (response) {
-        var body = response.data;
-        if (typeof body === 'object') {
-            body = JSON.stringify(body);
-        }
+        var errorMessage = this.config.getErrorMessageFor(this.view, response);
 
         this.progression.done();
-        this.notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
+        this.notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
     };
 
     FormController.prototype.destroy = function () {
@@ -165,7 +163,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

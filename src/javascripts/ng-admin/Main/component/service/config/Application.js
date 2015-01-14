@@ -9,10 +9,21 @@ define(function (require) {
     function defaultCustomTemplate(viewName) {
     }
 
+    function defaultErrorMessage(response) {
+        var body = response.data;
+
+        if (typeof body === 'object') {
+            body = JSON.stringify(body);
+        }
+
+        return 'Oops, an error occured : (code: ' + response.status + ') ' + body;
+    }
+
     var config = {
         title: "Angular admin",
         baseApiUrl: "http://localhost:3000/",
-        customTemplate: defaultCustomTemplate
+        customTemplate: defaultCustomTemplate,
+        errorMessage: defaultErrorMessage
     };
 
     function Application(title) {
@@ -114,6 +125,45 @@ define(function (require) {
         }
 
         return url;
+    };
+
+    /**
+     * Allows to change query params for a view
+     *
+     * @param {View} view
+     * @param {Object} response
+     *
+     * @returns {Object}
+     */
+    Application.prototype.getErrorMessageFor = function (view, response) {
+        var entity = view.getEntity(),
+            errorMessage;
+
+        // Get view's error message
+        errorMessage = view.getErrorMessage(response);
+
+        // Get entity's error message
+        if (!errorMessage) {
+            errorMessage = entity.getErrorMessage(response);
+        }
+
+        // Get global error message
+        if (!errorMessage) {
+            errorMessage = this.getErrorMessage(response);
+        }
+
+        return errorMessage;
+    };
+
+    /**
+     * Return the error message defined for the application
+     *
+     * @param {Object} response
+     *
+     * @returns {String}
+     */
+    Application.prototype.getErrorMessage = function (response) {
+        return typeof (this.config.errorMessage) === 'function' ? this.config.errorMessage(response) : this.config.errorMessage;
     };
 
     /**

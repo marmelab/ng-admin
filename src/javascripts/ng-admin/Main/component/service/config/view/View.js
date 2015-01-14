@@ -15,6 +15,7 @@ define(function (require) {
         description: '',
         template: null,
         url: null,
+        errorMessage: null
     };
 
     /**
@@ -329,6 +330,17 @@ define(function (require) {
         }
 
         return this;
+    };
+
+    /**
+     * Return the error message defined for the view
+     *
+     * @param {Object} response
+     *
+     * @returns {String}
+     */
+    View.prototype.getErrorMessage = function (response) {
+        return typeof (this.config.errorMessage) === 'function' ? this.config.errorMessage(response) : this.config.errorMessage;
     };
 
     Configurable(View.prototype, config);
