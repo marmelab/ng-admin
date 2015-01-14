@@ -143,7 +143,7 @@ module.exports = function (grunt) {
             },
             sass: {
                 files: ['src/sass/*.scss'],
-                tasks: ['compass:dev', 'copy:fonts_dev', 'copy:css_dev', 'concat:css'],
+                tasks: ['compass:dev', 'concat:css', 'copy:fonts_dev', 'copy:css_dev'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -185,12 +185,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma', 'build:test', 'connect', 'protractor']);
-    grunt.registerTask('test:local', ['karma', 'json_server', 'build:dev', 'connect', 'protractor']);
-    grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
-    grunt.registerTask('build:test', ['build', 'copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
-    grunt.registerTask('build:dev', ['requirejs:dev', 'copy:js_dev', 'copy:angular', 'compass:dev', 'concat:css', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
+    grunt.registerTask('test', ['karma', 'build', 'copy_build', 'connect', 'protractor']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('copy_build', ['copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
+
+    grunt.registerTask('test:local', ['karma', 'build:dev', 'copy_build:dev', 'json_server', 'connect', 'protractor']);
+    grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
+    grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'concat:css']);
+    grunt.registerTask('copy_build:dev', ['copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
 
     // register default task
     grunt.registerTask('default', ['copy:angular', 'json_server', 'connect', 'watch']);
