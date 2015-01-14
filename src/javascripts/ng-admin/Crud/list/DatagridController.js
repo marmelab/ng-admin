@@ -21,8 +21,9 @@ define(function () {
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
         var searchParams = this.$location.search();
-        this.sortField = 'sortField' in searchParams ? searchParams.sortField : '';
-        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
+        var listView = $scope.entity.listView();
+        this.sortField = 'sortField' in searchParams ? searchParams.sortField : listView.sortField();
+        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : listView.sortDir();
     }
 
     /**

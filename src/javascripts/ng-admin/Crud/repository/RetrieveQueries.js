@@ -95,6 +95,9 @@ define(function (require) {
         if (sortField && sortField.split('.')[0] === listView.name()) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
+        } else if (listView.sortField()) {
+            params._sortField = listView.sortField();
+            params._sortDir = listView.sortDir();
         }
         if (filters && Object.keys(filters).length !== 0) {
             var filterFields = listView.filters(),
