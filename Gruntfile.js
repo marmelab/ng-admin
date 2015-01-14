@@ -78,6 +78,15 @@ module.exports = function (grunt) {
                 src: 'build/ng-admin.min.js',
                 dest: 'examples/blog/build/ng-admin.js'
             },
+            css: {
+                src: 'build/ng-admin.min.css',
+                dest: 'examples/blog/build/ng-admin.min.css',
+                options: {
+                    process: function(content) {
+                        return content.replace(/url\("\.\.\/src\/javascripts\/bower_components\/bootstrap-sass-official\/assets\/fonts\/bootstrap/g, 'url(".');
+                    }
+                }
+            },
             angular: {
                 src: 'src/javascripts/bower_components/angular/angular.js',
                 dest: 'examples/blog/build/angular.js'
@@ -134,7 +143,7 @@ module.exports = function (grunt) {
             },
             sass: {
                 files: ['src/sass/*.scss'],
-                tasks: ['compass:dev', 'copy:css_dev', 'concat:css'],
+                tasks: ['compass:dev', 'copy:fonts_dev', 'copy:css_dev', 'concat:css'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -176,9 +185,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // register tasks
-    grunt.registerTask('test', ['karma', 'json_server', 'copy:config', 'copy:angular', 'build', 'connect', 'protractor']);
+    grunt.registerTask('test', ['karma', 'build:test', 'connect', 'protractor']);
     grunt.registerTask('test:local', ['karma', 'json_server', 'build:dev', 'connect', 'protractor']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
+    grunt.registerTask('build:test', ['build', 'copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'copy:js_dev', 'copy:angular', 'compass:dev', 'concat:css', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
     grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
 
