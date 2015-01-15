@@ -56,6 +56,14 @@ define(function (require) {
                             sortDir = $stateParams.sortDir;
 
                         return RetrieveQueries.getAll(view, page, true, filters, sortField, sortDir);
+                    }],
+                    referencedValues: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        var view = view.getFiltersView();
+                        if (!view) {
+                            return;
+                        }
+
+                        return RetrieveQueries.getReferencedValues(view);
                     }]
                 }
             });

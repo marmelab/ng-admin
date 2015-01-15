@@ -26,6 +26,7 @@ define(function (require) {
 
         this.config = angular.extend(this.config, angular.copy(config));
         this.type = 'ListView';
+        this.filtersView = null;
     }
 
     utils.inherits(ListView, View);
@@ -35,20 +36,55 @@ define(function (require) {
      * @returns {View} The current view
      */
     View.prototype.addFilter = function (field) {
-        this.addElement('filters', field);
+        this.initFiltersView();
+
+        this.filtersView.addField(field);
+
         return this;
     };
 
     /**
      * Smart getter / adder for filters
      *
-     * @param {Array|Object|Null}
+     * @param {Array|Object}
      * @returns {Array|View} The current view
      */
-    View.prototype.filters = function () {
-        var args = Array.prototype.slice.call(arguments);
-        args.unshift('filters');
-        return this.smartElementGetterSetter.apply(this, args);
+    View.prototype.filters = function (fields) {
+        this.initFiltersView();
+
+        this.filtersView.fields(fields);
+
+        return this;
+    };
+
+    /**
+     * Filter view fields getter
+     *
+     * @returns {View} The filter View fields
+     */
+    View.prototype.getFiltersView = function () {
+        return this.filtersView;
+    };
+
+    /**
+     * Filter view fields getter
+     *
+     * @returns {Object} The filter View fields
+     */
+    View.prototype.getFiltersFields = function () {
+        return this.filtersView ? this.filtersView.fields() : {};
+    };
+
+    /**
+     * Filter view initialisation
+     */
+    View.prototype.initFiltersView = function () {
+        if (this.filtersView) {
+            return;
+        }
+
+        this.filtersView = new View('FiltersView');
+        this.filtersView.setEntity(this.getEntity());
     };
 
     /**

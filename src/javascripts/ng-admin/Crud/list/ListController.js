@@ -15,7 +15,7 @@ define(function () {
         this.RetrieveQueries = RetrieveQueries;
         this.actions = view.actions();
         this.loadingPage = false;
-        this.filters = view.filters();
+        this.filters = view.getFiltersFields();
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.entries = data.entries;
         this.fields = view.fields();

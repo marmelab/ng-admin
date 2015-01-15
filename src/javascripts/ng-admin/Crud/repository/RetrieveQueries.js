@@ -100,7 +100,7 @@ define(function (require) {
             params._sortDir = listView.sortDir();
         }
         if (filters && Object.keys(filters).length !== 0) {
-            var filterFields = listView.filters(),
+            var filterFields = listView.getFiltersFields(),
                 filterName;
             params._filters = {};
             for (filterName in filters) {

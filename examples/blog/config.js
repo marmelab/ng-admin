@@ -217,7 +217,11 @@
                     return {
                         created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
                     };                    
-                })
+                }),
+                new Reference('post_id')
+                    .label('Post')
+                    .targetEntity(post)
+                    .targetField(new Field('title'))    
             ])
             .listActions(['edit', 'delete']);
 
