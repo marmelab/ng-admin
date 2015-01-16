@@ -26,7 +26,6 @@ define(function (require) {
 
         this.config = angular.extend(this.config, angular.copy(config));
         this.type = 'ListView';
-        this.filtersView = null;
     }
 
     utils.inherits(ListView, View);
@@ -36,55 +35,41 @@ define(function (require) {
      * @returns {View} The current view
      */
     View.prototype.addFilter = function (field) {
-        this.initFiltersView();
-
-        this.filtersView.addField(field);
-
+        this.addElement('filters', field);
         return this;
     };
 
     /**
      * Smart getter / adder for filters
      *
-     * @param {Array|Object}
+     * @param {Array|Object|Null}
      * @returns {Array|View} The current view
      */
     View.prototype.filters = function (fields) {
-        this.initFiltersView();
-
-        this.filtersView.fields(fields);
-
-        return this;
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('filters');
+        return this.smartElementGetterSetter.apply(this, args);
     };
 
     /**
-     * Filter view fields getter
+     * Returns all filter references
      *
-     * @returns {View} The filter View fields
+     * @returns {Object}
      */
-    View.prototype.getFiltersView = function () {
-        return this.filtersView;
-    };
+    View.prototype.getFilterReferences = function () {
+        var results = {},
+            fields = this.config.filters,
+            field,
+            i;
 
-    /**
-     * Filter view fields getter
-     *
-     * @returns {Object} The filter View fields
-     */
-    View.prototype.getFiltersFields = function () {
-        return this.filtersView ? this.filtersView.fields() : {};
-    };
-
-    /**
-     * Filter view initialisation
-     */
-    View.prototype.initFiltersView = function () {
-        if (this.filtersView) {
-            return;
+        for (i in fields) {
+            field = fields[i];
+            if (field.type() === 'Reference') {
+                results[i] = field;
+            }
         }
 
-        this.filtersView = new View('FiltersView');
-        this.filtersView.setEntity(this.getEntity());
+        return results;
     };
 
     /**

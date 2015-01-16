@@ -58,7 +58,7 @@ define(function (require) {
             .then(function (values) {
                 response = values;
 
-                return self.getReferencedValues(view, response.data);
+                return self.getReferencedValues(view.getReferences(), response.data);
             }).then(function (refValues) {
                 referencedValues = refValues;
 
@@ -100,7 +100,7 @@ define(function (require) {
             params._sortDir = listView.sortDir();
         }
         if (filters && Object.keys(filters).length !== 0) {
-            var filterFields = listView.getFiltersFields(),
+            var filterFields = listView.filters(),
                 filterName;
             params._filters = {};
             for (filterName in filters) {
@@ -121,14 +121,13 @@ define(function (require) {
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      *
-     * @param {View}  view
+     * @param {Object}  references
      * @param {Array} rawValues
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedValues = function (view, rawValues) {
+    RetrieveQueries.prototype.getReferencedValues = function (references, rawValues) {
         var self = this,
-            references = view.getReferences(),
             calls = [],
             singleCallFilters,
             identifiers,
