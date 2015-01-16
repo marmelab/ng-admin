@@ -105,10 +105,14 @@ Add the following response interceptor:
 app.config(function(RestangularProvider) {
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
         if (operation == "getList") {
-            var contentRange = response.headers('Content-Range');
-            response.totalCount = contentRange.split('/')[1];
-        }
+            var contentRange = response.headers('content-range');
+            if (contentRange !== null ) {
+                response.totalCount = contentRange.split('/')[1];
+            } else {
+                response.totalCount = data.lengh;
+            }
         return data;
+        }
     });
 });
 ```
