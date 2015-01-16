@@ -3,14 +3,14 @@
 define(function () {
     'use strict';
 
-    var ShowController = function ($scope, $location, view, entry) {
+    var ShowController = function ($scope, $location, $filter, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
 
-        this.fields = view.getFields();
+        this.fields = $filter('orderElement')(view.fields());
         this.$scope.entry = entry;
         this.$scope.view = view;
         this.view = view;

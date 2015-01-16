@@ -1,7 +1,7 @@
 <table class="grid table table-condensed table-hover table-striped">
     <thead>
         <tr>
-            <th ng-repeat="field in fields() | orderElement track by $index" ng-class="'ng-admin-column-' + field.name()">
+            <th ng-repeat="field in fields() track by $index" ng-class="'ng-admin-column-' + field.name()">
                 <a ng-click="datagrid.sort(field)">
                     <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
@@ -16,7 +16,7 @@
 
     <tbody>
         <tr ng-repeat="entry in entries track by $index">
-            <td ng-repeat="field in fields() | orderElement track by $index" ng-class="field.getCssClasses(entry)">
+            <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)">
                 <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
             </td>
             <td ng-if="listActions()" class="ng-admin-column-actions">

@@ -18,7 +18,7 @@ define(function () {
         this.description = view.description();
         this.name = view.getFormName();
         this.actions = view.actions();
-        this.fields = view.fields();
+        this.fields = this.$filter('orderElement')(view.fileds());
         this.config = Configuration();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
@@ -36,7 +36,7 @@ define(function () {
         var value,
             entry = this.$scope.entry,
             $filter = this.$filter,
-            fields = this.view.getFields(),
+            fields = this.$filter('orderElement')(this.view.fields()),
             identifierField = this.view.getEntity().identifier(),
             mappedObject,
             field,
