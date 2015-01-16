@@ -6,11 +6,12 @@ define(function () {
     var ShowController = function ($scope, $location, $filter, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
+        this.$filter = $filter;
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
 
-        this.fields = $filter('orderElement')(view.fields());
+        this.fields = this.$filter('orderElement')(view.fields());
         this.$scope.entry = entry;
         this.$scope.view = view;
         this.view = view;
@@ -26,7 +27,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    ShowController.$inject = ['$scope', '$location', 'view', 'entry'];
+    ShowController.$inject = ['$scope', '$location', '$filter', 'view', 'entry'];
 
     return ShowController;
 });
