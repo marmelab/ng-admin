@@ -43,16 +43,6 @@ define(function (require) {
             expect(element.children()[0].nodeName).toBe('TABLE');
         });
 
-        it("should list ordered fields", function () {
-            var element = $compile(directiveUsage)(scope);
-
-            scope.fields = [new Field('title').order(2), new Field('author').order(1)];
-            scope.$digest();
-
-            expect(element[0].querySelector('thead th:nth-child(1) a').innerHTML).toContain('Author');
-            expect(element[0].querySelector('thead th:nth-child(2) a').innerHTML).toContain('Title');
-        });
-
         it("should add list actions", function () {
             scope.fields = [new Field('title')];
             scope.listActions = ['edit'];
