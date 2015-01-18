@@ -104,7 +104,7 @@ define(function (require) {
                 filterName;
             params._filters = {};
             for (filterName in filters) {
-                if (filterFields[filterName].hasMaps()) {
+                if (filterFields.hasOwnProperty(filterName) && filterFields[filterName].hasMaps()) {
                     angular.extend(params._filters, filterFields[filterName].getMappedValue(filters[filterName]));
                 } else {
                     params._filters[filterName] = filters[filterName];
@@ -150,7 +150,7 @@ define(function (require) {
                 // Check if we should retrieve values with 1 or multiple requests
                 if (reference.hasSingleApiCall()) {
                     singleCallFilters = reference.getSingleApiCall(identifiers);
-                    calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC', singleCallFilters));
+                    calls.push(self.getRawValues(referencedView, 1, singleCallFilters, reference.getSortFieldName(), 'ASC'));
                 } else {
                     for (k in identifiers) {
                         calls.push(self.getOne(referencedView, identifiers[k]));
@@ -212,7 +212,7 @@ define(function (require) {
             filter = {};
             filter[referenceList.targetReferenceField()] = entityId;
 
-            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, null, sortField, sortDir, filter));
+            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, filter, sortField, sortDir));
         }
 
         return this.$q.all(calls)
