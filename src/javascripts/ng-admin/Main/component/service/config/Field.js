@@ -5,8 +5,7 @@ define(function (require) {
 
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        utils = require('ng-admin/lib/utils'),
-        availableTypes = ['number', 'string', 'text', 'wysiwyg', 'email', 'date', 'boolean', 'choice', 'choices', 'password', 'template'];
+        utils = require('ng-admin/lib/utils');
 
     function defaultValueTemplate(entry) {
         return '';
@@ -60,10 +59,6 @@ define(function (require) {
     Field.prototype.type = function (type) {
         if (arguments.length === 0) {
             return this.config.type;
-        }
-
-        if (availableTypes.indexOf(type) === -1) {
-            throw new Error('Type should be one of : "' + availableTypes.join('", "') + '" but "' + type + '" was given.');
         }
 
         this.config.type = type;
