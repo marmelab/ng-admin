@@ -9,10 +9,12 @@ define(function (require) {
     function routing($stateProvider, $urlRouterProvider) {
 
         $stateProvider.state('main', {
-            'abstract': true,
-            'controller': 'AppController',
-            'controllerAs': 'appController',
-            'template': layoutTemplate
+            abstract: true,
+            controller: 'AppController',
+            controllerAs: 'appController',
+            templateProvider: ['NgAdminConfiguration', function(Configuration) {
+                return Configuration().layout() || layoutTemplate;
+            }]
         });
 
         $stateProvider.state('dashboard', {

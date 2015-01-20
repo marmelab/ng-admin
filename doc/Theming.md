@@ -80,6 +80,18 @@ app.customTemplate(function(viewName) {
 })
 ```
 
+## Customizing the Application Layout
+
+If, for any reason, you need to override the application layout (for instance to add authentication status on the top bar), use the `app.layout()` setter:
+
+```js
+var myLayout = require('text!./path/to/layout.html');
+var app = new Application('My Application') 
+app.layout(myLayout);
+```
+
+The original layout can be found in [src/javascripts/ng-admin/Main/view/layout.html](src/javascripts/ng-admin/Main/view/layout.html).
+
 ## Customizing Error Messages
 
 You can use the `app.errorMessage()`, `entity.errorMessage()` or `view.errorMessage()` methods to customize the message displayed when an error occurred with the API. These methods expect a function argument with the response as parameter, which should return the message as a string.

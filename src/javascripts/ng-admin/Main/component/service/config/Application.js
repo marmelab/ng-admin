@@ -23,7 +23,8 @@ define(function (require) {
         title: "Angular admin",
         baseApiUrl: "http://localhost:3000/",
         customTemplate: defaultCustomTemplate,
-        errorMessage: defaultErrorMessage
+        errorMessage: defaultErrorMessage,
+        layout: null
     };
 
     function Application(title) {
