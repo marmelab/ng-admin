@@ -18,7 +18,7 @@
 
 <div class="row form-horizontal" id="show-view">
 
-    <div class="form-group" ng-repeat="field in showController.fields | orderElement track by $index">
+    <div class="form-group" ng-repeat="field in showController.fields track by $index">
 
         <label class="col-sm-2 control-label">{{ field.label() }}</label>
 

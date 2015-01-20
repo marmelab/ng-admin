@@ -3,9 +3,10 @@
 define(function () {
     'use strict';
 
-    var ListController = function ($scope, $location, RetrieveQueries, progression, view, data) {
+    var ListController = function ($scope, $location, $filter, RetrieveQueries, progression, view, data) {
         this.$scope = $scope;
         this.$location = $location;
+        this.$filter = $filter;
         this.view = view;
         this.data = data;
         this.entity = view.getEntity();
@@ -15,10 +16,10 @@ define(function () {
         this.RetrieveQueries = RetrieveQueries;
         this.actions = view.actions();
         this.loadingPage = false;
-        this.filters = view.filters();
+        this.filters = this.$filter('orderElement')(view.filters());
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.entries = data.entries;
-        this.fields = view.fields();
+        this.fields = this.$filter('orderElement')(view.fields());
         this.listActions = view.listActions();
         this.totalItems = this.data.totalItems;
         this.itemsPerPage = view.perPage();
@@ -54,7 +55,7 @@ define(function () {
         this.$location = undefined;
     };
 
-    ListController.$inject = ['$scope', '$location', 'RetrieveQueries', 'progression', 'view', 'data'];
+    ListController.$inject = ['$scope', '$location', '$filter', 'RetrieveQueries', 'progression', 'view', 'data'];
 
     return ListController;
 });

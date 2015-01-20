@@ -191,14 +191,16 @@
             .fields([
                 new Field('created_at')
                     .label('Posted')
-                    .type('date'),
-                new Field('author'),
-                new Field('body').map(truncate),
+                    .type('date')
+                    .order(1),
+                new Field('body').map(truncate).order(3),
                 new Reference('post_id')
                     .label('Post')
                     .map(truncate)
                     .targetEntity(post)
                     .targetField(new Field('title').map(truncate))
+                    .order(4),
+                new Field('author').order(2)
             ])
             .filters([
                 new Field('q').type('string').label('').attributes({'placeholder': 'Global Search'}),

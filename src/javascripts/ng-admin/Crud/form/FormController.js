@@ -18,7 +18,7 @@ define(function () {
         this.description = view.description();
         this.name = view.getFormName();
         this.actions = view.actions();
-        this.fields = view.fields();
+        this.fields = this.$filter('orderElement')(view.fields());
         this.config = Configuration();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
