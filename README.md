@@ -255,6 +255,11 @@ Defines the API endpoint for a view. It can be a string or a function.
 
 ### dashboardView Settings
 
+The `dashboardView` also defines `sortField` and `sortDir` fields like the `listView`.
+
+* `limit(Number)`
+Set the number of items.
+
 * `order(Number)`
 Define the order of the Dashboard panel for this entity in the dashboard
 
