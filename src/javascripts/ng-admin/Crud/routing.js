@@ -56,6 +56,9 @@ define(function (require) {
                             sortDir = $stateParams.sortDir;
 
                         return RetrieveQueries.getAll(view, page, true, filters, sortField, sortDir);
+                    }],
+                    referencedValues: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view.getFilterReferences());
                     }]
                 }
             });
@@ -77,7 +80,7 @@ define(function (require) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
                     referencedValues: ['RetrieveQueries', 'view', 'rawEntry', function (RetrieveQueries, view, rawEntry) {
-                        return RetrieveQueries.getReferencedValues(view, [rawEntry.values]);
+                        return RetrieveQueries.getReferencedValues(view.getReferences(), [rawEntry.values]);
                     }],
                     referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'rawEntry', function ($stateParams, RetrieveQueries, view, rawEntry) {
                         var sortField = $stateParams.sortField,
@@ -109,7 +112,7 @@ define(function (require) {
                         return entry;
                     }],
                     referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedValues(view);
+                        return RetrieveQueries.getReferencedValues(view.getReferences());
                     }]
                 }
             });
@@ -133,7 +136,7 @@ define(function (require) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
                     referencedValues: ['RetrieveQueries', 'view', 'entry', function (RetrieveQueries, view, entry) {
-                        return RetrieveQueries.getReferencedValues(view, null);
+                        return RetrieveQueries.getReferencedValues(view.getReferences(), null);
                     }],
                     referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
                         var sortField = $stateParams.sortField,

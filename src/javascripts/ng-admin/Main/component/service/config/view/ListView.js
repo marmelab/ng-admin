@@ -45,10 +45,31 @@ define(function (require) {
      * @param {Array|Object|Null}
      * @returns {Array|View} The current view
      */
-    View.prototype.filters = function () {
+    View.prototype.filters = function (fields) {
         var args = Array.prototype.slice.call(arguments);
         args.unshift('filters');
         return this.smartElementGetterSetter.apply(this, args);
+    };
+
+    /**
+     * Returns all filter references
+     *
+     * @returns {Object}
+     */
+    View.prototype.getFilterReferences = function () {
+        var results = {},
+            fields = this.config.filters,
+            field,
+            i;
+
+        for (i in fields) {
+            field = fields[i];
+            if (field.type() === 'Reference') {
+                results[i] = field;
+            }
+        }
+
+        return results;
     };
 
     /**

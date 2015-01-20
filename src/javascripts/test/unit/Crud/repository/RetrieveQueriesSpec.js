@@ -114,7 +114,7 @@ define(function (require) {
             spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
             spyOn($q, 'all').and.returnValue(mixins.buildPromise([authors[0], authors[1]]));
 
-            retrieveQueries.getReferencedValues(post.listView(), rawPosts)
+            retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].values.id).toEqual('abc');
@@ -158,7 +158,7 @@ define(function (require) {
             spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
             spyOn($q, 'all').and.returnValue(mixins.buildPromise([{data: rawAuthors}]));
 
-            retrieveQueries.getReferencedValues(post.listView(), rawPosts)
+            retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
                     expect(references.author.getEntries().length).toEqual(2);
                     expect(references.author.getEntries()[0].values.id).toEqual('abc');

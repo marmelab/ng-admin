@@ -35,10 +35,39 @@ describe('Global filter', function () {
     });
 
     it('should reset all filters', function () {
-        $$('.filters .glyphicon-remove').click();
+        // Filter globally for 'rabbit'
+        $$('.filters .filter:nth-child(1) input').sendKeys('rabbit');
+        $$('.filters button[type="submit"]').click();
+
+        browser.wait(function () {
+            return $('.filters > button[type="button"]').isDisplayed().then(function (result) {
+                return result;
+            });
+        });
+        $('.filters > button[type="button"]').click();
 
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 10 on 11');
+        });
+    });
+
+    it('should filter on reference', function () {
+        // Filter on post_id '3'
+        $$('.filters .filter select option[value="3"]').click();
+        $$('.filters button[type="submit"]').click();
+        $$('.grid tr td:nth-child(3)').then(function (tdElements) {
+            expect(tdElements.length).toBe(2);
+            expect(tdElements[0].getText()).toBe('I\'d been the whiting,\' said the Hatter, it woke up...');
+            expect(tdElements[1].getText()).toBe('I\'m not Ada,\' she said, \'and see whether it\'s mark...');
+        });
+    });
+
+    it('should update the pagination total', function () {
+        // Filter on post id '3'
+        $$('.filters .filter select option[value="3"]').click();
+        $$('.filters button[type="submit"]').click();
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            expect(totalElements[0].getText()).toBe('1 - 2 on 2');
         });
     });
 });
