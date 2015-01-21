@@ -141,6 +141,7 @@ define(function (require) {
         for (i in references) {
             reference = references[i];
             referencedView = reference.getReferencedView();
+            referencedView.perPage(1000);
 
             if (!rawValues) {
                 calls.push(self.getRawValues(referencedView, 1, false, reference.getSortFieldName(), 'ASC'));
