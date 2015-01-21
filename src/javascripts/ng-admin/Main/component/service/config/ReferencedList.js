@@ -14,6 +14,8 @@ define(function (require) {
         edition : 'editable',
         list: false,
         order: null,
+        singleApiCall: null,
+        targetEntity : null,
         targetReferenceField : null,
         targetFields : [],
         isDetailLink: false,

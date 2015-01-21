@@ -19,7 +19,14 @@ define(function (require) {
                 scope.value = scope.entry.values[scope.field.name()];
                 if (scope.type == 'ReferencedList') {
                     // special case to avoid recursion
-                    element.append('<ma-referenced-list-column field="::field"></ma-referenced-list-column>');
+                    element.append(
+                        '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
+                             'entries="field.entries"' +
+                             'fields="field.getReferencedView().fields()"' +
+                             'entity="field.getReferencedView().entity"' +
+                             'listActions="[]">' +
+                        '</ma-datagrid>'
+                    );
                     $compile(element.contents())(scope);
                     return;
                 }
