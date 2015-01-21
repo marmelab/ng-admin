@@ -211,8 +211,10 @@ define(function (require) {
             referenceList = referenceLists[i];
             filter = {};
             filter[referenceList.targetReferenceField()] = entityId;
+            referencedView = referenceList.getReferencedView();
+            referencedView.perPage(1000);
 
-            calls.push(self.getRawValues(referenceList.getReferencedView(), 1, filter, sortField, sortDir));
+            calls.push(self.getRawValues(referencedView, 1, filter, sortField, sortDir));
         }
 
         return this.$q.all(calls)

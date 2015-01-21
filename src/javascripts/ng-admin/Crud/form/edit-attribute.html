@@ -30,11 +30,8 @@
                   name="{{ field.getReferencedView().name() }}"
                   entries="field.entries"
                   fields="field.getReferencedView().fields()"
-                  entity="field.getReferencedView().entity"
-                  per-page="field.getReferencedView().perPage()"
                   listActions="[]"
-                  infinite-pagination="false"
-                  with-pagination="false">
+                  entity="field.getReferencedView().entity">
         </ma-datagrid>
 
         <ma-wysiwyg-field ng-switch-when="wysiwyg" field="::field" value="entry.values[field.name()]"></ma-wysiwyg-field>
