@@ -90,7 +90,7 @@ var app = new Application('My Application')
 app.layout(myLayout);
 ```
 
-The original layout can be found in [../src/javascripts/ng-admin/Main/view/layout.html](src/javascripts/ng-admin/Main/view/layout.html).
+The original layout can be found in [src/javascripts/ng-admin/Main/view/layout.html](../src/javascripts/ng-admin/Main/view/layout.html).
 
 ## Customizing Error Messages
 
