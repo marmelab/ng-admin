@@ -339,7 +339,10 @@ Define the position of the field in the view.
 Define the format for `date` type.
 
 * `isDetailLink(boolean)`
-Tell if the value is a link in the list view. Default to true for the identifier field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.
+Tell if the value is a link in the list view. Default to true for the identifier and references field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.
+
+* `detailLinkRoute(string)`
+Define the route for a link in the list view, i.e. `isDetailLink` is true. The default is `edit`, hence the link points to the edition view. The other option is `show` to point to the show view.
 
 * `choices([{value: '', label: ''}, ...])`
 Define array of choices for `choice` type. A choice has both a value and a label.

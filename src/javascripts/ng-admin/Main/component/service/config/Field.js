@@ -22,6 +22,7 @@ define(function (require) {
         format: 'yyyy-MM-dd',
         template: defaultValueTemplate,
         isDetailLink: false,
+        detailLinkRoute: '',
         list: true,
         dashboard: true,
         validation: {
@@ -46,6 +47,7 @@ define(function (require) {
         this.config.name = fieldName || Math.random().toString(36).substring(7);
         this.config.label = utils.camelCase(this.config.name);
         this.config.isDetailLink = fieldName === 'id';
+        this.config.detailLinkRoute = 'edit';
         this.maps = [];
     }
 
