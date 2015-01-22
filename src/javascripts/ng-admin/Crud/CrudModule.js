@@ -11,8 +11,9 @@ define(function (require) {
     require('angular-bootstrap-tpls');
     require('textangular');
     require('ngInflection');
+    require('angular-ui-codemirror');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection']);
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror']);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/list/ListController'));
     CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
@@ -48,6 +49,7 @@ define(function (require) {
     CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
     CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
+    CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
     CrudModule.directive('maTemplateColumn', require('ng-admin/Crud/column/maTemplateColumn'));
     CrudModule.directive('maWysiwygColumn', require('ng-admin/Crud/column/maWysiwygColumn'));
 

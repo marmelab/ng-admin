@@ -3,6 +3,28 @@
 define(function (require) {
     'use strict';
 
+    require([
+        'bower_components/codemirror/lib/codemirror',
+        'bower_components/codemirror/addon/edit/closebrackets',
+        'bower_components/codemirror/addon/edit/matchbrackets',
+        'bower_components/codemirror/addon/lint/lint',
+        '../../../../../node_modules/jsonlint/lib/jsonlint',
+        'bower_components/codemirror/addon/lint/json-lint',
+        'bower_components/codemirror/addon/selection/active-line',
+        'bower_components/codemirror/mode/javascript/javascript'
+    ], function(codemirror) {
+        codemirror.defineOption("matchBrackets", true);
+        codemirror.defineOption("autoCloseBrackets", true);
+        codemirror.defineOption("lineWrapping", true);
+        codemirror.defineOption("tabSize", 2);
+        codemirror.defineOption("mode", "application/json");
+        codemirror.defineOption("gutters", ["CodeMirror-lint-markers"]);
+        codemirror.defineOption("lint", true);
+        codemirror.defineOption("styleActiveLine", true);
+
+        window.CodeMirror = codemirror;
+    });
+
     /**
      * Edition field for a JSON string in a textarea.
      *
@@ -19,7 +41,7 @@ define(function (require) {
                 var field = scope.field();
                 scope.name = field.name();
                 scope.v = field.validation();
-                scope.jsonValue = scope.value === null ? '' : JSON.stringify(scope.value);
+                scope.jsonValue = scope.value === null ? '' : angular.toJson(scope.value, true);
                 var input = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
@@ -28,20 +50,20 @@ define(function (require) {
                 scope.$watch('jsonValue', function(jsonValue) {
                     if (jsonValue == '' || typeof jsonValue === 'undefined') {
                         scope.value = null;
+
                         return;
                     }
                     try {
-                        var value = JSON.parse(jsonValue);
+                        var value = angular.fromJson(jsonValue);
                         scope.value = value;
                     } catch (e) {
                         // incorrect JSON, do not convert back to value
-                        // FIXME: notify the form that this field is incorrect
                     }
                 });
             },
-            template: 
-'<textarea ng-model="jsonValue" id="{{ name }}" name="{{ name }}" class="form-control" ng-required="v.required">' +
-'</textarea>'
+            template:
+'<ui-codemirror ng-model="jsonValue" id="{{ name }}" name="{{ name }}" ng-required="v.required" ma-json-validator>' +
+'</ui-codemirror>'
         };
     }
 

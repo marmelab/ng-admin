@@ -24,7 +24,9 @@ module.exports = function (grunt) {
                         'build/ng-admin.css',
                         'src/javascripts/bower_components/nprogress/nprogress.css',
                         'src/javascripts/bower_components/humane/themes/flatty.css',
-                        'src/javascripts/bower_components/textAngular/dist/textAngular.min.css'
+                        'src/javascripts/bower_components/textAngular/dist/textAngular.min.css',
+                        'src/javascripts/bower_components/codemirror/lib/codemirror.css',
+                        'src/javascripts/bower_components/codemirror/addon/lint/lint.css'
                     ]
                 }
             }
@@ -36,7 +38,9 @@ module.exports = function (grunt) {
                     'build/ng-admin.css',
                     'src/javascripts/bower_components/nprogress/nprogress.css',
                     'src/javascripts/bower_components/humane/themes/flatty.css',
-                    'src/javascripts/bower_components/textAngular/dist/textAngular.min.css'
+                    'src/javascripts/bower_components/textAngular/dist/textAngular.min.css',
+                    'src/javascripts/bower_components/codemirror/lib/codemirror.css',
+                    'src/javascripts/bower_components/codemirror/addon/lint/lint.css'
                 ],
                 dest: 'build/ng-admin.min.css'
             }
@@ -60,7 +64,7 @@ module.exports = function (grunt) {
 
         copy: {
             css_dev: {
-                src: 'build/ng-admin.css',
+                src: 'build/ng-admin.min.css',
                 dest: 'examples/blog/build/ng-admin.css',
                 options: {
                     process: function(content) {
@@ -127,14 +131,14 @@ module.exports = function (grunt) {
         watch: {
             configFiles: {
                 files: ['Gruntfile.js', 'grunt/grunt-*.json'],
-                tasks: ['build:dev'],
+                tasks: ['build:dev', 'copy_build:dev'],
                 options: {
                     // reload watchers since configuration may have changed
                     reload: true
                 }
             },
             javascripts: {
-                files: ['src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
+                files: ['src/javascripts/ng-admin.js', 'src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
                 tasks: ['requirejs:dev', 'copy:js_dev'],
                 options: {
                     atBegin: true,

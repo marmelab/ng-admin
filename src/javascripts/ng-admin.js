@@ -21,6 +21,7 @@ require.config({
         'humane': 'bower_components/humane/humane',
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
+        'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
     },
