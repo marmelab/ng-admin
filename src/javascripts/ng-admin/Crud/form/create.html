@@ -13,7 +13,7 @@
 
 </div>
 
-<div class="row" id="edit-container" ng-class="'ng-admin-entity-' + formController.entity.name()">
+<div class="row" id="create-view" ng-class="'ng-admin-entity-' + formController.entity.name()">
     <form class="form-horizontal" name="{{ formController.name }}" ng-submit="formController.submitCreation(createForm, $event)">
         <div class="form-field form-group" ng-include="'ng-admin/Crud/form/edit-attribute.html'" ng-repeat="field in formController.fields track by $index"></div>
 

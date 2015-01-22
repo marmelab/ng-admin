@@ -14,7 +14,7 @@
     <ma-filter ng-if="listController.hasFilters" filters="::listController.filters"></ma-filter>
 </div>
 
-<div class="row" ng-class="'ng-admin-entity-' + listController.entity.name()">
+<div class="row list-view" ng-class="'ng-admin-entity-' + listController.entity.name()">
     <ma-datagrid name="{{ listController.view.name() }}"
               entries="listController.entries"
               fields="::listController.fields"
