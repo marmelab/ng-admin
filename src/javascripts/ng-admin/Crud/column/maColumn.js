@@ -22,7 +22,7 @@ define(function (require) {
                     element.append(
                         '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
                              'entries="field.entries"' +
-                             'fields="field.getReferencedView().fields()"' +
+                             'fields="field.getReferencedView().fields() | orderElement"' +
                              'entity="field.getReferencedView().entity"' +
                              'listActions="[]">' +
                         '</ma-datagrid>'
