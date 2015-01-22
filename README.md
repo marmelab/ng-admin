@@ -481,6 +481,9 @@ Define an array of fields that will be displayed in the list of the form.
             )
         );
 
+* `perPage(integer)`
+Define the maximum number of elements fetched and displayed in the list
+
 ### ReferenceMany
 
 The `ReferenceMany` type also defines `label`, `order`, `map` & `validation` options like the `Field` type.
