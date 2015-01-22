@@ -8,7 +8,7 @@ define(function (require) {
         'bower_components/codemirror/addon/edit/closebrackets',
         'bower_components/codemirror/addon/edit/matchbrackets',
         'bower_components/codemirror/addon/lint/lint',
-        '../../../../../node_modules/jsonlint/lib/jsonlint',
+        'bower_components/jsonlint/lib/jsonlint',
         'bower_components/codemirror/addon/lint/json-lint',
         'bower_components/codemirror/addon/selection/active-line',
         'bower_components/codemirror/mode/javascript/javascript'
@@ -62,8 +62,8 @@ define(function (require) {
                 });
             },
             template:
-'<ui-codemirror ng-model="jsonValue" id="{{ name }}" name="{{ name }}" ng-required="v.required" ma-json-validator>' +
-'</ui-codemirror>'
+'<textarea ui-codemirror ng-model="jsonValue" id="{{ name }}" name="{{ name }}" ng-required="v.required" ma-json-validator>' +
+'</textarea>'
         };
     }
 

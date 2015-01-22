@@ -46,16 +46,20 @@ define(function (require) {
             scope.value = ["foo", { bar: 123 }];
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.find('textarea').val()).toBe('["foo",{"bar":123}]');
+            expect(element.find('textarea').val()).toBe(JSON.stringify(JSON.parse('["foo",{"bar":123}]'), null, 2));
         });
 
         it("should convert the JSON string into a JavaScript object value", function () {
             scope.field = new Field();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            element.find('textarea').val('["foo",{"bar":456}]');
+            element.find('textarea').val(JSON.stringify(JSON.parse('["foo",{"bar":456}]'), null, 2));
+            // ngModel listens for "input" event
+            // http://stackoverflow.com/questions/15739960/how-does-angularjs-internally-catch-events-like-onclick-onchange/15740287#15740287
+            element.find('textarea').triggerHandler('input');
             scope.$digest();
-            expect(scope.value).toBe(["foo",{"bar":456}]);
+            // We must compare on datas, because objects are different, even with same datas
+            expect(JSON.stringify(scope.value)).toBe(JSON.stringify(["foo",{"bar":456}]));
         });
 
     });
