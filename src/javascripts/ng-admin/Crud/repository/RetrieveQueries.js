@@ -202,7 +202,7 @@ define(function (require) {
         var self = this,
             referencedLists = view.getReferencedLists(),
             calls = [],
-            referenceList,
+            referencedList,
             filter,
             i,
             j;
@@ -221,10 +221,9 @@ define(function (require) {
 
                 for (i in referencedLists) {
                     referencedList = referencedLists[i];
-                    referencedView = referencedList.getReferencedView();
 
                     // Map entries
-                    referencedList.setEntries(referencedView.mapEntries(responses[j++].data));
+                    referencedList.setEntries(referencedList.getReferencedView().mapEntries(responses[j++].data));
                 }
 
                 return referencedLists;
