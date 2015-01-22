@@ -3,25 +3,15 @@
 define(function (require) {
     'use strict';
 
-    var Configurable = require('ng-admin/Main/component/service/config/Configurable'),
+    var angular = require('angular'),
+        Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         Reference = require('ng-admin/Main/component/service/config/Reference'),
         utils = require('ng-admin/lib/utils');
 
     var config = {
-        name: 'myReference',
-        type: 'ReferencedList',
-        label: 'My list',
-        edition : 'editable',
-        list: false,
-        order: null,
-        singleApiCall: null,
-        targetEntity : null,
-        targetReferenceField : null,
-        targetFields : [],
-        isDetailLink: false,
-        validation: {
-            required: false
-        }
+        edition: 'editable',
+        targetReferenceField: null,
+        targetFields: []
     };
 
     /**
@@ -29,7 +19,8 @@ define(function (require) {
      */
     function ReferencedList(fieldName) {
         Reference.apply(this, arguments);
-
+        this.config = angular.extend(this.config, angular.copy(config));
+        this.config.list = false;
         this.config.name = fieldName || 'reference';
         this.config.type = 'ReferencedList';
         this.entries = [];
@@ -48,14 +39,8 @@ define(function (require) {
         if (arguments.length === 0) {
             return this.config.targetFields;
         }
-
-        var i;
-
         this.referencedView.removeFields();
-        for (i in targetFields) {
-            this.referencedView.addField(targetFields[i]);
-        }
-
+        this.referencedView.fields(targetFields);
         this.config.targetFields = targetFields;
 
         return this;

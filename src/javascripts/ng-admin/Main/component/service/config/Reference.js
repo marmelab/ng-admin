@@ -10,16 +10,12 @@ define(function (require) {
         utils = require('ng-admin/lib/utils');
 
     var config = {
-        name: 'myReference',
-        type: 'Reference',
-        label: 'My reference',
         singleApiCall: null,
         targetEntity : null,
         targetField : null,
-        isDetailLink: null,
-        validation: {
-            required: false
-        }
+        sortField: 'id',
+        sortDir: 'DESC',
+        perPage: 30
     };
 
     /**
@@ -27,11 +23,13 @@ define(function (require) {
      */
     function Reference(fieldName) {
         Field.apply(this, arguments);
+        this.config = angular.extend(this.config, angular.copy(config));
         this.config.isDetailLink = true; // because the Field constructor overrides the default
-        this.referencedValue = null;
-        this.entries = {};
+        this.config.validation = { required: false };
         this.config.name = fieldName || 'reference';
         this.config.type = 'Reference';
+        this.referencedValue = null;
+        this.entries = {};
         this.referencedView = new ListView();
     }
 
@@ -129,7 +127,10 @@ define(function (require) {
      * @returns {ListView} a fake view that keep information about the targeted entity
      */
     Reference.prototype.getReferencedView = function () {
-        return this.referencedView;
+        var referencedView = this.referencedView;
+        this.referencedView.perPage(this.perPage());
+
+        return referencedView;
     };
 
     Reference.prototype.hasSingleApiCall = function () {
