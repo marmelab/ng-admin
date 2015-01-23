@@ -12,7 +12,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Entity Configuration](#entity-configuration)
 * [View Configuration](#view-configuration)
 * [Reusable Directives](#reusable-directives)
-* [Relationships](#Relationships)
+* [Relationships](#relationships)
 * [Customizing the API Mapping](doc/API-mapping.md)
 * [Theming](doc/Theming.md)
 * [Contributing](#contributing)
