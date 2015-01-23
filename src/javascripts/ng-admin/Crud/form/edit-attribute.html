@@ -3,7 +3,7 @@
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>
 
-    <div ng-if="field.editable()" ng-class="field.getCssClasses(entry)||'col-sm-10 col-md-8 col-lg-7'" ng-switch="field.type()">
+    <div ng-if="field.editable()" ng-class="'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')" ng-switch="field.type()">
         <ma-input-field ng-switch-when="string" field="::field" value="entry.values[field.name()]"></ma-input-field>
 
         <ma-input-field ng-switch-when="password" type="password" field="::field" value="entry.values[field.name()]"></ma-input-field>
