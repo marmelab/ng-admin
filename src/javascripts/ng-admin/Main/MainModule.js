@@ -40,7 +40,6 @@ define(function (require) {
 
     MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
-    MainModule.directive('maJsonValidator', require('ng-admin/Main/component/directive/maJsonValidator'));
 
     MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
