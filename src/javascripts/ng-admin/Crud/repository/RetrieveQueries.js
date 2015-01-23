@@ -102,7 +102,6 @@ define(function (require) {
 
         if (filters && Object.keys(filters).length !== 0) {
             var filterFields = listView.filters(),
-                hasFilterFields = Object.keys(filterFields).length !== 0,
                 filterName;
             params._filters = {};
             for (filterName in filters) {
