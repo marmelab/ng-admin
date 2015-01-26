@@ -66,7 +66,7 @@ define(function (require) {
         $stateProvider
             .state('show', {
                 parent: 'main',
-                url: '/show/:entity/:id',
+                url: '/show/:entity/:id?sortField&sortDir',
                 controller: 'ShowController',
                 controllerAs: 'showController',
                 templateProvider: templateProvider('ShowView', showTemplate),
