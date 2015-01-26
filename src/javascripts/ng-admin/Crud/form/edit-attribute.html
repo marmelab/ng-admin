@@ -29,7 +29,7 @@
         <ma-datagrid ng-switch-when="ReferencedList"
                   name="{{ field.getReferencedView().name() }}"
                   entries="field.entries"
-                  fields="field.getReferencedView().fields()"
+                  fields="field.getReferencedView().fields() | orderElement"
                   listActions="[]"
                   entity="field.getReferencedView().entity">
         </ma-datagrid>
