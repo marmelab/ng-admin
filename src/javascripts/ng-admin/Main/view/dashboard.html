@@ -1,17 +1,32 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Dashboard</h1>
+        <div class="page-header">
+            <h1>Dashboard</h1>
+        </div>
     </div>
 </div>
 
 <div class="row dashboard-content">
-    <div class="panel panel-default col-lg-5" ng-repeat="panel in dashboardController.panels">
-        <ma-dashboard-panel label="{{ panel.label }}"
-                         view-name="{{ panel.viewName }}"
-                         fields="panel.fields"
-                         entries="panel.entries"
-                         entity="panel.entity"
-                         per-page="panel.perPage">
-        </ma-dashboard-panel>
+    <div class="col-lg-6">
+        <div class="panel panel-default" ng-repeat="panel in dashboardController.panels" ng-if="$even">
+            <ma-dashboard-panel label="{{ panel.label }}"
+                             view-name="{{ panel.viewName }}"
+                             fields="panel.fields"
+                             entries="panel.entries"
+                             entity="panel.entity"
+                             per-page="panel.perPage">
+            </ma-dashboard-panel>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default" ng-repeat="panel in dashboardController.panels" ng-if="$odd">
+            <ma-dashboard-panel label="{{ panel.label }}"
+                             view-name="{{ panel.viewName }}"
+                             fields="panel.fields"
+                             entries="panel.entries"
+                             entity="panel.entity"
+                             per-page="panel.perPage">
+            </ma-dashboard-panel>
+        </div>
     </div>
 </div>

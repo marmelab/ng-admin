@@ -17,12 +17,12 @@ describe('Dashboard', function () {
     it('should display a panel for each entity with a list of recent items', function () {
         browser.get(browser.baseUrl);
 
-        element.all(by.repeater('panel in dashboardController.panels')).then(function (panels) {
+        $$('.panel').then(function (panels) {
             expect(panels.length).toBe(3);
 
             expect(panels[0].all(by.css('.panel-heading')).first().getText()).toBe('Recent posts');
-            expect(panels[1].all(by.css('.panel-heading')).first().getText()).toBe('Last comments');
-            expect(panels[2].all(by.css('.panel-heading')).first().getText()).toBe('Recent tags');
+            expect(panels[1].all(by.css('.panel-heading')).first().getText()).toBe('Recent tags');
+            expect(panels[2].all(by.css('.panel-heading')).first().getText()).toBe('Last comments');
         });
     });
 });

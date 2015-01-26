@@ -1,20 +1,22 @@
 <div class="row">
+    <div class="col-lg-12">
+        <ma-view-actions override="deleteController.actions" entry="entry" entity="deleteController.entity">
+            <ma-list-button entity="entity"></ma-list-button>
+        </ma-view-actions>
 
-    <ma-view-actions override="deleteController.actions" entry="entry" entity="deleteController.entity">
-        <ma-list-button entity="entity"></ma-list-button>
-    </ma-view-actions>
-
-    <div class="page-header">
-        <h1 compile="deleteController.title">
-            Delete {{ deleteController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }}
-        </h1>
-        <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
+        <div class="page-header">
+            <h1 compile="deleteController.title">
+                Delete {{ deleteController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }}
+            </h1>
+            <p class="lead" ng-if="deleteController.description">{{ deleteController.description }}</p>
+        </div>
     </div>
-
 </div>
 
 <div class="row" id="delete-view">
-    <p>Are you sure ?</p>
-    <button class="btn btn-danger" ng-click="deleteController.deleteOne()">Yes</button>
-    <button class="btn btn-default" ng-click="deleteController.back()">No</button>
+    <div class="col-lg-12">
+        <p>Are you sure ?</p>
+        <button class="btn btn-danger" ng-click="deleteController.deleteOne()">Yes</button>
+        <button class="btn btn-default" ng-click="deleteController.back()">No</button>
+    </div>
 </div>
