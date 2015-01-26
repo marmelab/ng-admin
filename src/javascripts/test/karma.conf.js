@@ -8,6 +8,15 @@ module.exports = function (config) {
 
         files: [
             {pattern: 'bower_components/requirejs-text/text.js', included: false},
+            {pattern: 'bower_components/requirejs-text/text.js', included: false},
+            {pattern: 'bower_components/codemirror/lib/codemirror.js', included: false},
+            {pattern: 'bower_components/codemirror/addon/edit/closebrackets.js', included: false},
+            {pattern: 'bower_components/codemirror/addon/edit/matchbrackets.js', included: false},
+            {pattern: 'bower_components/codemirror/addon/lint/lint.js', included: false},
+            {pattern: 'bower_components/jsonlint/lib/jsonlint.js', included: false},
+            {pattern: 'bower_components/codemirror/addon/lint/json-lint.js', included: false},
+            {pattern: 'bower_components/codemirror/addon/selection/active-line.js', included: false},
+            {pattern: 'bower_components/codemirror/mode/javascript/javascript.js', included: false},
             {pattern: 'bower_components/angular/angular.js', included: false},
             {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
             {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},

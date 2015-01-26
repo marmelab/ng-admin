@@ -70,6 +70,7 @@ define(function (require) {
         '<ma-string-column   ng-switch-when="number"    value="::value"></ma-string-column>' +
         '<ma-string-column   ng-switch-when="string"    value="::value"></ma-string-column>' +
         '<ma-string-column   ng-switch-when="text"      value="::value"></ma-string-column>' +
+        '<ma-json-column     ng-switch-when="json"      value="::value"></ma-json-column>' +
         '<ma-boolean-column  ng-switch-when="boolean"   value="::value"></ma-boolean-column>' +
         '<ma-password-column ng-switch-when="password"  value="::value"></ma-password-column>' +
         '<ma-wysiwyg-column  ng-switch-when="wysiwyg"   value="::value|stripTags"></ma-wysiwyg-column>' +

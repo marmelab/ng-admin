@@ -147,6 +147,8 @@
                     .targetEntity(tag)
                     .targetField(new Field('name'))
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
+                new Field('pictures')
+                    .type('json'),
                 new Field('views')
                     .type('number')
                     .cssClasses('col-sm-4'),

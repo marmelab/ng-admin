@@ -55,11 +55,10 @@ define(function (require) {
                 expect(field.getTemplateValue()).toEqual('hello function !');
             });
 
-            it('should not allows type other type.', function () {
-                var field = new Field();
-
-                expect(function () { field.type('myType');  })
-                    .toThrow(new Error('Type should be one of : "number", "string", "text", "wysiwyg", "email", "date", "boolean", "choice", "choices", "password", "template" but "myType" was given.'));
+            it('should allow even custom types', function () {
+                var field = new Field()
+                    .type('myType');
+                expect(true).toBeTruthy();
             });
 
         });

@@ -11,8 +11,9 @@ define(function (require) {
     require('angular-bootstrap-tpls');
     require('textangular');
     require('ngInflection');
+    require('angular-ui-codemirror');
 
-    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection']);
+    var CrudModule = angular.module('crud', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror']);
 
     CrudModule.controller('ListController', require('ng-admin/Crud/list/ListController'));
     CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
@@ -24,11 +25,14 @@ define(function (require) {
     CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
     CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
+    CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
+
     CrudModule.directive('maButtonField', require('ng-admin/Crud/field/maButtonField'));
     CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
     CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
+    CrudModule.directive('maJsonField', require('ng-admin/Crud/field/maJsonField'));
     CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
@@ -47,6 +51,7 @@ define(function (require) {
     CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
     CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
+    CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
     CrudModule.directive('maTemplateColumn', require('ng-admin/Crud/column/maTemplateColumn'));
     CrudModule.directive('maWysiwygColumn', require('ng-admin/Crud/column/maWysiwygColumn'));
 
