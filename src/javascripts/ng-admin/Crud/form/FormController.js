@@ -3,8 +3,7 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, CreateQueries,
-                                   UpdateQueries, Validator, FileUploader, Configuration,
+    var FormController = function ($scope, $location, $filter, CreateQueries, UpdateQueries, Validator, Configuration,
                                    progression, notification, view, entry) {
 
         this.$scope = $scope;
@@ -26,7 +25,6 @@ define(function () {
         this.$scope.view = view;
         this.view = view;
         this.entity = this.view.getEntity();
-        this.FileHandler = $scope.FileHandler = new FileUploader();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -155,25 +153,6 @@ define(function () {
         this.notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
     };
 
-    FormController.prototype.processUpload = function(File, field)
-    {
-        var self = this;
-        this.FileHandler.onProgressItem = function(fileItem, progress) {
-            self.progress.start();
-        };
-
-        this.FileHandler.onSuccessItem = function(fileItem, response, status, headers) {
-            field.config.uploadInformation.onUpload(response);
-            self.progress.done();
-        };
-
-        File.upload();
-    };
-
-    FormController.prototype.processRemove = function(File, field) {
-        //File.remove();
-    };
-
     FormController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$filter = undefined;
@@ -185,7 +164,7 @@ define(function () {
         this.FileHandler = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'FileUploader', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

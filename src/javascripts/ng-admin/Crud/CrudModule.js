@@ -13,6 +13,7 @@ define(function (require) {
     require('textangular');
     require('ngInflection');
     require('angular-ui-codemirror');
+    require('bootstrap-file-input');
 
     var CrudModule = angular.module('crud', [
         'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload'
@@ -36,11 +37,11 @@ define(function (require) {
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
     CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
     CrudModule.directive('maJsonField', require('ng-admin/Crud/field/maJsonField'));
+    CrudModule.directive('maFileField', require('ng-admin/Crud/field/maFileField'));
     CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
     CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
-    CrudModule.directive('fileField', require('ng-admin/Crud/component/directive/field/FileField'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));

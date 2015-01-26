@@ -166,7 +166,6 @@ define(function (require) {
                     }]
                 }
             });
-
     }
 
     routing.$inject = ['$stateProvider'];
