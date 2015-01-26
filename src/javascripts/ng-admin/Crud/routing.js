@@ -72,7 +72,9 @@ define(function (require) {
                 templateProvider: templateProvider('ShowView', showTemplate),
                 params: {
                     entity: {},
-                    id: null
+                    id: null,
+                    sortField: null,
+                    sortDir: null
                 },
                 resolve: {
                     view: viewProvider('ShowView'),
