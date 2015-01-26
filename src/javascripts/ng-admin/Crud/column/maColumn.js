@@ -41,7 +41,7 @@ define(function (require) {
                 };
                 scope.gotoDetail = function () {
                     this.clearRouteParams();
-                    var route = scope.entity().isReadOnly ? 'show' : 'edit';
+                    var route = scope.entity().isReadOnly ? 'show' : scope.field.detailLinkRoute();
 
                     $location.path('/' + route + '/' + scope.entry.entityName + '/' + scope.entry.identifierValue);
                     $anchorScroll(0);
@@ -51,7 +51,7 @@ define(function (require) {
                     var referenceEntity = scope.field.targetEntity().name();
                     var relatedEntity = Configuration().getEntity(referenceEntity);
                     var referenceId = scope.entry.values[scope.field.name()];
-                    var route = relatedEntity.isReadOnly ? 'show' : 'edit';
+                    var route = relatedEntity.isReadOnly ? 'show' : scope.field.detailLinkRoute();
                     $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
                 };
                 scope.clearRouteParams = function () {

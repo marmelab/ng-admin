@@ -21,6 +21,7 @@ define(function (require) {
         format: 'yyyy-MM-dd',
         template: defaultValueTemplate,
         isDetailLink: false,
+        detailLinkRoute: 'edit',
         list: true,
         dashboard: true,
         validation: {
