@@ -1,6 +1,6 @@
 # Upgrade to 0.5
 
-ng-admin v0.5 breaks compatibility with v0.4. You will need to update your congiguration to be able to use this new version.
+ng-admin v0.5 breaks compatibility with v0.4. You will need to update your configuration to be able to use this new version.
 
 Breaking compatibility allows us to make ng-admin compatible with much more types of REST APIs.
 
@@ -25,7 +25,7 @@ You can use Restangular's `addFullRequestInterceptor` to transform these into pa
 
 ## HTTP query manipulation methods are removed
 
-To transform parameters on outgoing requests, ng-admin no longer offers any built-in hook. But you have the full power of Restangular's request interceptors, which allow you to customize pretty much everything about outgoing requests.
+To transform parameters on outgoing requests, ng-admin no longer offers any built-in hook. But you have the full power of [Restangular's request interceptors](https://github.com/mgonto/restangular#addrequestinterceptor), which allow you to customize pretty much everything about outgoing requests.
 Therefore the following methods are now removed:
 
 * `view.extraParams(function|Object)`
@@ -143,3 +143,7 @@ myEntity.listView()
 ## Reusable directives are now prefixed with 'ma-'
 
 All directives created by ng-admin have nowe been prefixed with 'ma-'. If you use any of the reusable directives (like `<edit-button>`), you must switch to the prefixed version (like `<ma-edit-button>`).
+
+## Tons of new features
+
+In addition to these changes, ng-admin 0.5 comes with a huge list of new features: Theming, filters, fields reusability, API mapping, Menu icons, JSON field, Error message customization... Check the [changelog](CHANGELOG.md) for a complete list of changes.
