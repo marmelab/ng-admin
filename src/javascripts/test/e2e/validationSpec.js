@@ -2,8 +2,8 @@
 describe('Form validation', function () {
     'use strict';
 
-    describe('Creation Form', function() {
-        beforeEach(function() {
+    describe('Creation Form', function () {
+        beforeEach(function () {
             browser.get(browser.baseUrl + '#/create/posts');
         });
 
