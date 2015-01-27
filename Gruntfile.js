@@ -100,7 +100,7 @@ module.exports = function (grunt) {
                 dest: 'examples/blog/config.js',
                 options: {
                     process: function (content) {
-                        return process.env.CI ? content.replace(/http:\/\/localhost:3000\//g, 'http://ng-admin.marmelab.com:8081/') : content;
+                        return process.env.CI ? content.replace(/http:\/\/localhost:3000\//g, 'http://ng-admin.marmelab.com:8080/') : content;
                     }
                 }
             }
