@@ -113,6 +113,14 @@ define(function (require) {
                 identifiers = view.getIdentifierValues([{_id: 1, tags:[1, 3]}, {_id:3, id:6, tags:[4, 3]}]);
                 expect(identifiers).toEqual(['1', '3', '4']);
             });
+
+            it('Should not return undefined values', function () {
+                var view = new Reference('tags'),
+                    identifiers;
+
+                identifiers = view.getIdentifierValues([{_id: 1, tags:undefined}, {_id:3, id:6, tags:[3]}]);
+                expect(identifiers).toEqual(['3']);
+            });
         });
 
     });

@@ -166,7 +166,7 @@ define(function (require) {
                 for (j in identifier) {
                     results[identifier[j]] = true;
                 }
-            } else {
+            } else if (typeof identifier !== 'undefined') {
                 results[identifier] = true;
             }
         }
