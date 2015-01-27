@@ -9,11 +9,10 @@ define(function (require) {
     require('angular-ui-router');
     require('angular-sanitize');
     require('angular-bootstrap-tpls');
-    require('angular-file-upload');
+    require('ng-file-upload');
     require('textangular');
     require('ngInflection');
     require('angular-ui-codemirror');
-    require('bootstrap-file-input');
 
     var CrudModule = angular.module('crud', [
         'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload'

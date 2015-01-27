@@ -11,7 +11,7 @@ require.config({
         'angular-resource': 'bower_components/angular-resource/angular-resource',
         'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
         'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
-        'angular-file-upload': 'bower_components/danialfarid-angular-file-upload/dist/angular-file-upload',
+        'ng-file-upload': 'bower_components/ng-file-upload/angular-file-upload',
         'lodash': 'bower_components/lodash/dist/lodash.min',
         'text' : 'bower_components/requirejs-text/text',
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
@@ -23,8 +23,6 @@ require.config({
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
         'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',
-        'jquery': 'bower_components/jquery/dist/jquery.min',
-        'bootstrap-file-input': 'bower_components/bootstrap-file-input/bootstrap.file-input',
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
     },
@@ -40,10 +38,6 @@ require.config({
         },
         'angular-bootstrap-tpls': {
             deps: ['angular', 'angular-bootstrap']
-        },
-        'bootstrap-file-input': {
-            deps: ['jquery'],
-            exports: 'jQuery.fn.bootstrapFileInput'
         }
     }
 });

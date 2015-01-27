@@ -34,10 +34,9 @@ define(function (require) {
         attributes: {},
         cssClasses: '',
         uploadInformation: {
-            url       : '/static/upload',
-            removeUrl : '/static/remove',
-            onUpload : function (response, field) {},
-            onRemove : function (response, field) {}
+            url: '/static/upload',
+            multiple: false,
+            accept: '*'
         }
     };
 
