@@ -15,56 +15,59 @@ define(function (require) {
                 'value': '='
             },
             restrict: 'E',
-            link: function(scope, element) {
-                var field = scope.field();
-                scope.name = field.name();
-                scope.v = field.validation();
-                var input = element.find('input')[0];
-                var attributes = field.attributes();
-                for (var name in attributes) {
-                    input[name] = attributes[name];
-                }
-
-                var uploadInformation = field.config.uploadInformation;
-                if (!uploadInformation.hasOwnProperty('url')) {
-                    throw new Error('You must provide url configuration entry of uploadInformation file field.');
-                }
-
-                scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
-                scope.accept = uploadInformation.hasOwnProperty('accept') ? uploadInformation.accept : '*';
-                scope.progress = 0;
-
-                scope.fileSelected = function(files) {
-                    var uploadParams, file;
-
-                    for (var file in files) {
-                        uploadParams = angular.copy(uploadInformation);
-                        uploadParams.file = files[file];
-
-                        $upload
-                            .upload(uploadParams)
-                            .progress(function(evt) {
-                                scope.value = files[file].name;
-                                scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-                            })
-                            .success(function(data, status, headers, config) {
-                                scope.progress = 0;
-                                scope.value = files[file].name;
-                            })
-                            .error(function(data) {
-                                //error
-                                console.log(data);
-                                scope.progress = 0;
-                                scope.value = null;
-                            });
+            link: {
+                pre: function(scope) {
+                    var uploadInformation = scope.field().config.uploadInformation;
+                    if (!uploadInformation.hasOwnProperty('url')) {
+                        throw new Error('You must provide url configuration entry of uploadInformation file field.');
                     }
-                };
 
-                scope.selectFile = function () {
-                    $timeout(function() {
-                        input.click();
-                    }, 0);
-                };
+                    scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
+                    scope.accept = uploadInformation.hasOwnProperty('accept') ? uploadInformation.accept : '*';
+                    scope.progress = 0;
+                },
+                post: function(scope, element) {
+                    var field = scope.field();
+                    scope.name = field.name();
+                    scope.v = field.validation();
+                    var input = element.find('input')[0];
+                    var attributes = field.attributes();
+                    for (var name in attributes) {
+                        input[name] = attributes[name];
+                    }
+
+                    scope.fileSelected = function(files) {
+                        var uploadParams, file;
+
+                        for (var file in files) {
+                            uploadParams = angular.copy(field.config.uploadInformation);
+                            uploadParams.file = files[file];
+
+                            $upload
+                                .upload(uploadParams)
+                                .progress(function(evt) {
+                                    scope.value = files[file].name;
+                                    scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+                                })
+                                .success(function(data, status, headers, config) {
+                                    scope.progress = 0;
+                                    scope.value = files[file].name;
+                                })
+                                .error(function(data) {
+                                    //error
+                                    console.log(data);
+                                    scope.progress = 0;
+                                    scope.value = null;
+                                });
+                        }
+                    };
+
+                    scope.selectFile = function () {
+                        $timeout(function() {
+                            input.click();
+                        }, 0);
+                    };
+                }
             },
             template:
 '<div style="row">' +
