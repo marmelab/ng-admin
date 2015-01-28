@@ -35,7 +35,6 @@ define(function (require) {
         cssClasses: '',
         uploadInformation: {
             url: '/static/upload',
-            multiple: false,
             accept: '*'
         }
     };

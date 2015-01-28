@@ -161,7 +161,6 @@ define(function () {
         this.UpdateQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
-        this.FileHandler = undefined;
     };
 
     FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
