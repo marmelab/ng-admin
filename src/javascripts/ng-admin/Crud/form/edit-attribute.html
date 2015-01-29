@@ -46,6 +46,8 @@
     </div>
 
     <div ng-if="!field.editable()" ng-class="field.getCssClasses(entry)||'col-sm-10'">
-        <p class="form-control-static">{{ entry.values[field.name()] }}</p>
+        <p class="form-control-static">
+            <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
+        </p>
     </div>
 </div>
