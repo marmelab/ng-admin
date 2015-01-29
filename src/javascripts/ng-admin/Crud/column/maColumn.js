@@ -65,7 +65,7 @@ define(function (require) {
 '<span ng-switch="isDetailLink()">' +
     '<span ng-switch-when="false" ng-switch="type">' + 
 
-        '<ma-string-column   ng-switch-when="choice"    value="::value"></ma-string-column>' +
+        '<ma-string-column   ng-switch-when="choice"    value="::field.getLabelForChoice(value)"></ma-string-column>' +
         '<ma-string-column   ng-switch-when="email"     value="::value"></ma-string-column>' +
         '<ma-string-column   ng-switch-when="number"    value="::value"></ma-string-column>' +
         '<ma-string-column   ng-switch-when="string"    value="::value"></ma-string-column>' +
@@ -85,7 +85,7 @@ define(function (require) {
     '<span ng-switch-when="true" ng-switch="isReference">' + 
         '<a ng-switch-when="false" ng-click="gotoDetail()" ng-switch="type">' +
 
-            '<ma-string-column   ng-switch-when="choice"   value="::value"></ma-string-column>' +
+            '<ma-string-column   ng-switch-when="choice"   value="::field.getLabelForChoice(value)"></ma-string-column>' +
             '<ma-string-column   ng-switch-when="email"    value="::value"></ma-string-column>' +
             '<ma-string-column   ng-switch-when="number"   value="::value"></ma-string-column>' +
             '<ma-string-column   ng-switch-when="string"   value="::value"></ma-string-column>' +
