@@ -152,5 +152,13 @@ define(function (require) {
         return this.isDetailLink(bool);
     }
 
+    /**
+     * only for type choice
+     */
+    Field.prototype.getLabelForChoice = function(value) {
+        var choice = this.choices().filter(function(choice) { return choice.value == value }).pop();
+        return choice ? choice.label : null;
+    };
+
     return Field;
 });

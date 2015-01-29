@@ -64,7 +64,6 @@ define(function (require) {
 
                 entries = view.mapEntries(response.data);
                 entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
-                entries = view.getMappedValue(entries);
 
                 return {
                     entries: entries,

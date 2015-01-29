@@ -72,35 +72,6 @@ define(function (require) {
         return results;
     };
 
-    /**
-     * Map all values depending of the `map` configuration of a field
-     *
-     * @param {[Object]} entries
-     *
-     * @return {[Object]}
-     */
-    ListView.prototype.getMappedValue = function (entries) {
-        if (!entries.length) {
-            return [];
-        }
-
-        var fields = this.getFields(),
-            field,
-            i,
-            l,
-            fieldName;
-
-        for (i = 0, l = entries.length; i < l; i++) {
-            for (fieldName in fields) {
-                field = fields[fieldName];
-
-                entries[i].values[fieldName] = field.getMappedValue(entries[i].values[fieldName], entries[i]);
-            }
-        }
-
-        return entries;
-    };
-
     Configurable(ListView.prototype, config);
 
     return ListView;
