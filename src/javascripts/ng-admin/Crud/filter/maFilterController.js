@@ -51,6 +51,7 @@ define(function () {
         }
 
         this.$stateParams.search = values;
+        this.$stateParams.page = 1;
         this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
     };
 
