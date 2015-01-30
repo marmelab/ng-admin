@@ -31,8 +31,11 @@ define(function (require) {
                     return;
                 }
                 scope.isDetailLink = function() {
+                    if (scope.field.isDetailLink() === false) {
+                        return false;
+                    }
                     if (!scope.isReference) {
-                        return scope.field.isDetailLink();
+                        return true;
                     }
                     var referenceEntity = scope.field.targetEntity().name();
                     var relatedEntity = Configuration().getEntity(referenceEntity);
