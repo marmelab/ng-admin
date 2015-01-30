@@ -15,6 +15,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Relationships](#relationships)
 * [Customizing the API Mapping](doc/API-mapping.md)
 * [Theming](doc/Theming.md)
+* [Adding Custom Pages](doc/Custom-pages.md)
 * [Contributing](#contributing)
 * [License](#license)
 

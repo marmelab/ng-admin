@@ -4,52 +4,7 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.directive('customPostLink', ['$location', function ($location) {
-        return {
-            restrict: 'E',
-            template: '<p class="form-control-static"><a ng-click="displayPost(entry)">View&nbsp;post</a></p>',
-            link: function ($scope) {
-                $scope.displayPost = function (entry) {
-                    var postId = entry.values.post_id;
-
-                    $location.path('/edit/posts/' + postId);
-                };
-            }
-        };
-    }]);
-
-    app.directive('otherPageLink', ['$location', function ($location) {
-        return {
-            restrict: 'E',
-            scope: true,
-            template: '<p class="form-control-static"><a ng-click="changePage()">Change page</a></p>',
-            link: function ($scope) {
-                $scope.changePage = function () {
-                    $location.path('/new-page');
-                };
-            }
-        };
-    }]);
-
-    app.controller('NewPageController', function ($scope, $location) {
-        $scope.title = 'Custom page';
-
-        $scope.goToDashboard = function () {
-            $location.path('dashboard');
-        };
-    });
-
-    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany, RestangularProvider, $stateProvider) {
-
-        // Create a new route for a custom page
-        $stateProvider
-            .state('new-page', {
-                parent: 'main',
-                url: '/new-page',
-                controller: 'NewPageController',
-                controllerAs: 'listController',
-                template: '<h1>{{ title }}</h1><a ng-click="goToDashboard()">Go to dashboard</a>'
-            });
+    app.config(function (NgAdminConfigurationProvider, Application, Entity, Field, Reference, ReferencedList, ReferenceMany, RestangularProvider) {
 
         function truncate(value) {
             if (!value) {
@@ -83,7 +38,7 @@
             return { params: params };
         });
 
-        var app = new Application('ng-admin backend demo') // application main title
+        var admin = new Application('ng-admin backend demo') // application main title
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
         // define all entities at the top to allow references between them
@@ -97,7 +52,7 @@
             .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
         // set the application entities
-        app
+        admin
             .addEntity(post)
             .addEntity(tag)
             .addEntity(comment);
@@ -167,7 +122,8 @@
                 post.editionView().fields(), // reuse fields from another view in another order
                 new Field('custom_action')
                     .type('template')
-                    .template('<other-page-link></other-link-link>')
+                    .label('')
+                    .template('<send-email post="entry"></send-email>')
             ]);
 
         comment.menuView()
@@ -183,8 +139,8 @@
                 new Field('body').label('Comment').map(truncate),
                 new Field() // template fields don't need a name in dashboard view
                     .type('template') // a field which uses a custom template
-                    .label('Actions')
-                    .template('<custom-post-link></custom-post-link>') // you can use custom directives, too
+                    .label('')
+                    .template('<post-link entry="entry"></post-link>') // you can use custom directives, too
             ]);
 
         comment.listView()
@@ -248,8 +204,8 @@
             .fields(comment.creationView().fields())
             .fields([new Field()
                 .type('template')
-                .label('Actions')
-                .template('<custom-post-link></custom-post-link>') // template() can take a function or a string
+                .label('')
+                .template('<post-link entry="entry"></post-link>') // template() can take a function or a string
             ]);
 
         comment.deletionView()
@@ -293,6 +249,73 @@
                 new Field('published').type('boolean')
             ]);
 
-        NgAdminConfigurationProvider.configure(app);
+        NgAdminConfigurationProvider.configure(admin);
     });
+
+    app.directive('postLink', ['$location', function ($location) {
+        return {
+            restrict: 'E',
+            scope: { entry: '&' },
+            template: '<p class="form-control-static"><a ng-click="displayPost()">View&nbsp;post</a></p>',
+            link: function (scope) {
+                scope.displayPost = function () {
+                    $location.path('/show/posts/' + scope.entry().values.post_id);
+                };
+            }
+        };
+    }]);
+
+    app.directive('sendEmail', ['$location', function ($location) {
+        return {
+            restrict: 'E',
+            scope: { post: '&' },
+            template: '<a class="btn btn-default" ng-click="send()">Send post by email</a>',
+            link: function (scope) {
+                scope.send = function () {
+                    $location.path('/sendPost/' + scope.post().values.id);
+                };
+            }
+        };
+    }]);
+
+    // custom 'send post by email' page
+
+    function sendPostController($stateParams, notification) {
+        this.postId = $stateParams.id;
+        // notification is the service used to display notifications on the top of the screen
+        this.notification = notification;
+    };
+    sendPostController.prototype.sendEmail = function() {
+        if (this.email) {
+            this.notification.log('Email successfully sent to ' + this.email, {addnCls: 'humane-flatty-success'});
+        } else {
+            this.notification.log('Email is undefined', {addnCls: 'humane-flatty-error'});
+        }
+    }
+    sendPostController.inject = ['$stateParams', 'notification'];
+
+    var sendPostControllerTemplate =
+        '<div class="row"><div class="col-lg-12">' +
+            '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
+            '<div class="page-header">' +
+                '<h1>Send post #{{ controller.postId }} by email</h1>' +
+                '<p class="lead">You can add custom pages, too</p>' +
+            '</div>' +
+        '</div></div>' +
+        '<div class="row">' +
+            '<div class="col-lg-5"><input type="text" size="10" ng-model="controller.email" class="form-control" placeholder="name@example.com"/></div>' +
+            '<div class="col-lg-5"><a class="btn btn-default" ng-click="controller.sendEmail()">Send</a></div>' +
+        '</div>';
+
+    app.config(function ($stateProvider) {
+        $stateProvider.state('send-post', {
+            parent: 'main',
+            url: '/sendPost/:id',
+            params: { id: null },
+            controller: sendPostController,
+            controllerAs: 'controller',
+            template: sendPostControllerTemplate
+        });
+    });
+
 }());
