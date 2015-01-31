@@ -70,4 +70,24 @@ describe('Global filter', function () {
             expect(totalElements[0].getText()).toBe('1 - 2 on 2');
         });
     });
+
+    it('should reset page number', function () {
+        // Filter globally for 'I'
+        $$('.filters .filter:nth-child(1) input').sendKeys('I');
+        $$('.filters button[type="submit"]').click();
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            expect(totalElements[0].getText()).toBe('1 - 10 on 11');
+        });
+        $$('ma-datagrid-pagination a:nth-child(2)').click();
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            expect(totalElements[0].getText()).toBe('11 - 11 on 11');
+        });
+        // Filter globally for 'be'
+        $$('.filters .filter:nth-child(1) input').clear();
+        $$('.filters .filter:nth-child(1) input').sendKeys('be');
+        $$('.filters button[type="submit"]').click();
+        $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            expect(totalElements[0].getText()).toBe('1 - 5 on 5');
+        });
+    });
 });
