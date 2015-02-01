@@ -324,7 +324,7 @@ A field is the representation of a property of an entity.
 
 ### General Field Settings
 
-* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'template'])`
+* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'json'|template'])`
 Define the field type. Default type is 'string', so you can omit it.
 
 * `label(string label)`
