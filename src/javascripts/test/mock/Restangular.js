@@ -17,7 +17,7 @@ define('mock/Restangular', [
         getList:    function() { return mixins.buildPromise({}); },
         customPOST: function() { return mixins.buildPromise({}); },
         customPUT:  function() { return mixins.buildPromise({}); },
-        customDELETE: function() { return mixins.buildPromise({}); },
+        customDELETE: function() { return mixins.buildPromise({}); }
     };
 
     return Restangular;
