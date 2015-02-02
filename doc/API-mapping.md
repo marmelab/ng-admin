@@ -49,6 +49,18 @@ app.config(function(RestangularProvider) {
 });
 ```
 
+If your API requires that you post and put data for instance inside of an `item` field instead directly, use Restangular request interceptor:
+```js
+app.config(function(RestangularProvider) {
+    RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
+        if(operation == 'post' || operation == 'put') {
+            element = { item: element };
+        }
+        return { element: element };
+    });
+}
+```
+
 ## Pagination
 
 ng-admin assumes that your API accepts `_page` and `_perPage` query parameters to paginate lists:

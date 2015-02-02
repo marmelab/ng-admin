@@ -317,14 +317,14 @@ A field is the representation of a property of an entity.
 
 ### Field Classes
 
-- `Field`: simple field (possible types: number, string, text, boolean, wysiwyg, email, date, choice, choices, file, template)
+- `Field`: simple field (possible types: number, string, text, boolean, wysiwyg, email, date, choice, choices, json, file, template)
 - `Reference`: one-to-many association with another entity
 - `ReferencedList`: many-to-one association
 - `ReferenceMany`: many-to-many association
 
 ### General Field Settings
 
-* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'file'|'template'])`
+* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'json'|'file'|'template'])`
 Define the field type. Default type is 'string', so you can omit it.
 
 * `label(string label)`
