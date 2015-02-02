@@ -35,7 +35,20 @@ ng-admin expects the `GET http://your.api.domain/books/12` route to return a JSO
 
 Additional properties not defined in the view are ignored.
 
-Now if your API returns results in another format, for instance with all the values under a `values` key, you can use Restangular element transformers:
+Now if your API returns results in another format, for instance with all the values under a `values` key:
+
+```json
+{
+    "values": {
+        "id": 12,
+        "name": "War and Peace",
+        "author_id": 345,
+        "publication_date": "2014-01-01T00:00:00Z"
+    }
+}
+```
+
+You can use Restangular element transformers to map that to the expected format:
 
 ```js
 app.config(function(RestangularProvider) {
@@ -49,12 +62,13 @@ app.config(function(RestangularProvider) {
 });
 ```
 
-If your API requires that you post and put data for instance inside of an `item` field instead directly, use Restangular request interceptor:
+Symetrically, if your API requires that you post and put data inside of a `values` field, use Restangular request interceptor:
+
 ```js
 app.config(function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if(operation == 'post' || operation == 'put') {
-            element = { item: element };
+            element = { values: element };
         }
         return { element: element };
     });
