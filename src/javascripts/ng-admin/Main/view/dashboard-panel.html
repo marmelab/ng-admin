@@ -1,13 +1,10 @@
 <div class="panel-heading">
-    {{ label }}
+    <a ng-click="gotoList()">{{ label }}</a>
 </div>
 
 <ma-datagrid name="{{ viewName }}"
     entries="entries"
-    fields="fields()"
+    fields="fields() | orderElement"
     entity="entity()"
-    per-page="perPage"
-    listActions="[]"
-    infinite-pagination="false"
-    with-pagination="false">
+    list-actions="false">
 </ma-datagrid>

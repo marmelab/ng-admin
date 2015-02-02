@@ -13,12 +13,6 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     left: 50%;
 }
 
-.nav {
-    a {
-        cursor: pointer;
-    }
-}
-
 .navbar-static-top {
     margin-bottom: 0;
 }
@@ -26,6 +20,12 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
 menu {
     margin: 0;
     padding: 0;
+}
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
 }
 
 /**
@@ -107,10 +107,6 @@ ma-view-actions {
 
     background-color: #fff;
 
-    a {
-        cursor: pointer;
-    }
-
     .label-default {
         margin-right: 5px;
         font-weight: normal;
@@ -188,10 +184,6 @@ div.bottom-loader {
         -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         width: 100%;
-    }
-
-    a {
-        cursor: pointer;
     }
 
     .ta-toolbar button {

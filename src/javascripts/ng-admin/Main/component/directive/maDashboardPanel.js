@@ -5,7 +5,7 @@ define(function (require) {
 
     var dashboardPanelView = require('text!../../view/dashboard-panel.html');
 
-    function maDashboardPanel() {
+    function maDashboardPanel($location) {
         return {
             restrict: 'E',
             scope: {
@@ -16,11 +16,16 @@ define(function (require) {
                 entity: '&',
                 perPage: '='
             },
+            link: function(scope) {
+                scope.gotoList = function () {
+                    $location.path('/list/' + scope.entity().name());
+                };
+            },
             template: dashboardPanelView
         };
     }
 
-    maDashboardPanel.$inject = [];
+    maDashboardPanel.$inject = ['$location'];
 
     return maDashboardPanel;
 });
