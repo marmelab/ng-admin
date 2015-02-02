@@ -17,9 +17,9 @@ define(function (require) {
             restrict: 'E',
             link: {
                 pre: function(scope) {
-                    var uploadInformation = scope.field().config.uploadInformation;
+                    var uploadInformation = scope.field().uploadInformation();
                     if (!uploadInformation.hasOwnProperty('url')) {
-                        throw new Error('You must provide url configuration entry of uploadInformation file field.');
+                        throw new Error('You must provide a URL property to allow the upload of files.');
                     }
 
                     scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
@@ -53,7 +53,7 @@ define(function (require) {
 
                         scope.files = {};
                         for (var file in selectedFiles) {
-                            uploadParams = angular.copy(field.config.uploadInformation);
+                            uploadParams = angular.copy(scope.field().uploadInformation());
                             uploadParams.file = selectedFiles[file];
 
                             $upload
