@@ -3,8 +3,8 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, CreateQueries,
-                                   UpdateQueries, Validator, Configuration, progression, notification, view, entry) {
+    var FormController = function ($scope, $location, $filter, CreateQueries, UpdateQueries, Validator, Configuration,
+                                   progression, notification, view, entry) {
 
         this.$scope = $scope;
         this.$location = $location;

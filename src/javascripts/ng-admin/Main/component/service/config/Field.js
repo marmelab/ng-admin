@@ -32,7 +32,11 @@ define(function (require) {
         choices: [],
         defaultValue: null,
         attributes: {},
-        cssClasses: ''
+        cssClasses: '',
+        uploadInformation: {
+            url: '/upload',
+            accept: '*'
+        }
     };
 
     /**
