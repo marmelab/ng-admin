@@ -317,14 +317,14 @@ A field is the representation of a property of an entity.
 
 ### Field Classes
 
-- `Field`: simple field (possible types: number, string, text, boolean, wysiwyg, email, date, choice, choices, template)
+- `Field`: simple field (possible types: number, string, text, boolean, wysiwyg, email, date, choice, choices, json, file, template)
 - `Reference`: one-to-many association with another entity
 - `ReferencedList`: many-to-one association
 - `ReferenceMany`: many-to-many association
 
 ### General Field Settings
 
-* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'json'|template'])`
+* `type(string ['number'|'string'|'text'|'boolean'|'wysiwyg'|'email'|'date'|'choice'|'choices'|'json'|'file'|'template'])`
 Define the field type. Default type is 'string', so you can omit it.
 
 * `label(string label)`
@@ -392,6 +392,12 @@ Define the default value of the field in the creation form.
 
 * `template(*)`
 Define the template to be displayed for fields of type `template` (can be a string or a function).
+
+* `uploadInformation`
+Give upload information for `file` field type
+ - `url`: url for server side upload
+ - `accept`: values allowed by the standard HTML file input accept attribute
+Some other properties are allowed, see https://github.com/danialfarid/angular-file-upload#upload-service for the complete list.
 
 ## Reusable Directives
 

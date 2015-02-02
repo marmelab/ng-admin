@@ -22,9 +22,9 @@ define(function (require) {
                     element.append(
                         '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
                              'entries="field.entries"' +
-                             'fields="field.getReferencedView().fields() | orderElement"' +
-                             'entity="field.getReferencedView().entity"' +
-                             'listActions="[]">' +
+                             'fields="::field.getReferencedView().fields() | orderElement"' +
+                             'list-actions="::field.listActions()"' +
+                             'entity="::field.getReferencedView().entity">' +
                         '</ma-datagrid>'
                     );
                     $compile(element.contents())(scope);

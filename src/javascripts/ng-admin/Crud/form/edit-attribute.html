@@ -20,6 +20,8 @@
 
         <div class="row" ng-switch-when="date"><ma-date-field field="::field" value="entry.values[field.name()]" class="col-sm-4"></ma-date-field></div>
 
+        <ma-file-field ng-switch-when="file" field="::field" value="entry.values[field.name()]"></ma-file-field>
+
         <ma-choice-field ng-switch-when="choice" field="::field" value="entry.values[field.name()]"></ma-choice-field>
 
         <ma-choice-field ng-switch-when="Reference" field="::field" value="entry.values[field.name()]"></ma-choice-field>

@@ -11,7 +11,8 @@ define(function (require) {
     var config = {
         edition: 'editable',
         targetReferenceField: null,
-        targetFields: []
+        targetFields: [],
+        listActions: null
     };
 
     /**
