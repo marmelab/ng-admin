@@ -49,6 +49,18 @@ app.config(function(RestangularProvider) {
 });
 ```
 
+If your API requires that you post and put data for instance inside of an `item` field instead directly, use Restangular request interceptor:
+```js
+app.config(function(RestangularProvider) {
+    RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
+        if(operation == 'post' || operation == 'put') {
+            element = { item: element };
+        }
+        return { element: element };
+    });
+}
+```
+
 ## Pagination
 
 ng-admin assumes that your API accepts `_page` and `_perPage` query parameters to paginate lists:
@@ -170,33 +182,6 @@ app.config(function(RestangularProvider) {
 Now, the API call URLs will look like:
 
 http://your.api.domain/entityName?q=foo&tag=bar
-
-
-## Nested request and response
-
-If your API returns the results in a field of an object instead directly, you can use Restangular response interceptor. For instance if you request http://your.api.domain/entityName and the API returns the result array in an `items` field instead directly:
-
-```js
-app.config(function(RestangularProvider) {
-    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
-        if (operation == "getList" && what == 'entityName') {
-            data = data.items;
-        }
-        return data;
-});
-```
-
-If your API requires that you post and put data for instance inside of an `item` field instead directly, use Restangular request interceptor:
-```js
-app.config(function(RestangularProvider) {
-    RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
-        if(operation == 'post' || operation == 'put') {
-            element = { item: element };
-        }
-        return { element: element };
-    });
-}
-```
 
 ## Identifier
 
