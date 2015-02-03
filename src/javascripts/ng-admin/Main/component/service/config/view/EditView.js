@@ -26,9 +26,5 @@ define(function (require) {
         return 'editForm';
     };
 
-    EditView.prototype.showAttributeSuccess = function () {
-        return false;
-    };
-
     return EditView;
 });

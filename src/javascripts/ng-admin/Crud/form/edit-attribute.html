@@ -42,9 +42,9 @@
 
         <template-field ng-switch-when="template"></template-field>
 
-        <span ng-if="view.showAttributeSuccess()" class="glyphicon glyphicon-ok form-control-feedback" ng-show="true === {{ formController.name }}.{{ field.name() }}.$valid"></span>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }}) === 'has-success'"></span>
 
-        <span ng-if="!view.showAttributeSuccess()" class="glyphicon glyphicon-remove form-control-feedback" ng-show="false === {{ formController.name }}.{{ field.name() }}.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }}) === 'has-error'"></span>
     </div>
 
     <div ng-if="!field.editable()" ng-class="field.getCssClasses(entry)||'col-sm-10'">

@@ -26,9 +26,5 @@ define(function (require) {
         return 'createForm';
     };
 
-    CreateView.prototype.showAttributeSuccess = function () {
-        return true;
-    };
-
     return CreateView;
 });
