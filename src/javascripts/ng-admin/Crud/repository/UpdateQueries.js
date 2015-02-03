@@ -24,15 +24,13 @@ define(function (require) {
      * @returns {promise} the updated object
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
-        var entityId = rawEntity[view.getEntity().identifier().name()];
-
-        // Get element data
-        return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
-            .customPUT(rawEntity)
-            .then(function (response) {
-                return view.mapEntry(response.data);
-            });
+        var entityId = rawEntity[view.getEntity().identifier().name()],
+            method = view.getEntity().updateMethod(),
+            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId));
+        var operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPUT(rawEntity);
+        return operation.then(function (response) {
+            return view.mapEntry(response.data);
+        });
     };
 
     UpdateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
