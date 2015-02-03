@@ -28,11 +28,9 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
-    FormController.prototype.validate = function (form, $event) {
-        $event.preventDefault();
-        this.progression.start();
-
+    FormController.prototype.validateEntry = function () {
         var value,
+            form = this.form,
             entry = this.$scope.entry,
             $filter = this.$filter,
             fields = this.view.getFields(),
@@ -41,6 +39,11 @@ define(function () {
             field,
             i,
             object = {};
+
+        if (!form.$valid) {
+            this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
+            return false;
+        }
 
         // Inject identifier
         object[identifierField.name()] = entry.identifierValue;
@@ -60,7 +63,6 @@ define(function () {
         try {
             this.Validator.validate(this.view, mappedObject);
         } catch (e) {
-            this.progression.done();
             this.notification.log(e, {addnCls: 'humane-flatty-error'});
             return false;
         }
@@ -68,29 +70,19 @@ define(function () {
         return object;
     };
 
-    /**
-     * @param {Object} form
-     * @param {$event} $event
-     */
     FormController.prototype.submitCreation = function ($event) {
-        var form = this.form;
-        if (!form.$valid) {
-            this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
-            return false;
+        $event.preventDefault();
+        var entry = this.validateEntry();
+        if (!entry) {
+            return;
         }
-
-        var object = this.validate(form, $event),
-            progression = this.progression,
+        var progression = this.progression,
             notification = this.notification,
             entity = this.entity,
             $location = this.$location;
-
-        if (!object) {
-            return;
-        }
-
+        progression.start();
         this.CreateQueries
-            .createOne(this.view, object)
+            .createOne(this.view, entry)
             .then(function (response) {
                 progression.done();
                 notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
@@ -98,27 +90,17 @@ define(function () {
             }, this.handleError.bind(this));
     };
 
-    /**
-     * @param {Object} form
-     * @param {$event} $event
-     */
     FormController.prototype.submitEdition = function ($event) {
-        var form = this.form;
-        if (!form.$valid) {
-            this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
-            return false;
-        }
-
-        var object = this.validate(form, $event),
-            progression = this.progression,
-            notification = this.notification;
-
-        if (!object) {
+        $event.preventDefault();
+        var entry = this.validateEntry();
+        if (!entry) {
             return;
         }
-
+        var progression = this.progression,
+            notification = this.notification;
+        progression.start();
         this.UpdateQueries
-            .updateOne(this.view, object)
+            .updateOne(this.view, entry)
             .then(function () {
                 progression.done();
                 notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
