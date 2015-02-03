@@ -3,10 +3,30 @@
 define(function () {
     'use strict';
 
-    function DatagridPaginationController($scope, $location, $anchorScroll) {
+    var angular = require('angular');
+
+    function DatagridPaginationController($scope, $location, $anchorScroll, $window, $document) {
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
+        this.windowElement = angular.element($window);
+
+        if ($scope.infinite) {
+            var offset = 100,
+                body = $document[0].body
+                nextPage = this.nextPage.bind(this);
+            this.handler = function () {
+                if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
+                    nextPage();
+                }
+            };
+            this.windowElement.bind('scroll', this.handler);
+            this.infinite = true;
+        }
+
+        this.computePagination();
+
+        $scope.$on('$destroy', this.destroy.bind(this));
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
@@ -14,14 +34,12 @@ define(function () {
             currentPage = this.$location.search().page || 1,
             totalItems = this.$scope.totalItems;
 
-        this.displayPagination = this.$scope.hasPagination && !this.$scope.infinite;
         this.currentPage = currentPage;
         this.offsetEnd = Math.min(currentPage * perPage, totalItems);
         this.offsetBegin = Math.min((currentPage - 1) * perPage + 1, this.offsetEnd);
-
         this.totalItems = totalItems;
-
         this.nbPages = Math.ceil(totalItems / (perPage || 1)) || 1;
+        this.displayPagination = perPage < totalItems;
     };
 
     /**
@@ -43,17 +61,11 @@ define(function () {
     };
 
     DatagridPaginationController.prototype.nextPage = function () {
-        if (!this.$scope.infinite || this.currentPage === this.nbPages) {
+        if (!this.$scope.infinite || this.currentPage >= this.nbPages) {
             return;
         }
-
-        var searchParams = this.$location.search(),
-            sortField = 'sortField' in searchParams ? searchParams.sortField : '',
-            sortDir = 'sortDir' in searchParams ? searchParams.sortDir : '';
-
         this.currentPage++;
-
-        this.$scope.nextPage(this.currentPage, sortField, sortDir);
+        this.$scope.nextPage(this.currentPage);
     };
 
     /**
@@ -70,7 +82,17 @@ define(function () {
         this.$anchorScroll(0);
     };
 
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll'];
+    DatagridPaginationController.prototype.destroy = function() {
+        if (this.handler) {
+            this.windowElement.unbind('scroll', this.handler);
+        }
+        this.$scope = undefined;
+        this.$location = undefined;
+        this.$anchorScroll = undefined;
+        this.windowElement = undefined;
+    };
+
+    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', '$window', '$document'];
 
     return DatagridPaginationController;
 });
