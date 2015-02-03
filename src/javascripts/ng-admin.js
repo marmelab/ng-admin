@@ -23,6 +23,7 @@ require.config({
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
         'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',
+        'polyfill-bind': 'ng-admin/lib/polyfill/bind',
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
     },
@@ -46,6 +47,7 @@ define(function (require) {
     'use strict';
 
     var angular = require('angular');
+    require('polyfill-bind');
     require('MainModule');
     require('CrudModule');
 
