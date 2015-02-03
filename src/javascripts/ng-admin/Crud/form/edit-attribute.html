@@ -1,4 +1,4 @@
-<div id="row-{{ field.name() }}" class="has-feedback" ng-class="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }})">
+<div id="row-{{ field.name() }}" class="has-feedback" ng-class="formController.getFieldValidationClass(field)">
     <label for="{{ field.name() }}" class="col-sm-2 control-label">
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>
@@ -42,9 +42,7 @@
 
         <template-field ng-switch-when="template"></template-field>
 
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }}) === 'has-success'"></span>
-
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="formController.getValidationClassForField({{ formController.name }}.{{ field.name() }}) === 'has-error'"></span>
+        <span ng-show="formController.fieldHasValidation(field)" class="glyphicon form-control-feedback" ng-class="formController.fieldIsValid(field) ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
     </div>
 
     <div ng-if="!field.editable()" ng-class="field.getCssClasses(entry)||'col-sm-10'">

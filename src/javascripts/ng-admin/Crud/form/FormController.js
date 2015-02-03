@@ -16,7 +16,6 @@ define(function () {
         this.notification = notification;
         this.title = view.title();
         this.description = view.description();
-        this.name = view.getFormName();
         this.actions = view.actions();
         this.fields = this.$filter('orderElement')(view.fields());
         this.config = Configuration();
@@ -73,10 +72,10 @@ define(function () {
      * @param {Object} form
      * @param {$event} $event
      */
-    FormController.prototype.submitCreation = function (form, $event) {
+    FormController.prototype.submitCreation = function ($event) {
+        var form = this.form;
         if (!form.$valid) {
             this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
-
             return false;
         }
 
@@ -99,26 +98,20 @@ define(function () {
             }, this.handleError.bind(this));
     };
 
-    FormController.prototype.getValidationClassForField = function(input) {
-        if (typeof input === 'undefined') {
-            // non-editable fields, or template fields, may not have a corresponding input
-            return;
-        }
-        if (!input.$dirty) {
-            // do not fidsplay validation status unless the input has been altered
-            return;
-        }
-        return input.$valid ? 'has-success' : 'has-error';
-    }
-
     /**
      * @param {Object} form
      * @param {$event} $event
      */
-    FormController.prototype.submitEdition = function (form, $event) {
-        var progression = this.progression,
-            notification = this.notification,
-            object = this.validate(form, $event);
+    FormController.prototype.submitEdition = function ($event) {
+        var form = this.form;
+        if (!form.$valid) {
+            this.notification.log('invalid form', {addnCls: 'humane-flatty-error'});
+            return false;
+        }
+
+        var object = this.validate(form, $event),
+            progression = this.progression,
+            notification = this.notification;
 
         if (!object) {
             return;
@@ -130,6 +123,33 @@ define(function () {
                 progression.done();
                 notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
             }, this.handleError.bind(this));
+    };
+
+    FormController.prototype.getInputForField = function(field) {
+        return this.form[field.name()];
+    };
+
+    /**
+     * Should validation status be displayed for a given field?
+     *
+     * - No for non-editable fields, or template fields which not have a corresponding input
+     * - No for non-altered input
+     * - Yes otherwise
+     */
+    FormController.prototype.fieldHasValidation = function(field) {
+        var input = this.getInputForField(field);
+        return input && input.$dirty;
+    };
+
+    FormController.prototype.fieldIsValid = function(field) {
+        var input = this.getInputForField(field);
+        return input && input.$valid;
+    };
+
+    FormController.prototype.getFieldValidationClass = function(field) {
+        if (this.fieldHasValidation(field)) {
+            return this.fieldIsValid(field) ? 'has-success' : 'has-error';
+        }
     };
 
     /**

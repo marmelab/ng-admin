@@ -18,13 +18,5 @@ define(function (require) {
 
     utils.inherits(CreateView, View);
 
-    /**
-     *
-     * @returns {string}
-     */
-    CreateView.prototype.getFormName = function () {
-        return 'createForm';
-    };
-
     return CreateView;
 });
