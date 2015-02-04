@@ -1,9 +1,17 @@
 CHANGELOG
 =========
 
-v0.5.0 (to be released)
------------------------
+v0.5.0 - 2 Feb. 2015
+--------------------
 
+* Dashboard panel titles now link to list view (fzaninotto)
+* Allow listActions on ReferencedList (fzaninotto)
+* Add Custom pages documentation (fzaninotto)
+* Filter form now reset page number on submit (jeromemacias)
+* Allow isEditLink to disable links on references (fzaninotto)
+* Fallback to column for non-editable fields in form (fzaninotto)
+* Fix map() being called twice on the listView (fzaninotto)
+* Fix Reference identifiers (manuquentin)
 * Fix the sorting of ReferencedList fields in the showView (Xennis)
 * Cleanup markup to adhere to the sb-admin standard (fzaninotto)
 * Add option to define the route on a `isDetailLink` field (Xennis)
