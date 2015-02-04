@@ -25,7 +25,7 @@ define(function (require) {
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
         var entityId = rawEntity[view.getEntity().identifier().name()],
-            method = view.getEntity().updateMethod(),
+            method = view.updateMethod(),
             url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId));
         var operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPUT(rawEntity);
         return operation.then(function (response) {

@@ -29,8 +29,7 @@ define(function (require) {
         creationView: null,
         editionView: null,
         deletionView: null,
-        errorMessage: null,
-        updateMethod: null
+        errorMessage: null
     };
 
     /**
