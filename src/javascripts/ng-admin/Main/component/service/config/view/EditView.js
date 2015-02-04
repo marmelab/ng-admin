@@ -18,17 +18,5 @@ define(function (require) {
 
     utils.inherits(EditView, View);
 
-    /**
-     *
-     * @returns {string}
-     */
-    EditView.prototype.getFormName = function () {
-        return 'editForm';
-    };
-
-    EditView.prototype.showAttributeSuccess = function () {
-        return false;
-    };
-
     return EditView;
 });
