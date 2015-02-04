@@ -15,7 +15,8 @@ define(function (require) {
         description: '',
         template: null,
         url: null,
-        errorMessage: null
+        errorMessage: null,
+        updateMethod: null
     };
 
     /**
