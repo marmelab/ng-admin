@@ -19,6 +19,7 @@ define(function (require) {
         order: null,
         identifier: false,
         format: 'yyyy-MM-dd',
+        displayFormat: null,
         template: defaultValueTemplate,
         isDetailLink: false,
         detailLinkRoute: 'edit',
