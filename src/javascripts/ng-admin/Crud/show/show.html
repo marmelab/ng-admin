@@ -10,7 +10,7 @@
             <h1 compile="showController.title">
                 {{ showController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }} Detail
             </h1>
-            <p class="lead" ng-if="showController.description">{{ showController.description }}</p>
+            <p class="lead" ng-if="showController.description" compile="showController.description">{{ showController.description }}</p>
         </div>
     </div>
 </div>
