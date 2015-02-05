@@ -332,8 +332,8 @@ Define the position of the field in the view.
 * `format(string ['yyyy-MM-dd' by default])`
 Define the format for `date` type.
 
-* `formatDisplay(string [format value by default])`
-Define the display format for `date` type if different from stored one.
+* `parse(string [default to format settings])`
+Filter applied to convert displayed date back to model. Same as format by default.
 
 * `isDetailLink(boolean)`
 Tell if the value is a link in the list view. Default to true for the identifier and references field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.

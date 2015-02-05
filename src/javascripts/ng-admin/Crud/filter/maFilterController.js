@@ -45,7 +45,7 @@ define(function () {
                 values[fieldName] = this.values[fieldName];
 
                 if (field.type() === 'date') {
-                    values[fieldName] = this.$filter('date')(values[fieldName], field.format());
+                    values[fieldName] = this.$filter('date')(values[fieldName], field.parse() || field.format());
                 }
             }
         }

@@ -18,7 +18,7 @@ define(function (require) {
             link: function(scope, element) {
                 var field = scope.field();
                 scope.name = field.name();
-                scope.displayFormat = field.displayFormat() || field.format();
+                scope.format = field.format();
                 scope.v = field.validation();
                 scope.isOpen = false;
                 var input = element.find('input').eq(0);
@@ -35,7 +35,7 @@ define(function (require) {
             template:
 '<div class="input-group datepicker">' +
     '<input type="text" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ' +
-           'datepicker-popup="{{ displayFormat }}" is-open="isOpen" close-text="Close" ' +
+           'datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ' +
            'ng-required="v.required" />' +
     '<span class="input-group-btn">' +
         '<button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
