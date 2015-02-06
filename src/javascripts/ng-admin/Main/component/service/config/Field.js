@@ -19,7 +19,9 @@ define(function (require) {
         order: null,
         identifier: false,
         format: 'yyyy-MM-dd',
-        parse: null,
+        parse: function (date) {
+            return date;
+        },
         template: defaultValueTemplate,
         isDetailLink: false,
         detailLinkRoute: 'edit',
