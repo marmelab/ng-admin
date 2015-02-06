@@ -30,7 +30,7 @@ define(function (require) {
             operation;
         if(method === 'patch') {
             var viewFields = _.keys(view.fields());
-            operation = url.customOperation(method, null, {}, {}, _.pick(rawEntity, viewFields);
+            operation = url.customOperation(method, null, {}, {}, _.pick(rawEntity, viewFields));
         } else {
             operation = url.customPUT(rawEntity);
         }
