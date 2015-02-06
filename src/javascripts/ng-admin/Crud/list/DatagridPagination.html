@@ -1,7 +1,10 @@
 <div ng-if="!paginationCtrl.infinite">
     <div class="grid-detail">
-        <span class="total">
+        <span class="total" ng-if="paginationCtrl.totalItems > 0">
             <strong>{{ paginationCtrl.offsetBegin }}</strong> - <strong>{{ paginationCtrl.offsetEnd }}</strong> on <strong>{{ paginationCtrl.totalItems }}</strong>
+        </span>
+        <span class="total no-record" ng-if="paginationCtrl.totalItems == 0">
+            <strong>No record found.</strong>
         </span>
         <div class="btn-group btn-group-sm" role="group" aria-label="pagination" ng-if="paginationCtrl.displayPagination">
             <a href class="btn btn-default" ng-if="paginationCtrl.currentPage != 1" ng-click="paginationCtrl.setPage(paginationCtrl.currentPage - 1)">« Prev</a>
