@@ -26,8 +26,14 @@ define(function (require) {
     UpdateQueries.prototype.updateOne = function (view, rawEntity) {
         var entityId = rawEntity[view.getEntity().identifier().name()],
             method = view.getEntity().updateMethod(),
-            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId));
-        var operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPUT(rawEntity);
+            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId)),
+            operation;
+        if(method === 'patch') {
+            var viewFields = _.keys(view.fields());
+            operation = url.customOperation(method, null, {}, {}, _.pick(rawEntity, viewFields);
+        } else {
+            operation = url.customPUT(rawEntity);
+        }
         return operation.then(function (response) {
             return view.mapEntry(response.data);
         });
