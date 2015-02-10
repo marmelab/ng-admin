@@ -11,12 +11,13 @@ define(function (require) {
             restrict: 'E',
             transclude: true,
             scope: {
-                'buttons': '=',
+                'buttons': '&',
                 'entry': '&',
                 'entity': '&'
             },
             template: listActionsTemplate,
             link: function ($scope) {
+                $scope.buttons = $scope.buttons();
                 $scope.entry = $scope.entry();
                 $scope.entity = $scope.entity();
                 $scope.customTemplate = false;
