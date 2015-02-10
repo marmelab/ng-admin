@@ -8,7 +8,7 @@
             <h1 compile="formController.title">
                 Create new {{ formController.view.entity.name() | humanize:true | singularize }}
             </h1>
-            <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+            <p class="lead" ng-if="formController.description" compile="formController.description">{{ formController.description }}</p>
         </div>
     </div>
 </div>

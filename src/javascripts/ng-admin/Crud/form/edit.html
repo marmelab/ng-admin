@@ -9,7 +9,7 @@
             <h1 compile="formController.title">
                 Edit {{ formController.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }}
             </h1>
-            <p class="lead" ng-if="formController.description">{{ formController.description }}</p>
+            <p class="lead" ng-if="formController.description" compile="formController.description">{{ formController.description }}</p>
         </div>
     </div>
 </div>

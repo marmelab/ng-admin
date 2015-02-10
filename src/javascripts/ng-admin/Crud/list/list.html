@@ -8,7 +8,7 @@
             <h1 compile="listController.title">
                 {{ listController.view.entity.name() | humanize | pluralize }} list
             </h1>
-            <p class="lead" ng-if="listController.description">{{ listController.description }}</p>
+            <p class="lead" ng-if="listController.description" compile="listController.description">{{ listController.description }}</p>
         </div>
 
         <ma-filter ng-if="listController.hasFilters" filters="::listController.filters"></ma-filter>
