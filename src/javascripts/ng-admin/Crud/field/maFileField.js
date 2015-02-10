@@ -38,6 +38,9 @@ define(function (require) {
                     var field = scope.field();
                     scope.name = field.name();
                     scope.v = field.validation();
+                    if (scope.value) {
+                        scope.v.required = false;
+                    }
                     var input = element.find('input')[0];
                     var attributes = field.attributes();
                     for (var name in attributes) {
@@ -67,7 +70,7 @@ define(function (require) {
                                 .success(function(data, status, headers, config) {
                                     scope.files[config.file.name] = {
                                         "name": config.file.name,
-                                        "progress": 100
+                                        "progress": 0
                                     };
                                     scope.value = Object.keys(scope.files).join(',');
                                 })
