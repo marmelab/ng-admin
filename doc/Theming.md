@@ -15,19 +15,21 @@ Don't hesitate to inspect the generated source to look for the right CSS selecto
 To ease theming, you can add a custom class to your fields in every view, using the `cssClasses()` method.
 
 ```js
-myEntity.listView()
-    .addField(new Field('title').cssClasses(['foo', 'bar']));
+myEntity.listView().fields([
+    nga.field('title').cssClasses(['foo', 'bar'])
+]);
 ```
 
 `cssClasses()` can optionally accept a function, to return a class depending on the current entry.
 
 ```js
-myEntity.listView()
-    .addField(new Field('title').cssClasses(function(entry) {
+myEntity.listView().fields([
+    nga.field('title').cssClasses(function(entry) {
         if (entry.values.publishDate >= Date.now()) {
             return 'bg-success';
         }
-    }));
+    })
+]);
 ```
 
 ## Customizing Directives Templates
@@ -37,7 +39,7 @@ Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provid
 ```js
 var app = angular.module('myApp', ['ng-admin']);
 
-app.config(function(NgAdminConfigurationProvider, ..., $provide) {
+app.config(function(NgAdminConfigurationProvider, $provide) {
         // Override textarea template
         $provide.decorator('maTextFieldDirective', ['$delegate', function ($delegate) {
             // You can modify directly the template
@@ -60,7 +62,7 @@ For a given entity, each of the main views (`list`, `show`, `create`, `edit`, `d
 
 ```js
 var myTemplate = require('text!./path/to/list.html');
-var myEntity = new Entity('foo_endpoint');
+var myEntity = nga.entity('foo_endpoint');
 myEntity.listView().template(myTemplate);
 // continue myEntity configuration
 // ...
@@ -86,7 +88,7 @@ If, for any reason, you need to override the application layout (for instance to
 
 ```js
 var myLayout = require('text!./path/to/layout.html');
-var app = new Application('My Application') 
+var app = nga.application('My Application') 
 app.layout(myLayout);
 ```
 

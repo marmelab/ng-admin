@@ -242,7 +242,7 @@
                 nga.field('published', 'boolean')
             ]);
 
-        NgAdminConfigurationProvider.configure(admin);
+        nga.configure(admin);
     });
 
     app.directive('postLink', ['$location', function ($location) {
