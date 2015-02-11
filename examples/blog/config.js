@@ -4,7 +4,7 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (NgAdminConfigurationProvider, Application, Reference, ReferencedList, ReferenceMany, RestangularProvider) {
+    app.config(function (NgAdminConfigurationProvider, Application, RestangularProvider) {
 
         var nga = NgAdminConfigurationProvider;
 
@@ -79,7 +79,7 @@
                 nga.field('title'), // the default list field type is "string", and displays as a string
                 nga.field('published_at', 'date'), // Date field type allows date formatting
                 nga.field('views', 'number'),
-                new ReferenceMany('tags') // a Reference is a particular type of field that references another entity
+                nga.field('tags', 'reference_many') // a Reference is a particular type of field that references another entity
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
             ])
@@ -100,14 +100,14 @@
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
             .fields([
                 post.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
-                new ReferenceMany('tags') // ReferenceMany translates to a select multiple
+                nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
                     .cssClasses('col-sm-4'),
-                new ReferencedList('comments') // display list of related comments
+                nga.field('comments', 'referenced_list') // display list of related comments
                     .targetEntity(comment)
                     .targetReferenceField('post_id')
                     .targetFields([
@@ -149,7 +149,7 @@
                     .label('Posted')
                     .order(1),
                 nga.field('body').map(truncate).order(3),
-                new Reference('post_id')
+                nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
                     .targetEntity(post)
@@ -174,7 +174,7 @@
                         created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
                     };                    
                 }),
-                new Reference('post_id')
+                nga.field('post_id', 'reference')
                     .label('Post')
                     .targetEntity(post)
                     .targetField(nga.field('title'))    
@@ -188,7 +188,7 @@
                     .defaultValue(new Date()), // preset fields in creation view with defaultValue
                 nga.field('author'),
                 nga.field('body', 'wysiwyg'),
-                new Reference('post_id')
+                nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
                     .targetEntity(post)
