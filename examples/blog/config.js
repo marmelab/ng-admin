@@ -4,7 +4,7 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (NgAdminConfigurationProvider, Application, RestangularProvider) {
+    app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
 
         var nga = NgAdminConfigurationProvider;
 
@@ -40,7 +40,7 @@
             return { params: params };
         });
 
-        var admin = new Application('ng-admin backend demo') // application main title
+        var admin = nga.application('ng-admin backend demo') // application main title
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
         // define all entities at the top to allow references between them

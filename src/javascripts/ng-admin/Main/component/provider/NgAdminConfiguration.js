@@ -3,6 +3,7 @@
 define(function () {
     'use strict';
 
+    var Application = require('ng-admin/Main/component/service/config/Application');
     var Entity = require('ng-admin/Main/component/service/config/Entity');
     var Field = require('ng-admin/Main/component/service/config/Field');
     var Reference = require('ng-admin/Main/component/service/config/Reference');
@@ -22,6 +23,13 @@ define(function () {
         return function () {
             return config;
         };
+    };
+
+    /**
+     * @returns {Application}
+     */
+    NgAdminConfiguration.prototype.application = function(name) {
+        return new Application(name);
     };
 
     /**
