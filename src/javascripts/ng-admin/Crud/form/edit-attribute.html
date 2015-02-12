@@ -33,9 +33,9 @@
         <ma-datagrid ng-switch-when="ReferencedList"
                   name="{{ field.getReferencedView().name() }}"
                   entries="field.entries"
-                  fields="field.getReferencedView().fields() | orderElement"
-                  listActions="[]"
-                  entity="field.getReferencedView().entity">
+                  fields="::field.getReferencedView().fields() | orderElement"
+                  list-actions="::field.listActions()"
+                  entity="::field.getReferencedView().entity">
         </ma-datagrid>
 
         <ma-wysiwyg-field ng-switch-when="wysiwyg" field="::field" value="entry.values[field.name()]"></ma-wysiwyg-field>
