@@ -190,8 +190,8 @@ define(function (require) {
      * @returns {Object}
      */
     View.prototype.getReferences = function () {
-        var references = this.getFieldsOfType('Reference'),
-            referencesMany = this.getFieldsOfType('ReferenceMany'),
+        var references = this.getFieldsOfType('reference'),
+            referencesMany = this.getFieldsOfType('reference_many'),
             key;
 
         for (key in referencesMany) {
@@ -207,7 +207,7 @@ define(function (require) {
      * @returns {Object}
      */
     View.prototype.getReferencedLists = function () {
-        return this.getFieldsOfType('ReferencedList');
+        return this.getFieldsOfType('referenced_list');
     };
 
     /**

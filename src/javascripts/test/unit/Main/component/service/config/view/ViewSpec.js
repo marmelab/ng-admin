@@ -59,7 +59,7 @@ define(function (require) {
 
                 view.addField(ref).addField(refMany).addField(field);
 
-                expect(view.getFieldsOfType('ReferenceMany')['refMany'].name()).toEqual('refMany');
+                expect(view.getFieldsOfType('reference_many')['refMany'].name()).toEqual('refMany');
                 expect(view.getReferences()['refMany'].name()).toEqual('refMany');
                 expect(view.getReferences()['myRef'].name()).toEqual('myRef');
                 expect(view.getFields()['body'].order()).toEqual(2);

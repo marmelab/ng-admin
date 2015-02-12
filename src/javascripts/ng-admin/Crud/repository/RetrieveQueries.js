@@ -271,7 +271,7 @@ define(function (require) {
             entries = [];
             identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
 
-            if (reference.type() === 'ReferenceMany') {
+            if (reference.type() === 'reference_many') {
                 for (i in identifier) {
                     id = identifier[i];
                     entries.push(choices[id]);

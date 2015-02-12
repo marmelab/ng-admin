@@ -43,6 +43,7 @@ define(function (require) {
 
     MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
+    MainModule.config(require('ng-admin/Main/config/factories'));
 
     MainModule.run(require('ng-admin/Main/run/Loader'));
 

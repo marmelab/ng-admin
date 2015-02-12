@@ -64,7 +64,7 @@ define(function (require) {
 
         for (i in fields) {
             field = fields[i];
-            if (field.type() === 'Reference') {
+            if (field.type() === 'reference') {
                 results[i] = field;
             }
         }

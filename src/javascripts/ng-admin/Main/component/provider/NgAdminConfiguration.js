@@ -12,6 +12,7 @@ define(function (require) {
 
     function NgAdminConfiguration() {
         this.config = null;
+        this.fieldTypes = {};
     }
 
     NgAdminConfiguration.prototype.configure = function (config) {
@@ -39,23 +40,21 @@ define(function (require) {
         return new Entity(name);
     };
 
+    NgAdminConfiguration.prototype.registerFieldType = function(name, FieldConstructor) {
+        this.fieldTypes[name] = FieldConstructor;
+    }
+
     /**
      * @returns {Field}
      */
     NgAdminConfiguration.prototype.field = function(name, type) {
-        if (type == 'reference') {
-            return new Reference(name);
-        }
-        if (type == 'reference_many') {
-            return new ReferenceMany(name);
-        }
-        if (type == 'referenced_list') {
-            return new ReferencedList(name);
-        }
-        var field = new Field(name);
-        if (type) {
-            field.type(type);
-        }
+        type = type || 'string';
+        if (!this.fieldTypes[type]) {
+            throw new Error('Unkown field type "' + type + '"');
+        };
+        var FieldConstructor = this.fieldTypes[type];
+        var field = new FieldConstructor(name);
+        field.type(type);
         return field;
     };
 

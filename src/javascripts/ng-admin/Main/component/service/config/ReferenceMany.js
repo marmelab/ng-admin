@@ -14,7 +14,7 @@ define(function (require) {
     function ReferenceMany(name) {
         Reference.apply(this, arguments);
         this.config.name = name || 'reference-many';
-        this.config.type = 'ReferenceMany';
+        this.config.type = 'reference_many';
     }
 
     utils.inherits(ReferenceMany, Reference);

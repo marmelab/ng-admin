@@ -24,13 +24,13 @@
 
         <ma-choice-field ng-switch-when="choice" field="::field" value="entry.values[field.name()]"></ma-choice-field>
 
-        <ma-choice-field ng-switch-when="Reference" field="::field" value="entry.values[field.name()]"></ma-choice-field>
+        <ma-choice-field ng-switch-when="reference" field="::field" value="entry.values[field.name()]"></ma-choice-field>
 
         <ma-choices-field ng-switch-when="choices" field="::field" value="entry.values[field.name()]"></ma-choices-field>
 
-        <ma-choices-field ng-switch-when="ReferenceMany" field="::field" value="entry.values[field.name()]"></ma-choices-field>
+        <ma-choices-field ng-switch-when="reference_many" field="::field" value="entry.values[field.name()]"></ma-choices-field>
 
-        <ma-datagrid ng-switch-when="ReferencedList"
+        <ma-datagrid ng-switch-when="referenced_list"
                   name="{{ field.getReferencedView().name() }}"
                   entries="field.entries"
                   fields="::field.getReferencedView().fields() | orderElement"

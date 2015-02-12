@@ -23,7 +23,7 @@ define(function (require) {
         this.config = angular.extend(this.config, angular.copy(config));
         this.config.list = false;
         this.config.name = fieldName || 'reference';
-        this.config.type = 'ReferencedList';
+        this.config.type = 'referenced_list';
         this.entries = [];
     }
 
