@@ -77,9 +77,8 @@ Now the new directive is ready to be used inside a ng-admin field of type 'templ
 ```js
 post.showView().fields([
     // ...
-    new Field('custom_action')
+    nga.field('custom_action', 'template')
         .label('')
-        .type('template')
         .template('<send-email post="entry"></send-email>')
 ]);
 ```

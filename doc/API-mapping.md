@@ -11,15 +11,16 @@ That means you don't need to adapt your API to ng-admin; ng-admin can adapt to a
 Ng-admin expects that requests for a single entity return a JSON object with all the properties defined as fields. For instance, for the following definition:
 
 ```js
-var bookEntity = new Entity('books');
+var bookEntity = nga.entity('books');
 bookEntity.editionView()
-    .addField(new Field('name'))
-    .addField(new Reference('author_id')
-        .label('Author')
-        .targetEntity(author)
-        .targetField(new Field('name'))
-    )
-    .addField(new Field('publication_date').type('date'));
+    .fields([
+        nga.field('name'), 
+        nga.field('author_id', 'reference')
+            .label('Author')
+            .targetEntity(author)
+            .targetField(nga.field('name')),
+        nga.field('publication_date', 'date')
+    ]);
 ```
 
 ng-admin expects the `GET http://your.api.domain/books/12` route to return a JSON response with a single object, containing at least the following properties:
@@ -165,8 +166,10 @@ All filter fields are added as a serialized object passed as the value of the `_
 
 ```js
 myEntity.filterView()
-    .addField(new Field('q').label('').attributes({ placeholder: 'Full text' }))
-    .addField(new Field('tag'))
+    .fields([
+        nga.field('q').label('').attributes({ placeholder: 'Full text' }),
+        nga.field('tag')
+    ]);
 ```
 
 ...will lead to API calls formatted like the following:
