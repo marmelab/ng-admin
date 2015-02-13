@@ -23,7 +23,8 @@ module.exports = function (grunt) {
                     'build/ng-admin.min.css': [
                         'build/ng-admin.css',
                         'src/javascripts/bower_components/nprogress/nprogress.css',
-                        'src/javascripts/bower_components/humane/themes/flatty.css',
+                        'src/javascripts/bower_components/alertify/themes/alertify.core.css',
+                        'src/javascripts/bower_components/alertify/themes/alertify.default.css',
                         'src/javascripts/bower_components/textAngular/dist/textAngular.min.css',
                         'src/javascripts/bower_components/codemirror/lib/codemirror.css',
                         'src/javascripts/bower_components/codemirror/addon/lint/lint.css'
@@ -37,7 +38,8 @@ module.exports = function (grunt) {
                 src: [
                     'build/ng-admin.css',
                     'src/javascripts/bower_components/nprogress/nprogress.css',
-                    'src/javascripts/bower_components/humane/themes/flatty.css',
+                    'src/javascripts/bower_components/alertify/themes/alertify.core.css',
+                    'src/javascripts/bower_components/alertify/themes/alertify.default.css',
                     'src/javascripts/bower_components/textAngular/dist/textAngular.min.css',
                     'src/javascripts/bower_components/codemirror/lib/codemirror.css',
                     'src/javascripts/bower_components/codemirror/addon/lint/lint.css'
