@@ -49,7 +49,7 @@ app.config(function (NgAdminConfigurationProvider) {
         .baseApiUrl('http://localhost:3000/');
 
     // define an entity mapped by the http://localhost:3000/posts endpoint
-    var post = nga.entity'posts');
+    var post = nga.entity('posts');
     app.addEntity(post);
 
     // set the list of fields to map in each post view
