@@ -26,10 +26,14 @@ require.config({
         'text' : 'bower_components/requirejs-text/text',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
         'CrudModule': 'ng-admin/Crud/CrudModule',
+        'papaparse': 'bower_components/papaparse/papaparse.min',
         'MainModule': 'ng-admin/Main/MainModule',
         'AdminDescription': '../../build/ng-admin-configuration'
     },
     shim: {
+        'papaparse': {
+            exports: 'Papa'
+        },
         'restangular': {
             deps: ['angular', 'lodash']
         },
