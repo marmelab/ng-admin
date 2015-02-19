@@ -19,7 +19,7 @@ require.config({
         'restangular': 'bower_components/restangular/dist/restangular',
         'ngInflection': 'bower_components/ngInflection/ngInflection',
         'inflection': 'bower_components/inflection/inflection.min',
-        'humane': 'bower_components/humane/humane',
+        'alertify': 'bower_components/alertify/alertify',
         'nprogress': 'bower_components/nprogress/nprogress',
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
         'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',

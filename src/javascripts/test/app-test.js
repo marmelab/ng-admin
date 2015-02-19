@@ -31,7 +31,7 @@ requirejs.config({
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
         'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         'restangular': 'bower_components/restangular/dist/restangular',
-        'humane': 'bower_components/humane/humane',
+        'alertify': 'bower_components/alertify/alertify',
         'nprogress': 'bower_components/nprogress/nprogress',
 
         'MainModule': 'ng-admin/Main/MainModule',

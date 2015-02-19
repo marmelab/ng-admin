@@ -73,7 +73,7 @@ define(function (require) {
     CrudModule.config(require('ng-admin/Crud/routing'));
 
     CrudModule.factory('notification', function () {
-        return require('humane');
+        return require('alertify');
     });
 
     CrudModule.factory('progression', function () {
