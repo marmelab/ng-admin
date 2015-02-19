@@ -40,7 +40,24 @@ define(function (require) {
     CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
-    CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
+    CrudModule.directive('maTemplateField', require('ng-admin/Crud/field/maTemplateField'));
+
+    CrudModule.provider('FieldViewConfiguration', require('ng-admin/Crud/fieldView/FieldViewConfiguration'));
+    CrudModule.constant('BooleanFieldView', require('ng-admin/Crud/fieldView/BooleanFieldView'));
+    CrudModule.constant('ChoiceFieldView', require('ng-admin/Crud/fieldView/ChoiceFieldView'));
+    CrudModule.constant('ChoicesFieldView', require('ng-admin/Crud/fieldView/ChoicesFieldView'));
+    CrudModule.constant('DateFieldView', require('ng-admin/Crud/fieldView/DateFieldView'));
+    CrudModule.constant('EmailFieldView', require('ng-admin/Crud/fieldView/EmailFieldView'));
+    CrudModule.constant('JsonFieldView', require('ng-admin/Crud/fieldView/JsonFieldView'));
+    CrudModule.constant('NumberFieldView', require('ng-admin/Crud/fieldView/NumberFieldView'));
+    CrudModule.constant('PasswordFieldView', require('ng-admin/Crud/fieldView/PasswordFieldView'));
+    CrudModule.constant('ReferencedListFieldView', require('ng-admin/Crud/fieldView/ReferencedListFieldView'));
+    CrudModule.constant('ReferenceFieldView', require('ng-admin/Crud/fieldView/ReferenceFieldView'));
+    CrudModule.constant('ReferenceManyFieldView', require('ng-admin/Crud/fieldView/ReferenceManyFieldView'));
+    CrudModule.constant('StringFieldView', require('ng-admin/Crud/fieldView/StringFieldView'));
+    CrudModule.constant('TemplateFieldView', require('ng-admin/Crud/fieldView/TemplateFieldView'));
+    CrudModule.constant('TextFieldView', require('ng-admin/Crud/fieldView/TextFieldView'));
+    CrudModule.constant('WysiwygFieldView', require('ng-admin/Crud/fieldView/WysiwygFieldView'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
@@ -52,7 +69,6 @@ define(function (require) {
     CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
     CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
     CrudModule.directive('maPasswordColumn', require('ng-admin/Crud/column/maPasswordColumn'));
-    CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
     CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
     CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
@@ -98,6 +114,25 @@ define(function (require) {
 
             return $delegate;
         });
+    }]);
+
+    CrudModule.config(['FieldViewConfigurationProvider', 'BooleanFieldView', 'ChoiceFieldView', 'ChoicesFieldView', 'DateFieldView', 'EmailFieldView', 'JsonFieldView', 'NumberFieldView', 'PasswordFieldView', 'ReferencedListFieldView', 'ReferenceFieldView', 'ReferenceManyFieldView', 'StringFieldView', 'TemplateFieldView', 'TextFieldView', 'WysiwygFieldView', function (fvp, BooleanFieldView, ChoiceFieldView, ChoicesFieldView, DateFieldView, EmailFieldView, JsonFieldView, NumberFieldView, PasswordFieldView, ReferencedListFieldView, ReferenceFieldView, ReferenceManyFieldView, StringFieldView, TemplateFieldView, TextFieldView, WysiwygFieldView) {
+        fvp.registerFieldView('boolean', BooleanFieldView);
+        fvp.registerFieldView('choice', ChoiceFieldView);
+        fvp.registerFieldView('choices', ChoicesFieldView);
+        fvp.registerFieldView('date', DateFieldView);
+        fvp.registerFieldView('email', EmailFieldView);
+        fvp.registerFieldView('file', StringFieldView); // FIXME
+        fvp.registerFieldView('json', JsonFieldView);
+        fvp.registerFieldView('number', NumberFieldView);
+        fvp.registerFieldView('password', PasswordFieldView);
+        fvp.registerFieldView('referenced_list', ReferencedListFieldView);
+        fvp.registerFieldView('reference', ReferenceFieldView);
+        fvp.registerFieldView('reference_many', ReferenceManyFieldView);
+        fvp.registerFieldView('string', StringFieldView);
+        fvp.registerFieldView('template', TemplateFieldView);
+        fvp.registerFieldView('text', TextFieldView);
+        fvp.registerFieldView('wysiwyg', WysiwygFieldView);
     }]);
 
     return CrudModule;

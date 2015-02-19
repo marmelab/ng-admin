@@ -40,7 +40,7 @@
 
         <ma-wysiwyg-field ng-switch-when="wysiwyg" field="::field" value="entry.values[field.name()]"></ma-wysiwyg-field>
 
-        <template-field ng-switch-when="template"></template-field>
+        <ma-template-field ng-switch-when="template"></ma-template-field>
 
         <span ng-show="formController.fieldHasValidation(field)" class="glyphicon form-control-feedback" ng-class="formController.fieldIsValid(field) ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
     </div>

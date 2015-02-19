@@ -13,6 +13,7 @@ define(function (require) {
     function NgAdminConfiguration() {
         this.config = null;
         this.fieldTypes = {};
+        this.fieldViews = {};
     }
 
     NgAdminConfiguration.prototype.configure = function (config) {
@@ -57,6 +58,15 @@ define(function (require) {
         field.type(type);
         return field;
     };
+
+    NgAdminConfiguration.prototype.registerFieldView = function(type, FieldView) {
+        this.fieldViews[type] = FieldView;
+    }
+
+    NgAdminConfiguration.prototype.fieldView = function(type) {
+        console.log(type)
+        return this.fieldViews[type];
+    }
 
     NgAdminConfiguration.$inject = [];
 
