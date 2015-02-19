@@ -53,7 +53,7 @@ define(function () {
                 data = panelData[i];
                 view = dashboardViews[i]
                 panels.push({
-                    label: view.title(),
+                    label: view.title() || view.getEntity().label(),
                     viewName: view.name(),
                     fields: view.fields(),
                     entity: view.getEntity(),

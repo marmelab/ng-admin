@@ -13,7 +13,7 @@ define(function () {
 
         if ($scope.infinite) {
             var offset = 100,
-                body = $document[0].body
+                body = $document[0].body,
                 nextPage = this.nextPage.bind(this);
             this.handler = function () {
                 if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
