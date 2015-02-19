@@ -37,12 +37,7 @@ define(function (require) {
                     }
                 ];
 
-                var q = { all: function() { return mixins.buildPromise(responses); } };
-                var filter = function() { return function(a) { return a; }};
-                var Configuration = function() { return { getViewsOfType: function() { return [view1, view2]; }} };
-                var location = { search: function() { return {}; }};
-                var retrieveQueries = { getAll: function() {} };
-                var panelBuilder = new PanelBuilder(q, filter, location, retrieveQueries, Configuration);
+                var panelBuilder = getPanelBuilder([view1, view2], responses);
                 panelBuilder.getPanelsData().then(function(panels) {
                     // Check that panels are retrieved
                     expect(panels[0].label).toEqual('dashboard1');
@@ -56,8 +51,43 @@ define(function (require) {
                 
             });
 
-        });
+            it('should default to entity label if no title is provided', function(done) {
+                var dashboardView = new DashboardView('view1').addField(new Field('title').label('Title'));
+                dashboardView.setEntity({
+                    label: function() { return "Entity"; }
+                });
 
+                var response = {
+                    view: dashboardView,
+                    entries: [],
+                    currentPage: 1,
+                    perPage: 10,
+                    totalItems: 12
+                };
+
+                var panelBuilder = getPanelBuilder([dashboardView], [response]);
+                panelBuilder.getPanelsData()
+                    .then(function(panels) {
+                        expect(panels[0].label).toBe('Entity');
+                    })
+                    .finally(done);
+            });
+        });
     });
 
+    function getPanelBuilder(dashboardViews, responses) {
+        var q = { all: function() { return mixins.buildPromise(responses); } };
+        var filter = function() { return function(a) { return a; } };
+        var Configuration = function() {
+            return {
+                getViewsOfType: function() {
+                    return dashboardViews;
+                }
+            }
+        };
+        var location = { search: function() { return {}; } };
+        var retrieveQueries = { getAll: function() {} };
+
+        return new PanelBuilder(q, filter, location, retrieveQueries, Configuration);
+    }
 });
