@@ -15,7 +15,7 @@ define(function (require) {
         targetField : null,
         sortField: 'id',
         sortDir: 'DESC',
-        filters: {},
+        filters: false,
         perPage: 30
     };
 
