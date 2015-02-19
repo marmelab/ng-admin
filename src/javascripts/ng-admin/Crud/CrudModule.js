@@ -30,6 +30,7 @@ define(function (require) {
 
     CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
 
+    CrudModule.directive('maField', require('ng-admin/Crud/field/maField'));
     CrudModule.directive('maButtonField', require('ng-admin/Crud/field/maButtonField'));
     CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
@@ -69,7 +70,6 @@ define(function (require) {
 
     CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
-    CrudModule.run(require('ng-admin/Crud/misc/cacheTemplate'));
 
     CrudModule.config(require('ng-admin/Crud/routing'));
 
