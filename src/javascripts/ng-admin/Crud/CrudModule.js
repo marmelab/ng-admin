@@ -43,21 +43,6 @@ define(function (require) {
     CrudModule.directive('maTemplateField', require('ng-admin/Crud/field/maTemplateField'));
 
     CrudModule.provider('FieldViewConfiguration', require('ng-admin/Crud/fieldView/FieldViewConfiguration'));
-    CrudModule.constant('BooleanFieldView', require('ng-admin/Crud/fieldView/BooleanFieldView'));
-    CrudModule.constant('ChoiceFieldView', require('ng-admin/Crud/fieldView/ChoiceFieldView'));
-    CrudModule.constant('ChoicesFieldView', require('ng-admin/Crud/fieldView/ChoicesFieldView'));
-    CrudModule.constant('DateFieldView', require('ng-admin/Crud/fieldView/DateFieldView'));
-    CrudModule.constant('EmailFieldView', require('ng-admin/Crud/fieldView/EmailFieldView'));
-    CrudModule.constant('JsonFieldView', require('ng-admin/Crud/fieldView/JsonFieldView'));
-    CrudModule.constant('NumberFieldView', require('ng-admin/Crud/fieldView/NumberFieldView'));
-    CrudModule.constant('PasswordFieldView', require('ng-admin/Crud/fieldView/PasswordFieldView'));
-    CrudModule.constant('ReferencedListFieldView', require('ng-admin/Crud/fieldView/ReferencedListFieldView'));
-    CrudModule.constant('ReferenceFieldView', require('ng-admin/Crud/fieldView/ReferenceFieldView'));
-    CrudModule.constant('ReferenceManyFieldView', require('ng-admin/Crud/fieldView/ReferenceManyFieldView'));
-    CrudModule.constant('StringFieldView', require('ng-admin/Crud/fieldView/StringFieldView'));
-    CrudModule.constant('TemplateFieldView', require('ng-admin/Crud/fieldView/TemplateFieldView'));
-    CrudModule.constant('TextFieldView', require('ng-admin/Crud/fieldView/TextFieldView'));
-    CrudModule.constant('WysiwygFieldView', require('ng-admin/Crud/fieldView/WysiwygFieldView'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
@@ -116,23 +101,24 @@ define(function (require) {
         });
     }]);
 
-    CrudModule.config(['FieldViewConfigurationProvider', 'BooleanFieldView', 'ChoiceFieldView', 'ChoicesFieldView', 'DateFieldView', 'EmailFieldView', 'JsonFieldView', 'NumberFieldView', 'PasswordFieldView', 'ReferencedListFieldView', 'ReferenceFieldView', 'ReferenceManyFieldView', 'StringFieldView', 'TemplateFieldView', 'TextFieldView', 'WysiwygFieldView', function (fvp, BooleanFieldView, ChoiceFieldView, ChoicesFieldView, DateFieldView, EmailFieldView, JsonFieldView, NumberFieldView, PasswordFieldView, ReferencedListFieldView, ReferenceFieldView, ReferenceManyFieldView, StringFieldView, TemplateFieldView, TextFieldView, WysiwygFieldView) {
-        fvp.registerFieldView('boolean', BooleanFieldView);
-        fvp.registerFieldView('choice', ChoiceFieldView);
-        fvp.registerFieldView('choices', ChoicesFieldView);
-        fvp.registerFieldView('date', DateFieldView);
-        fvp.registerFieldView('email', EmailFieldView);
-        fvp.registerFieldView('file', StringFieldView); // FIXME
-        fvp.registerFieldView('json', JsonFieldView);
-        fvp.registerFieldView('number', NumberFieldView);
-        fvp.registerFieldView('password', PasswordFieldView);
-        fvp.registerFieldView('referenced_list', ReferencedListFieldView);
-        fvp.registerFieldView('reference', ReferenceFieldView);
-        fvp.registerFieldView('reference_many', ReferenceManyFieldView);
-        fvp.registerFieldView('string', StringFieldView);
-        fvp.registerFieldView('template', TemplateFieldView);
-        fvp.registerFieldView('text', TextFieldView);
-        fvp.registerFieldView('wysiwyg', WysiwygFieldView);
+    // built-in fields
+    CrudModule.config(['FieldViewConfigurationProvider', function (fvp) {
+        fvp.registerFieldView('boolean', require('ng-admin/Crud/fieldView/BooleanFieldView'));
+        fvp.registerFieldView('choice', require('ng-admin/Crud/fieldView/ChoiceFieldView'));
+        fvp.registerFieldView('choices', require('ng-admin/Crud/fieldView/ChoicesFieldView'));
+        fvp.registerFieldView('date', require('ng-admin/Crud/fieldView/DateFieldView'));
+        fvp.registerFieldView('email', require('ng-admin/Crud/fieldView/EmailFieldView'));
+        fvp.registerFieldView('file', require('ng-admin/Crud/fieldView/FileFieldView'));
+        fvp.registerFieldView('json', require('ng-admin/Crud/fieldView/JsonFieldView'));
+        fvp.registerFieldView('number', require('ng-admin/Crud/fieldView/NumberFieldView'));
+        fvp.registerFieldView('password', require('ng-admin/Crud/fieldView/PasswordFieldView'));
+        fvp.registerFieldView('referenced_list', require('ng-admin/Crud/fieldView/ReferencedListFieldView'));
+        fvp.registerFieldView('reference', require('ng-admin/Crud/fieldView/ReferenceFieldView'));
+        fvp.registerFieldView('reference_many', require('ng-admin/Crud/fieldView/ReferenceManyFieldView'));
+        fvp.registerFieldView('string', require('ng-admin/Crud/fieldView/StringFieldView'));
+        fvp.registerFieldView('template', require('ng-admin/Crud/fieldView/TemplateFieldView'));
+        fvp.registerFieldView('text', require('ng-admin/Crud/fieldView/TextFieldView'));
+        fvp.registerFieldView('wysiwyg', require('ng-admin/Crud/fieldView/WysiwygFieldView'));
     }]);
 
     return CrudModule;
