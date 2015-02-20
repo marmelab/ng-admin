@@ -32,7 +32,6 @@ define(function () {
         var value,
             form = this.form,
             entry = this.$scope.entry,
-            $filter = this.$filter,
             fields = this.view.getFields(),
             identifierField = this.view.getEntity().identifier(),
             mappedObject,
@@ -52,7 +51,7 @@ define(function () {
             field = fields[i];
             value = entry.values[field.name()];
             if (field.type() === 'date') {
-                value = $filter('date')(value, field.format());
+                value = field.parse()(value);
             }
 
             object[field.name()] = value;
