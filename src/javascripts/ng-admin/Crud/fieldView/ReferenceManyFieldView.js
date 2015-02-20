@@ -7,12 +7,16 @@ define(function(require) {
     function getLinkWidget() {
         return '<ma-reference-many-link-column ids="::entry.values[field.name()]" values="::entry.listValues[field.name()]" field="::field"></ma-reference-many-link-column>';
     }
+    function getFilterWidget() {
+        return '<ma-choices-field field="::field" value="values[field.name()]"></ma-choices-field>';
+    }
     function getWriteWidget() {
         return '<ma-choices-field field="::field" value="entry.values[field.name()]"></ma-choices-field>';
     }
     return {
-        getReadWidget:  getReadWidget,
-        getLinkWidget:  getLinkWidget,
-        getWriteWidget: getWriteWidget,
+        getReadWidget:   getReadWidget,
+        getLinkWidget:   getLinkWidget,
+        getFilterWidget: getFilterWidget,
+        getWriteWidget:  getWriteWidget,
     }
 });

@@ -7,12 +7,16 @@ define(function(require) {
     function getLinkWidget() {
         return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
     }
+    function getFilterWidget() {
+        return '<ma-choice-field field="::field" value="values[field.name()]"></ma-choice-field>';
+    }
     function getWriteWidget() {
         return '<ma-choice-field field="::field" value="entry.values[field.name()]"></ma-choice-field>';
     }
     return {
-        getReadWidget:  getReadWidget,
-        getLinkWidget:  getLinkWidget,
-        getWriteWidget: getWriteWidget,
+        getReadWidget:   getReadWidget,
+        getLinkWidget:   getLinkWidget,
+        getFilterWidget: getFilterWidget,
+        getWriteWidget:  getWriteWidget,
     }
 });

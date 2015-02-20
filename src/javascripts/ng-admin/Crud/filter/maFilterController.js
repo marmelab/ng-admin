@@ -16,9 +16,9 @@ define(function () {
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
-        this.values = this.$stateParams.search || {};
+        this.$scope.values = this.$stateParams.search || {};
         this.$scope.filters = this.$scope.filters();
-        this.isFilterEmpty = isEmpty(this.values);
+        this.isFilterEmpty = isEmpty(this.$scope.values);
     }
 
     function isEmpty(values) {
@@ -39,8 +39,8 @@ define(function () {
             field = filters[i];
             fieldName = field.name();
 
-            if (this.values[fieldName]) {
-                values[fieldName] = this.values[fieldName];
+            if (this.$scope.values[fieldName]) {
+                values[fieldName] = this.$scope.values[fieldName];
 
                 if (field.type() === 'date') {
                     values[fieldName] = field.parse()(values[fieldName]);
@@ -60,8 +60,8 @@ define(function () {
     maFilterViewController.prototype.clearFilters = function () {
         var i;
 
-        for (i in this.values) {
-            this.values[i] = null;
+        for (i in this.$scope.values) {
+            this.$scope.values[i] = null;
         }
 
         this.filter();

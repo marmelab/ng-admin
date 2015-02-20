@@ -16,6 +16,9 @@ define(function(require) {
     function getLinkWidget() {
         return 'error: cannot display referenced_list field as linkable';
     }
+    function getFilterWidget() {
+        return 'error: cannot display referenced_list field as filter';
+    }
     function getWriteWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
                   'entries="field.entries" ' +
@@ -25,8 +28,9 @@ define(function(require) {
             '</ma-datagrid>';
     }
     return {
-        getReadWidget:  getReadWidget,
-        getLinkWidget:  getLinkWidget,
-        getWriteWidget: getWriteWidget,
+        getReadWidget:   getReadWidget,
+        getLinkWidget:   getLinkWidget,
+        getFilterWidget: getFilterWidget,
+        getWriteWidget:  getWriteWidget,
     }
 });
