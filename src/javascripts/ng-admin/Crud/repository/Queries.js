@@ -14,8 +14,6 @@ define(function () {
         this.$q = $q;
         this.Restangular = Restangular;
         this.config = Configuration();
-
-        this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
     Queries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];

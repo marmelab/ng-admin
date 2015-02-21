@@ -80,6 +80,26 @@ define(function (require) {
         return require('nprogress');
     });
 
+    CrudModule.config(['RestangularProvider', function (RestangularProvider) {
+        // get response headers
+        RestangularProvider.setFullResponse(true);
+        // avoid Restangular to erase data by "restangularizing" elements
+        // @link https://github.com/mgonto/restangular/issues/100
+        RestangularProvider.setResponseExtractor(function(response) {
+          var newResponse = response;
+          if (angular.isArray(response)) {
+            newResponse.originalData = [];
+            angular.forEach(newResponse, function(value, key) {
+               newResponse.originalData[key] = angular.copy(value);
+            });
+          } else {
+            newResponse.originalData = angular.copy(response);
+          }
+
+          return newResponse;
+        });
+    }]);
+
     /**
      * Date Picker patch
      * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b

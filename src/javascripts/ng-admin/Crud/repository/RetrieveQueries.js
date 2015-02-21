@@ -28,7 +28,7 @@ define(function (require) {
             .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .get()
             .then(function (response) {
-                return view.mapEntry(response.data);
+                return view.mapEntry(response.data.originalData);
             });
     };
 
@@ -115,7 +115,11 @@ define(function (require) {
         // Get grid data
         return this.Restangular
             .allUrl(listView.entity.name(), this.config.getRouteFor(listView))
-            .getList(params);
+            .getList(params)
+            .then(function(response) {
+                response.data = response.data.originalData;
+                return response;
+            });
     };
 
     /**
