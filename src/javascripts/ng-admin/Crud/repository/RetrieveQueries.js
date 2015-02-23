@@ -143,7 +143,7 @@ define(function (require) {
             referencedView = reference.getReferencedView();
 
             if (!rawValues) {
-                calls.push(self.getRawValues(referencedView, 1, false, reference.sortField(), reference.sortDir()));
+                calls.push(self.getRawValues(referencedView, 1, reference.filters(), reference.sortField(), reference.sortDir()));
             } else {
                 identifiers = reference.getIdentifierValues(rawValues);
                 // Check if we should retrieve values with 1 or multiple requests

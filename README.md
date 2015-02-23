@@ -463,6 +463,18 @@ Define a function that returns parameters for filtering API calls. You can use i
                 })
         ]);
 
+* `sortField(String)`
+Set the default field for list sorting. Defaults to 'id'
+
+* `sortDir(String)`
+Set the default direction for list sorting. Defaults to 'DESC'
+
+* `filters({ field1: value, field2: value, ...])`
+Add filters to the referenced results list.
+
+* `perPage(integer)`
+Define the maximum number of elements fetched and displayed in the list.
+
 ### `referenced_list` Field
 
 The `referenced_list` type also defines `label`, `order`, `map`, `list` & `validation` options like the `Field` type.
@@ -487,8 +499,17 @@ Define an array of fields that will be displayed in the list of the form.
                 ])
         ]);
 
+* `sortField(String)`
+Set the default field for list sorting. Defaults to 'id'
+
+* `sortDir(String)`
+Set the default direction for list sorting. Defaults to 'DESC'
+
+* `filters({ field1: value, field2: value, ...])`
+Add filters to the referenced results list.
+
 * `perPage(integer)`
-Define the maximum number of elements fetched and displayed in the list
+Define the maximum number of elements fetched and displayed in the list.
 
 ### `reference_many` Field
 
