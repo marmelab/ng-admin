@@ -64,28 +64,29 @@ define(function (require) {
                     $location.search('sortDir', null);
                 };
             },
-            template: 
+            template:
 '<span ng-switch="isDetailLink()">' +
-    '<span ng-switch-when="false" ng-switch="type">' + 
+    '<span ng-switch-when="false" ng-switch="type">' +
 
-        '<ma-string-column   ng-switch-when="choice"    value="::field.getLabelForChoice(value)"></ma-string-column>' +
-        '<ma-string-column   ng-switch-when="email"     value="::value"></ma-string-column>' +
-        '<ma-string-column   ng-switch-when="number"    value="::value"></ma-string-column>' +
-        '<ma-string-column   ng-switch-when="string"    value="::value"></ma-string-column>' +
-        '<ma-string-column   ng-switch-when="text"      value="::value"></ma-string-column>' +
-        '<ma-json-column     ng-switch-when="json"      value="::value"></ma-json-column>' +
-        '<ma-boolean-column  ng-switch-when="boolean"   value="::value"></ma-boolean-column>' +
-        '<ma-password-column ng-switch-when="password"  value="::value"></ma-password-column>' +
-        '<ma-wysiwyg-column  ng-switch-when="wysiwyg"   value="::value|stripTags"></ma-wysiwyg-column>' +
-        '<ma-string-column   ng-switch-when="Reference" value="::entry.listValues[field.name()]"></ma-string-column>' +
-        '<ma-date-column     ng-switch-when="date"      value="::value" field="::field"></ma-date-column>' +
-        '<ma-template-column ng-switch-when="template" entry="::entry" field="::field" entity="::entity"></ma-template-column>' +
+        '<ma-string-column    ng-switch-when="choice"    value="::field.getLabelForChoice(value)"></ma-string-column>' +
+        '<ma-string-column    ng-switch-when="email"     value="::value"></ma-string-column>' +
+        '<ma-string-column    ng-switch-when="number"    value="::value"></ma-string-column>' +
+        '<ma-string-column    ng-switch-when="string"    value="::value"></ma-string-column>' +
+        '<ma-string-column    ng-switch-when="text"      value="::value"></ma-string-column>' +
+        '<ma-json-column      ng-switch-when="json"      value="::value"></ma-json-column>' +
+        '<ma-boolean-column   ng-switch-when="boolean"   value="::value"></ma-boolean-column>' +
+        '<ma-password-column  ng-switch-when="password"  value="::value"></ma-password-column>' +
+        '<ma-wysiwyg-column   ng-switch-when="wysiwyg"   value="::value|stripTags"></ma-wysiwyg-column>' +
+        '<ma-string-column    ng-switch-when="Reference" value="::entry.listValues[field.name()]"></ma-string-column>' +
+        '<ma-date-column      ng-switch-when="date"      value="::value" field="::field"></ma-date-column>' +
+        '<ma-date-time-column ng-switch-when="datetime"  value="::value" field="::field"></ma-date-time-column>' +
+        '<ma-template-column  ng-switch-when="template"  entry="::entry" field="::field" entity="::entity"></ma-template-column>' +
 
         '<ma-reference-many-column ng-switch-when="ReferenceMany" values="::entry.listValues[field.name()]"></ma-reference-many-column>' +
 
     '</span>' +
 
-    '<span ng-switch-when="true" ng-switch="isReference">' + 
+    '<span ng-switch-when="true" ng-switch="isReference">' +
         '<a ng-switch-when="false" ng-click="gotoDetail()" ng-switch="type">' +
 
             '<ma-string-column   ng-switch-when="choice"   value="::field.getLabelForChoice(value)"></ma-string-column>' +
@@ -101,7 +102,7 @@ define(function (require) {
 
         '</a>' +
 
-        '<span ng-switch-when="true" ng-switch="type">' + 
+        '<span ng-switch-when="true" ng-switch="type">' +
             '<a ng-switch-when="Reference" ng-click="gotoReference()">' +
                 '<ma-string-column value="::entry.listValues[field.name()]"></ma-string-column>' +
             '</a>' +

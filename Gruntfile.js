@@ -26,7 +26,8 @@ module.exports = function (grunt) {
                         'src/javascripts/bower_components/humane/themes/flatty.css',
                         'src/javascripts/bower_components/textAngular/dist/textAngular.min.css',
                         'src/javascripts/bower_components/codemirror/lib/codemirror.css',
-                        'src/javascripts/bower_components/codemirror/addon/lint/lint.css'
+                        'src/javascripts/bower_components/codemirror/addon/lint/lint.css',
+                        'src/javascripts/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
                     ]
                 }
             }

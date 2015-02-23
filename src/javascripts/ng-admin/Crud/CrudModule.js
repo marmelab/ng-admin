@@ -34,6 +34,7 @@ define(function (require) {
     CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
     CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
+    CrudModule.directive('maDateTimeField', require('ng-admin/Crud/field/maDateTimeField'));
     CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
     CrudModule.directive('maJsonField', require('ng-admin/Crud/field/maJsonField'));
     CrudModule.directive('maFileField', require('ng-admin/Crud/field/maFileField'));
@@ -51,6 +52,7 @@ define(function (require) {
     CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));
     CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
     CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
+    CrudModule.directive('maDateTimeColumn', require('ng-admin/Crud/column/maDateTimeColumn'));
     CrudModule.directive('maPasswordColumn', require('ng-admin/Crud/column/maPasswordColumn'));
     CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
