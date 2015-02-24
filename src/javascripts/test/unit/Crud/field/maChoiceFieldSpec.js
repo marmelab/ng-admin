@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: choice-field', function () {
         var directive = require('ng-admin/Crud/field/maChoiceField');
-        var Field = require('ng-admin/Main/component/service/config/Field');
+        var ChoiceField = require('ng-admin/Main/component/service/config/fieldTypes/ChoiceField');
         angular.module('testapp_ChoiceField', []).directive('maChoiceField', directive);
         require('angular-mocks');
 
@@ -21,21 +21,21 @@ define(function (require) {
         }));
 
         it("should contain a select tag", function () {
-            scope.field = new Field();
+            scope.field = new ChoiceField();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].nodeName).toBe('SELECT');
         });
 
         it("should add any supplied attribute", function () {
-            scope.field = new Field().attributes({ disabled: true });
+            scope.field = new ChoiceField().attributes({ disabled: true });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].disabled).toBeTruthy();
         });
 
         it("should provide an initial option for non-required fields", function () {
-            scope.field = new Field().choices([
+            scope.field = new ChoiceField().choices([
                 {label: 'foo', value: 'bar'}
             ]);
             var element = $compile(directiveUsage)(scope);
@@ -49,7 +49,7 @@ define(function (require) {
         });
 
         it("should provide an initial option for non-required fields", function () {
-            scope.field = new Field().choices([
+            scope.field = new ChoiceField().choices([
                 {label: 'foo', value: 'bar'}
             ]).validation({ required: true });
             var element = $compile(directiveUsage)(scope);
@@ -62,7 +62,7 @@ define(function (require) {
         });
 
         it("should contain the choices as options", function () {
-            scope.field = new Field().choices([
+            scope.field = new ChoiceField().choices([
                 {label: 'foo', value: 'bar'},
                 {label: 'baz', value: 'bazValue'}
             ]);
@@ -77,7 +77,7 @@ define(function (require) {
         });
 
         it("should have the option with the bounded value selected", function () {
-            scope.field = new Field().choices([
+            scope.field = new ChoiceField().choices([
                 {label: 'foo', value: 'bar'},
                 {label: 'baz', value: 'bazValue'}
             ]);

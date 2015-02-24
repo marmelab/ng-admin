@@ -39,22 +39,6 @@ define(function (require) {
                 expect(field.name()).not.toBe(null);
             });
 
-            it('should accept string for template value.', function () {
-                var field = new Field('myField')
-                    .type('template')
-                    .template('hello!');
-
-                expect(field.getTemplateValue()).toEqual('hello!');
-            });
-
-            it('should accept function for template value.', function () {
-                var field = new Field('myField')
-                    .type('template')
-                    .template(function () { return 'hello function !'; });
-
-                expect(field.getTemplateValue()).toEqual('hello function !');
-            });
-
             it('should allow even custom types', function () {
                 var field = new Field()
                     .type('myType');

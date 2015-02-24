@@ -7,9 +7,9 @@ define(function (require) {
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
         Entry = require('ng-admin/Main/component/service/config/Entry'),
-        Reference = require('ng-admin/Main/component/service/config/Reference'),
-        ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
-        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
+        ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'),
+        ReferencedListField = require('ng-admin/Main/component/service/config/fieldTypes/ReferencedListField'),
+        ReferenceManyField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         $q = require('mock/q'),
@@ -41,7 +41,7 @@ define(function (require) {
             catView = catEntity.listView()
                 .addField(new Field('id').identifier(true))
                 .addField(new Field('name').type('text'))
-                .addField(new Reference('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
+                .addField(new ReferenceField('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
 
             humanEntity.identifier(new Field('id'));
 
@@ -94,7 +94,7 @@ define(function (require) {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
-                authorRef = new Reference('author');
+                authorRef = new ReferenceField('author');
 
             var rawPosts = [
                 {id: 1, author: 'abc'},
@@ -127,7 +127,7 @@ define(function (require) {
             var retrieveQueries = new RetrieveQueries($q, Restangular, config),
                 post = new Entity('posts'),
                 author = new Entity('authors'),
-                authorRef = new Reference('author');
+                authorRef = new ReferenceField('author');
 
             authorRef.singleApiCall(function (ids) {
                 return {
@@ -172,7 +172,7 @@ define(function (require) {
                 state = new Entity('states'),
                 stateId = new Field('id').identifier(true),
                 character = new Entity('characters'),
-                stateCharacters = new ReferencedList('character');
+                stateCharacters = new ReferencedListField('character');
 
             var rawCharacters = [
                 {id: 'abc', state_id: 1, name: 'Rollo', age: 35, eyes: 'blue'},
@@ -214,8 +214,8 @@ define(function (require) {
                 entry3 = new Entry(),
                 human = new Entity('humans'),
                 tag = new Entity('tags'),
-                ref1 = new Reference('human_id'),
-                ref2 = new ReferenceMany('tags');
+                ref1 = new ReferenceField('human_id'),
+                ref2 = new ReferenceManyField('tags');
 
             human.editionView().identifier(new Field('id'));
             tag.editionView().identifier(new Field('id'));

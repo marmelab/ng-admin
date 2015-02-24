@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: date-field', function() {
         var directive = require('ng-admin/Crud/field/maDateField');
-        var Field = require('ng-admin/Main/component/service/config/Field');
+        var DateField = require('ng-admin/Main/component/service/config/fieldTypes/DateField');
         angular.module('testapp_DateField', []).directive('maDateField', directive);
         require('angular-mocks');
 
@@ -21,21 +21,21 @@ define(function (require) {
         }));
 
         it("should contain an input tag", function () {
-            scope.field = new Field();
+            scope.field = new DateField();
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.find('input').eq(0).attr('type')).toBe('text');
         });
 
         it("should add any supplied attribute", function () {
-            scope.field = new Field().attributes({ placeholder: 'here the date' });
+            scope.field = new DateField().attributes({ placeholder: 'here the date' });
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.find('input').eq(0).attr('placeholder')).toEqual('here the date');
         });
 
         it("should contain the bounded value", function () {
-            scope.field = new Field();
+            scope.field = new DateField();
             var now = new Date();
             scope.value = now;
             var element = $compile(directiveUsage)(scope);
