@@ -21,6 +21,7 @@ define(function (require) {
     function ReferencedListField(fieldName) {
         ReferenceField.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
+        this.config.isDetailLink = false;
         this.config.list = false;
         this.config.name = fieldName || 'reference';
         this.config.type = 'referenced_list';
