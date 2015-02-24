@@ -16,6 +16,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Customizing the API Mapping](doc/API-mapping.md)
 * [Theming](doc/Theming.md)
 * [Adding Custom Pages](doc/Custom-pages.md)
+* [Adding Custom Types](doc/Custom-types.md)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -524,7 +525,7 @@ Define the field name used to link the referenced entity.
         myView.fields([
             nga.field('tags', 'reference_many')
                .label('Tags')
-               .isEditLink(false)
+               .isDetailLink(false)
                .targetEntity(tag) // Targeted entity
                .targetField(nga.field('name')) // Label Field to display in the list
         ])

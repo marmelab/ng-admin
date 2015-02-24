@@ -10,7 +10,7 @@ define(function () {
         return {
             transclude: true,
             link: function (scope, element, attrs, controller, transcludeFn) {
-                scope.$watch(
+                var unbindWatcher = scope.$watch(
                     function (scope) {
                         // watch the 'compile' expression for changes
                         return scope.$eval(attrs.compile);
@@ -28,6 +28,10 @@ define(function () {
 
                         // compile the new DOM and link it to the current scope.
                         $compile(element.contents())(scope);
+
+                        if (attrs.compileOnce == 'true') {
+                            unbindWatcher();
+                        };
                     }
                 );
             }

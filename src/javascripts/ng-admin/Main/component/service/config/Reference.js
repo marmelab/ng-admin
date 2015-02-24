@@ -28,7 +28,7 @@ define(function (require) {
         this.config.isDetailLink = true; // because the Field constructor overrides the default
         this.config.validation = { required: false };
         this.config.name = fieldName || 'reference';
-        this.config.type = 'Reference';
+        this.config.type = 'reference';
         this.referencedValue = null;
         this.entries = {};
         this.referencedView = new ListView();

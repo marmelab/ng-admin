@@ -23,11 +23,9 @@ define(function (require) {
                 };
             },
             template:
-'<span ng-repeat="ref in values track by $index">' +
-    '<a ng-click="gotoReference(ids[$index])" class="multiple">' +
+    '<a ng-repeat="ref in values track by $index" ng-click="gotoReference(ids[$index])" class="multiple">' +
         '<span class="label label-default">{{ ref }}</span>' +
-    '</a>' +
-'</span>'
+    '</a>'
         };
     }
 

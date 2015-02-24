@@ -30,6 +30,7 @@ define(function (require) {
 
     CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
 
+    CrudModule.directive('maField', require('ng-admin/Crud/field/maField'));
     CrudModule.directive('maButtonField', require('ng-admin/Crud/field/maButtonField'));
     CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
     CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
@@ -40,7 +41,9 @@ define(function (require) {
     CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
     CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
     CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
-    CrudModule.directive('templateField', require('ng-admin/Crud/field/TemplateField'));
+    CrudModule.directive('maTemplateField', require('ng-admin/Crud/field/maTemplateField'));
+
+    CrudModule.provider('FieldViewConfiguration', require('ng-admin/Crud/fieldView/FieldViewConfiguration'));
 
     CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
@@ -51,8 +54,6 @@ define(function (require) {
     CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));
     CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
     CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
-    CrudModule.directive('maPasswordColumn', require('ng-admin/Crud/column/maPasswordColumn'));
-    CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
     CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
     CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
@@ -68,9 +69,10 @@ define(function (require) {
 
     CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
-    CrudModule.run(require('ng-admin/Crud/misc/cacheTemplate'));
 
     CrudModule.config(require('ng-admin/Crud/routing'));
+    CrudModule.config(require('ng-admin/Crud/config/factories'));
+    CrudModule.config(require('ng-admin/Crud/config/datePicker'));
 
     CrudModule.factory('notification', function () {
         return require('humane');
@@ -79,26 +81,6 @@ define(function (require) {
     CrudModule.factory('progression', function () {
         return require('nprogress');
     });
-
-    /**
-     * Date Picker patch
-     * https://github.com/angular-ui/bootstrap/commit/42cc3f269bae020ba17b4dcceb4e5afaf671d49b
-     */
-    CrudModule.config(['$provide', function ($provide) {
-        $provide.decorator('dateParser', function ($delegate) {
-
-            var oldParse = $delegate.parse;
-            $delegate.parse = function (input, format) {
-                if (!angular.isString(input) || !format) {
-                    return input;
-                }
-
-                return oldParse.apply(this, arguments);
-            };
-
-            return $delegate;
-        });
-    }]);
 
     return CrudModule;
 });

@@ -32,7 +32,7 @@ define(function (require) {
                 ]);
 
                 var choices = ref.getChoicesById();
-                expect(ref.type()).toEqual('Reference');
+                expect(ref.type()).toEqual('reference');
                 expect(choices[1]).toEqual('Suna');
                 expect(choices[2]).toEqual('Boby');
                 expect(choices[3]).toEqual('Mizute');
@@ -59,7 +59,7 @@ define(function (require) {
                     new Entry({ id: 3, human_id: 1, name: 'Mizute'})
                 ]);
 
-                expect(ref.type()).toEqual('Reference');
+                expect(ref.type()).toEqual('reference');
                 expect(ref.choices()).toEqual([
                     { value: 1, label: 'Suna'},
                     { value: 2, label: 'Boby'},

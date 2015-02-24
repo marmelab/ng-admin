@@ -38,7 +38,6 @@ define(function (require) {
      * @constructor
      */
     function Entity(entityName) {
-        this.values = {};
         this.config = angular.copy(config);
         this.config.name = entityName || 'entity';
         this.config.label = utils.camelCase(this.config.name);
@@ -48,31 +47,6 @@ define(function (require) {
     }
 
     Configurable(Entity.prototype, config);
-
-    /**
-     * Returns the value of a fieldName
-     *
-     * @params {String} fieldName
-     *
-     * @returns {*}
-     */
-    Entity.prototype.getValue = function (fieldName) {
-        return this.values[fieldName] !== undefined ? this.values[fieldName] : null;
-    };
-
-    /**
-     * Set the value of a fieldName
-     *
-     * @params {String} fieldName
-     * @params {*}      value
-     *
-     * @returns {Entity}
-     */
-    Entity.prototype.setValue = function (fieldName, value) {
-        this.values[fieldName] = value;
-
-        return this;
-    };
 
     /**
      * @param {View} view
@@ -152,16 +126,6 @@ define(function (require) {
         console.warn('addView() is deprecated. Views are added by default, use ' + propertyName + '() instead to retrieve the view and customize it');
 
         return this;
-    };
-
-    /**
-     * Return the value of a mapped field
-     *
-     * @param {String} fieldName
-     * @returns {*}
-     */
-    Entity.prototype.getMappedValue = function (fieldName) {
-        return this.values[fieldName];
     };
 
     Entity.prototype.readOnly = function () {

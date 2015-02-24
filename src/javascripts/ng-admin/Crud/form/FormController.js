@@ -106,33 +106,6 @@ define(function () {
             }, this.handleError.bind(this));
     };
 
-    FormController.prototype.getInputForField = function(field) {
-        return this.form[field.name()];
-    };
-
-    /**
-     * Should validation status be displayed for a given field?
-     *
-     * - No for non-editable fields, or template fields which not have a corresponding input
-     * - No for non-altered input
-     * - Yes otherwise
-     */
-    FormController.prototype.fieldHasValidation = function(field) {
-        var input = this.getInputForField(field);
-        return input && input.$dirty;
-    };
-
-    FormController.prototype.fieldIsValid = function(field) {
-        var input = this.getInputForField(field);
-        return input && input.$valid;
-    };
-
-    FormController.prototype.getFieldValidationClass = function(field) {
-        if (this.fieldHasValidation(field)) {
-            return this.fieldIsValid(field) ? 'has-success' : 'has-error';
-        }
-    };
-
     /**
      * Link to edit entity page
      *
