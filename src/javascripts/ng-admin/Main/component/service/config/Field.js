@@ -7,10 +7,6 @@ define(function (require) {
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultValueTemplate(entry) {
-        return '';
-    }
-
     var config = {
         name: 'myField',
         type: 'string',
@@ -18,7 +14,6 @@ define(function (require) {
         editable: true,
         order: null,
         identifier: false,
-        template: defaultValueTemplate,
         isDetailLink: false,
         detailLinkRoute: 'edit',
         list: true,
@@ -28,7 +23,6 @@ define(function (require) {
             minlength: 0,
             maxlength: 99999 // We can't remove ng-maxlength directive
         },
-        choices: [],
         defaultValue: null,
         attributes: {},
         cssClasses: '',
@@ -136,15 +130,6 @@ define(function (require) {
     };
 
     /**
-      * Return field value
-      *
-      * @returns mixed
-      */
-    Field.prototype.getTemplateValue = function (data) {
-        return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
-    };
-
-    /**
      * @deprecated use Field.isDetailLink() instead
      */
     Field.prototype.isEditLink = function(bool) {
@@ -154,14 +139,6 @@ define(function (require) {
         }
         return this.isDetailLink(bool);
     }
-
-    /**
-     * only for type choice
-     */
-    Field.prototype.getLabelForChoice = function(value) {
-        var choice = this.choices().filter(function(choice) { return choice.value == value }).pop();
-        return choice ? choice.label : null;
-    };
 
     return Field;
 });

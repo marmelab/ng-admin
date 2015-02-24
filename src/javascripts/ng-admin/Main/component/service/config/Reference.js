@@ -6,7 +6,7 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
+        ChoiceField = require('ng-admin/Main/component/service/config/fieldTypes/ChoiceField'),
         utils = require('ng-admin/lib/utils');
 
     var config = {
@@ -23,7 +23,7 @@ define(function (require) {
      * @constructor
      */
     function Reference(fieldName) {
-        Field.apply(this, arguments);
+        ChoiceField.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
         this.config.isDetailLink = true; // because the Field constructor overrides the default
         this.config.validation = { required: false };
@@ -34,7 +34,7 @@ define(function (require) {
         this.referencedView = new ListView();
     }
 
-    utils.inherits(Reference, Field);
+    utils.inherits(Reference, ChoiceField);
     Configurable(Reference.prototype, config);
 
     /**
