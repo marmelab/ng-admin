@@ -25,11 +25,7 @@ define(function (require) {
         },
         defaultValue: null,
         attributes: {},
-        cssClasses: '',
-        uploadInformation: {
-            url: '/upload',
-            accept: '*'
-        }
+        cssClasses: ''
     };
 
     /**

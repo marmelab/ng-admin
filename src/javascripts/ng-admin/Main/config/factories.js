@@ -13,7 +13,7 @@ define(function () {
         nga.registerFieldType('choices', ChoiceField);
         nga.registerFieldType('date', require('ng-admin/Main/component/service/config/fieldTypes/DateField'));
         nga.registerFieldType('email', Field);
-        nga.registerFieldType('file', Field);
+        nga.registerFieldType('file', require('ng-admin/Main/component/service/config/fieldTypes/FileField'));
         nga.registerFieldType('json', Field);
         nga.registerFieldType('number', Field);
         nga.registerFieldType('password', Field);
