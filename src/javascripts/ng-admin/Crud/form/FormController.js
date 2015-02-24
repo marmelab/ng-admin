@@ -50,10 +50,6 @@ define(function () {
         for (i in fields) {
             field = fields[i];
             value = entry.values[field.name()];
-            if (field.type() === 'date') {
-                value = field.parse()(value);
-            }
-
             object[field.name()] = value;
         }
 

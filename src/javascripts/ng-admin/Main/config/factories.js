@@ -13,7 +13,7 @@ define(function () {
         nga.registerFieldType('boolean', Field);
         nga.registerFieldType('choice', Field);
         nga.registerFieldType('choices', Field);
-        nga.registerFieldType('date', Field);
+        nga.registerFieldType('date', require('ng-admin/Main/component/service/config/fieldTypes/DateField'));
         nga.registerFieldType('email', Field);
         nga.registerFieldType('file', Field);
         nga.registerFieldType('json', Field);
@@ -25,7 +25,7 @@ define(function () {
         nga.registerFieldType('string', Field);
         nga.registerFieldType('template', Field);
         nga.registerFieldType('text', Field);
-        nga.registerFieldType('wysiwyg', Field);
+        nga.registerFieldType('wysiwyg', require('ng-admin/Main/component/service/config/fieldTypes/WysiwygField'));
     }
 
     factories.$inject = ['NgAdminConfigurationProvider'];

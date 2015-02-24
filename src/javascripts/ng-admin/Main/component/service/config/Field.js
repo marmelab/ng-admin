@@ -18,10 +18,6 @@ define(function (require) {
         editable: true,
         order: null,
         identifier: false,
-        format: 'yyyy-MM-dd',
-        parse: function (date) {
-            return date;
-        },
         template: defaultValueTemplate,
         isDetailLink: false,
         detailLinkRoute: 'edit',

@@ -41,10 +41,6 @@ define(function () {
 
             if (this.$scope.values[fieldName]) {
                 values[fieldName] = this.$scope.values[fieldName];
-
-                if (field.type() === 'date') {
-                    values[fieldName] = field.parse()(values[fieldName]);
-                }
             }
         }
 

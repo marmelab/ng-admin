@@ -3,17 +3,25 @@
 define(function (require) {
     'use strict';
 
-    function maWysiwygColumn() {
+    function maWysiwygColumn($filter) {
         return {
             restrict: 'E',
             scope: {
-                value: '&'
+                value: '&',
+                field: '&'
             },
-            template: '<span ng-bind-html="value()"></span>'
+            link: function(scope) {
+                var value = scope.value();
+                if (scope.field().stripTags()) {
+                    value = $filter('stripTags')(value);
+                }
+                scope.htmlValue = value;
+            },
+            template: '<span ng-bind-html="htmlValue"></span>'
         };
     }
 
-    maWysiwygColumn.$inject = [];
+    maWysiwygColumn.$inject = ['$filter'];
 
     return maWysiwygColumn;
 });

@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     function getReadWidget() {
-        return '<ma-wysiwyg-column value="::entry.values[field.name()]|stripTags"></ma-wysiwyg-column>';
+        return '<ma-wysiwyg-column field="::field" value="::entry.values[field.name()]"></ma-wysiwyg-column>';
     }
     function getLinkWidget() {
         return 'error: cannot display wysiwyg field as linkable';
