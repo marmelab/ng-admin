@@ -20,9 +20,6 @@ define(function (require) {
     MainModule.constant('Application', require('ng-admin/Main/component/service/config/Application'));
     MainModule.constant('Entity', require('ng-admin/Main/component/service/config/Entity'));
     MainModule.constant('Field', require('ng-admin/Main/component/service/config/Field'));
-    MainModule.constant('Reference', require('ng-admin/Main/component/service/config/Reference'));
-    MainModule.constant('ReferencedList', require('ng-admin/Main/component/service/config/ReferencedList'));
-    MainModule.constant('ReferenceMany', require('ng-admin/Main/component/service/config/ReferenceMany'));
 
     // Configuration view
     MainModule.constant('MenuView', require('ng-admin/Main/component/service/config/view/MenuView'));

@@ -17,9 +17,9 @@ define(function () {
         nga.registerFieldType('json', Field);
         nga.registerFieldType('number', Field);
         nga.registerFieldType('password', Field);
-        nga.registerFieldType('reference', require('ng-admin/Main/component/service/config/Reference'));
-        nga.registerFieldType('reference_many', require('ng-admin/Main/component/service/config/ReferenceMany'));
-        nga.registerFieldType('referenced_list', require('ng-admin/Main/component/service/config/ReferencedList'));
+        nga.registerFieldType('reference', require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'));
+        nga.registerFieldType('reference_many', require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'));
+        nga.registerFieldType('referenced_list', require('ng-admin/Main/component/service/config/fieldTypes/ReferencedListField'));
         nga.registerFieldType('string', Field);
         nga.registerFieldType('template', require('ng-admin/Main/component/service/config/fieldTypes/TemplateField'));
         nga.registerFieldType('text', Field);
