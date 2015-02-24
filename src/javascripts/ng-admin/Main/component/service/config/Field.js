@@ -45,22 +45,6 @@ define(function (require) {
     Configurable(Field.prototype, config);
 
     /**
-     * Set or get the type
-     *
-     * @param {String} type
-     * @returns string|Field
-     */
-    Field.prototype.type = function (type) {
-        if (arguments.length === 0) {
-            return this.config.type;
-        }
-
-        this.config.type = type;
-
-        return this;
-    };
-
-    /**
      * Add a map function
      *
      * @param {Function} fn
