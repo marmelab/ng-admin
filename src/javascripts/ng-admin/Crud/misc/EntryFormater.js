@@ -26,10 +26,10 @@ define(function () {
                 case 'template':
                     map[order] = {name: attr, type: 'Field'};
                     break;
-                case 'Reference':
+                case 'reference':
                     map[order] = {name: attr, type: 'Reference'};
                     break;
-                case 'ReferencedList':
+                case 'referenced_list':
                     break;//ignored
             }
         }
