@@ -31,9 +31,11 @@ app.config(function (NgAdminConfigurationProvider) {
 }
 ```
 
+The upgrade work is to replace `new Field('foo').type('bar')` by `nga.field('foo', 'bar')`. 
+
 `nga.field()` takes two parameters (name and type); calling `.type()` on an existing field isn't supported anymore.
 
-And references are fields, too. Instead of `new Reference()`, `new ReferenceMany()`, and `new ReferencedList()`, use `nga.field(name, type)` with the type `reference`, `reference_many`, and `referenced_list`:
+And references are fields, too. Instead of `new Reference()`, `new ReferenceMany()`, and `new ReferencedList()`, use `nga.field(name, type)` with the types `reference`, `reference_many`, and `referenced_list`:
 
 ```js
 // replace
