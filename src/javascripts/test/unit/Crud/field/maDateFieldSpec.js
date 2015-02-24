@@ -27,6 +27,15 @@ define(function (require) {
             expect(element.find('input').eq(0).attr('type')).toBe('text');
         });
 
+        it("should use the supplied format as datepicker parameter", function () {
+            scope.field = new DateField().format('yyyy-MM');
+            var date = new Date('2015-01-23');
+            scope.value = date;
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            expect(element.find('input').eq(0).attr('datepicker-popup')).toBe('yyyy-MM');
+        });
+
         it("should add any supplied attribute", function () {
             scope.field = new DateField().attributes({ placeholder: 'here the date' });
             var element = $compile(directiveUsage)(scope);

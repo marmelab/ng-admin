@@ -10,21 +10,22 @@ define(function (require) {
         describe('template()', function () {
 
             it('should accept string values', function () {
-                var field = new TemplateField('myField')
-                    .type('template')
-                    .template('hello!');
-
+                var field = new TemplateField().template('hello!');
                 expect(field.getTemplateValue()).toEqual('hello!');
             });
 
             it('should accept function values', function () {
-                var field = new TemplateField('myField')
-                    .type('template')
-                    .template(function () { return 'hello function !'; });
-
+                var field = new TemplateField().template(function () { return 'hello function !'; });
                 expect(field.getTemplateValue()).toEqual('hello function !');
             });
 
         });
+
+        describe('getTemplateValue()', function() {
+            it('should return the template function executed with the supplied data', function() {
+                var field = new TemplateField().template(function (name) { return 'hello ' + name + ' !'; });
+                expect(field.getTemplateValue('John')).toEqual('hello John !');
+            });
+        })
     });
 });

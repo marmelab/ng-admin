@@ -52,25 +52,9 @@ define(function (require) {
      * @returns {Field}
      */
     Field.prototype.map = function (fn) {
+        if (!arguments.length) return this.maps;
         this.maps.push(fn);
 
-        return this;
-    };
-
-    Field.prototype.validation = function (obj) {
-        if (!arguments.length) {
-            // getter
-            return this.config.validation;
-        }
-        // setter
-        for (var property in obj) {
-            if (!obj.hasOwnProperty(property)) continue;
-            if (obj[property] === null) {
-                delete this.config.validation[property];
-            } else {
-                this.config.validation[property] = obj[property];
-            }
-        }
         return this;
     };
 
@@ -94,17 +78,34 @@ define(function (require) {
         return value;
     };
 
+    Field.prototype.validation = function (obj) {
+        if (!arguments.length) {
+            // getter
+            return this.config.validation;
+        }
+        // setter
+        for (var property in obj) {
+            if (!obj.hasOwnProperty(property)) continue;
+            if (obj[property] === null) {
+                delete this.config.validation[property];
+            } else {
+                this.config.validation[property] = obj[property];
+            }
+        }
+        return this;
+    };
+
     /**
      * Get CSS classes list based on the `cssClasses` configuration
      *
      * @returns {string}
      */
     Field.prototype.getCssClasses = function (entry) {
+        if (this.config.cssClasses.constructor === Array) {
+            return this.config.cssClasses.join(' ');
+        }
         if (typeof this.config.cssClasses === 'function') {
             return this.config.cssClasses(entry);
-        }
-        if (typeof this.config.cssClasses.constructor === Array) {
-            return this.config.cssClasses.join(' ');
         }
         return this.config.cssClasses;
     };
