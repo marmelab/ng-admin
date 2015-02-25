@@ -1,4 +1,6 @@
-# Upgrade to 0.5
+# Upgrade to 0.6
+
+ng-admin 0.6 is a backwards-compatible release with 0.5. However, the change in the configuration API ('Factories' below) will become compulsory in 0.7. Update your configurations right away to be sure to be ready when 0.7 comes out!
 
 ## Factories
 
@@ -60,3 +62,5 @@ comment.listView().fields([
         .targetField(nga.field('title').map(truncate))
 ])
 ```
+
+Usage of the old configuration API (with direct calls to `new Field()`, `new Reference()`, `new ReferenceMany()`, and `new ReferencedList()`) is deprecated. Support for this old syntax will be removed in 0.7.

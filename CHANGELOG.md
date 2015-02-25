@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+v0.6.0 - 25 Feb. 2015
+---------------------
+
+* Add documentation about custom types (fzaninotto)
+* Add Factory for field Views (fzaninotto)
+* Add support for template items in `actions()` and `listActions()` when called with an array parameter (ThieryMichel)
+* Add ability to filter references results (jeromemacias)
+* Add ability to format Date fields before they are sent (ThieryMichel)
+* Fix missing require parameter in NgAdminConfiguration (easel)
+* Fix missing dashboard panel title, falling back to entity label (jpetitcolas)
+* Add listActions in ReferenceList in editionView (fzaninotto)
+* Add Factory methods (`nga.*`) to the configuration API (fzaninotto)
+* Add link to dashboard panel views (fzaninotto)
+* Add ability to use templates in view description (Xennis)
+* Update file field: Remove file field requirement on edition and remove file upload progress bar on end (jeromemacias)
+* Fix listActions buttons attributes binding (ThieryMichel)
+
 v0.5.0 - 2 Feb. 2015
 --------------------
 
