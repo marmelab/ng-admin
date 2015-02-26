@@ -5,6 +5,20 @@ module.exports = function (grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
+        "babel": {
+            "options": {
+                "sourceMap": true,
+                "modules": "amd"
+            },
+            dist: {
+                files: [{
+                    "expand": true,
+                    "src": ["src/javascripts/ng-admin/es6/**/*.js"],
+                    "dest": "build/",
+                    "ext": ".js"
+                }]
+            }
+        },
 
         requirejs: grunt.file.readJSON('grunt/grunt-requirejs.json'),
         compass: grunt.file.readJSON('grunt/grunt-compass.json'),
@@ -109,6 +123,12 @@ module.exports = function (grunt) {
                         return process.env.CI ? content.replace(/http:\/\/localhost:3000\//g, 'http://ng-admin.marmelab.com:8080/') : content;
                     }
                 }
+            },
+            es6: {
+                cwd: 'build/src/javascripts/ng-admin/es6/lib/',
+                expand: true,
+                src: ['**'],
+                dest: 'examples/blog/build/config'
             }
         },
 
@@ -145,7 +165,7 @@ module.exports = function (grunt) {
             },
             javascripts: {
                 files: ['src/javascripts/ng-admin.js', 'src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['requirejs:dev', 'copy:js_dev'],
+                tasks: ['babel', 'requirejs:dev', 'copy:js_dev', 'copy:es6'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -193,6 +213,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-babel');
 
     // register tasks
     grunt.registerTask('test', ['karma', 'build', 'copy_build', 'connect', 'protractor']);

@@ -62,7 +62,7 @@ define(function () {
     ListController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$stateParams = undefined;
-        this.$filer = undefined;
+        this.$filter = undefined;
         this.$location = undefined;
         this.$anchorScroll = undefined;
     };

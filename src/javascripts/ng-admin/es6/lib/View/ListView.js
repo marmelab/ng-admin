@@ -1,0 +1,116 @@
+import View from './View';
+
+class ListView extends View {
+    constructor(entity) {
+        super(entity);
+
+        this._type = 'ListView';
+        this.__perPage = 30;
+        this._infinitePagination = false;
+        this._actions = [];
+        this._listActions = [];
+        this._filters = [];
+
+        this._sortField = 'id';
+        this._sortDir = 'DESC';
+    }
+
+    get _perPage() {
+        return this.__perPage;
+    }
+
+    set _perPage(perPage) {
+        this.__perPage = perPage > 0 ? perPage : 0;
+    }
+
+    /**
+     * @deprecated
+     */
+    perPage() {
+        if (arguments.length) {
+            this.__perPage = arguments[0];
+            return this;
+        }
+
+        return this.__perPage;
+    }
+
+    /**
+     * @deprecated
+     */
+    sortField() {
+        if (arguments.length) {
+            this._sortField = arguments[0];
+            return this;
+        }
+
+        return this._sortField;
+    }
+
+    /**
+     * @deprecated
+     */
+    sortDir() {
+        if (arguments.length) {
+            this._sortDir = arguments[0];
+            return this;
+        }
+
+        return this._sortDir;
+    }
+
+    infinitePagination() {
+        if (arguments.length) {
+            this._infinitePagination = arguments[0];
+            return this;
+        }
+
+        return this._infinitePagination;
+    }
+
+    actions(actions) {
+        if (!arguments.length) {
+            return this._actions;
+        }
+
+        this._actions = actions;
+
+        return this;
+    }
+
+    filters(filters) {
+        if (!arguments.length) {
+            return this._filters;
+        }
+
+        this._filters = filters;
+
+        return this;
+    }
+
+    /** @deprecated use _perPage instead */
+    limit() {
+        if (arguments.length) {
+            this.__perPage = parseInt(arguments[0]);
+            return this;
+        }
+
+        return this.__perPage;
+    }
+
+    getFilterReferences() {
+        return this._filters.filter(f => f.type() === 'reference');
+    }
+
+    listActions(actions) {
+        if (!arguments.length) {
+            return this._listActions;
+        }
+
+        this._listActions = actions;
+
+        return this;
+    }
+}
+
+export default ListView;

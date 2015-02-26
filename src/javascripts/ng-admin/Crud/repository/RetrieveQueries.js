@@ -91,6 +91,7 @@ define(function (require) {
             _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
             _perPage: listView.perPage()
         };
+
         if (sortField && sortField.split('.')[0] === listView.name()) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
