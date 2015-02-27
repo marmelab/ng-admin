@@ -1,6 +1,6 @@
 /*global define*/
 
-define(function () {
+define(function (require) {
     'use strict';
 
     var angular = require('angular');

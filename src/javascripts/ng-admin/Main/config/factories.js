@@ -1,6 +1,6 @@
 /*global define*/
 
-define(function () {
+define(function (require) {
     'use strict';
 
     var Field = require('ng-admin/Main/component/service/config/Field'),
