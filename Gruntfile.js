@@ -79,6 +79,15 @@ module.exports = function (grunt) {
                 files: {
                     'build/ng-admin-configuration.min.js': ['build/ng-admin-configuration.js']
                 }
+            },
+            ngadmin_only: {
+                options: {
+                    sourceMap: true,
+                    sourceMapName: 'build/ng-admin-only.min.map'
+                },
+                files: {
+                    'build/ng-admin-only.min.js': ['build/ng-admin-only.min.js']
+                }
             }
         },
 
@@ -111,6 +120,10 @@ module.exports = function (grunt) {
             js_dev: {
                 src: 'build/ng-admin.min.js',
                 dest: 'examples/blog/build/ng-admin.js'
+            },
+            js_only: {
+                src: 'build/ng-admin-only.min.js',
+                dest: 'examples/blog/build/ng-admin-only.js'
             },
             css: {
                 src: 'build/ng-admin.min.css',
@@ -245,8 +258,8 @@ module.exports = function (grunt) {
     // register tasks
     grunt.registerTask('ngconfig', ['babel', 'requirejs:ngconfig']);
     grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'connect', 'protractor']);
-    grunt.registerTask('build', ['ngconfig', 'requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
-    grunt.registerTask('copy_build', ['copy:config', 'copy:es6', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
+    grunt.registerTask('build', ['ngconfig', 'requirejs:prod', 'requirejs:prod-only', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('copy_build', ['copy:config', 'copy:es6', 'copy:angular', 'copy:js_dev', 'copy:js_only', 'copy:css', 'copy:fonts_dev']);
 
     grunt.registerTask('test:local', ['mochaTest', 'karma', 'build:dev', 'copy_build:dev', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
