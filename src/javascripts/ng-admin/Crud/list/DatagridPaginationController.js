@@ -30,15 +30,15 @@ define(function (require) {
     }
 
     DatagridPaginationController.prototype.computePagination = function () {
-        var perPage = this.$scope.perPage,
-            currentPage = this.$location.search().page || 1,
-            totalItems = this.$scope.totalItems;
+        var perPage = parseInt(this.$scope.perPage, 10) || 1,
+            totalItems = parseInt(this.$scope.totalItems, 10),
+            page = Math.max(parseInt(this.$scope.page, 10), 1);
 
-        this.currentPage = currentPage;
-        this.offsetEnd = Math.min(currentPage * perPage, totalItems);
-        this.offsetBegin = Math.min((currentPage - 1) * perPage + 1, this.offsetEnd);
+        this.nbPages = Math.ceil(totalItems / perPage) || 1;
+        this.page = Math.min(this.nbPages, page);
+        this.offsetEnd = Math.min(this.page * perPage, totalItems);
+        this.offsetBegin = Math.min((this.page - 1) * perPage + 1, this.offsetEnd);
         this.totalItems = totalItems;
-        this.nbPages = Math.ceil(totalItems / (perPage || 1)) || 1;
         this.displayPagination = perPage < totalItems;
     };
 
@@ -61,11 +61,11 @@ define(function (require) {
     };
 
     DatagridPaginationController.prototype.nextPage = function () {
-        if (!this.$scope.infinite || this.currentPage >= this.nbPages) {
+        if (!this.$scope.infinite || this.page >= this.nbPages) {
             return;
         }
-        this.currentPage++;
-        this.$scope.nextPage(this.currentPage);
+        this.page++;
+        this.$scope.nextPage(this.page);
     };
 
     /**

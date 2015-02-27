@@ -22,6 +22,7 @@ define(function () {
         this.fields = this.$filter('orderElement')(view.fields());
         this.listActions = view.listActions();
         this.totalItems = this.data.totalItems;
+        this.page = $stateParams.page;
         this.itemsPerPage = view.perPage();
         this.infinitePagination = view.infinitePagination();
         this.nextPageCallback = this.nextPage.bind(this);

@@ -10,9 +10,10 @@ define(function (require) {
         return {
             restrict: 'E',
             scope: {
-                perPage: '=',
-                nextPage: '=',
+                page: '@',
+                perPage: '@',
                 totalItems: '@',
+                nextPage: '=',
                 infinite: '='
             },
             template: paginationView,

@@ -7,7 +7,7 @@ define(function (require) {
         var directive = require('ng-admin/Crud/list/maDatagridPagination'),
             $compile,
             scope,
-            directiveUsage = '<ma-datagrid-pagination total-items="{{ totalItems }}" per-page="itemsPerPage" ' +
+            directiveUsage = '<ma-datagrid-pagination page="{{ page }}" total-items="{{ totalItems }}" per-page="{{ itemsPerPage }}" ' +
                 'nextPage="nextPage" infinite="infinite"></ma-datagrid-pagination>';
 
         angular.module('testapp_DatagridPagination', [])
@@ -39,10 +39,10 @@ define(function (require) {
 
                 it('should display item range displayed', function() {
                     scope.totalItems = 37;
-                    scope.perPage = 10;
+                    scope.itemsPerPage = 10;
 
                     function checkTotalText(page, expectedText) {
-                        scope.currentPage = page;
+                        scope.page = page;
                         var element = $compile(directiveUsage)(scope)[0];
                         scope.$digest();
 
@@ -50,12 +50,12 @@ define(function (require) {
                         expect(totalElement.innerText.trim()).toBe(expectedText);
                     }
 
-                    checkTotalText(-1, '0 - 10 on 37');     // Lower pages should be considered as page 1
-                    checkTotalText( 0, '0 - 10 on 37');
-                    checkTotalText( 1, '0 - 10 on 37');
-                    checkTotalText( 2, '10 - 20 on 37');
-                    checkTotalText( 4, '30 - 37 on 37');
-                    checkTotalText( 8, '30 - 37 on 37');    // Higher pages should be considered as last page
+                    checkTotalText(-1, '1 - 10 on 37');     // Lower pages should be considered as page 1
+                    checkTotalText( 0, '1 - 10 on 37');
+                    checkTotalText( 1, '1 - 10 on 37');
+                    checkTotalText( 2, '11 - 20 on 37');
+                    checkTotalText( 4, '31 - 37 on 37');
+                    checkTotalText( 8, '31 - 37 on 37');    // Higher pages should be considered as last page
                 });
             });
 

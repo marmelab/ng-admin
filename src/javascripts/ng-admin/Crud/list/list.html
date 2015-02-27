@@ -29,10 +29,11 @@
 <div class="row">
     <div class="col-lg-12">
         <ma-datagrid-pagination
-                infinite="listController.infinitePagination"
-                next-page="listController.nextPageCallback"
-                per-page="listController.itemsPerPage"
-                total-items="{{ listController.totalItems }}">
+            page="{{ listController.page }}"
+            per-page="{{ listController.itemsPerPage }}"
+            total-items="{{ listController.totalItems }}"
+            infinite="listController.infinitePagination"
+            next-page="listController.nextPageCallback">
         </ma-datagrid-pagination>
     </div>
 </div>
