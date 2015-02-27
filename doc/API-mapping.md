@@ -54,7 +54,7 @@ You can use Restangular element transformers to map that to the expected format:
 ```js
 app.config(function(RestangularProvider) {
     RestangularProvider.addElementTransformer('books', function(element) {
-        for (var key on element.values) {
+        for (var key in element.values) {
             element[key] = element.values[key];
         }
 
