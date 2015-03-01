@@ -3,17 +3,18 @@
 define(function () {
     'use strict';
 
-    var ListController = function ($scope, $stateParams, $filter, RetrieveQueries, progression, view, data) {
+    var ListController = function ($scope, $stateParams, $filter, $location, $anchorScroll, RetrieveQueries, progression, view, data) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$filter = $filter;
+        this.$location = $location;
+        this.$anchorScroll = $anchorScroll;
+        this.RetrieveQueries = RetrieveQueries;
+        this.progression = progression;
         this.view = view;
-        this.data = data;
         this.entity = view.getEntity();
         this.title = view.title();
         this.description = view.description();
-        this.progression = progression;
-        this.RetrieveQueries = RetrieveQueries;
         this.actions = view.actions();
         this.loadingPage = false;
         this.filters = this.$filter('orderElement')(view.filters());
@@ -21,11 +22,11 @@ define(function () {
         this.entries = data.entries;
         this.fields = this.$filter('orderElement')(view.fields());
         this.listActions = view.listActions();
-        this.totalItems = this.data.totalItems;
-        this.page = $stateParams.page;
-        this.itemsPerPage = view.perPage();
-        this.infinitePagination = view.infinitePagination();
+        this.totalItems = data.totalItems;
+        this.page = $stateParams.page || 1;
+        this.infinitePagination = this.view.infinitePagination();
         this.nextPageCallback = this.nextPage.bind(this);
+        this.setPageCallback = this.setPage.bind(this);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -52,13 +53,21 @@ define(function () {
             });
     };
 
+    ListController.prototype.setPage = function (number) {
+        this.$location.search('page', number);
+        this.$anchorScroll(0);
+    };
+
+
     ListController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$stateParams = undefined;
         this.$filer = undefined;
+        this.$location = undefined;
+        this.$anchorScroll = undefined;
     };
 
-    ListController.$inject = ['$scope', '$stateParams', '$filter', 'RetrieveQueries', 'progression', 'view', 'data'];
+    ListController.$inject = ['$scope', '$stateParams', '$filter', '$location', '$anchorScroll', 'RetrieveQueries', 'progression', 'view', 'data'];
 
     return ListController;
 });

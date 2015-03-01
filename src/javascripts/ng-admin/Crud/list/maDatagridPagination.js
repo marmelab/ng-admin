@@ -13,7 +13,8 @@ define(function (require) {
                 page: '@',
                 perPage: '@',
                 totalItems: '@',
-                nextPage: '=',
+                nextPage: '&',
+                setPage: '&',
                 infinite: '='
             },
             template: paginationView,

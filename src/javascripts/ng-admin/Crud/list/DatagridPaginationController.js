@@ -5,10 +5,8 @@ define(function (require) {
 
     var angular = require('angular');
 
-    function DatagridPaginationController($scope, $location, $anchorScroll, $window, $document) {
+    function DatagridPaginationController($scope, $window, $document) {
         this.$scope = $scope;
-        this.$location = $location;
-        this.$anchorScroll = $anchorScroll;
         this.windowElement = angular.element($window);
 
         if ($scope.infinite) {
@@ -88,7 +86,7 @@ define(function (require) {
             return;
         }
         this.page++;
-        this.$scope.nextPage(this.page);
+        this.$scope.nextPage()(this.page);
     };
 
     /**
@@ -100,9 +98,7 @@ define(function (require) {
         if (number <= 0 || number > this.nbPages) {
             return;
         }
-
-        this.$location.search('page', number);
-        this.$anchorScroll(0);
+        this.$scope.setPage()(number);
     };
 
     DatagridPaginationController.prototype.destroy = function() {
@@ -110,12 +106,10 @@ define(function (require) {
             this.windowElement.unbind('scroll', this.handler);
         }
         this.$scope = undefined;
-        this.$location = undefined;
-        this.$anchorScroll = undefined;
         this.windowElement = undefined;
     };
 
-    DatagridPaginationController.$inject = ['$scope', '$location', '$anchorScroll', '$window', '$document'];
+    DatagridPaginationController.$inject = ['$scope', '$window', '$document'];
 
     return DatagridPaginationController;
 });
