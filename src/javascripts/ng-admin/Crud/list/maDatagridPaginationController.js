@@ -31,14 +31,14 @@ define(function (require) {
             nbPages = this.nbPages;
 
         // display page links around the current page
-        if (page > 3) {
+        if (page > 2) {
             input.push('1');
+        }
+        if (page == 4) {
+            input.push('2');
         }
         if (page > 4) {
             input.push('.');
-        }
-        if (page > 2) {
-            input.push(page - 2);
         }
         if (page > 1) {
             input.push(page - 1);
@@ -47,13 +47,13 @@ define(function (require) {
         if (page < nbPages) {
             input.push(page + 1);
         }
-        if (page < (nbPages - 1)) {
-            input.push(page + 2);
+        if (page == (nbPages - 3)) {
+            input.push(nbPages - 1);
         }
         if (page < (nbPages - 3)) {
             input.push('.');
         }
-        if (page < (nbPages - 2)) {
+        if (page < (nbPages - 1)) {
             input.push(nbPages);
         }
 

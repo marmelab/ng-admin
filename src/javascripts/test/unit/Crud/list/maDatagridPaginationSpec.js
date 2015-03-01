@@ -101,20 +101,17 @@ define(function (require) {
                 scope.totalItems = 37;
                 scope.itemsPerPage = 10;
                 scope.page = 1;
-                function checkPrevLink(rank, expected) {
-                    var element = $compile(directiveUsage)(scope)[0];
-                    scope.$digest();
-                    var lastButton = element.querySelectorAll('.pagination-bar .pagination li')[rank];
-                    expect(lastButton.innerText.trim()).toBe(expected);
-                }
-                checkPrevLink(1, '1');
-                checkPrevLink(2, '2');
-                checkPrevLink(3, '3');
-                checkPrevLink(4, '4');
+                var element = $compile(directiveUsage)(scope)[0];
+                scope.$digest();
+                var buttons = element.querySelectorAll('.pagination-bar .pagination li');
+                expect(buttons[1].innerText.trim()).toBe('1');
+                expect(buttons[2].innerText.trim()).toBe('2');
+                expect(buttons[3].innerText.trim()).toBe('3');
+                expect(buttons[4].innerText.trim()).toBe('4');
         });
 
         it('should display truncated centered page range if number of pages is above 5', function() {
-                scope.totalItems = 77;
+                scope.totalItems = 87;
                 scope.itemsPerPage = 10;
                 function checkPageLinks(page, expected) {
                     scope.page = page;
@@ -124,14 +121,15 @@ define(function (require) {
                     var buttonsText = buttons.map(function(button) { return button.innerText.trim(); });
                     expect(buttonsText).toEqual(expected);
                 }
-                checkPageLinks(1, ['', '1', '2', '3', '…', '8', 'Next »']);
-                checkPageLinks(2, ['« Prev', '1', '2', '3', '4', '…', '8', 'Next »']);
-                checkPageLinks(3, ['« Prev', '1', '2', '3', '4', '5', '…', '8', 'Next »']);
-                checkPageLinks(4, ['« Prev', '1', '2', '3', '4', '5', '6', '…', '8', 'Next »']);
-                checkPageLinks(5, ['« Prev', '1', '…', '3', '4', '5', '6', '7', '8', 'Next »']);
-                checkPageLinks(6, ['« Prev', '1', '…', '4', '5', '6', '7', '8', 'Next »']);
-                checkPageLinks(7, ['« Prev', '1', '…', '5', '6', '7', '8', 'Next »']);
-                checkPageLinks(8, ['« Prev', '1', '…', '6', '7', '8', '']);
+                checkPageLinks(1, ['', '1', '2', '…', '9', 'Next »']);
+                checkPageLinks(2, ['« Prev', '1', '2', '3', '…', '9', 'Next »']);
+                checkPageLinks(3, ['« Prev', '1', '2', '3', '4', '…', '9', 'Next »']);
+                checkPageLinks(4, ['« Prev', '1', '2', '3', '4', '5', '…', '9', 'Next »']);
+                checkPageLinks(5, ['« Prev', '1', '…', '4', '5', '6', '…', '9', 'Next »']);
+                checkPageLinks(6, ['« Prev', '1', '…', '5', '6', '7', '8', '9', 'Next »']);
+                checkPageLinks(7, ['« Prev', '1', '…', '6', '7', '8', '9', 'Next »']);
+                checkPageLinks(8, ['« Prev', '1', '…', '7', '8', '9', 'Next »']);
+                checkPageLinks(9, ['« Prev', '1', '…', '8', '9', '']);
         });
     });
 });
