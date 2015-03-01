@@ -5,29 +5,8 @@ define(function (require) {
 
     var angular = require('angular');
 
-    function DatagridPaginationController($scope, $window, $document) {
+    function DatagridPaginationController($scope) {
         this.$scope = $scope;
-        this.windowElement = angular.element($window);
-
-        if ($scope.infinite) {
-            var offset = 100,
-                body = $document[0].body,
-                nextPage = this.nextPage.bind(this);
-            this.handler = function () {
-                if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
-                    nextPage();
-                }
-            };
-            this.windowElement.bind('scroll', this.handler);
-            this.infinite = true;
-        }
-
-        this.computePagination();
-
-        $scope.$on('$destroy', this.destroy.bind(this));
-    }
-
-    DatagridPaginationController.prototype.computePagination = function () {
         var perPage = parseInt(this.$scope.perPage, 10) || 1,
             totalItems = parseInt(this.$scope.totalItems, 10),
             page = Math.max(parseInt(this.$scope.page, 10), 1);
@@ -81,14 +60,6 @@ define(function (require) {
         return input;
     };
 
-    DatagridPaginationController.prototype.nextPage = function () {
-        if (!this.$scope.infinite || this.page >= this.nbPages) {
-            return;
-        }
-        this.page++;
-        this.$scope.nextPage()(this.page);
-    };
-
     /**
      * Link to page number of the list
      *
@@ -102,14 +73,10 @@ define(function (require) {
     };
 
     DatagridPaginationController.prototype.destroy = function() {
-        if (this.handler) {
-            this.windowElement.unbind('scroll', this.handler);
-        }
         this.$scope = undefined;
-        this.windowElement = undefined;
     };
 
-    DatagridPaginationController.$inject = ['$scope', '$window', '$document'];
+    DatagridPaginationController.$inject = ['$scope'];
 
     return DatagridPaginationController;
 });

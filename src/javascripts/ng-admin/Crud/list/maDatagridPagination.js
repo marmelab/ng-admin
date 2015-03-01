@@ -3,8 +3,8 @@
 define(function (require) {
     'use strict';
 
-    var paginationView = require('text!./DatagridPagination.html'),
-        DatagridPaginationController = require('./DatagridPaginationController');
+    var paginationView = require('text!./maDatagridPagination.html'),
+        DatagridPaginationController = require('./maDatagridPaginationController');
 
     function DatagridPaginationDirective() {
         return {
@@ -13,9 +13,7 @@ define(function (require) {
                 page: '@',
                 perPage: '@',
                 totalItems: '@',
-                nextPage: '&',
-                setPage: '&',
-                infinite: '='
+                setPage: '&'
             },
             template: paginationView,
             controllerAs: 'paginationCtrl',
