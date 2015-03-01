@@ -78,7 +78,7 @@ describe('Global filter', function () {
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 10 on 11');
         });
-        $$('ma-datagrid-pagination a:nth-child(2)').click();
+        $$('ma-datagrid-pagination li:nth-child(3) a').click();
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('11 - 11 on 11');
         });
