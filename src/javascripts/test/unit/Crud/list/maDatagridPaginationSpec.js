@@ -7,8 +7,7 @@ define(function (require) {
         var directive = require('ng-admin/Crud/list/maDatagridPagination'),
             $compile,
             scope,
-            directiveUsage = '<ma-datagrid-pagination page="{{ page }}" total-items="{{ totalItems }}" per-page="{{ itemsPerPage }}" ' +
-                'nextPage="nextPage" infinite="infinite"></ma-datagrid-pagination>';
+            directiveUsage = '<ma-datagrid-pagination page="{{ page }}" total-items="{{ totalItems }}" per-page="{{ itemsPerPage }}"></ma-datagrid-pagination>';
 
         angular.module('testapp_DatagridPagination', [])
             .directive('maDatagridPagination', directive);
