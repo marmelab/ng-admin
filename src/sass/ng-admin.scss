@@ -148,11 +148,15 @@ div.bottom-loader {
     }
 }
 
-.grid-detail {
+.pagination-bar {
     text-align: right;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    .pagination {
+        margin: 0 0 0 20px;
+    }
     .total {
-        padding-right: 10px;
+        display: inline-block;
+        padding: 5px;
     }
 }
 

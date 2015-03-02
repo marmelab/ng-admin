@@ -1,0 +1,19 @@
+<nav class="pagination-bar">
+
+    <div class="total" ng-if="paginationCtrl.totalItems > 0">
+        <strong>{{ paginationCtrl.offsetBegin }}</strong> - <strong>{{ paginationCtrl.offsetEnd }}</strong> on <strong>{{ paginationCtrl.totalItems }}</strong>
+    </div>
+
+    <div class="total no-record" ng-if="paginationCtrl.totalItems == 0">
+        <strong>No record found.</strong>
+    </div>
+
+    <ul class="pagination pagination-sm pull-right" role="group" aria-label="pagination" ng-if="paginationCtrl.displayPagination">
+        <li><a href ng-if="paginationCtrl.page != 1" ng-click="paginationCtrl.setPage(paginationCtrl.page - 1)">« Prev</a></li>
+        <li ng-repeat="n in paginationCtrl.range(paginationCtrl.page) track by $index" ng-class="{'active': n == paginationCtrl.page}">
+            <a href ng-if="n != '.'" ng-click="paginationCtrl.setPage(n)">{{ n }}</a>
+            <span ng-if="n == '.'">&hellip;</span>
+        </li>
+        <li><a href ng-if="paginationCtrl.page != paginationCtrl.nbPages" ng-click="paginationCtrl.setPage(paginationCtrl.page + 1)">Next »</a></li>
+    </ul>
+</nav>
