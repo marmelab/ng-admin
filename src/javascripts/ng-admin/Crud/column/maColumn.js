@@ -3,22 +3,21 @@
 define(function (require) {
     'use strict';
 
-    var _ = require('lodash');
-
     function maColumn($location, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
-        var readWidgetTypes = _(FieldViewConfiguration)
-            .map(function(fieldView, field) {
-                return '<span ng-switch-when="' + field + '">' + fieldView.getReadWidget() +'</span>';
-            }).join('');
-        var linkWidgetTypes = _(FieldViewConfiguration)
-            .map(function(fieldView, field) {
-                return '<span ng-switch-when="' + field + '">' + fieldView.getLinkWidget() +'</span>';
-            }).join('');
-        var template = 
-'<span ng-switch="isDetailLink()">' +
-    '<span ng-switch-when="false" ng-switch="type">' + readWidgetTypes + '</span>' +
-    '<span ng-switch-when="true"  ng-switch="type">' + linkWidgetTypes + '</span>' +
-'</span>';
+
+        function isDetailLink(field) {
+            if (field.isDetailLink() === false) {
+                return false;
+            }
+            if (field.type() != 'reference' && field.type() != 'reference_many') {
+                return true;
+            }
+            var referenceEntity = field.targetEntity().name();
+            var relatedEntity = Configuration().getEntity(referenceEntity);
+            if (!relatedEntity) return false;
+            return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
+        };
+
         return {
             restrict: 'E',
             scope: {
@@ -29,32 +28,13 @@ define(function (require) {
             link: function(scope, element, attr) {
                 scope.field = scope.field();
                 scope.entry = scope.entry();
-                scope.type = scope.field.type();
-                if (scope.type == 'referenced_list') {
-                    // special case to avoid recursion
-                    element.append(
-                        '<ma-datagrid name="{{ field.getReferencedView().name() }}" ' +
-                             'entries="field.entries" ' +
-                             'fields="::field.getReferencedView().fields() | orderElement" ' +
-                             'list-actions="::field.listActions()" ' +
-                             'entity="::field.getReferencedView().entity">' +
-                        '</ma-datagrid>'
-                    );
-                    $compile(element.contents())(scope);
-                    return;
+                var type = scope.field.type();
+                if (isDetailLink(scope.field)) {
+                    element.append(FieldViewConfiguration[type].getLinkWidget());
+                } else {
+                    element.append(FieldViewConfiguration[type].getReadWidget());
                 }
-                scope.isDetailLink = function() {
-                    if (scope.field.isDetailLink() === false) {
-                        return false;
-                    }
-                    if (!scope.isReference) {
-                        return true;
-                    }
-                    var referenceEntity = scope.field.targetEntity().name();
-                    var relatedEntity = Configuration().getEntity(referenceEntity);
-                    if (!relatedEntity) return false;
-                    return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
-                };
+                $compile(element.contents())(scope);
                 scope.gotoDetail = function () {
                     this.clearRouteParams();
                     var route = scope.entity().isReadOnly ? 'show' : scope.field.detailLinkRoute();
@@ -76,8 +56,7 @@ define(function (require) {
                     $location.search('sortField', null);
                     $location.search('sortDir', null);
                 };
-            },
-            template: template
+            }
         };
     }
 

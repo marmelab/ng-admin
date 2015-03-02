@@ -6,9 +6,6 @@ define(function (require) {
     var Application = require('ng-admin/Main/component/service/config/Application');
     var Entity = require('ng-admin/Main/component/service/config/Entity');
     var Field = require('ng-admin/Main/component/service/config/Field');
-    var Reference = require('ng-admin/Main/component/service/config/Reference');
-    var ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany');
-    var ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList');
 
     function NgAdminConfiguration() {
         this.config = null;

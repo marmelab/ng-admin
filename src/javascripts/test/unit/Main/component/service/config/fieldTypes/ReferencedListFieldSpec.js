@@ -3,19 +3,19 @@
 define(function (require) {
     'use strict';
 
-    var ReferencedList = require('ng-admin/Main/component/service/config/ReferencedList'),
+    var ReferencedListField = require('ng-admin/Main/component/service/config/fieldTypes/ReferencedListField'),
         Field = require('ng-admin/Main/component/service/config/Field'),
-        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
+        ReferenceManyField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
-    describe("Service: ReferencedList config", function () {
+    describe("Service: config/fieldTypes/ReferencedList", function () {
 
         it('should retrieve referenceMany fields.', function () {
-            var referencedList = new ReferencedList('myField'),
-                ref1 = new ReferenceMany('ref1'),
-                ref2 = new ReferenceMany('ref2');
+            var referencedList = new ReferencedListField('myField'),
+                ref1 = new ReferenceManyField('ref1'),
+                ref2 = new ReferenceManyField('ref2');
 
             referencedList.targetFields([ref1, ref2]);
 
@@ -26,7 +26,7 @@ define(function (require) {
         });
 
         it('should return information about grid column.', function () {
-            var referencedList = new ReferencedList('myField'),
+            var referencedList = new ReferencedListField('myField'),
                 field1 = new Field('f1').label('Field 1'),
                 field2 = new Field('f2').label('Field 2');
 
@@ -44,7 +44,7 @@ define(function (require) {
 
             var post = new Entity('posts');
             post.editionView()
-                .addField(new ReferencedList('comments')
+                .addField(new ReferencedListField('comments')
                     .targetEntity(comment)
                     .targetField(new Field('id'))
                 );

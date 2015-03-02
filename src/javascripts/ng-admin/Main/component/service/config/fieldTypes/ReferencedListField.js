@@ -5,7 +5,7 @@ define(function (require) {
 
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
-        Reference = require('ng-admin/Main/component/service/config/Reference'),
+        ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'),
         utils = require('ng-admin/lib/utils');
 
     var config = {
@@ -18,17 +18,18 @@ define(function (require) {
     /**
      * @constructor
      */
-    function ReferencedList(fieldName) {
-        Reference.apply(this, arguments);
+    function ReferencedListField(fieldName) {
+        ReferenceField.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
+        this.config.isDetailLink = false;
         this.config.list = false;
         this.config.name = fieldName || 'reference';
         this.config.type = 'referenced_list';
         this.entries = [];
     }
 
-    utils.inherits(ReferencedList, Reference);
-    Configurable(ReferencedList.prototype, config);
+    utils.inherits(ReferencedListField, ReferenceField);
+    Configurable(ReferencedListField.prototype, config);
 
     /**
      * Set or get the type
@@ -36,7 +37,7 @@ define(function (require) {
      * @param {[Field]} targetFields
      * @returns ReferencedList
      */
-    ReferencedList.prototype.targetFields = function (targetFields) {
+    ReferencedListField.prototype.targetFields = function (targetFields) {
         if (arguments.length === 0) {
             return this.config.targetFields;
         }
@@ -52,7 +53,7 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    ReferencedList.prototype.getGridColumns = function () {
+    ReferencedListField.prototype.getGridColumns = function () {
         var columns = [],
             field,
             i,
@@ -69,19 +70,19 @@ define(function (require) {
         return columns;
     };
 
-    ReferencedList.prototype.getEntries = function () {
+    ReferencedListField.prototype.getEntries = function () {
         return this.entries;
     };
 
-    ReferencedList.prototype.setEntries = function (entries) {
+    ReferencedListField.prototype.setEntries = function (entries) {
         this.entries = entries;
 
         return this;
     };
 
-    ReferencedList.prototype.clear = function () {
+    ReferencedListField.prototype.clear = function () {
         return this;
     };
 
-    return ReferencedList;
+    return ReferencedListField;
 });

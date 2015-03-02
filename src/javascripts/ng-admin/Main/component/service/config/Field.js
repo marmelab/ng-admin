@@ -7,10 +7,6 @@ define(function (require) {
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         utils = require('ng-admin/lib/utils');
 
-    function defaultValueTemplate(entry) {
-        return '';
-    }
-
     var config = {
         name: 'myField',
         type: 'string',
@@ -18,11 +14,6 @@ define(function (require) {
         editable: true,
         order: null,
         identifier: false,
-        format: 'yyyy-MM-dd',
-        parse: function (date) {
-            return date;
-        },
-        template: defaultValueTemplate,
         isDetailLink: false,
         detailLinkRoute: 'edit',
         list: true,
@@ -32,14 +23,9 @@ define(function (require) {
             minlength: 0,
             maxlength: 99999 // We can't remove ng-maxlength directive
         },
-        choices: [],
         defaultValue: null,
         attributes: {},
-        cssClasses: '',
-        uploadInformation: {
-            url: '/upload',
-            accept: '*'
-        }
+        cssClasses: ''
     };
 
     /**
@@ -59,22 +45,6 @@ define(function (require) {
     Configurable(Field.prototype, config);
 
     /**
-     * Set or get the type
-     *
-     * @param {String} type
-     * @returns string|Field
-     */
-    Field.prototype.type = function (type) {
-        if (arguments.length === 0) {
-            return this.config.type;
-        }
-
-        this.config.type = type;
-
-        return this;
-    };
-
-    /**
      * Add a map function
      *
      * @param {Function} fn
@@ -82,25 +52,9 @@ define(function (require) {
      * @returns {Field}
      */
     Field.prototype.map = function (fn) {
+        if (!arguments.length) return this.maps;
         this.maps.push(fn);
 
-        return this;
-    };
-
-    Field.prototype.validation = function (obj) {
-        if (!arguments.length) {
-            // getter
-            return this.config.validation;
-        }
-        // setter
-        for (var property in obj) {
-            if (!obj.hasOwnProperty(property)) continue;
-            if (obj[property] === null) {
-                delete this.config.validation[property];
-            } else {
-                this.config.validation[property] = obj[property];
-            }
-        }
         return this;
     };
 
@@ -124,28 +78,36 @@ define(function (require) {
         return value;
     };
 
+    Field.prototype.validation = function (obj) {
+        if (!arguments.length) {
+            // getter
+            return this.config.validation;
+        }
+        // setter
+        for (var property in obj) {
+            if (!obj.hasOwnProperty(property)) continue;
+            if (obj[property] === null) {
+                delete this.config.validation[property];
+            } else {
+                this.config.validation[property] = obj[property];
+            }
+        }
+        return this;
+    };
+
     /**
      * Get CSS classes list based on the `cssClasses` configuration
      *
      * @returns {string}
      */
     Field.prototype.getCssClasses = function (entry) {
+        if (this.config.cssClasses.constructor === Array) {
+            return this.config.cssClasses.join(' ');
+        }
         if (typeof this.config.cssClasses === 'function') {
             return this.config.cssClasses(entry);
         }
-        if (typeof this.config.cssClasses.constructor === Array) {
-            return this.config.cssClasses.join(' ');
-        }
         return this.config.cssClasses;
-    };
-
-    /**
-      * Return field value
-      *
-      * @returns mixed
-      */
-    Field.prototype.getTemplateValue = function (data) {
-        return typeof (this.config.template) === 'function' ? this.config.template(data) : this.config.template;
     };
 
     /**
@@ -158,14 +120,6 @@ define(function (require) {
         }
         return this.isDetailLink(bool);
     }
-
-    /**
-     * only for type choice
-     */
-    Field.prototype.getLabelForChoice = function(value) {
-        var choice = this.choices().filter(function(choice) { return choice.value == value }).pop();
-        return choice ? choice.label : null;
-    };
 
     return Field;
 });

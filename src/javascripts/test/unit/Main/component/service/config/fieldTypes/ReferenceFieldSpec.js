@@ -3,17 +3,17 @@
 define(function (require) {
     'use strict';
 
-    var Reference = require('ng-admin/Main/component/service/config/Reference'),
+    var ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entry = require('ng-admin/Main/component/service/config/Entry'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
         EditView = require('ng-admin/Main/component/service/config/view/EditView'),
         Entity = require('ng-admin/Main/component/service/config/Entity');
 
-    describe("Service: config/Reference", function () {
+    describe("Service: config/fieldTypes/ReferenceField", function () {
         describe('getChoicesById', function () {
             it('should retrieve choices by id.', function () {
-                var ref = new Reference('human_id'),
+                var ref = new ReferenceField('human_id'),
                     human = new Entity('human');
 
                 human
@@ -41,7 +41,7 @@ define(function (require) {
 
         describe('choices', function () {
             it('should retrieve choices.', function () {
-                var ref = new Reference('human_id'),
+                var ref = new ReferenceField('human_id'),
                     human = new Entity('human');
 
                 human
@@ -73,7 +73,7 @@ define(function (require) {
                 comment = new Entity('comments');
 
             comment.listView()
-                .addField(new Reference('post_id')
+                .addField(new ReferenceField('post_id')
                     .targetEntity(post)
                     .targetField(new Field('id'))
                 );
@@ -83,7 +83,7 @@ define(function (require) {
 
         describe('getSortFieldName', function () {
             it('should retrieve sortField', function () {
-                var ref = new Reference('human_id'),
+                var ref = new ReferenceField('human_id'),
                     human = new Entity('human');
 
                 ref.setEntries([
@@ -107,7 +107,7 @@ define(function (require) {
 
         describe('getIdentifierValues', function () {
             it('Should return identifier values', function () {
-                var view = new Reference('tags'),
+                var view = new ReferenceField('tags'),
                     identifiers;
 
                 identifiers = view.getIdentifierValues([{_id: 1, tags:[1, 3]}, {_id:3, id:6, tags:[4, 3]}]);
@@ -115,7 +115,7 @@ define(function (require) {
             });
 
             it('Should not return undefined values', function () {
-                var view = new Reference('tags'),
+                var view = new ReferenceField('tags'),
                     identifiers;
 
                 identifiers = view.getIdentifierValues([{_id: 1, tags:undefined}, {_id:3, id:6, tags:[3]}]);

@@ -6,8 +6,8 @@ define(function (require) {
     var View = require('ng-admin/Main/component/service/config/view/View'),
         Field = require('ng-admin/Main/component/service/config/Field'),
         Entity = require('ng-admin/Main/component/service/config/Entity'),
-        ReferenceMany = require('ng-admin/Main/component/service/config/ReferenceMany'),
-        Reference = require('ng-admin/Main/component/service/config/Reference');
+        ReferenceManyField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'),
+        ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField');
 
     describe("Service: View config", function () {
 
@@ -52,8 +52,8 @@ define(function (require) {
         describe('addField()', function() {
             it('should add fields and preserve the order', function () {
                 var view = new View();
-                var refMany = new ReferenceMany('refMany');
-                var ref = new Reference('myRef');
+                var refMany = new ReferenceManyField('refMany');
+                var ref = new ReferenceField('myRef');
 
                 var field = new Field('body');
 

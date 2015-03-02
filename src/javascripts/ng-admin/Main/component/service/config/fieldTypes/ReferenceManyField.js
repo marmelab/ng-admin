@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var Reference = require('ng-admin/Main/component/service/config/Reference'),
+    var ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'),
         utils = require('ng-admin/lib/utils');
 
     /**
@@ -11,13 +11,13 @@ define(function (require) {
      *
      * @param {String} name
      */
-    function ReferenceMany(name) {
-        Reference.apply(this, arguments);
+    function ReferenceManyField(name) {
+        ReferenceField.apply(this, arguments);
         this.config.name = name || 'reference-many';
         this.config.type = 'reference_many';
     }
 
-    utils.inherits(ReferenceMany, Reference);
+    utils.inherits(ReferenceManyField, ReferenceField);
 
-    return ReferenceMany;
+    return ReferenceManyField;
 });

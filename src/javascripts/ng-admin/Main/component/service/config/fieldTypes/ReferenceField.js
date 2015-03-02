@@ -6,7 +6,7 @@ define(function (require) {
     var angular = require('angular'),
         Configurable = require('ng-admin/Main/component/service/config/Configurable'),
         ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
+        ChoiceField = require('ng-admin/Main/component/service/config/fieldTypes/ChoiceField'),
         utils = require('ng-admin/lib/utils');
 
     var config = {
@@ -22,8 +22,8 @@ define(function (require) {
     /**
      * @constructor
      */
-    function Reference(fieldName) {
-        Field.apply(this, arguments);
+    function ReferenceField(fieldName) {
+        ChoiceField.apply(this, arguments);
         this.config = angular.extend(this.config, angular.copy(config));
         this.config.isDetailLink = true; // because the Field constructor overrides the default
         this.config.validation = { required: false };
@@ -34,15 +34,15 @@ define(function (require) {
         this.referencedView = new ListView();
     }
 
-    utils.inherits(Reference, Field);
-    Configurable(Reference.prototype, config);
+    utils.inherits(ReferenceField, ChoiceField);
+    Configurable(ReferenceField.prototype, config);
 
     /**
      * Returns all choices by id for a Reference from values : [{targetIdentifier: targetLabel}]
      *
      * @returns {Object}
      */
-    Reference.prototype.getChoicesById = function () {
+    ReferenceField.prototype.getChoicesById = function () {
         var result = {},
             entry,
             targetEntity = this.targetEntity(),
@@ -65,7 +65,7 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    Reference.prototype.choices = function () {
+    ReferenceField.prototype.choices = function () {
         var results = [],
             entry,
             targetEntity = this.targetEntity(),
@@ -93,7 +93,7 @@ define(function (require) {
      *
      * @returns {Entity|Reference}
      */
-    Reference.prototype.targetEntity = function (entity) {
+    ReferenceField.prototype.targetEntity = function (entity) {
         if (arguments.length === 0) {
             return this.config.targetEntity;
         }
@@ -111,7 +111,7 @@ define(function (require) {
      *
      * @returns {Field|Reference}
      */
-    Reference.prototype.targetField = function (field) {
+    ReferenceField.prototype.targetField = function (field) {
         if (arguments.length === 0) {
             return this.config.targetField;
         }
@@ -127,22 +127,22 @@ define(function (require) {
     /**
      * @returns {ListView} a fake view that keep information about the targeted entity
      */
-    Reference.prototype.getReferencedView = function () {
+    ReferenceField.prototype.getReferencedView = function () {
         var referencedView = this.referencedView;
         this.referencedView.perPage(this.perPage());
 
         return referencedView;
     };
 
-    Reference.prototype.hasSingleApiCall = function () {
+    ReferenceField.prototype.hasSingleApiCall = function () {
         return typeof this.config.singleApiCall === 'function';
     };
 
-    Reference.prototype.getSingleApiCall = function (identifiers) {
+    ReferenceField.prototype.getSingleApiCall = function (identifiers) {
         return this.hasSingleApiCall() ? this.config.singleApiCall(identifiers) : this.config.singleApiCall;
     };
 
-    Reference.prototype.getSortFieldName = function () {
+    ReferenceField.prototype.getSortFieldName = function () {
         return this.referencedView.name() + '.' + this.targetField().name();
     };
 
@@ -153,7 +153,7 @@ define(function (require) {
      *
      * @returns {Array}
      */
-    Reference.prototype.getIdentifierValues = function (rawValues) {
+    ReferenceField.prototype.getIdentifierValues = function (rawValues) {
         var results = {},
             identifierName = this.name(),
             identifier,
@@ -178,7 +178,7 @@ define(function (require) {
     /**
      * @returns {[Object]}
      */
-    Reference.prototype.getEntries = function () {
+    ReferenceField.prototype.getEntries = function () {
         return this.entries;
     };
 
@@ -186,7 +186,7 @@ define(function (require) {
      * @param {[Object]} entries
      * @returns {Reference}
      */
-    Reference.prototype.setEntries = function (entries) {
+    ReferenceField.prototype.setEntries = function (entries) {
         this.entries = entries;
 
         return this;
@@ -197,9 +197,9 @@ define(function (require) {
      *
      * @returns mixed
      */
-    Reference.prototype.getListValue = function () {
+    ReferenceField.prototype.getListValue = function () {
         return this.referencedValue;
     };
 
-    return Reference;
+    return ReferenceField;
 });

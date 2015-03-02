@@ -10,7 +10,7 @@ define(function (require) {
 
     describe("Service: Field config", function () {
 
-        describe('label', function() {
+        describe('label()', function() {
             it('should return the camelCased name by default', function () {
                 expect(new Field('myField').label()).toEqual('MyField');
                 expect(new Field('my_field_1').label()).toEqual('My Field 1');
@@ -25,45 +25,52 @@ define(function (require) {
 
         });
 
-        describe('type', function () {
+        describe('type()', function () {
             it('should set type string.', function () {
-                var field = new Field();
-                field.type('string');
-
+                var field = new Field().type('string');
                 expect(field.type()).toBe('string');
             });
 
             it('should have a name even when not set.', function () {
                 var field = new Field();
-
                 expect(field.name()).not.toBe(null);
             });
 
-            it('should accept string for template value.', function () {
-                var field = new Field('myField')
-                    .type('template')
-                    .template('hello!');
-
-                expect(field.getTemplateValue()).toEqual('hello!');
-            });
-
-            it('should accept function for template value.', function () {
-                var field = new Field('myField')
-                    .type('template')
-                    .template(function () { return 'hello function !'; });
-
-                expect(field.getTemplateValue()).toEqual('hello function !');
-            });
-
             it('should allow even custom types', function () {
-                var field = new Field()
-                    .type('myType');
+                var field = new Field().type('myType');
                 expect(true).toBeTruthy();
             });
-
         });
 
-        describe('validation', function() {
+        describe('map()', function() {
+            it('should add a map function', function() {
+                var fooFunc = function(a) { return a; }
+                var field = new Field().map(fooFunc);
+                expect(field.hasMaps()).toBeTruthy();
+                expect(field.map()).toEqual([fooFunc]);
+            });
+            it('should allow multiple calls', function() {
+                var fooFunc = function(a) { return a; }
+                var barFunc = function(a) { return a + 1; }
+                var field = new Field().map(fooFunc).map(barFunc);
+                expect(field.map()).toEqual([fooFunc, barFunc]);
+            });
+        });
+
+        describe('getMappedValue()', function() {
+            it('should return the value argument if no maps', function() {
+                var field = new Field();
+                expect(field.getMappedValue('foobar')).toEqual('foobar');
+            });
+            it('should return the passed transformed by maps', function() {
+                var field = new Field()
+                    .map(function add1(a) { return a + 1; })
+                    .map(function times2(a) { return a * 2; });
+                expect(field.getMappedValue(3)).toEqual(8);
+            });
+        });
+
+        describe('validation()', function() {
             it('should have sensible defaults', function() {
                 expect(new Field().validation()).toEqual({required: false, minlength : 0, maxlength : 99999});
             });
@@ -79,27 +86,22 @@ define(function (require) {
             });
         });
 
-        describe('entity', function () {
-            it('should set view.', function () {
-                var field = new Field('field1'),
-                    view = new ListView('list1');
-
-                view.setEntity(new Entity('myEntity1'));
-
-                expect(view.name() + '.' + field.name()).toBe('list1.field1');
+        describe('getCssClasses()', function() {
+            it('should return an empty string by default', function() {
+                var field = new Field();
+                expect(field.getCssClasses()).toEqual('');
             });
-        });
-
-        describe('config', function () {
-            it('should call getMappedValue.', function () {
-                function truncate(val) {
-                    return 'v' + val;
-                }
-
-                var field = new Field('field1');
-                field.map(truncate);
-
-                expect(field.getMappedValue(123)).toBe('v123');
+            it('should return an class string as set by cssClasses(string)', function() {
+                var field = new Field().cssClasses('foo bar');
+                expect(field.getCssClasses()).toEqual('foo bar');
+            });
+            it('should return an class string as set by cssClasses(array)', function() {
+                var field = new Field().cssClasses(['foo', 'bar']);
+                expect(field.getCssClasses()).toEqual('foo bar');
+            });
+            it('should return an class string as set by cssClasses(function)', function() {
+                var field = new Field().cssClasses(function() { return 'foo bar'; });
+                expect(field.getCssClasses()).toEqual('foo bar');
             });
         });
 

@@ -18,6 +18,10 @@ define(function (require) {
             link: function(scope, element) {
                 var field = scope.field();
                 scope.name = field.name();
+                scope.rawValue = scope.value;
+                scope.$watch('rawValue', function(rawValue) {
+                    scope.value = field.parse()(rawValue);
+                });
                 scope.format = field.format();
                 scope.v = field.validation();
                 scope.isOpen = false;
@@ -34,7 +38,7 @@ define(function (require) {
             },
             template:
 '<div class="input-group datepicker">' +
-    '<input type="text" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ' +
+    '<input type="text" ng-model="rawValue" id="{{ name }}" name="{{ name }}" class="form-control" ' +
            'datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ' +
            'ng-required="v.required" />' +
     '<span class="input-group-btn">' +
