@@ -8,6 +8,7 @@
         <script src="build/angular.js" type="text/javascript"></script>
         <script src="build/ng-admin.js" type="text/javascript"></script>
         <script src="build/require.js" type="text/javascript"></script>
+        <script src="build/polyfills/array.from.js" type="text/javascript"></script>
         <script>
             require(['build/config/Factory.js'], function(Factory) {
                 var nga = new Factory();
@@ -176,15 +177,16 @@
                         ]);
 
                 comment.editionView()
-                        .fields(comment.creationView().fields())
-                        .fields([nga.field(null, 'template')
+                        .fields([
+                            comment.creationView().fields(),
+                            nga.field(null, 'template')
                                 .label('')
                                 .template('<post-link entry="entry"></post-link>') // template() can take a function or a string
                         ]);
-                /*
+
                 comment.deletionView()
                         .title('Deletion confirmation'); // customize the deletion confirmation message
-*/
+
                 tag.menuView()
                         .order(3)
                         .icon('<span class="glyphicon glyphicon-tags"></span>');

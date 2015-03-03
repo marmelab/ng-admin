@@ -5,7 +5,7 @@ import MenuView from '../View/MenuView';
 import ListView from '../View/ListView';
 import CreateView from '../View/CreateView';
 import EditView from '../View/EditView';
-import DeletionView from '../View/DeletionView';
+import DeleteView from '../View/DeleteView';
 
 class Entity {
     constructor(name) {
@@ -77,17 +77,17 @@ class Entity {
     }
 
     /**
-     * @deprecated Use .views["EditionView"] instead
+     * @deprecated Use .views["EditView"] instead
      */
     editionView() {
         return this._views["EditView"];
     }
 
     /**
-     * @deprecated Use .views["DeletionView"] instead
+     * @deprecated Use .views["DeleteView"] instead
      */
     deletionView() {
-        return this._views["DeletionView"];
+        return this._views["DeleteView"];
     }
 
     baseApiUrl() {
@@ -106,7 +106,7 @@ class Entity {
             "ListView": new ListView(this),
             "CreateView": new CreateView(this),
             "EditView": new EditView(this),
-            "DeletionView": new DeletionView(this)
+            "DeleteView": new DeleteView(this)
         };
     }
 
@@ -121,7 +121,7 @@ class Entity {
 
         this._views["CreateView"].disable();
         this._views["EditView"].disable();
-        this._views["DeletionView"].disable();
+        this._views["DeleteView"].disable();
 
         return this;
     }
