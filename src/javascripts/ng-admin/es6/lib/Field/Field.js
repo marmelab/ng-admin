@@ -138,12 +138,8 @@ class Field {
     }
 
     identifier(identifier) {
-        if (!arguments.length) {
-            return this._identifier;
-        }
-
+        if (!arguments.length) return this._identifier;
         this._identifier = identifier;
-
         return this;
     }
 
@@ -161,16 +157,6 @@ class Field {
         }
 
         this._validation = validation;
-
-        return this;
-    }
-
-    choices(choices) {
-        if (!arguments.length) {
-            return this._choices;
-        }
-
-        this._choices = choices;
 
         return this;
     }

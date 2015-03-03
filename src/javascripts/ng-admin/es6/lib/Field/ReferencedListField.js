@@ -16,9 +16,7 @@ class ReferencedListField extends ReferenceField {
 
     targetFields(value) {
         if (!arguments.length) return this._targetFields;
-
-        this._referencedView.removeFields();
-        this._referencedView.fields = value;
+        this._referencedView.fields(value);
         this._targetFields = value;
 
         return this;

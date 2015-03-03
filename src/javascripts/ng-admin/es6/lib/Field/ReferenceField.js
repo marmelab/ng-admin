@@ -124,7 +124,7 @@ class ReferenceField extends Field {
         var result = {};
         var targetEntity = this._targetEntity;
         var targetField = this._targetField.name();
-        var targetIdentifier = 'id';//targetEntity.identifier().name();
+        var targetIdentifier = targetEntity.identifier().name();
 
         for (var i = 0, l = this.entries.length ; i < l ; i++) {
             var entry = this.entries[i];
@@ -132,6 +132,15 @@ class ReferenceField extends Field {
         }
 
         return result;
+    }
+
+    choices() {
+        return this._entries.map(function(entry) {
+            return {
+                value: entry.values[this._targetEntity.identifier().name()],
+                label: entry.values[this._targetField.name()]
+            };
+        }, this);
     }
 }
 

@@ -23,8 +23,8 @@ class Entry {
         var identifierValue = null;
 
         var values = restEntry;
-        for (fieldName in view.fields) {
-            field = view.fields[fieldName];
+        for (var fieldName in view.fields()) {
+            var field = view.fields()[fieldName];
             if (field.name() in restEntry) {
                 values[fieldName] = field.getMappedValue(restEntry[field.name()], restEntry);
             }

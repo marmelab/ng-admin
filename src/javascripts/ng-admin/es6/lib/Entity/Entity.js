@@ -4,7 +4,7 @@ import DashboardView from '../View/DashboardView';
 import MenuView from '../View/MenuView';
 import ListView from '../View/ListView';
 import CreateView from '../View/CreateView';
-import EditionView from '../View/EditionView';
+import EditView from '../View/EditView';
 import DeletionView from '../View/DeletionView';
 
 class Entity {
@@ -80,7 +80,7 @@ class Entity {
      * @deprecated Use .views["EditionView"] instead
      */
     editionView() {
-        return this._views["EditionView"];
+        return this._views["EditView"];
     }
 
     /**
@@ -105,7 +105,7 @@ class Entity {
             "MenuView": new MenuView(this),
             "ListView": new ListView(this),
             "CreateView": new CreateView(this),
-            "EditionView": new EditionView(this),
+            "EditView": new EditView(this),
             "DeletionView": new DeletionView(this)
         };
     }
@@ -120,7 +120,7 @@ class Entity {
         this._isReadOnly = true;
 
         this._views["CreateView"].disable();
-        this._views["EditionView"].disable();
+        this._views["EditView"].disable();
         this._views["DeletionView"].disable();
 
         return this;

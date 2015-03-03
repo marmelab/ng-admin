@@ -129,6 +129,12 @@ module.exports = function (grunt) {
                 expand: true,
                 src: ['**'],
                 dest: 'examples/blog/build/config'
+            },
+            polyfill: {
+                cwd: 'src/javascripts/ng-admin/polyfills',
+                src: ['**'],
+                dest: 'examples/blog/build/polyfills',
+                expand: true
             }
         },
 

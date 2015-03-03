@@ -1,4 +1,5 @@
 import Entry from "../Entry";
+import arrayUtils from "../Utils/arrayUtils";
 
 class View {
     constructor(entity) {
@@ -68,13 +69,10 @@ class View {
         return this.entity;
     }
 
-    fields() {
-        if (arguments.length) {
-            this._fields = arguments[0];
-            return this;
-        }
-
-        return this._fields;
+    fields(fields) {
+        if (!arguments.length) return this._fields;
+        this._fields = arrayUtils.flatten(fields);
+        return this;
     }
 
     get type() {
@@ -100,6 +98,10 @@ class View {
 
         return references;
     }
+
+    getReferencedLists() {
+        return this._fields.filter(f => f.type() === 'referenced_list');
+    };
 
     mapEntry(restEntry) {
         return new Entry.mapFromRest(this, restEntry);
@@ -144,7 +146,7 @@ class View {
 
     actions(actions) {
         if (!arguments.length) return this._actions;
-        this.actions = actions;
+        this._actions = actions;
         return this;
     }
 
