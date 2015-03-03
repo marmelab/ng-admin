@@ -413,6 +413,18 @@ entity.listView().fields([
 
 A button linking to the related view for the given entity.
 
+* `<ma-filtered-list-button>`
+
+A button linking to an entity list view, prefiltered.
+
+```js
+entity.listView().fields([
+    // ...
+    nga.field('', 'template').label('')
+        template('<ma-filtered-list-button entity-name="comments" filter-name="post_id" filter-value="entry.values.id" size="sm">')
+]);
+```
+
 ### `listView.listActions()`
 
 The `listActions()` method available on the listView is a shortcut to adding a template field with one of the directives listed above. In practice, calling:
