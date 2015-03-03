@@ -1,9 +1,9 @@
 import stringUtils from "../Utils/stringUtils";
-
+import Field from "../Field/Field";
 import DashboardView from '../View/DashboardView';
 import MenuView from '../View/MenuView';
 import ListView from '../View/ListView';
-import CreationView from '../View/CreationView';
+import CreateView from '../View/CreateView';
 import EditionView from '../View/EditionView';
 import DeletionView from '../View/DeletionView';
 
@@ -12,7 +12,7 @@ class Entity {
         this._name = name;
         this._baseApiUrl = null;
         this._label = null;
-        this._identifierField = null;
+        this._identifierField = new Field("id");
         this._isReadOnly = false;
 
         this._initViews();
@@ -70,10 +70,10 @@ class Entity {
     }
 
     /**
-     * @deprecated Use .views["CreationView"] instead
+     * @deprecated Use .views["CreateView"] instead
      */
     creationView() {
-        return this._views["CreationView"];
+        return this._views["CreateView"];
     }
 
     /**
@@ -104,25 +104,22 @@ class Entity {
             "DashboardView": new DashboardView(this),
             "MenuView": new MenuView(this),
             "ListView": new ListView(this),
-            "CreationView": new EditionView(this),
+            "CreateView": new CreateView(this),
             "EditionView": new EditionView(this),
             "DeletionView": new DeletionView(this)
         };
     }
 
-    identifier() {
-        if (arguments.length) {
-            this._identifierField = arguments[0];
-            return this;
-        }
-
-        return this._identifierField;
+    identifier(value) {
+        if (!arguments.length) return this._identifierField;
+        this._identifierField = value;
+        return this;
     }
 
     readOnly() {
         this._isReadOnly = true;
 
-        this._views["CreationView"].disable();
+        this._views["CreateView"].disable();
         this._views["EditionView"].disable();
         this._views["DeletionView"].disable();
 

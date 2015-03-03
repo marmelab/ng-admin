@@ -64,7 +64,7 @@
                                     .targetField(nga.field('name')) // the field to be displayed in this list
                         ])
                         .listActions(['show', 'edit', 'delete']);
-                /*
+
                 post.creationView()
                         .fields([
                             nga.field('title') // the default edit field type is "string", and displays as a text input
@@ -95,7 +95,7 @@
                                         nga.field('body').label('Comment')
                                     ])
                         ]);
-
+/*
                 post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
                         .fields([
                             nga.field('id'),
@@ -160,7 +160,7 @@
                                     .targetField(nga.field('title'))
                         ])
                         .listActions(['edit', 'delete']);
-                /*
+
                 comment.creationView()
                         .fields([
                             nga.field('created_at', 'date')
@@ -181,7 +181,7 @@
                                 .label('')
                                 .template('<post-link entry="entry"></post-link>') // template() can take a function or a string
                         ]);
-
+                /*
                 comment.deletionView()
                         .title('Deletion confirmation'); // customize the deletion confirmation message
 */

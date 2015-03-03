@@ -7,7 +7,6 @@ class ListView extends View {
         this._type = 'ListView';
         this.__perPage = 30;
         this._infinitePagination = false;
-        this._actions = [];
         this._listActions = [];
         this._filters = [];
 

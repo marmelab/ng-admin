@@ -13,6 +13,8 @@ class Field {
         this._cssClasses = null;
         this._identifier = false;
         this._validation = {};
+        this._defaultValue = null;
+        this._editable = true;
 
         this._choices = [];
     }
@@ -170,6 +172,18 @@ class Field {
 
         this._choices = choices;
 
+        return this;
+    }
+
+    defaultValue(defaultValue) {
+        if (!arguments.length) return this._defaultValue;
+        this.defaultValue = defaultValue;
+        return this;
+    }
+
+    editable(editable) {
+        if (!arguments.length) return this._editable;
+        this._editable = editable;
         return this;
     }
 }

@@ -4,7 +4,8 @@ class View {
     constructor(entity) {
         this.entity = entity;
 
-        this._title = null;
+        this._actions = null;
+        this._title = false;
         this._description = null;
         this._template = null;
 
@@ -19,14 +20,10 @@ class View {
         return this._enabled;
     }
 
-    /** @deprecated */
-    title() {
-        if (arguments.length) {
-            this._title = arguments[0];
-            return this;
-        }
-
-        return this._title;
+    title(title) {
+        if (!arguments.length) return this._title;
+        this._title = title;
+        return this;
     }
 
     /** @deprecated */
@@ -143,6 +140,30 @@ class View {
         }
 
         return this;
+    }
+
+    actions(actions) {
+        if (!arguments.length) return this._actions;
+        this.actions = actions;
+        return this;
+    }
+
+    processFieldsDefaultValue(entry) {
+        for (var i in this._fields) {
+            var field = this._fields[i];
+            entry.values[field.name()] = field.defaultValue();
+        }
+
+        return this;
+    }
+
+    removeFields() {
+        this._fields = [];
+        return this;
+    }
+
+    getFields() {
+        return this._fields;
     }
 }
 
