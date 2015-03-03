@@ -6,6 +6,7 @@ define(function (require) {
     var Application = require('ng-admin/Main/component/service/config/Application');
     var Entity = require('ng-admin/Main/component/service/config/Entity');
     var Field = require('ng-admin/Main/component/service/config/Field');
+    var MenuView = require('ng-admin/Main/component/service/config/view/MenuView');
 
     function NgAdminConfiguration() {
         this.config = null;
@@ -29,6 +30,13 @@ define(function (require) {
      */
     NgAdminConfiguration.prototype.application = function(name) {
         return new Application(name);
+    };
+
+    /**
+     * @returns {MenuView}
+     */
+    NgAdminConfiguration.prototype.menuView = function() {
+        return new MenuView();
     };
 
     /**

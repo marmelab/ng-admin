@@ -8,12 +8,10 @@ define(function () {
         this.$location = $location;
         this.$sce = $sce;
         this.$filter = $filter;
-        var menuViews = Configuration().getViewsOfType('MenuView');
+        var menuViews = Configuration().getViewsOfType('MenuView').concat(Configuration().menuViews());
         menuViews = this.$filter('enabled')(menuViews);
         menuViews = this.$filter('orderElement')(menuViews);
-        this.entities = menuViews.map(function(menuView) {
-            return menuView.getEntity();
-        });
+        this.menuViews = menuViews;
         this.computeCurrentEntity();
         $scope.$on('$locationChangeSuccess', this.computeCurrentEntity.bind(this));
         $scope.$on('$destroy', this.destroy.bind(this));

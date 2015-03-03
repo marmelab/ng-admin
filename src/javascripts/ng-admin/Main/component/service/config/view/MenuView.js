@@ -9,6 +9,7 @@ define(function (require) {
     var config = {
         title: null,
         order: null,
+        template: false,
         icon: '<span class="glyphicon glyphicon-list"></span>'
     };
 

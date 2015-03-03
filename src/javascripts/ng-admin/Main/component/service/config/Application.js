@@ -24,7 +24,8 @@ define(function (require) {
         baseApiUrl: "http://localhost:3000/",
         customTemplate: defaultCustomTemplate,
         errorMessage: defaultErrorMessage,
-        layout: null
+        layout: null,
+        menuViews: []
     };
 
     function Application(title) {
@@ -82,6 +83,10 @@ define(function (require) {
      */
     Application.prototype.getEntityNames = function () {
         return Object.keys(this.entities);
+    };
+
+    Application.prototype.addMenuView = function (menuView) {
+        this.config.menuViews.push(menuView);
     };
 
     /**

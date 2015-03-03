@@ -242,6 +242,8 @@
                 nga.field('published', 'boolean')
             ]);
 
+        admin.addMenuView(nga.menuView().order(4).template('hello'));
+
         nga.configure(admin);
     });
 
