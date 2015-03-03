@@ -64,6 +64,7 @@ define(function (require) {
     CrudModule.directive('maBackButton', require('ng-admin/Crud/button/maBackButton'));
     CrudModule.directive('maCreateButton', require('ng-admin/Crud/button/maCreateButton'));
     CrudModule.directive('maEditButton', require('ng-admin/Crud/button/maEditButton'));
+    CrudModule.directive('maFilteredListButton', require('ng-admin/Crud/button/maFilteredListButton'));
     CrudModule.directive('maShowButton', require('ng-admin/Crud/button/maShowButton'));
     CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
     CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));

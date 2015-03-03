@@ -3,6 +3,12 @@
 define(function () {
     'use strict';
 
+    /**
+     * Link to list
+     * 
+     * Usage:
+     * <ma-list-button entity="entity" size="xs"></ma-list-button>
+     */
     function maListButtonDirective($location) {
         return {
             restrict: 'E',

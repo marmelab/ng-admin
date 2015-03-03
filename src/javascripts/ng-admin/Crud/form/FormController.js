@@ -19,11 +19,12 @@ define(function () {
         this.actions = view.actions();
         this.fields = this.$filter('orderElement')(view.fields());
         this.config = Configuration();
+        this.view = view;
+        this.entity = this.view.getEntity();
         this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
         this.$scope.view = view;
-        this.view = view;
-        this.entity = this.view.getEntity();
+        this.$scope.entity = this.entity;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
