@@ -6,6 +6,7 @@ import BooleanField from "./Field/BooleanField";
 import ChoiceField from "./Field/ChoiceField";
 import ChoicesField from "./Field/ChoicesField";
 import DateField from "./Field/DateField";
+import DateTimeField from "./Field/DateTimeField";
 import EmailField from "./Field/EmailField";
 import FileField from "./Field/FileField";
 import JsonField from "./Field/JsonField";
@@ -50,6 +51,7 @@ class Factory {
         this.registerFieldType('choice', ChoiceField);
         this.registerFieldType('choices', ChoicesField);
         this.registerFieldType('date', DateField);
+        this.registerFieldType('datetime', DateTime);
         this.registerFieldType('email', EmailField);
         this.registerFieldType('string', Field);
         this.registerFieldType('file', FileField);
