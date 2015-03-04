@@ -71,7 +71,6 @@ class Application {
         return this._baseApiUrl;
     }
 
-    /** @deprecated use entities collection directly */
     addEntity(entity) {
         if (!entity) {
             throw new Error("No entity given");
@@ -80,6 +79,15 @@ class Application {
         this._entities.push(entity);
 
         return this;
+    }
+
+    getEntity(entityName) {
+        var foundEntity = this._entities.filter(e => e.name() === entityName)[0];
+        if (!foundEntity) {
+            throw new Error(`Unable to find entity "${entityName}"`);
+        }
+
+        return foundEntity;
     }
 
     getViewByEntityAndType(entityName, type) {

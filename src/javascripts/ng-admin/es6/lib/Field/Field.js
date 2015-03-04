@@ -15,7 +15,7 @@ class Field {
         this._validation = {};
         this._defaultValue = null;
         this._editable = true;
-
+        this._detailLinkRoute = 'edit';
         this._choices = [];
     }
 
@@ -63,7 +63,7 @@ class Field {
         return this._order;
     }
 
-    isDetailLink() {
+    isDetailLink(detailLink) {
         if (arguments.length) {
             this._detailLink = arguments[0];
             return this;
@@ -170,6 +170,12 @@ class Field {
     editable(editable) {
         if (!arguments.length) return this._editable;
         this._editable = editable;
+        return this;
+    }
+
+    detailLinkRoute(route) {
+        if (!arguments.length) return this._detailLinkRoute;
+        this._detailLinkRoute = route;
         return this;
     }
 }

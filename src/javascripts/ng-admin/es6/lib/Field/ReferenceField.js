@@ -14,6 +14,7 @@ class ReferenceField extends Field {
         this._sortDir = null;
         this._singleApiCall = false;
         this._entries = [];
+        this._detailLink = true;
     }
 
     get perPage() {

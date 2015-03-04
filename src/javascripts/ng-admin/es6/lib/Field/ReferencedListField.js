@@ -6,6 +6,7 @@ class ReferencedListField extends ReferenceField {
         this._type = 'referenced_list';
         this._targetReferenceField = null;
         this._targetFields = [];
+        this._detailLink = false;
     }
 
     targetReferenceField(value) {
