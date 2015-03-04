@@ -6,6 +6,7 @@ import ListView from '../View/ListView';
 import CreateView from '../View/CreateView';
 import EditView from '../View/EditView';
 import DeleteView from '../View/DeleteView';
+import ShowView from '../View/ShowView';
 
 class Entity {
     constructor(name) {
@@ -90,6 +91,13 @@ class Entity {
         return this._views["DeleteView"];
     }
 
+    /**
+     * @deprecated Use .views["ShowView"] instead
+     */
+    showView() {
+        return this._views["ShowView"];
+    }
+
     baseApiUrl() {
         if (arguments.length) {
             this._baseApiUrl = arguments[0];
@@ -106,7 +114,8 @@ class Entity {
             "ListView": new ListView(this),
             "CreateView": new CreateView(this),
             "EditView": new EditView(this),
-            "DeleteView": new DeleteView(this)
+            "DeleteView": new DeleteView(this),
+            "ShowView": new ShowView(this)
         };
     }
 
