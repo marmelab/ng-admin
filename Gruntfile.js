@@ -12,9 +12,10 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: [{
+                    "cwd": "src/javascripts/ng-admin/es6/lib/",
                     "expand": true,
-                    "src": ["src/javascripts/ng-admin/es6/**/*.js"],
-                    "dest": "build/",
+                    "src": "**/*.js",
+                    "dest": "build/es6/",
                     "ext": ".js"
                 }]
             }
@@ -68,6 +69,15 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'build/ng-admin.min.js': ['build/ng-admin.min.js']
+                }
+            },
+            config: {
+                options: {
+                    sourceMap: true,
+                    sourceMapName: 'build/ng-admin-configuration.min.map'
+                },
+                files: {
+                    'build/ng-admin-configuration.min.js': ['build/ng-admin-configuration.js']
                 }
             }
         },
@@ -125,10 +135,12 @@ module.exports = function (grunt) {
                 }
             },
             es6: {
-                cwd: 'build/src/javascripts/ng-admin/es6/lib/',
-                expand: true,
-                src: ['**'],
-                dest: 'examples/blog/build/config'
+                src: 'build/ng-admin-configuration.min.js',
+                dest: 'examples/blog/build/ng-admin-configuration.min.js'
+            },
+            es6_dev: {
+                src: 'build/ng-admin-configuration.js',
+                dest: 'examples/blog/build/ng-admin-configuration.min.js'
             },
             corejs: {
                 src: 'node_modules/core-js/build/core-stable.js',
@@ -161,7 +173,7 @@ module.exports = function (grunt) {
         watch: {
             configFiles: {
                 files: ['Gruntfile.js', 'grunt/grunt-*.json'],
-                tasks: ['build:dev', 'copy_build:dev'],
+                tasks: ['build:dev', 'ngconfig', 'copy_build:dev'],
                 options: {
                     // reload watchers since configuration may have changed
                     reload: true
@@ -169,7 +181,7 @@ module.exports = function (grunt) {
             },
             javascripts: {
                 files: ['src/javascripts/ng-admin.js', 'src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['babel', 'requirejs:dev', 'copy:js_dev', 'copy:es6'],
+                tasks: ['ngconfig', 'requirejs:dev', 'copy:js_dev', 'copy:es6_dev'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -220,14 +232,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-babel');
 
     // register tasks
+    grunt.registerTask('ngconfig', ['babel', 'requirejs:ngconfig']);
+
+    grunt.registerTask('test:unit', ['build:dev', 'karma:unit']);
     grunt.registerTask('test', ['karma', 'build', 'copy_build', 'connect', 'protractor']);
-    grunt.registerTask('build', ['requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
-    grunt.registerTask('copy_build', ['copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
+    grunt.registerTask('build', ['ngconfig', 'requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
+    grunt.registerTask('copy_build', ['copy:config', 'copy:es6', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
 
     grunt.registerTask('test:local', ['karma', 'build:dev', 'copy_build:dev', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'concat:css']);
-    grunt.registerTask('copy_build:dev', ['copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
+    grunt.registerTask('copy_build:dev', ['copy:es6_dev', 'copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
 
     // register default task
     grunt.registerTask('default', ['copy:angular', 'json_server', 'connect', 'watch']);

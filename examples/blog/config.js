@@ -5,8 +5,7 @@
     var app = angular.module('myApp', ['ng-admin']);
 
     app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
-
-        var nga = NgAdminConfigurationProvider;
+        var nga = new window.ngaConfigurationFactory();
 
         function truncate(value) {
             if (!value) {
@@ -178,7 +177,7 @@
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .targetEntity(post)
-                    .targetField(nga.field('title'))    
+                    .targetField(nga.field('title'))
             ])
             .listActions(['edit', 'delete']);
 
@@ -243,7 +242,7 @@
                 nga.field('published', 'boolean')
             ]);
 
-        nga.configure(admin);
+        NgAdminConfigurationProvider.configure(admin);
     });
 
     app.directive('postLink', ['$location', function ($location) {

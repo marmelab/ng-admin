@@ -13,8 +13,26 @@
             "skipDirOptimize": true,
             "removeCombined": true,
             "wrap": {
-                "startFile": "src/build/start.frag",
-                "endFile": "src/build/end.frag"
+                "startFile": "src/build/start-ngadmin.frag",
+                "endFile": "src/build/end-ngadmin.frag"
+            }
+        }
+    },
+    "ngconfig": {
+        "options": {
+            "baseUrl": "build/es6/",
+            "include": ["Factory.js"],
+            "name": "../../src/javascripts/bower_components/almond/almond",
+            "out": "build/ng-admin-configuration.js",
+            "optimize": "none",
+            "preserveLicenseComments": false,
+            "findNestedDependencies": true,
+            "generateSourceMaps": false,
+            "skipDirOptimize": true,
+            "removeCombined": true,
+            "wrap": {
+                "startFile": "src/build/start-configuration.frag",
+                "endFile": "src/build/end-configuration.frag"
             }
         }
     },
@@ -32,8 +50,8 @@
             "skipDirOptimize": true,
             "removeCombined": true,
             "wrap": {
-                "startFile": "src/build/start.frag",
-                "endFile": "src/build/end.frag"
+                "startFile": "src/build/start-ngadmin.frag",
+                "endFile": "src/build/end-ngadmin.frag"
             }
         }
     }

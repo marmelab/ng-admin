@@ -1,11 +1,7 @@
-import Factory from "./Factory";
-
 class Application {
     constructor(title, baseApiUrl) {
         this._baseApiUrl = baseApiUrl;
         this._customTemplate = function(viewName) {};
-
-        this._factory = new Factory();
 
         this._title = title;
         this._layout = false;
