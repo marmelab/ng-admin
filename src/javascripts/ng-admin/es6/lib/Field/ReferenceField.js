@@ -28,6 +28,9 @@ class ReferenceField extends Field {
 
         this._targetEntity = entity;
         this._referencedView = new ListView(entity);
+        if (this._targetField) {
+            this._referencedView.addField(this._targetField);
+        }
 
         return this;
     }
@@ -39,12 +42,13 @@ class ReferenceField extends Field {
 
         this._targetField = field;
 
-        // Remove specified field, and add it (to prevent from duplicates)
-        var fields = this._referencedView.fields()
-            .filter(f => f.name() !== field.name());
-        fields.push(field);
+        if (this._referencedView) {
+            // Remove specified field, and add it (to prevent from duplicates)
+            var fields = this._referencedView.fields().filter(f => f.name() !== field.name());
+            fields.push(field);
 
-        this._referencedView.fields(fields);
+            this._referencedView.fields(fields);
+        }
 
         return this;
     }
@@ -142,6 +146,10 @@ class ReferenceField extends Field {
                 label: entry.values[this._targetField.name()]
             };
         }, this);
+    }
+
+    getSortFieldName() {
+        return this._referencedView.name() + '.' + this._targetField.name();
     }
 }
 

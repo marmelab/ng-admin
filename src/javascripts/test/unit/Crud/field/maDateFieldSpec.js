@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: date-field', function() {
         var directive = require('ng-admin/Crud/field/maDateField');
-        var DateField = require('ng-admin/Main/component/service/config/fieldTypes/DateField');
+        var DateField = require('ng-admin/es6/lib/Field/DateField');
         angular.module('testapp_DateField', []).directive('maDateField', directive);
         require('angular-mocks');
 

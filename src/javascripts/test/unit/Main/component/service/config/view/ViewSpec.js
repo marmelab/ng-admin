@@ -10,45 +10,6 @@ define(function (require) {
         ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField');
 
     describe("Service: View config", function () {
-
-        describe('name()', function() {
-            it('should returns the view name.', function () {
-                var view = new View('view-abx');
-                expect(view.name()).toEqual('view-abx');
-            });
-            it('should return a default name based on the entity name and view type', function() {
-                var view = new View();
-                view.type = 'foo';
-                var entity = new Entity('bar');
-                view.setEntity(entity);
-                expect(view.name()).toEqual('bar_foo');
-            });
-        });
-
-        describe('title()', function() {
-            it('should return false by default', function () {
-                var view = new View();
-                expect(view.title()).toBeFalsy();
-            });
-            it('should return the view title', function () {
-                var view = new View();
-                view.title('my-title');
-                expect(view.title()).toEqual('my-title');
-            });
-        });
-
-        describe('description()', function() {
-            it('should return empty string by default', function () {
-                var view = new View();
-                expect(view.description()).toEqual('');
-            });
-            it('should return the view description', function () {
-                var view = new View();
-                view.description('my desc');
-                expect(view.description()).toEqual('my desc');
-            });
-        });
-
         describe('addField()', function() {
             it('should add fields and preserve the order', function () {
                 var view = new View();

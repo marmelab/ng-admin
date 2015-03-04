@@ -4,7 +4,7 @@ module.exports = function (config) {
         basePath: '../',
         frameworks: ['requirejs', 'jasmine'],
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
-        plugins: ['karma-requirejs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
+        plugins: ['karma-requirejs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
 
         files: [
             {pattern: 'bower_components/requirejs-text/text.js', included: false},
@@ -22,6 +22,7 @@ module.exports = function (config) {
             {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
 
             // ng-admin application files
+            {pattern: 'ng-admin/es6/lib/**/*.js', included: false},
             {pattern: 'ng-admin/**/**/**/*.js', included: false},
             {pattern: 'ng-admin/lib/**/*.js', included: false},
             {pattern: 'ng-admin/**/view/**/*.html', included: false},
@@ -33,6 +34,9 @@ module.exports = function (config) {
 
             // Test bootstrap
             'test/app-test.js'
-        ]
+        ],
+        preprocessors: {
+            'ng-admin/es6/lib/**/*.js': 'babel'
+        },
     });
 };

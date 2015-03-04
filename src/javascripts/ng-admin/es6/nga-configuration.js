@@ -11,5 +11,5 @@ require.config({
 
 define(function (require) {
     'use strict';
-    require('Application.js');
+    require('lib/Factory.js');
 });

@@ -22,6 +22,19 @@ class ReferencedListField extends ReferenceField {
 
         return this;
     }
+
+    getGridColumns() {
+        var columns = [];
+        for (let i = 0, l = this._targetFields.length ; i < l ; i++) {
+            let field = this._targetFields[i];
+            columns.push({
+                field: field,
+                label: field.label()
+            });
+        }
+
+        return columns;
+    }
 }
 
 export default ReferencedListField;

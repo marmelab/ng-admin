@@ -7,7 +7,7 @@ class View {
 
         this._actions = null;
         this._title = false;
-        this._description = null;
+        this._description = '';
         this._template = null;
 
         this._enabled = true;
@@ -27,7 +27,6 @@ class View {
         return this;
     }
 
-    /** @deprecated */
     description() {
         if (arguments.length) {
             this._description = arguments[0];
@@ -37,14 +36,13 @@ class View {
         return this._description;
     }
 
-    /** @deprecated */
     name() {
         if (arguments.length) {
             this._name = arguments[0];
             return this;
         }
 
-        return this._name;
+        return this._name + '_' + this._type;
     }
 
     disable() {
@@ -166,6 +164,15 @@ class View {
 
     getFields() {
         return this._fields;
+    }
+
+    getField(fieldName) {
+        return this._fields.filter(f => f.name() === fieldName)[0];
+    }
+
+    addField(field) {
+        this._fields.push(field);
+        return this;
     }
 }
 

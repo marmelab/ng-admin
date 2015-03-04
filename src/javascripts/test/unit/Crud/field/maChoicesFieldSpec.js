@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: choices-field', function() {
         var directive = require('ng-admin/Crud/field/maChoicesField');
-        var ChoiceField = require('ng-admin/Main/component/service/config/fieldTypes/ChoiceField');
+        var ChoiceField = require('ng-admin/es6/lib/Field/ChoiceField');
         angular.module('testapp_ChoicesField', []).directive('maChoicesField', directive);
         require('angular-mocks');
 
