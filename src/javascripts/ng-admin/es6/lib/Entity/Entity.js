@@ -23,7 +23,6 @@ class Entity {
         return this._views;
     }
 
-    /** @deprecated */
     label() {
         if (arguments.length) {
             this._label = arguments[0];
@@ -37,9 +36,6 @@ class Entity {
         return this._label;
     }
 
-    /**
-     * @deprecated
-     */
     name() {
         if (arguments.length) {
             this._name = arguments[0];

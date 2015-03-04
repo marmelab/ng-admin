@@ -12,20 +12,17 @@ describe('Application', function() {
 
         it('should return only views of type', function() {
             var application = new Application();
-
-            var post = new Entity('post');
-            var comment = new Entity('comment');
-
-            application.entities.push(post);
-            application.entities.push(comment);
+            application
+                .addEntity(new Entity('post'))
+                .addEntity(new Entity('comment'));
 
             var views = application.getViewsOfType('DashboardView');
             assert.equal(2, views.length);
 
-            assert.equal('post', views[0].entity.name);
+            assert.equal('post', views[0].entity.name());
             assert.equal('DashboardView', views[0].type);
 
-            assert.equal('comment', views[1].entity.name);
+            assert.equal('comment', views[1].entity.name());
             assert.equal('DashboardView', views[1].type);
         });
     });
@@ -39,7 +36,7 @@ describe('Application', function() {
             var application = new Application();
             application.layout = "New layout";
 
-            assert.equal("New layout", application.layout());
+            assert.equal("New layout", application.layout);
         })
     });
 });

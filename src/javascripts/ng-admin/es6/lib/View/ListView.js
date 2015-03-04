@@ -5,7 +5,7 @@ class ListView extends View {
         super(entity);
 
         this._type = 'ListView';
-        this.__perPage = 30;
+        this._perPage = 30;
         this._infinitePagination = false;
         this._listActions = [];
         this._filters = [];
@@ -14,29 +14,15 @@ class ListView extends View {
         this._sortDir = 'DESC';
     }
 
-    get _perPage() {
-        return this.__perPage;
-    }
-
-    set _perPage(perPage) {
-        this.__perPage = perPage > 0 ? perPage : 0;
-    }
-
-    /**
-     * @deprecated
-     */
     perPage() {
         if (arguments.length) {
-            this.__perPage = arguments[0];
+            this._perPage = arguments[0];
             return this;
         }
 
-        return this.__perPage;
+        return this._perPage;
     }
 
-    /**
-     * @deprecated
-     */
     sortField() {
         if (arguments.length) {
             this._sortField = arguments[0];
@@ -46,9 +32,6 @@ class ListView extends View {
         return this._sortField;
     }
 
-    /**
-     * @deprecated
-     */
     sortDir() {
         if (arguments.length) {
             this._sortDir = arguments[0];
@@ -87,14 +70,13 @@ class ListView extends View {
         return this;
     }
 
-    /** @deprecated use _perPage instead */
     limit() {
         if (arguments.length) {
-            this.__perPage = parseInt(arguments[0]);
+            this._perPage = parseInt(arguments[0]);
             return this;
         }
 
-        return this.__perPage;
+        return this._perPage;
     }
 
     getFilterReferences() {

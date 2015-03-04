@@ -11,12 +11,13 @@ describe('View', function() {
         it('should return only reference and reference_many fields', function() {
             var post = new Entity('post');
 
-            var view = new View(post);
-            view.fields.push(new Field('title'));
-            view.fields.push(new ReferenceField('category'));
-            view.fields.push(new ReferenceManyField('tags'));
+            var view = new View(post).fields([
+                new Field('title'),
+                new ReferenceField('category'),
+                new ReferenceManyField('tags')
+            ]);
 
-            assert.deepEqual(['category', 'tags'], view.getReferences().map(f => f.name));
+            assert.deepEqual(['category', 'tags'], Object.keys(view.getReferences()));
         });
     });
 });

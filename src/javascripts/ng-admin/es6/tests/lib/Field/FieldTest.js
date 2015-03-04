@@ -26,13 +26,12 @@ describe('Field', function() {
     describe('label', function() {
         it('should be based on name if non has been provided', function() {
             var field = new Field('first_name');
-            assert.equal('First Name', field.label);
+            assert.equal('First Name', field.label());
         });
 
         it('should be given value if already provided', function() {
-            var field = new Field('first_name');
-                field.label = 'Prénom';
-            assert.equal('Prénom', field.label);
+            var field = new Field('first_name').label('Prénom');
+            assert.equal('Prénom', field.label());
         });
     });
 

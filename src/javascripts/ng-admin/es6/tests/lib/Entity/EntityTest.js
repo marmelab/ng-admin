@@ -9,22 +9,24 @@ describe('Entity', function() {
             assert.deepEqual([
                 'DashboardView',
                 'MenuView',
-                'ListView'
+                'ListView',
+                'CreateView',
+                'EditView',
+                'DeleteView',
+                'ShowView'
             ], Object.keys(entity.views));
         });
     });
 
     describe('label', function() {
         it('should return given label if already set', function() {
-            var post = new Entity('post');
-            post.label = 'Article';
-
-            assert.equal('Article', post.label);
+            var post = new Entity('post').label("Article");
+            assert.equal('Article', post.label());
         });
 
         it('should return entity name if no label has been set', function() {
             var post = new Entity('post');
-            assert.equal('Post', post.label);
+            assert.equal('Post', post.label());
         });
     });
 

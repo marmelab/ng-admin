@@ -7,9 +7,6 @@ class MenuView extends View {
         this._icon = null;
     }
 
-    /**
-     * @deprecated
-     */
     icon() {
         if (arguments.length) {
             this._icon = arguments[0];

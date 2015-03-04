@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 
 import arrayUtils from "../../../lib/Utils/arrayUtils";
 
-describe.only('Array Utils', function() {
+describe('Array Utils', function() {
     describe('.flatten', function() {
         it('should return null if no array given', function() {
             assert.equal(arrayUtils.flatten(), null);

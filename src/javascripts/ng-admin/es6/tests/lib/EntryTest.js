@@ -11,24 +11,20 @@ describe('Entry', function() {
 
         beforeEach(function() {
             entity = new Entity('post');
-
-            var idField = new Field('id');
-            idField.identifier = true;
-
             fields = [
-                idField,
+                new Field('id').identifier(true),
                 new Field('title'),
                 new ReferenceManyField('tags')
             ]
         });
 
         it('should return entry with no value if REST entry is empty', function() {
-            var mappedEntry = Entry.mapFromRest(entity, fields, {});
+            var mappedEntry = Entry.mapFromRest(entity.listView(), {});
             assert.deepEqual({}, mappedEntry.values);
         });
 
         it('should map each value to related field if existing', function() {
-            var mappedEntry = Entry.mapFromRest(entity, fields, {
+            var mappedEntry = Entry.mapFromRest(entity.listView(), {
                 id: 1,
                 title: 'ng-admin + ES6 = pure awesomeness!',
                 body: 'Really, it rocks!',
@@ -38,12 +34,13 @@ describe('Entry', function() {
             assert.deepEqual({
                 id: 1,
                 title: 'ng-admin + ES6 = pure awesomeness!',
+                body: 'Really, it rocks!',
                 tags: [1, 2, 4]
             }, mappedEntry.values);
         });
 
         it('should set as identifierValue value for identifier field', function() {
-            var mappedEntry = Entry.mapFromRest(entity, fields, { id: 1 });
+            var mappedEntry = Entry.mapFromRest(entity.listView(), { id: 1 });
             assert.equal(1, mappedEntry.identifierValue);
         });
     });
