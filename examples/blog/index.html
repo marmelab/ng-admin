@@ -8,9 +8,8 @@
         <script src="build/angular.js" type="text/javascript"></script>
         <script src="build/ng-admin.js" type="text/javascript"></script>
         <script src="build/require.js" type="text/javascript"></script>
-        <script src="build/polyfills/array.from.js" type="text/javascript"></script>
         <script>
-            require(['build/config/Factory.js'], function(Factory) {
+            require(['build/corejs.js', 'build/config/Factory.js'], function(corejs, Factory) {
                 var nga = new Factory();
 
                 function truncate(value) {

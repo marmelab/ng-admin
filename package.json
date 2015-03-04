@@ -8,6 +8,7 @@
     "url": "git://github.com/marmelab/ng-admin.git"
   },
   "dependencies": {
+    "core-js": "^0.6.1",
     "requirejs": "~2.1.14"
   },
   "devDependencies": {

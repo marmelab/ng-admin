@@ -130,11 +130,9 @@ module.exports = function (grunt) {
                 src: ['**'],
                 dest: 'examples/blog/build/config'
             },
-            polyfill: {
-                cwd: 'src/javascripts/ng-admin/polyfills',
-                src: ['**'],
-                dest: 'examples/blog/build/polyfills',
-                expand: true
+            corejs: {
+                src: 'node_modules/core-js/build/core-stable.js',
+                dest: 'examples/blog/build/corejs.js'
             }
         },
 
