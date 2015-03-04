@@ -163,7 +163,7 @@ class Field {
 
     defaultValue(defaultValue) {
         if (!arguments.length) return this._defaultValue;
-        this.defaultValue = defaultValue;
+        this._defaultValue = defaultValue;
         return this;
     }
 

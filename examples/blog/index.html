@@ -256,6 +256,72 @@
                     });
                 });
 
+                app.directive('postLink', ['$location', function ($location) {
+                    return {
+                        restrict: 'E',
+                        scope: { entry: '&' },
+                        template: '<p class="form-control-static"><a ng-click="displayPost()">View&nbsp;post</a></p>',
+                        link: function (scope) {
+                            scope.displayPost = function () {
+                                $location.path('/show/posts/' + scope.entry().values.post_id);
+                            };
+                        }
+                    };
+                }]);
+
+                app.directive('sendEmail', ['$location', function ($location) {
+                    return {
+                        restrict: 'E',
+                        scope: { post: '&' },
+                        template: '<a class="btn btn-default" ng-click="send()">Send post by email</a>',
+                        link: function (scope) {
+                            scope.send = function () {
+                                $location.path('/sendPost/' + scope.post().values.id);
+                            };
+                        }
+                    };
+                }]);
+
+                // custom 'send post by email' page
+
+                function sendPostController($stateParams, notification) {
+                    this.postId = $stateParams.id;
+                    // notification is the service used to display notifications on the top of the screen
+                    this.notification = notification;
+                };
+                sendPostController.prototype.sendEmail = function() {
+                    if (this.email) {
+                        this.notification.log('Email successfully sent to ' + this.email, {addnCls: 'humane-flatty-success'});
+                    } else {
+                        this.notification.log('Email is undefined', {addnCls: 'humane-flatty-error'});
+                    }
+                }
+                sendPostController.inject = ['$stateParams', 'notification'];
+
+                var sendPostControllerTemplate =
+                        '<div class="row"><div class="col-lg-12">' +
+                        '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
+                        '<div class="page-header">' +
+                        '<h1>Send post #{{ controller.postId }} by email</h1>' +
+                        '<p class="lead">You can add custom pages, too</p>' +
+                        '</div>' +
+                        '</div></div>' +
+                        '<div class="row">' +
+                        '<div class="col-lg-5"><input type="text" size="10" ng-model="controller.email" class="form-control" placeholder="name@example.com"/></div>' +
+                        '<div class="col-lg-5"><a class="btn btn-default" ng-click="controller.sendEmail()">Send</a></div>' +
+                        '</div>';
+
+                app.config(function ($stateProvider) {
+                    $stateProvider.state('send-post', {
+                        parent: 'main',
+                        url: '/sendPost/:id',
+                        params: { id: null },
+                        controller: sendPostController,
+                        controllerAs: 'controller',
+                        template: sendPostControllerTemplate
+                    });
+                });
+
                 angular.bootstrap(document, ['myApp']);
             });
         </script>
