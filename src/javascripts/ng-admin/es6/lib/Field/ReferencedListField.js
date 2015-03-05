@@ -20,8 +20,9 @@ class ReferencedListField extends ReferenceField {
         if (!arguments.length) return this._targetFields;
         if (!this._referencedView) {
             this._referencedView = new ListView();
-            this._referencedView.fields(value);
         }
+
+        this._referencedView.fields(value);
         this._targetFields = value;
 
         return this;
