@@ -44,7 +44,7 @@ class ReferenceField extends Field {
 
         if (this._referencedView) {
             // Remove specified field, and add it (to prevent from duplicates)
-            var fields = this._referencedView.fields().filter(f => f.name() !== field.name());
+            var fields = this._referencedView.getFields(true).filter(f => f.name() !== field.name());
             fields.push(field);
 
             this._referencedView.fields(fields);

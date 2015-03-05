@@ -13,7 +13,7 @@ class View {
         this._enabled = true;
         this._fields = [];
         this._type = null;
-        this._name = entity.name();
+        this._name = entity ? entity.name() : null;
         this._order = 0;
     }
 
@@ -67,9 +67,37 @@ class View {
         return this.entity;
     }
 
-    fields(fields) {
-        if (!arguments.length) return this._fields;
-        this._fields = arrayUtils.flatten(fields);
+    /**
+     * @deprecated Specify entity at view creation or use "entity" setter instead
+     */
+    setEntity(entity) {
+        this.entity = entity;
+        this._name = entity.name() + '_' + this._type;
+
+        return this;
+    }
+
+    fields() {
+        if (!arguments.length) return View._indexFieldsByName(this._fields);
+
+        for (let i = 0, c = arguments.length ; i < c ; i++) {
+            let argument = arguments[i];
+            if (typeof(argument) === 'object') {
+                if (argument.constructor.name === 'Field') {
+                    // simple field
+                    this._fields.push(argument);
+                } else {
+                    // collection of fields
+                    for (var fieldName in argument) {
+                        this._fields.push(argument[fieldName]);
+                    }
+                }
+            } else {
+                // Array of fields
+                this._fields = arrayUtils.flatten(argument);
+            }
+        }
+
         return this;
     }
 
@@ -162,15 +190,38 @@ class View {
         return this;
     }
 
-    getFields() {
-        return this._fields;
+    getFields(asArray) {
+        if (asArray) {
+            return this._fields;
+        }
+
+        return View._indexFieldsByName(this._fields);
     }
 
     getField(fieldName) {
         return this._fields.filter(f => f.name() === fieldName)[0];
     }
 
+    getFieldsOfType(type) {
+        var fields = this._fields.filter(f => f.type() === type);
+        return View._indexFieldsByName(fields);
+    }
+
+    static _indexFieldsByName(fields) {
+        var result = {};
+        for(let i = 0, c = fields.length ; i < c ; i++) {
+            var field = fields[i];
+            result[field.name()] = field;
+        }
+
+        return result;
+    }
+
     addField(field) {
+        if (field.order() === null) {
+            field.order(this._fields.length);
+        }
+
         this._fields.push(field);
         return this;
     }

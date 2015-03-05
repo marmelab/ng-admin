@@ -146,7 +146,7 @@ describe('ReferenceField', function() {
                 .targetField(new Field('name'))
                 .targetEntity(human);
 
-            assert.equal('name', ref.getReferencedView().fields()[0].name());
+            assert.equal('name', ref.getReferencedView().fields()['name'].name());
         });
 
         it('should allow to call targetField after targetEntity', function() {
@@ -154,7 +154,7 @@ describe('ReferenceField', function() {
                 .targetEntity(human)
                 .targetField(new Field('name'));
 
-            assert.equal('name', ref.getReferencedView().fields()[0].name());
+            assert.equal('name', ref.getReferencedView().fields()['name'].name());
         });
     });
 });

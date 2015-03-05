@@ -5,7 +5,7 @@ class Field {
         this._name = name;
         this._detailLink = null;
         this._type = "string";
-        this._order = 0;
+        this._order = null;
         this._label = null;
         this._maps = [];
         this._attributes = {};
