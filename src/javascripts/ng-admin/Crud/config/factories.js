@@ -8,7 +8,7 @@ define(function (require) {
         fvp.registerFieldView('choice', require('ng-admin/Crud/fieldView/ChoiceFieldView'));
         fvp.registerFieldView('choices', require('ng-admin/Crud/fieldView/ChoicesFieldView'));
         fvp.registerFieldView('date', require('ng-admin/Crud/fieldView/DateFieldView'));
-        fvp.registerFieldView('datetime', require('ng-admin/Crud/fieldView/DateTimeFieldView'));
+        fvp.registerFieldView('datetime', require('ng-admin/Crud/fieldView/DateFieldView'));
         fvp.registerFieldView('email', require('ng-admin/Crud/fieldView/EmailFieldView'));
         fvp.registerFieldView('file', require('ng-admin/Crud/fieldView/FileFieldView'));
         fvp.registerFieldView('json', require('ng-admin/Crud/fieldView/JsonFieldView'));
