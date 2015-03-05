@@ -58,8 +58,8 @@
     "prod-only": {
         "options": {
             "baseUrl": "src/javascripts",
-            "mainConfigFile": "src/javascripts/ng-admin.js",
-            "include": ["ng-admin"],
+            "mainConfigFile": "src/javascripts/ng-admin-only.js",
+            "include": ["ng-admin-only"],
             "exclude": [
                 "bower_components/angular-resource/angular-resource",
                 "bower_components/angular-sanitize/angular-sanitize",
