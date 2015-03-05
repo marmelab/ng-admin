@@ -162,7 +162,15 @@
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .attributes({'placeholder': 'Filter by date'})
-                    .format('yyyy-MM-dd'),
+                    .format('yyyy-MM-dd')
+                    .parse(function(date) {
+                        // the backend is dumb and doesn't interpret date objects
+                        // so we convert the date to a string without timezone
+                        var dateObject = date instanceof Date ? date : new Date(date);
+                        dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+                        var dateString = dateObject.toJSON();
+                        return dateString ? dateString.substr(0,10) : null;
+                    }),
                 nga.field('today', 'boolean').map(function() {
                     var now = new Date(),
                         year = now.getFullYear(),
