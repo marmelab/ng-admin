@@ -24,7 +24,8 @@ require.config({
         'textangular': 'bower_components/textAngular/dist/textAngular.min',
         'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',
         'MainModule': 'ng-admin/Main/MainModule',
-        'CrudModule': 'ng-admin/Crud/CrudModule'
+        'CrudModule': 'ng-admin/Crud/CrudModule',
+        'NgAdminConfigurationFactory': '../../build/ng-admin-configuration'
     },
     shim: {
         'restangular': {
@@ -49,5 +50,16 @@ define(function (require) {
     require('MainModule');
     require('CrudModule');
 
-    angular.module('ng-admin', ['main', 'crud']);
+    var configurationFactory = require('NgAdminConfigurationFactory');
+
+    var factory = angular.module('NgAdminConfigurationFactory', []);
+    factory.provider('NgAdminConfigurationFactory', function() {
+        return {
+            $get: function() {
+                return new configurationFactory();
+            }
+        };
+    });
+
+    angular.module('ng-admin', ['main', 'crud', 'NgAdminConfigurationFactory']);
 });

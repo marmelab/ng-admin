@@ -18,9 +18,3 @@ build:
 
 test:
 	@grunt test:local
-
-es6-test:
-	mocha --compilers js:mocha-traceur --recursive src/javascripts/ng-admin/es6/tests/
-
-es6-watch:
-	./node_modules/watch/cli.js "./node_modules/jspm/jspm.js bundle-sfx src/javascripts/ng-admin/es6/lib/main" src/javascripts/ng-admin/es6/lib/

@@ -32,7 +32,6 @@ class Field {
         return this._label;
     }
 
-    /** @deprecated */
     type() {
         if (arguments.length) {
             this._type = arguments[0];
@@ -42,7 +41,6 @@ class Field {
         return this._type;
     }
 
-    /** @deprecated */
     name() {
         if (arguments.length) {
             this._name = arguments[0];
@@ -53,7 +51,6 @@ class Field {
     }
 
 
-    /** @deprecated */
     order() {
         if (arguments.length) {
             this._order = arguments[0];

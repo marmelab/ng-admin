@@ -48,41 +48,28 @@ class Application {
         return url;
     }
 
-    layout() {
-        if (arguments.length) {
-            this._layout = arguments[0];
-            return this;
-        }
-
-        return this._layout;
-    }
-
-    title() {
-        if (arguments.length) {
-            this._title= arguments[0];
-            return this;
-        }
-
-        return this._title;
-    }
-
-    customTemplate(customTemplate) {
-        if (!arguments.length) {
-            return this._customTemplate;
-        }
-
-        this._customTemplate = customTemplate;
-
+    layout(layout) {
+        if (!arguments.length) return this._layout;
+        this._layout = layout;
         return this;
     }
 
-    baseApiUrl() {
-        if (arguments.length) {
-            this._baseApiUrl = arguments[0];
-            return this;
-        }
+    title(title) {
+        if (!arguments.length) return this._title;
+        this._title = title;
+        return this;
+    }
 
-        return this._baseApiUrl;
+    customTemplate(customTemplate) {
+        if (!arguments.length) return this._customTemplate;
+        this._customTemplate = customTemplate;
+        return this;
+    }
+
+    baseApiUrl(url) {
+        if (!arguments.length) return this._baseApiUrl;
+        this._baseApiUrl = url;
+        return this;
     }
 
     addEntity(entity) {

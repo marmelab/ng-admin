@@ -35,9 +35,7 @@ requirejs.config({
         'nprogress': 'bower_components/nprogress/nprogress',
 
         'MainModule': 'ng-admin/Main/MainModule',
-        'CrudModule': 'ng-admin/Crud/CrudModule',
-
-        'Field': 'ng-admin/es6/lib/Field/Field'
+        'CrudModule': 'ng-admin/Crud/CrudModule'
     },
     shim: {
         'angular': {

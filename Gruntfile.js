@@ -147,10 +147,6 @@ module.exports = function (grunt) {
                 src: ['**/*.map'],
                 dest: 'examples/blog/build/',
                 expand: true
-            },
-            corejs: {
-                src: 'node_modules/core-js/build/core-stable.js',
-                dest: 'examples/blog/build/corejs.js'
             }
         },
 
