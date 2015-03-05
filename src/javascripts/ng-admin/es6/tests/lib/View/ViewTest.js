@@ -10,7 +10,7 @@ import ListView from "../../../lib/View/ListView";
 describe('View', function() {
     describe('name()', function() {
         it('should return a default name based on the entity name and view type', function() {
-            var view = new ListView(new Entity('foobar'));
+            var view = new ListView().setEntity(new Entity('foobar'));
             assert.equal(view.name(), 'foobar_ListView');
         });
     });
@@ -113,6 +113,30 @@ describe('View', function() {
             view2.fields(view1.fields());
 
             assert.deepEqual(view2.fields(), { foo: field1, bar: field2 });
+        });
+
+        it('should allow fields reuse', function() {
+            var field1 = new Field('foo'), field2 = new Field('bar');
+            var view1 = new View().addField(field1);
+            var view2 = new View().fields([
+                view1.fields(),
+                field2
+            ]);
+
+            assert.deepEqual(view2.fields(), {
+                foo: field1,
+                bar: field2
+            });
+        });
+
+        it('should append fields when multiple calls', function() {
+            var view = new View();
+            var field1 = new Field('foo'), field2 = new Field('bar');
+            view
+                .fields(field1)
+                .fields(field2);
+
+            assert.deepEqual(view.fields(), { foo: field1, bar: field2 });
         });
     });
 

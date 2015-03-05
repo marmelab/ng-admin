@@ -38,7 +38,10 @@ class View {
     }
 
     name(name) {
-        if (!arguments.length) return this._name;
+        if (!arguments.length) {
+            return this._name || this.entity.name() + '_' + this._type;
+        }
+
         this._name = name;
         return this;
     }
@@ -81,24 +84,48 @@ class View {
         if (!arguments.length) return View._indexFieldsByName(this._fields);
 
         for (let i = 0, c = arguments.length ; i < c ; i++) {
-            let argument = arguments[i];
-            if (typeof(argument) === 'object') {
-                if (argument.constructor.name === 'Field') {
-                    // simple field
+            let argument = this._fieldify(arguments[i]);
+
+            switch (argument.constructor.name) {
+                case 'Field':
                     this._fields.push(argument);
-                } else {
-                    // collection of fields
+                    break;
+
+                case 'Object':
                     for (var fieldName in argument) {
                         this._fields.push(argument[fieldName]);
                     }
-                }
-            } else {
-                // Array of fields
-                this._fields = arrayUtils.flatten(argument);
+                    break;
+
+                case 'Array':
+                    this._fields = this._fields.concat(arrayUtils.flatten(argument));
+                    break;
             }
         }
 
         return this;
+    }
+
+    _fieldify(arr) {
+        if (!Array.isArray(arr)) {
+            return arr;
+        }
+
+        var result = [];
+        for (let i = 0, c = arr.length ; i < c ; i++) {
+            var element = arr[i]
+            if (element.constructor.name === 'Object') {
+                for (let fieldName in element) {
+                    result.push(this._fieldify(element[fieldName]));
+                }
+
+                continue;
+            }
+
+            result.push(element);
+        }
+
+        return result;
     }
 
     get type() {

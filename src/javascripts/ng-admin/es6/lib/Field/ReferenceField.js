@@ -39,6 +39,10 @@ class ReferenceField extends Field {
         if (!arguments.length) return this._targetField;
 
         this._targetField = field;
+        if (!this._referencedView) {
+            this._referencedView = new ListView();
+        }
+
         this._referencedView.removeFields().addField(field);
         return this;
     }

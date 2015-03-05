@@ -142,6 +142,12 @@ module.exports = function (grunt) {
                 src: 'build/ng-admin-configuration.js',
                 dest: 'examples/blog/build/ng-admin-configuration.min.js'
             },
+            es6_devmap: {
+                cwd: 'build/es6/',
+                src: ['**/*.map'],
+                dest: 'examples/blog/build/',
+                expand: true
+            },
             corejs: {
                 src: 'node_modules/core-js/build/core-stable.js',
                 dest: 'examples/blog/build/corejs.js'
@@ -181,7 +187,7 @@ module.exports = function (grunt) {
             },
             javascripts: {
                 files: ['src/javascripts/ng-admin.js', 'src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['ngconfig', 'requirejs:dev', 'copy:js_dev', 'copy:es6_dev'],
+                tasks: ['ngconfig', 'requirejs:dev', 'copy:js_dev', 'copy:es6_dev', 'copy:es6_devmap'],
                 options: {
                     atBegin: true,
                     livereload: true
@@ -211,8 +217,16 @@ module.exports = function (grunt) {
                 keepAlive: true,
                 debug: true
             }
-        }
+        },
 
+        mochaTest: {
+            test: {
+                options: {
+                    require: 'mocha-traceur'
+                },
+                src: ['src/javascripts/ng-admin/es6/tests/**/*.js']
+            }
+        }
     });
 
     // load npm tasks
@@ -230,19 +244,18 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-babel');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     // register tasks
     grunt.registerTask('ngconfig', ['babel', 'requirejs:ngconfig']);
-
-    grunt.registerTask('test:unit', ['build:dev', 'karma:unit']);
-    grunt.registerTask('test', ['karma', 'build', 'copy_build', 'connect', 'protractor']);
+    grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'connect', 'protractor']);
     grunt.registerTask('build', ['ngconfig', 'requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
     grunt.registerTask('copy_build', ['copy:config', 'copy:es6', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
 
     grunt.registerTask('test:local', ['karma', 'build:dev', 'copy_build:dev', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['requirejs:dev', 'compass:dev', 'concat:css']);
-    grunt.registerTask('copy_build:dev', ['copy:es6_dev', 'copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
+    grunt.registerTask('copy_build:dev', ['copy:es6_dev', 'copy:es6_devmap', 'copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
 
     // register default task
     grunt.registerTask('default', ['copy:angular', 'json_server', 'connect', 'watch']);
