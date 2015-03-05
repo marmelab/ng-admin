@@ -78,6 +78,12 @@ module.exports = function (grunt) {
                 dest: 'examples/blog/build/',
                 expand: true
             },
+            assets_dev: {
+                cwd: 'assets/',
+                src: ['**'],
+                dest: 'examples/blog/assets/',
+                expand: true
+            },
             js_dev: {
                 src: 'build/ng-admin.min.js',
                 dest: 'examples/blog/build/ng-admin.js'
@@ -147,7 +153,7 @@ module.exports = function (grunt) {
             },
             sass: {
                 files: ['src/sass/*.scss'],
-                tasks: ['compass:dev', 'concat:css', 'copy:fonts_dev', 'copy:css_dev'],
+                tasks: ['compass:dev', 'concat:css', 'copy:fonts_dev', 'copy:assets_dev', 'copy:css_dev'],
                 options: {
                     atBegin: true,
                     livereload: true
