@@ -12,7 +12,7 @@ class Field {
         this._format = null;
         this._cssClasses = null;
         this._identifier = false;
-        this._validation = {};
+        this._validation = { required: false, minlength : 0, maxlength : 99999 };
         this._defaultValue = null;
         this._editable = true;
         this._detailLinkRoute = 'edit';
@@ -81,6 +81,8 @@ class Field {
     }
 
     map(fn) {
+        if (!fn) return this._maps;
+
         if (typeof(fn) !== "function") {
             var type = typeof(fn);
             throw new Error(`Map argument should be a function, ${type} given.`);
@@ -89,6 +91,10 @@ class Field {
         this._maps.push(fn);
 
         return this;
+    }
+
+    hasMaps() {
+        return !!this._maps.length;
     }
 
     attributes(attributes) {
@@ -123,7 +129,7 @@ class Field {
 
     getCssClasses(entry) {
         if (!this._cssClasses) {
-            return;
+            return '';
         }
 
         if (typeof(this._cssClasses) === 'function') {
@@ -156,7 +162,14 @@ class Field {
             return this._validation;
         }
 
-        this._validation = validation;
+        for (var property in validation) {
+            if (!validation.hasOwnProperty(property)) continue;
+            if (validation[property] === null) {
+                delete this._validation[property];
+            } else {
+                this._validation[property] = validation[property];
+            }
+        }
 
         return this;
     }
@@ -176,6 +189,12 @@ class Field {
     detailLinkRoute(route) {
         if (!arguments.length) return this._detailLinkRoute;
         this._detailLinkRoute = route;
+        return this;
+    }
+
+    choices(choices) {
+        if (!arguments.length) return this._choices;
+        this._choices = choices;
         return this;
     }
 }

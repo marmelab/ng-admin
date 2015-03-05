@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: text-field', function () {
         var directive = require('ng-admin/Crud/field/maTextField');
-        var Field = require('ng-admin/Main/component/service/config/Field');
+        var Field = require('ng-admin/es6/lib/Field/Field');
         angular.module('testapp_TextField', []).directive('maTextField', directive);
         require('angular-mocks');
 

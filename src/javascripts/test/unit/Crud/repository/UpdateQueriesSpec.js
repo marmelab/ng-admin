@@ -4,8 +4,8 @@ define(function (require) {
     'use strict';
 
     var UpdateQueries = require('ng-admin/Crud/repository/UpdateQueries'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
+        Field = require('ng-admin/es6/lib/Field/Field'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         config,

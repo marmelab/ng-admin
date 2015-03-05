@@ -4,9 +4,9 @@ define(function (require) {
     'use strict';
 
     var RetrieveQueries = require('ng-admin/Crud/repository/RetrieveQueries'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
-        Entry = require('ng-admin/Main/component/service/config/Entry'),
+        Field = require('ng-admin/es6/lib/Field/Field'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        Entry = require('ng-admin/es6/lib/Entry'),
         ReferenceField = require('ng-admin/es6/lib/Field/ReferenceField'),
         ReferencedListField = require('ng-admin/es6/lib/Field/ReferencedListField'),
         ReferenceManyField = require('ng-admin/es6/lib/Field/ReferenceManyField'),
@@ -51,8 +51,8 @@ define(function (require) {
             ];
 
             cats = [
-                new Entry(rawCats[0]),
-                new Entry(rawCats[1])
+                new Entry('cat', rawCats[0]),
+                new Entry('cat', rawCats[1])
             ];
 
             rawHumans = [
@@ -62,9 +62,9 @@ define(function (require) {
             ];
 
             humans = [
-                new Entry(rawHumans[0]),
-                new Entry(rawHumans[1]),
-                new Entry(rawHumans[2])
+                new Entry('human', rawHumans[0]),
+                new Entry('human', rawHumans[1]),
+                new Entry('human', rawHumans[2])
             ];
         });
 
@@ -102,8 +102,8 @@ define(function (require) {
             ];
 
             var authors = [
-                new Entry({id: 'abc', name: 'Rollo'}),
-                new Entry({id: '19DFE', name: 'Ragna'})
+                new Entry('author', {id: 'abc', name: 'Rollo'}),
+                new Entry('author', {id: '19DFE', name: 'Ragna'})
             ];
 
             authorRef.targetEntity(author);
@@ -146,8 +146,8 @@ define(function (require) {
             ];
 
             var authors = [
-                new Entry(rawAuthors[0]),
-                new Entry(rawAuthors[1])
+                new Entry('authors', rawAuthors[0]),
+                new Entry('authors', rawAuthors[1])
             ];
 
             authorRef.targetEntity(author);

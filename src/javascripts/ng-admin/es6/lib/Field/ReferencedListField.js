@@ -1,3 +1,4 @@
+import ListView from "../View/ListView";
 import ReferenceField from "./ReferenceField";
 
 class ReferencedListField extends ReferenceField {
@@ -17,7 +18,10 @@ class ReferencedListField extends ReferenceField {
 
     targetFields(value) {
         if (!arguments.length) return this._targetFields;
-        this._referencedView.fields(value);
+        if (!this._referencedView) {
+            this._referencedView = new ListView();
+            this._referencedView.fields(value);
+        }
         this._targetFields = value;
 
         return this;

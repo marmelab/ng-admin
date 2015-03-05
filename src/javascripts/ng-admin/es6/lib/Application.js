@@ -6,6 +6,17 @@ class Application {
         this._title = title;
         this._layout = false;
         this._entities = [];
+        this._errorMessage = this.defaultErrorMessage;
+    }
+
+    defaultErrorMessage(response) {
+        var body = response.data;
+
+        if (typeof body === 'object') {
+            body = JSON.stringify(body);
+        }
+
+        return 'Oops, an error occured : (code: ' + response.status + ') ' + body;
     }
 
     get entities() {
@@ -17,10 +28,17 @@ class Application {
     }
 
     getRouteFor(view, entityId) {
-        var entity = view.entity;
-        var baseApiUrl = entity.baseApiUrl() || this.baseApiUrl();
+        var entity = view.getEntity(),
+            baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
+            url = view.getUrl(entityId) || entity.getUrl(view, entityId);
 
-        var url = baseApiUrl + entity.name() + (entityId ? '/' + entityId : '');
+        // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
+        if (!url) {
+            url = baseApiUrl + entity.name();
+            if (entityId) {
+                url += '/' + entityId;
+            }
+        }
 
         // Add baseUrl for relative URL
         if (!/^(?:[a-z]+:)?\/\//.test(url)) {
@@ -86,10 +104,40 @@ class Application {
         return foundEntity;
     }
 
+    hasEntity(fieldName) {
+        return !!(this._entities.filter(f => f.name() === fieldName).length);
+    }
+
     getViewByEntityAndType(entityName, type) {
         return this._entities
             .filter(e => e.name() === entityName)[0]
             .views[type];
+    }
+
+    getErrorMessage(response) {
+        if (typeof(this._errorMessage) === 'function') {
+            return this._errorMessage(response);
+        }
+
+        return this._errorMessage;
+    }
+
+    errorMessage(errorMessage) {
+        if (!arguments.length) return this._errorMessage;
+        this._errorMessage = errorMessage;
+        return this;
+    }
+
+    getErrorMessageFor(view, response) {
+        return (
+            view.getErrorMessage(response)
+            || view.getEntity().getErrorMessage(response)
+            || this.getErrorMessage(response)
+        );
+    }
+
+    getEntityNames() {
+        return this.entities.map(f => f.name());
     }
 }
 

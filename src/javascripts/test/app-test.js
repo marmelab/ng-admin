@@ -37,7 +37,7 @@ requirejs.config({
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule',
 
-        'NgaConfiguration': 'ng-admin/es6/nga-configuration'
+        'Field': 'ng-admin/es6/lib/Field/Field'
     },
     shim: {
         'angular': {

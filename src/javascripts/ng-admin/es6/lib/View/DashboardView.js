@@ -1,8 +1,8 @@
 import ListView from './ListView';
 
 class DashboardView extends ListView {
-    constructor(entity) {
-        super(entity);
+    constructor(name) {
+        super(name);
         this._type = 'DashboardView';
     }
 }

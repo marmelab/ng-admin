@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: json-field', function () {
         var directive = require('ng-admin/Crud/field/maJsonField');
-        var Field = require('ng-admin/Main/component/service/config/Field');
+        var Field = require('ng-admin/es6/lib/Field/Field');
         angular.module('testapp_JsonField', []).directive('maJsonField', directive);
         require('angular-mocks');
 

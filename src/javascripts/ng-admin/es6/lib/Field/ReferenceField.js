@@ -27,7 +27,7 @@ class ReferenceField extends Field {
         }
 
         this._targetEntity = entity;
-        this._referencedView = new ListView(entity);
+        this._referencedView = new ListView().setEntity(entity);
         if (this._targetField) {
             this._referencedView.addField(this._targetField);
         }
@@ -36,20 +36,10 @@ class ReferenceField extends Field {
     }
 
     targetField(field) {
-        if (!arguments.length) {
-            return this._targetField;
-        }
+        if (!arguments.length) return this._targetField;
 
         this._targetField = field;
-
-        if (this._referencedView) {
-            // Remove specified field, and add it (to prevent from duplicates)
-            var fields = this._referencedView.getFields(true).filter(f => f.name() !== field.name());
-            fields.push(field);
-
-            this._referencedView.fields(fields);
-        }
-
+        this._referencedView.removeFields().addField(field);
         return this;
     }
 
@@ -83,6 +73,12 @@ class ReferenceField extends Field {
         }
 
         return this._sortDir;
+    }
+
+    singleApiCall(singleApiCall) {
+        if (!arguments.length) return this._singleApiCall;
+        this._singleApiCall = singleApiCall;
+        return this;
     }
 
     hasSingleApiCall() {
@@ -123,6 +119,10 @@ class ReferenceField extends Field {
         this._entries = entries;
 
         return this;
+    }
+
+    getEntries() {
+        return this._entries;
     }
 
     getChoicesById() {

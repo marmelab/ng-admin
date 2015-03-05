@@ -15,6 +15,9 @@ class Entity {
         this._label = null;
         this._identifierField = new Field("id");
         this._isReadOnly = false;
+        this._errorMessage = null;
+        this._order = 0;
+        this._url = null;
 
         this._initViews();
     }
@@ -99,24 +102,21 @@ class Entity {
         return this._views["ShowView"];
     }
 
-    baseApiUrl() {
-        if (arguments.length) {
-            this._baseApiUrl = arguments[0];
-            return this;
-        }
-
-        return this._baseApiUrl;
+    baseApiUrl(baseApiUrl) {
+        if (!arguments.length) return this._baseApiUrl;
+        this._baseApiUrl = baseApiUrl;
+        return this;
     }
 
     _initViews() {
         this._views = {
-            "DashboardView": new DashboardView(this),
-            "MenuView": new MenuView(this),
-            "ListView": new ListView(this),
-            "CreateView": new CreateView(this),
-            "EditView": new EditView(this),
-            "DeleteView": new DeleteView(this),
-            "ShowView": new ShowView(this)
+            "DashboardView": new DashboardView().setEntity(this),
+            "MenuView": new MenuView().setEntity(this),
+            "ListView": new ListView().setEntity(this),
+            "CreateView": new CreateView().setEntity(this),
+            "EditView": new EditView().setEntity(this),
+            "DeleteView": new DeleteView().setEntity(this),
+            "ShowView": new ShowView().setEntity(this)
         };
     }
 
@@ -139,6 +139,40 @@ class Entity {
     get isReadOnly() {
         return this._isReadOnly;
     }
+
+    getErrorMessage(response) {
+        if (typeof(this._errorMessage) === 'function') {
+            return this._errorMessage(response);
+        }
+
+        return this._errorMessage;
+    }
+
+    errorMessage(errorMessage) {
+        if (!arguments.length) return this._errorMessage;
+        this._errorMessage = errorMessage;
+        return this;
+    }
+
+    order(order) {
+        if (!arguments.length) return this._order;
+        this._order = order;
+        return this;
+    }
+
+    url(url) {
+        if (!arguments.length) return this._url;
+        this._url = url;
+        return this;
+    }
+
+    getUrl(view, entityId) {
+        if (typeof(this._url) === 'function') {
+            return this._url(view, entityId);
+        }
+
+        return this._url;
+    };
 }
 
 export default Entity;

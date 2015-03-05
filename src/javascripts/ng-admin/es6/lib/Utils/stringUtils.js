@@ -4,6 +4,10 @@ export default {
      * @see http://phpjs.org/functions/ucfirst/
      */
     camelCase: function(text) {
+        if (!text) {
+            return text;
+        }
+
         var f = text.charAt(0).toUpperCase();
         text = f + text.substr(1);
 

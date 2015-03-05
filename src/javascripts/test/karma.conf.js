@@ -38,5 +38,10 @@ module.exports = function (config) {
         preprocessors: {
             'ng-admin/es6/lib/**/*.js': 'babel'
         },
+        babelPreprocessor: {
+            options: {
+                modules: "amd"
+            }
+        }
     });
 };

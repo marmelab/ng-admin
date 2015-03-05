@@ -5,7 +5,7 @@ define(function (require) {
 
     describe('directive: input-field', function () {
         var directive = require('ng-admin/Crud/field/maInputField');
-        var Field = require('ng-admin/Main/component/service/config/Field');
+        var Field = require('ng-admin/es6/lib/Field/Field');
         angular.module('testapp_InputField', []).directive('maInputField', directive);
         require('angular-mocks');
 

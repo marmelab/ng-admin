@@ -1,8 +1,8 @@
 import View from './View';
 
 class CreateView extends View {
-    constructor(entity) {
-        super(entity);
+    constructor(name) {
+        super(name);
         this._type = 'CreateView';
     }
 }

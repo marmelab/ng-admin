@@ -2,9 +2,8 @@ import Entry from "../Entry";
 import arrayUtils from "../Utils/arrayUtils";
 
 class View {
-    constructor(entity) {
-        this.entity = entity;
-
+    constructor(name) {
+        this.entity = null;
         this._actions = null;
         this._title = false;
         this._description = '';
@@ -13,8 +12,10 @@ class View {
         this._enabled = true;
         this._fields = [];
         this._type = null;
-        this._name = entity ? entity.name() : null;
+        this._name = name;
         this._order = 0;
+        this._errorMessage = null;
+        this._url = null;
     }
 
     get enabled() {
@@ -36,13 +37,10 @@ class View {
         return this._description;
     }
 
-    name() {
-        if (arguments.length) {
-            this._name = arguments[0];
-            return this;
-        }
-
-        return this._name + '_' + this._type;
+    name(name) {
+        if (!arguments.length) return this._name;
+        this._name = name;
+        return this;
     }
 
     disable() {
@@ -72,7 +70,9 @@ class View {
      */
     setEntity(entity) {
         this.entity = entity;
-        this._name = entity.name() + '_' + this._type;
+        if (!this._name) {
+            this._name = entity.name() + '_' + this._type;
+        }
 
         return this;
     }
@@ -105,13 +105,10 @@ class View {
         return this._type;
     }
 
-    order() {
-        if (arguments.length) {
-            this._order = arguments[0];
-            return this;
-        }
-
-        return this._order;
+    order(order) {
+        if (!arguments.length) return this._order;
+        this._order = order;
+        return this;
     }
 
     getReferences() {
@@ -126,7 +123,14 @@ class View {
     }
 
     getReferencedLists() {
-        return this._fields.filter(f => f.type() === 'referenced_list');
+        var result = {};
+        var lists = this._fields.filter(f => f.type() === 'referenced_list');
+        for (let i = 0, c = lists.length ; i < c ; i++) {
+            let list = lists[i];
+            result[list.name()] = list;
+        }
+
+        return result;
     };
 
     mapEntry(restEntry) {
@@ -225,6 +229,34 @@ class View {
         this._fields.push(field);
         return this;
     }
+
+    getErrorMessage(response) {
+        if (typeof(this._errorMessage) === 'function') {
+            return this._errorMessage(response);
+        }
+
+        return this._errorMessage;
+    }
+
+    errorMessage(errorMessage) {
+        if (!arguments.length) return this._errorMessage;
+        this._errorMessage = errorMessage;
+        return this;
+    }
+
+    url(url) {
+        if (!arguments.length) return this._url;
+        this._url = url;
+        return this;
+    }
+
+    getUrl(entityId) {
+        if (typeof(this._url) === 'function') {
+            return this._url(entityId);
+        }
+
+        return this._url;
+    };
 }
 
 export default View;

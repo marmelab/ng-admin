@@ -4,9 +4,9 @@ define(function (require) {
     'use strict';
 
     var Validator = require('ng-admin/Main/component/service/Validator'),
-        View = require('ng-admin/Main/component/service/config/view/View'),
-        Entry = require('ng-admin/Main/component/service/config/Entry'),
-        Field = require('ng-admin/Main/component/service/config/Field');
+        View = require('ng-admin/es6/lib/View/View'),
+        Entry = require('ng-admin/es6/lib/Entry'),
+        Field = require('ng-admin/es6/lib/Field/Field');
 
     describe("Service: Validator", function () {
 

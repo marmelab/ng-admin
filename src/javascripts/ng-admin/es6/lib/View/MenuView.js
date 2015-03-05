@@ -1,8 +1,8 @@
 import View from "./View";
 
 class MenuView extends View {
-    constructor(entity) {
-        super(entity);
+    constructor(name) {
+        super(name);
         this._type = 'MenuView';
         this._icon = null;
     }
