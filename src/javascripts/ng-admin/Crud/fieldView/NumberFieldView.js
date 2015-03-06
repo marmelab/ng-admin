@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     function getReadWidget() {
-        return '<ma-string-column value="::entry.values[field.name()]"></ma-string-column>';
+        return '<ma-number-column field="::field" value="::entry.values[field.name()]"></ma-number-column>';
     }
     function getLinkWidget() {
         return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
