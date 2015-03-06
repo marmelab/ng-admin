@@ -160,22 +160,34 @@ define(function (require) {
         }
 
         // Fill all reference entries
-        return this.$q.all(calls)
+        return this.$q.allEvenFailed(calls)
             .then(function (responses) {
                 i = 0;
+                var response;
 
                 for (j in references) {
+
                     reference = references[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
-                        references[j].entries = reference.getReferencedView().mapEntries(responses[i++].data);
+                        response = responses[i++];
+                        if (Object.keys(response.data).length === 0) {
+                            // the response failed
+                            continue;
+                        }
+                        references[j].entries = reference.getReferencedView().mapEntries(response.data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
                         for (k in identifiers) {
-                            entries.push(responses[i++]);
+                            response = responses[i++];
+                            if (!response.entityName) {
+                                // one of the responses failed
+                                continue;
+                            }
+                            entries.push(response);
                         }
 
                         // Entry are already mapped by getOne

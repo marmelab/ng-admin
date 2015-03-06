@@ -27,6 +27,7 @@ define(function (require) {
     MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
 
     MainModule.config(require('ng-admin/Main/config/http'));
+    MainModule.config(require('ng-admin/Main/config/q'));
     MainModule.config(require('ng-admin/Main/config/routing'));
 
     MainModule.run(require('ng-admin/Main/run/Loader'));
