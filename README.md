@@ -372,15 +372,22 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
+
 ### `choice` and `choices` Field Settings
 
 * `choices([{value: '', label: ''}, ...])`
 Define array of choices for `choice` type. A choice has both a value and a label.
 
-### `date` and `datetime` Field Settings
+### `date` Field Settings
 
 * `format(string ['yyyy-MM-dd' by default])`
-Define the format for `date` and `datetime` types.
+
+* `parse(function [remove hours, minutes and timezone by default])`
+Filter applied to modify date object returned by date picker if needed.
+
+### `datetime` Field Settings
+
+* `format(string ['yyyy-MM-dd HH:mm:ss' by default])`
 
 * `parse(function [no change by default])`
 Filter applied to modify date object returned by date picker if needed.
