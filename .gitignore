@@ -8,3 +8,4 @@ src/styles/*.css
 build/require
 src/css
 examples/blog/build
+examples/blog/assets
