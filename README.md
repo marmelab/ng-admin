@@ -319,7 +319,7 @@ A field is the representation of a property of an entity.
 ### General Field Settings
 
 * `nga.field(name, type)`
-Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `number`, `string`, `text`, `boolean`, `wysiwyg`, `email`, `date`, `choice`, `choices`, `json`, `file`, and `template`
+Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `number`, `string`, `text`, `boolean`, `wysiwyg`, `email`, `date`, `datetime`,  `choice`, `choices`, `json`, `file`, and `template`
 
 * `label(string label)`
 Define the label of the field. Defaults to the uppercased field name.
@@ -330,20 +330,11 @@ Define if the field is editable in the edition form. Usefult to display a field 
 * `order(number|null)`
 Define the position of the field in the view.
 
-* `format(string ['yyyy-MM-dd' by default])`
-Define the format for `date` type.
-
-* `parse(function [no change by default])`
-Filter applied to modify date object returned by date picker if needed.
-
 * `isDetailLink(boolean)`
 Tell if the value is a link in the list view. Default to true for the identifier and references field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.
 
 * `detailLinkRoute(string)`
 Define the route for a link in the list view, i.e. `isDetailLink` of the field is true. The default is `edit`, hence the link points to the edition view. The other option is `show` to point to the show view.
-
-* `choices([{value: '', label: ''}, ...])`
-Define array of choices for `choice` type. A choice has both a value and a label.
 
 * `map(function)`
 Define a custom function to transform the value. It receive the value and the corresponding entry. Works in list, edit views and references.
@@ -382,8 +373,31 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
 
+### `choice` and `choices` Field Settings
+
+* `choices([{value: '', label: ''}, ...])`
+Define array of choices for `choice` type. A choice has both a value and a label.
+
+### `date` Field Settings
+
+* `format(string ['yyyy-MM-dd' by default])`
+
+* `parse(function [remove hours, minutes and timezone by default])`
+Filter applied to modify date object returned by date picker if needed.
+
+### `datetime` Field Settings
+
+* `format(string ['yyyy-MM-dd HH:mm:ss' by default])`
+
+* `parse(function [no change by default])`
+Filter applied to modify date object returned by date picker if needed.
+
+### `template` Field Settings
+
 * `template(*)`
 Define the template to be displayed for fields of type `template` (can be a string or a function).
+
+### `file` Field Settings
 
 * `uploadInformation`
 Give upload information for `file` field type
