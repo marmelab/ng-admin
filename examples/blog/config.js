@@ -113,7 +113,9 @@
                     .targetFields([
                         nga.field('id'),
                         nga.field('body').label('Comment')
-                    ])
+                    ]),
+                nga.field('', 'template').label('')
+                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button></span>')
             ]);
 
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
