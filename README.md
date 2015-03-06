@@ -373,6 +373,11 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
 
+### `number` Field Settings
+
+* `fractionSize(integer)`
+Number of decimal places to round the number to. If this is not provided, then the fraction size is computed from the current locale's number formatting pattern.
+
 ### `choice` and `choices` Field Settings
 
 * `choices([{value: '', label: ''}, ...])`
