@@ -421,7 +421,7 @@ A button linking to an entity list view, prefiltered.
 entity.listView().fields([
     // ...
     nga.field('', 'template').label('')
-        template('<ma-filtered-list-button entity-name="comments" filter-name="post_id" filter-value="entry.values.id" size="sm">')
+        template('<ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm">')
 ]);
 ```
 
