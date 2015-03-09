@@ -53,13 +53,7 @@ define(function (require) {
     var configurationFactory = require('NgAdminConfigurationFactory');
 
     var factory = angular.module('NgAdminConfigurationFactory', []);
-    factory.provider('NgAdminConfigurationFactory', function() {
-        return {
-            $get: function() {
-                return new configurationFactory();
-            }
-        };
-    });
+    factory.constant('NgAdminConfigurationFactory', new configurationFactory());
 
     angular.module('ng-admin', ['main', 'crud', 'NgAdminConfigurationFactory']);
 });

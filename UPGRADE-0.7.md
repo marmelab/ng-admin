@@ -6,13 +6,13 @@ ng-admin 0.7 breaks compatibility with 0.5 and makes the "factories" configurati
 
 ## Configuration factory
 
-Configuration is now done through a `ConfigurationFactory`. You can retrieve it directly from Angular DI. You just have to retrieve your application from this factory instead of the `NgAdminConfigurationProvider` as previously:
+Configuration is now done through a `NgAdminConfigurationFactoryProvider`. You can retrieve it directly from Angular DI. You just have to retrieve your application from this factory instead of the `NgAdminConfigurationProvider` as previously:
 
-``` js
+``` diff
 - app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
 + app.config(function (NgAdminConfigurationFactoryProvider, NgAdminConfigurationProvider, RestangularProvider) {
 -     var nga = NgAdminConfigurationProvider;
-+     var nga = new NgAdminConfigurationFactoryProvider.$get();
++     var nga = NgAdminConfigurationFactoryProvider;
 
       // ...
 
@@ -20,7 +20,3 @@ Configuration is now done through a `ConfigurationFactory`. You can retrieve it 
 +     NgAdminConfigurationProvider.configure(admin);
   });
 ```
-
-## Entry constructor changes
-
-`Entry` class constructor has changed. You shouldn't use it directly, but if it is the case, new constructor takes three parameters: entityName, values and identifierValue. Only the two first ones are required.

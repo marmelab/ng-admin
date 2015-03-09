@@ -15,13 +15,10 @@ class TemplateField extends Field {
         return this._template;
     }
 
-    template() {
-        if (arguments.length) {
-            this._template = arguments[0];
-            return this;
-        }
-
-        return this._template;
+    template(template) {
+        if (!arguments.length) return this._template;
+        this._template = template;
+        return this;
     }
 }
 

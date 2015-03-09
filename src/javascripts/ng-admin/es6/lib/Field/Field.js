@@ -2,21 +2,21 @@ import stringUtils from "../Utils/stringUtils";
 
 class Field {
     constructor(name) {
-        this._name = name;
-        this._detailLink = null;
+        this._name = name || Math.random().toString(36).substring(7);
+        this._detailLink = (name === 'id');
         this._type = "string";
         this._order = null;
         this._label = null;
         this._maps = [];
         this._attributes = {};
-        this._format = null;
         this._cssClasses = null;
         this._identifier = false;
         this._validation = { required: false, minlength : 0, maxlength : 99999 };
         this._defaultValue = null;
         this._editable = true;
         this._detailLinkRoute = 'edit';
-        this._choices = [];
+        this.dashboard = true;
+        this.list = true;
     }
 
     label() {
@@ -33,11 +33,6 @@ class Field {
     }
 
     type() {
-        if (arguments.length) {
-            this._type = arguments[0];
-            return this;
-        }
-
         return this._type;
     }
 
@@ -79,7 +74,6 @@ class Field {
 
     map(fn) {
         if (!fn) return this._maps;
-
         if (typeof(fn) !== "function") {
             var type = typeof(fn);
             throw new Error(`Map argument should be a function, ${type} given.`);
@@ -104,23 +98,9 @@ class Field {
         return this;
     }
 
-    format(format) {
-        if (!arguments.length) {
-            return this._format;
-        }
-
-        this._format = format;
-
-        return this;
-    }
-
     cssClasses(classes) {
-        if (!arguments.length) {
-            return this._cssClasses;
-        }
-
+        if (!arguments.length) return this._cssClasses;
         this._cssClasses = classes;
-
         return this;
     }
 
@@ -129,12 +109,12 @@ class Field {
             return '';
         }
 
-        if (typeof(this._cssClasses) === 'function') {
-            return this._cssClasses(entry);
-        }
-
         if (this._cssClasses.constructor === Array) {
             return this._cssClasses.join(' ');
+        }
+
+        if (typeof(this._cssClasses) === 'function') {
+            return this._cssClasses(entry);
         }
 
         return this._cssClasses;
@@ -186,12 +166,6 @@ class Field {
     detailLinkRoute(route) {
         if (!arguments.length) return this._detailLinkRoute;
         this._detailLinkRoute = route;
-        return this;
-    }
-
-    choices(choices) {
-        if (!arguments.length) return this._choices;
-        this._choices = choices;
         return this;
     }
 }

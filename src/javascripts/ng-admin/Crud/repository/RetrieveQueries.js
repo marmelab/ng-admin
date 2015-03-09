@@ -170,7 +170,7 @@ define(function (require) {
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
-                        references[j].setEntries(reference.getReferencedView().mapEntries(responses[i++].data));
+                        references[j].entries = reference.getReferencedView().mapEntries(responses[i++].data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
@@ -179,7 +179,7 @@ define(function (require) {
                         }
 
                         // Entry are already mapped by getOne
-                        references[j].setEntries(entries);
+                        references[j].entries = entries;
                     }
                 }
 
@@ -222,7 +222,7 @@ define(function (require) {
                     referencedList = referencedLists[i];
 
                     // Map entries
-                    referencedList.setEntries(referencedList.getReferencedView().mapEntries(responses[j++].data));
+                    referencedList.entries = referencedList.getReferencedView().mapEntries(responses[j++].data);
                 }
 
                 return referencedLists;

@@ -1,6 +1,6 @@
-import Field from "./Field";
+import ChoiceField from "./ChoiceField";
 
-class ChoicesField extends Field {
+class ChoicesField extends ChoiceField {
     constructor(name) {
         super(name);
         this._type = "choices";

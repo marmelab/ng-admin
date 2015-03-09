@@ -1,9 +1,10 @@
-import Field from "./Field";
+import ChoiceField from "./ChoiceField";
 import ListView from "../View/ListView";
 
-class ReferenceField extends Field {
+class ReferenceField extends ChoiceField {
     constructor(name) {
         super(name);
+        this.entries = [];
         this._type = 'reference';
         this._targetEntity = null;
         this._targetField = null;
@@ -13,7 +14,6 @@ class ReferenceField extends Field {
         this._sortField = null;
         this._sortDir = null;
         this._singleApiCall = false;
-        this._entries = [];
         this._detailLink = true;
     }
 
@@ -115,20 +115,6 @@ class ReferenceField extends Field {
         return Object.keys(results);
     }
 
-    get entries() {
-        return this._entries;
-    }
-
-    setEntries(entries) {
-        this._entries = entries;
-
-        return this;
-    }
-
-    getEntries() {
-        return this._entries;
-    }
-
     getChoicesById() {
         var result = {};
         var targetEntity = this._targetEntity;
@@ -144,7 +130,7 @@ class ReferenceField extends Field {
     }
 
     choices() {
-        return this._entries.map(function(entry) {
+        return this.entries.map(function(entry) {
             return {
                 value: entry.values[this._targetEntity.identifier().name()],
                 label: entry.values[this._targetField.name()]

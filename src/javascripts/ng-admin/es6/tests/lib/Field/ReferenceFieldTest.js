@@ -27,7 +27,7 @@ describe('ReferenceField', function() {
                 .targetEntity(human)
                 .targetField(new Field('name'));
 
-            ref.setEntries([
+            ref.entries([
                 {values: { id: 1, human_id: 1, name: 'Suna'}},
                 {values: { id: 2, human_id: 2, name: 'Boby'}},
                 {values: { id: 3, human_id: 1, name: 'Mizute'}}
@@ -57,7 +57,7 @@ describe('ReferenceField', function() {
                 .targetField(new Field('name'))
                 .targetEntity(human);
 
-            ref.setEntries([
+            ref.entries([
                 new Entry('human', { id: 1, human_id: 1, name: 'Suna'}),
                 new Entry('human', { id: 2, human_id: 2, name: 'Boby'}),
                 new Entry('human', { id: 3, human_id: 1, name: 'Mizute'})
@@ -82,7 +82,7 @@ describe('ReferenceField', function() {
                 .targetField(new Field('id'))
             );
 
-        var fieldName = comment.getViewByType('ListView').getField('post_id').getReferencedView().getEntity().name();
+        var fieldName = comment.views["ListView"].getField('post_id').getReferencedView().getEntity().name();
         assert.equal(fieldName, 'posts');
     });
 
@@ -91,7 +91,7 @@ describe('ReferenceField', function() {
             var ref = new ReferenceField('human_id'),
                 human = new Entity('human');
 
-            ref.setEntries([
+            ref.entries([
                 new Entry({ id: 1, human_id: 1, name: 'Suna'}),
                 new Entry({ id: 2, human_id: 2, name: 'Boby'}),
                 new Entry({ id: 3, human_id: 1, name: 'Mizute'})

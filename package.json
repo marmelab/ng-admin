@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "core-js": "^0.6.1",
+    "humanize-plus": "^1.5.0",
+    "install": "^0.1.8",
+    "npm": "^2.7.0",
     "requirejs": "~2.1.14"
   },
   "devDependencies": {

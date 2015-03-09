@@ -51,7 +51,7 @@ class Factory {
         this.registerFieldType('choice', ChoiceField);
         this.registerFieldType('choices', ChoicesField);
         this.registerFieldType('date', DateField);
-        this.registerFieldType('datetime', DateTime);
+        this.registerFieldType('datetime', DateTimeField);
         this.registerFieldType('email', EmailField);
         this.registerFieldType('string', Field);
         this.registerFieldType('file', FileField);

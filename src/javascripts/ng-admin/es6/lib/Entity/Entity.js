@@ -26,11 +26,6 @@ class Entity {
         return this._views;
     }
 
-    /** @deprecated Use corresponding view method instead (ie `dashboardView()` for instance) */
-    getViewByType(viewType) {
-        return this._views[viewType];
-    }
-
     label() {
         if (arguments.length) {
             this._label = arguments[0];

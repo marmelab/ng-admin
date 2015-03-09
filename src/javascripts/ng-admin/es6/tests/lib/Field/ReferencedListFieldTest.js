@@ -51,6 +51,6 @@ describe('ReferencedListField', function() {
                 .targetField(new Field('id'))
         );
 
-        assert.isNotNull(post.getViewByType('EditView').getField('comments').targetEntity().listView());
+        assert.isNotNull(post.views['EditView'].getField('comments').targetEntity().listView());
     });
 });

@@ -1,8 +1,7 @@
 class Application {
-    constructor(title, baseApiUrl) {
-        this._baseApiUrl = baseApiUrl;
+    constructor(title) {
+        this._baseApiUrl = null;
         this._customTemplate = function(viewName) {};
-
         this._title = title;
         this._layout = false;
         this._entities = [];

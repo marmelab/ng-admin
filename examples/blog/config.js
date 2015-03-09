@@ -4,8 +4,8 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (NgAdminConfigurationFactoryProvider, NgAdminConfigurationProvider, RestangularProvider) {
-        var nga = new NgAdminConfigurationFactoryProvider.$get();
+    app.config(function (NgAdminConfigurationFactory, NgAdminConfigurationProvider, RestangularProvider) {
+        var nga = NgAdminConfigurationFactory;
 
         function truncate(value) {
             if (!value) {

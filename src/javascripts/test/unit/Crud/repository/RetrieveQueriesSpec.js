@@ -116,9 +116,9 @@ define(function (require) {
 
             retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
-                    expect(references.author.getEntries().length).toEqual(2);
-                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
-                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                    expect(references.author.entries().length).toEqual(2);
+                    expect(references.author.entries()[0].values.id).toEqual('abc');
+                    expect(references.author.entries()[1].values.name).toEqual('Ragna');
                 })
                 .then(done, done.fail);
         });
@@ -160,9 +160,9 @@ define(function (require) {
 
             retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
-                    expect(references.author.getEntries().length).toEqual(2);
-                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
-                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                    expect(references.author.entries().length).toEqual(2);
+                    expect(references.author.entries()[0].values.id).toEqual('abc');
+                    expect(references.author.entries()[1].values.name).toEqual('Ragna');
                 })
                 .then(done, done.fail);
         });
@@ -198,7 +198,7 @@ define(function (require) {
 
             retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
-                    var entries = references.character.getEntries();
+                    var entries = references.character.entries();
 
                     expect(entries.length).toEqual(3);
                     expect(entries[0].values.name).toEqual('Rollo');
@@ -222,7 +222,7 @@ define(function (require) {
             ref1
                 .targetEntity(human)
                 .targetField(new Field('name'))
-                .setEntries([
+                .entries([
                     {values: {id: 1, name: 'Bob'}},
                     {values: {id: 2, name: 'Daniel'}},
                     {values: {id: 3, name: 'Jack'}}
@@ -231,7 +231,7 @@ define(function (require) {
             ref2
                 .targetEntity(tag)
                 .targetField(new Field('label'))
-                .setEntries([
+                .entries([
                     {values: {id: 1, label: 'Photo'}},
                     {values: {id: 2, label: 'Watch'}},
                     {values: {id: 3, label: 'Panda'}}
