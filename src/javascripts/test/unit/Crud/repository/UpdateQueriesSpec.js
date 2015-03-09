@@ -35,7 +35,7 @@ define(function (require) {
 
         describe("updateOne", function () {
 
-            it('should PUT an entity when calling updateOne', function (done) {
+            it('should use default PUT method entity when calling updateOne', function (done) {
                 var updateQueries = new UpdateQueries({}, Restangular, config),
                     rawEntity = {id: 3, name: 'Mizu'};
 
