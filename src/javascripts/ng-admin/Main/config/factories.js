@@ -16,7 +16,7 @@ define(function (require) {
         nga.registerFieldType('email', Field);
         nga.registerFieldType('file', require('ng-admin/Main/component/service/config/fieldTypes/FileField'));
         nga.registerFieldType('json', Field);
-        nga.registerFieldType('number', Field);
+        nga.registerFieldType('number', require('ng-admin/Main/component/service/config/fieldTypes/NumberField'));
         nga.registerFieldType('password', Field);
         nga.registerFieldType('reference', require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'));
         nga.registerFieldType('reference_many', require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'));

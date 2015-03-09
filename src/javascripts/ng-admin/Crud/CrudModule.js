@@ -55,9 +55,11 @@ define(function (require) {
     CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));
     CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
     CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
+    CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
+    CrudModule.directive('maNumberColumn', require('ng-admin/Crud/column/maNumberColumn'));
+    CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
     CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
     CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
-    CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
     CrudModule.directive('maTemplateColumn', require('ng-admin/Crud/column/maTemplateColumn'));
     CrudModule.directive('maWysiwygColumn', require('ng-admin/Crud/column/maWysiwygColumn'));
 
