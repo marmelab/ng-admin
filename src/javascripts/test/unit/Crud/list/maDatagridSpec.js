@@ -8,6 +8,7 @@ define(function (require) {
             Entity = require('ng-admin/es6/lib/Entity/Entity'),
             Entry = require('ng-admin/es6/lib/Entry'),
             Field = require('ng-admin/es6/lib/Field/Field'),
+            TextField = require('ng-admin/es6/lib/Field/TextField'),
             orderElement = require('ng-admin/Main/component/filter/OrderElement'),
             $compile,
             scope,
@@ -62,7 +63,7 @@ define(function (require) {
                 element;
 
             entry1.values.title = 'Small cat';
-            scope.fields = [new Field('title').type('text')];
+            scope.fields = [new TextField('title')];
             scope.entries = [entry1];
 
             element  = $compile(directiveUsage)(scope);

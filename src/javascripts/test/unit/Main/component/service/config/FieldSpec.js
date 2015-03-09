@@ -25,23 +25,6 @@ define(function (require) {
 
         });
 
-        describe('type()', function () {
-            it('should set type string.', function () {
-                var field = new Field().type('string');
-                expect(field.type()).toBe('string');
-            });
-
-            it('should have a name even when not set.', function () {
-                var field = new Field();
-                expect(field.name()).not.toBe(null);
-            });
-
-            it('should allow even custom types', function () {
-                var field = new Field().type('myType');
-                expect(true).toBeTruthy();
-            });
-        });
-
         describe('map()', function() {
             it('should add a map function', function() {
                 var fooFunc = function(a) { return a; }

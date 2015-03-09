@@ -27,11 +27,11 @@ describe('ReferenceField', function() {
                 .targetEntity(human)
                 .targetField(new Field('name'));
 
-            ref.entries([
+            ref.entries = [
                 {values: { id: 1, human_id: 1, name: 'Suna'}},
                 {values: { id: 2, human_id: 2, name: 'Boby'}},
                 {values: { id: 3, human_id: 1, name: 'Mizute'}}
-            ]);
+            ];
 
             var choices = ref.getChoicesById();
             assert.equal(ref.type(), 'reference');
@@ -57,11 +57,11 @@ describe('ReferenceField', function() {
                 .targetField(new Field('name'))
                 .targetEntity(human);
 
-            ref.entries([
+            ref.entries = [
                 new Entry('human', { id: 1, human_id: 1, name: 'Suna'}),
                 new Entry('human', { id: 2, human_id: 2, name: 'Boby'}),
                 new Entry('human', { id: 3, human_id: 1, name: 'Mizute'})
-            ]);
+            ];
 
             assert.equal(ref.type(), 'reference');
             assert.deepEqual(ref.choices(), [
@@ -91,11 +91,11 @@ describe('ReferenceField', function() {
             var ref = new ReferenceField('human_id'),
                 human = new Entity('human');
 
-            ref.entries([
+            ref.entries = [
                 new Entry({ id: 1, human_id: 1, name: 'Suna'}),
                 new Entry({ id: 2, human_id: 2, name: 'Boby'}),
                 new Entry({ id: 3, human_id: 1, name: 'Mizute'})
-            ]);
+            ];
 
             ref
                 .targetEntity(human)

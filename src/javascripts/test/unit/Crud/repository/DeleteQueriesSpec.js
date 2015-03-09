@@ -5,6 +5,7 @@ define(function (require) {
 
     var DeleteQueries = require('ng-admin/Crud/repository/DeleteQueries'),
         Field = require('ng-admin/es6/lib/Field/Field'),
+        TextField = require('ng-admin/es6/lib/Field/TextField'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
@@ -30,7 +31,7 @@ define(function (require) {
             entity = new Entity('cat');
             view = entity.creationView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'));
+                .addField(new TextField('name'));
         });
 
         describe("deleteOne", function () {
