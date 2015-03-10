@@ -25,7 +25,7 @@ require.config({
         'angular-ui-codemirror': 'bower_components/angular-ui-codemirror/ui-codemirror.min',
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule',
-        'NgAdminConfigurationFactory': '../../build/ng-admin-configuration'
+        'AdminDescription': '../../build/ng-admin-configuration'
     },
     shim: {
         'restangular': {
@@ -50,10 +50,10 @@ define(function (require) {
     require('MainModule');
     require('CrudModule');
 
-    var configurationFactory = require('NgAdminConfigurationFactory');
+    var AdminDescription = require('AdminDescription');
 
-    var factory = angular.module('NgAdminConfigurationFactory', []);
-    factory.constant('NgAdminConfigurationFactory', new configurationFactory());
+    var factory = angular.module('AdminDescriptionModule', []);
+    factory.constant('AdminDescription', new AdminDescription());
 
-    angular.module('ng-admin', ['main', 'crud', 'NgAdminConfigurationFactory']);
+    angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
 });

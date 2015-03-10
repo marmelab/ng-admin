@@ -27,7 +27,7 @@ define(function (require) {
         nga.registerFieldType('wysiwyg', require('ng-admin/Main/component/service/config/fieldTypes/WysiwygField'));
     }
 
-    factories.$inject = ['NgAdminConfigurationProvider'];
+    factories.$inject = ['NgAdminProvider'];
 
     return factories;
 });

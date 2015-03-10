@@ -1,5 +1,4 @@
 import Entry from "../Entry";
-import arrayUtils from "../Utils/arrayUtils";
 
 class View {
     constructor(name) {
@@ -80,52 +79,40 @@ class View {
         return this;
     }
 
+
+    /*
+     * Supports various syntax
+     * fields([ Field1, Field2 ])
+     * fields(Field1, Field2)
+     * fields([Field1, {Field2, Field3}])
+     * fields(Field1, {Field2, Field3})
+     * fields({Field2, Field3})
+     */
     fields() {
         if (!arguments.length) return View._indexFieldsByName(this._fields);
 
-        for (let i = 0, c = arguments.length ; i < c ; i++) {
-            let argument = this._fieldify(arguments[i]);
-
-            switch (argument.constructor.name) {
-                case 'Field':
-                    this._fields.push(argument);
-                    break;
-
-                case 'Object':
-                    for (var fieldName in argument) {
-                        this._fields.push(argument[fieldName]);
-                    }
-                    break;
-
-                case 'Array':
-                    this._fields = this._fields.concat(arrayUtils.flatten(argument));
-                    break;
-            }
-        }
+        [].slice.call(arguments).map(function(argument) {
+            View.flatten(argument).map(arg => this.addField(arg));
+        }, this)
 
         return this;
     }
 
-    _fieldify(arr) {
-        if (!Array.isArray(arr)) {
-            return arr;
-        }
-
-        var result = [];
-        for (let i = 0, c = arr.length ; i < c ; i++) {
-            var element = arr[i]
-            if (element.constructor.name === 'Object') {
-                for (let fieldName in element) {
-                    result.push(this._fieldify(element[fieldName]));
-                }
-
-                continue;
+    static flatten(arg) {
+        if (arg.constructor.name === 'Object') {
+            let result = [];
+            for (let fieldName in arg) {
+                result = result.concat(View.flatten(arg[fieldName]));
             }
-
-            result.push(element);
+            return result;
         }
-
-        return result;
+        if (Array.isArray(arg)) {
+            return arg.reduce(function(previous, current) {
+                return previous.concat(View.flatten(current))
+            }, []);
+        }
+        // arg is a scalar
+        return [arg];
     }
 
     get type() {

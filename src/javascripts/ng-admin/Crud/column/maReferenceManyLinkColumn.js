@@ -29,7 +29,7 @@ define(function (require) {
         };
     }
 
-    maReferenceManyLinkColumn.$inject = ['$location', 'NgAdminConfiguration'];
+    maReferenceManyLinkColumn.$inject = ['$location', 'NgAdmin'];
 
     return maReferenceManyLinkColumn;
 });

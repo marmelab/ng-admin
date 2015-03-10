@@ -10,7 +10,7 @@ define(function (require) {
         deleteTemplate = require('text!./delete/delete.html');
 
     function templateProvider(viewName, defaultView) {
-        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+        return ['$stateParams', 'NgAdmin', function ($stateParams, Configuration) {
             var customTemplate;
             var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
             customTemplate = view.template();
@@ -22,7 +22,7 @@ define(function (require) {
     }
 
     function viewProvider(viewName) {
-        return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+        return ['$stateParams', 'NgAdmin', function ($stateParams, Configuration) {
             var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
             if (!view.isEnabled()) {
                 throw new Error('The ' + viewName + ' is disabled for this entity');

@@ -6,17 +6,17 @@ ng-admin 0.7 breaks compatibility with 0.5 and makes the "factories" configurati
 
 ## Configuration factory
 
-Configuration is now done through a `NgAdminConfigurationFactoryProvider`. You can retrieve it directly from Angular DI. You just have to retrieve your application from this factory instead of the `NgAdminConfigurationProvider` as previously:
+The configuration is now done through the `AdminDescription` object. You can retrieve it directly from Angular DI. You just have to retrieve your application from this factory instead of the `NgAdminConfigurationProvider` as previously. In addition, `NgAdminConfigurationProvider` was renamed to `NgAdminProvider`:
 
 ``` diff
 - app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
-+ app.config(function (NgAdminConfigurationFactoryProvider, NgAdminConfigurationProvider, RestangularProvider) {
++ app.config(function (AdminDescription, NgAdminProvider, RestangularProvider) {
 -     var nga = NgAdminConfigurationProvider;
-+     var nga = NgAdminConfigurationFactoryProvider;
++     var nga = AdminDescription;
 
       // ...
 
 -     nga.configure(admin);
-+     NgAdminConfigurationProvider.configure(admin);
++     NgAdminProvider.configure(admin);
   });
 ```

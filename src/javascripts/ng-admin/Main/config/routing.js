@@ -12,7 +12,7 @@ define(function (require) {
             abstract: true,
             controller: 'AppController',
             controllerAs: 'appController',
-            templateProvider: ['NgAdminConfiguration', function(Configuration) {
+            templateProvider: ['NgAdmin', function(Configuration) {
                 return Configuration().layout() || layoutTemplate;
             }]
         });
