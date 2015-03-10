@@ -45,11 +45,11 @@ define(function (require) {
 
         it("should contain the bounded value", function () {
             scope.field = new DateField();
-            var now = new Date();
+            var now = '2015-03-05';
             scope.value = now;
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
-            expect(element.find('input').eq(0).val()).toBe(now.toString());
+            expect(element.find('input').eq(0).val()).toBe(now);
         });
 
     });
