@@ -136,7 +136,10 @@
             .limit(5)
             .fields([
                 nga.field('id'),
-                nga.field('body').label('Comment').map(truncate),
+                nga.field('body')
+                    .label('Comment')
+                    .stripTags(true)
+                    .map(truncate),
                 nga.field(null, 'template') // template fields don't need a name in dashboard view
                     .label('')
                     .template('<post-link entry="entry"></post-link>') // you can use custom directives, too
@@ -149,7 +152,10 @@
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .order(1),
-                nga.field('body').map(truncate).order(3),
+                nga.field('body', 'wysiwyg')
+                    .stripTags(true)
+                    .map(truncate)
+                    .order(3),
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
