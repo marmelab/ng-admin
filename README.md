@@ -45,8 +45,8 @@ var app = angular.module('myApp', ['ng-admin']);
 
 Configure ng-admin:
 ```js
-app.config(function (NgAdminConfigurationProvider) {
-    var nga = NgAdminConfigurationProvider;
+app.config(function (AdminDescription, NgAdminProvider) {
+    var nga = AdminDescription;
     // set the main API endpoint for this admin
     var app = nga.application('My backend')
         .baseApiUrl('http://localhost:3000/');
@@ -61,7 +61,7 @@ app.config(function (NgAdminConfigurationProvider) {
     post.creationView().fields(/* see example below */);
     post.editionView().fields(/* see example below */);
 
-    nga.configure(app);
+    NgAdminProvider.configure(app);
 });
 ```
 
@@ -80,8 +80,8 @@ Here is a full example for a backend that will let you create, update, and delet
 
 var app = angular.module('myApp', ['ng-admin']);
 
-app.config(function (NgAdminConfigurationProvider) {
-    var nga = NgAdminConfigurationProvider;
+app.config(function (AdminDescription, NgAdminProvider) {
+    var nga = AdminDescription;
     var app = nga.application('ng-admin backend demo') // application main title
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
@@ -156,7 +156,7 @@ app.config(function (NgAdminConfigurationProvider) {
                 .template('<other-page-link></other-link-link>')
         ]);
 
-    nga.configure(app);
+    NgAdminProvider.configure(app);
 });
 ```
 
