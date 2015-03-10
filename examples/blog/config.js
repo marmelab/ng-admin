@@ -136,7 +136,7 @@
             .limit(5)
             .fields([
                 nga.field('id'),
-                nga.field('body')
+                nga.field('body', 'wysiwyg')
                     .label('Comment')
                     .stripTags(true)
                     .map(truncate),
