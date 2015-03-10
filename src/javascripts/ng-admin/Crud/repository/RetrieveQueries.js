@@ -91,6 +91,7 @@ define(function (require) {
             _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
             _perPage: listView.perPage()
         };
+
         if (sortField && sortField.split('.')[0] === listView.name()) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
@@ -169,7 +170,7 @@ define(function (require) {
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
-                        references[j].setEntries(reference.getReferencedView().mapEntries(responses[i++].data));
+                        references[j].entries = reference.getReferencedView().mapEntries(responses[i++].data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
@@ -178,7 +179,7 @@ define(function (require) {
                         }
 
                         // Entry are already mapped by getOne
-                        references[j].setEntries(entries);
+                        references[j].entries = entries;
                     }
                 }
 
@@ -221,7 +222,7 @@ define(function (require) {
                     referencedList = referencedLists[i];
 
                     // Map entries
-                    referencedList.setEntries(referencedList.getReferencedView().mapEntries(responses[j++].data));
+                    referencedList.entries = referencedList.getReferencedView().mapEntries(responses[j++].data);
                 }
 
                 return referencedLists;

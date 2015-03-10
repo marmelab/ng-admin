@@ -4,12 +4,13 @@ define(function (require) {
     'use strict';
 
     var RetrieveQueries = require('ng-admin/Crud/repository/RetrieveQueries'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
-        Entry = require('ng-admin/Main/component/service/config/Entry'),
-        ReferenceField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceField'),
-        ReferencedListField = require('ng-admin/Main/component/service/config/fieldTypes/ReferencedListField'),
-        ReferenceManyField = require('ng-admin/Main/component/service/config/fieldTypes/ReferenceManyField'),
+        Field = require('ng-admin/es6/lib/Field/Field'),
+        TextField = require('ng-admin/es6/lib/Field/TextField'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        Entry = require('ng-admin/es6/lib/Entry'),
+        ReferenceField = require('ng-admin/es6/lib/Field/ReferenceField'),
+        ReferencedListField = require('ng-admin/es6/lib/Field/ReferencedListField'),
+        ReferenceManyField = require('ng-admin/es6/lib/Field/ReferenceManyField'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         $q = require('mock/q'),
@@ -40,7 +41,7 @@ define(function (require) {
             humanEntity = new Entity('human');
             catView = catEntity.listView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'))
+                .addField(new TextField('name'))
                 .addField(new ReferenceField('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
 
             humanEntity.identifier(new Field('id'));
@@ -51,8 +52,8 @@ define(function (require) {
             ];
 
             cats = [
-                new Entry(rawCats[0]),
-                new Entry(rawCats[1])
+                new Entry('cat', rawCats[0]),
+                new Entry('cat', rawCats[1])
             ];
 
             rawHumans = [
@@ -62,9 +63,9 @@ define(function (require) {
             ];
 
             humans = [
-                new Entry(rawHumans[0]),
-                new Entry(rawHumans[1]),
-                new Entry(rawHumans[2])
+                new Entry('human', rawHumans[0]),
+                new Entry('human', rawHumans[1]),
+                new Entry('human', rawHumans[2])
             ];
         });
 
@@ -102,8 +103,8 @@ define(function (require) {
             ];
 
             var authors = [
-                new Entry({id: 'abc', name: 'Rollo'}),
-                new Entry({id: '19DFE', name: 'Ragna'})
+                new Entry('author', {id: 'abc', name: 'Rollo'}),
+                new Entry('author', {id: '19DFE', name: 'Ragna'})
             ];
 
             authorRef.targetEntity(author);
@@ -116,9 +117,9 @@ define(function (require) {
 
             retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
-                    expect(references.author.getEntries().length).toEqual(2);
-                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
-                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                    expect(references.author.entries.length).toEqual(2);
+                    expect(references.author.entries[0].values.id).toEqual('abc');
+                    expect(references.author.entries[1].values.name).toEqual('Ragna');
                 })
                 .then(done, done.fail);
         });
@@ -146,8 +147,8 @@ define(function (require) {
             ];
 
             var authors = [
-                new Entry(rawAuthors[0]),
-                new Entry(rawAuthors[1])
+                new Entry('authors', rawAuthors[0]),
+                new Entry('authors', rawAuthors[1])
             ];
 
             authorRef.targetEntity(author);
@@ -160,9 +161,9 @@ define(function (require) {
 
             retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                 .then(function (references) {
-                    expect(references.author.getEntries().length).toEqual(2);
-                    expect(references.author.getEntries()[0].values.id).toEqual('abc');
-                    expect(references.author.getEntries()[1].values.name).toEqual('Ragna');
+                    expect(references.author.entries.length).toEqual(2);
+                    expect(references.author.entries[0].values.id).toEqual('abc');
+                    expect(references.author.entries[1].values.name).toEqual('Ragna');
                 })
                 .then(done, done.fail);
         });
@@ -198,7 +199,7 @@ define(function (require) {
 
             retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
                 .then(function (references) {
-                    var entries = references.character.getEntries();
+                    var entries = references.character.entries;
 
                     expect(entries.length).toEqual(3);
                     expect(entries[0].values.name).toEqual('Rollo');
@@ -221,21 +222,21 @@ define(function (require) {
             tag.editionView().identifier(new Field('id'));
             ref1
                 .targetEntity(human)
-                .targetField(new Field('name'))
-                .setEntries([
-                    {values: {id: 1, name: 'Bob'}},
-                    {values: {id: 2, name: 'Daniel'}},
-                    {values: {id: 3, name: 'Jack'}}
-                ]);
+                .targetField(new Field('name'));
+            ref1.entries = [
+                {values: {id: 1, name: 'Bob'}},
+                {values: {id: 2, name: 'Daniel'}},
+                {values: {id: 3, name: 'Jack'}}
+            ];
 
             ref2
                 .targetEntity(tag)
-                .targetField(new Field('label'))
-                .setEntries([
-                    {values: {id: 1, label: 'Photo'}},
-                    {values: {id: 2, label: 'Watch'}},
-                    {values: {id: 3, label: 'Panda'}}
-                ]);
+                .targetField(new Field('label'));
+            ref2.entries = [
+                {values: {id: 1, label: 'Photo'}},
+                {values: {id: 2, label: 'Watch'}},
+                {values: {id: 3, label: 'Panda'}}
+            ];
 
             entry1.values.human_id = 1;
             entry1.values.tags = [1, 3];
@@ -277,7 +278,7 @@ define(function (require) {
                 entity = new Entity('cat');
                 view = entity.creationView()
                     .addField(new Field('id').identifier(true))
-                    .addField(new Field('name').type('text'));
+                    .addField(new TextField('name'));
             });
 
             it('should return the entity with all fields.', function (done) {

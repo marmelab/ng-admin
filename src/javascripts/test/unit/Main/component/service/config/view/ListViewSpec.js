@@ -3,9 +3,9 @@
 define(function (require) {
     'use strict';
 
-    var ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
-        Field = require('ng-admin/Main/component/service/config/Field');
+    var ListView = require('ng-admin/es6/lib/View/ListView'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        Field = require('ng-admin/es6/lib/Field/Field');
 
     describe("Service: ListView config", function () {
 

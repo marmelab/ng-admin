@@ -4,8 +4,9 @@ define(function (require) {
     'use strict';
 
     var CreateQueries = require('ng-admin/Crud/repository/CreateQueries'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
+        Field = require('ng-admin/es6/lib/Field/Field'),
+        TextField = require('ng-admin/es6/lib/Field/TextField'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         config,
@@ -30,7 +31,7 @@ define(function (require) {
             entity = new Entity('cat');
             view = entity.creationView()
                 .addField(new Field('id').identifier(true))
-                .addField(new Field('name').type('text'));
+                .addField(new TextField('name'));
         });
 
         describe("createOne", function () {

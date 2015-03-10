@@ -3,22 +3,11 @@
 define(function (require) {
     'use strict';
 
-    var Entity = require('ng-admin/Main/component/service/config/Entity'),
-        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
-        CreateView = require('ng-admin/Main/component/service/config/view/CreateView');
+    var Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        DashboardView = require('ng-admin/es6/lib/View/DashboardView'),
+        CreateView = require('ng-admin/es6/lib/View/CreateView');
 
     describe("Service: Entity config", function () {
-
-        describe('getViewByType', function () {
-
-            it('should retrieve a view by type', function () {
-                var entity = new Entity('myEntity1');
-                expect(entity.getViewByType('DashboardView').constructor.name).toBe('DashboardView');
-                expect(entity.getViewByType('CreateView').constructor.name).toBe('CreateView');
-            });
-
-        });
-
         describe('readOnly', function() {
             it('should not be called by default', function() {
                 var entity = new Entity();

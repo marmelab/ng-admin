@@ -3,10 +3,10 @@
 define(function (require) {
     'use strict';
 
-    var Field = require('ng-admin/Main/component/service/config/Field'),
-        ListView = require('ng-admin/Main/component/service/config/view/ListView'),
-        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
-        Entity = require('ng-admin/Main/component/service/config/Entity');
+    var Field = require('ng-admin/es6/lib/Field/Field'),
+        ListView = require('ng-admin/es6/lib/View/ListView'),
+        DashboardView = require('ng-admin/es6/lib/View/DashboardView'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity');
 
     describe("Service: Field config", function () {
 
@@ -23,23 +23,6 @@ define(function (require) {
                 expect(field.label()).toEqual('foobar');
             });
 
-        });
-
-        describe('type()', function () {
-            it('should set type string.', function () {
-                var field = new Field().type('string');
-                expect(field.type()).toBe('string');
-            });
-
-            it('should have a name even when not set.', function () {
-                var field = new Field();
-                expect(field.name()).not.toBe(null);
-            });
-
-            it('should allow even custom types', function () {
-                var field = new Field().type('myType');
-                expect(true).toBeTruthy();
-            });
         });
 
         describe('map()', function() {

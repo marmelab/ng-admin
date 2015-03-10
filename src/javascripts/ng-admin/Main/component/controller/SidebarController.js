@@ -50,7 +50,7 @@ define(function () {
         this.$scope = undefined;
         this.$location = undefined;
         this.$sce = undefined;
-        this.$filer = undefined;
+        this.$filter = undefined;
     };
 
     SidebarController.$inject = ['$scope', '$location', '$sce', '$filter', 'NgAdminConfiguration'];

@@ -3,10 +3,10 @@
 define(function (require) {
     'use strict';
 
-    var Application = require('ng-admin/Main/component/service/config/Application'),
-        Entity = require('ng-admin/Main/component/service/config/Entity'),
-        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
-        CreateView = require('ng-admin/Main/component/service/config/view/CreateView');
+    var Application = require('ng-admin/es6/lib/Application'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        DashboardView = require('ng-admin/es6/lib/View/DashboardView'),
+        CreateView = require('ng-admin/es6/lib/View/CreateView');
 
     describe("Service: Application config", function () {
 

@@ -4,8 +4,8 @@ define(function (require) {
     'use strict';
 
     var PanelBuilder = require('ng-admin/Main/component/service/PanelBuilder'),
-        Field = require('ng-admin/Main/component/service/config/Field'),
-        DashboardView = require('ng-admin/Main/component/service/config/view/DashboardView'),
+        Field = require('ng-admin/es6/lib/Field/Field'),
+        DashboardView = require('ng-admin/es6/lib/View/DashboardView'),
         mixins = require('mixins');
 
     describe("PanelBuilder", function () {
