@@ -11,6 +11,7 @@ language: node_js
 node_js:
   - "0.10"
 before_install:
+  - "export TZ=Europe/Paris" # Change timezone to test Date function more accurately
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - gem update --system
