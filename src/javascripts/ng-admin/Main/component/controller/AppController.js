@@ -7,7 +7,7 @@ define(function () {
      *
      * @param {$scope}               $scope
      * @param {$location}            $location
-     * @param {NgAdminConfiguration} Configuration
+     * @param {NgAdmin} Configuration
      * @constructor
      */
     var AppController = function ($scope, $location, Configuration) {
@@ -26,7 +26,7 @@ define(function () {
         this.$scope = undefined;
     };
 
-    AppController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
+    AppController.$inject = ['$scope', '$location', 'NgAdmin'];
 
     return AppController;
 });

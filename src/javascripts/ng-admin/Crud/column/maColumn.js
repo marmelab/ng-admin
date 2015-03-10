@@ -60,7 +60,7 @@ define(function (require) {
         };
     }
 
-    maColumn.$inject = ['$location', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
+    maColumn.$inject = ['$location', '$anchorScroll', '$compile', 'NgAdmin', 'FieldViewConfiguration'];
 
     return maColumn;
 });

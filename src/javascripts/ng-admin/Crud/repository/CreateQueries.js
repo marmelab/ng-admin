@@ -32,7 +32,7 @@ define(function (require) {
             });
     };
 
-    CreateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    CreateQueries.$inject = ['$q', 'Restangular', 'NgAdmin'];
 
     return CreateQueries;
 });

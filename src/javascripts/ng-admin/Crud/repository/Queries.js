@@ -18,7 +18,7 @@ define(function () {
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
-    Queries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    Queries.$inject = ['$q', 'Restangular', 'NgAdmin'];
 
     return Queries;
 });

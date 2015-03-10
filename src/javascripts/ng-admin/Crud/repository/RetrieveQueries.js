@@ -287,7 +287,7 @@ define(function (require) {
         return entry;
     };
 
-    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdmin'];
 
     return RetrieveQueries;
 });

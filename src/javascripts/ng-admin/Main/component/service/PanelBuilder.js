@@ -66,7 +66,7 @@ define(function () {
         });
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdmin'];
 
     return PanelBuilder;
 });
