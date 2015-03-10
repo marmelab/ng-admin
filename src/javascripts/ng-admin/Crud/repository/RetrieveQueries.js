@@ -160,7 +160,7 @@ define(function (require) {
         }
 
         // Fill all reference entries
-        return this.$q.allEvenFailed(calls)
+        return this.PromisesResolver.allEvenFailed(calls)
             .then(function (responses) {
                 i = 0;
                 var response;
@@ -299,7 +299,7 @@ define(function (require) {
         return entry;
     };
 
-    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return RetrieveQueries;
 });

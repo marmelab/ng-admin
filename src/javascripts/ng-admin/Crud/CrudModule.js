@@ -25,6 +25,7 @@ define(function (require) {
     CrudModule.controller('FormController', require('ng-admin/Crud/form/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
 
+    CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
     CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
     CrudModule.service('CreateQueries', require('ng-admin/Crud/repository/CreateQueries'));
     CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
