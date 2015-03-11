@@ -44,6 +44,13 @@ define(function () {
         return this.adminDescription.field(name, type);
     };
 
+    /**
+     * @deprecated Use AdminDescription.registerFieldType instead
+     */
+    NgAdminConfiguration.prototype.registerFieldType = function(name, type) {
+        return this.adminDescription.registerFieldType(name, type);
+    };
+
     NgAdminConfiguration.$inject = [];
 
     return NgAdminConfiguration;

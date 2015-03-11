@@ -46,6 +46,10 @@ class Factory {
         this._fieldTypes[name] = constructor;
     }
 
+    getFieldConstructor(name) {
+        return this._fieldTypes[name];
+    }
+
     _init() {
         this.registerFieldType('boolean', BooleanField);
         this.registerFieldType('choice', ChoiceField);

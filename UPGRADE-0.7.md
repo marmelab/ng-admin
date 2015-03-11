@@ -6,17 +6,34 @@ ng-admin 0.7 breaks compatibility with 0.5 and makes the "factories" configurati
 
 ## Configuration factory
 
-The configuration is now done through the `AdminDescription` object. You can retrieve it directly from Angular DI. You just have to retrieve your application from this factory instead of the `NgAdminConfigurationProvider` as previously. In addition, `NgAdminConfigurationProvider` was renamed to `NgAdminProvider`:
+The configuration is now done through the `AdminDescription` object. You can retrieve it directly from Angular DI.
 
 ``` diff
 - app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
-+ app.config(function (AdminDescription, NgAdminProvider, RestangularProvider) {
++ app.config(function (AdminDescription, NgAdminConfigurationProvider, RestangularProvider) {
 -     var nga = NgAdminConfigurationProvider;
 +     var nga = AdminDescription;
 
       // ...
 
 -     nga.configure(admin);
-+     NgAdminProvider.configure(admin);
++     NgAdminConfigurationProvider.configure(admin);
   });
 ```
+
+Note you still need the `NgAdminConfigurationProvider` to apply your application configuration.
+
+During the 0.8 version, some proxy methods transmits actions from `NgAdminConfigurationProvider` to `AdminDescription`, allowing you to transition smoothly.
+
+## Field type
+
+Method `Field.type()` is no longer supported as a setter. Instead, you should specify the second argument from the field factory.
+
+``` diff
+- nga.field('created_at').type('date')
++ nga.field('created_at', 'date')
+```
+
+## perPage instead of limit
+
+Dashboard view `limit()` method has been deprecated. Please use the `perPage` method instead.
