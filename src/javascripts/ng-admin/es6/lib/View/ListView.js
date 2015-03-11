@@ -14,13 +14,16 @@ class ListView extends View {
         this._sortDir = 'DESC';
     }
 
-    perPage() {
-        if (arguments.length) {
-            this._perPage = arguments[0];
-            return this;
-        }
+    perPage(perPage) {
+        if (!arguments.length) return this._perPage;
+        this._perPage = arguments[0];
+        return this;
+    }
 
-        return this._perPage;
+    /** @deprecated Use perPage instead */
+    limit() {
+        if (!arguments.length) return this.perPage();
+        return this.perPage(arguments[0]);
     }
 
     sortField() {
@@ -68,15 +71,6 @@ class ListView extends View {
         this._filters = filters;
 
         return this;
-    }
-
-    limit() {
-        if (arguments.length) {
-            this._perPage = parseInt(arguments[0]);
-            return this;
-        }
-
-        return this._perPage;
     }
 
     getFilterReferences() {
