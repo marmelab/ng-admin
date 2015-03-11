@@ -4,8 +4,8 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (AdminDescription, NgAdminProvider, RestangularProvider) {
-        var nga = AdminDescription;
+    app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
+        var nga = NgAdminConfigurationProvider;
 
         function truncate(value) {
             if (!value) {
@@ -248,7 +248,7 @@
                 nga.field('published', 'boolean')
             ]);
 
-        NgAdminProvider.configure(admin);
+        nga.configure(admin);
     });
 
     app.directive('postLink', ['$location', function ($location) {

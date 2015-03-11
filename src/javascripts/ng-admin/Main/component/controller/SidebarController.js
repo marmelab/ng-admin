@@ -53,7 +53,7 @@ define(function () {
         this.$filter = undefined;
     };
 
-    SidebarController.$inject = ['$scope', '$location', '$sce', '$filter', 'NgAdmin'];
+    SidebarController.$inject = ['$scope', '$location', '$sce', '$filter', 'NgAdminConfiguration'];
 
     return SidebarController;
 });

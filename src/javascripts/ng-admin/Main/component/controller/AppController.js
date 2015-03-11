@@ -26,7 +26,7 @@ define(function () {
         this.$scope = undefined;
     };
 
-    AppController.$inject = ['$scope', '$location', 'NgAdmin'];
+    AppController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
 
     return AppController;
 });

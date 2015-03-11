@@ -55,5 +55,8 @@ define(function (require) {
     var factory = angular.module('AdminDescriptionModule', []);
     factory.constant('AdminDescription', new AdminDescription());
 
-    angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
+    var ngadmin = angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
+    ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
+        NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
+    });
 });
