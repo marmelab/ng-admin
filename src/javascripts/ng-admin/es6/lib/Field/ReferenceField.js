@@ -17,8 +17,10 @@ class ReferenceField extends ChoiceField {
         this._detailLink = true;
     }
 
-    get perPage() {
-        return this._perPage;
+    perPage(perPage) {
+        if (!arguments.length) return this._perPage;
+        this._perPage = perPage;
+        return this;
     }
 
     targetEntity(entity) {
@@ -48,7 +50,7 @@ class ReferenceField extends ChoiceField {
     }
 
     getReferencedView() {
-        return this._referencedView.perPage(this.perPage);
+        return this._referencedView.perPage(this._perPage);
     }
 
     filters(filters) {

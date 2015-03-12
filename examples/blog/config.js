@@ -4,8 +4,8 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (AdminDescription, NgAdminProvider, RestangularProvider) {
-        var nga = AdminDescription;
+    app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
+        var nga = NgAdminConfigurationProvider;
 
         function truncate(value) {
             if (!value) {
@@ -66,7 +66,7 @@
         post.dashboardView() // customize the dashboard panel for this entity
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
-            .limit(5) // limit the panel to the 5 latest posts
+            .perPage(5) // limit the panel to the 5 latest posts
             .fields([nga.field('title').isDetailLink(true).map(truncate)]); // fields() called with arguments add fields to the view
 
         post.listView()
@@ -133,7 +133,7 @@
         comment.dashboardView()
             .title('Last comments')
             .order(2) // display the comment panel second in the dashboard
-            .limit(5)
+            .perPage(5)
             .fields([
                 nga.field('id'),
                 nga.field('body', 'wysiwyg')
@@ -218,7 +218,7 @@
         tag.dashboardView()
             .title('Recent tags')
             .order(3)
-            .limit(10)
+            .perPage(10)
             .fields([
                 nga.field('id'),
                 nga.field('name'),
@@ -248,7 +248,7 @@
                 nga.field('published', 'boolean')
             ]);
 
-        NgAdminProvider.configure(admin);
+        nga.configure(admin);
     });
 
     app.directive('postLink', ['$location', function ($location) {

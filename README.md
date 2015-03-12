@@ -80,8 +80,8 @@ Here is a full example for a backend that will let you create, update, and delet
 
 var app = angular.module('myApp', ['ng-admin']);
 
-app.config(function (AdminDescription, NgAdminProvider) {
-    var nga = AdminDescription;
+app.config(function (NgAdminConfigurationProvider) {
+    var nga = NgAdminConfigurationProvider;
     var app = nga.application('ng-admin backend demo') // application main title
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
@@ -100,7 +100,7 @@ app.config(function (AdminDescription, NgAdminProvider) {
     post.dashboardView() // customize the dashboard panel for this entity
         .title('Recent posts')
         .order(1) // display the post panel first in the dashboard
-        .limit(5) // limit the panel to the 5 latest posts
+        .perPage(5) // limit the panel to the 5 latest posts
         .fields([nga.field('title').isDetailLink(true).map(truncate)]); // fields() called with arguments add fields to the view
 
     post.listView()
@@ -156,7 +156,7 @@ app.config(function (AdminDescription, NgAdminProvider) {
                 .template('<other-page-link></other-link-link>')
         ]);
 
-    NgAdminProvider.configure(app);
+    nga.configure(app);
 });
 ```
 
@@ -261,7 +261,7 @@ Defines the API endpoint for a view. It can be a string or a function.
 
 The `dashboardView` also defines `sortField` and `sortDir` fields like the `listView`.
 
-* `limit(Number)`
+* `perPage(Number)`
 Set the number of items.
 
 * `order(Number)`

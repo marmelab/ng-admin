@@ -29,7 +29,7 @@ define(function (require) {
             .customDELETE();
     };
 
-    DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdmin'];
+    DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
 
     return DeleteQueries;
 });
