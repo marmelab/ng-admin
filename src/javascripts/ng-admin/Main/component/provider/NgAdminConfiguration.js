@@ -23,30 +23,18 @@ define(function () {
         };
     };
 
-    /**
-     * @deprecated Use AdminDescription.application instead
-     */
     NgAdminConfiguration.prototype.application = function(name) {
         return this.adminDescription.application(name);
     };
 
-    /**
-     * @deprecated Use AdminDescription.entity instead
-     */
     NgAdminConfiguration.prototype.entity = function(name) {
         return this.adminDescription.entity(name);
     };
 
-    /**
-     * @deprecated Use AdminDescription.field instead
-     */
     NgAdminConfiguration.prototype.field = function(name, type) {
         return this.adminDescription.field(name, type);
     };
 
-    /**
-     * @deprecated Use AdminDescription.registerFieldType instead
-     */
     NgAdminConfiguration.prototype.registerFieldType = function(name, type) {
         return this.adminDescription.registerFieldType(name, type);
     };
