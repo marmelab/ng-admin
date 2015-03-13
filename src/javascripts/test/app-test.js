@@ -19,6 +19,7 @@ requirejs.config({
         'angular-mocks': 'bower_components/angular-mocks/angular-mocks',
         'mixins': '/base/test/mock/mixins',
         'mock/q': '/base/test/mock/q',
+        'mock/PromisesResolver': '/base/test/mock/PromisesResolver',
         'mock/Restangular': '/base/test/mock/Restangular',
 
         'angular': 'bower_components/angular/angular',

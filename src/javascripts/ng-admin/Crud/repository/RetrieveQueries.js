@@ -162,6 +162,9 @@ define(function (require) {
         // Fill all reference entries
         return this.PromisesResolver.allEvenFailed(calls)
             .then(function (responses) {
+                if (responses.length === 0) {
+                    return references;
+                }
                 i = 0;
                 var response;
 
