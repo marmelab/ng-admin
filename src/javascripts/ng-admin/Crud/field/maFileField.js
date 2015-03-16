@@ -24,6 +24,7 @@ define(function (require) {
 
                     scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
                     scope.accept = uploadInformation.hasOwnProperty('accept') ? uploadInformation.accept : '*';
+                    scope.apifilename = uploadInformation.hasOwnProperty('apifilename') ? uploadInformation.apifilename : false;
 
                     var files = scope.value ? scope.value.split(',') : [];
                     scope.files = {};
@@ -58,7 +59,6 @@ define(function (require) {
                         for (var file in selectedFiles) {
                             uploadParams = angular.copy(scope.field().uploadInformation());
                             uploadParams.file = selectedFiles[file];
-
                             $upload
                                 .upload(uploadParams)
                                 .progress(function(evt) {
@@ -69,10 +69,17 @@ define(function (require) {
                                 })
                                 .success(function(data, status, headers, config) {
                                     scope.files[config.file.name] = {
-                                        "name": config.file.name,
+                                        "name": scope.apifilename ? data[scope.apifilename] : config.file.name,
                                         "progress": 0
                                     };
-                                    scope.value = Object.keys(scope.files).join(',');
+                                    if (scope.apifilename) {
+                                        var apiNames = Object.keys(scope.files).map(function(fileindex) {
+                                            return scope.files[fileindex].name;
+                                        });
+                                        scope.value = apiNames.join(',');
+                                    } else {
+                                        scope.value = Object.keys(scope.files).join(',');
+                                    }
                                 })
                                 .error(function(data, status, headers, config) {
                                     delete scope.files[config.file.name];
