@@ -410,6 +410,18 @@ Define the template to be displayed for fields of type `template` (can be a stri
 Give upload information for `file` field type
  - `url`: url for server side upload
  - `accept`: values allowed by the standard HTML file input accept attribute
+ - `apifilename`: filename assigned by the server and returned by your API. 
+ 
+If the uploaded file is renamed server-side, you can get the new filename from an api return.    
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    { "picture_name": "post_12_picture1.jpg"}
+
+you can configure file field as :
+
+    nga.field('picture', 'file').uploadInformation({ 'url': 'your_url', 'apifilename': 'picture_name' })
+
 Some other properties are allowed, see https://github.com/danialfarid/angular-file-upload#upload-service for the complete list.
 
 ## Reusable Directives
