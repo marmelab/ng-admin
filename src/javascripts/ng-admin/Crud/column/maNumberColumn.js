@@ -10,7 +10,7 @@ define(function (require) {
                 value: '&',
                 field: '&'
             },
-            template: '<span>{{ value() | number:field().format() }}</span>'
+            template: '<span>{{ value() | numeraljs:field().format() }}</span>'
         };
     }
 

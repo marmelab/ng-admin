@@ -4,23 +4,32 @@ class NumberField extends Field {
     constructor(name) {
         super(name);
         this._type = "number";
-        this._fractionSize = undefined;
+        this._format = undefined;
     }
 
     /**
-     * Number of decimal places to round the number to. If this is not provided,
-     * then the fraction size is computed from the current locale's number formatting pattern.
-     * In the case of the default locale, it will be 3.
+     * Specify format pattern for number to string conversion. 
      *
+     * Based on NumeralJs, which uses a syntax similar to Excel.
+     *
+     * {@link} http://numeraljs.com/
+     * {@link} https://github.com/baumandm/angular-numeraljs
      * {@example}
      *
-     *     nga.field('height', 'number').fractionSize(2);
+     *     nga.field('height', 'number').format('$0,0.00');
      */
-    fractionSize(value) {
-        if (!arguments.length) return this._fractionSize;
-        this._fractionSize = value;
+    format(value) {
+        if (!arguments.length) return this._format;
+        this._format = value;
         return this;
-    };
+    }
+
+    fractionSize(decimals) {
+        console.warn('NumberField.fractionSize() is deprecated, use NumberField.format() instead');
+        this.format('0.' + '0'.repeat(decimals));
+        return this;
+    }
+
 }
 
 export default NumberField;

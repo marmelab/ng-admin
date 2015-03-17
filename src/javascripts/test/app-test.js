@@ -22,17 +22,19 @@ requirejs.config({
         'mock/Restangular': '/base/test/mock/Restangular',
 
         'angular': 'bower_components/angular/angular',
-        'angular-resource': 'bower_components/angular-resource/angular-resource',
-        'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
-        'angular-route': 'bower_components/angular-route/angular-route',
-        'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
-        'lodash': 'bower_components/lodash/dist/lodash.min',
-        'text' : 'bower_components/requirejs-text/text',
         'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
         'angular-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-        'restangular': 'bower_components/restangular/dist/restangular',
+        'angular-numeraljs': 'bower_components/angular-numeraljs/dist/angular-numeraljs',
+        'angular-resource': 'bower_components/angular-resource/angular-resource',
+        'angular-route': 'bower_components/angular-route/angular-route',
+        'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize',
+        'angular-ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
         'humane': 'bower_components/humane/humane',
+        'lodash': 'bower_components/lodash/dist/lodash.min',
         'nprogress': 'bower_components/nprogress/nprogress',
+        'numeral': 'bower_components/numeral/numeral',
+        'restangular': 'bower_components/restangular/dist/restangular',
+        'text' : 'bower_components/requirejs-text/text',
 
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
@@ -40,6 +42,9 @@ requirejs.config({
     shim: {
         'angular': {
             exports: 'angular'
+        },
+        'angular-numeraljs':  {
+            deps: ['angular']
         },
         'angular-mocks':  {
             deps: ['angular']
@@ -70,6 +75,9 @@ requirejs.config({
         },
         'nprogress': {
             exports: 'NProgress'
+        },
+        'numeral': {
+            exports: 'numeral'
         }
     },
 
