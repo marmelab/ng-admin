@@ -377,8 +377,11 @@ Define the default value of the field in the creation form.
 
 ### `number` Field Settings
 
-* `fractionSize(integer)`
-Number of decimal places to round the number to. If this is not provided, then the fraction size is computed from the current locale's number formatting pattern.
+* `format(string)`
+Format for number to string conversion. Based on [Numeral.js](http://numeraljs.com/), which uses a syntax similar to Excel. You can configure the locale and create named formats by following [angular-numeraljs](https://github.com/baumandm/angular-numeraljs) instructions.
+
+        nga.field('cost', 'number').format('$0,0.00');
+        // now 1234.5 will render as '$1,234.50'
 
 ### `choice` and `choices` Field Settings
 
