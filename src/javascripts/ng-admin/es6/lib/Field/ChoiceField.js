@@ -5,12 +5,26 @@ class ChoiceField extends Field {
         super(name);
         this._type = "choice";
         this._choices = [];
+        this._choicesFunc = null;
     }
 
     choices(choices) {
         if (!arguments.length) return this._choices;
-        this._choices = choices;
+        if (typeof(choices) == 'function') {
+            this._choicesFunc = choices;
+        } else {
+            this._choices = choices;
+        }
+ 
         return this;
+    }
+
+    getChoices(entry) {
+        if (this._choicesFunc != null){
+            return this._choicesFunc(entry);
+        }
+
+        return this._choices;
     }
 
     getLabelForChoice(value) {

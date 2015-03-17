@@ -12,14 +12,18 @@ define(function (require) {
         return {
             scope: {
                 'field': '&',
-                'value': '='
+                'value': '=',
+                'entry':  '='
             },
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
                 scope.name = field.name();
-                scope.choices = field.choices();
                 scope.v = field.validation();
+                scope.getChoices = function(entry) {
+                  return field.getChoices(entry);
+                }
+
                 var select = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
@@ -29,7 +33,7 @@ define(function (require) {
             template: 
 '<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control">' +
   '<option ng-if="!v.required" value="" ng-selected="!value">-- select a value --</option>' +
-  '<option ng-repeat="choice in choices" value="{{ choice.value }}" ng-selected="value == choice.value">' +
+  '<option ng-repeat="choice in getChoices(entry)" value="{{ choice.value }}" ng-selected="value == choice.value">' +
     '{{ choice.label }}' +
   '</option>' +
 '</select>'

@@ -11,7 +11,7 @@ define(function(require) {
         return '<ma-choice-field field="::field" value="values[field.name()]"></ma-choice-field>';
     }
     function getWriteWidget() {
-        return '<ma-choice-field field="::field" value="entry.values[field.name()]"></ma-choice-field>';
+        return '<ma-choice-field field="::field" entry="::entry" value="entry.values[field.name()]"></ma-choice-field>';
     }
     return {
         getReadWidget:   getReadWidget,
