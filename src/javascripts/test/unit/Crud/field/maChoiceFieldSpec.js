@@ -11,7 +11,7 @@ define(function (require) {
 
         var $compile,
             scope,
-            directiveUsage = '<ma-choice-field field="field" value="value"></ma-choice-field>';
+            directiveUsage = '<ma-choice-field entry="entry" field="field" value="value"></ma-choice-field>';
 
         beforeEach(module('testapp_ChoiceField'));
 
@@ -74,6 +74,38 @@ define(function (require) {
             expect(options[1].value).toEqual('bar');
             expect(options[2].innerHTML).toEqual('baz');
             expect(options[2].value).toEqual('bazValue');
+        });
+
+        it("should contain the choices from choicesFunc as options", function () {
+            var choices = [
+                {label: 'foo', value: 'bar'},
+                {label: 'baz', value: 'bazValue'}
+            ];
+            scope.field = new ChoiceField().choices(function(entry){
+                return choices;
+            });
+            scope.value = 'bar';
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            var options = element.find('option');
+            expect(options[1].innerHTML).toEqual('foo');
+            expect(options[1].value).toEqual('bar');
+            expect(options[2].innerHTML).toEqual('baz');
+            expect(options[2].value).toEqual('bazValue');
+        });
+
+        it("should pass entry to choicesFunc", function () {
+            var choices = [];
+            var choicesFuncWasCalled = false;
+            scope.entry = {moo: 'boo'};
+            scope.field = new ChoiceField().choices(function(entry){
+                expect(entry.moo).toEqual('boo');
+                choicesFuncWasCalled = true;
+                return choices;
+            });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            expect(choicesFuncWasCalled).toBeTruthy();
         });
 
         it("should have the option with the bounded value selected", function () {

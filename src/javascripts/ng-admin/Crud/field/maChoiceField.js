@@ -6,7 +6,7 @@ define(function (require) {
     /**
      * Edition field for an element in a list - a select.
      *
-     * @example <ma-choice-field field="field" value="value"></ma-choice-field>
+     * @example <ma-choice-field entry="entry" field="field" value="value"></ma-choice-field>
      */
     function maChoiceField() {
         return {
@@ -21,7 +21,7 @@ define(function (require) {
                 scope.name = field.name();
                 scope.v = field.validation();
                 scope.getChoices = function(entry) {
-                  return field.getChoices(entry);
+                    return field.getChoices(entry);
                 }
 
                 var select = element.children()[0];
