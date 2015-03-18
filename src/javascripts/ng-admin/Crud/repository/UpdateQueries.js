@@ -20,12 +20,12 @@ define(function (require) {
      *
      * @param {View}   view             the formView related to the entity
      * @param {Object} rawEntity        the entity's object
-     * @param {String} origEntityId     if entity identifier is modified
+     * @param {String} originEntityId   if entity identifier is modified
      *
      * @returns {promise} the updated object
      */
-    UpdateQueries.prototype.updateOne = function (view, rawEntity, origEntityId) {
-        var entityId = origEntityId || rawEntity[view.getEntity().identifier().name()];
+    UpdateQueries.prototype.updateOne = function (view, rawEntity, originEntityId) {
+        var entityId = originEntityId || rawEntity[view.getEntity().identifier().name()];
 
         // Get element data
         return this.Restangular

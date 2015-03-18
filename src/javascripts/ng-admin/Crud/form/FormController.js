@@ -27,7 +27,7 @@ define(function () {
         this.$scope.entity = this.entity;
 
         // in case of entity identifier being modified
-        this.origEntityId = this.$scope.entry.values[this.entity.identifier().name()]
+        this.originEntityId = entry.values[this.entity.identifier().name()]
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -99,7 +99,7 @@ define(function () {
             notification = this.notification;
         progression.start();
         this.UpdateQueries
-            .updateOne(this.view, entry, this.origEntityId)
+            .updateOne(this.view, entry, this.originEntityId)
             .then(function () {
                 progression.done();
                 notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
