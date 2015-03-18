@@ -18,13 +18,14 @@ define(function (require) {
      * Update an entity
      * Put the data to the API to create the new object
      *
-     * @param {View}   view      the formView related to the entity
-     * @param {Object} rawEntity the entity's object
+     * @param {View}   view             the formView related to the entity
+     * @param {Object} rawEntity        the entity's object
+     * @param {String} origEntityId     if entity identifier is modified
      *
      * @returns {promise} the updated object
      */
-    UpdateQueries.prototype.updateOne = function (view, rawEntity) {
-        var entityId = rawEntity[view.getEntity().identifier().name()];
+    UpdateQueries.prototype.updateOne = function (view, rawEntity, origEntityId) {
+        var entityId = origEntityId || rawEntity[view.getEntity().identifier().name()];
 
         // Get element data
         return this.Restangular
