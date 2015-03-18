@@ -11,7 +11,7 @@ define(function (require) {
 
         var $compile,
             scope,
-            directiveUsage = '<ma-choices-field field="field" value="value"></ma-choices-field>';
+            directiveUsage = '<ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>';
 
         beforeEach(module('testapp_ChoicesField'));
 
@@ -33,6 +33,37 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             expect(element.children()[0].disabled).toBeTruthy();
+        });
+
+        it("should pass entry to choices func", function () {
+            var choices = [];
+            var choicesFuncWasCalled = false;
+            scope.entry = {moo: 'boo'};
+            scope.field = new ChoiceField().choices(function(entry) {
+                expect(entry.moo).toEqual('boo');
+                choicesFuncWasCalled = true;
+                return choices;
+            });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            expect(choicesFuncWasCalled).toBeTruthy();
+        });
+
+        it("should contain the choices from choicesFunc as options", function () {
+            var choices = [
+                {label: 'foo', value: 'bar'},
+                {label: 'baz', value: 'bazValue'}
+            ];
+            scope.field = new ChoiceField().choices(function(entry) {
+                return choices;
+            });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            var options = element.find('option');
+            expect(options[0].innerHTML).toEqual('foo');
+            expect(options[0].value).toEqual('bar');
+            expect(options[1].innerHTML).toEqual('baz');
+            expect(options[1].value).toEqual('bazValue');
         });
 
         it("should contain the choices as options", function () {
