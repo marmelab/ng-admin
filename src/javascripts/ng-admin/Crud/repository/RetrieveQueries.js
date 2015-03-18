@@ -176,21 +176,21 @@ define(function (require) {
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
                         response = responses[i++];
-                        if (Object.keys(response.data).length === 0) {
+                        if (response.status == 'error') {
                             // the response failed
                             continue;
                         }
-                        references[j].entries = reference.getReferencedView().mapEntries(response.data);
+                        references[j].entries = reference.getReferencedView().mapEntries(response.result.data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
                         for (k in identifiers) {
                             response = responses[i++];
-                            if (!response.entityName) {
+                            if (response.status == 'error') {
                                 // one of the responses failed
                                 continue;
                             }
-                            entries.push(response);
+                            entries.push(response.result);
                         }
 
                         // Entry are already mapped by getOne

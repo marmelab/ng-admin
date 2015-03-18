@@ -73,7 +73,7 @@ define(function (require) {
         describe('getAll', function() {
             it('should return all data to display a ListView', function (done) {
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats, headers: function() {}}));
-                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise(humans));
+                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: humans[0] }, {status: 'success', result: humans[1] }, {status: 'success', result: humans[2] }]));
 
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver);
 
@@ -117,7 +117,7 @@ define(function (require) {
                     .addField(authorRef);
 
                 spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
-                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([authors[0], authors[1]]));
+                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: authors[0] }, { status: 'success', result: authors[1] }]));
 
                 retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                     .then(function (references) {
@@ -161,7 +161,7 @@ define(function (require) {
                     .addField(authorRef);
 
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
-                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{data: rawAuthors}]));
+                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: { data: rawAuthors }}]));
 
                 retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                     .then(function (references) {

@@ -35,8 +35,14 @@ define(function () {
                         deferred.resolve(results);
                     }
                 }
+                function resolveSuccess(result) {
+                    return resolve({ status: 'success', result: result });
+                }
+                function resolveError(result) {
+                    return resolve({ status: 'error', error: result })
+                }
                 // whether the promise ends with success or error, consider it done
-                $q.when(promise).then(resolve, resolve);
+                $q.when(promise).then(resolveSuccess, resolveError);
             });
 
             return deferred.promise;
