@@ -134,17 +134,20 @@ define(function (require) {
                 },
                 resolve: {
                     view: viewProvider('EditView'),
-                    entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                    rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveQueries', 'view', 'entry', function (RetrieveQueries, view, entry) {
+                    referencedValues: ['RetrieveQueries', 'view', 'rawEntry', function (RetrieveQueries, view, rawEntry) {
                         return RetrieveQueries.getReferencedValues(view.getReferences(), null);
                     }],
-                    referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
+                    referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'rawEntry', function ($stateParams, RetrieveQueries, view, rawEntry) {
                         var sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, entry.identifierValue);
+                        return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
+                    }],
+                    entry: ['RetrieveQueries', 'rawEntry', 'referencedValues', function(RetrieveQueries, rawEntry, referencedValues) {
+                        return RetrieveQueries.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });
