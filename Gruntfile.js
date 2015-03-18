@@ -83,7 +83,7 @@ module.exports = function (grunt) {
         },
 
         clean : {
-            build : ["build/*", "!build/*.min.js", "!build/*.min.css", "!build/*.map"]
+            build : ["build/*", "!build/ng-admin.min.js", "!build/ng-admin.min.css", "!build/ng-admin.min.map"]
         },
 
         copy: {
