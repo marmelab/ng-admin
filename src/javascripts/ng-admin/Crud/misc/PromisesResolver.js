@@ -25,15 +25,12 @@ define(function () {
                 function resolve(result) {
                     states[key] = true;
                     results[key] = result; // result may be an error
-                    var allFinished = true;
-                    states.forEach(function (state) {
-                        if (!state) {
-                            allFinished = false;
+                    for (var i in states) {
+                        if (!states[i]) {
+                            return;
                         }
-                    });
-                    if (allFinished) {
-                        deferred.resolve(results);
                     }
+                    deferred.resolve(results);
                 }
                 function resolveSuccess(result) {
                     return resolve({ status: 'success', result: result });
