@@ -5,7 +5,7 @@ class WysiwygField extends Field {
         super(name);
         this._type = "wysiwyg";
         this._stripTags = false;
-		this._sanitize = true;
+        this._sanitize = true;
     }
 
     stripTags(value) {
@@ -13,15 +13,12 @@ class WysiwygField extends Field {
         this._stripTags = value;
         return this;
     }
-	
-	sanitize() {
-		if (arguments.length) {
-			this._sanitize = arguments[0];
-			return this;
-		}
-		
-		return this._sanitize;
-	}
+    
+    sanitize(value) {
+        if (!arguments.length) return this._sanitize;
+        this._sanitize = value;
+        return this;
+    }
 }
 
 export default WysiwygField;

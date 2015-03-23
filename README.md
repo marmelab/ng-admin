@@ -429,8 +429,11 @@ Some other properties are allowed, see https://github.com/danialfarid/angular-fi
 
 ### `wysiwyg` Field Settings
 
+* `stripTags(boolean)`
+Enable removal of all HTML tags - only the text is kept. Useful for displaying rich text in a table, or before truncation. False by default. 
+
 * `sanitize(boolean)`
-Enable or disable HTML sanitization of WYSIWYG Editor value.
+Enable HTML sanitization of WYSIWYG Editor value (removal of script tags, etc). True by default.
 
 ## Reusable Directives
 
