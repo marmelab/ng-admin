@@ -20,7 +20,7 @@ define(function (require) {
                 scope.name = field.name();
             },
             template: 
-'<div text-angular ng-model="value" id="{{ name }}" name="{{ name }}" '+
+'<div text-angular ta-unsafe-sanitizer="{{ !field.sanitize() }}" ng-model="value" id="{{ name }}" name="{{ name }}" '+
     'ta-text-editor-class="border-around" ta-html-editor-class="border-around">' +
 '</div>'
         };
