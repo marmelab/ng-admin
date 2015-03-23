@@ -427,6 +427,11 @@ you can configure file field as :
 
 Some other properties are allowed, see https://github.com/danialfarid/angular-file-upload#upload-service for the complete list.
 
+### `wysiwyg` Field Settings
+
+* `sanitize(boolean)`
+Enable or disable HTML sanitization of WYSIWYG Editor value.
+
 ## Reusable Directives
 
 The `template` field type allows you to use any HTML tag, including custom directives. ng-admin provides ready-to-use directives to easily add interactions to your admin views:
