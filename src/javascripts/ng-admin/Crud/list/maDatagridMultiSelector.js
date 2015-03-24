@@ -10,27 +10,32 @@ define(function () {
                 entries: '=',
                 selection: '='
             },
-            template: '<input ng-click="select(selected)" type="checkbox" ng-model="selected" class="form-control" />',
+            template: '<input type="checkbox" ng-click="select()" ng-model="selected" />',
             link: function (scope, element) {
-                var selection = JSON.stringify(scope.selection);
                 var entries = JSON.stringify(scope.entries);
+                var selected;
 
-                if (selection === entries){
-                    scope.selected = true;
-                }
-                if (selection === '[]'){
-                    scope.selected = false;
-                }
-                if (selection !== '[]' &&selection !== entries){
-                    scope.selected = null;
-                    element.find('input').prop('indeterminate', true);
-                }
+                scope.$watch('selection', function (selection) {
+                    selection = JSON.stringify(selection);
+                    if (selection === entries){
+                        selected = true;
+                        element.find('input').prop('indeterminate', false);
+                    }
+                    if (selection === '[]'){
+                        selected = false;
+                        element.find('input').prop('indeterminate', false);
+                    }
+                    if (selection !== '[]' && selection !== entries){
+                        selected = false;
+                        element.find('input').prop('indeterminate', true);
+                    }
+                    scope.selected = selected;
+                });
 
-                scope.select = function (selected) {
-                    scope.selected = !selected;
-                    element.find('input').prop('indeterminate', false);
-                    if (!selected) {
-                        scope.selection = scope.entries;
+                scope.select = function () {
+                    selected = !selected;
+                    if (selected) {
+                        scope.selection = scope.entries.slice();
                         return;
                     }
                     scope.selection = [];

@@ -53,8 +53,8 @@ define(function (require) {
 
             scope.$digest();
 
-            expect(element[0].querySelector('thead th:nth-child(2)').innerHTML).toContain('Actions');
-            expect(element[0].querySelector('tbody tr td:nth-child(2) list-actions').nodeName).toContain('LIST-ACTIONS');
+            expect(element[0].querySelector('thead th:nth-child(3)').innerHTML).toContain('Actions');
+            expect(element[0].querySelector('tbody tr td:nth-child(3) list-actions').nodeName).toContain('LIST-ACTIONS');
         });
 
 
@@ -69,7 +69,7 @@ define(function (require) {
             element  = $compile(directiveUsage)(scope);
             scope.$digest();
 
-            expect(element[0].querySelector('tbody tr td:nth-child(1) ma-column').nodeName).toContain('MA-COLUMN');
+            expect(element[0].querySelector('tbody tr td:nth-child(2) ma-column').nodeName).toContain('MA-COLUMN');
         });
     });
 });

@@ -10,18 +10,24 @@ define(function () {
                 entry: '=',
                 selection: '='
             },
-            template: '<input ng-click="select(selected)" type="checkbox" ng-model="selected" class="form-control" />',
+            template: '<input type="checkbox" ng-click="select()" ng-model="selected"/>',
             link: function (scope) {
-                scope.selected = scope.selection.indexOf(scope.entry) !== -1;
+                var selected;
 
-                scope.select= function (selected) {
-                    scope.selected = !selected;
-                    if (!selected) {
-                        scope.selection.push(scope.entry);
+                scope.$watch('selection', function (selection) {
+                    selected = selection.indexOf(scope.entry) !== -1;
+                    scope.selected = selected;
+                });
+
+                scope.select = function () {
+                    selected = !selected;
+                    if (selected) {
+                        scope.selection = scope.selection.concat(scope.entry);
                         return;
                     }
                     var index = scope.selection.indexOf(scope.entry);
                     scope.selection.splice(index, 1);
+                    scope.selection = scope.selection.slice();
                 };
             }
         };

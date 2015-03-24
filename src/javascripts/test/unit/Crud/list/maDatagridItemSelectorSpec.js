@@ -39,13 +39,33 @@ define(function (require) {
             expect(element.children()[0].checked).toBe(true);
         });
 
+        it('should become checked if entry is removed from selection', function () {
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+
+            expect(element.children()[0].checked).toBe(false);
+            scope.selection = scope.selection.concat(scope.entry);
+            scope.$digest();
+            expect(element.children()[0].checked).toBe(true);
+        });
+
+        it('should become unchecked if entry is added to selection', function () {
+            scope.selection = scope.selection.concat(scope.entry);
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+
+            expect(element.children()[0].checked).toBe(true);
+            scope.selection = [];
+            scope.$digest();
+            expect(element.children()[0].checked).toBe(false);
+        });
+
         it('should add unselected entry to selection on click', function () {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
 
             element.find('input').triggerHandler('click');
 
-            expect(element.children()[0].checked).toBe(true);
             expect(scope.selection.length).toBe(3);
             expect(scope.selection.indexOf(scope.entry)).toBe(2);
         });
@@ -58,7 +78,6 @@ define(function (require) {
 
             element.find('input').triggerHandler('click');
 
-            expect(element.children()[0].checked).toBe(false);
             expect(scope.selection.length).toBe(2);
             expect(scope.selection.indexOf(scope.entry)).toBe(-1);
         });

@@ -17,6 +17,7 @@ define(function () {
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
         this.filters = {};
+        $scope.selection = [];
 
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
