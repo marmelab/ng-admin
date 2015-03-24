@@ -32,7 +32,7 @@
     "grunt-json-server": "git://github.com/fzaninotto/grunt-json-server.git#c834e50e2151a16930f1378324cf96b91438bdae",
     "grunt-karma": "^0.8.3",
     "grunt-mocha-test": "^0.12.7",
-    "grunt-ng-annotate": "^0.10.0",
+    "grunt-ng-annotate": "^0.4.0",
     "grunt-protractor-runner": "^1.1.4",
     "jasmine-core": "~2.1.3",
     "jshint-stylish": "~0.1.3",
