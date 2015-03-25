@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>
-                <ma-datagrid-multi-selector selection="selection" entries="entries"/>
+                <ma-datagrid-multi-selector toggle-select-all="toggleSelectAll()" selection="selection" entries="entries"/>
             </th>
             <th ng-repeat="field in fields() track by $index" ng-class="'ng-admin-column-' + field.name()">
                 <a ng-click="datagrid.sort(field)">
@@ -20,7 +20,7 @@
     <tbody>
         <tr ng-repeat="entry in entries track by $index">
             <td>
-                <ma-datagrid-item-selector selection="selection" entry="entry"/>
+                <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
             <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)">
                 <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>

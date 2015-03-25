@@ -60,27 +60,5 @@ define(function (require) {
             expect(element.children()[0].checked).toBe(false);
         });
 
-        it('should add unselected entry to selection on click', function () {
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-
-            element.find('input').triggerHandler('click');
-
-            expect(scope.selection.length).toBe(3);
-            expect(scope.selection.indexOf(scope.entry)).toBe(2);
-        });
-
-        it('should remove selected entry from selection on click', function () {
-            scope.selection.push(scope.entry);
-
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-
-            element.find('input').triggerHandler('click');
-
-            expect(scope.selection.length).toBe(2);
-            expect(scope.selection.indexOf(scope.entry)).toBe(-1);
-        });
-
     });
 });

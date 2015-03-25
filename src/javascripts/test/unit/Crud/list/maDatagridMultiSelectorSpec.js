@@ -104,34 +104,5 @@ define(function (require) {
             expect(element.children()[0].checked).toBe(false);
         });
 
-        it('checkbox should become true when clicking if selection is empty', function () {
-            scope.selection = [];
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-
-            element.find('input').triggerHandler('click');
-
-            expect(scope.selection).toEqual(scope.entries);
-        });
-
-        it('checkbox should become true when clicking if selection differ from entries', function () {
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-
-            element.find('input').triggerHandler('click');
-
-            expect(scope.selection).toEqual(scope.entries);
-        });
-
-        it('checkbox should become false when clicking if selection is full', function () {
-            scope.selection = scope.entries;
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-
-            element.find('input').triggerHandler('click');
-
-            expect(scope.selection).toEqual([]);
-        });
-
     });
 });

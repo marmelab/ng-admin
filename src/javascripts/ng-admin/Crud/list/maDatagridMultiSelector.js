@@ -8,38 +8,31 @@ define(function () {
             restrict: 'E',
             scope: {
                 entries: '=',
-                selection: '='
+                selection: '=',
+                toggleSelectAll: '&'
             },
-            template: '<input type="checkbox" ng-click="select()" ng-model="selected" />',
+            template: '<input type="checkbox" ng-click="toggleSelectAll()" ng-model="selected" />',
             link: function (scope, element) {
-                var entries = JSON.stringify(scope.entries);
-                var selected;
 
                 scope.$watch('selection', function (selection) {
+                    var entries = JSON.stringify(scope.entries);
                     selection = JSON.stringify(selection);
                     if (selection === entries){
-                        selected = true;
+                        scope.selected = true;
                         element.find('input').prop('indeterminate', false);
-                    }
-                    if (selection === '[]'){
-                        selected = false;
-                        element.find('input').prop('indeterminate', false);
-                    }
-                    if (selection !== '[]' && selection !== entries){
-                        selected = false;
-                        element.find('input').prop('indeterminate', true);
-                    }
-                    scope.selected = selected;
-                });
-
-                scope.select = function () {
-                    selected = !selected;
-                    if (selected) {
-                        scope.selection = scope.entries.slice();
                         return;
                     }
-                    scope.selection = [];
-                };
+                    if (selection === '[]'){
+                        scope.selected = false;
+                        element.find('input').prop('indeterminate', false);
+                        return;
+                    }
+                    if (selection !== '[]' && selection !== entries){
+                        scope.selected = false;
+                        element.find('input').prop('indeterminate', true);
+                        return;
+                    }
+                });
             }
         };
     }
