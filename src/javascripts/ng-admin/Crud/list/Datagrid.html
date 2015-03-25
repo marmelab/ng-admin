@@ -1,7 +1,7 @@
 <table class="grid table table-condensed table-hover table-striped">
     <thead>
         <tr>
-            <th>
+            <th ng-if="selection">
                 <ma-datagrid-multi-selector toggle-select-all="toggleSelectAll()" selection="selection" entries="entries"/>
             </th>
             <th ng-repeat="field in fields() track by $index" ng-class="'ng-admin-column-' + field.name()">
@@ -19,7 +19,7 @@
 
     <tbody>
         <tr ng-repeat="entry in entries track by $index">
-            <td>
+            <td ng-if="selection">
                 <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
             <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)">

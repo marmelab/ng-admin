@@ -9,6 +9,7 @@ class ListView extends View {
         this._infinitePagination = false;
         this._listActions = [];
         this._filters = [];
+        this._selectable = false;
 
         this._sortField = 'id';
         this._sortDir = 'DESC';
@@ -83,6 +84,16 @@ class ListView extends View {
         }
 
         this._listActions = actions;
+
+        return this;
+    }
+
+    selectable(enabled) {
+        if (!arguments.length) {
+            return this._selectable;
+        }
+
+        this._selectable = enabled;
 
         return this;
     }
