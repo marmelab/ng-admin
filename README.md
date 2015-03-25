@@ -314,6 +314,12 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
                    '<my-custom-directive entry="entry"></my-custom-directive>';
     listView.listActions(template);
 
+* `selectable(boolean)`
+Enable selection of entry in list.
+The selection can be passed to custom listActions:
+```
+listView.listActions(<my-custom-directive entry="entry" selection="selection"></my-custom-directive>);
+```
 ## Fields
 
 A field is the representation of a property of an entity. 
