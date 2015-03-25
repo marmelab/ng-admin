@@ -1,4 +1,4 @@
-/*global define,angular,inject,describe,it,expect,beforeEach,module*/
+/*global define,describe,it,expect,beforeEach*/
 
 define(function (require) {
     'use strict';
@@ -20,7 +20,8 @@ define(function (require) {
                 entity: function () {
                     return new Entity('my_entity');
                 },
-                entries: entries
+                entries: entries,
+                selection: []
             }, {
                 search: function () {
                     return {};

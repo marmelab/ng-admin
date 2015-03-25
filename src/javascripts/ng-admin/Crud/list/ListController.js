@@ -27,6 +27,7 @@ define(function () {
         this.infinitePagination = this.view.infinitePagination();
         this.nextPageCallback = this.nextPage.bind(this);
         this.setPageCallback = this.setPage.bind(this);
+        this.selection = [];
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

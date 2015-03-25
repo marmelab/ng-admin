@@ -1,6 +1,6 @@
 <div class="row list-header">
     <div class="col-lg-12">
-        <ma-view-actions override="listController.actions" entity="listController.entity">
+        <ma-view-actions override="listController.actions" selection="listController.selection" entity="listController.entity">
             <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
         </ma-view-actions>
 
@@ -19,6 +19,7 @@
     <div class="col-lg-12">
         <ma-datagrid name="{{ listController.view.name() }}"
                   entries="listController.entries"
+                  selection="listController.selection"
                   fields="::listController.fields"
                   list-actions="::listController.listActions"
                   entity="::listController.entity">
