@@ -16,6 +16,7 @@ define(function () {
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
+        this.batchActions = view.batchActions();
         this.loadingPage = false;
         this.filters = this.$filter('orderElement')(view.filters());
         this.hasFilters = Object.keys(this.filters).length > 0;
@@ -27,7 +28,7 @@ define(function () {
         this.infinitePagination = this.view.infinitePagination();
         this.nextPageCallback = this.nextPage.bind(this);
         this.setPageCallback = this.setPage.bind(this);
-        this.selection = view.selectable() ? [] : null;
+        this.selection = this.batchActions.length ? [] : null;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

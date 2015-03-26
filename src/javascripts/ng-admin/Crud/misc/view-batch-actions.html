@@ -1,0 +1,15 @@
+<span class="btn-group">
+    <button type="button" ng-disabled="!selection.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        {{ selection.length }} Selected <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="button in buttons" ng-switch="button">
+            <span ng-switch-when="delete">
+                <a>Delete<a/>
+            </span>
+            <span ng-switch-default>
+                <span compile="button"></span>
+            </span>
+        </li>
+    </ul>
+</span>

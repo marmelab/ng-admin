@@ -77,6 +77,7 @@ define(function (require) {
     CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
 
     CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
+    CrudModule.directive('maViewBatchActions', require('ng-admin/Crud/misc/ViewBatchActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
 
     CrudModule.config(require('ng-admin/Crud/routing'));

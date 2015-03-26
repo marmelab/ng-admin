@@ -4,6 +4,7 @@
             <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
         </ma-view-actions>
 
+        <ma-view-batch-actions ng-if="listController.selection" buttons="listController.batchActions" selection="listController.selection"></ma-view-batch-actions>
         <div class="page-header">
             <h1 compile="listController.title">
                 {{ listController.view.entity.name() | humanize | pluralize }} list
