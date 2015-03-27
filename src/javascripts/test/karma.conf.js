@@ -30,6 +30,7 @@ module.exports = function (config) {
             {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
 
             // Test files
+            {pattern: 'test/function.bind.shim.js', included: true},
             {pattern: 'test/mock/*.js', included: false},
             {pattern: 'test/unit/**/**/*.js', included: false},
 
