@@ -14,7 +14,7 @@ class ListView extends View {
         this._sortDir = 'DESC';
     }
 
-    perPage(perPage) {
+    perPage() {
         if (!arguments.length) return this._perPage;
         this._perPage = arguments[0];
         return this;
