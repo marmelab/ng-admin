@@ -48,5 +48,22 @@ define(function (require) {
                     .then(done, done.fail);
             });
         });
+
+        describe("batchDelete", function () {
+            it('should DELETE entities when calling batchEntities', function () {
+                var deleteQueries = new DeleteQueries({all: function (promises) {
+                    return promises;
+                }}, Restangular, config);
+                spyOn(Restangular, 'oneUrl').and.callThrough();
+                spyOn(Restangular, 'customDELETE').and.callThrough();
+
+                var promises = deleteQueries.batchDelete(view, [1, 2]);
+                expect(promises.length).toBe(2);
+                expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/1');
+                expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/2');
+                expect(Restangular.customDELETE).toHaveBeenCalledWith();
+                expect(Restangular.customDELETE).toHaveBeenCalledWith();
+            });
+        });
     });
 });
