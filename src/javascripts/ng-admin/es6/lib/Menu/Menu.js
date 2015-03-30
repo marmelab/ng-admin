@@ -1,7 +1,13 @@
+import Entity from '../Entity/Entity'
+
+function alwaysFalse() {
+    return false;
+}
+
 class Menu {
     constructor() {
         this._link = null;
-        this._activeFunc = () => false;
+        this._activeFunc = alwaysFalse;
         this._title = null;
         this._icon = null;
         this._children = [];
@@ -23,7 +29,9 @@ class Menu {
     link() {
         if (arguments.length) {
             this._link = arguments[0];
-            this._activeFunc = (url) => url.indexOf(this._link) === 0;
+            if (this._activeFunc == alwaysFalse) {
+                this._activeFunc = (url) => url.indexOf(this._link) === 0;
+            }
             return this;
         }
         return this._link;
@@ -77,6 +85,15 @@ class Menu {
         return this._template;
     }
 
+    static fromEntity(entity) {
+        if (!(entity instanceof Entity)) {
+            throw new Error('fromEntity() only accepts an Entity parameter');
+        }
+        let menu = new Menu();
+        menu.title(entity.label());
+        menu.link(`/list/${entity.name()}`);
+        return menu;
+    }
 }
 
 export default Menu;

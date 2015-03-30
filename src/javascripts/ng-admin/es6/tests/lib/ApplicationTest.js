@@ -35,4 +35,32 @@ describe('Application', function() {
             assert.equal("New layout", application.layout);
         })
     });
+
+    describe('buildMenuFromEntities', () => {
+        it('should create a menu based on the entity list', () => {
+            let application = new Application();
+            application
+                .addEntity(new Entity('post'))
+                .addEntity(new Entity('comment'));
+            application.buildMenuFromEntities();
+            let menu = application.menu();
+            assert.equal(2, menu.children().length);
+            let [menu1, menu2] = menu.children();
+            assert.equal('Post', menu1.title());
+            assert.equal('Comment', menu2.title());
+        });
+        it('should use the entity order when provided', () => {
+            let application = new Application();
+            application
+                .addEntity(new Entity('p1').order(2))
+                .addEntity(new Entity('p2').order(1))
+                .addEntity(new Entity('p3').order(3));
+            application.buildMenuFromEntities();
+            let menu = application.menu();
+            let [menu1, menu2, menu3] = menu.children();
+            assert.equal('P2', menu1.title());
+            assert.equal('P1', menu2.title());
+            assert.equal('P3', menu3.title());
+        });
+    })
 });

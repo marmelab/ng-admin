@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 
 import Menu from "../../../lib/Menu/Menu";
+import Entity from "../../../lib/Entity/Entity";
 
 describe('Menu', () => {
 
@@ -69,6 +70,18 @@ describe('Menu', () => {
     describe('template', () => {
         it('should return null by default', () => assert.isNull(new Menu().template()));
         it('should set the template', () => assert.equal('foo', new Menu().template('foo').template()))
+    });
+
+    describe('fromEntity', () => {
+        it('should fail if passed anything else than an Entity', () => {
+            assert.throw(() => Menu.fromEntity('foo'), 'fromEntity() only accepts an Entity parameter')
+        });
+        it('should set label according to Entity', () => {
+            assert.equal('Comments', Menu.fromEntity(new Entity('comments')).title());
+        });
+        it('should set link according to entity', () => {
+            assert.equal('/list/comments', Menu.fromEntity(new Entity('comments')).link());
+        });
     });
 
 });

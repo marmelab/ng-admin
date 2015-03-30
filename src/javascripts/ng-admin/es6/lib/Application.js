@@ -1,8 +1,11 @@
+import Menu from './Menu/Menu';
+
 class Application {
     constructor(title) {
         this._baseApiUrl = null;
         this._customTemplate = function(viewName) {};
         this._title = title;
+        this._menu = null;
         this._layout = false;
         this._entities = [];
         this._errorMessage = this.defaultErrorMessage;
@@ -57,6 +60,21 @@ class Application {
         if (!arguments.length) return this._title;
         this._title = title;
         return this;
+    }
+
+    menu(menu) {
+        if (!arguments.length) return this._menu;
+        this._menu = menu;
+        return this;
+    }
+
+    buildMenuFromEntities() {
+        this._menu = new Menu().children(
+            this.entities
+            .map((e) => e) // get a copy of the array to avoid sorting inner property
+            .sort((e1, e2) => e1.order() - e2.order())
+            .map((entity) => Menu.fromEntity(entity))
+        );
     }
 
     customTemplate(customTemplate) {
