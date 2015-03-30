@@ -17,9 +17,9 @@ define(function () {
                 };
             },
             template:
-'<a ng-click="gotoBatchDelete()">' +
+'<span ng-click="gotoBatchDelete()">' +
     '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete' +
-'</a>'
+'</span>'
 
         };
     }
