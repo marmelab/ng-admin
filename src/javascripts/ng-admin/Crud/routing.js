@@ -7,7 +7,8 @@ define(function (require) {
         showTemplate = require('text!./show/show.html'),
         createTemplate = require('text!./form/create.html'),
         editTemplate = require('text!./form/edit.html'),
-        deleteTemplate = require('text!./delete/delete.html');
+        deleteTemplate = require('text!./delete/delete.html'),
+        batchDeleteTemplate = require('text!./batchDelete/batchDelete.html');
 
     function templateProvider(viewName, defaultView) {
         return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
@@ -166,6 +167,25 @@ define(function (require) {
                     }],
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
+                    }]
+                }
+            });
+
+        $stateProvider
+            .state('batchDelete', {
+                parent: 'main',
+                url: '/batch-delete/:entity/:ids',
+                controller: 'BatchDeleteController',
+                controllerAs: 'batchDeleteController',
+                templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),
+                params: {
+                    entity: {},
+                    selection: [],
+                },
+                resolve: {
+                    view: viewProvider('BatchDeleteView'),
+                    params: ['$stateParams', function ($stateParams) {
+                        return $stateParams;
                     }]
                 }
             });
