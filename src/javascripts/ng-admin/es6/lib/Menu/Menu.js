@@ -30,7 +30,7 @@ class Menu {
         if (arguments.length) {
             this._link = arguments[0];
             if (this._activeFunc == alwaysFalse) {
-                this._activeFunc = (url) => url.indexOf(this._link) === 0;
+                this._activeFunc = url => url.indexOf(this._link) === 0;
             }
             return this;
         }
@@ -59,6 +59,10 @@ class Menu {
 
     hasChild() {
         return this._children.length > 0;
+    }
+
+    getChildByTitle(title) {
+        return this.children().filter(child => child.title() == title).pop();
     }
 
     children() {
@@ -92,6 +96,8 @@ class Menu {
         let menu = new Menu();
         menu.title(entity.label());
         menu.link(`/list/${entity.name()}`);
+        // deprecated
+        menu.icon(entity.menuView().icon());
         return menu;
     }
 }

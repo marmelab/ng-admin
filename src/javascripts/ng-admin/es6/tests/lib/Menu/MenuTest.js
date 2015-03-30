@@ -62,6 +62,20 @@ describe('Menu', () => {
         });
     });
 
+    describe('getChildByTitle', () => {
+        it('should return undefined when no child', () => {
+            assert.isUndefined(new Menu().getChildByTitle('foo'));
+        });
+        it('should return the first matching Menu', () => {
+            let menu = new Menu();
+            let fooMenu = new Menu().title('Foo');
+            menu
+                .addChild(fooMenu)
+                .addChild(new Menu().title('Bar'));
+            assert.deepEqual(fooMenu, menu.getChildByTitle('Foo'));
+        })
+    });
+
     describe('icon', () => {
         it('should return null by default', () => assert.isNull(new Menu().icon()));
         it('should set the icon', () => assert.equal('foo', new Menu().icon('foo').icon()))
@@ -81,6 +95,11 @@ describe('Menu', () => {
         });
         it('should set link according to entity', () => {
             assert.equal('/list/comments', Menu.fromEntity(new Entity('comments')).link());
+        });
+        it('should set icon according to MenuView', () => {
+            let entity = new Entity('comments');
+            entity.menuView().icon('<foo>');
+            assert.equal('<foo>', Menu.fromEntity(entity).icon());
         });
     });
 
