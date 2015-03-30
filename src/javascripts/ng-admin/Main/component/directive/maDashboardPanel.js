@@ -18,7 +18,7 @@ define(function (require) {
             },
             link: function(scope) {
                 scope.gotoList = function () {
-                    $location.path('/list/' + scope.entity().name());
+                    $location.path(scope.entity().name() + '/list/');
                 };
             },
             template: dashboardPanelView

@@ -3,7 +3,7 @@ describe('Pagination', function () {
     'use strict';
 
     beforeEach(function() {
-        browser.get(browser.baseUrl + '#/list/comments');
+        browser.get(browser.baseUrl + '#/comments/list');
     });
 
     describe('informations', function() {

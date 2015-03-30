@@ -4,7 +4,7 @@ describe('Reference fields', function () {
 
     describe('in ShowView', function () {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/show/posts/1');
+            browser.get(browser.baseUrl + '#/posts/show/1');
         });
 
         it('should display ReferencedList as a datagrid', function () {
@@ -19,7 +19,7 @@ describe('Reference fields', function () {
 
     describe('in ListView', function () {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/show/posts/1');
+            browser.get(browser.baseUrl + '#/posts/show/1');
         });
 
         it('should display ReferencedList as a datagrid', function () {

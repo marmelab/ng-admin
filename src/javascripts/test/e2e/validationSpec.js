@@ -4,7 +4,7 @@ describe('Form validation', function () {
 
     describe('Creation Form', function () {
         beforeEach(function () {
-            browser.get(browser.baseUrl + '#/create/posts');
+            browser.get(browser.baseUrl + '#/posts/create');
         });
 
         it('should not display any validation status before entering data', function () {
@@ -24,7 +24,7 @@ describe('Form validation', function () {
 
     describe('Edition Form', function() {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/edit/posts/1');
+            browser.get(browser.baseUrl + '#/posts/edit/1');
         });
 
         it('should not display any validation status before entering data', function () {

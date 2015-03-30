@@ -39,7 +39,7 @@ define(function (require) {
      * @param {Entry} entry
      */
     DashboardController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.entityName + '/' + entry.identifierValue);
+        this.$location.path(entry.entityName + '/edit/' + entry.identifierValue);
     };
 
     DashboardController.prototype.destroy = function () {

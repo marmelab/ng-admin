@@ -26,7 +26,7 @@ define(function () {
         var location = this.$location.url().split('?')[0],
             urlParts = location.split('/');
 
-        this.currentEntity = urlParts && urlParts.length > 2 ? urlParts[2] : null;
+        this.currentEntity = urlParts && urlParts.length > 1 ? urlParts[1] : null;
     };
 
     SidebarController.prototype.displayList = function (entity) {
@@ -35,7 +35,7 @@ define(function () {
         this.$location.search('sortField', null);
         this.$location.search('sortOrder', null);
         this.$location.search('search', null);
-        this.$location.path('/list/' + entity.name());
+        this.$location.path(entity.name() + '/list');
     };
 
     SidebarController.prototype.isActive = function (entity) {

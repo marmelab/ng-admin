@@ -3,16 +3,16 @@
 define(function () {
     'use strict';
 
-    function maCreateButtonDirective($location) {
+    function maCreateButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
                 'entity': '&',
                 'size': '@'
             },
-            link: function ($scope) {
-                $scope.gotoCreate = function () {
-                    $location.path('/create/' + $scope.entity().name());
+            link: function (scope) {
+                scope.gotoCreate = function () {
+                    $state.go($state.get('create'), { 'entity': scope.entity().name() });
                 };
             },
             template:
@@ -22,7 +22,7 @@ define(function () {
         };
     }
 
-    maCreateButtonDirective.$inject = ['$location'];
+    maCreateButtonDirective.$inject = ['$state'];
 
     return maCreateButtonDirective;
 });

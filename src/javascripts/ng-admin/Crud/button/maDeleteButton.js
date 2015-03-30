@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maDeleteButtonDirective($location) {
+    function maDeleteButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -11,10 +11,9 @@ define(function () {
                 'entry': '&',
                 'size': '@'
             },
-            link: function ($scope) {
-                $scope.gotoDelete = function () {
-                    var entity = $scope.entity();
-                    $location.path('/delete/' + entity.name() + '/' + $scope.entry().identifierValue);
+            link: function (scope) {
+                scope.gotoDelete = function () {
+                    $state.go($state.get('delete'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
                 };
             },
             template:
@@ -25,7 +24,7 @@ define(function () {
         };
     }
 
-    maDeleteButtonDirective.$inject = ['$location'];
+    maDeleteButtonDirective.$inject = ['$state'];
 
     return maDeleteButtonDirective;
 });

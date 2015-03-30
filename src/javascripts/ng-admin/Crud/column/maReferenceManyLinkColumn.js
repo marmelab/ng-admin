@@ -19,7 +19,7 @@ define(function (require) {
                     relatedEntity = Configuration().getEntity(referenceEntity);
                 scope.gotoReference = function (referenceId) {
                     var route = relatedEntity.isReadOnly ? 'show' : 'edit';
-                    $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
+                    $location.path('/' + referenceEntity + '/' + route + '/' + referenceId);
                 };
             },
             template:
