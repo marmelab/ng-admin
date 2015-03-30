@@ -94,7 +94,13 @@ describe('Menu', () => {
             assert.equal('Comments', Menu.fromEntity(new Entity('comments')).title());
         });
         it('should set link according to entity', () => {
-            assert.equal('/list/comments', Menu.fromEntity(new Entity('comments')).link());
+            assert.equal('/comments/list', Menu.fromEntity(new Entity('comments')).link());
+        });
+        it('should set active function to entity', () => {
+            let menu = Menu.fromEntity(new Entity('comments'));
+            assert.isTrue(menu.isActive('/comments/list'));
+            assert.isTrue(menu.isActive('/comments/edit/2'));
+            assert.isFalse(menu.isActive('/posts/list'));
         });
         it('should set icon according to MenuView', () => {
             let entity = new Entity('comments');
