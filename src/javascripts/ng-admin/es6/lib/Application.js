@@ -25,12 +25,6 @@ class Application {
         return this._entities;
     }
 
-    getSortedEntities() {
-        return this.entities
-            .map(e => e) // get a copy of the array to avoid sorting inner property
-            .sort((e1, e2) => e1.order() - e2.order());
-    }
-
     getViewsOfType(type) {
         return this._entities.map(entity => entity.views[type]);
     }
@@ -75,8 +69,11 @@ class Application {
     }
 
     buildMenuFromEntities() {
-        this._menu = new Menu().children(
-            this.getSortedEntities().map(entity => Menu.fromEntity(entity))
+        return new Menu().children(
+            this.entities
+            .filter(entity => entity.menuView().enabled)
+            .sort((e1, e2) => e1.menuView().order() - e2.menuView().order())
+            .map(entity => Menu.fromEntity(entity))
         );
     }
 

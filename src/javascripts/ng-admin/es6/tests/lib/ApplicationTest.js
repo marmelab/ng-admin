@@ -42,8 +42,7 @@ describe('Application', function() {
             application
                 .addEntity(new Entity('post'))
                 .addEntity(new Entity('comment'));
-            application.buildMenuFromEntities();
-            let menu = application.menu();
+            let menu = application.buildMenuFromEntities();
             assert.equal(2, menu.children().length);
             let [menu1, menu2] = menu.children();
             assert.equal('Post', menu1.title());
@@ -55,8 +54,7 @@ describe('Application', function() {
                 .addEntity(new Entity('p1').order(2))
                 .addEntity(new Entity('p2').order(1))
                 .addEntity(new Entity('p3').order(3));
-            application.buildMenuFromEntities();
-            let menu = application.menu();
+            let menu = application.buildMenuFromEntities();
             let [menu1, menu2, menu3] = menu.children();
             assert.equal('P2', menu1.title());
             assert.equal('P1', menu2.title());

@@ -1,9 +1,0 @@
-<div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse">
-        <ul class="nav" id="side-menu">
-            <li class="entities-repeat" ng-repeat="(key, entity) in sidebarController.entities">
-                <a ng-click="sidebarController.displayList(entity, $event)" ng-class="{'active': sidebarController.isActive(entity)}"><span ng-bind-html="sidebarController.getIconForEntity(entity)"></span> {{ entity.menuView().title() || entity.label() }}</a>
-            </li>
-        </ul>
-    </div>
-</div>
