@@ -95,7 +95,7 @@ class Menu {
         }
         let menu = new Menu();
         menu.title(entity.label());
-        menu.active(path => path.indexOf(`/${entity.name()}/`) === 0);
+        menu.active(path => path.indexOf(`/${entity.name()}/`) === 0 );
         menu.link(`/${entity.name()}/list`);
         // deprecated
         menu.icon(entity.menuView().icon());

@@ -1,8 +1,8 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
-            <li class="entities-repeat" ng-repeat="(key, menu) in menu.children()">
-                <a ng-click="gotoLink(menu.link())" ng-class="{'active': menu.isActive(path)}"><span ng-bind-html="menu.icon()"></span> {{ menu.title() }}</a>
+            <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()">
+                <a ng-click="gotoLink(menu.link())" ng-class="::{'active': menu.isActive(path)}"><span ng-bind-html="::menu.icon()"></span> {{ menu.title() }}</a>
             </li>
         </ul>
     </div>
