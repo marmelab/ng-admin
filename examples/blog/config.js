@@ -241,7 +241,9 @@
             .addChild(nga.menu(post).icon('<span class="glyphicon glyphicon-file"></span>')) // customize the entity menu icon
             .addChild(nga.menu(comment).icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>')) // you can even use utf-8 symbols!
             .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
-            .addChild(nga.menu().title('Stats').link('/stats'))
+            .addChild(nga.menu().title('Other')
+                .addChild(nga.menu().title('Stats').icon('').link('/stats'))
+            )
         );
 
         nga.configure(admin);

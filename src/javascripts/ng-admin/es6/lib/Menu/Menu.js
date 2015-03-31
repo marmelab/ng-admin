@@ -49,6 +49,10 @@ class Menu {
         return this._activeFunc(url);
     }
 
+    isChildActive(url) {
+        return this.isActive(url) || (this.children().filter(menu => menu.isChildActive(url)).length > 0);
+    }
+
     addChild(child) {
         if (!(child instanceof Menu)) {
             throw new Error('Only Menu instances are accepted as children of a Menu');
