@@ -19,6 +19,8 @@ import TemplateField from "./Field/TemplateField";
 import TextField from "./Field/TextField";
 import WysiwygField from "./Field/WysiwygField";
 
+import Menu from './Menu/Menu';
+
 class Factory {
     constructor() {
         this._fieldTypes = [];
@@ -48,6 +50,14 @@ class Factory {
 
     getFieldConstructor(name) {
         return this._fieldTypes[name];
+    }
+
+    menu(entity) {
+        let menu = new Menu();
+        if (entity) {
+            menu.populateFromEntity(entity);
+        }
+        return menu;
     }
 
     _init() {

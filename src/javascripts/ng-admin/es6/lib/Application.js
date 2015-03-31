@@ -73,7 +73,7 @@ class Application {
             this.entities
             .filter(entity => entity.menuView().enabled)
             .sort((e1, e2) => e1.menuView().order() - e2.menuView().order())
-            .map(entity => Menu.fromEntity(entity))
+            .map(entity => new Menu().populateFromEntity(entity))
         );
     }
 

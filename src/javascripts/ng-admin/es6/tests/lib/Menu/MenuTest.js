@@ -10,9 +10,9 @@ describe('Menu', () => {
             var menu = new Menu();
             assert.isNull(menu.link());
             assert.isNull(menu.title());
-            assert.isNull(menu.icon());
+            assert.isFalse(menu.icon());
             assert.deepEqual([], menu.children());
-            assert.isNull(menu.template());
+            assert.isFalse(menu.template());
         })
     });
 
@@ -77,27 +77,27 @@ describe('Menu', () => {
     });
 
     describe('icon', () => {
-        it('should return null by default', () => assert.isNull(new Menu().icon()));
+        it('should return false by default', () => assert.isFalse(new Menu().icon()));
         it('should set the icon', () => assert.equal('foo', new Menu().icon('foo').icon()))
     });
 
     describe('template', () => {
-        it('should return null by default', () => assert.isNull(new Menu().template()));
+        it('should return false by default', () => assert.isFalse(new Menu().template()));
         it('should set the template', () => assert.equal('foo', new Menu().template('foo').template()))
     });
 
-    describe('fromEntity', () => {
+    describe('populateFromEntity', () => {
         it('should fail if passed anything else than an Entity', () => {
-            assert.throw(() => Menu.fromEntity('foo'), 'fromEntity() only accepts an Entity parameter')
+            assert.throw(() => new Menu().populateFromEntity('foo'), 'populateFromEntity() only accepts an Entity parameter')
         });
         it('should set label according to Entity', () => {
-            assert.equal('Comments', Menu.fromEntity(new Entity('comments')).title());
+            assert.equal('Comments', new Menu().populateFromEntity(new Entity('comments')).title());
         });
         it('should set link according to entity', () => {
-            assert.equal('/comments/list', Menu.fromEntity(new Entity('comments')).link());
+            assert.equal('/comments/list', new Menu().populateFromEntity(new Entity('comments')).link());
         });
         it('should set active function to entity', () => {
-            let menu = Menu.fromEntity(new Entity('comments'));
+            let menu = new Menu().populateFromEntity(new Entity('comments'));
             assert.isTrue(menu.isActive('/comments/list'));
             assert.isTrue(menu.isActive('/comments/edit/2'));
             assert.isFalse(menu.isActive('/posts/list'));
@@ -105,7 +105,7 @@ describe('Menu', () => {
         it('should set icon according to MenuView', () => {
             let entity = new Entity('comments');
             entity.menuView().icon('<foo>');
-            assert.equal('<foo>', Menu.fromEntity(entity).icon());
+            assert.equal('<foo>', new Menu().populateFromEntity(entity).icon());
         });
     });
 

@@ -9,9 +9,9 @@ class Menu {
         this._link = null;
         this._activeFunc = alwaysFalse;
         this._title = null;
-        this._icon = null;
+        this._icon = false;
         this._children = [];
-        this._template = null;
+        this._template = false;
     }
 
     title() {
@@ -89,17 +89,16 @@ class Menu {
         return this._template;
     }
 
-    static fromEntity(entity) {
+    populateFromEntity(entity) {
         if (!(entity instanceof Entity)) {
-            throw new Error('fromEntity() only accepts an Entity parameter');
+            throw new Error('populateFromEntity() only accepts an Entity parameter');
         }
-        let menu = new Menu();
-        menu.title(entity.label());
-        menu.active(path => path.indexOf(`/${entity.name()}/`) === 0 );
-        menu.link(`/${entity.name()}/list`);
+        this.title(entity.label());
+        this.active(path => path.indexOf(`/${entity.name()}/`) === 0 );
+        this.link(`/${entity.name()}/list`);
         // deprecated
-        menu.icon(entity.menuView().icon());
-        return menu;
+        this.icon(entity.menuView().icon());
+        return this;
     }
 }
 

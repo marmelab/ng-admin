@@ -48,17 +48,21 @@ describe('Application', function() {
             assert.equal('Post', menu1.title());
             assert.equal('Comment', menu2.title());
         });
-        it('should use the entity order when provided', () => {
+        it('should use the menuView order when provided', () => {
             let application = new Application();
+            let [e1, e2, e3] = [new Entity('e1'), new Entity('e2'), new Entity('e3')];
+            e1.menuView().order(2);
+            e2.menuView().order(1);
+            e3.menuView().order(3);
             application
-                .addEntity(new Entity('p1').order(2))
-                .addEntity(new Entity('p2').order(1))
-                .addEntity(new Entity('p3').order(3));
+                .addEntity(e1)
+                .addEntity(e2)
+                .addEntity(e3);
             let menu = application.buildMenuFromEntities();
             let [menu1, menu2, menu3] = menu.children();
-            assert.equal('P2', menu1.title());
-            assert.equal('P1', menu2.title());
-            assert.equal('P3', menu3.title());
+            assert.equal('E2', menu1.title());
+            assert.equal('E1', menu2.title());
+            assert.equal('E3', menu3.title());
         });
     })
 });
