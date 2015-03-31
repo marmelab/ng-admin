@@ -1,5 +1,5 @@
-<span class="btn-group">
-    <button type="button" ng-disabled="!selection.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+<span class="btn-group" dropdown is-open="isopen">
+    <button type="button" ng-disabled="!selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
         {{ selection.length }} Selected <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">

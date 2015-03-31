@@ -18,6 +18,15 @@ define(function (require) {
             },
             template: viewActionsTemplate,
             link: function(scope) {
+
+                scope.isopen = false;
+
+                scope.toggleDropdown = function($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    scope.isopen = !scope.isopen;
+                };
+
                 scope.buttons = scope.buttons();
                 if (typeof scope.buttons === 'string') {
                     scope.customTemplate = scope.buttons;
