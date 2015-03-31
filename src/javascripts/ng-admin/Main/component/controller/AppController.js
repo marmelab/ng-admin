@@ -13,11 +13,7 @@ define(function () {
     var AppController = function ($scope, $location, Configuration) {
         this.$scope = $scope;
         this.$location = $location;
-        var menu = Configuration().menu();
-        if (!menu) {
-            menu = Configuration().buildMenuFromEntities();
-        }
-        this.menu = menu;
+        this.menu = Configuration().menu();
         this.applicationName = Configuration().title();
 
         $scope.$on('$destroy', this.destroy.bind(this));

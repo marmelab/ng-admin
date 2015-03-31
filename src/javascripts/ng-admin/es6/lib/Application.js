@@ -62,8 +62,31 @@ class Application {
         return this;
     }
 
+    /**
+     * Getter/Setter for the main application menu
+     *
+     * If the getter is called first, it will return a menu based on entities.
+     *
+     *     application.addEntity(new Entity('posts'));
+     *     application.addEntity(new Entity('comments'));
+     *     application.menu(); // Menu { children: [ Menu { title: "Posts" }, Menu { title: "Comments" } ]}
+     *
+     * If the setter is called first, all subsequent calls to the getter will return the set menu.
+     *
+     *     application.addEntity(new Entity('posts'));
+     *     application.addEntity(new Entity('comments'));
+     *     application.menu(new Menu().addChild(new Menu().title('Foo')));
+     *     application.menu(); // Menu { children: [ Menu { title: "Foo" } ]}
+     *
+     * @see Menu
+     */
     menu(menu) {
-        if (!arguments.length) return this._menu;
+        if (!arguments.length) {
+            if (!this._menu) {
+                this._menu = this.buildMenuFromEntities();
+            }
+            return this._menu
+        };
         this._menu = menu;
         return this;
     }
