@@ -160,22 +160,37 @@ define(function (require) {
         }
 
         // Fill all reference entries
-        return this.$q.all(calls)
+        return this.PromisesResolver.allEvenFailed(calls)
             .then(function (responses) {
+                if (responses.length === 0) {
+                    return references;
+                }
                 i = 0;
+                var response;
 
                 for (j in references) {
+
                     reference = references[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
-                        references[j].entries = reference.getReferencedView().mapEntries(responses[i++].data);
+                        response = responses[i++];
+                        if (response.status == 'error') {
+                            // the response failed
+                            continue;
+                        }
+                        references[j].entries = reference.getReferencedView().mapEntries(response.result.data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
                         for (k in identifiers) {
-                            entries.push(responses[i++]);
+                            response = responses[i++];
+                            if (response.status == 'error') {
+                                // one of the responses failed
+                                continue;
+                            }
+                            entries.push(response.result);
                         }
 
                         // Entry are already mapped by getOne
@@ -287,7 +302,7 @@ define(function (require) {
         return entry;
     };
 
-    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration'];
+    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return RetrieveQueries;
 });
