@@ -19,7 +19,7 @@ describe('Global filter', function () {
         // Filter globally for 'rabbit'
         $$('.filters .filter:nth-child(1) input').sendKeys('rabbit');
         $$('.filters button[type="submit"]').click();
-        $$('.grid tr td:nth-child(3)').then(function (tdElements) {
+        $$('.grid tr td:nth-child(4)').then(function (tdElements) {
             expect(tdElements.length).toBe(1);
             expect(tdElements[0].getText()).toBe('White Rabbit: it was indeed: she was out of the gr...');
         });
@@ -55,7 +55,7 @@ describe('Global filter', function () {
         // Filter on post_id '3'
         $$('.filters .filter select option[value="3"]').click();
         $$('.filters button[type="submit"]').click();
-        $$('.grid tr td:nth-child(3)').then(function (tdElements) {
+        $$('.grid tr td:nth-child(4)').then(function (tdElements) {
             expect(tdElements.length).toBe(2);
             expect(tdElements[0].getText()).toBe('I\'d been the whiting,\' said the Hatter, it woke up...');
             expect(tdElements[1].getText()).toBe('I\'m not Ada,\' she said, \'and see whether it\'s mark...');
