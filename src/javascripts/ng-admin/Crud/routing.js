@@ -174,7 +174,7 @@ define(function (require) {
         $stateProvider
             .state('batchDelete', {
                 parent: 'main',
-                url: '/batch-delete/:entity/{ids:json}',
+                url: '/:entity/batch-delete/{ids:json}',
                 controller: 'BatchDeleteController',
                 controllerAs: 'batchDeleteController',
                 templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),
