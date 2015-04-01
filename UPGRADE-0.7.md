@@ -64,9 +64,9 @@ However, if the default menu doesn't suit you, it is recommended to build the me
 
 ```js
 admin.menu(nga.menu()
-  .addChild(nga.Menu(post))
-  .addChild(nga.Menu(comment).title('Comments'))
-  .addChild(nga.Menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
+  .addChild(nga.menu(post))
+  .addChild(nga.menu(comment).title('Comments'))
+  .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
 );
 ```
 

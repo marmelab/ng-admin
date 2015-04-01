@@ -13,6 +13,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Example Configuration](#example-configuration)
 * [Entity Configuration](#entity-configuration)
 * [View Configuration](#view-configuration)
+* [Menu Configuration](#menu-configuration)
 * [Reusable Directives](#reusable-directives)
 * [Relationships](#relationships)
 * [Customizing the API Mapping](doc/API-mapping.md)
@@ -93,9 +94,6 @@ app.config(function (NgAdminConfigurationProvider) {
     app.addEntity(post);
 
     // customize entities and views
-
-    post.menuView()
-        .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
 
     post.dashboardView() // customize the dashboard panel for this entity
         .title('Recent posts')
@@ -201,7 +199,7 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 
 ### View Types
 
-Each entity has 7 views that you can customize:
+Each entity has 6 views that you can customize:
 
 - `listView`
 - `creationView`
@@ -209,7 +207,6 @@ Each entity has 7 views that you can customize:
 - `showView` (unused by default)
 - `deletionView`
 - `dashboardView`: another special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
-- `menuView`: another special view to define the appearance of the entity menu in the sidebar
 
 ### General View Settings
 
@@ -266,19 +263,6 @@ Set the number of items.
 
 * `order(Number)`
 Define the order of the Dashboard panel for this entity in the dashboard
-
-### menuView Settings
-
-* `icon(String)`
-Override the default icon for the Entity in the sidebar menu. You can use any of Bootstrap's Gmyphicons, or any HTML markup that fits your need.
-
-        post.menuView().icon('<span class="glyphicon glyphicon-file"></span>');
-
-* `order(Integer)`
-Set the menu position in the sidebar. By default, Entities appear in the order in which they were added to the application.
-
-* `disable()`
-Hide the entity from the sidebar.
 
 ### listView Settings
 
@@ -452,6 +436,63 @@ Enable removal of all HTML tags - only the text is kept. Useful for displaying r
 
 * `sanitize(boolean)`
 Enable HTML sanitization of WYSIWYG Editor value (removal of script tags, etc). True by default.
+
+## Menu Configuration
+
+By default, ng-admin creates a sidebar menu with one entry per entity. If you want to customize this menu (labels, icons, order, adding submenus, etc), you have to define it manually instead.
+
+The sidebar menu is built based on a `Menu` object, constructed with `nga.menu()`. A menu can have child menus. A menu can be constructed based on an entity. Here is the code to create a basic menu for the entities `post`, `comment`, and `tag`:
+
+```js
+admin.menu(nga.menu()
+  .addChild(nga.menu(post))
+  .addChild(nga.menu(comment))
+  .addChild(nga.menu(tag)))
+);
+```
+
+The menus appear in the order in which they were added to the main menu. The `Menu` class offers `icon()`, `title()`, and `template()` methods to customize how the menu renders.
+
+```js
+admin.menu(nga.menu()
+  .addChild(nga.menu(post))
+  .addChild(nga.menu(comment).title('Comments'))
+  .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
+);
+```
+
+You can also choose to define a menu from scratch. In this case, you should define the internal state the menu points to using `link()`, and the function to determine whether the menu is active based on the current state with `active()`.
+
+```js
+admin.menu(nga.menu()
+    .addChild(nga.menu()
+        .title('Stats')
+        .link('/stats')
+        .active(function(path) {
+            return path.indexOf('/stats') === 0;
+        })
+    )
+);
+```
+
+You can add also second-level menus.
+
+```js
+admin.menu(nga.menu()
+    .addChild(nga.menu().title('Miscellaneous')
+        .addChild(nga.menu().title('Stats').link('/stats'))
+    )
+);
+```
+
+*Tip*: `admin.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `admin.menu().getChildByTitle()`
+
+```js
+admin.addEntity(post)
+admin.menu().getChildByTitle('Post')
+    .title('Posts')
+    .icon('<span class="glyphicon glyphicon-file"></span>');
+```
 
 ## Reusable Directives
 
