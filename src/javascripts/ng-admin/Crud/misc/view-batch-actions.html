@@ -1,4 +1,4 @@
-<span class="btn-group" dropdown is-open="isopen">
+<span ng-if="selection" class="btn-group" dropdown is-open="isopen">
     <button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
         {{ selection.length }} Selected <span class="caret"></span>
     </button>

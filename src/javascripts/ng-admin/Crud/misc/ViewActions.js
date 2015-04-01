@@ -15,7 +15,8 @@ define(function (require) {
                 'override': '&',
                 'entry': '=',
                 'entity': '=',
-                'selection': '='
+                'selection': '=',
+                batchButtons: '&'
             },
             template: viewActionsTemplate,
             link: function($scope, element, attrs, controller, transcludeFn) {
