@@ -239,13 +239,13 @@ Customize the list of actions for this view. You can pass a list of button names
 
         editionView.actions(['show', 'list', 'delete']);
 
-Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to easily add custom actions, or customize the buttons appearance:
+    Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to easily add custom actions, or customize the buttons appearance:
 
-    var template = '<show-button entry="entry" entity="entity" size="sm"></show-button>' +
-                   '<delete-button entry="entry" entity="entity" size="sm"></delete-button>' +
-                   '<my-custom-directive entry="entry"></my-custom-directive>' +
-                   '<back-button></back-button>';
-    editionView.actions(template);
+        var template = '<show-button entry="entry" entity="entity" size="sm"></show-button>' +
+            '<delete-button entry="entry" entity="entity" size="sm"></delete-button>' +
+            '<my-custom-directive entry="entry"></my-custom-directive>' +
+            '<back-button></back-button>';
+        editionView.actions(template);
 
 * `disable()`
 Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
