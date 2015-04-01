@@ -10,6 +10,7 @@ class ListView extends View {
         this._listActions = [];
         this._batchActions = ['delete'];
         this._filters = [];
+        this._exportFields = [];
 
         this._sortField = 'id';
         this._sortDir = 'DESC';
@@ -94,6 +95,16 @@ class ListView extends View {
         }
 
         this._listActions = actions;
+
+        return this;
+    }
+
+    exportFields() {
+        if (!arguments.length) {
+            return this._exportFields;
+        }
+
+        this._exportFields = arguments[0];
 
         return this;
     }

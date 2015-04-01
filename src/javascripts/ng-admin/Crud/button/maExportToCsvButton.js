@@ -11,7 +11,7 @@ define(function () {
             },
             template: '<button class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>Export CSV</button>',
             link: function($scope) {
-                var formatEntry = entryFormater($scope.entity.editionView().fields());
+                var formatEntry = entryFormater($scope.entity.listView().exportFields());
 
                 $scope.exportToCsv = function () {
                     var filter = $stateParams.search;
