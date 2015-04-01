@@ -6,7 +6,7 @@
 
         <div class="page-header">
             <h1 compile="batchDeleteController.title">
-                Delete {{ batchDeleteController.selection.length }} {{ batchDeleteController.view.entity.name() | humanize | pluralize }}
+                Delete {{ batchDeleteController.entityIds.length }} {{ batchDeleteController.view.entity.name() | humanize | pluralize }}
             </h1>
         </div>
     </div>
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="row list-view" ng-class="'ng-admin-entity-' + batchDeleteController.entity.name()">
+<div ng-if="selection" class="row list-view" ng-class="'ng-admin-entity-' + batchDeleteController.entity.name()">
     <div class="col-lg-12">
         <ma-datagrid name="{{ batchDeleteController.view.name() }}"
                   entries="batchDeleteController.selection"

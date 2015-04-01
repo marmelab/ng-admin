@@ -13,7 +13,10 @@ define(function () {
             link: function ($scope) {
                 $scope.gotoBatchDelete = function () {
                     var entity = $scope.entity();
-                    $state.go('batchDelete', {selection: $scope.selection(), entity: entity.name()});
+                    var ids = $scope.selection().map(function(entry) {
+                        return entry.identifierValue
+                    });
+                    $state.go('batchDelete', { ids: ids, entity: entity.name() });
                 };
             },
             template:
