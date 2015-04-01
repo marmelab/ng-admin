@@ -91,7 +91,6 @@ define(function (require) {
             _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
             _perPage: listView.perPage()
         };
-
         if (sortField && sortField.split('.')[0] === listView.name()) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
@@ -217,6 +216,7 @@ define(function (require) {
             referencedLists = view.getReferencedLists(),
             calls = [],
             referencedList,
+            referencedView,
             filter,
             i,
             j;
@@ -225,8 +225,8 @@ define(function (require) {
             referencedList = referencedLists[i];
             filter = {};
             filter[referencedList.targetReferenceField()] = entityId;
-
-            calls.push(self.getRawValues(referencedList.getReferencedView(), 1, filter, sortField || referencedList.sortField(), sortDir || referencedList.sortDir()));
+            referencedView = referencedList.getReferencedView();
+            calls.push(self.getRawValues(referencedView, 1, filter, sortField || (referencedView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
         }
 
         return this.$q.all(calls)
