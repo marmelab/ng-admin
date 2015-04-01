@@ -1,15 +1,15 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
-            <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" compile="menu.template()">
-                <a ng-click="gotoLink(menu, $event)" ng-class="::{'active': menu.isActive(path)}">
+            <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
+                <a ng-click="gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                     <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
                     {{ menu.title() }}
-                    <span ng-if="::menu.hasChild()" class="glyphicon arrow" ng-class="::{'glyphicon-chevron-down': isOpen(menu), 'glyphicon-chevron-right': !isOpen(menu) }"></span>
+                    <span ng-if="::menu.hasChild()" class="glyphicon arrow" ng-class="::{'glyphicon-menu-down': isOpen(menu), 'glyphicon-menu-right': !isOpen(menu) }"></span>
                 </a>
-                <ul ng-if="::menu.hasChild()" class="nav nav-second-level collapse" ng-class="::{'in': isOpen(menu) }">
-                    <li ng-repeat="menu in ::menu.children()" compile="menu.template()">
-                        <a ng-click="gotoLink(menu, $event)" ng-class="::{'active': menu.isActive(path)}">
+                <ul ng-if="::menu.hasChild()" class="nav nav-second-level collapsible" ng-class="::{'collapsed': !isOpen(menu) }">
+                    <li ng-repeat="menu in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
+                        <a ng-click="gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                             <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
                             {{ menu.title() }}
                         </a>

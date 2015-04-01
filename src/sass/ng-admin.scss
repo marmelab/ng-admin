@@ -22,6 +22,17 @@ menu {
     padding: 0;
 }
 
+ul.collapsible.collapsed {
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+    overflow: hidden;
+}
+
+ul.collapsible {
+    max-height: 500px;
+    transition: max-height 0.25s ease-in;
+}
+
 [ng-click],
 [data-ng-click],
 [x-ng-click] {

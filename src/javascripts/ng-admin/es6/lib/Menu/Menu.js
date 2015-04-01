@@ -4,6 +4,8 @@ function alwaysFalse() {
     return false;
 }
 
+var uuid = 0;
+
 class Menu {
     constructor() {
         this._link = null;
@@ -12,6 +14,7 @@ class Menu {
         this._icon = false;
         this._children = [];
         this._template = false;
+        this.uuid = uuid++;
     }
 
     title() {
