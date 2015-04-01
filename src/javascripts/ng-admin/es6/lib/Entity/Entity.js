@@ -7,6 +7,7 @@ import CreateView from '../View/CreateView';
 import EditView from '../View/EditView';
 import DeleteView from '../View/DeleteView';
 import ShowView from '../View/ShowView';
+import BatchDeleteView from '../View/BatchDeleteView';
 
 class Entity {
     constructor(name) {
@@ -91,6 +92,13 @@ class Entity {
     }
 
     /**
+     * @deprecated Use .views["BatchDeleteView"] instead
+     */
+    batchDeleteView() {
+        return this._views["BatchDeleteView"];
+    }
+
+    /**
      * @deprecated Use .views["ShowView"] instead
      */
     showView() {
@@ -111,6 +119,7 @@ class Entity {
             "CreateView": new CreateView().setEntity(this),
             "EditView": new EditView().setEntity(this),
             "DeleteView": new DeleteView().setEntity(this),
+            "BatchDeleteView": new BatchDeleteView().setEntity(this),
             "ShowView": new ShowView().setEntity(this)
         };
     }
@@ -127,6 +136,7 @@ class Entity {
         this._views["CreateView"].disable();
         this._views["EditView"].disable();
         this._views["DeleteView"].disable();
+        this._views["BatchDeleteView"].disable();
 
         return this;
     }

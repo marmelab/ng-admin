@@ -18,6 +18,9 @@ define(function () {
         this.$anchorScroll = $anchorScroll;
         this.filters = {};
 
+        $scope.toggleSelect = this.toggleSelect.bind(this);
+        $scope.toggleSelectAll = this.toggleSelectAll.bind(this);
+
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
         var searchParams = this.$location.search();
@@ -92,6 +95,29 @@ define(function () {
      */
     DatagridController.prototype.getSortName = function (field) {
         return this.$scope.name + '.' + field.name();
+    };
+
+    DatagridController.prototype.toggleSelect = function (entry) {
+        var selection = this.$scope.selection.slice();
+
+        var index = selection.indexOf(entry);
+
+        if (index === -1) {
+            this.$scope.selection = selection.concat(entry);
+            return;
+        }
+        selection.splice(index, 1);
+        this.$scope.selection = selection;
+    };
+
+    DatagridController.prototype.toggleSelectAll = function () {
+
+        if (this.$scope.selection.length < this.$scope.entries.length) {
+            this.$scope.selection = this.$scope.entries;
+            return;
+        }
+
+        this.$scope.selection = [];
     };
 
     DatagridController.$inject = ['$scope', '$location', '$anchorScroll'];

@@ -8,6 +8,7 @@ class ListView extends View {
         this._perPage = 30;
         this._infinitePagination = false;
         this._listActions = [];
+        this._batchActions = ['delete'];
         this._filters = [];
 
         this._sortField = 'id';
@@ -15,14 +16,14 @@ class ListView extends View {
     }
 
     perPage() {
-        if (!arguments.length) return this._perPage;
+        if (!arguments.length) { return this._perPage; }
         this._perPage = arguments[0];
         return this;
     }
 
     /** @deprecated Use perPage instead */
     limit() {
-        if (!arguments.length) return this.perPage();
+        if (!arguments.length) { return this.perPage(); }
         return this.perPage(arguments[0]);
     }
 
@@ -59,6 +60,16 @@ class ListView extends View {
         }
 
         this._actions = actions;
+
+        return this;
+    }
+
+    batchActions(actions) {
+        if (!arguments.length) {
+            return this._batchActions;
+        }
+
+        this._batchActions = actions;
 
         return this;
     }

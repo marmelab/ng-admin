@@ -24,6 +24,7 @@ define(function (require) {
     CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
     CrudModule.controller('FormController', require('ng-admin/Crud/form/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
+    CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/delete/BatchDeleteController'));
 
     CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
     CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
@@ -52,6 +53,8 @@ define(function (require) {
     CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
     CrudModule.directive('maDatagridPagination', require('ng-admin/Crud/list/maDatagridPagination'));
     CrudModule.directive('maDatagridInfinitePagination', require('ng-admin/Crud/list/maDatagridInfinitePagination'));
+    CrudModule.directive('maDatagridItemSelector', require('ng-admin/Crud/list/maDatagridItemSelector'));
+    CrudModule.directive('maDatagridMultiSelector', require('ng-admin/Crud/list/maDatagridMultiSelector'));
     CrudModule.directive('maFilter', require('ng-admin/Crud/filter/maFilter'));
 
     CrudModule.directive('maColumn', require('ng-admin/Crud/column/maColumn'));
@@ -73,8 +76,10 @@ define(function (require) {
     CrudModule.directive('maShowButton', require('ng-admin/Crud/button/maShowButton'));
     CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
     CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
+    CrudModule.directive('maBatchDeleteButton', require('ng-admin/Crud/button/maBatchDeleteButton'));
 
     CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
+    CrudModule.directive('maViewBatchActions', require('ng-admin/Crud/misc/ViewBatchActions'));
     CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
 
     CrudModule.config(require('ng-admin/Crud/routing'));

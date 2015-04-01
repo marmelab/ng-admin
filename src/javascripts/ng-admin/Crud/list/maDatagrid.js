@@ -13,6 +13,7 @@ define(function (require) {
             scope: {
                 name: '@',
                 entries: '=',
+                selection: '=',
                 fields: '&',
                 listActions: '&',
                 entity: '&'

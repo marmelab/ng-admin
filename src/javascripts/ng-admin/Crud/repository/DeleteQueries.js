@@ -29,6 +29,24 @@ define(function (require) {
             .customDELETE();
     };
 
+    /**
+     * Delete a batch of entity
+     * Delete the data to the API
+     *
+     * @param {String} view     the formView related to the entity
+     * @param {*}      entityIds the entities ids
+     *
+     * @returns {promise}
+     */
+    DeleteQueries.prototype.batchDelete = function (view, entityIds) {
+        var self = this;
+        var promises = entityIds.map(function (id) {
+            return self.deleteOne(view, id);
+        });
+
+        return this.$q.all(promises);
+    };
+
     DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return DeleteQueries;

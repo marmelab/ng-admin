@@ -314,6 +314,24 @@ Alternately, if you pass a string, it is compiled just like an Angular template,
                    '<my-custom-directive entry="entry"></my-custom-directive>';
     listView.listActions(template);
 
+* `selectable(boolean)`
+Enable the selection column (an initial column made of checkboxes) on the list.
+
+Once the user selects lines, a button appears and displays the number of selected entries. A click on this button reveals the list of "batch actions", i.e. actions that can be performed on a selection of entries. By default, the only batch action available is a batch delete.
+
+* `batchActions(String|Array)`
+Add you own batch action directives.
+
+The scope contains a `selection` variable which contains the current selection:
+
+        listView.batchActions(['select', '<my-custom-directive selection="selection"></my-custom-directive>'])
+
+*Tip*: This `selection` variable is also in the scope of the main view actions.
+
+```js
+listView.actions('create', '<my-custom-directive selection="selection"></my-custom-directive>');
+```
+
 ## Fields
 
 A field is the representation of a property of an entity. 

@@ -13,6 +13,7 @@ describe('Entity', function() {
                 'CreateView',
                 'EditView',
                 'DeleteView',
+                'BatchDeleteView',
                 'ShowView'
             ], Object.keys(entity.views));
         });
