@@ -240,6 +240,7 @@
                     .label('Upper name')
                     .template('{{ entry.values.name.toUpperCase() }}')
             ])
+            .batchActions([]) // disable checkbox column and batch delete
             .listActions(['show']);
 
         tag.showView()
