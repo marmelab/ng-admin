@@ -1,6 +1,6 @@
 <div class="row list-header">
     <div class="col-lg-12">
-        <ma-view-actions override="listController.actions" selection="listController.selection" batchButtons="listController.batchActions" entity="listController.entity">
+        <ma-view-actions override="listController.actions" selection="listController.selection" batch-buttons="listController.batchActions" entity="listController.entity">
             <ma-view-batch-actions buttons="batchButtons()" selection="selection" entity="entity"></ma-view-batch-actions>
             <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
         </ma-view-actions>
