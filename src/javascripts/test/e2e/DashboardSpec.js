@@ -7,7 +7,7 @@ describe('Dashboard', function () {
         browser.get(browser.baseUrl);
 
         $$('.nav li').then(function (items) {
-            expect(items.length).toBe(4);
+            expect(items.length).toBe(5);
             expect(items[0].getText()).toBe('Posts');
             expect(items[1].getText()).toBe('✉ Comments');
             expect(items[2].getText()).toBe('Tags');
