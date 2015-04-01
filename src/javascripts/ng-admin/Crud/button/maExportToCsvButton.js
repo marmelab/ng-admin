@@ -14,9 +14,8 @@ define(function () {
                 var formatEntry = entryFormater($scope.entity.listView().exportFields());
 
                 $scope.exportToCsv = function () {
-                    var filter = $stateParams.search;
 
-                    RetrieveQueries.getAll($scope.entity.listView(), -1, true, filter).then(function (response) {
+                    RetrieveQueries.getAll($scope.entity.listView(), -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
                             results[i] = formatEntry(entries[i]);

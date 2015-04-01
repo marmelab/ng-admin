@@ -87,10 +87,13 @@ define(function (require) {
      * @returns {promise} the entity config & the list of objects
      */
     RetrieveQueries.prototype.getRawValues = function (listView, page, filters, sortField, sortDir) {
-        var params = {
-            _page: (typeof (page) === 'undefined') ? 1 : parseInt(page, 10),
-            _perPage: listView.perPage()
-        };
+        var params = {};
+
+        if (page !== -1 ) {
+            params._page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
+            params._perPage = listView.perPage();
+        }
+
         if (sortField && sortField.split('.')[0] === listView.name()) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
