@@ -8,7 +8,7 @@ define(function (require) {
         createTemplate = require('text!./form/create.html'),
         editTemplate = require('text!./form/edit.html'),
         deleteTemplate = require('text!./delete/delete.html'),
-        batchDeleteTemplate = require('text!./batchDelete/batchDelete.html');
+        batchDeleteTemplate = require('text!./delete/batchDelete.html');
 
     function templateProvider(viewName, defaultView) {
         return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {

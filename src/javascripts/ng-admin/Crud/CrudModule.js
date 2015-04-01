@@ -24,7 +24,7 @@ define(function (require) {
     CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
     CrudModule.controller('FormController', require('ng-admin/Crud/form/FormController'));
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
-    CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/batchDelete/BatchDeleteController'));
+    CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/delete/BatchDeleteController'));
 
     CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
     CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));

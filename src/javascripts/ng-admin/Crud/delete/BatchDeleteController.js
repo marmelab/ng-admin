@@ -3,11 +3,12 @@
 define(function () {
     'use strict';
 
-    var BatchDeleteController = function ($scope, $stateParams, $filter, $location, DeleteQueries, notification, view) {
+    var BatchDeleteController = function ($scope, $stateParams, $filter, $location, $window, DeleteQueries, notification, view) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$filter = $filter;
         this.$location = $location;
+        this.$window = $window;
         this.DeleteQueries = DeleteQueries;
         this.notification = notification;
         this.view = view;
@@ -44,7 +45,7 @@ define(function () {
     };
 
     BatchDeleteController.prototype.back = function () {
-        this.$location.path('/list/' + this.entity.name());
+        this.$window.history.back();
     };
 
     BatchDeleteController.prototype.destroy = function () {
@@ -52,10 +53,11 @@ define(function () {
         this.$stateParams = undefined;
         this.$filter = undefined;
         this.$location = undefined;
+        this.$window = undefined;
         this.DeleteQueries = undefined;
     };
 
-    BatchDeleteController.$inject = ['$scope', '$stateParams', '$filter', '$location', 'DeleteQueries', 'notification', 'view'];
+    BatchDeleteController.$inject = ['$scope', '$stateParams', '$filter', '$location', '$window', 'DeleteQueries', 'notification', 'view'];
 
     return BatchDeleteController;
 });
