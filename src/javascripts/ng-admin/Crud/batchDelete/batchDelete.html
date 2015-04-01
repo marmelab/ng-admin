@@ -6,7 +6,7 @@
 
         <div class="page-header">
             <h1 compile="batchDeleteController.title">
-                Delete {{ batchDeleteController.view.entity.name() | humanize | pluralize }}
+                Delete {{ batchDeleteController.selection.length }} {{ batchDeleteController.view.entity.name() | humanize | pluralize }}
             </h1>
         </div>
     </div>
