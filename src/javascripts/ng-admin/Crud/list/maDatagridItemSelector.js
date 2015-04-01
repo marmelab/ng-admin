@@ -11,17 +11,11 @@ define(function () {
                 selection: '=',
                 toggleSelect: '&'
             },
-            template: '<input type="checkbox" ng-click="toggle(entry)" ng-model="selected"/>',
+            template: '<input type="checkbox" ng-click="toggle(entry)" ng-checked="selection.indexOf(entry) !== -1"/>',
             link: function (scope) {
-
                 scope.toggle = function (entry) {
                     scope.toggleSelect({entry: entry});
                 };
-
-                scope.$watch('selection', function (selection) {
-                    scope.selected = selection.indexOf(scope.entry) !== -1;
-                });
-
             }
         };
     }
