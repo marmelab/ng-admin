@@ -10,7 +10,6 @@ define(function (require) {
 
         return {
             restrict: 'E',
-            transclude: true,
             scope: {
                 'entity': '=',
                 'selection': '=',
@@ -18,7 +17,6 @@ define(function (require) {
             },
             template: viewActionsTemplate,
             link: function(scope) {
-
                 scope.isopen = false;
 
                 scope.toggleDropdown = function($event) {
