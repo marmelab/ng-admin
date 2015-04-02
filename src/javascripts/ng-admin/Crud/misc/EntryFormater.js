@@ -6,12 +6,9 @@ define(function () {
     function EntryFormater() {
     }
 
-    EntryFormater.format = function format(fields) {
-        var map = [];
-        for (var attr in fields) {
-            if (!fields.hasOwnProperty(attr)) {continue;}
-            var order = fields[attr].order();
-            switch (fields[attr].type()) {
+    EntryFormater.prototype.format = function format(fields) {
+        var map = fields.map(function (field) {
+            switch (field.type()) {
                 case 'number':
                 case 'text':
                 case 'wysiwyg':
@@ -24,24 +21,23 @@ define(function () {
                 case 'choices':
                 case 'file':
                 case 'template':
-                    map[order] = {name: attr, type: 'Field'};
-                    break;
+                    return {name: field.name(), type: 'field'};
                 case 'reference':
-                    map[order] = {name: attr, type: 'Reference'};
-                    break;
+                    return {name: field.name(), type: 'reference'};
                 case 'referenced_list':
-                    break;//ignored
+                    return;//ignored
             }
-        }
+        });
 
         return function formatEntry(entry) {
             var result = {}, i, length = map.length, field;
+
             for (i = 0; i < length; i++) {
                 field = map[i];
                 if (!field) {continue;}
-                if (field.type === 'Reference') {
+                if (field.type === 'reference') {
                     result[field.name] = entry.listValues[field.name];
-                } else if (field.type === 'Field') {
+                } else if (field.type === 'field') {
                     if ('undefined' === typeof entry.values[field.name]) {continue;}
                     result[field.name] = entry.values[field.name];
                 }

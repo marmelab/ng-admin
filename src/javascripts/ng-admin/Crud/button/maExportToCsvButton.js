@@ -7,11 +7,12 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                entity: '=entity'
+                entity: '&'
             },
             template: '<button class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>Export CSV</button>',
             link: function($scope) {
-                var formatEntry = entryFormater($scope.entity.listView().exportFields());
+                $scope.entity = $scope.entity();
+                var formatEntry = entryFormater.format($scope.entity.listView().exportFields());
 
                 $scope.exportToCsv = function () {
 
@@ -34,7 +35,7 @@ define(function () {
         };
     }
 
-    maExportToCsvButton.$inject = ['Papa', '$stateParams', '$window', 'notification', 'clEntryFormater', 'RetrieveQueries'];
+    maExportToCsvButton.$inject = ['Papa', '$stateParams', '$window', 'notification', 'EntryFormater', 'RetrieveQueries'];
 
     return maExportToCsvButton;
 });

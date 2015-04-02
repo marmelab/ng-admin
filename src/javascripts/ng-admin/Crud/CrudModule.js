@@ -26,6 +26,7 @@ define(function (require) {
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
     CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/delete/BatchDeleteController'));
 
+    CrudModule.service('EntryFormater', require('ng-admin/Crud/misc/EntryFormater'));
     CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
     CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
     CrudModule.service('CreateQueries', require('ng-admin/Crud/repository/CreateQueries'));
@@ -86,8 +87,6 @@ define(function (require) {
     CrudModule.config(require('ng-admin/Crud/routing'));
     CrudModule.config(require('ng-admin/Crud/config/factories'));
     CrudModule.config(require('ng-admin/Crud/config/datePicker'));
-
-    CrudModule.service('EntryFormater', require('ng-admin/Crud/misc/EntryFormater'));
 
     CrudModule.factory('Papa', function () {
         return require('papaparse');
