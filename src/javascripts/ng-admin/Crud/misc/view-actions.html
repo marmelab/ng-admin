@@ -1,4 +1,5 @@
 <span ng-repeat="button in buttons" ng-switch="button" class="view_actions">
+    <ma-view-batch-actions ng-switch-when="batch" buttons="batchButtons()" selection="selection" entity="entity"></ma-view-batch-actions>
     <ma-back-button ng-switch-when="back"></ma-back-button>
     <ma-list-button ng-switch-when="list" entity="entity"></ma-list-button>
     <ma-create-button ng-switch-when="create" entity="entity"></ma-create-button>
