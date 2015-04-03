@@ -7,7 +7,7 @@ define(function () {
     }
 
     EntryFormatter.prototype.formatField = function formatField(field) {
-        var label = field.label() || filed.name();
+        var label = field.label() || field.name();
         switch (field.type()) {
             case 'number':
             case 'text':
