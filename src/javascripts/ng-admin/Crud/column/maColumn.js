@@ -39,7 +39,7 @@ define(function (require) {
                     this.clearRouteParams();
                     var route = scope.entity().isReadOnly ? 'show' : scope.field.detailLinkRoute();
 
-                    $location.path('/' + route + '/' + scope.entry.entityName + '/' + scope.entry.identifierValue);
+                    $location.path('/' + scope.entry.entityName + '/' + route + '/' + scope.entry.identifierValue);
                     $anchorScroll(0);
                 };
                 scope.gotoReference = function () {
@@ -48,7 +48,7 @@ define(function (require) {
                     var relatedEntity = Configuration().getEntity(referenceEntity);
                     var referenceId = scope.entry.values[scope.field.name()];
                     var route = relatedEntity.isReadOnly ? 'show' : scope.field.detailLinkRoute();
-                    $location.path('/' + route + '/' + referenceEntity + '/' + referenceId);
+                    $location.path('/' + referenceEntity + '/' + route + '/' + referenceId);
                 };
                 scope.clearRouteParams = function () {
                     $location.search('q', null);

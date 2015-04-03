@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maShowButtonDirective($location) {
+    function maShowButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -11,10 +11,9 @@ define(function () {
                 'entry': '&',
                 'size': '@'
             },
-            link: function ($scope) {
-                $scope.gotoShow = function () {
-                    var entity = $scope.entity();
-                    $location.path('/show/' + entity.name() + '/' + $scope.entry().identifierValue);
+            link: function (scope) {
+                scope.gotoShow = function () {
+                    $state.go($state.get('show'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
                 };
             },
             template:
@@ -24,7 +23,7 @@ define(function () {
         };
     }
 
-    maShowButtonDirective.$inject = ['$location'];
+    maShowButtonDirective.$inject = ['$state'];
 
     return maShowButtonDirective;
 });

@@ -62,9 +62,6 @@
 
         // customize entities and views
 
-        post.menuView()
-            .icon('<span class="glyphicon glyphicon-file"></span>'); // customize the entity menu icon
-
         post.dashboardView() // customize the dashboard panel for this entity
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
@@ -127,10 +124,6 @@
                     .label('')
                     .template('<send-email post="entry"></send-email>')
             ]);
-
-        comment.menuView()
-            .order(2) // set the menu position in the sidebar
-            .icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>'); // you can even use utf-8 symbols!
 
         comment.dashboardView()
             .title('Last comments')
@@ -213,10 +206,6 @@
         comment.deletionView()
             .title('Deletion confirmation'); // customize the deletion confirmation message
 
-        tag.menuView()
-            .order(3)
-            .icon('<span class="glyphicon glyphicon-tags"></span>');
-
         tag.dashboardView()
             .title('Recent tags')
             .order(3)
@@ -250,6 +239,15 @@
                 nga.field('name'),
                 nga.field('published', 'boolean')
             ]);
+
+        admin.menu(nga.menu()
+            .addChild(nga.menu(post).icon('<span class="glyphicon glyphicon-file"></span>')) // customize the entity menu icon
+            .addChild(nga.menu(comment).icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>')) // you can even use utf-8 symbols!
+            .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
+            .addChild(nga.menu().title('Other')
+                .addChild(nga.menu().title('Stats').icon('').link('/stats'))
+            )
+        );
 
         nga.configure(admin);
     });
@@ -317,6 +315,22 @@
             controller: sendPostController,
             controllerAs: 'controller',
             template: sendPostControllerTemplate
+        });
+    });
+
+    // custom page with menu item
+    var customPageTemplate = '<div class="row"><div class="col-lg-12">' +
+            '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
+            '<div class="page-header">' +
+                '<h1>Stats</h1>' +
+                '<p class="lead">You can add custom pages, too</p>' +
+            '</div>' +
+        '</div></div>';
+    app.config(function ($stateProvider) {
+        $stateProvider.state('stats', {
+            parent: 'main',
+            url: '/stats',
+            template: customPageTemplate
         });
     });
 

@@ -37,7 +37,7 @@ define(function (require) {
         $stateProvider
             .state('list', {
                 parent: 'main',
-                url: '/list/:entity?{search:json}&page&sortField&sortDir',
+                url: '/:entity/list?{search:json}&page&sortField&sortDir',
                 params: {
                     entity: null,
                     page: null,
@@ -67,7 +67,7 @@ define(function (require) {
         $stateProvider
             .state('show', {
                 parent: 'main',
-                url: '/show/:entity/:id?sortField&sortDir',
+                url: '/:entity/show/:id?sortField&sortDir',
                 controller: 'ShowController',
                 controllerAs: 'showController',
                 templateProvider: templateProvider('ShowView', showTemplate),
@@ -100,7 +100,7 @@ define(function (require) {
         $stateProvider
             .state('create', {
                 parent: 'main',
-                url: '/create/:entity',
+                url: '/:entity/create',
                 controller: 'FormController',
                 controllerAs: 'formController',
                 templateProvider: templateProvider('CreateView', createTemplate),
@@ -123,7 +123,7 @@ define(function (require) {
         $stateProvider
             .state('edit', {
                 parent: 'main',
-                url: '/edit/:entity/:id?sortField&sortDir',
+                url: '/:entity/edit/:id?sortField&sortDir',
                 controller: 'FormController',
                 controllerAs: 'formController',
                 templateProvider: templateProvider('EditView', editTemplate),
@@ -156,7 +156,7 @@ define(function (require) {
         $stateProvider
             .state('delete', {
                 parent: 'main',
-                url: '/delete/:entity/:id',
+                url: '/:entity/delete/:id',
                 controller: 'DeleteController',
                 controllerAs: 'deleteController',
                 templateProvider: templateProvider('DeleteView', deleteTemplate),
@@ -174,7 +174,7 @@ define(function (require) {
         $stateProvider
             .state('batchDelete', {
                 parent: 'main',
-                url: '/batch-delete/:entity/{ids:json}',
+                url: '/:entity/batch-delete/{ids:json}',
                 controller: 'BatchDeleteController',
                 controllerAs: 'batchDeleteController',
                 templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),

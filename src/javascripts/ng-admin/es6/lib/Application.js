@@ -1,8 +1,11 @@
+import Menu from './Menu/Menu';
+
 class Application {
     constructor(title) {
         this._baseApiUrl = null;
         this._customTemplate = function(viewName) {};
         this._title = title;
+        this._menu = null;
         this._layout = false;
         this._entities = [];
         this._errorMessage = this.defaultErrorMessage;
@@ -57,6 +60,44 @@ class Application {
         if (!arguments.length) return this._title;
         this._title = title;
         return this;
+    }
+
+    /**
+     * Getter/Setter for the main application menu
+     *
+     * If the getter is called first, it will return a menu based on entities.
+     *
+     *     application.addEntity(new Entity('posts'));
+     *     application.addEntity(new Entity('comments'));
+     *     application.menu(); // Menu { children: [ Menu { title: "Posts" }, Menu { title: "Comments" } ]}
+     *
+     * If the setter is called first, all subsequent calls to the getter will return the set menu.
+     *
+     *     application.addEntity(new Entity('posts'));
+     *     application.addEntity(new Entity('comments'));
+     *     application.menu(new Menu().addChild(new Menu().title('Foo')));
+     *     application.menu(); // Menu { children: [ Menu { title: "Foo" } ]}
+     *
+     * @see Menu
+     */
+    menu(menu) {
+        if (!arguments.length) {
+            if (!this._menu) {
+                this._menu = this.buildMenuFromEntities();
+            }
+            return this._menu
+        };
+        this._menu = menu;
+        return this;
+    }
+
+    buildMenuFromEntities() {
+        return new Menu().children(
+            this.entities
+            .filter(entity => entity.menuView().enabled)
+            .sort((e1, e2) => e1.menuView().order() - e2.menuView().order())
+            .map(entity => new Menu().populateFromEntity(entity))
+        );
     }
 
     customTemplate(customTemplate) {

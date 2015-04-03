@@ -27,7 +27,7 @@ define(function () {
             entityLabel = this.entityLabel;
 
         this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
-            $location.path('/list/' + entityLabel);
+            $location.path(entityLabel + '/list');
         }, function (response) {
             // @TODO: share this method when splitting controllers
             var body = response.data;
@@ -40,7 +40,7 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        this.$location.path('/edit/' + this.entityLabel + '/' + this.entityId);
+        this.$location.path(this.entityLabel + '/edit/' + this.entityId);
     };
 
     DeleteController.prototype.destroy = function () {

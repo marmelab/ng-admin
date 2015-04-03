@@ -39,6 +39,10 @@ define(function () {
         return this.adminDescription.registerFieldType(name, type);
     };
 
+    NgAdminConfiguration.prototype.menu = function(entity) {
+        return this.adminDescription.menu(entity);
+    };
+
     NgAdminConfiguration.$inject = [];
 
     return NgAdminConfiguration;

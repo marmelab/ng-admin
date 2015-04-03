@@ -9,16 +9,16 @@ define(function () {
      * Usage:
      * <ma-list-button entity="entity" size="xs"></ma-list-button>
      */
-    function maListButtonDirective($location) {
+    function maListButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
                 'entity': '&',
                 'size': '@'
             },
-            link: function ($scope) {
-                $scope.gotoList = function () {
-                    $location.path('/list/' + $scope.entity().name());
+            link: function (scope) {
+                scope.gotoList = function () {
+                    $state.go($state.get('list'), { 'entity': scope.entity().name() });
                 };
             },
             template:
@@ -28,7 +28,7 @@ define(function () {
         };
     }
 
-    maListButtonDirective.$inject = ['$location'];
+    maListButtonDirective.$inject = ['$state'];
 
     return maListButtonDirective;
 });

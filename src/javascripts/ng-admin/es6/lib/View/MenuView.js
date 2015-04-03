@@ -9,6 +9,7 @@ class MenuView extends View {
 
     icon() {
         if (arguments.length) {
+            console.warn('entity.menuView() is deprecated. Please use the Menu class instead');
             this._icon = arguments[0];
             return this;
         }

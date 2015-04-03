@@ -38,7 +38,7 @@ define(function () {
         this.clearRouteParams();
         var route = this.$scope.entity.isReadOnly ? 'show' : 'edit';
 
-        this.$location.path('/' + route + '/' + entry.entityName + '/' + entry.identifierValue);
+        this.$location.path('/' + entry.entityName + '/' + route + '/' + entry.identifierValue);
         this.$anchorScroll(0);
     };
 

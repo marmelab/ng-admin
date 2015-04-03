@@ -85,7 +85,7 @@ define(function () {
             .then(function (response) {
                 progression.done();
                 notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
-                $location.path('/edit/' + entity.name() + '/' + response.identifierValue);
+                $location.path(entity.name() + '/edit/' + response.identifierValue);
             }, this.handleError.bind(this));
     };
 
@@ -112,7 +112,7 @@ define(function () {
      * @param {View} entry
      */
     FormController.prototype.edit = function (entry) {
-        this.$location.path('/edit/' + entry.entityName  + '/' + entry.identifierValue);
+        this.$location.path(entry.entityName  + '/edit/' + entry.identifierValue);
     };
 
     /**

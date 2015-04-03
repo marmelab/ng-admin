@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maEditButtonDirective($location) {
+    function maEditButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -11,10 +11,9 @@ define(function () {
                 'entry': '&',
                 'size': '@'
             },
-            link: function ($scope) {
-                $scope.gotoEdit = function () {
-                    var entity = $scope.entity();
-                    $location.path('/edit/' + entity.name() + '/' + $scope.entry().identifierValue);
+            link: function (scope) {
+                scope.gotoEdit = function () {
+                    $state.go($state.get('edit'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
                 };
             },
             template:
@@ -24,7 +23,7 @@ define(function () {
         };
     }
 
-    maEditButtonDirective.$inject = ['$location'];
+    maEditButtonDirective.$inject = ['$state'];
 
     return maEditButtonDirective;
 });

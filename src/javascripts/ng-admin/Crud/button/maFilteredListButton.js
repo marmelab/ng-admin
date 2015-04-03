@@ -35,7 +35,6 @@ define(function () {
                 scope.buttonText = scope.text || ('See all related ' + scope.entityName);
                 scope.gotoList = function () {
                     $state.go($state.get('list'), { 'entity': scope.entityName, 'search': scope.filter()});
-
                 };
             },
             template:

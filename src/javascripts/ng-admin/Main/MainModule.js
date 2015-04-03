@@ -12,7 +12,6 @@ define(function (require) {
 
     MainModule.controller('AppController', require('ng-admin/Main/component/controller/AppController'));
     MainModule.controller('DashboardController', require('ng-admin/Main/component/controller/DashboardController'));
-    MainModule.controller('SidebarController', require('ng-admin/Main/component/controller/SidebarController'));
 
     MainModule.service('PanelBuilder', require('ng-admin/Main/component/service/PanelBuilder'));
     MainModule.service('Validator', require('ng-admin/Main/component/service/Validator'));
@@ -24,7 +23,7 @@ define(function (require) {
     MainModule.filter('stripTags', require('ng-admin/Main/component/filter/StripTags'));
 
     MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));
-    MainModule.directive('menu', require('ng-admin/Main/component/directive/Menu'));
+    MainModule.directive('maMenuBar', require('ng-admin/Main/component/directive/maMenuBar'));
 
     MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
