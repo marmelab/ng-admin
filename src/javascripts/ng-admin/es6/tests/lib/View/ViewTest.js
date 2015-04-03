@@ -42,13 +42,15 @@ describe('View', function() {
     describe('getReferenceFields()', function() {
         it('should return only reference and reference_many fields', function() {
             var post = new Entity('post');
+            var category = new ReferenceField('category');
+            var tags = new ReferenceManyField('tags');
             var view = new View(post).fields([
                 new Field('title'),
-                new ReferenceField('category'),
-                new ReferenceManyField('tags')
+                category,
+                tags
             ]);
 
-            assert.deepEqual(['category', 'tags'], Object.keys(view.getReferences()));
+            assert.deepEqual([category, tags], view.getReferences());
         });
     });
 
@@ -62,10 +64,10 @@ describe('View', function() {
             var field = new Field('body');
             view.addField(ref).addField(refMany).addField(field);
 
-            assert.equal(view.getFieldsOfType('reference_many')['refMany'].name(), 'refMany');
-            assert.equal(view.getReferences()['refMany'].name(), 'refMany');
-            assert.equal(view.getReferences()['myRef'].name(), 'myRef');
-            assert.equal(view.getFields()['body'].order(), 2);
+            assert.equal(view.getFieldsOfType('reference_many')[0].name(), 'refMany');
+            assert.equal(view.getReferences()[0].name(), 'myRef');
+            assert.equal(view.getReferences()[1].name(), 'refMany');
+            assert.equal(view.getFields()[2].order(), 2);
         });
     });
 

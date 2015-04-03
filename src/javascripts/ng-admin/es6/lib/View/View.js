@@ -126,14 +126,7 @@ class View {
     }
 
     getReferences() {
-        var references = {};
-        var referenceFields = this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
-        for (var key in referenceFields) {
-            let referencedField = referenceFields[key];
-            references[referencedField.name()] = referencedField;
-        }
-
-        return references;
+        return this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
     }
 
     getReferencedLists() {
@@ -195,10 +188,10 @@ class View {
     }
 
     processFieldsDefaultValue(entry) {
-        for (var i in this._fields) {
-            var field = this._fields[i];
+
+        this._fields.forEach(function (field) {
             entry.values[field.name()] = field.defaultValue();
-        }
+        });
 
         return this;
     }
@@ -208,12 +201,9 @@ class View {
         return this;
     }
 
-    getFields(asArray) {
-        if (asArray) {
-            return this._fields;
-        }
+    getFields() {
 
-        return View._indexFieldsByName(this._fields);
+        return this._fields;
     }
 
     getField(fieldName) {
@@ -221,18 +211,7 @@ class View {
     }
 
     getFieldsOfType(type) {
-        var fields = this._fields.filter(f => f.type() === type);
-        return View._indexFieldsByName(fields);
-    }
-
-    static _indexFieldsByName(fields) {
-        var result = {};
-        for(let i = 0, c = fields.length ; i < c ; i++) {
-            var field = fields[i];
-            result[field.name()] = field;
-        }
-
-        return result;
+        return this._fields.filter(f => f.type() === type);
     }
 
     addField(field) {
