@@ -21,7 +21,7 @@ define(function () {
         this.filters = this.$filter('orderElement')(view.filters());
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.entries = data.entries;
-        this.fields = this.$filter('orderElement')(view.fields());
+        this.fields = view.fields();
         this.listActions = view.listActions();
         this.totalItems = data.totalItems;
         this.page = $stateParams.page || 1;

@@ -89,11 +89,11 @@ class View {
      * fields({Field2, Field3})
      */
     fields() {
-        if (!arguments.length) return View._indexFieldsByName(this._fields);
+        if (!arguments.length) {return this._fields;}
 
         [].slice.call(arguments).map(function(argument) {
             View.flatten(argument).map(arg => this.addField(arg));
-        }, this)
+        }, this);
 
         return this;
     }

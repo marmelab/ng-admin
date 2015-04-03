@@ -4,7 +4,7 @@ define(function(require) {
     function getReadWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}" ' +
                  'entries="field.entries" ' +
-                 'fields="::field.getReferencedView().fields() | orderElement" ' +
+                 'fields="::field.getReferencedView().fields()" ' +
                  'list-actions="::field.listActions()" ' +
                  'entity="::field.getReferencedView().entity">' +
             '</ma-datagrid>';
@@ -18,7 +18,7 @@ define(function(require) {
     function getWriteWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
                   'entries="field.entries" ' +
-                  'fields="::field.getReferencedView().fields() | orderElement" ' +
+                  'fields="::field.getReferencedView().fields()" ' +
                   'list-actions="::field.listActions()" ' +
                   'entity="::field.getReferencedView().entity">' +
             '</ma-datagrid>';

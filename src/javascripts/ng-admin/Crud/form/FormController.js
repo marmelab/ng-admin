@@ -3,12 +3,11 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, $filter, CreateQueries, UpdateQueries, Validator, Configuration,
+    var FormController = function ($scope, $location, CreateQueries, UpdateQueries, Validator, Configuration,
                                    progression, notification, view, entry) {
 
         this.$scope = $scope;
         this.$location = $location;
-        this.$filter = $filter;
         this.CreateQueries = CreateQueries;
         this.UpdateQueries = UpdateQueries;
         this.Validator = Validator;
@@ -17,7 +16,7 @@ define(function () {
         this.title = view.title();
         this.description = view.description();
         this.actions = view.actions();
-        this.fields = this.$filter('orderElement')(view.fields());
+        this.fields = view.fields();
         this.config = Configuration();
         this.view = view;
         this.entity = this.view.getEntity();
@@ -27,7 +26,7 @@ define(function () {
         this.$scope.entity = this.entity;
 
         // in case of entity identifier being modified
-        this.originEntityId = entry.values[this.entity.identifier().name()]
+        this.originEntityId = entry.values[this.entity.identifier().name()];
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -129,7 +128,6 @@ define(function () {
 
     FormController.prototype.destroy = function () {
         this.$scope = undefined;
-        this.$filter = undefined;
         this.$location = undefined;
         this.CreateQueries = undefined;
         this.UpdateQueries = undefined;
@@ -137,7 +135,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', '$filter', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$location', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });
