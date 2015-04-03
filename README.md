@@ -331,6 +331,21 @@ Add you own batch action directives.
 
         listView.actions('create', '<my-custom-directive selection="selection"></my-custom-directive>');
 
+* `exportFields(Array)`
+Set the fields for the CSV export function. By default, ng-admin uses the fields displayed in the datagrid, but you can choose to export a different set of fields.
+
+        listView.exportFields([
+            nga.field('id', 'number'),
+            nga.field('author'),
+            nga.field('post_id', 'reference')
+                .label('Post')
+                .map(truncate)
+                .targetEntity(post)
+                .targetField(nga.field('title').map(truncate))
+            nga.field('body', 'wysiwyg')
+                .stripTags(true)
+        ]);
+
 ## Fields
 
 A field is the representation of a property of an entity. 

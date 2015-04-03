@@ -3,43 +3,45 @@
 define(function () {
     'use strict';
 
-    function EntryFormater() {
+    function EntryFormatter() {
     }
 
-    EntryFormater.prototype.format = function format(fields) {
-        var map = fields.map(function (field) {
-            switch (field.type()) {
-                case 'number':
-                case 'text':
-                case 'wysiwyg':
-                case 'string':
-                case 'boolean':
-                case 'email':
-                case 'json':
-                case 'date':
-                case 'choice':
-                case 'choices':
-                case 'file':
-                case 'template':
-                    return {name: field.name(), type: 'field'};
-                case 'reference':
-                    return {name: field.name(), type: 'reference'};
-                case 'referenced_list':
-                    return;//ignored
-            }
-        });
+    EntryFormatter.prototype.formatField = function formatField(field) {
+        switch (field.type()) {
+            case 'number':
+            case 'text':
+            case 'wysiwyg':
+            case 'string':
+            case 'boolean':
+            case 'email':
+            case 'json':
+            case 'date':
+            case 'choice':
+            case 'choices':
+            case 'file':
+            case 'template':
+                return { label: field.label(), name: field.name(), type: 'field' };
+            case 'reference':
+                return { label: field.label(), name: field.name(), type: 'reference' };
+            case 'referenced_list':
+                return; //ignored
+        }
+    }
+
+    EntryFormatter.prototype.getFormatter = function getFormatter(fields) {
+        var formattedFields = fields.map(this.formatField);
 
         return function formatEntry(entry) {
-            var result = {}, i, length = map.length, field;
+            var result = {}, i, length = formattedFields.length, field;
 
             for (i = 0; i < length; i++) {
-                field = map[i];
+                field = formattedFields[i];
                 if (!field) {continue;}
                 if (field.type === 'reference') {
-                    result[field.name] = entry.listValues[field.name];
+                    result[field.label] = entry.listValues[field.name];
                 } else if (field.type === 'field') {
                     if ('undefined' === typeof entry.values[field.name]) {continue;}
-                    result[field.name] = entry.values[field.name];
+                    result[field.label] = entry.values[field.name];
                 }
             }
 
@@ -47,7 +49,7 @@ define(function () {
         };
     };
 
-    EntryFormater.$inject = [];
+    EntryFormatter.$inject = [];
 
-    return EntryFormater;
+    return EntryFormatter;
 });

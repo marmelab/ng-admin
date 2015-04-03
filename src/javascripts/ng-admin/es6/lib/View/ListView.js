@@ -101,7 +101,7 @@ class ListView extends View {
 
     exportFields() {
         if (!arguments.length) {
-            return this._exportFields;
+            return this._exportFields.length == 0 ? this._fields : this._exportFields;
         }
 
         this._exportFields = arguments[0];
