@@ -235,7 +235,7 @@ The title of the view. ng-admin sees it as a template, and compiles it with the 
 A text displayed below the title. Like the `title` ng-admin sees it as a template and it can be customized in the same way.
 
 * `actions(String|Array)`
-Customize the list of actions for this view. You can pass a list of button names among 'back', 'list', 'show', create', 'edit', 'delete':
+Customize the list of actions for this view. You can pass a list of button names among 'back', 'list', 'show', create', 'edit', 'delete', 'batch', and 'export':
 
         editionView.actions(['show', 'list', 'delete']);
 
@@ -330,6 +330,21 @@ Add you own batch action directives.
     *Tip*: This `selection` variable is also in the scope of the main view actions.
 
         listView.actions('create', '<my-custom-directive selection="selection"></my-custom-directive>');
+
+* `exportFields(Array)`
+Set the fields for the CSV export function. By default, ng-admin uses the fields displayed in the datagrid, but you can choose to export a different set of fields.
+
+        listView.exportFields([
+            nga.field('id', 'number'),
+            nga.field('author'),
+            nga.field('post_id', 'reference')
+                .label('Post')
+                .map(truncate)
+                .targetEntity(post)
+                .targetField(nga.field('title').map(truncate))
+            nga.field('body', 'wysiwyg')
+                .stripTags(true)
+        ]);
 
 ## Fields
 

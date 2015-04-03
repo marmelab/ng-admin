@@ -26,6 +26,7 @@ define(function (require) {
     CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
     CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/delete/BatchDeleteController'));
 
+    CrudModule.service('EntryFormater', require('ng-admin/Crud/misc/EntryFormater'));
     CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
     CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
     CrudModule.service('CreateQueries', require('ng-admin/Crud/repository/CreateQueries'));
@@ -77,6 +78,7 @@ define(function (require) {
     CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
     CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
     CrudModule.directive('maBatchDeleteButton', require('ng-admin/Crud/button/maBatchDeleteButton'));
+    CrudModule.directive('maExportToCsvButton', require('ng-admin/Crud/button/maExportToCsvButton'));
 
     CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
     CrudModule.directive('maViewBatchActions', require('ng-admin/Crud/misc/ViewBatchActions'));
@@ -85,6 +87,10 @@ define(function (require) {
     CrudModule.config(require('ng-admin/Crud/routing'));
     CrudModule.config(require('ng-admin/Crud/config/factories'));
     CrudModule.config(require('ng-admin/Crud/config/datePicker'));
+
+    CrudModule.factory('Papa', function () {
+        return require('papaparse');
+    });
 
     CrudModule.factory('notification', function () {
         return require('humane');
