@@ -100,6 +100,7 @@ class View {
 
     static flatten(arg) {
         if (arg.constructor.name === 'Object') {
+            console.warn('Passing literal of Field to fields method is deprecated use array instead');
             let result = [];
             for (let fieldName in arg) {
                 result = result.concat(View.flatten(arg[fieldName]));
