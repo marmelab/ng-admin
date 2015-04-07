@@ -45,9 +45,8 @@ class Field {
         return this._name;
     }
 
-
     order() {
-        if (arguments.length) {
+        if (arguments.length && arguments[1] !== true) {
             console.warn('Setting order with Field.order is deprecated, order directly in fields array');
             this._order = arguments[0];
             return this;

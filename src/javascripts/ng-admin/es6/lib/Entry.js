@@ -22,8 +22,6 @@ class Entry {
         var identifier = view.identifier();
         var identifierValue = null;
 
-        // var values = restEntry;
-
         view.fields().forEach(function (field) {
             var fieldName = field.name();
             if (fieldName in restEntry) {

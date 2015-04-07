@@ -89,13 +89,11 @@ class View {
      * fields({Field2, Field3})
      */
     fields() {
-        if (!arguments.length) {return this._fields;}
+        if (!arguments.length) return this._fields;
 
         [].slice.call(arguments).map(function(argument) {
             View.flatten(argument).map(arg => this.addField(arg));
         }, this);
-
-        this._fields = this._fields.sort((a, b) => (a.order() - b.order()));
 
         return this;
     }
@@ -196,7 +194,7 @@ class View {
             entry.values[field.name()] = field.defaultValue();
         });
 
-        return this;
+        return entry;
     }
 
     removeFields() {
@@ -218,7 +216,12 @@ class View {
     }
 
     addField(field) {
+        if (field.order() === null) {
+            field.order(this._fields.length, true);
+        }
         this._fields.push(field);
+        this._fields = this._fields.sort((a, b) => (a.order() - b.order()));
+
         return this;
     }
 
