@@ -7,6 +7,7 @@ define(function () {
     }
 
     EntryFormatter.prototype.formatField = function formatField(field) {
+        var label = field.label() || field.name();
         switch (field.type()) {
             case 'number':
             case 'text':
@@ -20,13 +21,13 @@ define(function () {
             case 'choices':
             case 'file':
             case 'template':
-                return { label: field.label(), name: field.name(), type: 'field' };
+                return { label: label, name: field.name(), type: 'field' };
             case 'reference':
-                return { label: field.label(), name: field.name(), type: 'reference' };
+                return { label: label, name: field.name(), type: 'reference' };
             case 'referenced_list':
                 return; //ignored
         }
-    }
+    };
 
     EntryFormatter.prototype.getFormatter = function getFormatter(fields) {
         var formattedFields = fields.map(this.formatField);

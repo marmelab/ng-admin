@@ -1,4 +1,5 @@
 import View from './View';
+import fieldsUtils from '../Utils/fieldsUtils';
 
 class ListView extends View {
     constructor(name) {
@@ -101,10 +102,11 @@ class ListView extends View {
 
     exportFields() {
         if (!arguments.length) {
-            return this._exportFields.length == 0 ? this._fields : this._exportFields;
+            return this._exportFields.length === 0 ? this._fields : this._exportFields;
         }
+        var fields = fieldsUtils.fieldsLiteralToArray(arguments[0]);
 
-        this._exportFields = arguments[0];
+        this._exportFields = fields;
 
         return this;
     }
