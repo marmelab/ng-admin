@@ -221,6 +221,11 @@ Add fields to a view (columns to a list, or a form controls to a form). Each fie
             nga.field('age', 'number')
         ]);
 
+        listView.fields(nga.field('first_name'), [
+            nga.field('last_name'),
+            nga.field('age', 'number')
+        ]);
+
 * `fields()` Retrieve the list of fields added to a view. The result can be added to another view, to avoid repetition.
 
 * `title(String)`
