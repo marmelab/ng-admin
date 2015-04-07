@@ -67,14 +67,14 @@ describe('View', function() {
             assert.equal(view.getFieldsOfType('reference_many')[0].name(), 'refMany');
             assert.equal(view.getReferences()[0].name(), 'myRef');
             assert.equal(view.getReferences()[1].name(), 'refMany');
-            assert.equal(view.getFields()[2].order(), 2);
+            assert.equal(view.getFields()[2].name(), 'body');
         });
     });
 
     describe('fields()', function() {
         it('should return the fields when called with no arguments', function() {
             var view = new View(new Entity('post'));
-            var field = new Field('body').order(1);
+            var field = new Field('body');
             view.addField(field);
 
             assert.deepEqual(view.fields(), [field]);

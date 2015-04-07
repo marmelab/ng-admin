@@ -48,11 +48,12 @@ class Field {
 
     order() {
         if (arguments.length) {
+            console.warn('Setting order with Field.order is deprecated, order directly in fields array');
             this._order = arguments[0];
             return this;
         }
 
-        return this._order;
+        return this._order || 0;
     }
 
     isDetailLink(detailLink) {

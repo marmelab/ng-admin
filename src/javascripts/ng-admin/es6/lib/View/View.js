@@ -95,6 +95,8 @@ class View {
             View.flatten(argument).map(arg => this.addField(arg));
         }, this);
 
+        this._fields = this._fields.sort((a, b) => (a.order() - b.order()));
+
         return this;
     }
 
@@ -216,10 +218,6 @@ class View {
     }
 
     addField(field) {
-        if (field.order() === null) {
-            field.order(this._fields.length);
-        }
-
         this._fields.push(field);
         return this;
     }
