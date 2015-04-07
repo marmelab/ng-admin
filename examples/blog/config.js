@@ -145,19 +145,16 @@
             .perPage(10) // limit the number of elements displayed per page. Default is 30.
             .fields([
                 nga.field('created_at', 'date')
-                    .label('Posted')
-                    .order(1),
+                    .label('Posted'),
+                nga.field('author'),
                 nga.field('body', 'wysiwyg')
                     .stripTags(true)
-                    .map(truncate)
-                    .order(3),
+                    .map(truncate),
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
                     .targetEntity(post)
                     .targetField(nga.field('title').map(truncate))
-                    .order(4),
-                nga.field('author').order(2)
             ])
             .filters([
                 nga.field('q', 'string').label('').attributes({'placeholder': 'Global Search'}),
@@ -173,7 +170,7 @@
                     day = day < 10 ? '0' + day : day;
                     return {
                         created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
-                    };                    
+                    };
                 }),
                 nga.field('post_id', 'reference')
                     .label('Post')
