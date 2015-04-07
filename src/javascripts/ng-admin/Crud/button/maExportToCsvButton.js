@@ -9,14 +9,15 @@ define(function () {
             scope: {
                 entity: '&'
             },
-            template: '<button class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;Export</button>',
+            template: '<button ng-if="view" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;Export</button>',
             link: function(scope) {
                 scope.entity = scope.entity();
-                var formatEntry = entryFormater.getFormatter(scope.entity.listView().exportFields());
+                scope.view = scope.entity.exportView();
+                var formatEntry = entryFormater.getFormatter(scope.view.fields());
 
                 scope.exportToCsv = function () {
 
-                    RetrieveQueries.getAll(scope.entity.listView(), -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
+                    RetrieveQueries.getAll(scope.view, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
                             results[i] = formatEntry(entries[i]);
