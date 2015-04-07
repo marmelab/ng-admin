@@ -74,7 +74,7 @@ Adding menu children by hand is also the only way to determine the menu order.
 
 The `menuView()` syntax will still be supported in this version, but removed in the next one.
 
-## passing literal to View.fields() and using field.order Is Deprecated
+## Passing Literal to `View.fields()` and Using `field.order` Is Deprecated
 Prior to 0.7, you could pass both literal and array to the fields methods which returned a literal. Now the fields method return an array. And passing literal to it is deprecated.
 Additionaly, the order method which served to order fields passed in literal form is also deprecated.
 
