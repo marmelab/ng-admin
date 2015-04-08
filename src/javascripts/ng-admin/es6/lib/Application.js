@@ -1,7 +1,7 @@
 import Menu from './Menu/Menu';
 
 class Application {
-    constructor(title) {
+    constructor(title='ng-admin') {
         this._baseApiUrl = null;
         this._customTemplate = function(viewName) {};
         this._title = title;
