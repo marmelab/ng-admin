@@ -9,15 +9,24 @@ define(function () {
             scope: {
                 entity: '&'
             },
-            template: '<button ng-if="view" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;Export</button>',
+            template: '<button ng-if="has_export" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;Export</button>',
             link: function(scope) {
                 scope.entity = scope.entity();
-                scope.view = scope.entity.exportView();
-                var formatEntry = entryFormater.getFormatter(scope.view.fields());
+                var exportView = scope.entity.exportView();
+                var listView = scope.entity.listView();
+                if (exportView.fields().length === 0) {
+                    var exportFields = listView.exportFields();
+                    if (exportFields === null) {
+                        exportFields = listView.fields();
+                    }
+                    exportView.fields(exportFields);
+                }
+                scope.has_export = exportView.fields().length > 0;
+                var formatEntry = entryFormater.getFormatter(exportView.fields());
 
                 scope.exportToCsv = function () {
 
-                    RetrieveQueries.getAll(scope.view, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
+                    RetrieveQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
                             results[i] = formatEntry(entries[i]);
