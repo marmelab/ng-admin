@@ -73,7 +73,7 @@
             .description('List of posts with infinite pagination') // description appears under the title
             .infinitePagination(true) // load pages as the user scrolls
             .fields([
-                nga.field('id').label('ID'), // The default displayed name is the camelCase field name. label() overrides id
+                nga.field('id').label('id'), // The default displayed name is the camelCase field name. label() overrides id
                 nga.field('title'), // the default list field type is "string", and displays as a string
                 nga.field('published_at', 'date'), // Date field type allows date formatting
                 nga.field('views', 'number'),
