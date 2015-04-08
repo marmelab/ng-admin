@@ -44,11 +44,11 @@ define(function (require) {
                     expect(panels[1].label).toEqual('my dashboard 2');
 
                     expect(Object.keys(panels[1].fields).length).toEqual(1);
-                    expect(panels[1].fields['name'].label()).toEqual('Name');
-                    expect(panels[1].fields['name'].name()).toEqual('name');
+                    expect(panels[1].fields[0].label()).toEqual('Name');
+                    expect(panels[1].fields[0].name()).toEqual('name');
                 })
                 .finally(done);
-                
+
             });
 
             it('should default to entity label if no title is provided', function(done) {

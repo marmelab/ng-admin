@@ -42,13 +42,15 @@ describe('View', function() {
     describe('getReferenceFields()', function() {
         it('should return only reference and reference_many fields', function() {
             var post = new Entity('post');
+            var category = new ReferenceField('category');
+            var tags = new ReferenceManyField('tags');
             var view = new View(post).fields([
                 new Field('title'),
-                new ReferenceField('category'),
-                new ReferenceManyField('tags')
+                category,
+                tags
             ]);
 
-            assert.deepEqual(['category', 'tags'], Object.keys(view.getReferences()));
+            assert.deepEqual([category, tags], view.getReferences());
         });
     });
 
@@ -62,20 +64,20 @@ describe('View', function() {
             var field = new Field('body');
             view.addField(ref).addField(refMany).addField(field);
 
-            assert.equal(view.getFieldsOfType('reference_many')['refMany'].name(), 'refMany');
-            assert.equal(view.getReferences()['refMany'].name(), 'refMany');
-            assert.equal(view.getReferences()['myRef'].name(), 'myRef');
-            assert.equal(view.getFields()['body'].order(), 2);
+            assert.equal(view.getFieldsOfType('reference_many')[0].name(), 'refMany');
+            assert.equal(view.getReferences()[0].name(), 'myRef');
+            assert.equal(view.getReferences()[1].name(), 'refMany');
+            assert.equal(view.getFields()[2].name(), 'body');
         });
     });
 
     describe('fields()', function() {
         it('should return the fields when called with no arguments', function() {
             var view = new View(new Entity('post'));
-            var field = new Field('body').order(1);
+            var field = new Field('body');
             view.addField(field);
 
-            assert.deepEqual(view.fields(), { body: field });
+            assert.deepEqual(view.fields(), [field]);
         });
 
         it('should add fields when called with an array argument', function() {
@@ -84,7 +86,7 @@ describe('View', function() {
             var field2 = new Field('bar');
             view.fields([field1, field2]);
 
-            assert.deepEqual(view.fields(), { foo: field1, bar: field2 });
+            assert.deepEqual(view.fields(), [field1, field2]);
         });
 
         it('should add a single field when called with a non array argument', function() {
@@ -92,7 +94,7 @@ describe('View', function() {
             var field1 = new Field('foo');
             view.fields(field1);
 
-            assert.deepEqual(view.fields(), { foo: field1 });
+            assert.deepEqual(view.fields(), [field1]);
         });
 
         it('should add fields when called with several arguments', function() {
@@ -101,7 +103,7 @@ describe('View', function() {
             var field2 = new Field('bar');
             view.fields(field1, field2);
 
-            assert.deepEqual(view.fields(), { foo: field1, bar: field2 });
+            assert.deepEqual(view.fields(), [field1, field2]);
         });
 
         it('should add field collections', function() {
@@ -112,7 +114,7 @@ describe('View', function() {
             view1.fields(field1, field2);
             view2.fields(view1.fields());
 
-            assert.deepEqual(view2.fields(), { foo: field1, bar: field2 });
+            assert.deepEqual(view2.fields(), [field1, field2]);
         });
 
         it('should allow fields reuse', function() {
@@ -123,10 +125,7 @@ describe('View', function() {
                 field2
             ]);
 
-            assert.deepEqual(view2.fields(), {
-                foo: field1,
-                bar: field2
-            });
+            assert.deepEqual(view2.fields(), [field1, field2]);
         });
 
         it('should append fields when multiple calls', function() {
@@ -136,7 +135,7 @@ describe('View', function() {
                 .fields(field1)
                 .fields(field2);
 
-            assert.deepEqual(view.fields(), { foo: field1, bar: field2 });
+            assert.deepEqual(view.fields(), [field1, field2]);
         });
     });
 

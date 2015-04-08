@@ -22,13 +22,12 @@ class Entry {
         var identifier = view.identifier();
         var identifierValue = null;
 
-        var values = restEntry;
-        for (var fieldName in view.fields()) {
-            var field = view.fields()[fieldName];
-            if (field.name() in restEntry) {
-                values[fieldName] = field.getMappedValue(restEntry[field.name()], restEntry);
+        view.fields().forEach(function (field) {
+            var fieldName = field.name();
+            if (fieldName in restEntry) {
+                restEntry[fieldName] = field.getMappedValue(restEntry[fieldName], restEntry);
             }
-        }
+        });
 
         // Add identifier value
         if (identifier) {

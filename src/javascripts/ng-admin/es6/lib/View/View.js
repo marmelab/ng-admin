@@ -89,17 +89,18 @@ class View {
      * fields({Field2, Field3})
      */
     fields() {
-        if (!arguments.length) return View._indexFieldsByName(this._fields);
+        if (!arguments.length) return this._fields;
 
         [].slice.call(arguments).map(function(argument) {
             View.flatten(argument).map(arg => this.addField(arg));
-        }, this)
+        }, this);
 
         return this;
     }
 
     static flatten(arg) {
         if (arg.constructor.name === 'Object') {
+            console.warn('Passing literal of Field to fields method is deprecated use array instead');
             let result = [];
             for (let fieldName in arg) {
                 result = result.concat(View.flatten(arg[fieldName]));
@@ -126,14 +127,7 @@ class View {
     }
 
     getReferences() {
-        var references = {};
-        var referenceFields = this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
-        for (var key in referenceFields) {
-            let referencedField = referenceFields[key];
-            references[referencedField.name()] = referencedField;
-        }
-
-        return references;
+        return this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
     }
 
     getReferencedLists() {
@@ -195,12 +189,12 @@ class View {
     }
 
     processFieldsDefaultValue(entry) {
-        for (var i in this._fields) {
-            var field = this._fields[i];
-            entry.values[field.name()] = field.defaultValue();
-        }
 
-        return this;
+        this._fields.forEach(function (field) {
+            entry.values[field.name()] = field.defaultValue();
+        });
+
+        return entry;
     }
 
     removeFields() {
@@ -208,12 +202,9 @@ class View {
         return this;
     }
 
-    getFields(asArray) {
-        if (asArray) {
-            return this._fields;
-        }
+    getFields() {
 
-        return View._indexFieldsByName(this._fields);
+        return this._fields;
     }
 
     getField(fieldName) {
@@ -221,26 +212,16 @@ class View {
     }
 
     getFieldsOfType(type) {
-        var fields = this._fields.filter(f => f.type() === type);
-        return View._indexFieldsByName(fields);
-    }
-
-    static _indexFieldsByName(fields) {
-        var result = {};
-        for(let i = 0, c = fields.length ; i < c ; i++) {
-            var field = fields[i];
-            result[field.name()] = field;
-        }
-
-        return result;
+        return this._fields.filter(f => f.type() === type);
     }
 
     addField(field) {
         if (field.order() === null) {
-            field.order(this._fields.length);
+            field.order(this._fields.length, true);
         }
-
         this._fields.push(field);
+        this._fields = this._fields.sort((a, b) => (a.order() - b.order()));
+
         return this;
     }
 

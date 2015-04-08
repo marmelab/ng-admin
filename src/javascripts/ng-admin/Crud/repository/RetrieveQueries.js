@@ -131,6 +131,7 @@ define(function (require) {
      */
     RetrieveQueries.prototype.getReferencedValues = function (references, rawValues) {
         var self = this,
+            referencedValues = {},
             calls = [],
             singleCallFilters,
             identifiers,
@@ -141,8 +142,12 @@ define(function (require) {
             j,
             k;
 
-        for (i in references) {
-            reference = references[i];
+
+        references.forEach(function (reference) {
+            referencedValues[reference.name()] = reference;
+        });
+        for (i in referencedValues) {
+            reference = referencedValues[i];
             referencedView = reference.getReferencedView();
 
             if (!rawValues) {
@@ -165,14 +170,14 @@ define(function (require) {
         return this.PromisesResolver.allEvenFailed(calls)
             .then(function (responses) {
                 if (responses.length === 0) {
-                    return references;
+                    return referencedValues;
                 }
                 i = 0;
                 var response;
 
-                for (j in references) {
+                for (j in referencedValues) {
 
-                    reference = references[j];
+                    reference = referencedValues[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
 
                     // Retrieve entries depending on 1 or many request was done
@@ -182,7 +187,7 @@ define(function (require) {
                             // the response failed
                             continue;
                         }
-                        references[j].entries = reference.getReferencedView().mapEntries(response.result.data);
+                        referencedValues[j].entries = reference.getReferencedView().mapEntries(response.result.data);
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
@@ -196,11 +201,11 @@ define(function (require) {
                         }
 
                         // Entry are already mapped by getOne
-                        references[j].entries = entries;
+                        referencedValues[j].entries = entries;
                     }
                 }
 
-                return references;
+                return referencedValues;
             });
     };
 
