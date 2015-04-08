@@ -14,6 +14,7 @@ describe('Entity', function() {
                 'EditView',
                 'DeleteView',
                 'BatchDeleteView',
+                'ExportView',
                 'ShowView'
             ], Object.keys(entity.views));
         });

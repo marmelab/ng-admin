@@ -1,5 +1,4 @@
 import View from './View';
-import fieldsUtils from '../Utils/fieldsUtils';
 
 class ListView extends View {
     constructor(name) {
@@ -11,7 +10,6 @@ class ListView extends View {
         this._listActions = [];
         this._batchActions = ['delete'];
         this._filters = [];
-        this._exportFields = [];
 
         this._sortField = 'id';
         this._sortDir = 'DESC';
@@ -100,16 +98,6 @@ class ListView extends View {
         return this;
     }
 
-    exportFields() {
-        if (!arguments.length) {
-            return this._exportFields.length === 0 ? this._fields : this._exportFields;
-        }
-        var fields = fieldsUtils.fieldsLiteralToArray(arguments[0]);
-
-        this._exportFields = fields;
-
-        return this;
-    }
 }
 
 export default ListView;

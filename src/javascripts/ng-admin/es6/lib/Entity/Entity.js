@@ -8,6 +8,7 @@ import EditView from '../View/EditView';
 import DeleteView from '../View/DeleteView';
 import ShowView from '../View/ShowView';
 import BatchDeleteView from '../View/BatchDeleteView';
+import ExportView from '../View/ExportView';
 
 class Entity {
     constructor(name) {
@@ -99,6 +100,13 @@ class Entity {
     }
 
     /**
+     * @deprecated Use .views["ExportView"] instead
+     */
+    exportView() {
+        return this._views["ExportView"];
+    }
+
+    /**
      * @deprecated Use .views["ShowView"] instead
      */
     showView() {
@@ -120,6 +128,7 @@ class Entity {
             "EditView": new EditView().setEntity(this),
             "DeleteView": new DeleteView().setEntity(this),
             "BatchDeleteView": new BatchDeleteView().setEntity(this),
+            "ExportView": new ExportView().setEntity(this),
             "ShowView": new ShowView().setEntity(this)
         };
     }
