@@ -6,7 +6,7 @@ ng-admin 0.7 breaks compatibility with 0.5 and makes the "factories" configurati
 
 ## Field type
 
-Method `Field.type()` is no longer supported as a setter. Instead, you should specify the second argument from the field factory.
+The `Field.type(type)` method is no longer supported as a setter. Instead, you should specify the type as the second argument in the `nga.field()` factory.
 
 ``` diff
 - nga.field('created_at').type('date')
@@ -74,13 +74,16 @@ Adding menu children by hand is also the only way to determine the menu order.
 
 The `menuView()` syntax will still be supported in this version, but removed in the next one.
 
-## Passing Literal to `View.fields()` and Using `field.order` Is Deprecated
-Prior to 0.7, you could pass both literal and array to the fields methods which returned a literal. Now the fields method return an array. And passing literal to it is deprecated.
-Additionaly, the order method which served to order fields passed in literal form is also deprecated.
+## Passing Object Literal to `View.fields()` and Using `field.order` Are Deprecated
 
-The proper way to use fields is now by passing field and or arrays of fields.
-```
-fields(field1, field2)
+Calling `view.fields()` as a getter (with no argument) used to return an object literal ; starting with 0.7, it now returns an array. 
+Symmetrically, passing an object litteral as argument to the setter methor `view.fields(fields)` is deprecated ; only arrays are now officially supported.
+
+Additionaly, the `order()` method, which served to order fields passed in object literal form, is also deprecated.
+
+The proper way to use `fields()` is to pass an array of fields.
+
+```js
 fields([field1, field2])
-fields(field1, [field2, field3])
+fields([field1, [field2, field3]])
 ```

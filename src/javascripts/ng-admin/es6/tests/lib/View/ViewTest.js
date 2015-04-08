@@ -89,6 +89,15 @@ describe('View', function() {
             assert.deepEqual(view.fields(), [field1, field2]);
         });
 
+        it('should add fields when called with a nested array argument', function() {
+            var view = new View(new Entity('post'));
+            var field1 = new Field('foo');
+            var field2 = new Field('bar');
+            view.fields([field1, [field2]]);
+
+            assert.deepEqual(view.fields(), [field1, field2]);
+        });
+
         it('should add a single field when called with a non array argument', function() {
             var view = new View(new Entity('post'));
             var field1 = new Field('foo');

@@ -214,15 +214,9 @@ These settings are available on all views.
 
 * `fields([field1, field2, ...])`
 Add fields to a view (columns to a list, or a form controls to a form). Each field maps a property in the API endpoint result.
-Accept both field and array of fields.
 
         listView.fields([
             nga.field('first_name'),
-            nga.field('last_name'),
-            nga.field('age', 'number')
-        ]);
-
-        listView.fields(nga.field('first_name'), [
             nga.field('last_name'),
             nga.field('age', 'number')
         ]);
