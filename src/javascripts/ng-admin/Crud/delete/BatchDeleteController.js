@@ -31,6 +31,7 @@ define(function () {
 
         this.DeleteQueries.batchDelete(this.view, this.entityIds).then(function () {
             $state.go($state.get('list'), { 'entity': entityName });
+            notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
             // @TODO: share this method when splitting controllers
             var body = response.data;

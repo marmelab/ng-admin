@@ -93,7 +93,10 @@ define(function (require) {
     });
 
     CrudModule.factory('notification', function () {
-        return require('humane');
+        var humane = require('humane');
+        humane.timeout = 5000;
+        humane.clickToClose = true;
+        return humane;
     });
 
     CrudModule.factory('progression', function () {

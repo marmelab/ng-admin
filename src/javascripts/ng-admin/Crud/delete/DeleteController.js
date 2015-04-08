@@ -28,6 +28,7 @@ define(function () {
 
         this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
             $location.path(entityLabel + '/list');
+            notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
             // @TODO: share this method when splitting controllers
             var body = response.data;
