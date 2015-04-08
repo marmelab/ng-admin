@@ -83,7 +83,7 @@ define(function () {
             .createOne(this.view, entry)
             .then(function (response) {
                 progression.done();
-                notification.log('Changes successfully saved.', {addnCls: 'humane-flatty-success'});
+                notification.log('Element successfully created.', {addnCls: 'humane-flatty-success'});
                 $location.path(entity.name() + '/edit/' + response.identifierValue);
             }, this.handleError.bind(this));
     };
