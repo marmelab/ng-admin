@@ -12,7 +12,7 @@ define(function () {
      *
      * @constructor
      */
-    function maFilterViewController($scope, $state, $stateParams) {
+    function maFilterController($scope, $state, $stateParams) {
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
@@ -22,13 +22,13 @@ define(function () {
     }
 
     function isEmpty(values) {
-        for (i in values) {
+        for (var i in values) {
             if (values[i] != '') return false;
         }
         return true;
     }
 
-    maFilterViewController.prototype.filter = function () {
+    maFilterController.prototype.filter = function () {
         var values = {},
             filters = this.$scope.filters,
             fieldName,
@@ -49,11 +49,11 @@ define(function () {
         this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
     };
 
-    maFilterViewController.prototype.shouldFilter = function () {
+    maFilterController.prototype.shouldFilter = function () {
         return Object.keys(this.$scope.filters).length;
     };
 
-    maFilterViewController.prototype.clearFilters = function () {
+    maFilterController.prototype.clearFilters = function () {
         var i;
 
         for (i in this.$scope.values) {
@@ -63,7 +63,7 @@ define(function () {
         this.filter();
     };
 
-    maFilterViewController.$inject = ['$scope', '$state', '$stateParams'];
+    maFilterController.$inject = ['$scope', '$state', '$stateParams'];
 
-    return maFilterViewController;
+    return maFilterController;
 });
