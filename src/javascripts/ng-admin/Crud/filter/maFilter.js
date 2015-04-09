@@ -21,7 +21,7 @@ define(function (require) {
             filterWidgetTypes +
         '</div>' +
     '</div>' +
-    '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> Filter</button>' +
+    '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> Filter</button> ' +
     '<button ng-if="!filterCtrl.isFilterEmpty" class="btn btn-default" type="button" ng-click="filterCtrl.clearFilters()"><span class="glyphicon glyphicon-remove"></span> Clear</button>' +
 '</form>';
         return {
