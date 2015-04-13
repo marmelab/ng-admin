@@ -89,6 +89,20 @@ describe('View', function() {
             assert.deepEqual(view.fields(), [field1, field2]);
         });
 
+        it('should keep the default order of the given array to equal to the index even when more than 10 fields', function() {
+            var view = new View(new Entity('post'));
+            var fields = Array.from(new Array(11).keys()).map(function (i) {
+                return new Field(i);
+            });
+            view.fields(fields);
+
+            assert.deepEqual(view.fields(), fields);
+
+            fields.map(function (field, index) {
+                assert.equal(field.order(), index);
+            });
+        });
+
         it('should add fields when called with a nested array argument', function() {
             var view = new View(new Entity('post'));
             var field1 = new Field('foo');

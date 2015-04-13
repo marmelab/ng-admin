@@ -46,13 +46,15 @@ class Field {
     }
 
     order() {
-        if (arguments.length && arguments[1] !== true) {
-            console.warn('Setting order with Field.order is deprecated, order directly in fields array');
+        if (arguments.length) {
+            if(arguments[1] !== true) {
+                console.warn('Setting order with Field.order is deprecated, order directly in fields array');
+            }
             this._order = arguments[0];
             return this;
         }
 
-        return this._order || 0;
+        return this._order;
     }
 
     isDetailLink(detailLink) {
