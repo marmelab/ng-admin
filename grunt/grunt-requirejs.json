@@ -66,8 +66,6 @@
                 "bower_components/angular-ui-router/release/angular-ui-router",
                 "bower_components/ng-file-upload/angular-file-upload",
                 "bower_components/lodash/dist/lodash.min",
-                "bower_components/requirejs-text/text",
-                "bower_components/requirejs-text/text",
                 "bower_components/angular-bootstrap/ui-bootstrap-tpls.min",
                 "bower_components/angular-bootstrap/ui-bootstrap.min",
                 "bower_components/restangular/dist/restangular",
@@ -88,7 +86,7 @@
             "removeCombined": true,
             "wrap": {
                 "startFile": "src/build/start.frag",
-                "endFile": "src/build/end.frag"
+                "endFile": "src/build/end-only.frag"
             }
         }
     }

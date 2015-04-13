@@ -3,7 +3,7 @@ define('angular', [], function () {
 });
 
 define('lodash', [], function () {
-    return lodash;
+    return _;
 });
 
 define('angular-sanitize', [], function () {
@@ -47,7 +47,7 @@ define('humane', [], function () {
 });
 
 define('nprogress', [], function () {
-    return nprogress;
+    return NProgress;
 });
 
 define('textangular', [], function () {
@@ -61,9 +61,22 @@ define('angular-ui-codemirror', [], function () {
 require.config({
     paths: {
         'text' : 'bower_components/requirejs-text/text',
-
         'MainModule': 'ng-admin/Main/MainModule',
         'CrudModule': 'ng-admin/Crud/CrudModule'
+    },
+    shim: {
+        'restangular': {
+            deps: ['angular', 'lodash']
+        },
+        'angular-ui-router': {
+            deps: ['angular']
+        },
+        'angular-bootstrap': {
+            deps: ['angular']
+        },
+        'angular-bootstrap-tpls': {
+            deps: ['angular', 'angular-bootstrap']
+        }
     }
 });
 
