@@ -50,6 +50,10 @@ define('nprogress', [], function () {
     return NProgress;
 });
 
+define('numeral', [], function () {
+    return numeral;
+});
+
 define('textangular', [], function () {
     return angular.module('textAngular');
 });
@@ -58,11 +62,20 @@ define('angular-ui-codemirror', [], function () {
     return angular.module('ui.codemirror');
 });
 
+define('angular-numeraljs', [], function () {
+    return angular.module('ngNumeraljs');
+});
+
+define('papaparse', [], function () {
+    return Papa;
+});
+
 require.config({
     paths: {
         'text' : 'bower_components/requirejs-text/text',
         'MainModule': 'ng-admin/Main/MainModule',
-        'CrudModule': 'ng-admin/Crud/CrudModule'
+        'CrudModule': 'ng-admin/Crud/CrudModule',
+        'AdminDescription': '../../build/ng-admin-configuration'
     },
     shim: {
         'restangular': {
@@ -87,5 +100,13 @@ define(function (require) {
     require('MainModule');
     require('CrudModule');
 
-    angular.module('ng-admin', ['main', 'crud']);
+    var AdminDescription = require('AdminDescription');
+
+    var factory = angular.module('AdminDescriptionModule', []);
+    factory.constant('AdminDescription', new AdminDescription());
+
+    var ngadmin = angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
+    ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
+        NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
+    });
 });

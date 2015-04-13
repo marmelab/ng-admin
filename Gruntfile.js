@@ -27,7 +27,8 @@ module.exports = function (grunt) {
         ngAnnotate: {
             ngadmin: {
                 files: {
-                    'build/ng-admin.min.js': ['build/ng-admin.min.js']
+                    'build/ng-admin.min.js': ['build/ng-admin.min.js'],
+                    'build/ng-admin-only.min.js': ['build/ng-admin-only.min.js']
                 }
             }
         },
@@ -92,7 +93,7 @@ module.exports = function (grunt) {
         },
 
         clean : {
-            build : ["build/*", "!build/ng-admin.min.js", "!build/ng-admin.min.css", "!build/ng-admin.min.map"]
+            build : ["build/*", "!build/ng-admin.min.js", "!build/ng-admin-only.min.js", "!build/ng-admin.min.css", "!build/ng-admin.min.map"]
         },
 
         copy: {
@@ -123,7 +124,7 @@ module.exports = function (grunt) {
             },
             js_only: {
                 src: 'build/ng-admin-only.min.js',
-                dest: 'examples/blog/build/ng-admin-only.js'
+                dest: 'examples/blog/build/ng-admin-only.min.js'
             },
             css: {
                 src: 'build/ng-admin.min.css',
@@ -177,7 +178,7 @@ module.exports = function (grunt) {
         json_server: {
             stub: {
                 options: {
-                    port: 3000,
+                    port: 3002,
                     db: 'examples/blog/stub-server.json',
                     keepalive: false
                 }

@@ -85,7 +85,7 @@
             "skipDirOptimize": true,
             "removeCombined": true,
             "wrap": {
-                "startFile": "src/build/start.frag",
+                "startFile": "src/build/start-ngadmin.frag",
                 "endFile": "src/build/end-only.frag"
             }
         }
