@@ -46,8 +46,8 @@ var app = angular.module('myApp', ['ng-admin']);
 
 Configure ng-admin:
 ```js
-app.config(function (AdminDescription, NgAdminProvider) {
-    var nga = AdminDescription;
+app.config(function (NgAdminConfigurationProvider) {
+    var nga = NgAdminConfigurationProvider;
     // set the main API endpoint for this admin
     var app = nga.application('My backend')
         .baseApiUrl('http://localhost:3000/');
