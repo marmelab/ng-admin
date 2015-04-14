@@ -3,9 +3,15 @@
 describe('Dashboard', function () {
     'use strict';
 
-    it('should display a navigation menu linking to all entities', function () {
-        browser.get(browser.baseUrl);
+    var hasToLoad = true;
+    beforeEach(function() {
+        if (hasToLoad) {
+            browser.get(browser.baseUrl);
+            hasToLoad = false;
+        }
+    });
 
+    it('should display a navigation menu linking to all entities', function () {
         $$('.nav li').then(function (items) {
             expect(items.length).toBe(5);
             expect(items[0].getText()).toBe('Posts');
@@ -15,8 +21,6 @@ describe('Dashboard', function () {
     });
 
     it('should display a panel for each entity with a list of recent items', function () {
-        browser.get(browser.baseUrl);
-
         $$('.panel').then(function (panels) {
             expect(panels.length).toBe(3);
 

@@ -37,7 +37,9 @@
       "tags": [
         1,
         3
-      ]
+      ],
+      "category": "tech",
+      "subcategory": "computers"
     },
     {
       "id": 2,
