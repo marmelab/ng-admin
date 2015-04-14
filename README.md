@@ -116,31 +116,6 @@ app.config(function (NgAdminConfigurationProvider) {
         ])
         .listActions(['show', 'edit', 'delete']);
 
-   var categories = [{
-        label : 'Tech',
-        value : 'tech'
-    },{
-        label : 'Lifestyle',
-        value : 'lifestyle'
-    }];
-    var subCategories = [{
-        label : 'Computers',
-        value : 'computers',
-        category : 'tech'
-    }, {
-        label : 'Gadgets',
-        value : 'gadgets',
-        category : 'tech'
-    },{
-        label : 'Travel',
-        value : 'travel',
-        category : 'lifestyle'
-    }, {
-        label : 'Fitness',
-        value : 'fitness',
-        category : 'lifestyle'
-    }];
-
     post.creationView()
         .fields([
             nga.field('title') // the default edit field type is "string", and displays as a text input
@@ -149,15 +124,6 @@ app.config(function (NgAdminConfigurationProvider) {
             nga.field('teaser', 'text'), // text field type translates to a textarea
             nga.field('body', 'wysiwyg'), // overriding the type allows rich text editing for the body
             nga.field('published_at', 'date') // Date field type translates to a datepicker
-            nga.field('category', 'choice')
-                .choices(categories),
-            nga.field('subCategory', 'choice') // choice (and choices) field can be set with a function that returns the set of choices (options) to render. 
-                .label('Sub Category')
-                .choices(function(entry){
-                    return subCategories.filter(function (c) {
-                        return c.category === entry.values.category
-                    });
-                }),
         ]);
 
     post.editionView()
@@ -435,8 +401,38 @@ Format for number to string conversion. Based on [Numeral.js](http://numeraljs.c
 
 ### `choice` and `choices` Field Settings
 
-* `choices([{value: '', label: ''}, ...])`
-Define array of choices for `choice` type. A choice has both a value and a label.
+* `choices(array|function)`
+Define array of choices for `choice` type. 
+
+    When given an array, each choice must be an object litteral with both a value and a label.
+
+        nga.field('currency', 'choice')
+            .choices([
+              { value: 'USD', label: 'dollar ($)' },
+              { value: 'EUR', label: 'euro (€)' },
+            ]);
+
+    When given a function, the returned choice list must be in the same format (value and label) and can depend on the current entry. This is useful to allow choice fields dependent on each other.
+
+        nga.field('country', 'choice')
+            .choices([
+              { value: 'FR', label: 'France' },
+              { value: 'US', label: 'USA' },
+            ]);
+        nga.field('city', 'choice')
+            .choices(function(entry) {
+                if (entry.values.country == 'FR') {
+                    return [
+                        { value: 'Paris', label: 'Paris' },
+                        { value: 'Nancy', label: 'Nancy' }
+                    ];
+                if (entry.values.country == 'US') {
+                    return [
+                        { value: 'NY', label: 'New York' },
+                        { value: 'SF', label: 'San Francisco' }
+                    ];
+                }
+            });
 
 ### `date` Field Settings
 
