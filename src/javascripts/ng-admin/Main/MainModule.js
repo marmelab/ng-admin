@@ -28,6 +28,7 @@ define(function (require) {
     MainModule.config(require('ng-admin/Main/config/http'));
     MainModule.config(require('ng-admin/Main/config/routing'));
 
+    MainModule.run(require('ng-admin/Main/run/ErrorHandler'));
     MainModule.run(require('ng-admin/Main/run/Loader'));
 
     return MainModule;

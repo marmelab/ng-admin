@@ -24,7 +24,13 @@ define(function (require) {
 
     function viewProvider(viewName) {
         return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
-            var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+            try {
+                var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+            } catch (e) {
+                var error404 = new Error('Unknown view or entity name');
+                error404.status = 404; // trigger the 404 error
+                throw error404;
+            }
             if (!view.isEnabled()) {
                 throw new Error('The ' + viewName + ' is disabled for this entity');
             }
