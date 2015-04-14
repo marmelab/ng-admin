@@ -4,7 +4,8 @@ define(function (require) {
     'use strict';
 
     var layoutTemplate = require('text!../view/layout.html'),
-        dashboardTemplate = require('text!../view/dashboard.html');
+        dashboardTemplate = require('text!../view/dashboard.html'),
+        errorTemplate = require('text!../view/404.html');
 
     function routing($stateProvider, $urlRouterProvider) {
 
@@ -29,7 +30,18 @@ define(function (require) {
             template: dashboardTemplate
         });
 
-        $urlRouterProvider.otherwise('/dashboard');
+        $stateProvider.state('ma-404', {
+            parent: 'main',
+            template: errorTemplate
+        });
+
+        $urlRouterProvider.when('', '/dashboard');
+
+        $urlRouterProvider.otherwise(function($injector, $location) {
+            var state = $injector.get('$state');
+            state.go('ma-404');
+            return $location.path();
+        });
     }
 
     routing.$inject = ['$stateProvider', '$urlRouterProvider'];

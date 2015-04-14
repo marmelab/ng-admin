@@ -17,6 +17,11 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
     margin-bottom: 0;
 }
 
+pre.ascii {
+    border: none;
+    background: none;
+}
+
 menu {
     margin: 0;
     padding: 0;
