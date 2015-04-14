@@ -29,7 +29,6 @@ define(function () {
                     RetrieveQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
-                            console.log('entry', entries[i]);
 
                             results[i] = formatEntry(entries[i]);
                         }

@@ -14,15 +14,14 @@ define(function () {
     EntryFormatter.prototype.formatField = function formatField(field) {
         var label = field.label() || field.name();
         switch (field.type()) {
+            case 'boolean':
+            case 'choice':
+            case 'choices':
             case 'number':
             case 'text':
             case 'wysiwyg':
-            case 'string':
-            case 'boolean':
             case 'email':
             case 'json':
-            case 'choice':
-            case 'choices':
             case 'file':
             case 'template':
                 return function (entry) {
@@ -57,9 +56,11 @@ define(function () {
         return function formatEntry(entry) {
             var result = {};
             fieldsFormatters.map(function (formatter) {
+                if (!formatter) return;
                 return formatter(entry);
             })
             .forEach(function (field) {
+                if (!field) return;
                 result[field.name] = field.value;
             });
 
