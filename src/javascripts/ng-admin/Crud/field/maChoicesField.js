@@ -13,17 +13,15 @@ define(function (require) {
             scope: {
                 'field': '&',
                 'value': '=',
-                'entry':  '='
+                'entry':  '=?'
             },
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
                 scope.name = field.name();
                 scope.v = field.validation();
-                scope.getChoices = function(entry) {
-                    return field.getChoices(entry);
-                }
-
+                var choices = field.choices();
+                scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
                 var select = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
