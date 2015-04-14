@@ -237,6 +237,17 @@
                 nga.field('published', 'boolean')
             ]);
 
+        // customize header
+        var customHeaderTemplate =
+        '<div class="navbar-header">' +
+            '<a class="navbar-brand" href="#" ng-click="appController.displayHome()">ng-admin backend demo</a>' +
+        '</div>' +
+        '<p class="navbar-text navbar-right">' +
+            '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source</a>' +
+        '</p>';
+        admin.header(customHeaderTemplate);
+
+        // customize menu
         admin.menu(nga.menu()
             .addChild(nga.menu(post).icon('<span class="glyphicon glyphicon-file"></span>')) // customize the entity menu icon
             .addChild(nga.menu(comment).icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>')) // you can even use utf-8 symbols!
