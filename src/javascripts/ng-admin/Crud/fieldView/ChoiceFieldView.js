@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     function getReadWidget() {
-        return '<ma-string-column value="::field.getLabelForChoice(entry.values[field.name()])"></ma-string-column>';
+        return '<ma-string-column value="::field.getLabelForChoice(entry.values[field.name()], entry)"></ma-string-column>';
     }
     function getLinkWidget() {
         return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
