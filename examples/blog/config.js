@@ -93,40 +93,25 @@
                 nga.field('published_at', 'date') // Date field type translates to a datepicker
             ]);
 
-        var categories = [{
-            label : 'Tech',
-            value : 'tech'
-        },{
-            label : 'Lifestyle',
-            value : 'lifestyle'
-        }];
-        var subCategories = [{
-            label : 'Computers',
-            value : 'computers',
-            category : 'tech'
-        }, {
-            label : 'Gadgets',
-            value : 'gadgets',
-            category : 'tech'
-        },{
-            label : 'Travel',
-            value : 'travel',
-            category : 'lifestyle'
-        }, {
-            label : 'Fitness',
-            value : 'fitness',
-            category : 'lifestyle'
-        }];
+        var subCategories = [
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+            { category: 'lifestyle', label: 'Travel', value: 'travel' },
+            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
+        ];
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
             .fields([
                 post.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
-                nga.field('category', 'choice')
-                    .choices(categories),
-                nga.field('subCategory', 'choice')
-                    .choices(function(entry){
+                nga.field('category', 'choice') // a choice field is rendered as a dropdown in the edition view
+                    .choices([ // List the choice as object literals
+                        { label: 'Tech', value: 'tech' },
+                        { label: 'Lifestyle', value: 'lifestyle' }
+                    ]),
+                nga.field('subcategory', 'choice')
+                    .choices(function(entry) { // choices also accepts a function to return a list of choices based on the current entry
                         return subCategories.filter(function (c) {
                             return c.category === entry.values.category
                         });

@@ -419,20 +419,20 @@ Define array of choices for `choice` type.
               { value: 'FR', label: 'France' },
               { value: 'US', label: 'USA' },
             ]);
+        var cities = [
+            { country: 'FR', value: 'Paris', label: 'Paris' },
+            { country: 'FR', value: 'Nancy', label: 'Nancy' },
+            { country: 'US', value: 'NY', label: 'New York' },
+            { country: 'US', value: 'SF', label: 'San Francisco' }
+        ]
         nga.field('city', 'choice')
             .choices(function(entry) {
-                if (entry.values.country == 'FR') {
-                    return [
-                        { value: 'Paris', label: 'Paris' },
-                        { value: 'Nancy', label: 'Nancy' }
-                    ];
-                if (entry.values.country == 'US') {
-                    return [
-                        { value: 'NY', label: 'New York' },
-                        { value: 'SF', label: 'San Francisco' }
-                    ];
-                }
+                return cities.filter(function (city) {
+                    return city.country === entry.values.country
+                });
             });
+
+    *Tip*: When using a function for choice values, if you meet the "Uncaught Error: [$rootScope:infdig] 10 $digest() iterations reached. Aborting!", that's because the `choices()` function returns a new array every time. That's a known AngularJS limitation (see the [infinite digest loop documentation](https://docs.angularjs.org/error/$rootScope/infdig)).
 
 ### `date` Field Settings
 
