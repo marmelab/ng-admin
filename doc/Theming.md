@@ -82,13 +82,33 @@ app.customTemplate(function(viewName) {
 })
 ```
 
+## Customizing the Application Header
+
+If you want to override the application header (for instance to add authentication status on the top bar), use the `app.header()` setter with a valid HTML content. Angular directives are executed in the context of the layout. For instance, to display a custom title and a right aligned link, use the following code:
+
+```js
+var customHeaderTemplate =
+'<div class="navbar-header">' +
+    '<a class="navbar-brand" href="#" ng-click="appController.displayHome()">' +
+        My Custom Title
+    '</a>' +
+'</div>' +
+'<p class="navbar-text navbar-right">' +
+    '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js">' +
+        '<span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source' +
+    '</a>' +
+'</p>';
+var app = nga.application('My Application');
+app.header(customHeaderTemplate);
+```
+
 ## Customizing the Application Layout
 
-If, for any reason, you need to override the application layout (for instance to add authentication status on the top bar), use the `app.layout()` setter:
+If the header is not enough, and you need to override the entire application layout use the `app.layout()` setter:
 
 ```js
 var myLayout = require('text!./path/to/layout.html');
-var app = nga.application('My Application') 
+var app = nga.application('My Application');
 app.layout(myLayout);
 ```
 

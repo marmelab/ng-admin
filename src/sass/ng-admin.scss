@@ -15,6 +15,9 @@ $icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_co
 
 .navbar-static-top {
     margin-bottom: 0;
+    .navbar-right {
+        margin-right: 15px;
+    }
 }
 
 menu {
