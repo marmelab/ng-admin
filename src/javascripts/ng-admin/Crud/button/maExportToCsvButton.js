@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maExportToCsvButton ($stateParams, Papa, notification, entryFormater, RetrieveQueries) {
+    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, RetrieveQueries) {
         return {
             restrict: 'E',
             scope: {
@@ -22,13 +22,15 @@ define(function () {
                     exportView.fields(exportFields);
                 }
                 scope.has_export = exportView.fields().length > 0;
-                var formatEntry = entryFormater.getFormatter(exportView.fields());
+                var formatEntry = entryFormatter.getFormatter(exportView.fields());
 
                 scope.exportToCsv = function () {
 
                     RetrieveQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
+                            console.log('entry', entries[i]);
+
                             results[i] = formatEntry(entries[i]);
                         }
                         var csv = Papa.unparse(results);
@@ -45,7 +47,7 @@ define(function () {
         };
     }
 
-    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormater', 'RetrieveQueries'];
+    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'RetrieveQueries'];
 
     return maExportToCsvButton;
 });
