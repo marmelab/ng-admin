@@ -11,10 +11,12 @@ define(function () {
      * @constructor
      */
     var AppController = function ($scope, $location, Configuration) {
+        var application = Configuration();
         this.$scope = $scope;
         this.$location = $location;
-        this.menu = Configuration().menu();
-        this.applicationName = Configuration().title();
+        this.menu = application.menu();
+        this.applicationName = application.title();
+        this.header = application.header();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

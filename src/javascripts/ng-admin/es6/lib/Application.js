@@ -7,6 +7,7 @@ class Application {
         this._title = title;
         this._menu = null;
         this._layout = false;
+        this._header = false;
         this._entities = [];
         this._errorMessage = this.defaultErrorMessage;
     }
@@ -53,6 +54,12 @@ class Application {
     layout(layout) {
         if (!arguments.length) return this._layout;
         this._layout = layout;
+        return this;
+    }
+
+    header(header) {
+        if (!arguments.length) return this._header;
+        this._header = header;
         return this;
     }
 
