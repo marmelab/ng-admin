@@ -18,6 +18,7 @@ define(function () {
             case 'choice':
             case 'choices':
             case 'number':
+            case 'string':
             case 'text':
             case 'wysiwyg':
             case 'email':
