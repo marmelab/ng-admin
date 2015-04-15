@@ -12,10 +12,19 @@
           "url": "http://www.photo-libre.fr/paysage/1.jpg",
           "metas": {
             "title": "This is a great photo",
-            "definitions": ["72", "300"],
+            "definitions": [
+              "72",
+              "300"
+            ],
             "authors": [
-              { "name": "Paul", "email": "paul@email.com" },
-              { "name": "Joe", "email": "joe@email.com" }
+              {
+                "name": "Paul",
+                "email": "paul@email.com"
+              },
+              {
+                "name": "Joe",
+                "email": "joe@email.com"
+              }
             ]
           }
         },
@@ -28,7 +37,9 @@
       "tags": [
         1,
         3
-      ]
+      ],
+      "category": "tech",
+      "subcategory": "computers"
     },
     {
       "id": 2,
@@ -139,7 +150,10 @@
       "tags": [
         4,
         3
-      ]
+      ],
+      "category": "tech",
+      "subcategory": "computers",
+      "pictures": null
     },
     {
       "id": 12,
@@ -148,7 +162,10 @@
       "body": "<p>Praesentium corrupti minus molestias eveniet mollitia. Sit dolores est tenetur eos veritatis. Vero aut molestias provident ducimus odit optio.</p><p>Minima amet accusantium dolores et. Iste eos necessitatibus iure provident rerum repellendus reiciendis eos. Voluptate dolorem dolore aliquid sed maiores.</p><p>Ut quia excepturi quidem quidem. Cupiditate qui est rerum praesentium consequatur ad. Minima rem et est. Ut odio nostrum fugit laborum. Quis vitae occaecati tenetur earum non architecto.</p><p>Minima est nobis accusamus sunt explicabo fuga. Ut ut ut officia labore ratione animi saepe et.</p><p>Accusamus quae ex rerum est eos nesciunt et. Nemo nam consequatur earum necessitatibus et. Eum corporis corporis quia at nihil consectetur accusamus. Ea eveniet et culpa maxime.</p><p>Et et quisquam odio sapiente. Voluptas ducimus beatae ratione et soluta esse ut animi. Ipsa architecto veritatis cumque in.</p><p>Voluptatem dolore sint aliquam excepturi. Pariatur quisquam a eum. Aut et sit quis et dolorem omnis. Molestias id cupiditate error ab.</p><p>Odio ut deleniti incidunt vel dolores eligendi. Nemo aut commodi accusamus alias reprehenderit dolorum eaque. Iure fugit quis occaecati aspernatur tempora iste.</p><p>Omnis repellat et sequi numquam accusantium doloribus eum totam. Ab assumenda facere qui voluptate. Temporibus non ipsa officia. Corrupti omnis ut dolores velit aliquam ut omnis consequuntur.</p><p>Et et non dolores itaque nesciunt reiciendis fuga quod. Quia voluptate repellat consequatur cupiditate et sint quis.</p><p>Quidem est nihil odit deleniti ab. Perspiciatis odit modi et aut et dolor.</p><p>Architecto velit et ipsam deserunt. Nostrum non fuga voluptatibus dolore rerum. Vitae consequuntur qui dolor laborum.</p><p>Atque iusto neque voluptatem aut neque. Necessitatibus at quas consectetur rerum ipsum. Et ullam aut velit.</p><p>Ad et nobis voluptatem et voluptatem cum facilis unde. Qui qui ratione dolores necessitatibus doloribus. Tempore aut consequatur ea optio. Eaque sunt recusandae expedita quaerat excepturi. Autem ipsum aliquid at porro perspiciatis.</p><p>Enim magni voluptatibus sunt et quos facilis recusandae id. Voluptatem autem exercitationem ut maxime eaque corporis aut. Vel quas accusamus voluptatem est odio. Officiis temporibus iusto corporis quos sed non qui.</p><p>Architecto aut assumenda assumenda doloremque enim et. Aut totam alias sint ipsa. Nihil aut alias pariatur minus aut eos ut.</p><p>Vitae aut velit illum natus. Animi error nemo veritatis natus. Vel nulla veniam consequatur consequatur laboriosam incidunt minima. Id rem accusamus voluptatum modi et aut et.</p><p>Excepturi corporis omnis ipsam ipsam praesentium ipsa. Voluptas qui deleniti iusto mollitia vitae sequi. Dicta vero et eveniet delectus asperiores voluptatum ratione. Distinctio porro sunt qui ea.</p><p>Dignissimos tempora atque quaerat doloribus repellendus molestias eveniet. Consectetur sunt adipisci voluptate enim in. Rerum non ut optio nam nostrum est. Tempora et nihil sit pariatur. Eius minima sit earum sed alias vero dolorem.</p><p>Dolor deleniti ipsum et odit in laboriosam repellat consequatur. Et ipsum tenetur ipsum ut debitis quo. Sunt inventore aut tenetur eum facilis qui adipisci. Praesentium rerum occaecati nulla.</p><p>Voluptatem dignissimos odio repudiandae. Id et ut ut id nisi. Occaecati omnis blanditiis temporibus nobis nesciunt corrupti.</p><p>Eligendi cumque alias blanditiis est. Eum aperiam dolore iste. Qui velit eos voluptas ea quidem. Quia natus pariatur doloremque velit accusamus.</p><p>Aliquid quidem assumenda autem fuga corporis rerum. Qui aut officia voluptatem voluptas maxime molestias. Nostrum ab quasi et blanditiis iusto esse.</p><p>Rem expedita non sequi. Itaque molestiae et non tempore corrupti ullam quisquam modi. Ex in maxime architecto consequuntur minima quaerat voluptatem. Omnis est eius accusantium et ipsum dolore.</p><p>Suscipit harum aut eveniet saepe reprehenderit. Ipsa eaque distinctio nulla nam libero. Debitis architecto quasi quia magnam quia.</p><p>Fugit dolorum illum aut molestiae neque. Delectus non voluptate vero est debitis id. Vitae distinctio iste omnis aspernatur voluptatem vero. Quaerat recusandae rem repellat.</p><p>Dolorum praesentium voluptas et omnis qui commodi laborum. Dolorem nostrum repellat facilis consectetur ex. Repudiandae iusto quia numquam. Reprehenderit sint beatae error non.</p><p>Recusandae in eius quos et voluptas. Doloremque consequuntur laudantium vel nihil. Eligendi quis aut ducimus numquam.</p><p>Doloribus ea maxime voluptatem sit. Et ullam quo rerum quia necessitatibus sed impedit.</p><p>Facilis quisquam et sunt. Eum officiis dolorem enim sapiente voluptatem sunt. Eum sit quidem culpa veniam sit.</p><p>Excepturi saepe alias ut rerum. Non autem hic dignissimos vel quo qui quas unde. Unde ut minus id architecto.</p><p>Eveniet ipsum et non error et nemo. Magnam voluptates dolore tenetur velit deserunt cupiditate ut. Voluptas rerum sed aut distinctio. Eligendi quis id molestiae.</p><p>Voluptatem adipisci et est voluptatibus repudiandae molestiae distinctio. Quisquam enim aliquid veritatis. Iure eos velit quod commodi fugit molestiae.</p><p>Consequuntur et velit quia et deserunt officia ut. Pariatur et atque ut nulla saepe cum veritatis. Qui praesentium praesentium quos consequatur.</p>",
       "views": 720,
       "published_at": "2012-11-07",
-      "tags": []
+      "tags": [],
+      "category": "lifestyle",
+      "subcategory": "fitness",
+      "pictures": null
     }
   ],
   "comments": [

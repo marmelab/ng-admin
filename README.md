@@ -401,8 +401,38 @@ Format for number to string conversion. Based on [Numeral.js](http://numeraljs.c
 
 ### `choice` and `choices` Field Settings
 
-* `choices([{value: '', label: ''}, ...])`
-Define array of choices for `choice` type. A choice has both a value and a label.
+* `choices(array|function)`
+Define array of choices for `choice` type. 
+
+    When given an array, each choice must be an object litteral with both a value and a label.
+
+        nga.field('currency', 'choice')
+            .choices([
+              { value: 'USD', label: 'dollar ($)' },
+              { value: 'EUR', label: 'euro (€)' },
+            ]);
+
+    When given a function, the returned choice list must be in the same format (value and label) and can depend on the current entry. This is useful to allow choice fields dependent on each other.
+
+        nga.field('country', 'choice')
+            .choices([
+              { value: 'FR', label: 'France' },
+              { value: 'US', label: 'USA' },
+            ]);
+        var cities = [
+            { country: 'FR', value: 'Paris', label: 'Paris' },
+            { country: 'FR', value: 'Nancy', label: 'Nancy' },
+            { country: 'US', value: 'NY', label: 'New York' },
+            { country: 'US', value: 'SF', label: 'San Francisco' }
+        ]
+        nga.field('city', 'choice')
+            .choices(function(entry) {
+                return cities.filter(function (city) {
+                    return city.country === entry.values.country
+                });
+            });
+
+    *Tip*: When using a function for choice values, if you meet the "Uncaught Error: [$rootScope:infdig] 10 $digest() iterations reached. Aborting!", that's because the `choices()` function returns a new array every time. That's a known AngularJS limitation (see the [infinite digest loop documentation](https://docs.angularjs.org/error/$rootScope/infdig)).
 
 ### `date` Field Settings
 

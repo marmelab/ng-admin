@@ -10,11 +10,13 @@ class ChoiceField extends Field {
     choices(choices) {
         if (!arguments.length) return this._choices;
         this._choices = choices;
+ 
         return this;
     }
 
-    getLabelForChoice(value) {
-        var choice = this._choices.filter(c => c.value == value).pop();
+    getLabelForChoice(value, entry) {
+        let choices = typeof(this._choices) === 'function' ? this._choices(entry) : this._choices;
+        let choice = choices.filter(c => c.value == value).pop();
         return choice ? choice.label : null;
     }
 }
