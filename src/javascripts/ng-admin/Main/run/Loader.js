@@ -19,6 +19,10 @@ define(function () {
             progression.done();
             $window.scrollTo(0, 0);
         });
+
+        $rootScope.$on("$stateChangeError", function() {
+            progression.done();
+        });
     }
 
     loader.$inject = ['$rootScope', '$window', 'progression'];
