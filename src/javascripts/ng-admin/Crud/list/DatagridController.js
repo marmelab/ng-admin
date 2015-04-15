@@ -36,8 +36,8 @@ define(function () {
      */
     DatagridController.prototype.gotoDetail = function (entry) {
         this.clearRouteParams();
-        var route = this.$scope.entity.isReadOnly ? 'show' : 'edit';
-
+        var entity = this.$scope.entity;
+        var route = entity.editionView().enabled ? 'edit' : 'show';
         this.$location.path('/' + entry.entityName + '/' + route + '/' + entry.identifierValue);
         this.$anchorScroll(0);
     };

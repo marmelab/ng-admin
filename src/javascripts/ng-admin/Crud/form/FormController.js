@@ -3,11 +3,11 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $location, CreateQueries, UpdateQueries, Validator, Configuration,
+    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Validator, Configuration,
                                    progression, notification, view, entry) {
 
         this.$scope = $scope;
-        this.$location = $location;
+        this.$state = $state;
         this.CreateQueries = CreateQueries;
         this.UpdateQueries = UpdateQueries;
         this.Validator = Validator;
@@ -20,7 +20,6 @@ define(function () {
         this.config = Configuration();
         this.view = view;
         this.entity = this.view.getEntity();
-        this.$scope.edit = this.edit.bind(this);
         this.$scope.entry = entry;
         this.$scope.view = view;
         this.$scope.entity = this.entity;
@@ -71,20 +70,22 @@ define(function () {
     FormController.prototype.submitCreation = function ($event) {
         $event.preventDefault();
         var entry = this.validateEntry();
+        var entity = this.$scope.entity;
+        var route = !entity.editionView().enabled ? 'show' : 'edit';
         if (!entry) {
             return;
         }
         var progression = this.progression,
             notification = this.notification,
             entity = this.entity,
-            $location = this.$location;
+            $state = this.$state;
         progression.start();
         this.CreateQueries
             .createOne(this.view, entry)
             .then(function (response) {
                 progression.done();
                 notification.log('Element successfully created.', {addnCls: 'humane-flatty-success'});
-                $location.path(entity.name() + '/edit/' + response.identifierValue);
+                $state.go($state.get(route), { entity: entity.name(), id: response.identifierValue });
             }, this.handleError.bind(this));
     };
 
@@ -106,15 +107,6 @@ define(function () {
     };
 
     /**
-     * Link to edit entity page
-     *
-     * @param {View} entry
-     */
-    FormController.prototype.edit = function (entry) {
-        this.$location.path(entry.entityName  + '/edit/' + entry.identifierValue);
-    };
-
-    /**
      * Handle create or update errors
      *
      * @param {Object} response
@@ -128,14 +120,14 @@ define(function () {
 
     FormController.prototype.destroy = function () {
         this.$scope = undefined;
-        this.$location = undefined;
+        this.$state = undefined;
         this.CreateQueries = undefined;
         this.UpdateQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$location', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

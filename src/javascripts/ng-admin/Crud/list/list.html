@@ -1,25 +1,25 @@
 <div class="row list-header">
     <div class="col-lg-12">
-        <ma-view-actions override="listController.actions" selection="listController.selection" batch-buttons="listController.batchActions" entity="listController.entity">
-            <ma-view-batch-actions buttons="batchButtons()" selection="selection" entity="entity"></ma-view-batch-actions>
-            <ma-create-button ng-if="!entity.isReadOnly" entity="entity"></ma-create-button>
-            <ma-export-to-csv-button entity="entity"></ma-export-to-csv-button>
+        <ma-view-actions override="::listController.actions" selection="listController.selection" batch-buttons="::listController.batchActions" entity="::listController.entity">
+            <ma-view-batch-actions buttons="::batchButtons()" selection="selection" entity="::entity"></ma-view-batch-actions>
+            <ma-create-button ng-if="::entity.creationView().enabled" entity="::entity"></ma-create-button>
+            <ma-export-to-csv-button entity="::entity"></ma-export-to-csv-button>
         </ma-view-actions>
 
         <div class="page-header">
-            <h1 compile="listController.title">
-                {{ listController.view.entity.name() | humanize | pluralize }} list
+            <h1 compile="::listController.title">
+                {{ ::listController.view.entity.name() | humanize | pluralize }} list
             </h1>
-            <p class="lead" ng-if="listController.description" compile="listController.description">{{ listController.description }}</p>
+            <p class="lead" ng-if="::listController.description" compile="::listController.description">{{ ::listController.description }}</p>
         </div>
 
         <ma-filter ng-if="listController.hasFilters" filters="::listController.filters"></ma-filter>
     </div>
 </div>
 
-<div class="row list-view" ng-class="'ng-admin-entity-' + listController.entity.name()">
+<div class="row list-view" ng-class="::'ng-admin-entity-' + listController.entity.name()">
     <div class="col-lg-12">
-        <ma-datagrid name="{{ listController.view.name() }}"
+        <ma-datagrid name="{{ ::listController.view.name() }}"
                   entries="listController.entries"
                   selection="listController.selection"
                   fields="::listController.fields"
@@ -29,19 +29,19 @@
     </div>
 </div>
 
-<div class="row" ng-if="!listController.infinitePagination">
+<div class="row" ng-if="::!listController.infinitePagination">
     <div class="col-lg-12">
         <ma-datagrid-pagination
             page="{{ listController.page }}"
-            per-page="{{ listController.view.perPage() }}"
+            per-page="{{ ::listController.view.perPage() }}"
             total-items="{{ listController.totalItems }}"
-            set-page="listController.setPageCallback">
+            set-page="::listController.setPageCallback">
         </ma-datagrid-pagination>
     </div>
 </div>
 
-<ma-datagrid-infinite-pagination ng-if="listController.infinitePagination"
-            per-page="{{ listController.view.perPage() }}"
-            total-items="{{ listController.totalItems }}"
-            next-page="listController.nextPageCallback">
+<ma-datagrid-infinite-pagination ng-if="::listController.infinitePagination"
+            per-page="{{ ::listController.view.perPage() }}"
+            total-items="{{ ::listController.totalItems }}"
+            next-page="::listController.nextPageCallback">
 </ma-datagrid-infinite-pagination>
