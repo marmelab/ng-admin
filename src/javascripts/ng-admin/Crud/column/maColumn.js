@@ -37,8 +37,10 @@ define(function (require) {
                 $compile(element.contents())(scope);
                 scope.gotoDetail = function () {
                     this.clearRouteParams();
-                    var route = scope.entity().isReadOnly ? 'show' : scope.field.detailLinkRoute();
-
+                    var route = scope.field.detailLinkRoute();
+                    if (route == 'edit' && !scope.entity().editionView().enabled) {
+                        route = 'show';
+                    }
                     $location.path('/' + scope.entry.entityName + '/' + route + '/' + scope.entry.identifierValue);
                     $anchorScroll(0);
                 };

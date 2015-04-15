@@ -256,7 +256,7 @@
             template: '<p class="form-control-static"><a ng-click="displayPost()">View&nbsp;post</a></p>',
             link: function (scope) {
                 scope.displayPost = function () {
-                    $location.path('/show/posts/' + scope.entry().values.post_id);
+                    $location.path('/posts/show/' + scope.entry().values.post_id);
                 };
             }
         };

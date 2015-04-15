@@ -13,10 +13,16 @@ define(function () {
     function loader($rootScope, $window, progression) {
         $rootScope.$on('$stateChangeStart', function () {
             progression.start();
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function() {
+            progression.done();
             $window.scrollTo(0, 0);
         });
 
-        $rootScope.$on('$stateChangeSuccess', progression.done.bind(progression));
+        $rootScope.$on("$stateChangeError", function() {
+            progression.done();
+        });
     }
 
     loader.$inject = ['$rootScope', '$window', 'progression'];

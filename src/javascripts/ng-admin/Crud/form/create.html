@@ -1,21 +1,21 @@
 <div class="row">
     <div class="col-lg-12">
-        <ma-view-actions override="formController.actions" entry="entry" entity="formController.entity">
-            <ma-list-button entity="entity"></ma-list-button>
+        <ma-view-actions override="::formController.actions" entry="entry" entity="::formController.entity">
+            <ma-list-button entity="::entity"></ma-list-button>
         </ma-view-actions>
 
         <div class="page-header">
-            <h1 compile="formController.title">
-                Create new {{ formController.view.entity.name() | humanize:true | singularize }}
+            <h1 compile="::formController.title">
+                Create new {{ ::formController.view.entity.name() | humanize:true | singularize }}
             </h1>
-            <p class="lead" ng-if="formController.description" compile="formController.description">{{ formController.description }}</p>
+            <p class="lead" ng-if="::formController.description" compile="::formController.description">{{ ::formController.description }}</p>
         </div>
     </div>
 </div>
 
-<div class="row" id="create-view" ng-class="'ng-admin-entity-' + formController.entity.name()">
+<div class="row" id="create-view" ng-class="::'ng-admin-entity-' + formController.entity.name()">
     <form class="col-lg-12 form-horizontal" name="formController.form" ng-submit="formController.submitCreation($event)">
-        <div class="form-field form-group" ng-repeat="field in formController.fields track by $index">
+        <div class="form-field form-group" ng-repeat="field in ::formController.fields track by $index">
             <ma-field field="::field" entry="entry" entity="::entity" form="formController.form"></ma-field>
         </div>
 

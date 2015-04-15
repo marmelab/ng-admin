@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-lg-12">
-        <ma-view-actions override="showController.actions" entry="entry" entity="showController.entity">
-            <ma-list-button entity="entity"></ma-list-button>
-            <ma-edit-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></ma-edit-button>
-            <ma-delete-button ng-if="!entity.isReadOnly" entry="entry" entity="entity"></ma-delete-button>
+        <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
+            <ma-list-button entity="::entity"></ma-list-button>
+            <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
+            <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
         </ma-view-actions>
 
         <div class="page-header">
-            <h1 compile="showController.title">
-                {{ showController.view.entity.name() | humanize:true | singularize }}  #{{ entry.identifierValue }} Detail
+            <h1 compile="::showController.title">
+                {{ ::showController.view.entity.name() | humanize:true | singularize }}  #{{ ::entry.identifierValue }} Detail
             </h1>
-            <p class="lead" ng-if="showController.description" compile="showController.description">{{ showController.description }}</p>
+            <p class="lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</p>
         </div>
     </div>
 </div>
@@ -18,11 +18,11 @@
 
 <div class="row form-horizontal" id="show-view">
 
-    <div class="col-lg-12 form-group" ng-repeat="field in showController.fields track by $index">
+    <div class="col-lg-12 form-group" ng-repeat="field in ::showController.fields track by $index">
 
         <label class="col-sm-2 control-label">{{ field.label() }}</label>
 
-        <div class="show-value" ng-class="'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
+        <div class="show-value" ng-class="::'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
 
             <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
 
