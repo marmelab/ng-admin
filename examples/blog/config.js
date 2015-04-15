@@ -42,13 +42,13 @@
         });
 
         var admin = nga.application('ng-admin backend demo') // application main title
-            .baseApiUrl('http://localhost:3000/'); // main API endpoint
+            .baseApiUrl('http://localhost:3002/'); // main API endpoint
 
         // define all entities at the top to allow references between them
         var post = nga.entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
 
         var comment = nga.entity('comments')
-            .baseApiUrl('http://localhost:3000/') // The base API endpoint can be customized by entity
+            .baseApiUrl('http://localhost:3002/') // The base API endpoint can be customized by entity
             .identifier(nga.field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
         var tag = nga.entity('tags')

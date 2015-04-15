@@ -265,6 +265,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test:local', ['mochaTest', 'karma', 'build:dev', 'copy_build:dev', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
     grunt.registerTask('build:dev', ['ngconfig', 'requirejs:dev', 'compass:dev', 'concat:css']);
+    grunt.registerTask('build:only', ['ngconfig', 'requirejs:prod-only', 'ngAnnotate', 'uglify', 'clean:build']);
     grunt.registerTask('copy_build:dev', ['copy:es6_dev', 'copy:es6_devmap', 'copy:js_dev', 'copy:angular', 'copy:css_dev', 'copy:fonts_dev', 'clean']);
 
     // register default task

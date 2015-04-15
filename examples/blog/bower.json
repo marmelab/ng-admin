@@ -9,6 +9,7 @@
     "angular-ui-codemirror": "~0.2.2",
     "angular-ui-router": "~0.2.13",
     "angular-numeraljs": "~1.1.6",
+    "codemirror": "~0.2.2",
     "humane": "~3.2.0",
     "numeral": "~1.5.3",
     "ng-file-upload": "~2.2.2",
@@ -17,7 +18,8 @@
     "nprogress": "~0.1.6",
     "restangular": "~1.4.0",
     "textAngular": "~1.2.2",
-    "papaparse": "~4.1.0"
+    "papaparse": "~4.1.0",
+    "jsonlint": "~1.6.0"
   },
   "resolutions": {
     "lodash": "~3.6.0",
