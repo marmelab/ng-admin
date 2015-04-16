@@ -178,7 +178,7 @@ module.exports = function (grunt) {
         json_server: {
             stub: {
                 options: {
-                    port: 3002,
+                    port: 3000,
                     db: 'examples/blog/stub-server.json',
                     keepalive: false
                 }
