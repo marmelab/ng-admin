@@ -18,7 +18,7 @@
     </thead>
 
     <tbody>
-        <tr ng-repeat="entry in entries track by $index">
+        <tr ng-repeat="entry in entries track by entry.identifierValue">
             <td ng-if="selection">
                 <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
