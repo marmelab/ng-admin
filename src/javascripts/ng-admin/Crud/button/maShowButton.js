@@ -9,16 +9,19 @@ define(function () {
             scope: {
                 'entity': '&',
                 'entry': '&',
-                'size': '@'
+                'size': '@',
+                'label': '@',
             },
             link: function (scope) {
+                scope.label = scope.label || 'Show';
+
                 scope.gotoShow = function () {
                     $state.go($state.get('show'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
                 };
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoShow()">' +
-    '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;Show' +
+    '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ label }}' +
 '</a>'
         };
     }

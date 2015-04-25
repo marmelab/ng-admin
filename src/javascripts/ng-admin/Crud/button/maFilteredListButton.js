@@ -28,18 +28,18 @@ define(function () {
             scope: {
                 entityName: '@',
                 filter: '&',
-                text: '@',
+                label: '@',
                 size: '@'
             },
             link: function (scope) {
-                scope.buttonText = scope.text || ('See all related ' + scope.entityName);
+                scope.label = scope.label || ('See all related ' + scope.entityName);
                 scope.gotoList = function () {
                     $state.go($state.get('list'), { 'entity': scope.entityName, 'search': scope.filter()});
                 };
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">' +
-    '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ buttonText }}' +
+    '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ label }}' +
 '</a>'
         };
     }
