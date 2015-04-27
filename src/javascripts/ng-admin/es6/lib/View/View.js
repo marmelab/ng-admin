@@ -3,6 +3,7 @@ import Entry from "../Entry";
 class View {
     constructor(name) {
         this.entity = null;
+        this._dataStore = null;
         this._actions = null;
         this._title = false;
         this._description = '';
@@ -79,6 +80,11 @@ class View {
         return this;
     }
 
+    setDataStore(dataStore) {
+        this._dataStore = dataStore;
+
+        return this;
+    }
 
     /*
      * Supports various syntax
@@ -139,14 +145,38 @@ class View {
         }
 
         return result;
-    };
+    }
 
     mapEntry(restEntry) {
-        return new Entry.mapFromRest(this, restEntry);
+        var entry = new Entry.mapFromRest(this, restEntry);
+
+        return entry;
+    }
+
+    setEntry(entry) {
+        this._dataStore.setEntry(this, entry);
+
+        return this;
     }
 
     mapEntries(restEntries) {
         return restEntries.map(e => this.mapEntry(e));
+    }
+
+    setEntries(entries) {
+        this._dataStore.setEntries(this, entries);
+
+        return this;
+    }
+
+    setReferences(references) {
+        this._dataStore.setReferences(this, references);
+
+        return this;
+    }
+
+    getReferencesEntries() {
+        return this._dataStore.getReferences(this);
     }
 
     template(template) {
@@ -251,7 +281,7 @@ class View {
         }
 
         return this._url;
-    };
+    }
 }
 
 export default View;

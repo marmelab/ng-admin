@@ -179,6 +179,7 @@ define(function (require) {
 
                     reference = referencedValues[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
+                    referencedView = reference.getReferencedView();
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
@@ -187,7 +188,7 @@ define(function (require) {
                             // the response failed
                             continue;
                         }
-                        referencedValues[j].entries = reference.getReferencedView().mapEntries(response.result.data);
+                        referencedView.setReferences(referencedView.mapEntries(response.result.data));
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
@@ -201,7 +202,7 @@ define(function (require) {
                         }
 
                         // Entry are already mapped by getOne
-                        referencedValues[j].entries = entries;
+                        referencedView.setReferences(entries);
                     }
                 }
 
@@ -224,7 +225,7 @@ define(function (require) {
             referencedLists = view.getReferencedLists(),
             calls = [],
             referencedList,
-            referencedView,
+            referencedListView,
             filter,
             i,
             j;
@@ -233,8 +234,8 @@ define(function (require) {
             referencedList = referencedLists[i];
             filter = {};
             filter[referencedList.targetReferenceField()] = entityId;
-            referencedView = referencedList.getReferencedView();
-            calls.push(self.getRawValues(referencedView, 1, filter, sortField || (referencedView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
+            referencedListView = referencedList.getReferencedView();
+            calls.push(self.getRawValues(referencedListView, 1, filter, sortField || (referencedListView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
         }
 
         return this.$q.all(calls)
@@ -243,9 +244,10 @@ define(function (require) {
 
                 for (i in referencedLists) {
                     referencedList = referencedLists[i];
+                    referencedListView = referencedList.getReferencedView();
 
                     // Map entries
-                    referencedList.entries = referencedList.getReferencedView().mapEntries(responses[j++].data);
+                    referencedListView.setReferences(referencedListView.mapEntries(responses[j++].data));
                 }
 
                 return referencedLists;

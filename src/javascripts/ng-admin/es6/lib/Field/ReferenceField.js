@@ -4,7 +4,6 @@ import ListView from "../View/ListView";
 class ReferenceField extends ChoiceField {
     constructor(name) {
         super(name);
-        this.entries = [];
         this._type = 'reference';
         this._targetEntity = null;
         this._targetField = null;
@@ -29,7 +28,7 @@ class ReferenceField extends ChoiceField {
         }
 
         this._targetEntity = entity;
-        this._referencedView = new ListView().setEntity(entity);
+        this._referencedView = new ListView().setEntity(entity).setDataStore(this._targetEntity.dataStore);
         if (this._targetField) {
             this._referencedView.addField(this._targetField);
         }
@@ -122,9 +121,10 @@ class ReferenceField extends ChoiceField {
         var targetEntity = this._targetEntity;
         var targetField = this._targetField.name();
         var targetIdentifier = targetEntity.identifier().name();
+        var entries = this._referencedView.getReferencesEntries();
 
-        for (var i = 0, l = this.entries.length ; i < l ; i++) {
-            var entry = this.entries[i];
+        for (var i = 0, l = entries.length ; i < l ; i++) {
+            var entry = entries[i];
             result[entry.values[targetIdentifier]] = entry.values[targetField];
         }
 
@@ -132,7 +132,7 @@ class ReferenceField extends ChoiceField {
     }
 
     choices() {
-        return this.entries.map(function(entry) {
+        return this._referencedView.getReferencesEntries().map(function(entry) {
             return {
                 value: entry.values[this._targetEntity.identifier().name()],
                 label: entry.values[this._targetField.name()]

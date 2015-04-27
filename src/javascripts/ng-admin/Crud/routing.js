@@ -117,6 +117,7 @@ define(function (require) {
                             .mapEntry({});
 
                         view.processFieldsDefaultValue(entry);
+                        view.setEntry(entry);
 
                         return entry;
                     }],
