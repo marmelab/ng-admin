@@ -7,8 +7,8 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                'size': '@',
-                'label': '@',
+                size: '@',
+                label: '@',
             },
             link: function ($scope) {
                 $scope.label = $scope.label || 'Back';
@@ -19,7 +19,7 @@ define(function () {
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">' +
-    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{ label }}' +
+    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
         };
     }

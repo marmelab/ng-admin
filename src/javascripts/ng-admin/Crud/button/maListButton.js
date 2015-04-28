@@ -13,9 +13,9 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                'entity': '&',
-                'size': '@',
-                'label': '@',
+                entity: '&',
+                size: '@',
+                label: '@',
             },
             link: function (scope) {
                 scope.label = scope.label || 'List';
@@ -26,7 +26,7 @@ define(function () {
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">' +
-    '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ label }}' +
+    '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
         };
     }

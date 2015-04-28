@@ -7,9 +7,9 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                'entity': '&',
-                'size': '@',
-                'label': '@',
+                entity: '&',
+                size: '@',
+                label: '@',
             },
             link: function (scope) {
                 scope.label = scope.label || 'Create';
@@ -20,7 +20,7 @@ define(function () {
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoCreate()">' +
-    '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;{{ label }}' +
+    '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
         };
     }

@@ -7,9 +7,9 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                'entity': '&',
-                'selection': '&',
-                'label': '@',
+                entity: '&',
+                selection: '&',
+                label: '@',
             },
             link: function ($scope) {
                 $scope.label = $scope.label || 'Delete';
@@ -24,7 +24,7 @@ define(function () {
             },
             template:
 '<span ng-click="gotoBatchDelete()">' +
-    '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ label}}' +
+    '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</span>'
 
         };

@@ -7,10 +7,10 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                'entity': '&',
-                'entry': '&',
-                'size': '@',
-                'label': '@',
+                entity: '&',
+                entry: '&',
+                size: '@',
+                label: '@',
             },
             link: function (scope) {
                 scope.label = scope.label || 'Show';
@@ -21,7 +21,7 @@ define(function () {
             },
             template:
 '<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoShow()">' +
-    '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ label }}' +
+    '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
         };
     }
