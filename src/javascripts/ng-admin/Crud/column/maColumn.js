@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    function maColumn($location, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
+    function maColumn($location, $anchorScroll, $compile, Configuration, DataStore, FieldViewConfiguration) {
 
         function isDetailLink(field) {
             if (field.isDetailLink() === false) {
@@ -26,6 +26,7 @@ define(function (require) {
                 entity: '&'
             },
             link: function(scope, element, attr) {
+                scope.DataStore = DataStore;
                 scope.field = scope.field();
                 scope.entry = scope.entry();
                 var type = scope.field.type();
@@ -62,7 +63,7 @@ define(function (require) {
         };
     }
 
-    maColumn.$inject = ['$location', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
+    maColumn.$inject = ['$location', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'DataStore', 'FieldViewConfiguration'];
 
     return maColumn;
 });

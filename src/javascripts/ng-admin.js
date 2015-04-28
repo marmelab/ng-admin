@@ -57,11 +57,15 @@ define(function (require) {
     require('CrudModule');
 
     var AdminDescription = require('AdminDescription');
+    var adminDescriptionInstance = new AdminDescription();
 
     var factory = angular.module('AdminDescriptionModule', []);
-    factory.constant('AdminDescription', new AdminDescription());
+    factory.constant('AdminDescription', adminDescriptionInstance);
 
-    var ngadmin = angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
+    var dataStore = angular.module('DataStoreModule', []);
+    dataStore.constant('DataStore', adminDescriptionInstance.getDataStore());
+
+    var ngadmin = angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule', 'DataStoreModule']);
     ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
         NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
     });

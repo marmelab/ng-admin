@@ -1,5 +1,6 @@
 import Application from "./Application";
 import Entity from "./Entity/Entity";
+import DataStore from "./DataStore/DataStore";
 
 import Field from "./Field/Field";
 import BooleanField from "./Field/BooleanField";
@@ -24,6 +25,7 @@ import Menu from './Menu/Menu';
 class Factory {
     constructor() {
         this._fieldTypes = [];
+        this._dataStore = new DataStore();
         this._init();
     }
 
@@ -36,7 +38,8 @@ class Factory {
     }
 
     field(name, type) {
-        var type = type || "string";
+        type = type || 'string';
+
         if (!(type in this._fieldTypes)) {
             throw new Error(`Unknown field type "${type}".`);
         }
@@ -58,6 +61,10 @@ class Factory {
             menu.populateFromEntity(entity);
         }
         return menu;
+    }
+
+    getDataStore() {
+        return this._dataStore;
     }
 
     _init() {

@@ -28,7 +28,7 @@ class ReferenceField extends ChoiceField {
         }
 
         this._targetEntity = entity;
-        this._referencedView = new ListView().setEntity(entity).setDataStore(this._targetEntity.dataStore);
+        this._referencedView = new ListView().setEntity(entity);
         if (this._targetField) {
             this._referencedView.addField(this._targetField);
         }
@@ -88,11 +88,11 @@ class ReferenceField extends ChoiceField {
 
     hasSingleApiCall() {
         return typeof this._singleApiCall === 'function';
-    };
+    }
 
     getSingleApiCall(identifiers) {
         return this.hasSingleApiCall() ? this._singleApiCall(identifiers) : this._singleApiCall;
-    };
+    }
 
     getIdentifierValues(rawValues) {
         var results = {};
@@ -114,30 +114,6 @@ class ReferenceField extends ChoiceField {
         }
 
         return Object.keys(results);
-    }
-
-    getChoicesById() {
-        var result = {};
-        var targetEntity = this._targetEntity;
-        var targetField = this._targetField.name();
-        var targetIdentifier = targetEntity.identifier().name();
-        var entries = this._referencedView.getReferencesEntries();
-
-        for (var i = 0, l = entries.length ; i < l ; i++) {
-            var entry = entries[i];
-            result[entry.values[targetIdentifier]] = entry.values[targetField];
-        }
-
-        return result;
-    }
-
-    choices() {
-        return this._referencedView.getReferencesEntries().map(function(entry) {
-            return {
-                value: entry.values[this._targetEntity.identifier().name()],
-                label: entry.values[this._targetField.name()]
-            };
-        }, this);
     }
 
     getSortFieldName() {

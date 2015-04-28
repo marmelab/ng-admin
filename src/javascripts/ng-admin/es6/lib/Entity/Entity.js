@@ -1,6 +1,5 @@
 import stringUtils from "../Utils/stringUtils";
 import Field from "../Field/Field";
-import DataStore from '../DataStore/DataStore';
 import DashboardView from '../View/DashboardView';
 import MenuView from '../View/MenuView';
 import ListView from '../View/ListView';
@@ -14,7 +13,6 @@ import ExportView from '../View/ExportView';
 class Entity {
     constructor(name) {
         this._name = name;
-        this._dataStore = new DataStore(name);
         this._baseApiUrl = null;
         this._label = null;
         this._identifierField = new Field("id");
@@ -24,11 +22,6 @@ class Entity {
         this._url = null;
 
         this._initViews();
-
-    }
-
-    get dataStore() {
-        return this._dataStore;
     }
 
     get views() {
@@ -128,15 +121,15 @@ class Entity {
 
     _initViews() {
         this._views = {
-            "DashboardView": new DashboardView().setEntity(this).setDataStore(this._dataStore),
-            "MenuView": new MenuView().setEntity(this).setDataStore(this._dataStore),
-            "ListView": new ListView().setEntity(this).setDataStore(this._dataStore),
-            "CreateView": new CreateView().setEntity(this).setDataStore(this._dataStore),
-            "EditView": new EditView().setEntity(this).setDataStore(this._dataStore),
-            "DeleteView": new DeleteView().setEntity(this).setDataStore(this._dataStore),
-            "BatchDeleteView": new BatchDeleteView().setEntity(this).setDataStore(this._dataStore),
-            "ExportView": new ExportView().setEntity(this).setDataStore(this._dataStore),
-            "ShowView": new ShowView().setEntity(this).setDataStore(this._dataStore)
+            "DashboardView": new DashboardView().setEntity(this),
+            "MenuView": new MenuView().setEntity(this),
+            "ListView": new ListView().setEntity(this),
+            "CreateView": new CreateView().setEntity(this),
+            "EditView": new EditView().setEntity(this),
+            "DeleteView": new DeleteView().setEntity(this),
+            "BatchDeleteView": new BatchDeleteView().setEntity(this),
+            "ExportView": new ExportView().setEntity(this),
+            "ShowView": new ShowView().setEntity(this)
         };
     }
 
@@ -193,7 +186,7 @@ class Entity {
         }
 
         return this._url;
-    }
+    };
 }
 
 export default Entity;

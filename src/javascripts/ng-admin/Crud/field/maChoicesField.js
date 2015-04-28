@@ -8,7 +8,7 @@ define(function (require) {
      *
      * @example <ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>
      */
-    function maChoicesField() {
+    function maChoicesField(DataStore) {
         return {
             scope: {
                 'field': '&',
@@ -20,7 +20,12 @@ define(function (require) {
                 var field = scope.field();
                 scope.name = field.name();
                 scope.v = field.validation();
-                var choices = field.choices();
+                var choices;
+                if (field.type() === 'reference' || field.type() === 'reference_many') {
+                    choices = DataStore.getChoices(field);
+                } else {
+                    choices = field.choices();
+                }
                 scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
                 var select = element.children()[0];
                 var attributes = field.attributes();
@@ -50,7 +55,7 @@ define(function (require) {
         return false;
     }
 
-    maChoicesField.$inject = [];
+    maChoicesField.$inject = ['DataStore'];
 
     return maChoicesField;
 });

@@ -3,13 +3,14 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Validator, Configuration,
+    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, DataStore, Validator, Configuration,
                                    progression, notification, view, entry) {
 
         this.$scope = $scope;
         this.$state = $state;
         this.CreateQueries = CreateQueries;
         this.UpdateQueries = UpdateQueries;
+        this.DataStore = DataStore;
         this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
@@ -55,7 +56,7 @@ define(function () {
             object[field.name()] = value;
         }
 
-        mappedObject = this.view.mapEntry(object);
+        mappedObject = this.DataStore.mapEntry(this.view, object);
 
         try {
             this.Validator.validate(this.view, mappedObject);
@@ -123,11 +124,12 @@ define(function () {
         this.$state = undefined;
         this.CreateQueries = undefined;
         this.UpdateQueries = undefined;
+        this.DataStore = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'DataStore', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
 
     return FormController;
 });

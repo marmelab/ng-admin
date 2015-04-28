@@ -24,11 +24,13 @@ define(function (require) {
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     RetrieveQueries.prototype.getOne = function (view, entityId) {
+        var self = this;
+
         return this.Restangular
             .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .get()
             .then(function (response) {
-                return view.mapEntry(response.data);
+                return self.DataStore.mapEntry(view, response.data);
             });
     };
 
@@ -62,11 +64,11 @@ define(function (require) {
             }).then(function (refValues) {
                 referencedValues = refValues;
 
-                entries = view.mapEntries(response.data);
-                entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
+                entries = self.DataStore.mapEntries(view, response.data);
+                self.DataStore.setEntries(view, entries, referencedValues, fillSimpleReference);
 
                 return {
-                    entries: entries,
+                    entries: self.DataStore.getEntries(view),
                     currentPage: page,
                     perPage: view.perPage(),
                     totalItems: response.totalCount || response.headers('X-Total-Count') || response.data.length
@@ -188,7 +190,7 @@ define(function (require) {
                             // the response failed
                             continue;
                         }
-                        referencedView.setReferences(referencedView.mapEntries(response.result.data));
+                        self.DataStore.setEntries(referencedView, self.DataStore.mapEntries(referencedView, response.result.data));
                     } else {
                         entries = [];
                         identifiers = reference.getIdentifierValues(rawValues);
@@ -202,7 +204,7 @@ define(function (require) {
                         }
 
                         // Entry are already mapped by getOne
-                        referencedView.setReferences(entries);
+                        self.DataStore.setEntries(referencedView, entries);
                     }
                 }
 
@@ -247,72 +249,14 @@ define(function (require) {
                     referencedListView = referencedList.getReferencedView();
 
                     // Map entries
-                    referencedListView.setReferences(referencedListView.mapEntries(responses[j++].data));
+                    self.DataStore.setEntries(referencedListView, self.DataStore.mapEntries(referencedListView, responses[j++].data));
                 }
 
                 return referencedLists;
             });
     };
 
-    /**
-     * Fill ReferencedMany & Reference values from a collection a values
-     *
-     * @param {[Entry]}  collection
-     * @param {Object}  referencedValues
-     * @param {Boolean} fillSimpleReference
-     * @returns {Array}
-     */
-    RetrieveQueries.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
-        fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
-
-        var i, l;
-
-        for (i = 0, l = collection.length; i < l; i++) {
-            collection[i] = this.fillReferencesValuesFromEntry(collection[i], referencedValues, fillSimpleReference);
-        }
-
-        return collection;
-    };
-
-    /**
-     * Fill ReferencedMany & Reference values from a collection a values
-     *
-     * @param {Entry}  entry
-     * @param {Object}  referencedValues
-     * @param {Boolean} fillSimpleReference
-     * @returns {Array}
-     */
-    RetrieveQueries.prototype.fillReferencesValuesFromEntry = function (entry, referencedValues, fillSimpleReference) {
-        var reference,
-            referenceField,
-            choices,
-            entries,
-            identifier,
-            id,
-            i;
-
-        for (referenceField in referencedValues) {
-            reference = referencedValues[referenceField];
-            choices = reference.getChoicesById();
-            entries = [];
-            identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
-
-            if (reference.type() === 'reference_many') {
-                for (i in identifier) {
-                    id = identifier[i];
-                    entries.push(choices[id]);
-                }
-
-                entry.listValues[referenceField] = entries;
-            } else if (fillSimpleReference && identifier && identifier in choices) {
-                entry.listValues[referenceField] = reference.getMappedValue(choices[identifier], entry.values);
-            }
-        }
-
-        return entry;
-    };
-
-    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
+    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'DataStore', 'PromisesResolver'];
 
     return RetrieveQueries;
 });

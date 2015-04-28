@@ -5,7 +5,7 @@ define(function (require) {
 
     var _ = require('lodash');
 
-    function maField(FieldViewConfiguration) {
+    function maField(FieldViewConfiguration, DataStore) {
         var writeWidgetTypes = _(FieldViewConfiguration)
             .map(function(fieldView, field) {
                 return '<span ng-switch-when="' + field + '">' + fieldView.getWriteWidget() +'</span>';
@@ -33,11 +33,12 @@ define(function (require) {
                 entity: '&',
                 form: '&'
             },
-            link: function(scope, element, attr) {
+            link: function(scope) {
                 scope.field = scope.field();
                 scope.type = scope.field.type();
                 scope.entity = scope.entity();
                 scope.form = scope.form();
+                scope.DataStore = DataStore;
 
                 scope.getClassesForField = function(field, entry) {
                     return 'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
@@ -75,7 +76,7 @@ define(function (require) {
         };
     }
 
-    maField.$inject = ['FieldViewConfiguration'];
+    maField.$inject = ['FieldViewConfiguration', 'DataStore'];
 
     return maField;
 });

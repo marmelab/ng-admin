@@ -47,7 +47,7 @@ define(function (require) {
         return this.$q.all(promises);
     };
 
-    DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
+    DeleteQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'DataStore', 'PromisesResolver'];
 
     return DeleteQueries;
 });

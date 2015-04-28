@@ -24,8 +24,9 @@ define(function (require) {
 
     function viewProvider(viewName) {
         return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+            var view;
             try {
-                var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+                view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
             } catch (e) {
                 var error404 = new Error('Unknown view or entity name');
                 error404.status = 404; // trigger the 404 error
@@ -97,8 +98,8 @@ define(function (require) {
 
                         return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
                     }],
-                    entry: ['RetrieveQueries', 'rawEntry', 'referencedValues', function(RetrieveQueries, rawEntry, referencedValues) {
-                        return RetrieveQueries.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    entry: ['DataStore', 'rawEntry', 'referencedValues', function(DataStore, rawEntry, referencedValues) {
+                        return DataStore.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });
@@ -112,14 +113,8 @@ define(function (require) {
                 templateProvider: templateProvider('CreateView', createTemplate),
                 resolve: {
                     view: viewProvider('CreateView'),
-                    entry: ['view', function (view) {
-                        var entry = view
-                            .mapEntry({});
-
-                        view.processFieldsDefaultValue(entry);
-                        view.setEntry(entry);
-
-                        return entry;
+                    entry: ['DataStore', 'view', function (DataStore, view) {
+                        return DataStore.createEntry(view);
                     }],
                     referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
                         return RetrieveQueries.getReferencedValues(view.getReferences());
@@ -145,8 +140,8 @@ define(function (require) {
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
                         return RetrieveQueries.getOne(view, $stateParams.id);
                     }],
-                    referencedValues: ['RetrieveQueries', 'view', 'rawEntry', function (RetrieveQueries, view, rawEntry) {
-                        return RetrieveQueries.getReferencedValues(view.getReferences(), null);
+                    referencedValues: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
+                        return RetrieveQueries.getReferencedValues(view.getReferences());
                     }],
                     referencedListValues: ['$stateParams', 'RetrieveQueries', 'view', 'rawEntry', function ($stateParams, RetrieveQueries, view, rawEntry) {
                         var sortField = $stateParams.sortField,
@@ -154,8 +149,8 @@ define(function (require) {
 
                         return RetrieveQueries.getReferencedListValues(view, sortField, sortDir, rawEntry.identifierValue);
                     }],
-                    entry: ['RetrieveQueries', 'rawEntry', 'referencedValues', function(RetrieveQueries, rawEntry, referencedValues) {
-                        return RetrieveQueries.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
+                    entry: ['DataStore', 'rawEntry', 'referencedValues', function(DataStore, rawEntry, referencedValues) {
+                        return DataStore.fillReferencesValuesFromEntry(rawEntry, referencedValues, true);
                     }]
                 }
             });

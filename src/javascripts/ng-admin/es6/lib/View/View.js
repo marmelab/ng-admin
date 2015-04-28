@@ -3,7 +3,6 @@ import Entry from "../Entry";
 class View {
     constructor(name) {
         this.entity = null;
-        this._dataStore = null;
         this._actions = null;
         this._title = false;
         this._description = '';
@@ -80,12 +79,6 @@ class View {
         return this;
     }
 
-    setDataStore(dataStore) {
-        this._dataStore = dataStore;
-
-        return this;
-    }
-
     /*
      * Supports various syntax
      * fields([ Field1, Field2 ])
@@ -147,38 +140,6 @@ class View {
         return result;
     }
 
-    mapEntry(restEntry) {
-        var entry = new Entry.mapFromRest(this, restEntry);
-
-        return entry;
-    }
-
-    setEntry(entry) {
-        this._dataStore.setEntry(this, entry);
-
-        return this;
-    }
-
-    mapEntries(restEntries) {
-        return restEntries.map(e => this.mapEntry(e));
-    }
-
-    setEntries(entries) {
-        this._dataStore.setEntries(this, entries);
-
-        return this;
-    }
-
-    setReferences(references) {
-        this._dataStore.setReferences(this, references);
-
-        return this;
-    }
-
-    getReferencesEntries() {
-        return this._dataStore.getReferences(this);
-    }
-
     template(template) {
         if (!arguments.length) {
             return this._template;
@@ -218,22 +179,12 @@ class View {
         return this;
     }
 
-    processFieldsDefaultValue(entry) {
-
-        this._fields.forEach(function (field) {
-            entry.values[field.name()] = field.defaultValue();
-        });
-
-        return entry;
-    }
-
     removeFields() {
         this._fields = [];
         return this;
     }
 
     getFields() {
-
         return this._fields;
     }
 
