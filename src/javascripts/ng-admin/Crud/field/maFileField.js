@@ -116,7 +116,7 @@ define(function (require) {
         '</div>' +
     '</div>' +
 '</div>' +
-'<input type="file" ng-multiple="multiple" accept="accept" ng-file-select ng-model="selectedFiles" ng-file-change="fileSelected($files)"' +
+'<input type="file" ng-multiple="multiple" accept="{{ accept }}" ng-file-select ng-model="selectedFiles" ng-file-change="fileSelected($files)"' +
         'id="{{ name }}" name="{{ name }}" ng-required="v.required" style="display:none" />'
         };
     }
