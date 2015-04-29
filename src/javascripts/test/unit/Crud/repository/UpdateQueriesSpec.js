@@ -7,11 +7,14 @@ define(function (require) {
         Field = require('ng-admin/es6/lib/Field/Field'),
         TextField = require('ng-admin/es6/lib/Field/TextField'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        DataStore = require('ng-admin/es6/lib/DataStore/DataStore'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         config,
         entity,
         view;
+
+    var dataStore = new DataStore();
 
     describe("Service: UpdateQueries", function () {
 
@@ -37,7 +40,7 @@ define(function (require) {
         describe("updateOne", function () {
 
             it('should PUT an entity when calling updateOne', function (done) {
-                var updateQueries = new UpdateQueries({}, Restangular, config),
+                var updateQueries = new UpdateQueries({}, Restangular, config, dataStore),
                     rawEntity = {id: 3, name: 'Mizu'};
 
                 spyOn(Restangular, 'oneUrl').and.callThrough();

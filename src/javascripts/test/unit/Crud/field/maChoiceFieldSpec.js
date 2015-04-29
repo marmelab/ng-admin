@@ -6,7 +6,12 @@ define(function (require) {
     describe('directive: choice-field', function () {
         var directive = require('ng-admin/Crud/field/maChoiceField');
         var ChoiceField = require('ng-admin/es6/lib/Field/ChoiceField');
-        angular.module('testapp_ChoiceField', []).directive('maChoiceField', directive);
+        var DataStore = require('ng-admin/es6/lib/DataStore/DataStore');
+
+        var dataStoreModule = angular.module('testapp_DataStore', []);
+        dataStoreModule.constant('DataStore', new DataStore());
+
+        angular.module('testapp_ChoiceField', ['testapp_DataStore']).directive('maChoiceField', directive);
         require('angular-mocks');
 
         var $compile,

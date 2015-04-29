@@ -7,11 +7,14 @@ define(function (require) {
         Field = require('ng-admin/es6/lib/Field/Field'),
         TextField = require('ng-admin/es6/lib/Field/TextField'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        DataStore = require('ng-admin/es6/lib/DataStore/DataStore'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         config,
         entity,
         view;
+
+    var dataStore = new DataStore();
 
     describe("Service: CreateQueries", function () {
 
@@ -37,7 +40,7 @@ define(function (require) {
         describe("createOne", function () {
 
             it('should POST an entity when calling createOne', function (done) {
-                var createQueries = new CreateQueries({}, Restangular, config),
+                var createQueries = new CreateQueries({}, Restangular, config, dataStore),
                     rawEntity = {name: 'Mizu'};
 
                 spyOn(Restangular, 'customPOST').and.returnValue(mixins.buildPromise({data: rawEntity}));

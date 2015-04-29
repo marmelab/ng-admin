@@ -11,6 +11,7 @@ define(function (require) {
         ReferenceField = require('ng-admin/es6/lib/Field/ReferenceField'),
         ReferencedListField = require('ng-admin/es6/lib/Field/ReferencedListField'),
         ReferenceManyField = require('ng-admin/es6/lib/Field/ReferenceManyField'),
+        DataStore = require('ng-admin/es6/lib/DataStore/DataStore'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         PromisesResolver = require('mock/PromisesResolver'),
@@ -25,6 +26,8 @@ define(function (require) {
         catView,
         entity,
         view;
+
+    var dataStore = new DataStore();
 
     describe("Service: RetrieveQueries", function () {
 
@@ -75,7 +78,7 @@ define(function (require) {
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats, headers: function() {}}));
                 spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: humans[0] }, {status: 'success', result: humans[1] }, {status: 'success', result: humans[2] }]));
 
-                var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver);
+                var retrieveQueries = new RetrieveQueries($q, Restangular, config, dataStore, PromisesResolver);
 
                 retrieveQueries.getAll(catView)
                     .then(function (result) {
@@ -96,7 +99,7 @@ define(function (require) {
 
         describe('getReferencedValues', function() {
             it('should return all references values for a View with multiple calls', function (done) {
-                var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
+                var retrieveQueries = new RetrieveQueries($q, Restangular, config, dataStore, PromisesResolver),
                     post = new Entity('posts'),
                     author = new Entity('authors'),
                     authorRef = new ReferenceField('author');
@@ -121,15 +124,17 @@ define(function (require) {
 
                 retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                     .then(function (references) {
-                        expect(references.author.entries.length).toEqual(2);
-                        expect(references.author.entries[0].values.id).toEqual('abc');
-                        expect(references.author.entries[1].values.name).toEqual('Ragna');
+                        var entries = dataStore.getEntries(authorRef.getReferencedView());
+
+                        expect(entries.length).toEqual(2);
+                        expect(entries[0].values.id).toEqual('abc');
+                        expect(entries[1].values.name).toEqual('Ragna');
                     })
                     .then(done, done.fail);
             });
 
             it('should return all references values for a View with one call', function (done) {
-                var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
+                var retrieveQueries = new RetrieveQueries($q, Restangular, config, dataStore, PromisesResolver),
                     post = new Entity('posts'),
                     author = new Entity('authors'),
                     authorRef = new ReferenceField('author');
@@ -165,9 +170,11 @@ define(function (require) {
 
                 retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
                     .then(function (references) {
-                        expect(references.author.entries.length).toEqual(2);
-                        expect(references.author.entries[0].values.id).toEqual('abc');
-                        expect(references.author.entries[1].values.name).toEqual('Ragna');
+                        var entries = dataStore.getEntries(authorRef.getReferencedView());
+
+                        expect(entries.length).toEqual(2);
+                        expect(entries[0].values.id).toEqual('abc');
+                        expect(entries[1].values.name).toEqual('Ragna');
                     })
                     .then(done, done.fail);
             });
@@ -175,7 +182,7 @@ define(function (require) {
 
         describe('getReferencedListValues', function() {
             it('should return all referencedLists values for a View', function (done) {
-                var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
+                var retrieveQueries = new RetrieveQueries($q, Restangular, config, dataStore, PromisesResolver),
                     state = new Entity('states'),
                     stateId = new Field('id').identifier(true),
                     character = new Entity('characters'),
@@ -205,7 +212,7 @@ define(function (require) {
 
                 retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
                     .then(function (references) {
-                        var entries = references.character.entries;
+                        var entries = dataStore.getEntries(stateCharacters.getReferencedView());
 
                         expect(entries.length).toEqual(3);
                         expect(entries[0].values.name).toEqual('Rollo');
@@ -217,7 +224,7 @@ define(function (require) {
 
         describe('fillReferencesValuesFromCollection', function() {
             it('should fill reference values of a collection', function () {
-                var retrieveQueries = new RetrieveQueries({}, Restangular, config, PromisesResolver),
+                var retrieveQueries = new RetrieveQueries({}, Restangular, config, dataStore, PromisesResolver),
                     entry1 = new Entry(),
                     entry2 = new Entry(),
                     entry3 = new Entry(),
@@ -231,20 +238,20 @@ define(function (require) {
                 ref1
                     .targetEntity(human)
                     .targetField(new Field('name'));
-                ref1.entries = [
+                dataStore.setEntries(ref1.getReferencedView(), [
                     {values: {id: 1, name: 'Bob'}},
                     {values: {id: 2, name: 'Daniel'}},
                     {values: {id: 3, name: 'Jack'}}
-                ];
+                ]);
 
                 ref2
                     .targetEntity(tag)
                     .targetField(new Field('label'));
-                ref2.entries = [
+                dataStore.setEntries(ref2.getReferencedView(), [
                     {values: {id: 1, label: 'Photo'}},
                     {values: {id: 2, label: 'Watch'}},
                     {values: {id: 3, label: 'Panda'}}
-                ];
+                ]);
 
                 entry1.values.human_id = 1;
                 entry1.values.tags = [1, 3];
@@ -258,7 +265,7 @@ define(function (require) {
                     tags: ref2
                 };
 
-                collection = retrieveQueries.fillReferencesValuesFromCollection(collection, referencedValues, true);
+                collection = dataStore.fillReferencesValuesFromCollection(collection, referencedValues, true);
 
                 expect(collection.length).toEqual(3);
                 expect(collection[0].listValues.human_id).toEqual('Bob');
@@ -300,7 +307,7 @@ define(function (require) {
                     }
                 }));
 
-                var retrieveQueries = new RetrieveQueries({}, Restangular, config, PromisesResolver);
+                var retrieveQueries = new RetrieveQueries({}, Restangular, config, dataStore, PromisesResolver);
 
                 retrieveQueries.getOne(view, 1)
                     .then(function (entry) {

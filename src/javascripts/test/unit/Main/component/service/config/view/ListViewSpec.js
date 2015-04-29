@@ -4,8 +4,11 @@ define(function (require) {
     'use strict';
 
     var ListView = require('ng-admin/es6/lib/View/ListView'),
+        DataStore = require('ng-admin/es6/lib/DataStore/DataStore'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
         Field = require('ng-admin/es6/lib/Field/Field');
+
+    var dataStore = new DataStore();
 
     describe("Service: ListView config", function () {
 
@@ -31,8 +34,7 @@ define(function (require) {
                         return value.substr(0, 5) + '...';
                     }));
 
-
-                var entries = list.mapEntries([
+                var entries = dataStore.mapEntries(list, [
                     { id: 1, human_id: 1, name: 'Suna'},
                     { id: 2, human_id: 2, name: 'Boby'},
                     { id: 3, human_id: 1, name: 'Mizute'}
