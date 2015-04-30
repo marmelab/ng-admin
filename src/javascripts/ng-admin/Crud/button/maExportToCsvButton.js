@@ -7,10 +7,13 @@ define(function () {
         return {
             restrict: 'E',
             scope: {
-                entity: '&'
+                entity: '&',
+                label: '@',
             },
-            template: '<button ng-if="has_export" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;Export</button>',
+            template: '<button ng-if="has_export" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;{{ ::label }}</button>',
             link: function(scope) {
+                scope.label = scope.label || 'Export';
+
                 scope.entity = scope.entity();
                 var exportView = scope.entity.exportView();
                 var listView = scope.entity.listView();

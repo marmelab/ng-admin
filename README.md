@@ -592,6 +592,17 @@ listView.fields([
 ]);
 ```
 
+You can also provide custom label using the `label` attribute:
+
+```js
+listView.listActions([
+    '<ma-edit-button entry="entry" entity="entity" label="Edit me" size="xs">' +
+    '</ma-edit-button>',
+    '<ma-delete-button entry="entry" entity="entity" label="Delete me" size="xs">' +
+    '</ma-delete-button>'
+]);
+```
+
 ## Relationships
 
 ### `reference` Field
