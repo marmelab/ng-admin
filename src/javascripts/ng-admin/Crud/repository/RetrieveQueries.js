@@ -16,7 +16,7 @@ define(function (require) {
     utils.inherits(RetrieveQueries, Queries);
 
     /**
-     * Get one entity (!!!!! NOT MAPPED !!!!!!)
+     * Get one entity
      *
      * @param {View}   view      the edit view associated to the entity
      * @param {Number} entityId  id of the entity
@@ -195,8 +195,6 @@ define(function (require) {
                         continue;
                     }
 
-                    // Entry are already mapped by getOne (should not be done in the getOne !!!!)
-                    // TODO: read comment above !!!!
                     referencedData[reference.name()] = datas;
                 }
 

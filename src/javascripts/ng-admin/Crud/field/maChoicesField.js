@@ -8,7 +8,7 @@ define(function (require) {
      *
      * @example <ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>
      */
-    function maChoicesField(DataStore) {
+    function maChoicesField() {
         return {
             scope: {
                 'field': '&',
@@ -35,7 +35,7 @@ define(function (require) {
                 }
                 scope.contains = contains;
             },
-            template: 
+            template:
 '<select multiple ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ng-required="v.required">' +
   '<option ng-repeat="choice in getChoices(entry)" value="{{ choice.value }}" ng-selected="contains(value, choice.value)">' +
     '{{ choice.label }}' +
@@ -56,7 +56,7 @@ define(function (require) {
         return false;
     }
 
-    maChoicesField.$inject = ['DataStore'];
+    maChoicesField.$inject = [];
 
     return maChoicesField;
 });

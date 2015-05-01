@@ -5,7 +5,7 @@ define(function (require) {
 
     var _ = require('lodash');
 
-    function maField(FieldViewConfiguration, DataStore) {
+    function maField(FieldViewConfiguration) {
         var writeWidgetTypes = _(FieldViewConfiguration)
             .map(function(fieldView, field) {
                 return '<span ng-switch-when="' + field + '">' + fieldView.getWriteWidget() +'</span>';
@@ -77,7 +77,7 @@ define(function (require) {
         };
     }
 
-    maField.$inject = ['FieldViewConfiguration', 'DataStore'];
+    maField.$inject = ['FieldViewConfiguration'];
 
     return maField;
 });

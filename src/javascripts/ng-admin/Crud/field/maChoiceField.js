@@ -8,7 +8,7 @@ define(function (require) {
      *
      * @example <ma-choice-field entry="entry" field="field" value="value"></ma-choice-field>
      */
-    function maChoiceField(DataStore) {
+    function maChoiceField() {
         return {
             scope: {
                 'field': '&',
@@ -44,7 +44,7 @@ define(function (require) {
         };
     }
 
-    maChoiceField.$inject = ['DataStore'];
+    maChoiceField.$inject = [];
 
     return maChoiceField;
 });
