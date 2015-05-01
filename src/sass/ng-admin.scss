@@ -180,6 +180,13 @@ div.bottom-loader {
 }
 
 /**
+ * Fields
+ */
+ma-choice-field select option:empty { 
+    display:none;
+}
+
+/**
 * Edition form
 */
 .form-horizontal {
