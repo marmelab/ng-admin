@@ -13,7 +13,8 @@ define(function (require) {
             scope: {
                 'field': '&',
                 'value': '=',
-                'entry':  '=?'
+                'entry':  '=?',
+                'datastore': '&?'
             },
             restrict: 'E',
             link: function(scope, element) {
@@ -22,7 +23,7 @@ define(function (require) {
                 scope.v = field.validation();
                 var choices;
                 if (field.type() === 'reference' || field.type() === 'reference_many') {
-                    choices = DataStore.getChoices(field);
+                    choices = scope.datastore().getChoices(field);
                 } else {
                     choices = field.choices();
                 }

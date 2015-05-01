@@ -14,8 +14,6 @@ define(function (require) {
         entity,
         view;
 
-    var dataStore = new DataStore();
-
     describe("Service: UpdateQueries", function () {
 
         beforeEach(function () {
@@ -40,16 +38,19 @@ define(function (require) {
         describe("updateOne", function () {
 
             it('should PUT an entity when calling updateOne', function (done) {
-                var updateQueries = new UpdateQueries({}, Restangular, config, dataStore),
+                var updateQueries = new UpdateQueries({}, Restangular, config),
                     rawEntity = {id: 3, name: 'Mizu'};
 
                 spyOn(Restangular, 'oneUrl').and.callThrough();
                 spyOn(Restangular, 'customPUT').and.returnValue(mixins.buildPromise({data: rawEntity}));
 
                 updateQueries.updateOne(view, rawEntity)
-                    .then(function (entry) {
+                    .then(function (rawEntry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/3');
                         expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity);
+
+                        var dataStore = new DataStore();
+                        var entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
                         expect(entry.values.name).toEqual('Mizu');
                     })
                     .then(done, done.fail);

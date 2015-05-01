@@ -24,17 +24,15 @@ define(function (require) {
      * @returns {promise}  the new object
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
-        var self = this;
-
         return this.Restangular
             .oneUrl(view.entity.name(), this.config.getRouteFor(view))
             .customPOST(rawEntity)
             .then(function (response) {
-                return self.DataStore.mapEntry(view, response.data);
+                return response.data;
             });
     };
 
-    CreateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'DataStore', 'PromisesResolver'];
+    CreateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return CreateQueries;
 });

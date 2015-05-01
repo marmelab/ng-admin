@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var ShowController = function ($scope, $location, view, entry) {
+    var ShowController = function ($scope, $location, view, dataStore) {
         this.$scope = $scope;
         this.$location = $location;
         this.title = view.title();
@@ -11,10 +11,11 @@ define(function () {
         this.actions = view.actions();
 
         this.fields = view.fields();
-        this.$scope.entry = entry;
+        this.$scope.entry = dataStore.getFirstEntry(view.getEntity().uniqueId);
         this.$scope.view = view;
         this.view = view;
         this.entity = this.view.getEntity();
+        this.dataStore = dataStore;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -26,7 +27,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    ShowController.$inject = ['$scope', '$location', 'view', 'entry'];
+    ShowController.$inject = ['$scope', '$location', 'view', 'dataStore'];
 
     return ShowController;
 });

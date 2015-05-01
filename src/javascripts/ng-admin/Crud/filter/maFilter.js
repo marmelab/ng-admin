@@ -28,7 +28,8 @@ define(function (require) {
             restrict: 'E',
             template: template,
             scope: {
-                filters: '&'
+                filters: '&',
+                datastore: '&'
             },
             controllerAs: 'filterCtrl',
             controller: FilterController

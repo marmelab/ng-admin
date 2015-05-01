@@ -10,9 +10,12 @@ import ShowView from '../View/ShowView';
 import BatchDeleteView from '../View/BatchDeleteView';
 import ExportView from '../View/ExportView';
 
+var index = 0;
+
 class Entity {
     constructor(name) {
         this._name = name;
+        this._uniqueId = this._name + '_' + index++;
         this._baseApiUrl = null;
         this._label = null;
         this._identifierField = new Field("id");
@@ -22,6 +25,10 @@ class Entity {
         this._url = null;
 
         this._initViews();
+    }
+
+    get uniqueId() {
+        return this._uniqueId;
     }
 
     get views() {

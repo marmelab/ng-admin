@@ -8,10 +8,10 @@ define(function(require) {
         return '<a ng-click="gotoReference()">' + getReadWidget() + '</a>';
     }
     function getFilterWidget() {
-        return '<ma-choice-field field="::field" value="values[field.name()]"></ma-choice-field>';
+        return '<ma-choice-field field="::field" value="values[field.name()]" datastore="::datastore"></ma-choice-field>';
     }
     function getWriteWidget() {
-        return '<ma-choice-field field="::field" value="entry.values[field.name()]"></ma-choice-field>';
+        return '<ma-choice-field field="::field" value="entry.values[field.name()]" datastore="::datastore"></ma-choice-field>';
     }
     return {
         getReadWidget:   getReadWidget,

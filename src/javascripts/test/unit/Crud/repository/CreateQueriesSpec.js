@@ -14,8 +14,6 @@ define(function (require) {
         entity,
         view;
 
-    var dataStore = new DataStore();
-
     describe("Service: CreateQueries", function () {
 
         beforeEach(function () {
@@ -40,16 +38,19 @@ define(function (require) {
         describe("createOne", function () {
 
             it('should POST an entity when calling createOne', function (done) {
-                var createQueries = new CreateQueries({}, Restangular, config, dataStore),
+                var createQueries = new CreateQueries({}, Restangular, config),
                     rawEntity = {name: 'Mizu'};
 
                 spyOn(Restangular, 'customPOST').and.returnValue(mixins.buildPromise({data: rawEntity}));
                 spyOn(Restangular, 'oneUrl').and.callThrough();
 
                 createQueries.createOne(view, rawEntity)
-                    .then(function (entry) {
+                    .then(function (rawEntry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat');
                         expect(Restangular.customPOST).toHaveBeenCalledWith(rawEntity);
+
+                        var dataStore = new DataStore();
+                        var entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
                         expect(entry.values.name).toEqual('Mizu');
                     })
                     .then(done, done.fail);

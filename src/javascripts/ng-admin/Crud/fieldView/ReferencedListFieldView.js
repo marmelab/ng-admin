@@ -3,7 +3,7 @@ define(function(require) {
 
     function getReadWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}" ' +
-                 'entries="::DataStore.getEntries(field.getReferencedView())" ' +
+                 'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                  'fields="::field.getReferencedView().fields()" ' +
                  'list-actions="::field.listActions()" ' +
                  'entity="::field.getReferencedView().entity">' +
@@ -17,7 +17,7 @@ define(function(require) {
     }
     function getWriteWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
-                  'entries="::DataStore.getEntries(field.getReferencedView())" ' +
+                  'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                   'fields="::field.getReferencedView().fields()" ' +
                   'list-actions="::field.listActions()" ' +
                   'entity="::field.getReferencedView().entity">' +

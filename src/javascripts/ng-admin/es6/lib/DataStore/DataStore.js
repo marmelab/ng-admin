@@ -2,29 +2,36 @@ import Entry from "../Entry";
 
 class DataStore {
     constructor() {
-        this._entries = new Map();
+        this._entries = {};
     }
 
-    setEntries(view, entries, referencedValues, fillSimpleReference) {
-        if (referencedValues) {
-            entries = this.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
-        }
-
-        this._entries.set(view, entries);
+    setEntries(name, entries) {
+        this._entries[name] = entries;
 
         return this;
     }
 
-    getEntries(view) {
-        return this._entries.get(view) || [];
+    addEntry(name, entry) {
+        if (!(name in this._entries)) {
+            this._entries[name] = [];
+        }
+
+        this._entries[name].push(entry);
+    }
+
+    getEntries(name) {
+        return this._entries[name] || [];
+    }
+
+    getFirstEntry(name) {
+        return this._entries[name][0];
     }
 
     getChoices(field) {
-        var view = field.getReferencedView();
         var identifier = field.targetEntity().identifier().name();
         var name = field.targetField().name();
 
-        return this.getEntries(view).map(function(entry) {
+        return this.getEntries(field.targetEntity().uniqueId + '_choices').map(function(entry) {
             return {
                 value: entry.values[identifier],
                 label: entry.values[name]
@@ -32,24 +39,24 @@ class DataStore {
         });
     }
 
-    createEntry(view) {
-        var entry = new Entry.mapFromRest(view, {});
+    createEntry(entityName, identifier, fields) {
+        var entry = new Entry.mapFromRest(entityName, identifier, fields, {});
 
-        view.getFields().forEach(function (field) {
+        fields.forEach(function (field) {
             entry.values[field.name()] = field.defaultValue();
         });
 
         return entry;
     }
 
-    mapEntry(view, restEntry) {
-        var entry = new Entry.mapFromRest(view, restEntry);
+    mapEntry(entityName, identifier, fields, restEntry) {
+        var entry = new Entry.mapFromRest(entityName, identifier, fields, restEntry);
 
         return entry;
     }
 
-    mapEntries(view, restEntries) {
-        return restEntries.map(e => this.mapEntry(view, e));
+    mapEntries(entityName, identifier, fields, restEntries) {
+        return restEntries.map(e => this.mapEntry(entityName, identifier, fields, e));
     }
 
     fillReferencesValuesFromCollection(collection, referencedValues, fillSimpleReference) {
@@ -98,7 +105,7 @@ class DataStore {
         var result = {};
         var targetField = field.targetField().name();
         var targetIdentifier = field.targetEntity().identifier().name();
-        var entries = this.getEntries(field.getReferencedView());
+        var entries = this.getEntries(field.targetEntity().uniqueId + '_values');
 
         for (var i = 0, l = entries.length ; i < l ; i++) {
             var entry = entries[i];

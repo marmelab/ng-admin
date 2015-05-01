@@ -25,7 +25,6 @@ import Menu from './Menu/Menu';
 class Factory {
     constructor() {
         this._fieldTypes = [];
-        this._dataStore = new DataStore();
         this._init();
     }
 
@@ -64,7 +63,7 @@ class Factory {
     }
 
     getDataStore() {
-        return this._dataStore;
+        return new DataStore();
     }
 
     _init() {

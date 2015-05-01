@@ -10,17 +10,16 @@ define(function () {
      * @param {Application} Configuration
      * @constructor
      */
-    function Queries($q, Restangular, Configuration, DataStore, PromisesResolver) {
+    function Queries($q, Restangular, Configuration, PromisesResolver) {
         this.$q = $q;
         this.Restangular = Restangular;
         this.config = Configuration();
-        this.DataStore = DataStore;
         this.PromisesResolver = PromisesResolver;
 
         this.Restangular.setFullResponse(true);  // To get also the headers
     }
 
-    Queries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'DataStore', 'PromisesResolver'];
+    Queries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return Queries;
 });

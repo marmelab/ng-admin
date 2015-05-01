@@ -126,7 +126,14 @@ class View {
     }
 
     getReferences() {
-        return this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
+        var result = {};
+        var lists = this._fields.filter(f => f.type() === 'reference' || f.type() === 'reference_many');
+        for (let i = 0, c = lists.length ; i < c ; i++) {
+            let list = lists[i];
+            result[list.name()] = list;
+        }
+
+        return result;
     }
 
     getReferencedLists() {

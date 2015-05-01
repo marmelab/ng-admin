@@ -26,18 +26,17 @@ define(function (require) {
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity, originEntityId) {
         var entityId = originEntityId || rawEntity[view.getEntity().identifier().name()];
-        var self = this;
 
         // Get element data
         return this.Restangular
             .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .customPUT(rawEntity)
             .then(function (response) {
-                return self.DataStore.mapEntry(view, response.data);
+                return response.data;
             });
     };
 
-    UpdateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'DataStore', 'PromisesResolver'];
+    UpdateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
 
     return UpdateQueries;
 });
