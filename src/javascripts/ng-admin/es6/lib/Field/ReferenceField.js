@@ -1,7 +1,7 @@
-import ChoiceField from "./ChoiceField";
+import Field from "./Field";
 import ListView from "../View/ListView";
 
-class ReferenceField extends ChoiceField {
+class ReferenceField extends Field {
     constructor(name) {
         super(name);
         this._type = 'reference';
