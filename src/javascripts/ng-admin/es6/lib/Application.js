@@ -2,7 +2,7 @@ import Menu from './Menu/Menu';
 
 class Application {
     constructor(title='ng-admin') {
-        this._baseApiUrl = null;
+        this._baseApiUrl = '';
         this._customTemplate = function(viewName) {};
         this._title = title;
         this._menu = null;
@@ -41,10 +41,8 @@ class Application {
             if (entityId) {
                 url += '/' + entityId;
             }
-        }
-
-        // Add baseUrl for relative URL
-        if (!/^(?:[a-z]+:)?\/\//.test(url)) {
+        } else if (!/^(?:[a-z]+:)?\/\//.test(url)) {
+            // Add baseUrl for relative URL
             url = baseApiUrl + url;
         }
 
