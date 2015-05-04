@@ -299,19 +299,19 @@ Add an action column with action buttons on each line. You can pass a list of bu
         listView.listActions(template);
 
 * `batchActions(String|Array)`
-Add you own batch action directives.
+Add your own batch action directives.
 
     The datagrid contains a selection column (an initial column made of checkboxes). Once the user selects lines, a button appears and displays the number of selected entries. A click on this button reveals the list of "batch actions", i.e. actions that can be performed on a selection of entries. By default, the only batch action available is a batch delete.
 
-    The scope contains a `selection` variable which contains the current selection:
+    Add your own directives to the list of batch acctions at will. The scope contains a `selection` variable, which holds the current selection:
 
-        listView.batchActions(['select', '<my-custom-directive selection="selection"></my-custom-directive>'])
+        listView.batchActions(['delete', '<my-custom-directive selection="selection"></my-custom-directive>'])
 
     To remove the list of checkboxes, simply set an empty `batchActions` list on the view:
 
         listView.batchActions([])
 
-    *Tip*: This `selection` variable is also in the scope of the main view actions.
+    *Tip*: The `selection` variable is also in the scope of the main view actions.
 
         listView.actions('create', '<my-custom-directive selection="selection"></my-custom-directive>');
 
