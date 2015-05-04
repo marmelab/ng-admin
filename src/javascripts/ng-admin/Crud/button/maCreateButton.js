@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maCreateButtonDirective($state) {
+    function maCreateButtonDirective($state, $stateParams) {
         return {
             restrict: 'E',
             scope: {
@@ -15,7 +15,13 @@ define(function () {
                 scope.label = scope.label || 'Create';
 
                 scope.gotoCreate = function () {
-                    $state.go($state.get('create'), { 'entity': scope.entity().name() });
+                    $state.go($state.get('create'), {
+                        entity: scope.entity().name(),
+                        page: $stateParams.page,
+                        search: $stateParams.search,
+                        sortField: $stateParams.sortField,
+                        sortDir: $stateParams.sortDir
+                    });
                 };
             },
             template:
@@ -25,7 +31,7 @@ define(function () {
         };
     }
 
-    maCreateButtonDirective.$inject = ['$state'];
+    maCreateButtonDirective.$inject = ['$state', '$stateParams'];
 
     return maCreateButtonDirective;
 });

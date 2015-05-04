@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maBatchDeleteButtonDirective($state) {
+    function maBatchDeleteButtonDirective($state, $stateParams) {
         return {
             restrict: 'E',
             scope: {
@@ -17,9 +17,16 @@ define(function () {
                 $scope.gotoBatchDelete = function () {
                     var entity = $scope.entity();
                     var ids = $scope.selection().map(function(entry) {
-                        return entry.identifierValue
+                        return entry.identifierValue;
                     });
-                    $state.go('batchDelete', { ids: ids, entity: entity.name() });
+                    $state.go('batchDelete', {
+                        ids: ids,
+                        entity: entity.name(),
+                        page: $stateParams.page,
+                        search: $stateParams.search,
+                        sortField: $stateParams.sortField,
+                        sortDir: $stateParams.sortDir
+                    });
                 };
             },
             template:
@@ -30,7 +37,7 @@ define(function () {
         };
     }
 
-    maBatchDeleteButtonDirective.$inject = ['$state'];
+    maBatchDeleteButtonDirective.$inject = ['$state', '$stateParams'];
 
     return maBatchDeleteButtonDirective;
 });

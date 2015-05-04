@@ -5,11 +5,11 @@ define(function () {
 
     /**
      * Link to list
-     * 
+     *
      * Usage:
      * <ma-list-button entity="entity" size="xs"></ma-list-button>
      */
-    function maListButtonDirective($state) {
+    function maListButtonDirective($state, $stateParams) {
         return {
             restrict: 'E',
             scope: {
@@ -21,7 +21,13 @@ define(function () {
                 scope.label = scope.label || 'List';
 
                 scope.gotoList = function () {
-                    $state.go($state.get('list'), { 'entity': scope.entity().name() });
+                    $state.go($state.get('list'), {
+                        entity: scope.entity().name(),
+                        search: $stateParams.search,
+                        page: $stateParams.page,
+                        sortDir: $stateParams.sortDir,
+                        sortField: $stateParams.sortField
+                    });
                 };
             },
             template:
@@ -31,7 +37,7 @@ define(function () {
         };
     }
 
-    maListButtonDirective.$inject = ['$state'];
+    maListButtonDirective.$inject = ['$state', '$stateParams'];
 
     return maListButtonDirective;
 });

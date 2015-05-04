@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maEditButtonDirective($state) {
+    function maEditButtonDirective($state, $stateParams) {
         return {
             restrict: 'E',
             scope: {
@@ -14,9 +14,15 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'Edit';
-
                 scope.gotoEdit = function () {
-                    $state.go($state.get('edit'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
+                    $state.go($state.get('edit'), {
+                        entity: scope.entity().name(),
+                        id: scope.entry().identifierValue,
+                        page: $stateParams.page,
+                        search: $stateParams.search,
+                        sortField: $stateParams.sortField,
+                        sortDir: $stateParams.sortDir
+                    });
                 };
             },
             template:
@@ -26,7 +32,7 @@ define(function () {
         };
     }
 
-    maEditButtonDirective.$inject = ['$state'];
+    maEditButtonDirective.$inject = ['$state', '$stateParams'];
 
     return maEditButtonDirective;
 });
