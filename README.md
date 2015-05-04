@@ -491,7 +491,7 @@ The sidebar menu is built based on a `Menu` object, constructed with `nga.menu()
 admin.menu(nga.menu()
   .addChild(nga.menu(post))
   .addChild(nga.menu(comment))
-  .addChild(nga.menu(tag)))
+  .addChild(nga.menu(tag))
 );
 ```
 
