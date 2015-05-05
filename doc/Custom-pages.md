@@ -83,4 +83,4 @@ post.showView().fields([
 ]);
 ```
 
-That's it! You can see the complete code in the [blog example](examples/blog/config.js).
+That's it! You can see the complete code in the [blog example](../examples/blog/config.js).
