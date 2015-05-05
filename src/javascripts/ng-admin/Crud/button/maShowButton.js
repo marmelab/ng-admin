@@ -16,7 +16,14 @@ define(function () {
                 scope.label = scope.label || 'Show';
 
                 scope.gotoShow = function () {
-                    $state.go($state.get('show'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
+                    $state.go($state.get('show'), {
+                        entity: scope.entity().name(),
+                        id: scope.entry().identifierValue,
+                        page: $state.params.page,
+                        search: $state.params.search,
+                        sortField: $state.params.sortField,
+                        sortDir: $state.params.sortDir
+                    });
                 };
             },
             template:
