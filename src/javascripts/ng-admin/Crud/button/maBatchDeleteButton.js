@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maBatchDeleteButtonDirective($state, $stateParams) {
+    function maBatchDeleteButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -22,10 +22,10 @@ define(function () {
                     $state.go('batchDelete', {
                         ids: ids,
                         entity: entity.name(),
-                        page: $stateParams.page,
-                        search: $stateParams.search,
-                        sortField: $stateParams.sortField,
-                        sortDir: $stateParams.sortDir
+                        page: $state.params.page,
+                        search: $state.params.search,
+                        sortField: $state.params.sortField,
+                        sortDir: $state.params.sortDir
                     });
                 };
             },
@@ -37,7 +37,7 @@ define(function () {
         };
     }
 
-    maBatchDeleteButtonDirective.$inject = ['$state', '$stateParams'];
+    maBatchDeleteButtonDirective.$inject = ['$state'];
 
     return maBatchDeleteButtonDirective;
 });

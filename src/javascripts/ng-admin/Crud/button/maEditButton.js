@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maEditButtonDirective($state, $stateParams) {
+    function maEditButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -18,10 +18,10 @@ define(function () {
                     $state.go($state.get('edit'), {
                         entity: scope.entity().name(),
                         id: scope.entry().identifierValue,
-                        page: $stateParams.page,
-                        search: $stateParams.search,
-                        sortField: $stateParams.sortField,
-                        sortDir: $stateParams.sortDir
+                        page: $state.params.page,
+                        search: $state.params.search,
+                        sortField: $state.params.sortField,
+                        sortDir: $state.params.sortDir
                     });
                 };
             },
@@ -32,7 +32,7 @@ define(function () {
         };
     }
 
-    maEditButtonDirective.$inject = ['$state', '$stateParams'];
+    maEditButtonDirective.$inject = ['$state'];
 
     return maEditButtonDirective;
 });

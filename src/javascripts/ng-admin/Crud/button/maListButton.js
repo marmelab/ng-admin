@@ -9,7 +9,7 @@ define(function () {
      * Usage:
      * <ma-list-button entity="entity" size="xs"></ma-list-button>
      */
-    function maListButtonDirective($state, $stateParams) {
+    function maListButtonDirective($state) {
         return {
             restrict: 'E',
             scope: {
@@ -23,10 +23,10 @@ define(function () {
                 scope.gotoList = function () {
                     $state.go($state.get('list'), {
                         entity: scope.entity().name(),
-                        search: $stateParams.search,
-                        page: $stateParams.page,
-                        sortDir: $stateParams.sortDir,
-                        sortField: $stateParams.sortField
+                        search: $state.params.search,
+                        page: $state.params.page,
+                        sortDir: $state.params.sortDir,
+                        sortField: $state.params.sortField
                     });
                 };
             },
@@ -37,7 +37,7 @@ define(function () {
         };
     }
 
-    maListButtonDirective.$inject = ['$state', '$stateParams'];
+    maListButtonDirective.$inject = ['$state'];
 
     return maListButtonDirective;
 });

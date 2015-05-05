@@ -3,18 +3,15 @@
 define(function () {
     'use strict';
 
-    var BatchDeleteController = function ($scope, $state, $stateParams, $location, $window, WriteQueries, notification, view) {
+    var BatchDeleteController = function ($scope, $state, WriteQueries, notification, view) {
 
         this.$scope = $scope;
         this.$state = $state;
-        this.$stateParams = $stateParams;
-        this.$location = $location;
-        this.$window = $window;
         this.WriteQueries = WriteQueries;
         this.notification = notification;
         this.view = view;
         this.entity = view.getEntity();
-        this.entityIds = $stateParams.ids;
+        this.entityIds = $state.params.ids;
         this.selection = []; // fixme: query db to get selection
         this.title = view.title();
         this.description = view.description();
@@ -33,10 +30,10 @@ define(function () {
         this.WriteQueries.batchDelete(this.view, this.entityIds).then(function () {
             $state.go($state.get('list'), {
                 entity: _this.entity.name(),
-                page: _this.$stateParams.page,
-                search: _this.$stateParams.search,
-                sortField: _this.$stateParams.sortField,
-                sortDir: _this.$stateParams.sortDir
+                page: _this.$state.params.page,
+                search: _this.$state.params.search,
+                sortField: _this.$state.params.sortField,
+                sortDir: _this.$state.params.sortDir
             });
             notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
@@ -53,24 +50,20 @@ define(function () {
     BatchDeleteController.prototype.back = function () {
         this.$state.go(this.$state.get('list'), {
             entity: this.entity.name(),
-            page: this.$stateParams.page,
-            search: this.$stateParams.search,
-            sortField: this.$stateParams.sortField,
-            sortDir: this.$stateParams.sortDir
+            page: this.$state.params.page,
+            search: this.$state.params.search,
+            sortField: this.$state.params.sortField,
+            sortDir: this.$state.params.sortDir
         });
     };
 
     BatchDeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$state = undefined;
-        this.$stateParams = undefined;
-        this.$location = undefined;
-        this.$window = undefined;
         this.WriteQueries = undefined;
     };
 
-    BatchDeleteController.$inject = ['$scope', '$state', '$stateParams', '$location', '$window', 'WriteQueries', 'notification', 'view'];
-
+    BatchDeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'view'];
 
     return BatchDeleteController;
 });
