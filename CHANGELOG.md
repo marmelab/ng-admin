@@ -1,8 +1,8 @@
 CHANGELOG
 =========
 
-v0.7.0 - to be released
------------------------
+v0.7.0 - 6 Apr. 2015
+--------------------
 
 * Hide empty option in choice field [\#416](https://github.com/marmelab/ng-admin/pull/416) ([fzaninotto](https://github.com/fzaninotto))
 * Fix relative baseApiUrl gets doubled in the URL [\#415](https://github.com/marmelab/ng-admin/pull/415) ([fzaninotto](https://github.com/fzaninotto))
