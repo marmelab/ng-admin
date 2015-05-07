@@ -62,7 +62,7 @@ app.config(function (NgAdminConfigurationProvider) {
     post.creationView().fields(/* see example below */);
     post.editionView().fields(/* see example below */);
 
-    NgAdminProvider.configure(app);
+    nga.configure(app);
 });
 ```
 
