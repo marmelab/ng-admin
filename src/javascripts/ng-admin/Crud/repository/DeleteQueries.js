@@ -25,7 +25,7 @@ define(function (require) {
      */
     DeleteQueries.prototype.deleteOne = function (view, entityId) {
         return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type(), entityId, view.identifier()))
             .customDELETE();
     };
 

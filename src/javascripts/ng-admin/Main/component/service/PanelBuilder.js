@@ -29,9 +29,6 @@ define(function () {
      */
     PanelBuilder.prototype.getPanelsData = function () {
         var dashboardViews = this.Configuration.getViewsOfType('DashboardView'),
-            searchParams = this.$location.search(),
-            sortField = searchParams.sortField,
-            sortDir = searchParams.sortDir,
             dataStore = this.dataStore,
             promises = [],
             dashboardView,
@@ -43,7 +40,7 @@ define(function () {
 
         for (i in dashboardViews) {
             dashboardView = dashboardViews[i];
-            promises.push(self.RetrieveQueries.getAll(dashboardView, 1, true, null, sortField, sortDir));
+            promises.push(self.RetrieveQueries.getAll(dashboardView, 1, {}, dashboardView.getSortFieldName(), dashboardView.sortDir()));
         }
 
         return this.$q.all(promises).then(function (responses) {
@@ -66,7 +63,9 @@ define(function () {
                     fields: fields,
                     entity: entity,
                     perPage: view.perPage(),
-                    entries: dataStore.mapEntries(entity.name(), entity.identifier(), fields, response.data)
+                    entries: dataStore.mapEntries(entity.name(), entity.identifier(), fields, response.data),
+                    sortField: view.getSortFieldName(),
+                    sortDir: view.sortDir()
                 });
             }
 

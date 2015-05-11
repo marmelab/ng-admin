@@ -1,5 +1,4 @@
 import Field from "./Field";
-import ListView from "../View/ListView";
 
 class ReferenceField extends Field {
     constructor(name) {
@@ -7,7 +6,6 @@ class ReferenceField extends Field {
         this._type = 'reference';
         this._targetEntity = null;
         this._targetField = null;
-        this._referencedView = null;
         this._perPage = 30;
         this._filters = null;
         this._sortField = null;
@@ -22,34 +20,24 @@ class ReferenceField extends Field {
         return this;
     }
 
+    datagridName() {
+        return this._targetEntity.name() + '_' + this._type;
+    }
+
     targetEntity(entity) {
         if (!arguments.length) {
             return this._targetEntity;
         }
-
         this._targetEntity = entity;
-        this._referencedView = new ListView().setEntity(entity);
-        if (this._targetField) {
-            this._referencedView.addField(this._targetField);
-        }
 
         return this;
     }
 
     targetField(field) {
         if (!arguments.length) return this._targetField;
-
         this._targetField = field;
-        if (!this._referencedView) {
-            this._referencedView = new ListView();
-        }
 
-        this._referencedView.removeFields().addField(field);
         return this;
-    }
-
-    getReferencedView() {
-        return this._referencedView.perPage(this._perPage);
     }
 
     filters(filters) {
@@ -117,7 +105,7 @@ class ReferenceField extends Field {
     }
 
     getSortFieldName() {
-        return this._referencedView.name() + '.' + this._targetField.name();
+        return this._targetEntity.name() + '_listView.' + (this.sortField() || this._targetField.name());
     }
 }
 

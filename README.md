@@ -191,8 +191,8 @@ Defines the base API endpoint for all views of this entity
 * `url()`
 Defines the API endpoint for all views of this entity. It can be a string or a function.
 
-        var comment = nga.entity('comments').url(function(view, entityId) {
-            return '/comments/' + view.name() + '/' + entityId; // Can be absolute or relative
+        var comment = nga.entity('comments').url(function(viewType, identifierValue, identifierName) {
+            return '/comments/' + viewType + '?' + identifierName + '=' + identifierValue; // Can be absolute or relative
         });
 
 ## View Configuration

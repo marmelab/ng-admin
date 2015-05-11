@@ -160,7 +160,7 @@ define(function (require) {
                     dataStore: dataStoreProvider(),
                     view: viewProvider('ShowView'),
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view, $stateParams.id);
+                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }],
                     entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
                         return dataStore.mapEntry(
@@ -290,7 +290,7 @@ define(function (require) {
                     dataStore: dataStoreProvider(),
                     view: viewProvider('EditView'),
                     rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view, $stateParams.id);
+                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }],
                     entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
                         return dataStore.mapEntry(
@@ -374,7 +374,7 @@ define(function (require) {
                         return $stateParams;
                     }],
                     entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view, $stateParams.id);
+                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }]
                 }
             });
