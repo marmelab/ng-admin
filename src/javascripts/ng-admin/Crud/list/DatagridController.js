@@ -26,7 +26,6 @@ define(function () {
         var searchParams = this.$location.search();
         this.sortField = 'sortField' in searchParams ? searchParams.sortField : this.$scope.sortField();
         this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : this.$scope.sortDir();
-        console.log(this.sortField, this.sortDir);
     }
 
     /**

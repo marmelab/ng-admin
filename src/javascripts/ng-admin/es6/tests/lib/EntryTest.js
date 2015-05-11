@@ -10,12 +10,11 @@ describe('Entry', function() {
         var entity, fields;
 
         beforeEach(function() {
-            entity = new Entity('post');
+            entity = new Entity('post').identifier(new Field('id'));
             fields = [
-                new Field('id').identifier(true),
                 new Field('title'),
                 new ReferenceManyField('tags')
-            ]
+            ];
         });
 
         it('should return entry with no value if REST entry is empty', function() {

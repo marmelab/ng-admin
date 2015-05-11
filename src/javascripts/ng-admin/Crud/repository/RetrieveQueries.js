@@ -132,7 +132,7 @@ define(function (require) {
             targetEntity = reference.targetEntity();
 
             if (!rawValues) {
-                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_listView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
+                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
@@ -143,7 +143,7 @@ define(function (require) {
             // Check if we should retrieve values with 1 or multiple requests
             if (reference.hasSingleApiCall()) {
                 singleCallFilters = reference.getSingleApiCall(identifiers);
-                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_listView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
+                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
@@ -227,7 +227,7 @@ define(function (require) {
             filter = {};
             filter[referencedList.targetReferenceField()] = entityId;
             targetEntity = referencedList.targetEntity();
-            viewName = targetEntity.name() + '_listView';
+            viewName = targetEntity.name() + '_ListView';
             calls.push(self.getRawValues(targetEntity, viewName, 'listView', 1, referencedList.perPage(), filter, {}, sortField || referencedList.getSortFieldName(), sortDir || referencedList.sortDir()));
         }
 

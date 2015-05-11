@@ -36,7 +36,7 @@ class ReferencedListField extends ReferenceField {
     }
 
     getSortFieldName() {
-        return this._targetEntity.name() + '_listView.' + (this.sortField() || this._targetReferenceField);
+        return this._targetEntity.name() + '_ListView.' + (this.sortField() || this._targetReferenceField);
     }
 }
 

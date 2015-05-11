@@ -105,7 +105,7 @@ class ReferenceField extends Field {
     }
 
     getSortFieldName() {
-        return this._targetEntity.name() + '_listView.' + (this.sortField() || this._targetField.name());
+        return this._targetEntity.name() + '_ListView.' + (this.sortField() || this._targetField.name());
     }
 }
 
