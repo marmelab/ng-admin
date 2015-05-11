@@ -9,14 +9,16 @@ define(function () {
      * @param {$location}          $location
      * @param {RetrieveQueries}    RetrieveQueries
      * @param {Configuration}      Configuration
+     * @param {AdminDescription}   AdminDescription
      *
      * @constructor
      */
-    function PanelBuilder($q, $filter, $location, RetrieveQueries, Configuration) {
+    function PanelBuilder($q, $filter, $location, RetrieveQueries, Configuration, AdminDescription) {
         this.$q = $q;
         this.$filter = $filter;
         this.$location = $location;
         this.RetrieveQueries = RetrieveQueries;
+        this.dataStore = AdminDescription.getDataStore();
         this.Configuration = Configuration();
     }
 
@@ -30,6 +32,7 @@ define(function () {
             searchParams = this.$location.search(),
             sortField = searchParams.sortField,
             sortDir = searchParams.sortDir,
+            dataStore = this.dataStore,
             promises = [],
             dashboardView,
             self = this,
@@ -43,22 +46,27 @@ define(function () {
             promises.push(self.RetrieveQueries.getAll(dashboardView, 1, true, null, sortField, sortDir));
         }
 
-        return this.$q.all(promises).then(function (panelData) {
+        return this.$q.all(promises).then(function (responses) {
             var i,
-                data,
+                response,
                 view,
+                entity,
+                fields,
                 panels = [];
 
-            for (i in panelData) {
-                data = panelData[i];
-                view = dashboardViews[i]
+            for (i in responses) {
+                response = responses[i];
+                view = dashboardViews[i];
+                entity = view.getEntity();
+                fields = view.fields();
+
                 panels.push({
                     label: view.title() || view.getEntity().label(),
                     viewName: view.name(),
-                    fields: view.fields(),
-                    entity: view.getEntity(),
+                    fields: fields,
+                    entity: entity,
                     perPage: view.perPage(),
-                    entries: data.entries
+                    entries: dataStore.mapEntries(entity.name(), entity.identifier(), fields, response.data)
                 });
             }
 
@@ -66,7 +74,7 @@ define(function () {
         });
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdminConfiguration'];
+    PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdminConfiguration', 'AdminDescription'];
 
     return PanelBuilder;
 });

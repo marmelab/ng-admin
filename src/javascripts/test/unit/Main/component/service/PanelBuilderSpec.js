@@ -6,6 +6,8 @@ define(function (require) {
     var PanelBuilder = require('ng-admin/Main/component/service/PanelBuilder'),
         Field = require('ng-admin/es6/lib/Field/Field'),
         DashboardView = require('ng-admin/es6/lib/View/DashboardView'),
+        Entity = require('ng-admin/es6/lib/Entity/Entity'),
+        DataStore = require('ng-admin/es6/lib/DataStore/DataStore'),
         mixins = require('mixins');
 
     describe("PanelBuilder", function () {
@@ -13,24 +15,27 @@ define(function (require) {
         describe('getPanelsData', function() {
 
             it('should retrieve panels', function (done) {
-                var view1 = new DashboardView('view1')
+                var entity = new Entity(),
+                    view1 = new DashboardView('view1')
                         .title('dashboard1')
+                        .setEntity(entity)
                         .addField(new Field('title').label('Title')),
                     view2 = new DashboardView('MyView2')
                         .title('my dashboard 2')
+                        .setEntity(entity)
                         .addField(new Field('name').label('Name'));
 
                 var responses = [
                     {
                         view: view1,
-                        entries: [],
+                        data: [],
                         currentPage: 1,
                         perPage: 10,
                         totalItems: 12
                     },
                     {
                         view: view2,
-                        entries: [],
+                        data: [],
                         currentPage: 1,
                         perPage: 10,
                         totalItems: 4
@@ -53,13 +58,11 @@ define(function (require) {
 
             it('should default to entity label if no title is provided', function(done) {
                 var dashboardView = new DashboardView('view1').addField(new Field('title').label('Title'));
-                dashboardView.setEntity({
-                    label: function() { return "Entity"; }
-                });
+                dashboardView.setEntity(new Entity('MyEntity'));
 
                 var response = {
                     view: dashboardView,
-                    entries: [],
+                    data: [],
                     currentPage: 1,
                     perPage: 10,
                     totalItems: 12
@@ -68,7 +71,7 @@ define(function (require) {
                 var panelBuilder = getPanelBuilder([dashboardView], [response]);
                 panelBuilder.getPanelsData()
                     .then(function(panels) {
-                        expect(panels[0].label).toBe('Entity');
+                        expect(panels[0].label).toBe('MyEntity');
                     })
                     .finally(done);
             });
@@ -87,7 +90,8 @@ define(function (require) {
         };
         var location = { search: function() { return {}; } };
         var retrieveQueries = { getAll: function() {} };
+        var AdminDescription = { getDataStore: function() { return new DataStore(); } };
 
-        return new PanelBuilder(q, filter, location, retrieveQueries, Configuration);
+        return new PanelBuilder(q, filter, location, retrieveQueries, Configuration, AdminDescription);
     }
 });
