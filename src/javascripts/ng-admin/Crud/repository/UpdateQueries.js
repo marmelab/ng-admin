@@ -32,7 +32,7 @@ define(function (require) {
             .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .customPUT(rawEntity)
             .then(function (response) {
-                return view.mapEntry(response.data);
+                return response.data;
             });
     };
 

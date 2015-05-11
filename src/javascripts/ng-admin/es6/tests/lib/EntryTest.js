@@ -19,12 +19,14 @@ describe('Entry', function() {
         });
 
         it('should return entry with no value if REST entry is empty', function() {
-            var mappedEntry = Entry.mapFromRest(entity.listView(), {});
+            var view = entity.listView();
+            var mappedEntry = Entry.mapFromRest(entity.name(), view.identifier(), view.getFields(), {});
             assert.deepEqual({}, mappedEntry.values);
         });
 
         it('should map each value to related field if existing', function() {
-            var mappedEntry = Entry.mapFromRest(entity.listView(), {
+            var view = entity.listView();
+            var mappedEntry = Entry.mapFromRest(entity.name(), view.identifier(), view.getFields(), {
                 id: 1,
                 title: 'ng-admin + ES6 = pure awesomeness!',
                 body: 'Really, it rocks!',
@@ -40,7 +42,8 @@ describe('Entry', function() {
         });
 
         it('should set as identifierValue value for identifier field', function() {
-            var mappedEntry = Entry.mapFromRest(entity.listView(), { id: 1 });
+            var view = entity.listView();
+            var mappedEntry = Entry.mapFromRest(entity.name(), view.identifier(), view.getFields(), { id: 1 });
             assert.equal(1, mappedEntry.identifierValue);
         });
     });

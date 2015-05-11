@@ -7,18 +7,14 @@ define(function (require) {
         Field = require('ng-admin/es6/lib/Field/Field'),
         TextField = require('ng-admin/es6/lib/Field/TextField'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
-        Entry = require('ng-admin/es6/lib/Entry'),
         ReferenceField = require('ng-admin/es6/lib/Field/ReferenceField'),
         ReferencedListField = require('ng-admin/es6/lib/Field/ReferencedListField'),
-        ReferenceManyField = require('ng-admin/es6/lib/Field/ReferenceManyField'),
         Restangular = require('mock/Restangular'),
         mixins = require('mixins'),
         PromisesResolver = require('mock/PromisesResolver'),
         $q = require('mock/q'),
         config,
-        cats,
         rawCats,
-        humans,
         rawHumans,
         catEntity,
         humanEntity,
@@ -52,50 +48,36 @@ define(function (require) {
                 {"id": 2, "human_id": 1, "name": "Suna", "summary": "A little Cat"}
             ];
 
-            cats = [
-                new Entry('cat', rawCats[0]),
-                new Entry('cat', rawCats[1])
-            ];
-
             rawHumans = [
                 {"id": 1, "firstName": "Daph"},
                 {"id": 2, "firstName": "Manu"},
                 {"id": 3, "firstName": "Daniel"}
-            ];
-
-            humans = [
-                new Entry('human', rawHumans[0]),
-                new Entry('human', rawHumans[1]),
-                new Entry('human', rawHumans[2])
             ];
         });
 
         describe('getAll', function() {
             it('should return all data to display a ListView', function (done) {
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise({data: rawCats, headers: function() {}}));
-                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: humans[0] }, {status: 'success', result: humans[1] }, {status: 'success', result: humans[2] }]));
+                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: rawHumans[0] }, {status: 'success', result: rawHumans[1] }, {status: 'success', result: rawHumans[2] }]));
 
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver);
 
                 retrieveQueries.getAll(catView)
                     .then(function (result) {
-                        expect(result.currentPage).toEqual(1);
-                        expect(result.perPage).toEqual(30);
                         expect(result.totalItems).toEqual(2);
-                        expect(result.entries.length).toEqual(2);
+                        expect(result.data.length).toEqual(2);
 
-                        expect(result.entries[0].values.id).toEqual(1);
-                        expect(result.entries[0].values.name).toEqual('Mizoute');
+                        expect(result.data[0].id).toEqual(1);
+                        expect(result.data[0].name).toEqual('Mizoute');
 
-                        expect(result.entries[0].values.human_id).toEqual(1);
-                        expect(result.entries[0].listValues.human_id).toEqual('Daph');
+                        expect(result.data[0].human_id).toEqual(1);
                     })
                     .then(done, done.fail);
             });
         });
 
-        describe('getReferencedValues', function() {
-            it('should return all references values for a View with multiple calls', function (done) {
+        describe('getReferencedData', function() {
+            it('should return all references data for a View with multiple calls', function (done) {
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
                     post = new Entity('posts'),
                     author = new Entity('authors'),
@@ -106,9 +88,9 @@ define(function (require) {
                     {id: 2, author: '19DFE'}
                 ];
 
-                var authors = [
-                    new Entry('author', {id: 'abc', name: 'Rollo'}),
-                    new Entry('author', {id: '19DFE', name: 'Ragna'})
+                var rawAuthors = [
+                    {id: 'abc', name: 'Rollo'},
+                    {id: '19DFE', name: 'Ragna'}
                 ];
 
                 authorRef.targetEntity(author);
@@ -117,18 +99,18 @@ define(function (require) {
                     .addField(authorRef);
 
                 spyOn(Restangular, 'get').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
-                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: authors[0] }, { status: 'success', result: authors[1] }]));
+                spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: rawAuthors[0] }, { status: 'success', result: rawAuthors[1] }]));
 
-                retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
-                    .then(function (references) {
-                        expect(references.author.entries.length).toEqual(2);
-                        expect(references.author.entries[0].values.id).toEqual('abc');
-                        expect(references.author.entries[1].values.name).toEqual('Ragna');
+                retrieveQueries.getReferencedData(post.listView().getReferences(), rawPosts)
+                    .then(function (referencedData) {
+                        expect(referencedData.author.length).toEqual(2);
+                        expect(referencedData.author[0].id).toEqual('abc');
+                        expect(referencedData.author[1].name).toEqual('Ragna');
                     })
                     .then(done, done.fail);
             });
 
-            it('should return all references values for a View with one call', function (done) {
+            it('should return all references data for a View with one call', function (done) {
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
                     post = new Entity('posts'),
                     author = new Entity('authors'),
@@ -150,11 +132,6 @@ define(function (require) {
                     {id: '19DFE', name: 'Ragna'}
                 ];
 
-                var authors = [
-                    new Entry('authors', rawAuthors[0]),
-                    new Entry('authors', rawAuthors[1])
-                ];
-
                 authorRef.targetEntity(author);
                 authorRef.targetField(new Field('name'));
                 post.listView()
@@ -163,18 +140,18 @@ define(function (require) {
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({})));
                 spyOn(PromisesResolver, 'allEvenFailed').and.returnValue(mixins.buildPromise([{status: 'success', result: { data: rawAuthors }}]));
 
-                retrieveQueries.getReferencedValues(post.listView().getReferences(), rawPosts)
-                    .then(function (references) {
-                        expect(references.author.entries.length).toEqual(2);
-                        expect(references.author.entries[0].values.id).toEqual('abc');
-                        expect(references.author.entries[1].values.name).toEqual('Ragna');
+                retrieveQueries.getReferencedData(post.listView().getReferences(), rawPosts)
+                    .then(function (referencedData) {
+                        expect(referencedData['author'].length).toEqual(2);
+                        expect(referencedData['author'][0].id).toEqual('abc');
+                        expect(referencedData['author'][1].name).toEqual('Ragna');
                     })
                     .then(done, done.fail);
             });
         });
 
-        describe('getReferencedListValues', function() {
-            it('should return all referencedLists values for a View', function (done) {
+        describe('getReferencedListData', function() {
+            it('should return all referencedLists data for a View', function (done) {
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
                     state = new Entity('states'),
                     stateId = new Field('id').identifier(true),
@@ -203,69 +180,13 @@ define(function (require) {
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({data: rawCharacters})));
                 spyOn($q, 'all').and.returnValue(mixins.buildPromise([{data: rawCharacters}]));
 
-                retrieveQueries.getReferencedListValues(state.listView(), null, null, 1)
-                    .then(function (references) {
-                        var entries = references.character.entries;
-
-                        expect(entries.length).toEqual(3);
-                        expect(entries[0].values.name).toEqual('Rollo');
-                        expect(entries[1].values.id).toEqual('19DFE');
+                retrieveQueries.getReferencedListData(state.listView().getReferencedLists(), null, null, 1)
+                    .then(function (referencedListData) {
+                        expect(referencedListData.character.length).toEqual(3);
+                        expect(referencedListData.character[0].name).toEqual('Rollo');
+                        expect(referencedListData.character[1].id).toEqual('19DFE');
                     })
                     .then(done, done.fail);
-            });
-        });
-
-        describe('fillReferencesValuesFromCollection', function() {
-            it('should fill reference values of a collection', function () {
-                var retrieveQueries = new RetrieveQueries({}, Restangular, config, PromisesResolver),
-                    entry1 = new Entry(),
-                    entry2 = new Entry(),
-                    entry3 = new Entry(),
-                    human = new Entity('humans'),
-                    tag = new Entity('tags'),
-                    ref1 = new ReferenceField('human_id'),
-                    ref2 = new ReferenceManyField('tags');
-
-                human.editionView().identifier(new Field('id'));
-                tag.editionView().identifier(new Field('id'));
-                ref1
-                    .targetEntity(human)
-                    .targetField(new Field('name'));
-                ref1.entries = [
-                    {values: {id: 1, name: 'Bob'}},
-                    {values: {id: 2, name: 'Daniel'}},
-                    {values: {id: 3, name: 'Jack'}}
-                ];
-
-                ref2
-                    .targetEntity(tag)
-                    .targetField(new Field('label'));
-                ref2.entries = [
-                    {values: {id: 1, label: 'Photo'}},
-                    {values: {id: 2, label: 'Watch'}},
-                    {values: {id: 3, label: 'Panda'}}
-                ];
-
-                entry1.values.human_id = 1;
-                entry1.values.tags = [1, 3];
-                entry2.values.human_id = 1;
-                entry2.values.tags = [2];
-                entry3.values.human_id = 3;
-
-                var collection = [entry1, entry2, entry3];
-                var referencedValues = {
-                    human_id: ref1,
-                    tags: ref2
-                };
-
-                collection = retrieveQueries.fillReferencesValuesFromCollection(collection, referencedValues, true);
-
-                expect(collection.length).toEqual(3);
-                expect(collection[0].listValues.human_id).toEqual('Bob');
-                expect(collection[0].listValues.tags).toEqual(['Photo', 'Panda']);
-                expect(collection[1].listValues.tags).toEqual(['Watch']);
-                expect(collection[2].listValues.human_id).toEqual('Jack');
-                expect(collection[2].listValues.tags).toEqual([]);
             });
         });
 
@@ -303,15 +224,15 @@ define(function (require) {
                 var retrieveQueries = new RetrieveQueries({}, Restangular, config, PromisesResolver);
 
                 retrieveQueries.getOne(view, 1)
-                    .then(function (entry) {
+                    .then(function (rawEntry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/1');
                         expect(Restangular.get).toHaveBeenCalledWith();
-                        expect(entry.identifierValue).toBe(1);
-                        expect(entry.values.id).toBe(1);
-                        expect(entry.values.name).toBe('Mizoute');
+
+                        expect(rawEntry.id).toBe(1);
+                        expect(rawEntry.name).toBe('Mizoute');
 
                         // Non mapped field should also be retrieved
-                        expect(entry.values.summary).toBe("A Cat");
+                        expect(rawEntry.summary).toBe("A Cat");
                     })
                     .then(done, done.fail);
             });

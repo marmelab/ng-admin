@@ -24,7 +24,7 @@
 
         <div class="show-value" ng-class="::'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
 
-            <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
+            <ma-column field="::field" entry="::entry" entity="::entity" datastore="::showController.dataStore"></ma-column>
 
         </div>
     </div>

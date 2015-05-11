@@ -1,10 +1,9 @@
-import ChoiceField from "./ChoiceField";
+import Field from "./Field";
 import ListView from "../View/ListView";
 
-class ReferenceField extends ChoiceField {
+class ReferenceField extends Field {
     constructor(name) {
         super(name);
-        this.entries = [];
         this._type = 'reference';
         this._targetEntity = null;
         this._targetField = null;
@@ -89,11 +88,11 @@ class ReferenceField extends ChoiceField {
 
     hasSingleApiCall() {
         return typeof this._singleApiCall === 'function';
-    };
+    }
 
     getSingleApiCall(identifiers) {
         return this.hasSingleApiCall() ? this._singleApiCall(identifiers) : this._singleApiCall;
-    };
+    }
 
     getIdentifierValues(rawValues) {
         var results = {};
@@ -115,29 +114,6 @@ class ReferenceField extends ChoiceField {
         }
 
         return Object.keys(results);
-    }
-
-    getChoicesById() {
-        var result = {};
-        var targetEntity = this._targetEntity;
-        var targetField = this._targetField.name();
-        var targetIdentifier = targetEntity.identifier().name();
-
-        for (var i = 0, l = this.entries.length ; i < l ; i++) {
-            var entry = this.entries[i];
-            result[entry.values[targetIdentifier]] = entry.values[targetField];
-        }
-
-        return result;
-    }
-
-    choices() {
-        return this.entries.map(function(entry) {
-            return {
-                value: entry.values[this._targetEntity.identifier().name()],
-                label: entry.values[this._targetField.name()]
-            };
-        }, this);
     }
 
     getSortFieldName() {

@@ -49,6 +49,7 @@ define(function () {
         this.$location = undefined;
         this.DeleteQueries = undefined;
         this.view = undefined;
+        this.entity = undefined;
     };
 
     DeleteController.$inject = ['$scope', '$location', 'DeleteQueries', 'notification', 'params', 'view', 'entry'];

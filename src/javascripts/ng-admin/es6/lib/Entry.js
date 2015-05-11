@@ -14,15 +14,14 @@ class Entry {
         return this._identifierValue;
     }
 
-    static mapFromRest(view, restEntry) {
+    static mapFromRest(entityName, identifier, fields, restEntry) {
         if (!restEntry) {
-            return new Entry(view.entity.name());
+            return new Entry(entityName);
         }
 
-        var identifier = view.identifier();
         var identifierValue = null;
 
-        view.fields().forEach(function (field) {
+        fields.forEach(function (field) {
             var fieldName = field.name();
             if (fieldName in restEntry) {
                 restEntry[fieldName] = field.getMappedValue(restEntry[fieldName], restEntry);
@@ -34,7 +33,7 @@ class Entry {
             identifierValue = restEntry[identifier.name()];
         }
 
-        return new Entry(view.entity.name(), restEntry, identifierValue);
+        return new Entry(entityName, restEntry, identifierValue);
     }
 }
 

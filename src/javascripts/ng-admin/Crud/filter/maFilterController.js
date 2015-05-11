@@ -18,6 +18,7 @@ define(function () {
         this.$stateParams = $stateParams;
         this.$scope.values = this.$stateParams.search || {};
         this.$scope.filters = this.$scope.filters();
+        this.$scope.datastore = this.$scope.datastore();
         this.isFilterEmpty = isEmpty(this.$scope.values);
     }
 
@@ -61,6 +62,10 @@ define(function () {
         }
 
         this.filter();
+    };
+
+    maFilterController.prototype.destroy = function () {
+        this.$scope = undefined;
     };
 
     maFilterController.$inject = ['$scope', '$state', '$stateParams'];

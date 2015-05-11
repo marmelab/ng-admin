@@ -13,65 +13,6 @@ describe('ReferenceField', function() {
         });
     });
 
-    describe('getChoicesById', function () {
-        it('should retrieve choices by id.', function () {
-            var ref = new ReferenceField('human_id'),
-                human = new Entity('human');
-
-            human
-                .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
-
-            ref
-                .targetEntity(human)
-                .targetField(new Field('name'));
-
-            ref.entries = [
-                {values: { id: 1, human_id: 1, name: 'Suna'}},
-                {values: { id: 2, human_id: 2, name: 'Boby'}},
-                {values: { id: 3, human_id: 1, name: 'Mizute'}}
-            ];
-
-            var choices = ref.getChoicesById();
-            assert.equal(ref.type(), 'reference');
-            assert.deepEqual(choices, {
-                1: 'Suna',
-                2: 'Boby',
-                3: 'Mizute'
-            });
-        });
-    });
-
-    describe('choices', function () {
-        it('should retrieve choices.', function () {
-            var ref = new ReferenceField('human_id'),
-                human = new Entity('human');
-
-            human
-                .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
-
-            ref
-                .targetField(new Field('name'))
-                .targetEntity(human);
-
-            ref.entries = [
-                new Entry('human', { id: 1, human_id: 1, name: 'Suna'}),
-                new Entry('human', { id: 2, human_id: 2, name: 'Boby'}),
-                new Entry('human', { id: 3, human_id: 1, name: 'Mizute'})
-            ];
-
-            assert.equal(ref.type(), 'reference');
-            assert.deepEqual(ref.choices(), [
-                { value: 1, label: 'Suna'},
-                { value: 2, label: 'Boby'},
-                { value: 3, label: 'Mizute'}
-            ]);
-        });
-    });
-
     it('Should create a fake view to keep entity', function () {
         var post = new Entity('posts'),
             comment = new Entity('comments');

@@ -3,7 +3,7 @@ define(function(require) {
 
     function getReadWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}" ' +
-                 'entries="field.entries" ' +
+                 'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                  'fields="::field.getReferencedView().fields()" ' +
                  'list-actions="::field.listActions()" ' +
                  'entity="::field.getReferencedView().entity">' +
@@ -17,7 +17,7 @@ define(function(require) {
     }
     function getWriteWidget() {
         return '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
-                  'entries="field.entries" ' +
+                  'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                   'fields="::field.getReferencedView().fields()" ' +
                   'list-actions="::field.listActions()" ' +
                   'entity="::field.getReferencedView().entity">' +
@@ -28,5 +28,5 @@ define(function(require) {
         getLinkWidget:   getLinkWidget,
         getFilterWidget: getFilterWidget,
         getWriteWidget:  getWriteWidget,
-    }
+    };
 });

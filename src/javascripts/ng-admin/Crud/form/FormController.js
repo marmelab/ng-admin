@@ -4,12 +4,13 @@ define(function () {
     'use strict';
 
     var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Validator, Configuration,
-                                   progression, notification, view, entry) {
+                                   progression, notification, view, dataStore) {
 
         this.$scope = $scope;
         this.$state = $state;
         this.CreateQueries = CreateQueries;
         this.UpdateQueries = UpdateQueries;
+        this.dataStore = dataStore;
         this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
@@ -20,12 +21,12 @@ define(function () {
         this.config = Configuration();
         this.view = view;
         this.entity = this.view.getEntity();
-        this.$scope.entry = entry;
+        this.$scope.entry = dataStore.getFirstEntry(this.entity.uniqueId);
         this.$scope.view = view;
         this.$scope.entity = this.entity;
 
         // in case of entity identifier being modified
-        this.originEntityId = entry.values[this.entity.identifier().name()];
+        this.originEntityId = this.$scope.entry.values[this.entity.identifier().name()];
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -55,7 +56,12 @@ define(function () {
             object[field.name()] = value;
         }
 
-        mappedObject = this.view.mapEntry(object);
+        mappedObject = this.dataStore.mapEntry(
+            this.view.entity.name(),
+            this.view.identifier(),
+            this.view.getFields(),
+            object
+        );
 
         try {
             this.Validator.validate(this.view, mappedObject);
@@ -70,23 +76,23 @@ define(function () {
     FormController.prototype.submitCreation = function ($event) {
         $event.preventDefault();
         var entry = this.validateEntry();
-        var entity = this.$scope.entity;
+        var entity = this.entity;
         var route = !entity.editionView().enabled ? 'show' : 'edit';
         if (!entry) {
             return;
         }
         var progression = this.progression,
             notification = this.notification,
-            entity = this.entity,
             $state = this.$state;
         progression.start();
         this.CreateQueries
             .createOne(this.view, entry)
-            .then(function (response) {
+            .then(function (rawEntry) {
+                var entry = this.dataStore.mapEntry(entity.name(), this.view.identifier(), this.view.getFields(), rawEntry);
                 progression.done();
                 notification.log('Element successfully created.', {addnCls: 'humane-flatty-success'});
-                $state.go($state.get(route), { entity: entity.name(), id: response.identifierValue });
-            }, this.handleError.bind(this));
+                $state.go($state.get(route), { entity: entity.name(), id: entry.identifierValue });
+            }.bind(this), this.handleError.bind(this));
     };
 
     FormController.prototype.submitEdition = function ($event) {
@@ -123,11 +129,12 @@ define(function () {
         this.$state = undefined;
         this.CreateQueries = undefined;
         this.UpdateQueries = undefined;
+        this.dataStore = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'entry'];
+    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
 
     return FormController;
 });

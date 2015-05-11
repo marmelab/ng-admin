@@ -28,7 +28,7 @@ define(function (require) {
             .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
             .get()
             .then(function (response) {
-                return view.mapEntry(response.data);
+                return response.data;
             });
     };
 
@@ -45,31 +45,14 @@ define(function (require) {
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getAll = function (view, page, fillSimpleReference, filters, sortField, sortDir) {
-        var response,
-            entries,
-            referencedValues,
-            self = this;
-
+    RetrieveQueries.prototype.getAll = function (view, page, filters, sortField, sortDir) {
         page = page || 1;
-        fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? true : fillSimpleReference;
 
         return this.getRawValues(view, page, filters, sortField, sortDir)
             .then(function (values) {
-                response = values;
-
-                return self.getReferencedValues(view.getReferences(), response.data);
-            }).then(function (refValues) {
-                referencedValues = refValues;
-
-                entries = view.mapEntries(response.data);
-                entries = self.fillReferencesValuesFromCollection(entries, referencedValues, fillSimpleReference);
-
                 return {
-                    entries: entries,
-                    currentPage: page,
-                    perPage: view.perPage(),
-                    totalItems: response.totalCount || response.headers('X-Total-Count') || response.data.length
+                    data: values.data,
+                    totalItems: values.totalCount || values.headers('X-Total-Count') || values.data.length
                 };
             });
     };
@@ -129,40 +112,43 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedValues = function (references, rawValues) {
+    // TODO: rename entries to getReferencedData
+    RetrieveQueries.prototype.getReferencedData = function (references, rawValues) {
         var self = this,
-            referencedValues = {},
+            referencedData = {},
             calls = [],
             singleCallFilters,
             identifiers,
             reference,
             referencedView,
-            entries,
+            data,
             i,
             j,
             k;
 
-
-        references.forEach(function (reference) {
-            referencedValues[reference.name()] = reference;
-        });
-        for (i in referencedValues) {
-            reference = referencedValues[i];
+        for (i in references) {
+            reference = references[i];
             referencedView = reference.getReferencedView();
 
             if (!rawValues) {
                 calls.push(self.getRawValues(referencedView, 1, reference.filters(), reference.sortField(), reference.sortDir()));
-            } else {
-                identifiers = reference.getIdentifierValues(rawValues);
-                // Check if we should retrieve values with 1 or multiple requests
-                if (reference.hasSingleApiCall()) {
-                    singleCallFilters = reference.getSingleApiCall(identifiers);
-                    calls.push(self.getRawValues(referencedView, 1, singleCallFilters, reference.sortField(), reference.sortDir()));
-                } else {
-                    for (k in identifiers) {
-                        calls.push(self.getOne(referencedView, identifiers[k]));
-                    }
-                }
+
+                continue;
+            }
+
+            // get only for identifiers
+            identifiers = reference.getIdentifierValues(rawValues);
+
+            // Check if we should retrieve values with 1 or multiple requests
+            if (reference.hasSingleApiCall()) {
+                singleCallFilters = reference.getSingleApiCall(identifiers);
+                calls.push(self.getRawValues(referencedView, 1, singleCallFilters, reference.sortField(), reference.sortDir()));
+
+                continue;
+            }
+
+            for (k in identifiers) {
+                calls.push(self.getOne(referencedView, identifiers[k]));
             }
         }
 
@@ -170,15 +156,16 @@ define(function (require) {
         return this.PromisesResolver.allEvenFailed(calls)
             .then(function (responses) {
                 if (responses.length === 0) {
-                    return referencedValues;
+                    return {};
                 }
+
                 i = 0;
                 var response;
 
-                for (j in referencedValues) {
-
-                    reference = referencedValues[j];
+                for (j in references) {
+                    reference = references[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
+                    referencedView = reference.getReferencedView();
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
@@ -187,25 +174,31 @@ define(function (require) {
                             // the response failed
                             continue;
                         }
-                        referencedValues[j].entries = reference.getReferencedView().mapEntries(response.result.data);
-                    } else {
-                        entries = [];
-                        identifiers = reference.getIdentifierValues(rawValues);
-                        for (k in identifiers) {
-                            response = responses[i++];
-                            if (response.status == 'error') {
-                                // one of the responses failed
-                                continue;
-                            }
-                            entries.push(response.result);
-                        }
 
-                        // Entry are already mapped by getOne
-                        referencedValues[j].entries = entries;
+                        referencedData[reference.name()] = response.result.data;
+
+                        continue;
                     }
+
+                    data = [];
+                    identifiers = reference.getIdentifierValues(rawValues);
+                    for (k in identifiers) {
+                        response = responses[i++];
+                        if (response.status == 'error') {
+                            // one of the responses failed
+                            continue;
+                        }
+                        data.push(response.result);
+                    }
+
+                    if (!data.length) {
+                        continue;
+                    }
+
+                    referencedData[reference.name()] = data;
                 }
 
-                return referencedValues;
+                return referencedData;
             });
     };
 
@@ -219,12 +212,11 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedListValues = function (view, sortField, sortDir, entityId) {
+    RetrieveQueries.prototype.getReferencedListData = function (referencedLists, sortField, sortDir, entityId) {
         var self = this,
-            referencedLists = view.getReferencedLists(),
             calls = [],
             referencedList,
-            referencedView,
+            referencedListView,
             filter,
             i,
             j;
@@ -233,81 +225,22 @@ define(function (require) {
             referencedList = referencedLists[i];
             filter = {};
             filter[referencedList.targetReferenceField()] = entityId;
-            referencedView = referencedList.getReferencedView();
-            calls.push(self.getRawValues(referencedView, 1, filter, sortField || (referencedView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
+            referencedListView = referencedList.getReferencedView();
+            calls.push(self.getRawValues(referencedListView, 1, filter, sortField || (referencedListView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
         }
 
         return this.$q.all(calls)
             .then(function (responses) {
                 j = 0;
 
+                var entries = {};
                 for (i in referencedLists) {
-                    referencedList = referencedLists[i];
 
-                    // Map entries
-                    referencedList.entries = referencedList.getReferencedView().mapEntries(responses[j++].data);
+                    entries[i] = responses[j++].data;
                 }
 
-                return referencedLists;
+                return entries;
             });
-    };
-
-    /**
-     * Fill ReferencedMany & Reference values from a collection a values
-     *
-     * @param {[Entry]}  collection
-     * @param {Object}  referencedValues
-     * @param {Boolean} fillSimpleReference
-     * @returns {Array}
-     */
-    RetrieveQueries.prototype.fillReferencesValuesFromCollection = function (collection, referencedValues, fillSimpleReference) {
-        fillSimpleReference = typeof (fillSimpleReference) === 'undefined' ? false : fillSimpleReference;
-
-        var i, l;
-
-        for (i = 0, l = collection.length; i < l; i++) {
-            collection[i] = this.fillReferencesValuesFromEntry(collection[i], referencedValues, fillSimpleReference);
-        }
-
-        return collection;
-    };
-
-    /**
-     * Fill ReferencedMany & Reference values from a collection a values
-     *
-     * @param {Entry}  entry
-     * @param {Object}  referencedValues
-     * @param {Boolean} fillSimpleReference
-     * @returns {Array}
-     */
-    RetrieveQueries.prototype.fillReferencesValuesFromEntry = function (entry, referencedValues, fillSimpleReference) {
-        var reference,
-            referenceField,
-            choices,
-            entries,
-            identifier,
-            id,
-            i;
-
-        for (referenceField in referencedValues) {
-            reference = referencedValues[referenceField];
-            choices = reference.getChoicesById();
-            entries = [];
-            identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
-
-            if (reference.type() === 'reference_many') {
-                for (i in identifier) {
-                    id = identifier[i];
-                    entries.push(choices[id]);
-                }
-
-                entry.listValues[referenceField] = entries;
-            } else if (fillSimpleReference && identifier && identifier in choices) {
-                entry.listValues[referenceField] = reference.getMappedValue(choices[identifier], entry.values);
-            }
-        }
-
-        return entry;
     };
 
     RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];

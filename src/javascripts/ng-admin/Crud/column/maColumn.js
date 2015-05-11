@@ -23,9 +23,11 @@ define(function (require) {
             scope: {
                 field: '&',
                 entry: '&',
-                entity: '&'
+                entity: '&',
+                datastore: '&'
             },
             link: function(scope, element, attr) {
+                scope.datastore = scope.datastore();
                 scope.field = scope.field();
                 scope.entry = scope.entry();
                 var type = scope.field.type();

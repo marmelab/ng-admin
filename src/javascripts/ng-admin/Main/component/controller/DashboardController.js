@@ -29,7 +29,7 @@ define(function (require) {
         this.panels = [];
 
         this.PanelBuilder.getPanelsData().then(function (panels) {
-            self.panels = panels
+            self.panels = panels;
         });
     };
 

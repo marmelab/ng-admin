@@ -79,7 +79,6 @@ class View {
         return this;
     }
 
-
     /*
      * Supports various syntax
      * fields([ Field1, Field2 ])
@@ -127,7 +126,14 @@ class View {
     }
 
     getReferences() {
-        return this._fields.filter(field => field.type() === 'reference' || field.type() === 'reference_many');
+        var result = {};
+        var lists = this._fields.filter(f => f.type() === 'reference' || f.type() === 'reference_many');
+        for (let i = 0, c = lists.length ; i < c ; i++) {
+            let list = lists[i];
+            result[list.name()] = list;
+        }
+
+        return result;
     }
 
     getReferencedLists() {
@@ -139,14 +145,6 @@ class View {
         }
 
         return result;
-    };
-
-    mapEntry(restEntry) {
-        return new Entry.mapFromRest(this, restEntry);
-    }
-
-    mapEntries(restEntries) {
-        return restEntries.map(e => this.mapEntry(e));
     }
 
     template(template) {
@@ -188,22 +186,12 @@ class View {
         return this;
     }
 
-    processFieldsDefaultValue(entry) {
-
-        this._fields.forEach(function (field) {
-            entry.values[field.name()] = field.defaultValue();
-        });
-
-        return entry;
-    }
-
     removeFields() {
         this._fields = [];
         return this;
     }
 
     getFields() {
-
         return this._fields;
     }
 
@@ -251,7 +239,7 @@ class View {
         }
 
         return this._url;
-    };
+    }
 }
 
 export default View;

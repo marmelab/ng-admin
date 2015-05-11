@@ -13,14 +13,20 @@ define(function (require) {
             scope: {
                 'field': '&',
                 'value': '=',
-                'entry':  '=?'
+                'entry':  '=?',
+                'datastore': '&?'
             },
             restrict: 'E',
             link: function(scope, element) {
                 var field = scope.field();
                 scope.name = field.name();
                 scope.v = field.validation();
-                var choices = field.choices();
+                var choices;
+                if (field.type() === 'reference' || field.type() === 'reference_many') {
+                    choices = scope.datastore().getChoices(field);
+                } else {
+                    choices = field.choices();
+                }
                 scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
                 var select = element.children()[0];
                 var attributes = field.attributes();
@@ -29,7 +35,7 @@ define(function (require) {
                 }
                 scope.contains = contains;
             },
-            template: 
+            template:
 '<select multiple ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" ng-required="v.required">' +
   '<option ng-repeat="choice in getChoices(entry)" value="{{ choice.value }}" ng-selected="contains(value, choice.value)">' +
     '{{ choice.label }}' +

@@ -10,7 +10,7 @@ define(function (require) {
             .map(function(fieldView, field) {
                 return '<span ng-switch-when="' + field + '">' + fieldView.getWriteWidget() +'</span>';
             }).join('');
-        var template = 
+        var template =
 '<div id="row-{{ field.name() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">' +
     '<label for="{{ field.name() }}" class="col-sm-2 control-label">' +
         '{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;' +
@@ -21,7 +21,7 @@ define(function (require) {
     '</div>' +
     '<div ng-if="!field.editable()" ng-class="field.getCssClasses(entry)||\'col-sm-10\'">' +
         '<p class="form-control-static">' +
-            '<ma-column field="::field" entry="::entry" entity="::entity"></ma-column>' +
+            '<ma-column field="::field" entry="::entry" entity="::entity" datastore="::datastore"></ma-column>' +
         '</p>' +
     '</div>' +
 '</div>';
@@ -31,13 +31,15 @@ define(function (require) {
                 field: '&',
                 entry: '=',
                 entity: '&',
-                form: '&'
+                form: '&',
+                'datastore': '&'
             },
-            link: function(scope, element, attr) {
+            link: function(scope) {
                 scope.field = scope.field();
                 scope.type = scope.field.type();
                 scope.entity = scope.entity();
                 scope.form = scope.form();
+                scope.datastore = scope.datastore();
 
                 scope.getClassesForField = function(field, entry) {
                     return 'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
