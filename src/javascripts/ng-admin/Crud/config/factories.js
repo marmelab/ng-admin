@@ -6,6 +6,7 @@ function factories(fvp) {
     fvp.registerFieldView('datetime', require('../fieldView/DateFieldView'));
     fvp.registerFieldView('email', require('../fieldView/EmailFieldView'));
     fvp.registerFieldView('file', require('../fieldView/FileFieldView'));
+    fvp.registerFieldView('float', require('ng-admin/Crud/fieldView/FloatFieldView'));
     fvp.registerFieldView('json', require('../fieldView/JsonFieldView'));
     fvp.registerFieldView('number', require('../fieldView/NumberFieldView'));
     fvp.registerFieldView('password', require('../fieldView/PasswordFieldView'));

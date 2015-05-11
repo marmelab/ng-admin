@@ -26,7 +26,7 @@ define(function (require) {
                 entity: '&',
                 datastore: '&'
             },
-            link: function(scope, element, attr) {
+            link: function(scope, element) {
                 scope.datastore = scope.datastore();
                 scope.field = scope.field();
                 scope.entry = scope.entry();

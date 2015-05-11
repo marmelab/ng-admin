@@ -77,7 +77,8 @@
             .fields([
                 nga.field('id').label('id'), // The default displayed name is the camelCase field name. label() overrides id
                 nga.field('title'), // the default list field type is "string", and displays as a string
-                nga.field('published_at', 'date'), // Date field type allows date formatting
+                nga.field('published_at', 'date'),  // Date field type allows date formatting
+                nga.field('average_note', 'float'), // Float type also displays decimal digits
                 nga.field('views', 'number'),
                 nga.field('tags', 'reference_many') // a Reference is a particular type of field that references another entity
                     .targetEntity(tag) // the tag entity is defined later in this file
@@ -124,6 +125,8 @@
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
+                    .cssClasses('col-sm-4'),
+                nga.field('average_note', 'float')
                     .cssClasses('col-sm-4'),
                 nga.field('comments', 'referenced_list') // display list of related comments
                     .targetEntity(comment)
