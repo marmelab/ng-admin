@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var viewActionsTemplate = require('text!./view-actions.html');
+    var viewActionsTemplate = require('./view-actions.html');
 
     function ViewActionsDirective($injector) {
         var $compile = $injector.get('$compile');

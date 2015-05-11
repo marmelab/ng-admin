@@ -1,5 +1,8 @@
 .PHONY: build
 
+watch:
+	./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --host=0.0.0.0
+
 install:
 	bower install
 	npm install

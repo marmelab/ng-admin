@@ -155,8 +155,8 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000,
                     base: 'examples/blog/',
-                    keepalive: false,
-                    livereload: true
+                    keepalive: true,
+                    livereload: false
                 }
             }
         },

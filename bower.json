@@ -22,7 +22,6 @@
     "jquery": "~1.11.0",
     "json3": "~3.2.6",
     "jsonlint": "~1.6.0",
-    "ng-file-upload": "~2.2.2",
     "ngInflection": "~1.0.0",
     "nprogress": "~0.1.6",
     "requirejs": "~2.1.14",

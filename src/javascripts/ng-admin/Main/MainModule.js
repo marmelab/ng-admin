@@ -1,32 +1,25 @@
-/*global define*/
+var angular = require('angular');
 
-define(function (require) {
-    'use strict';
+require('angular-ui-router');
+require('restangular');
 
-    var angular = require('angular');
+var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
-    require('angular-ui-router');
-    require('restangular');
+MainModule.controller('AppController', require('./component/controller/AppController'));
+MainModule.controller('DashboardController', require('./component/controller/DashboardController'));
 
-    var MainModule = angular.module('main', ['ui.router', 'restangular']);
+MainModule.service('PanelBuilder', require('./component/service/PanelBuilder'));
 
-    MainModule.controller('AppController', require('ng-admin/Main/component/controller/AppController'));
-    MainModule.controller('DashboardController', require('ng-admin/Main/component/controller/DashboardController'));
+MainModule.provider('NgAdminConfiguration', require('./component/provider/NgAdminConfiguration'));
 
-    MainModule.service('PanelBuilder', require('ng-admin/Main/component/service/PanelBuilder'));
+MainModule.filter('orderElement', require('./component/filter/OrderElement'));
+MainModule.filter('stripTags', require('./component/filter/StripTags'));
 
-    MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
+MainModule.directive('maDashboardPanel', require('./component/directive/maDashboardPanel'));
+MainModule.directive('maMenuBar', require('./component/directive/maMenuBar'));
 
-    MainModule.filter('stripTags', require('ng-admin/Main/component/filter/StripTags'));
+MainModule.config(require('./config/http'));
+MainModule.config(require('./config/routing'));
 
-    MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));
-    MainModule.directive('maMenuBar', require('ng-admin/Main/component/directive/maMenuBar'));
-
-    MainModule.config(require('ng-admin/Main/config/http'));
-    MainModule.config(require('ng-admin/Main/config/routing'));
-
-    MainModule.run(require('ng-admin/Main/run/ErrorHandler'));
-    MainModule.run(require('ng-admin/Main/run/Loader'));
-
-    return MainModule;
-});
+MainModule.run(require('./run/ErrorHandler'));
+MainModule.run(require('./run/Loader'));

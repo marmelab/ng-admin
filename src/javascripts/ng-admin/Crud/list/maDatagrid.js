@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var datagridView = require('text!./Datagrid.html'),
+    var datagridView = require('./Datagrid.html'),
         DatagridController = require('./DatagridController');
 
     function maDatagridDirective() {

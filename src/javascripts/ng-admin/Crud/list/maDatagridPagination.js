@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var paginationView = require('text!./maDatagridPagination.html'),
+    var paginationView = require('./maDatagridPagination.html'),
         DatagridPaginationController = require('./maDatagridPaginationController');
 
     function DatagridPaginationDirective() {
