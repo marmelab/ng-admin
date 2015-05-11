@@ -19,15 +19,18 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'List';
+                var parentEntityName = scope.$parent.entity ? scope.$parent.entity.name() : null;
+                var entityName = scope.entity().name();
+
+                var params = {
+                    entity: entityName
+                };
+                if (entityName === parentEntityName) {
+                    angular.extend(params, $state.params);
+                }
 
                 scope.gotoList = function () {
-                    $state.go($state.get('list'), {
-                        entity: scope.entity().name(),
-                        search: $state.params.search,
-                        page: $state.params.page,
-                        sortDir: $state.params.sortDir,
-                        sortField: $state.params.sortField
-                    });
+                    $state.go($state.get('list'), params);
                 };
             },
             template:
