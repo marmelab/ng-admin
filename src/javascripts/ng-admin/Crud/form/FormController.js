@@ -3,12 +3,11 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $state, $stateParams, WriteQueries, Configuration,
+    var FormController = function ($scope, $state, WriteQueries, Configuration,
                                    progression, notification, view, dataStore) {
 
         this.$scope = $scope;
         this.$state = $state;
-        this.$statePar = $state;
         this.WriteQueries = WriteQueries;
         this.dataStore = dataStore;
         this.progression = progression;
@@ -132,7 +131,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$state', '$stateParams', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+    FormController.$inject = ['$scope', '$state', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
 
     return FormController;
 });

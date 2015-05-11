@@ -25,15 +25,15 @@ define(function () {
     BatchDeleteController.prototype.batchDelete = function () {
         var notification = this.notification,
             $state = this.$state,
-            _this = this;
+            entityName = this.entity.name();
 
         this.WriteQueries.batchDelete(this.view, this.entityIds).then(function () {
             $state.go($state.get('list'), {
-                entity: _this.entity.name(),
-                page: _this.$state.params.page,
-                search: _this.$state.params.search,
-                sortField: _this.$state.params.sortField,
-                sortDir: _this.$state.params.sortDir
+                entity: entityName,
+                page: $state.params.page,
+                search: $state.params.search,
+                sortField: $state.params.sortField,
+                sortDir: $state.params.sortDir
             });
             notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {

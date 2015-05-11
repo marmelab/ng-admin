@@ -23,15 +23,15 @@ define(function () {
 
     DeleteController.prototype.deleteOne = function () {
         var notification = this.notification,
-            $state = this.$state, _this = this;
+            $state = this.$state, entityName = this.entity.name();
 
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
             $state.go($state.get('list'), {
-                entity: _this.entity.name(),
-                page: _this.$state.params.page,
-                search: _this.$state.params.search,
-                sortField: _this.$state.params.sortField,
-                sortDir: _this.$state.params.sortDir
+                entity: entityName,
+                page: $state.params.page,
+                search: $state.params.search,
+                sortField: $state.params.sortField,
+                sortDir: $state.params.sortDir
             });
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
@@ -46,13 +46,14 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        this.$state.go(this.$state.get('edit'), {
+        var $state = this.$state;
+        $state.go($state.get('edit'), {
             entity: this.entity.name(),
             id: this.entityId,
-            page: this.$state.params.page,
-            search: this.$state.params.search,
-            sortField: this.$state.params.sortField,
-            sortDir: this.$state.params.sortDir
+            page: $state.params.page,
+            search: $state.params.search,
+            sortField: $state.params.sortField,
+            sortDir: $state.params.sortDir
         });
     };
 
