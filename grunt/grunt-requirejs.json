@@ -54,5 +54,24 @@
                 "endFile": "src/build/end-ngadmin.frag"
             }
         }
+    },
+    "prod-only": {
+        "options": {
+            "baseUrl": "src/javascripts",
+            "mainConfigFile": "src/javascripts/ng-admin-only.js",
+            "include": ["ng-admin-only"],
+            "name": "bower_components/almond/almond",
+            "out": "./build/ng-admin-only.min.js",
+            "optimize": "none",
+            "preserveLicenseComments": false,
+            "findNestedDependencies": true,
+            "generateSourceMaps": false,
+            "skipDirOptimize": true,
+            "removeCombined": true,
+            "wrap": {
+                "startFile": "src/build/start-ngadmin.frag",
+                "endFile": "src/build/end-only.frag"
+            }
+        }
     }
 }

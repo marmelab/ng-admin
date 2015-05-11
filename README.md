@@ -71,6 +71,11 @@ Your application should use a `ui-view`:
 <div ui-view></div>
 ```
 
+### Dependency-less Version
+
+ng-admin is also available without compiled dependencies : `bower_components/ng-admin/build/ng-admin-only.min.js`.
+Please refer to the `examples/blog/index-deps.html` file to get the list of required dependencies to include.
+
 ## Example Configuration
 
 We chose to define the entities & views directly in JavaScript to allow greater freedom in the configuration.
