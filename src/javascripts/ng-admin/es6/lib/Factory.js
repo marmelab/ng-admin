@@ -2,6 +2,9 @@ import Application from "./Application";
 import Entity from "./Entity/Entity";
 import DataStore from "./DataStore/DataStore";
 
+import ReadQueries from "./Queries/ReadQueries";
+import WriteQueries from "./Queries/WriteQueries";
+
 import Field from "./Field/Field";
 import BooleanField from "./Field/BooleanField";
 import ChoiceField from "./Field/ChoiceField";
@@ -64,6 +67,14 @@ class Factory {
 
     getDataStore() {
         return new DataStore();
+    }
+
+    getReadQueries(RestWrapper, PromisesResolver, Application) {
+        return new ReadQueries(RestWrapper, PromisesResolver, Application);
+    }
+
+    getWriteQueries(RestWrapper, PromisesResolver, Application) {
+        return new WriteQueries(RestWrapper, PromisesResolver, Application);
     }
 
     _init() {

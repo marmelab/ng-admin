@@ -33,6 +33,8 @@ define(function (require) {
     CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
     CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
 
+    CrudModule.service('RestWrapper', require('ng-admin/Crud/misc/RestWrapper'));
+
     CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
 
     CrudModule.directive('maField', require('ng-admin/Crud/field/maField'));

@@ -1,19 +1,6 @@
-/*global define*/
-define(function (require) {
-    'use strict';
+import Queries from './Queries'
 
-    var utils = require('ng-admin/lib/utils'),
-        angular = require('angular'),
-        Queries = require('ng-admin/Crud/repository/Queries');
-
-    /**
-     * @constructor
-     */
-    function RetrieveQueries() {
-        Queries.apply(this, arguments);
-    }
-
-    utils.inherits(RetrieveQueries, Queries);
+class RetrieveQueries extends Queries {
 
     /**
      * Get one entity
@@ -23,14 +10,10 @@ define(function (require) {
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
-    RetrieveQueries.prototype.getOne = function (entity, viewType, identifierValue, identifierName, url) {
-        return this.Restangular
-            .oneUrl(entity.name(), this.config.getRouteFor(entity, url, viewType, identifierValue, identifierName))
-            .get()
-            .then(function (response) {
-                return response.data;
-            });
-    };
+    getOne(entity, viewType, identifierValue, identifierName, url) {
+        return this._restWrapper
+            .getOne(entity.name(), this.config.getRouteFor(entity, url, viewType, identifierValue, identifierName));
+    }
 
     /**
      * Return the list of all object of entityName type
@@ -38,19 +21,18 @@ define(function (require) {
      *
      * @param {ListView} view                the view associated to the entity
      * @param {Number}   page                the page number
-     * @param {Boolean}  fillSimpleReference should we fill Reference list
      * @param {Object}   filters             searchQuery to filter elements
      * @param {String}   sortField           the field to be sorted ex: entity.fieldName
      * @param {String}   sortDir             the direction of the sort
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getAll = function (view, page, filters, sortField, sortDir) {
+    getAll(view, page, filters, sortField, sortDir) {
         page = page || 1;
         var url = view.getUrl();
 
-        return this.getRawValues(view.getEntity(), view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
-            .then(function (values) {
+        return this.getRawValues(view.entiy(), view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
+            .then((values) => {
                 return {
                     data: values.data,
                     totalItems: values.totalCount || values.headers('X-Total-Count') || values.data.length
@@ -70,7 +52,7 @@ define(function (require) {
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getRawValues = function (entity, viewName, viewType, page, perPage, filterValues, filterFields, sortField, sortDir, url) {
+    getRawValues(entity, viewName, viewType, page, perPage, filterValues, filterFields, sortField, sortDir, url) {
         var params = {};
 
         if (page !== -1 ) {
@@ -90,7 +72,7 @@ define(function (require) {
             for (filterName in filterValues) {
 
                 if (filterFields.hasOwnProperty(filterName) && filterFields[filterName].hasMaps()) {
-                    angular.extend(params._filters, filterFields[filterName].getMappedValue(filterValues[filterName]));
+                    Object.assign(params._filters, filterFields[filterName].getMappedValue(filterValues[filterName]));
 
                     continue;
                 }
@@ -101,21 +83,21 @@ define(function (require) {
         }
 
         // Get grid data
-        return this.Restangular
-            .allUrl(entity.name(), this.config.getRouteFor(entity, url, viewType))
-            .getList(params);
+        return this._restWrapper
+            .getList(params, entity.name(), this.config.getRouteFor(entity, url, viewType));
     };
 
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      *
-     * @param {Object}  A hash of Reference and ReferenceMany objects
+     * @param {Object} references A hash of Reference and ReferenceMany objects
      * @param {Array} rawValues
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedData = function (references, rawValues) {
-        var self = this,
+    getReferencedData(references, rawValues) {
+        var getRawValues = this.getRawValues,
+            getOne = this.getOne,
             referencedData = {},
             calls = [],
             singleCallFilters,
@@ -132,7 +114,7 @@ define(function (require) {
             targetEntity = reference.targetEntity();
 
             if (!rawValues) {
-                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
+                calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
@@ -143,19 +125,19 @@ define(function (require) {
             // Check if we should retrieve values with 1 or multiple requests
             if (reference.hasSingleApiCall()) {
                 singleCallFilters = reference.getSingleApiCall(identifiers);
-                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
+                calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
 
             for (k in identifiers) {
-                calls.push(self.getOne(targetEntity, 'listView', identifiers[k], reference.name()));
+                calls.push(getOne(targetEntity, 'listView', identifiers[k], reference.name()));
             }
         }
 
         // Fill all reference entries
-        return this.PromisesResolver.allEvenFailed(calls)
-            .then(function (responses) {
+        return this._promisesResolver.allEvenFailed(calls)
+            .then((responses) => {
                 if (responses.length === 0) {
                     return {};
                 }
@@ -205,15 +187,15 @@ define(function (require) {
     /**
      * Returns all ReferencedList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
      *
-     * @param {View}   view
+     * @param {View}   referencedLists
      * @param {String} sortField
      * @param {String} sortDir
      * @param {*} entityId
      *
      * @returns {promise}
      */
-    RetrieveQueries.prototype.getReferencedListData = function (referencedLists, sortField, sortDir, entityId) {
-        var self = this,
+    getReferencedListData(referencedLists, sortField, sortDir, entityId) {
+        var getRawValues = this.getRawValues,
             calls = [],
             referencedList,
             targetEntity,
@@ -228,24 +210,27 @@ define(function (require) {
             filter[referencedList.targetReferenceField()] = entityId;
             targetEntity = referencedList.targetEntity();
             viewName = targetEntity.name() + '_ListView';
-            calls.push(self.getRawValues(targetEntity, viewName, 'listView', 1, referencedList.perPage(), filter, {}, sortField || referencedList.getSortFieldName(), sortDir || referencedList.sortDir()));
+            calls.push(getRawValues(targetEntity, viewName, 'listView', 1, referencedList.perPage(), filter, {}, sortField || referencedList.getSortFieldName(), sortDir || referencedList.sortDir()));
         }
 
-        return this.$q.all(calls)
-            .then(function (responses) {
+        return this._promisesResolver.allEvenFailed(calls)
+            .then((responses) => {
                 j = 0;
 
                 var entries = {};
                 for (i in referencedLists) {
+                    response = responses[j++];
+                    if (response.status == 'error') {
+                        // one of the responses failed
+                        continue;
+                    }
 
-                    entries[i] = responses[j++].data;
+                    entries[i] = response.result.data;
                 }
 
                 return entries;
             });
     };
+}
 
-    RetrieveQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];
-
-    return RetrieveQueries;
-});
+export default RetrieveQueries
