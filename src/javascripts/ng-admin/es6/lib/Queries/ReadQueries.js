@@ -96,8 +96,8 @@ class RetrieveQueries extends Queries {
      * @returns {promise}
      */
     getReferencedData(references, rawValues) {
-        var getRawValues = this.getRawValues,
-            getOne = this.getOne,
+        var getRawValues = this.getRawValues.bind(this),
+            getOne = this.getOne.bind(this),
             referencedData = {},
             calls = [],
             singleCallFilters,
@@ -195,7 +195,7 @@ class RetrieveQueries extends Queries {
      * @returns {promise}
      */
     getReferencedListData(referencedLists, sortField, sortDir, entityId) {
-        var getRawValues = this.getRawValues,
+        var getRawValues = this.getRawValues.bind(this),
             calls = [],
             referencedList,
             targetEntity,

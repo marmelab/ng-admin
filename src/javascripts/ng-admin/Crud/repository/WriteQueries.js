@@ -13,7 +13,7 @@ define(function () {
      * @constructor
      */
     function WriteQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-        return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration())
+        return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration())
     }
 
     WriteQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];

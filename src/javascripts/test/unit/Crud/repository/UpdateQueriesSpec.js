@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var UpdateQueries = require('ng-admin/Crud/repository/UpdateQueries'),
+    var WriteQueries = require('ng-admin/Crud/repository/WriteQueries'),
         Field = require('ng-admin/es6/lib/Field/Field'),
         TextField = require('ng-admin/es6/lib/Field/TextField'),
         Entity = require('ng-admin/es6/lib/Entity/Entity'),
@@ -14,7 +14,7 @@ define(function (require) {
         entity,
         view;
 
-    describe("Service: UpdateQueries", function () {
+    describe("Service: WriteQueries", function () {
 
         beforeEach(function () {
             config = function () {
@@ -37,13 +37,13 @@ define(function (require) {
         describe("updateOne", function () {
 
             it('should PUT an entity when calling updateOne', function (done) {
-                var updateQueries = new UpdateQueries({}, Restangular, config),
+                var WriteQueries = new WriteQueries({}, Restangular, config),
                     rawEntity = {id: 3, name: 'Mizu'};
 
                 spyOn(Restangular, 'oneUrl').and.callThrough();
                 spyOn(Restangular, 'customPUT').and.returnValue(mixins.buildPromise({data: rawEntity}));
 
-                updateQueries.updateOne(view, rawEntity)
+                WriteQueries.updateOne(view, rawEntity)
                     .then(function (rawEntry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/3');
                         expect(Restangular.customPUT).toHaveBeenCalledWith(rawEntity);

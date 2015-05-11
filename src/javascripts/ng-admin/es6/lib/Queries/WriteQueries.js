@@ -13,7 +13,7 @@ class WriteQueries extends Queries {
      */
     createOne(view, rawEntity) {
         return this._restWrapper
-            .createOne(rawEntity, view.entity.name(), this.config.getRouteFor(view));
+            .createOne(rawEntity, view.entity.name(), this._application.getRouteFor(view));
     }
 
     /**
@@ -31,7 +31,7 @@ class WriteQueries extends Queries {
 
         // Update element data
         return this._restWrapper
-            .updateOne(rawEntity, view.entity.name(), this.config.getRouteFor(view, entityId));
+            .updateOne(rawEntity, view.entity.name(), this._application.getRouteFor(view, entityId));
     }
 
     /**
@@ -45,7 +45,7 @@ class WriteQueries extends Queries {
      */
     deleteOne(view, entityId) {
         return this._restWrapper
-            .deleteOne(view.entity.name(), this.config.getRouteFor(view, entityId));
+            .deleteOne(view.entity.name(), this._application.getRouteFor(view, entityId));
     }
 
     /**
@@ -58,7 +58,7 @@ class WriteQueries extends Queries {
      * @returns {promise}
      */
     batchDelete(view, entityIds) {
-        var deleteOne = this.deleteOne;
+        var deleteOne = this.deleteOne.bind(this);
 
         var promises = entityIds.map(function (id) {
             return deleteOne(view, id);

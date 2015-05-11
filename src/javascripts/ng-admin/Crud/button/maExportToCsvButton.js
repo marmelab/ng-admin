@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, RetrieveQueries) {
+    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, ReadQueries) {
         return {
             restrict: 'E',
             scope: {
@@ -29,7 +29,7 @@ define(function () {
 
                 scope.exportToCsv = function () {
 
-                    RetrieveQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
+                    ReadQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
                         var results = [], entries = response.entries;
                         for (var i = entries.length - 1; i >= 0; i--) {
 
@@ -49,7 +49,7 @@ define(function () {
         };
     }
 
-    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'RetrieveQueries'];
+    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'ReadQueries'];
 
     return maExportToCsvButton;
 });
