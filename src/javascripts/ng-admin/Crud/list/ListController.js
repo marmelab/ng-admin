@@ -67,6 +67,7 @@ define(function () {
         this.$filter = undefined;
         this.$location = undefined;
         this.$anchorScroll = undefined;
+        this.dataStore = undefined;
     };
 
     ListController.$inject = ['$scope', '$stateParams', '$filter', '$location', '$anchorScroll', 'RetrieveQueries', 'progression', 'view', 'dataStore', 'totalItems'];

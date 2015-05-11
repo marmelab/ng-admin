@@ -121,7 +121,7 @@ define(function (require) {
             identifiers,
             reference,
             referencedView,
-            datas,
+            data,
             i,
             j,
             k;
@@ -180,7 +180,7 @@ define(function (require) {
                         continue;
                     }
 
-                    datas = [];
+                    data = [];
                     identifiers = reference.getIdentifierValues(rawValues);
                     for (k in identifiers) {
                         response = responses[i++];
@@ -188,14 +188,14 @@ define(function (require) {
                             // one of the responses failed
                             continue;
                         }
-                        datas.push(response.result);
+                        data.push(response.result);
                     }
 
-                    if (!datas.length) {
+                    if (!data.length) {
                         continue;
                     }
 
-                    referencedData[reference.name()] = datas;
+                    referencedData[reference.name()] = data;
                 }
 
                 return referencedData;

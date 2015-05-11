@@ -25,6 +25,7 @@ define(function () {
         this.$location = undefined;
         this.view = undefined;
         this.entity = undefined;
+        this.dataStore = undefined;
     };
 
     ShowController.$inject = ['$scope', '$location', 'view', 'dataStore'];

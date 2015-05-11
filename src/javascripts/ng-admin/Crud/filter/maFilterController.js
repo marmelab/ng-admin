@@ -64,6 +64,10 @@ define(function () {
         this.filter();
     };
 
+    maFilterController.prototype.destroy = function () {
+        this.$scope = undefined;
+    };
+
     maFilterController.$inject = ['$scope', '$state', '$stateParams'];
 
     return maFilterController;

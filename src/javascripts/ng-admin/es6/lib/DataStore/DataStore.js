@@ -24,7 +24,9 @@ class DataStore {
     }
 
     getFirstEntry(name) {
-        return this._entries[name][0];
+        var entries = this.getEntries(name);
+
+        return entries.length ? entries[0] : null;
     }
 
     getChoices(field) {

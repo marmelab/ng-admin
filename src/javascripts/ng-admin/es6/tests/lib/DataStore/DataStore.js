@@ -34,7 +34,7 @@ describe('DataStore', function() {
         assert.equal(entries[1].values.published, false);
     });
 
-    it('should map some one entity when the identifier in not in the view', function () {
+    it('should map some one entity when the identifier is not in the view', function () {
         var view = new View(),
             field = new Field('title'),
             entity = new Entity('posts');
