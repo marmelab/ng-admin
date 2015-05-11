@@ -86,7 +86,6 @@ define(function (require) {
 
     CrudModule.config(require('ng-admin/Crud/routing'));
     CrudModule.config(require('ng-admin/Crud/config/factories'));
-    CrudModule.config(require('ng-admin/Crud/config/datePicker'));
 
     CrudModule.factory('Papa', function () {
         return require('papaparse');
