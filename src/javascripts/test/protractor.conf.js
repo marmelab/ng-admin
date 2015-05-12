@@ -20,5 +20,9 @@ exports.config =  {
         showColors: true,
         includeStackTrace: true,
         defaultTimeoutInterval: 360000
+    },
+
+    onPrepare: function () {
+        browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
     }
 };

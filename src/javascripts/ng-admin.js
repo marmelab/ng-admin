@@ -62,7 +62,8 @@ define(function (require) {
     factory.constant('AdminDescription', new AdminDescription());
 
     var ngadmin = angular.module('ng-admin', ['main', 'crud', 'AdminDescriptionModule']);
-    ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
+    ngadmin.config(['NgAdminConfigurationProvider', 'AdminDescription', '$compileProvider', function(NgAdminConfigurationProvider, AdminDescription, $compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
         NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
-    });
+    }]);
 });

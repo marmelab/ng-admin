@@ -4,7 +4,7 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(function (NgAdminConfigurationProvider, RestangularProvider) {
+    app.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (NgAdminConfigurationProvider, RestangularProvider) {
         var nga = NgAdminConfigurationProvider;
 
         function truncate(value) {
@@ -276,7 +276,7 @@
         );
 
         nga.configure(admin);
-    });
+    }]);
 
     app.directive('postLink', ['$location', function ($location) {
         return {
@@ -333,7 +333,7 @@
             '<div class="col-lg-5"><a class="btn btn-default" ng-click="controller.sendEmail()">Send</a></div>' +
         '</div>';
 
-    app.config(function ($stateProvider) {
+    app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('send-post', {
             parent: 'main',
             url: '/sendPost/:id',
@@ -342,7 +342,7 @@
             controllerAs: 'controller',
             template: sendPostControllerTemplate
         });
-    });
+    }]);
 
     // custom page with menu item
     var customPageTemplate = '<div class="row"><div class="col-lg-12">' +
@@ -352,12 +352,12 @@
                 '<p class="lead">You can add custom pages, too</p>' +
             '</div>' +
         '</div></div>';
-    app.config(function ($stateProvider) {
+    app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('stats', {
             parent: 'main',
             url: '/stats',
             template: customPageTemplate
         });
-    });
+    }]);
 
 }());
