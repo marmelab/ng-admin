@@ -1,4 +1,5 @@
 import Menu from './Menu/Menu';
+import orderElement from "./Utils/orderElement";
 
 class Application {
     constructor(title='ng-admin') {
@@ -27,7 +28,10 @@ class Application {
     }
 
     getViewsOfType(type) {
-        return this._entities.map(entity => entity.views[type]);
+        return orderElement.order(
+            this._entities.map(entity => entity.views[type])
+                          .filter(entity => entity.views[type].enabled)
+        );
     }
 
     getRouteFor(view, entityId) {
