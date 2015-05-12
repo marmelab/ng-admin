@@ -17,7 +17,9 @@ define(function (require) {
         this.offsetBegin = Math.min((this.page - 1) * perPage + 1, this.offsetEnd);
         this.totalItems = totalItems;
         this.displayPagination = perPage < totalItems;
-    };
+
+        $scope.$on('$destroy', this.destroy.bind(this));
+    }
 
     /**
      * Return an array with the range between min & max, useful for pagination
