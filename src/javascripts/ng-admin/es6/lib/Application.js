@@ -29,8 +29,8 @@ class Application {
 
     getViewsOfType(type) {
         return orderElement.order(
-            this._entities.map(entity => entity.views[type])
-                          .filter(entity => entity.views[type].enabled)
+            this.entities.map(entity => entity.views[type])
+                         .filter(view => view.enabled)
         );
     }
 

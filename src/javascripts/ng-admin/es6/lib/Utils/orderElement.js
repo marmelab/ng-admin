@@ -7,10 +7,6 @@ export default {
             results.push(input[objectKey]);
         }
 
-        results.sort(function (field1, field2) {
-            return field1.order() - field2.order();
-        });
-
-        return results;
+        return results.sort((e1, e2) => e1.order() - e2.order());
     }
 };

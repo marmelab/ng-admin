@@ -83,19 +83,20 @@ describe('Application', function() {
 
     });
 
-    describe('getViewsOfType', function() {
-        it('should return empty array if no entity set', function() {
-            var application = new Application();
+    describe('getViewsOfType', () => {
+        it('should return empty array if no entity set', () => {
+            let application = new Application();
             assert.equal(0, application.getViewsOfType('dashboard').length);
         });
 
-        it('should return only views of type', function() {
-            var application = new Application();
+        it('should return only views of type', () => {
+            let application = new Application();
             application
                 .addEntity(new Entity('post'))
                 .addEntity(new Entity('comment'));
 
-            var views = application.getViewsOfType('DashboardView');
+            let views = application.getViewsOfType('DashboardView');
+
             assert.equal(2, views.length);
 
             assert.equal('post', views[0].entity.name());
@@ -103,6 +104,41 @@ describe('Application', function() {
 
             assert.equal('comment', views[1].entity.name());
             assert.equal('DashboardView', views[1].type);
+        });
+
+        it('should return only enabled views of type', () => {
+            let application = new Application();
+            let comment = new Entity('comment');
+            comment.views.DashboardView.disable();
+            application
+                .addEntity(new Entity('post'))
+                .addEntity(comment);
+
+            let views = application.getViewsOfType('DashboardView');
+
+            assert.equal(1, views.length);
+            assert.equal('post', views[0].entity.name());
+        });
+
+        it('should return ordered views of type', function() {
+            let application = new Application();
+            let [post, comment, tag] = [new Entity('post'), new Entity('comment'), new Entity('tag')];
+            post.views.DashboardView.order(2);
+            comment.views.DashboardView.order(1);
+            tag.views.DashboardView.order(3);
+
+            application
+                .addEntity(post)
+                .addEntity(comment)
+                .addEntity(tag);
+
+            let views = application.getViewsOfType('DashboardView');
+
+            assert.equal(3, views.length);
+
+            assert.equal('comment', views[0].entity.name());
+            assert.equal('post', views[1].entity.name());
+            assert.equal('tag', views[2].entity.name());
         });
     });
 
