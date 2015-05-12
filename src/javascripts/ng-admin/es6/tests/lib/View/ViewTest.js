@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 
 import Entity from "../../../lib/Entity/Entity";
+import Entry from "../../../lib/Entry";
 import Field from "../../../lib/Field/Field";
 import ReferenceField from "../../../lib/Field/ReferenceField";
 import ReferenceManyField from "../../../lib/Field/ReferenceManyField";
@@ -159,6 +160,31 @@ describe('View', function() {
                 .fields(field2);
 
             assert.deepEqual(view.fields(), [field1, field2]);
+        });
+    });
+
+    describe("validate()", function () {
+        it('should call validator on each fields.', function () {
+            var entry = new Entry(),
+                view = new View('myView'),
+                field1 = new Field('notValidable').label('Complex'),
+                field2 = new Field('simple').label('Simple');
+
+            entry.values = {
+                notValidable: false,
+                simple: 1
+            };
+
+            view.addField(field1).addField(field2);
+
+            field1.validation().validator = function () {
+                throw new Error('Field "Complex" is not valid.');
+            };
+            field2.validation().validator = function () {
+                return true;
+            };
+
+            assert.throw(function () { view.validate(entry); }, Error, 'Field "Complex" is not valid.');
         });
     });
 

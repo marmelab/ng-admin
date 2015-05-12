@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Validator, Configuration,
+    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Configuration,
                                    progression, notification, view, dataStore) {
 
         this.$scope = $scope;
@@ -11,7 +11,6 @@ define(function () {
         this.CreateQueries = CreateQueries;
         this.UpdateQueries = UpdateQueries;
         this.dataStore = dataStore;
-        this.Validator = Validator;
         this.progression = progression;
         this.notification = notification;
         this.title = view.title();
@@ -64,7 +63,7 @@ define(function () {
         );
 
         try {
-            this.Validator.validate(this.view, mappedObject);
+            this.view.validate(mappedObject);
         } catch (e) {
             this.notification.log(e, {addnCls: 'humane-flatty-error'});
             return false;
@@ -134,7 +133,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'Validator', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
 
     return FormController;
 });

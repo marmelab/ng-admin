@@ -14,7 +14,6 @@ define(function (require) {
     MainModule.controller('DashboardController', require('ng-admin/Main/component/controller/DashboardController'));
 
     MainModule.service('PanelBuilder', require('ng-admin/Main/component/service/PanelBuilder'));
-    MainModule.service('Validator', require('ng-admin/Main/component/service/Validator'));
 
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 

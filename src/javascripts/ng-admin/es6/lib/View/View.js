@@ -240,6 +240,15 @@ class View {
 
         return this._url;
     }
+
+    validate(entry) {
+        this._fields.map(function (field) {
+            var validation = field.validation();
+            if (typeof validation.validator === 'function') {
+                validation.validator(entry.values[field.name()]);
+            }
+        });
+    }
 }
 
 export default View;
