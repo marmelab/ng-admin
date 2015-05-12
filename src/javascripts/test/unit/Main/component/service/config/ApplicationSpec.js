@@ -59,90 +59,98 @@ define(function (require) {
         describe('getRouteFor', function () {
             it('should return the url specified in a view', function () {
                 var app = new Application(),
-                    entity1 = new Entity('myEntity1');
+                    entity1 = new Entity('myEntity1'),
+                    view = entity1.dashboardView();
 
-                entity1.dashboardView().url('http://localhost/dashboard');
+                view.url('http://localhost/dashboard');
                 app.addEntity(entity1);
 
-                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://localhost/dashboard');
+                expect(app.getRouteFor(entity1, view.getUrl(), view.type)).toBe('http://localhost/dashboard');
             });
 
             it('should not consider protocol relative URL as a relative path', function () {
                 var app = new Application(),
-                    entity1 = new Entity('myEntity1');
+                    entity1 = new Entity('myEntity1'),
+                    view = entity1.dashboardView();
 
-                entity1.dashboardView().url('//localhost/dashboard');
+                view.url('//localhost/dashboard');
                 app.addEntity(entity1);
 
-                expect(app.getRouteFor(entity1.dashboardView())).toBe('//localhost/dashboard');
+                expect(app.getRouteFor(entity1, view.getUrl(), view.type)).toBe('//localhost/dashboard');
             });
 
             it('should return the url specified in the entity when the URL is not specified in the view', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.dashboardView();
 
                 entity1.baseApiUrl('http://api.com/');
                 app.addEntity(entity1);
 
-                expect(app.getRouteFor(entity1.dashboardView())).toBe('http://api.com/comments');
+                expect(app.getRouteFor(entity1, view.getUrl(), view.type)).toBe('http://api.com/comments');
             });
 
             it('should return the url specified in the entity when the app also define a base URL', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.dashboardView();
 
                 entity1.baseApiUrl('//api.com/');
                 app.baseApiUrl('http://api-entity.com/');
                 app.addEntity(entity1);
 
-                expect(app.getRouteFor(entity1.dashboardView())).toBe('//api.com/comments');
+                expect(app.getRouteFor(entity1, view.getUrl(), view.type)).toBe('//api.com/comments');
             });
 
             it('should return the url specified in the app when the URL is not specified in the view nor in the entity', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.dashboardView();
 
                 app.baseApiUrl('https://elastic.local/');
                 app.addEntity(entity1);
 
-                expect(app.getRouteFor(entity1.dashboardView())).toBe('https://elastic.local/comments');
+                expect(app.getRouteFor(entity1, view.getUrl(), view.type)).toBe('https://elastic.local/comments');
             });
 
             it('should call url() defined in the view if it\'s a function', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.editionView();
 
                 app.baseApiUrl('http://api.local');
 
-                entity1.editionView().url(function (entityId) {
+                view.url(function (entityId) {
                     return '/post/:' + entityId;
                 });
 
-                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/post/:1');
+                expect(app.getRouteFor(entity1, view.getUrl(1), view.type, 1, view.identifier())).toBe('http://api.local/post/:1');
             });
 
             it('should call url() defined in the entity if it\'s a function', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.editionView();
 
                 app.baseApiUrl('http://api.local');
 
-                entity1.url(function (view, entityId) {
-                    return '/' + view.name() + '/:' + entityId;
+                entity1.url(function (entityName, viewType, identifierValue) {
+                    return '/' + entityName + '_' + viewType + '/:' + identifierValue;
                 });
 
-                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://api.local/comments_EditView/:1');
+                expect(app.getRouteFor(entity1, view.getUrl(1), view.type, 1, view.identifier())).toBe('http://api.local/comments_EditView/:1');
             });
 
             it('should not prepend baseApiUrl when the URL begins with http', function () {
                 var app = new Application(),
-                    entity1 = new Entity('comments');
+                    entity1 = new Entity('comments'),
+                    view = entity1.editionView();
 
                 app.baseApiUrl('http://api.local');
 
                 entity1.url('http://mock.local/entity');
 
-                expect(app.getRouteFor(entity1.editionView(), 1)).toBe('http://mock.local/entity');
+                expect(app.getRouteFor(entity1, view.getUrl(1), view.type, 1, view.identifier())).toBe('http://mock.local/entity');
             });
         });
 

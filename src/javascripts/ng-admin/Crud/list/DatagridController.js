@@ -24,8 +24,8 @@ define(function () {
         this.$scope.gotoDetail = this.gotoDetail.bind(this);
 
         var searchParams = this.$location.search();
-        this.sortField = 'sortField' in searchParams ? searchParams.sortField : this.$scope.sortField();
-        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : this.$scope.sortDir();
+        this.sortField = 'sortField' in searchParams ? searchParams.sortField : this.$scope.sortField;
+        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : this.$scope.sortDir;
     }
 
     /**

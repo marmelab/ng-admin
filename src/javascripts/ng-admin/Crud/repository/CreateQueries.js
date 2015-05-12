@@ -25,7 +25,7 @@ define(function (require) {
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
         return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type()))
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type))
             .customPOST(rawEntity)
             .then(function (response) {
                 return response.data;

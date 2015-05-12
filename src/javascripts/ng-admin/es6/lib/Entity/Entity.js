@@ -189,7 +189,7 @@ class Entity {
 
     getUrl(viewType, identifierValue, identifierName) {
         if (typeof(this._url) === 'function') {
-            return this._url(viewType, identifierValue, identifierName);
+            return this._url(this.name(), viewType, identifierValue, identifierName);
         }
 
         return this._url;

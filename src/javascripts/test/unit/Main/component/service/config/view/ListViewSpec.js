@@ -28,8 +28,7 @@ define(function (require) {
             it('should apply the function argument to all list values', function () {
                 var list = new ListView('allCats');
                 list
-                    .setEntity(new Entity('cats'))
-                    .addField(new Field('id').identifier(true))
+                    .setEntity(new Entity('cats').identifier(new Field('id')))
                     .addField(new Field('name').map(function (value) {
                         return value.substr(0, 5) + '...';
                     }));

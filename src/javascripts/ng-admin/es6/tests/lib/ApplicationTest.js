@@ -58,7 +58,7 @@ describe('Application', function() {
         it('should use the entity url function when provided', function() {
             var application = new Application();
             var entity = new Entity('posts');
-            entity.url(function(viewType, identifierValue) {
+            entity.url(function(entityName, viewType, identifierValue) {
                 return '/bar/baz' + (identifierValue ? ('/' + identifierValue * 2) : '');
             });
             application.addEntity(entity);
@@ -71,7 +71,7 @@ describe('Application', function() {
             var application = new Application();
             application.baseApiUrl('/foo/');
             var entity = new Entity('posts');
-            entity.url(function(viewType, identifierValue) {
+            entity.url(function(entityName, viewType, identifierValue) {
                 return 'bar/baz' + (identifierValue ? ('/' + identifierValue) : '');
             });
             application.addEntity(entity);
@@ -84,7 +84,7 @@ describe('Application', function() {
             var application = new Application();
             application.baseApiUrl('/foo/');
             var entity = new Entity('posts');
-            entity.url(function(viewType, identifierValue) {
+            entity.url(function(entityName, viewType, identifierValue) {
                 return 'http://bar/baz' + (identifierValue ? ('/' + identifierValue) : '');
             });
             application.addEntity(entity);

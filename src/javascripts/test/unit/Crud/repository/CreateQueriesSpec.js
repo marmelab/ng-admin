@@ -23,15 +23,14 @@ define(function (require) {
                     getQueryParamsFor: function () {
                         return null;
                     },
-                    getRouteFor: function (view) {
-                        return 'http://localhost/' + view.getEntity().name();
+                    getRouteFor: function (entity) {
+                        return 'http://localhost/' + entity.name();
                     }
                 };
             };
 
-            entity = new Entity('cat');
+            entity = new Entity('cat').identifier(new Field('id'));
             view = entity.creationView()
-                .addField(new Field('id').identifier(true))
                 .addField(new TextField('name'));
         });
 
