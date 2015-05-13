@@ -209,7 +209,8 @@
                     .label('Post')
                     .map(truncate)
                     .targetEntity(post)
-                    .targetField(nga.field('title')),
+                    .targetField(nga.field('title'))
+                    .validation({ required: true }),
             ]);
 
         comment.editionView()
