@@ -3,9 +3,10 @@
 define(function () {
     'use strict';
 
-    function NgAdminConfiguration() {
+    function NgAdminConfiguration($compileProvider) {
         this.config = null;
         this.adminDescription = null;
+        this.$compileProvider = $compileProvider;
     }
 
     NgAdminConfiguration.prototype.setAdminDescription = function(adminDescription) {
@@ -14,6 +15,8 @@ define(function () {
 
     NgAdminConfiguration.prototype.configure = function (config) {
         this.config = config;
+
+        this.$compileProvider.debugInfoEnabled(this.config.debug());
     };
 
     NgAdminConfiguration.prototype.$get = function () {
@@ -23,8 +26,8 @@ define(function () {
         };
     };
 
-    NgAdminConfiguration.prototype.application = function(name) {
-        return this.adminDescription.application(name);
+    NgAdminConfiguration.prototype.application = function(name, debug) {
+        return this.adminDescription.application(name, debug);
     };
 
     NgAdminConfiguration.prototype.entity = function(name) {
@@ -43,7 +46,7 @@ define(function () {
         return this.adminDescription.menu(entity);
     };
 
-    NgAdminConfiguration.$inject = [];
+    NgAdminConfiguration.$inject = ['$compileProvider'];
 
     return NgAdminConfiguration;
 });
