@@ -71,6 +71,19 @@ Your application should use a `ui-view`:
 <div ui-view></div>
 ```
 
+### Production ready
+
+You can enable `ng-strict-di` angular mode to boost your application performance:
+```html
+<body ng-app="myApp" ng-strict-di>
+```
+
+Ng-admin library is already compatible, but you have to explicitly declare dependencies on your custom application code.
+
+Also, ng-admin disable debug mode of Angularjs.
+
+See [Angular documentation](https://docs.angularjs.org/guide/production) for more details about this two tweaks.
+
 ## Example Configuration
 
 We chose to define the entities & views directly in JavaScript to allow greater freedom in the configuration.
