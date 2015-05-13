@@ -2,7 +2,7 @@
 
 ## View and Entity URL customization
 
-Arguments for the anonymous function of the entity url customisation was changed.
+Arguments for the anonymous function of the entity url customisation were changed.
 
 ``` diff
 - nga.entity('comments').url(function(view, entityId) {
