@@ -42,6 +42,7 @@
         });
 
         var admin = nga.application('ng-admin backend demo') // application main title
+            .debug(false) // debug disabled
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
         // define all entities at the top to allow references between them

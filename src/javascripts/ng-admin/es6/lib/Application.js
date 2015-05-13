@@ -1,7 +1,7 @@
 import Menu from './Menu/Menu';
 
 class Application {
-    constructor(title='ng-admin') {
+    constructor(title='ng-admin', debug=true) {
         this._baseApiUrl = '';
         this._customTemplate = function(viewName) {};
         this._title = title;
@@ -10,6 +10,7 @@ class Application {
         this._header = false;
         this._entities = [];
         this._errorMessage = this.defaultErrorMessage;
+        this._debug = debug;
     }
 
     defaultErrorMessage(response) {
@@ -47,6 +48,12 @@ class Application {
         }
 
         return url;
+    }
+
+    debug(debug) {
+        if (!arguments.length) return this._debug;
+        this._debug = debug;
+        return this;
     }
 
     layout(layout) {
