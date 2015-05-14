@@ -3,27 +3,18 @@
 define(function (require) {
     'use strict';
 
-    require([
-        'bower_components/codemirror/lib/codemirror',
-        'bower_components/codemirror/addon/edit/closebrackets',
-        'bower_components/codemirror/addon/edit/matchbrackets',
-        'bower_components/codemirror/addon/lint/lint',
-        'bower_components/jsonlint/lib/jsonlint',
-        'bower_components/codemirror/addon/lint/json-lint',
-        'bower_components/codemirror/addon/selection/active-line',
-        'bower_components/codemirror/mode/javascript/javascript'
-    ], function(codemirror) {
-        codemirror.defineOption("matchBrackets", true);
-        codemirror.defineOption("autoCloseBrackets", true);
-        codemirror.defineOption("lineWrapping", true);
-        codemirror.defineOption("tabSize", 2);
-        codemirror.defineOption("mode", "application/json");
-        codemirror.defineOption("gutters", ["CodeMirror-lint-markers"]);
-        codemirror.defineOption("lint", true);
-        codemirror.defineOption("styleActiveLine", true);
+    require('bower_components/codemirror/addon/edit/closebrackets');
+    require('bower_components/codemirror/addon/edit/matchbrackets');
+    require('bower_components/codemirror/addon/lint/lint');
+    require('bower_components/jsonlint/lib/jsonlint');
+    require('bower_components/codemirror/addon/lint/json-lint');
+    require('bower_components/codemirror/addon/selection/active-line');
+    require('bower_components/codemirror/mode/javascript/javascript');
 
-        window.CodeMirror = codemirror;
-    });
+    var
+      codemirror = require('bower_components/codemirror/lib/codemirror');
+
+    window.CodeMirror = codemirror;
 
     /**
      * Edition field for a JSON string in a textarea.
