@@ -13,7 +13,7 @@ class WriteQueries extends Queries {
      */
     createOne(view, rawEntity) {
         return this._restWrapper
-            .createOne(rawEntity, view.entity.name(), this._application.getRouteFor(view));
+            .createOne(rawEntity, view.entity.name(), this._application.getRouteFor(view.entity, view.getUrl(), view.type));
     }
 
     /**
@@ -31,7 +31,7 @@ class WriteQueries extends Queries {
 
         // Update element data
         return this._restWrapper
-            .updateOne(rawEntity, view.entity.name(), this._application.getRouteFor(view, entityId));
+            .updateOne(rawEntity, view.entity.name(), this._application.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier()));
     }
 
     /**
@@ -45,7 +45,7 @@ class WriteQueries extends Queries {
      */
     deleteOne(view, entityId) {
         return this._restWrapper
-            .deleteOne(view.entity.name(), this._application.getRouteFor(view, entityId));
+            .deleteOne(view.entity.name(), this._application.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier()));
     }
 
     /**

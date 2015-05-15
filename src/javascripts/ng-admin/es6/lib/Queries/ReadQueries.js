@@ -5,14 +5,17 @@ class ReadQueries extends Queries {
     /**
      * Get one entity
      *
-     * @param {View}   view      the edit view associated to the entity
-     * @param {Number} entityId  id of the entity
+     * @param {Entity}   entity
+     * @param {String}   viewType
+     * @param {mixed}    identifierValue
+     * @param {String}   identifierName
+     * @param {String}   url
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
     getOne(entity, viewType, identifierValue, identifierName, url) {
         return this._restWrapper
-            .getOne(entity.name(), this.config.getRouteFor(entity, url, viewType, identifierValue, identifierName));
+            .getOne(entity.name(), this._application.getRouteFor(entity, url, viewType, identifierValue, identifierName));
     }
 
     /**
@@ -31,7 +34,7 @@ class ReadQueries extends Queries {
         page = page || 1;
         var url = view.getUrl();
 
-        return this.getRawValues(view.entiy(), view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
+        return this.getRawValues(view.entity, view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
             .then((values) => {
                 return {
                     data: values.data,
@@ -44,11 +47,15 @@ class ReadQueries extends Queries {
      * Return the list of all object of entityName type
      * Get all the object from the API
      *
-     * @param {ListView} listView     the view associated to the entity
-     * @param {Number}   page         the page number
-     * @param {Object}   filters      query to retrieve a subset of entries based on field value
-     * @param {String}   sortField    the field to be sorted ex: entity.fieldName
-     * @param {String}   sortDir      the direction of the sort
+     * @param {Entity}   entity
+     * @param {String}   viewName
+     * @param {String}   viewType
+     * @param {Number}   page
+     * @param {Number}   perPage
+     * @param {Object}   filterValues
+     * @param {Object}   filterFields
+     * @param {String}   sortDir
+     * @param {String}   url
      *
      * @returns {promise} the entity config & the list of objects
      */
@@ -84,7 +91,7 @@ class ReadQueries extends Queries {
 
         // Get grid data
         return this._restWrapper
-            .getList(params, entity.name(), this.config.getRouteFor(entity, url, viewType));
+            .getList(params, entity.name(), this._application.getRouteFor(entity, url, viewType));
     };
 
     /**

@@ -22,8 +22,8 @@ describe('ReadQueries', () => {
 
     beforeEach(() => {
         application = {
-            getRouteFor: (view, id) => {
-                let url = 'http://localhost/' + view.getEntity().name();
+            getRouteFor: (entity, generatedUrl, viewType, id) => {
+                let url = 'http://localhost/' + entity.name();
                 if (id) {
                     url += '/' + id;
                 }
@@ -57,8 +57,7 @@ describe('ReadQueries', () => {
 
         it('should return the entity with all fields.', () => {
             var entity = new Entity('cat');
-            var view = entity.views['ListView']
-                .addField(new Field('id').identifier(true))
+            entity.views['ListView']
                 .addField(new TextField('name'));
 
             restWrapper.getOne = sinon.stub().returns(buildPromise({
@@ -69,7 +68,7 @@ describe('ReadQueries', () => {
                 }
             }));
 
-            readQueries.getOne(view, 1)
+            readQueries.getOne(entity, 'list', 1)
                 .then((rawEntry) => {
                     assert(restWrapper.getOne.calledWith('cat', 'http://localhost/cat/1'));
 
