@@ -151,7 +151,7 @@ define(function (require) {
                 controllerAs: 'showController',
                 templateProvider: templateProvider('ShowView', showTemplate),
                 params: {
-                    entity: {},
+                    entity: null,
                     id: null,
                     sortField: null,
                     sortDir: null
@@ -281,7 +281,7 @@ define(function (require) {
                 controllerAs: 'formController',
                 templateProvider: templateProvider('EditView', editTemplate),
                 params: {
-                    entity: {},
+                    entity: null,
                     id: null,
                     sortField: null,
                     sortDir: null
@@ -387,7 +387,7 @@ define(function (require) {
                 controllerAs: 'batchDeleteController',
                 templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),
                 params: {
-                    entity: {},
+                    entity: null,
                     ids: [],
                 },
                 resolve: {
