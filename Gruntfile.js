@@ -244,7 +244,7 @@ module.exports = function (grunt) {
 
     // register tasks
     grunt.registerTask('ngconfig', ['babel', 'requirejs:ngconfig']);
-    grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'connect', 'protractor']);
+    grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'json_server', 'connect', 'protractor']);
     grunt.registerTask('build', ['ngconfig', 'requirejs:prod', 'ngAnnotate', 'uglify', 'compass:prod', 'cssmin:combine', 'clean:build']);
     grunt.registerTask('copy_build', ['copy:config', 'copy:es6', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
 
