@@ -225,7 +225,7 @@ class View {
     validate(entry) {
         this._fields.map(function (field) {
             let validation = field.validation();
-            
+
             if (typeof validation.validator === 'function') {
                 validation.validator(entry.values[field.name()]);
             }

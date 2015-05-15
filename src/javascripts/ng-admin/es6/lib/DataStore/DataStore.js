@@ -72,23 +72,15 @@ class DataStore {
     }
 
     fillReferencesValuesFromEntry(entry, referencedValues, fillSimpleReference) {
-        let reference,
-            referenceField,
-            choices,
-            entries,
-            identifier,
-            id,
-            i;
-
-        for (referenceField in referencedValues) {
-            reference = referencedValues[referenceField];
-            choices = this.getReferenceChoicesById(reference);
-            entries = [];
-            identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
+        for (let referenceField in referencedValues) {
+            let reference = referencedValues[referenceField],
+                choices = this.getReferenceChoicesById(reference),
+                entries = [],
+                identifier = reference.getMappedValue(entry.values[referenceField], entry.values);
 
             if (reference.type() === 'reference_many') {
-                for (i in identifier) {
-                    id = identifier[i];
+                for (let i in identifier) {
+                    let id = identifier[i];
                     entries.push(choices[id]);
                 }
 
@@ -102,10 +94,10 @@ class DataStore {
     }
 
     getReferenceChoicesById(field) {
-        let result = {};
-        let targetField = field.targetField().name();
-        let targetIdentifier = field.targetEntity().identifier().name();
-        let entries = this.getEntries(field.targetEntity().uniqueId + '_values');
+        let result = {},
+            targetField = field.targetField().name(),
+            targetIdentifier = field.targetEntity().identifier().name(),
+            entries = this.getEntries(field.targetEntity().uniqueId + '_values');
 
         for (let i = 0, l = entries.length ; i < l ; i++) {
             let entry = entries[i];

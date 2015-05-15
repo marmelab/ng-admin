@@ -78,7 +78,6 @@ class ReadQueries extends Queries {
             let filterName;
 
             for (filterName in filterValues) {
-
                 if (filterFields.hasOwnProperty(filterName) && filterFields[filterName].hasMaps()) {
                     Object.assign(params._filters, filterFields[filterName].getMappedValue(filterValues[filterName]));
 
@@ -106,12 +105,11 @@ class ReadQueries extends Queries {
     getReferencedData(references, rawValues) {
         let getRawValues = this.getRawValues.bind(this),
             getOne = this.getOne.bind(this),
-            referencedData = {},
             identifiers,
             calls = [],
             data;
 
-        for (i in references) {
+        for (let i in references) {
             let reference = references[i],
                 targetEntity = reference.targetEntity();
 
@@ -144,7 +142,8 @@ class ReadQueries extends Queries {
                     return {};
                 }
 
-                let response,
+                let referencedData = {},
+                    response,
                     i = 0;
 
                 for (let j in references) {
@@ -200,7 +199,7 @@ class ReadQueries extends Queries {
         let getRawValues = this.getRawValues.bind(this),
             calls = [];
 
-        for (i in referencedLists) {
+        for (let i in referencedLists) {
             let referencedList = referencedLists[i],
                 targetEntity = referencedList.targetEntity(),
                 viewName = targetEntity.name() + '_ListView',
