@@ -126,8 +126,8 @@ class View {
     }
 
     getReferences() {
-        var result = {};
-        var lists = this._fields.filter(f => f.type() === 'reference' || f.type() === 'reference_many');
+        let result = {};
+        let lists = this._fields.filter(f => f.type() === 'reference' || f.type() === 'reference_many');
         for (let i = 0, c = lists.length ; i < c ; i++) {
             let list = lists[i];
             result[list.name()] = list;
@@ -137,8 +137,8 @@ class View {
     }
 
     getReferencedLists() {
-        var result = {};
-        var lists = this._fields.filter(f => f.type() === 'referenced_list');
+        let result = {};
+        let lists = this._fields.filter(f => f.type() === 'referenced_list');
         for (let i = 0, c = lists.length ; i < c ; i++) {
             let list = lists[i];
             result[list.name()] = list;
@@ -224,7 +224,8 @@ class View {
 
     validate(entry) {
         this._fields.map(function (field) {
-            var validation = field.validation();
+            let validation = field.validation();
+            
             if (typeof validation.validator === 'function') {
                 validation.validator(entry.values[field.name()]);
             }

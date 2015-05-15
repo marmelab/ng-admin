@@ -19,10 +19,11 @@ class Entry {
             return new Entry(entityName);
         }
 
-        var identifierValue = null;
+        let identifierValue = null;
 
         fields.forEach(function (field) {
-            var fieldName = field.name();
+            let fieldName = field.name();
+
             if (fieldName in restEntry) {
                 restEntry[fieldName] = field.getMappedValue(restEntry[fieldName], restEntry);
             }

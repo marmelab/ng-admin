@@ -76,7 +76,7 @@ class Field {
     map(fn) {
         if (!fn) return this._maps;
         if (typeof(fn) !== "function") {
-            var type = typeof(fn);
+            let type = typeof(fn);
             throw new Error(`Map argument should be a function, ${type} given.`);
         }
 
@@ -122,7 +122,7 @@ class Field {
     }
 
     getMappedValue(value, entry) {
-        for (var i in this._maps) {
+        for (let i in this._maps) {
             value = this._maps[i](value, entry);
         }
 
@@ -134,7 +134,7 @@ class Field {
             return this._validation;
         }
 
-        for (var property in validation) {
+        for (let property in validation) {
             if (!validation.hasOwnProperty(property)) continue;
             if (validation[property] === null) {
                 delete this._validation[property];

@@ -1,5 +1,5 @@
-var assert = require('chai').assert;
-var sinon = require('sinon');
+let assert = require('chai').assert,
+    sinon = require('sinon');
 
 import ReadQueries from "../../../lib/Queries/ReadQueries";
 import DataStore from "../../../lib/DataStore/DataStore";
@@ -11,7 +11,7 @@ import Field from "../../../lib/Field/Field";
 import buildPromise from "../../mock/mixins";
 
 describe('ReadQueries', () => {
-    var readQueries,
+    let readQueries,
         restWrapper = {},
         application = {},
         rawCats,
@@ -56,7 +56,7 @@ describe('ReadQueries', () => {
     describe("getOne", () => {
 
         it('should return the entity with all fields.', () => {
-            var entity = new Entity('cat');
+            let entity = new Entity('cat');
             entity.views['ListView']
                 .addField(new TextField('name'));
 
@@ -106,16 +106,16 @@ describe('ReadQueries', () => {
 
     describe('getReferencedData', () => {
         it('should return all references data for a View with multiple calls', () => {
-            var post = new Entity('posts'),
+            let post = new Entity('posts'),
                 author = new Entity('authors'),
                 authorRef = new ReferenceField('author');
 
-            var rawPosts = [
+            let rawPosts = [
                 {id: 1, author: 'abc'},
                 {id: 2, author: '19DFE'}
             ];
 
-            var rawAuthors = [
+            let rawAuthors = [
                 {id: 'abc', name: 'Rollo'},
                 {id: '19DFE', name: 'Ragna'}
             ];
@@ -140,7 +140,7 @@ describe('ReadQueries', () => {
         });
 
         it('should return all references data for a View with one call', () => {
-            var post = new Entity('posts'),
+            let post = new Entity('posts'),
                 author = new Entity('authors'),
                 authorRef = new ReferenceField('author');
 
@@ -150,12 +150,12 @@ describe('ReadQueries', () => {
                 };
             });
 
-            var rawPosts = [
+            let rawPosts = [
                 {id: 1, author: 'abc'},
                 {id: 2, author: '19DFE'}
             ];
 
-            var rawAuthors = [
+            let rawAuthors = [
                 {id: 'abc', name: 'Rollo'},
                 {id: '19DFE', name: 'Ragna'}
             ];

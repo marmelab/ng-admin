@@ -101,8 +101,8 @@ class ListView extends View {
     }
 
     getFilterReferences() {
-        var result = {};
-        var lists = this._fields.filter(f => f.type() === 'reference');
+        let result = {};
+        let lists = this._fields.filter(f => f.type() === 'reference');
         for (let i = 0, c = lists.length ; i < c ; i++) {
             let list = lists[i];
             result[list.name()] = list;

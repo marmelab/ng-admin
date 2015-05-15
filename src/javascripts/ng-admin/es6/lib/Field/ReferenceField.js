@@ -83,16 +83,16 @@ class ReferenceField extends Field {
     }
 
     getIdentifierValues(rawValues) {
-        var results = {};
-        var identifierName = this._name;
-        for (var i = 0, l = rawValues.length ; i < l ; i++) {
-            var identifier = rawValues[i][identifierName];
+        let results = {};
+        let identifierName = this._name;
+        for (let i = 0, l = rawValues.length ; i < l ; i++) {
+            let identifier = rawValues[i][identifierName];
             if (!identifier) {
                 continue;
             }
 
             if (identifier instanceof Array) {
-                for (var j in identifier) {
+                for (let j in identifier) {
                     results[identifier[j]] = true;
                 }
                 continue;

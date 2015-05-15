@@ -32,7 +32,7 @@ class ReadQueries extends Queries {
      */
     getAll(view, page, filters, sortField, sortDir) {
         page = page || 1;
-        var url = view.getUrl();
+        let url = view.getUrl();
 
         return this.getRawValues(view.entity, view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
             .then((values) => {
@@ -54,15 +54,16 @@ class ReadQueries extends Queries {
      * @param {Number}   perPage
      * @param {Object}   filterValues
      * @param {Object}   filterFields
+     * @param {String}   sortField
      * @param {String}   sortDir
      * @param {String}   url
      *
      * @returns {promise} the entity config & the list of objects
      */
     getRawValues(entity, viewName, viewType, page, perPage, filterValues, filterFields, sortField, sortDir, url) {
-        var params = {};
+        let params = {};
 
-        if (page !== -1 ) {
+        if (page !== -1) {
             params._page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
             params._perPage = perPage;
         }
@@ -74,7 +75,7 @@ class ReadQueries extends Queries {
 
         if (filterValues && Object.keys(filterValues).length !== 0) {
             params._filters = {};
-            var filterName;
+            let filterName;
 
             for (filterName in filterValues) {
 
@@ -103,22 +104,16 @@ class ReadQueries extends Queries {
      * @returns {promise}
      */
     getReferencedData(references, rawValues) {
-        var getRawValues = this.getRawValues.bind(this),
+        let getRawValues = this.getRawValues.bind(this),
             getOne = this.getOne.bind(this),
             referencedData = {},
-            calls = [],
-            singleCallFilters,
             identifiers,
-            reference,
-            targetEntity,
-            data,
-            i,
-            j,
-            k;
+            calls = [],
+            data;
 
         for (i in references) {
-            reference = references[i];
-            targetEntity = reference.targetEntity();
+            let reference = references[i],
+                targetEntity = reference.targetEntity();
 
             if (!rawValues) {
                 calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
@@ -131,13 +126,13 @@ class ReadQueries extends Queries {
 
             // Check if we should retrieve values with 1 or multiple requests
             if (reference.hasSingleApiCall()) {
-                singleCallFilters = reference.getSingleApiCall(identifiers);
+                let singleCallFilters = reference.getSingleApiCall(identifiers);
                 calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
 
-            for (k in identifiers) {
+            for (let k in identifiers) {
                 calls.push(getOne(targetEntity, 'listView', identifiers[k], reference.name()));
             }
         }
@@ -149,12 +144,12 @@ class ReadQueries extends Queries {
                     return {};
                 }
 
-                i = 0;
-                var response;
+                let response,
+                    i = 0;
 
-                for (j in references) {
-                    reference = references[j];
-                    singleCallFilters = reference.getSingleApiCall(identifiers);
+                for (let j in references) {
+                    let reference = references[j],
+                        singleCallFilters = reference.getSingleApiCall(identifiers);
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
@@ -171,7 +166,7 @@ class ReadQueries extends Queries {
 
                     data = [];
                     identifiers = reference.getIdentifierValues(rawValues);
-                    for (k in identifiers) {
+                    for (let k in identifiers) {
                         response = responses[i++];
                         if (response.status == 'error') {
                             // one of the responses failed
@@ -202,31 +197,26 @@ class ReadQueries extends Queries {
      * @returns {promise}
      */
     getReferencedListData(referencedLists, sortField, sortDir, entityId) {
-        var getRawValues = this.getRawValues.bind(this),
-            calls = [],
-            referencedList,
-            targetEntity,
-            viewName,
-            filter,
-            i,
-            j;
+        let getRawValues = this.getRawValues.bind(this),
+            calls = [];
 
         for (i in referencedLists) {
-            referencedList = referencedLists[i];
-            filter = {};
+            let referencedList = referencedLists[i],
+                targetEntity = referencedList.targetEntity(),
+                viewName = targetEntity.name() + '_ListView',
+                filter = {};
+
             filter[referencedList.targetReferenceField()] = entityId;
-            targetEntity = referencedList.targetEntity();
-            viewName = targetEntity.name() + '_ListView';
             calls.push(getRawValues(targetEntity, viewName, 'listView', 1, referencedList.perPage(), filter, {}, sortField || referencedList.getSortFieldName(), sortDir || referencedList.sortDir()));
         }
 
         return this._promisesResolver.allEvenFailed(calls)
             .then((responses) => {
-                j = 0;
+                let j = 0,
+                    entries = {};
 
-                var entries = {};
-                for (i in referencedLists) {
-                    response = responses[j++];
+                for (let i in referencedLists) {
+                    let response = responses[j++];
                     if (response.status == 'error') {
                         // one of the responses failed
                         continue;

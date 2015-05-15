@@ -58,9 +58,8 @@ class WriteQueries extends Queries {
      * @returns {promise}
      */
     batchDelete(view, entityIds) {
-        var deleteOne = this.deleteOne.bind(this);
-
-        var promises = entityIds.map(function (id) {
+        let deleteOne = this.deleteOne.bind(this)
+        let promises = entityIds.map(function (id) {
             return deleteOne(view, id);
         });
 

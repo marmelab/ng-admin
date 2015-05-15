@@ -15,7 +15,7 @@ class Application {
     }
 
     defaultErrorMessage(response) {
-        var body = response.data;
+        let body = response.data;
 
         if (typeof body === 'object') {
             body = JSON.stringify(body);
@@ -36,7 +36,7 @@ class Application {
     }
 
     getRouteFor(entity, viewUrl, viewType, identifierValue, identifierName) {
-        var baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
+        let baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
             url = viewUrl || entity.getUrl(viewType, identifierValue, identifierName);
 
         // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
@@ -138,7 +138,7 @@ class Application {
     }
 
     getEntity(entityName) {
-        var foundEntity = this._entities.filter(e => e.name() === entityName)[0];
+        let foundEntity = this._entities.filter(e => e.name() === entityName)[0];
         if (!foundEntity) {
             throw new Error(`Unable to find entity "${entityName}"`);
         }

@@ -1,5 +1,5 @@
-var assert = require('chai').assert;
-var sinon = require('sinon');
+let assert = require('chai').assert,
+    sinon = require('sinon');
 
 import WriteQueries from "../../../lib/Queries/WriteQueries";
 import DataStore from "../../../lib/DataStore/DataStore";
@@ -9,7 +9,7 @@ import TextField from "../../../lib/Field/TextField";
 import buildPromise from "../../mock/mixins";
 
 describe('WriteQueries', () => {
-    var writeQueries,
+    let writeQueries,
         restWrapper = {},
         application = {},
         entity,
@@ -35,7 +35,7 @@ describe('WriteQueries', () => {
 
     describe('createOne', () => {
         it('should POST an entity when calling createOne', () => {
-            var rawEntity = {name: 'Mizu'};
+            let rawEntity = {name: 'Mizu'};
 
             restWrapper.createOne = sinon.stub().returns(buildPromise({data: rawEntity}));
 
@@ -43,15 +43,15 @@ describe('WriteQueries', () => {
                 .then((rawEntry) => {
                     assert(restWrapper.createOne.calledWith(rawEntity, 'cat', 'http://localhost/cat'));
 
-                    var dataStore = new DataStore();
-                    var entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
+                    let dataStore = new DataStore();
+                    let entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
                     assert.equal(entry.values.data.name, 'Mizu');
                 });
         });
     });
 
     describe('updateOne', () => {
-        var rawEntity = {id: 3, name: 'Mizu'},
+        let rawEntity = {id: 3, name: 'Mizu'},
             updatedEntity = {id: 3, name: 'Mizute'};
 
         restWrapper.updateOne = sinon.stub().returns(buildPromise({data: updatedEntity}));
@@ -61,8 +61,8 @@ describe('WriteQueries', () => {
                 .then((rawEntry) => {
                     assert(restWrapper.updateOne.calledWith(rawEntity, 'cat', 'http://localhost/cat/3'));
 
-                    var dataStore = new DataStore();
-                    var entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
+                    let dataStore = new DataStore();
+                    let entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
                     assert.equal(entry.values.data.name, 'Mizute');
                 });
         });
@@ -72,8 +72,8 @@ describe('WriteQueries', () => {
                 .then((rawEntry) => {
                     assert(restWrapper.updateOne.calledWith(rawEntity, 'cat', 'http://localhost/cat/3'));
 
-                    var dataStore = new DataStore();
-                    var entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
+                    let dataStore = new DataStore();
+                    let entry = dataStore.mapEntry(entity.name(), view.identifier(), view.getFields(), rawEntry);
                     assert.equal(entry.values.data.name, 'Mizute');
                 });
         });
