@@ -52,8 +52,8 @@ describe('Global filter', function () {
     });
 
     it('should filter on reference', function () {
-        // Filter on post_id '3'
-        $$('.filters .filter select option[value="3"]').click();
+        // Filter on post_id '3' (Perspiciatis adipisci vero qui ipsam iure porro)
+        $$('.filters .filter select option[value="9"]').click();
         $$('.filters button[type="submit"]').click();
         $$('.grid tr td:nth-child(4)').then(function (tdElements) {
             expect(tdElements.length).toBe(2);
@@ -63,8 +63,8 @@ describe('Global filter', function () {
     });
 
     it('should update the pagination total', function () {
-        // Filter on post id '3'
-        $$('.filters .filter select option[value="3"]').click();
+        // Filter on post id '3' (Perspiciatis adipisci vero qui ipsam iure porro)
+        $$('.filters .filter select option[value="9"]').click();
         $$('.filters button[type="submit"]').click();
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 2 on 2');

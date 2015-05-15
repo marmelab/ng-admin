@@ -65,10 +65,10 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            expect(options[0].innerHTML).toEqual('foo');
-            expect(options[0].value).toEqual('bar');
-            expect(options[1].innerHTML).toEqual('baz');
-            expect(options[1].value).toEqual('bazValue');
+            expect(options[0].label).toEqual('foo');
+            expect(options[0].value).toEqual('0');
+            expect(options[1].label).toEqual('baz');
+            expect(options[1].value).toEqual('1');
         });
 
         it("should contain the choices as options", function () {
@@ -79,10 +79,10 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            expect(options[0].innerHTML).toEqual('foo');
-            expect(options[0].value).toEqual('bar');
-            expect(options[1].innerHTML).toEqual('baz');
-            expect(options[1].value).toEqual('bazValue');
+            expect(options[0].label).toEqual('foo');
+            expect(options[0].value).toEqual('0');
+            expect(options[1].label).toEqual('baz');
+            expect(options[1].value).toEqual('1');
         });
 
         it("should have the options with the bounded value selected", function () {
@@ -95,11 +95,11 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            expect(options[0].value).toEqual('fooValue');
+            expect(options[0].value).toEqual('0');
             expect(options[0].selected).toBeTruthy();
-            expect(options[1].value).toEqual('barValue');
+            expect(options[1].value).toEqual('1');
             expect(options[1].selected).toBeFalsy();
-            expect(options[2].value).toEqual('bazValue');
+            expect(options[2].value).toEqual('2');
             expect(options[2].selected).toBeTruthy();
         });
 

@@ -35,11 +35,9 @@ define(function (require) {
                 }
             },
             template:
-'<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control">' +
-  '<option ng-if="!v.required" value="" ng-selected="!value">-- select a value --</option>' +
-  '<option ng-repeat="choice in getChoices(entry)" value="{{ choice.value }}" ng-selected="value == choice.value">' +
-    '{{ choice.label }}' +
-  '</option>' +
+'<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control"' +
+  ' ng-options="item.value as item.label for item in getChoices(entry)">' +
+  '<option value="">-- select a value --</option>' +
 '</select>'
         };
     }

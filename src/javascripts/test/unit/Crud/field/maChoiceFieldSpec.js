@@ -42,11 +42,8 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            // strange: angular.js adds an initial option of value '? value ?' for IE compatibility
-            // so our initial option is of index 1, not 0
-            expect(options[1].innerHTML).toEqual('-- select a value --');
-            expect(options[1].value).toEqual('');
-            expect(options[1].selected).toBeTruthy();
+            expect(options[0].innerHTML).toEqual('-- select a value --');
+            expect(options[0].value).toEqual('');
         });
 
         it("should provide an initial option for non-required fields", function () {
@@ -56,10 +53,8 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            // strange: angular.js adds an initial option of value '? value ?' for IE compatibility
-            // so our initial option is of index 1, not 0
-            expect(options[1].innerHTML).toEqual('foo');
-            expect(options[1].value).toEqual('bar');
+            expect(options[1].label).toEqual('foo');
+            expect(options[1].value).toEqual('0');
         });
 
         it("should contain the choices as options", function () {
@@ -71,10 +66,10 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            expect(options[1].innerHTML).toEqual('foo');
-            expect(options[1].value).toEqual('bar');
-            expect(options[2].innerHTML).toEqual('baz');
-            expect(options[2].value).toEqual('bazValue');
+            expect(options[1].label).toEqual('foo');
+            expect(options[1].value).toEqual('0');
+            expect(options[2].label).toEqual('baz');
+            expect(options[2].value).toEqual('1');
         });
 
         it("should contain the choices from choicesFunc as options", function () {
@@ -89,10 +84,10 @@ define(function (require) {
             var element = $compile(directiveUsage)(scope);
             scope.$digest();
             var options = element.find('option');
-            expect(options[1].innerHTML).toEqual('foo');
-            expect(options[1].value).toEqual('bar');
-            expect(options[2].innerHTML).toEqual('baz');
-            expect(options[2].value).toEqual('bazValue');
+            expect(options[1].label).toEqual('foo');
+            expect(options[1].value).toEqual('0');
+            expect(options[2].label).toEqual('baz');
+            expect(options[2].value).toEqual('1');
         });
 
         it("should pass entry to choicesFunc", function () {
@@ -119,7 +114,7 @@ define(function (require) {
             scope.$digest();
             var options = element.find('option');
             expect(options[2].selected).toBeTruthy();
-            expect(options[2].value).toEqual('bazValue');
+            expect(options[2].value).toEqual('1');
         });
 
     });
