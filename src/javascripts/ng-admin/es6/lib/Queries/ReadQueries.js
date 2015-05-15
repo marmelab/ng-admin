@@ -1,6 +1,6 @@
 import Queries from './Queries'
 
-class RetrieveQueries extends Queries {
+class ReadQueries extends Queries {
 
     /**
      * Get one entity
@@ -233,4 +233,4 @@ class RetrieveQueries extends Queries {
     };
 }
 
-export default RetrieveQueries
+export default ReadQueries

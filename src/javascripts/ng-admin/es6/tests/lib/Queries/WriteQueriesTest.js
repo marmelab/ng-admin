@@ -5,18 +5,17 @@ import WriteQueries from "../../../lib/Queries/WriteQueries";
 import DataStore from "../../../lib/DataStore/DataStore";
 import PromisesResolver from "../../mock/PromisesResolver";
 import Entity from "../../../lib/Entity/Entity";
-import NumberField from "../../../lib/Field/NumberField";
 import TextField from "../../../lib/Field/TextField";
 import buildPromise from "../../mock/mixins";
 
-describe.only('WriteQueries', function() {
+describe('WriteQueries', () => {
     var writeQueries,
         restWrapper = {},
         application = {},
         entity,
         view;
 
-    beforeEach(function() {
+    beforeEach(() => {
         application = {
             getRouteFor: (view, id) => {
                 let url = 'http://localhost/' + view.getEntity().name();
@@ -31,11 +30,10 @@ describe.only('WriteQueries', function() {
         writeQueries = new WriteQueries(restWrapper, PromisesResolver, application);
         entity = new Entity('cat');
         view = entity.views["CreateView"]
-            .addField(new NumberField('id').identifier(true))
             .addField(new TextField('name'));
     });
 
-    describe('createOne', function() {
+    describe('createOne', () => {
         it('should POST an entity when calling createOne', () => {
             var rawEntity = {name: 'Mizu'};
 
@@ -52,7 +50,7 @@ describe.only('WriteQueries', function() {
         });
     });
 
-    describe('updateOne', function() {
+    describe('updateOne', () => {
         var rawEntity = {id: 3, name: 'Mizu'},
             updatedEntity = {id: 3, name: 'Mizute'};
 
@@ -81,7 +79,7 @@ describe.only('WriteQueries', function() {
         });
     });
 
-    describe("deleteOne", function () {
+    describe("deleteOne", () => {
         restWrapper.deleteOne = sinon.stub().returns(buildPromise({}));
 
         it('should DELETE an entity when calling deleteOne', () => {
@@ -92,8 +90,8 @@ describe.only('WriteQueries', function() {
         });
     });
 
-    describe("batchDelete", function () {
-        it('should DELETE entities when calling batchEntities', function () {
+    describe("batchDelete", () => {
+        it('should DELETE entities when calling batchEntities', () => {
             restWrapper.deleteOne = sinon.stub().returns(buildPromise({}));
 
             writeQueries.batchDelete(view, [1, 2])
