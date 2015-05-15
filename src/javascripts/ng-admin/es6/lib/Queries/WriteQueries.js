@@ -27,7 +27,7 @@ class WriteQueries extends Queries {
      * @returns {promise} the updated object
      */
     updateOne(view, rawEntity, originEntityId) {
-        let entityId = originEntityId || rawEntity[view.entity().identifier().name()];
+        let entityId = originEntityId || rawEntity[view.entity.identifier().name()];
 
         // Update element data
         return this._restWrapper

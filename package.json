@@ -47,6 +47,7 @@
     "mocha": "^2.1.0",
     "mocha-traceur": "^2.1.0",
     "protractor": "~1.8.0",
+    "sinon": "~1.14.1",
     "superagent": "^0.18.2"
   },
   "engines": {
