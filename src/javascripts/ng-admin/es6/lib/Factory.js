@@ -1,6 +1,7 @@
 import Application from "./Application";
 import Entity from "./Entity/Entity";
 import DataStore from "./DataStore/DataStore";
+import PromisesResolver from "./Utils/PromisesResolver";
 
 import ReadQueries from "./Queries/ReadQueries";
 import WriteQueries from "./Queries/WriteQueries";
@@ -75,6 +76,10 @@ class Factory {
 
     getWriteQueries(RestWrapper, PromisesResolver, Application) {
         return new WriteQueries(RestWrapper, PromisesResolver, Application);
+    }
+
+    getPromisesResolver() {
+        return PromisesResolver;
     }
 
     _init() {
