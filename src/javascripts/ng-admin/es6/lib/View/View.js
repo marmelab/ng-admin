@@ -158,26 +158,7 @@ class View {
     }
 
     identifier() {
-        var identifier;
-
-        var fields = this._fields;
-        for (var i in fields) {
-            if (fields[i].identifier()) {
-                identifier = fields[i];
-                break;
-            }
-        }
-
-        // No identifier fields on this view, try to find it on other view
-        if (!identifier) {
-            identifier = this.entity.identifier();
-        }
-
-        if (!arguments.length) {
-            return identifier;
-        }
-
-        return this;
+        return this.entity.identifier();
     }
 
     actions(actions) {
@@ -233,9 +214,9 @@ class View {
         return this;
     }
 
-    getUrl(entityId) {
+    getUrl(identifierValue) {
         if (typeof(this._url) === 'function') {
-            return this._url(entityId);
+            return this._url(identifierValue);
         }
 
         return this._url;

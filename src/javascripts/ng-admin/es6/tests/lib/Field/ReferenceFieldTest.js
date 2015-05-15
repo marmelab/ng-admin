@@ -23,7 +23,7 @@ describe('ReferenceField', function() {
                 .targetField(new Field('id'))
             );
 
-        var fieldName = comment.views["ListView"].getField('post_id').getReferencedView().getEntity().name();
+        var fieldName = comment.views["ListView"].getField('post_id').targetEntity().name();
         assert.equal(fieldName, 'posts');
     });
 
@@ -44,8 +44,7 @@ describe('ReferenceField', function() {
 
             human
                 .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
+                .editionView();
 
             assert.equal(ref.getSortFieldName(), 'human_ListView.name');
         });
@@ -66,36 +65,6 @@ describe('ReferenceField', function() {
 
             identifiers = view.getIdentifierValues([{_id: 1, tags:undefined}, {_id:3, id:6, tags:[3]}]);
             assert.deepEqual(identifiers, ['3']);
-        });
-    });
-
-    describe('targetField / targetEntity interactions', function() {
-        var ref, human;
-
-        beforeEach(function() {
-            ref = new ReferenceField('human_id');
-            human = new Entity('human');
-
-            human
-                .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
-        });
-
-        it('should allow to call targetField before targetEntity', function() {
-            ref
-                .targetField(new Field('name'))
-                .targetEntity(human);
-
-            assert.equal('name', ref.getReferencedView().fields()[0].name());
-        });
-
-        it('should allow to call targetField after targetEntity', function() {
-            ref
-                .targetEntity(human)
-                .targetField(new Field('name'));
-
-            assert.equal('name', ref.getReferencedView().fields()[0].name());
         });
     });
 });

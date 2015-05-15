@@ -29,7 +29,7 @@ define(function (require) {
 
         // Get element data
         return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
+            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier()))
             .customPUT(rawEntity)
             .then(function (response) {
                 return response.data;

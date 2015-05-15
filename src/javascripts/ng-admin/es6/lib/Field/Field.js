@@ -10,7 +10,6 @@ class Field {
         this._maps = [];
         this._attributes = {};
         this._cssClasses = null;
-        this._identifier = false;
         this._validation = { required: false, minlength : 0, maxlength : 99999 };
         this._defaultValue = null;
         this._editable = true;
@@ -120,12 +119,6 @@ class Field {
         }
 
         return this._cssClasses;
-    }
-
-    identifier(identifier) {
-        if (!arguments.length) return this._identifier;
-        this._identifier = identifier;
-        return this;
     }
 
     getMappedValue(value, entry) {

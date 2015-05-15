@@ -189,10 +189,9 @@ describe('View', function() {
     });
 
     it('should return the identifier.', function () {
-        var view = new View(new Entity('post'));
-        view
-            .addField(new Field('post_id').identifier(true))
-            .addField(new Field('name').identifier(false));
+        var entity = new Entity('post').identifier(new Field('post_id'));
+        var view = entity.listView();
+        view.addField(new Field('name'));
 
         assert.equal(view.identifier().name(), 'post_id');
     });

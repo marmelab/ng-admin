@@ -23,9 +23,9 @@ define(function (require) {
      *
      * @returns {promise} (list of fields (with their values if set) & the entity name, label & id-
      */
-    RetrieveQueries.prototype.getOne = function (view, entityId) {
+    RetrieveQueries.prototype.getOne = function (entity, viewType, identifierValue, identifierName, url) {
         return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view, entityId))
+            .oneUrl(entity.name(), this.config.getRouteFor(entity, url, viewType, identifierValue, identifierName))
             .get()
             .then(function (response) {
                 return response.data;
@@ -47,8 +47,9 @@ define(function (require) {
      */
     RetrieveQueries.prototype.getAll = function (view, page, filters, sortField, sortDir) {
         page = page || 1;
+        var url = view.getUrl();
 
-        return this.getRawValues(view, page, filters, sortField, sortDir)
+        return this.getRawValues(view.getEntity(), view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
             .then(function (values) {
                 return {
                     data: values.data,
@@ -69,38 +70,39 @@ define(function (require) {
      *
      * @returns {promise} the entity config & the list of objects
      */
-    RetrieveQueries.prototype.getRawValues = function (listView, page, filters, sortField, sortDir) {
+    RetrieveQueries.prototype.getRawValues = function (entity, viewName, viewType, page, perPage, filterValues, filterFields, sortField, sortDir, url) {
         var params = {};
 
         if (page !== -1 ) {
             params._page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
-            params._perPage = listView.perPage();
+            params._perPage = perPage;
         }
 
-        if (sortField && sortField.split('.')[0] === listView.name()) {
+        if (sortField && sortField.split('.')[0] === viewName) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
-        } else if (listView.sortField()) {
-            params._sortField = listView.sortField();
-            params._sortDir = listView.sortDir();
         }
 
-        if (filters && Object.keys(filters).length !== 0) {
-            var filterFields = listView.filters(),
-                filterName;
+        if (filterValues && Object.keys(filterValues).length !== 0) {
             params._filters = {};
-            for (filterName in filters) {
+            var filterName;
+
+            for (filterName in filterValues) {
+
                 if (filterFields.hasOwnProperty(filterName) && filterFields[filterName].hasMaps()) {
-                    angular.extend(params._filters, filterFields[filterName].getMappedValue(filters[filterName]));
-                } else {
-                    params._filters[filterName] = filters[filterName];
+                    angular.extend(params._filters, filterFields[filterName].getMappedValue(filterValues[filterName]));
+
+                    continue;
                 }
+
+                // It's weird to not map, but why not.
+                params._filters[filterName] = filterValues[filterName];
             }
         }
 
         // Get grid data
         return this.Restangular
-            .allUrl(listView.entity.name(), this.config.getRouteFor(listView))
+            .allUrl(entity.name(), this.config.getRouteFor(entity, url, viewType))
             .getList(params);
     };
 
@@ -112,7 +114,6 @@ define(function (require) {
      *
      * @returns {promise}
      */
-    // TODO: rename entries to getReferencedData
     RetrieveQueries.prototype.getReferencedData = function (references, rawValues) {
         var self = this,
             referencedData = {},
@@ -120,7 +121,7 @@ define(function (require) {
             singleCallFilters,
             identifiers,
             reference,
-            referencedView,
+            targetEntity,
             data,
             i,
             j,
@@ -128,10 +129,10 @@ define(function (require) {
 
         for (i in references) {
             reference = references[i];
-            referencedView = reference.getReferencedView();
+            targetEntity = reference.targetEntity();
 
             if (!rawValues) {
-                calls.push(self.getRawValues(referencedView, 1, reference.filters(), reference.sortField(), reference.sortDir()));
+                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
@@ -142,13 +143,13 @@ define(function (require) {
             // Check if we should retrieve values with 1 or multiple requests
             if (reference.hasSingleApiCall()) {
                 singleCallFilters = reference.getSingleApiCall(identifiers);
-                calls.push(self.getRawValues(referencedView, 1, singleCallFilters, reference.sortField(), reference.sortDir()));
+                calls.push(self.getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
 
                 continue;
             }
 
             for (k in identifiers) {
-                calls.push(self.getOne(referencedView, identifiers[k]));
+                calls.push(self.getOne(targetEntity, 'listView', identifiers[k], reference.name()));
             }
         }
 
@@ -165,7 +166,6 @@ define(function (require) {
                 for (j in references) {
                     reference = references[j];
                     singleCallFilters = reference.getSingleApiCall(identifiers);
-                    referencedView = reference.getReferencedView();
 
                     // Retrieve entries depending on 1 or many request was done
                     if (singleCallFilters || !rawValues) {
@@ -216,7 +216,8 @@ define(function (require) {
         var self = this,
             calls = [],
             referencedList,
-            referencedListView,
+            targetEntity,
+            viewName,
             filter,
             i,
             j;
@@ -225,8 +226,9 @@ define(function (require) {
             referencedList = referencedLists[i];
             filter = {};
             filter[referencedList.targetReferenceField()] = entityId;
-            referencedListView = referencedList.getReferencedView();
-            calls.push(self.getRawValues(referencedListView, 1, filter, sortField || (referencedListView.name() + '.' + referencedList.sortField()), sortDir || referencedList.sortDir()));
+            targetEntity = referencedList.targetEntity();
+            viewName = targetEntity.name() + '_ListView';
+            calls.push(self.getRawValues(targetEntity, viewName, 'listView', 1, referencedList.perPage(), filter, {}, sortField || referencedList.getSortFieldName(), sortDir || referencedList.sortDir()));
         }
 
         return this.$q.all(calls)

@@ -29,6 +29,8 @@ define(function () {
         this.nextPageCallback = this.nextPage.bind(this);
         this.setPageCallback = this.setPage.bind(this);
         this.selection = this.batchActions.length ? [] : null;
+        this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
+        this.sortDir = this.$stateParams.sortDir || this.view.sortDir();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -40,14 +42,12 @@ define(function () {
 
         var progression = this.progression,
             self = this,
-            filters = this.$stateParams.search,
-            sortField = this.$stateParams.sortField,
-            sortDir = this.$stateParams.sortDir;
+            filters = this.$stateParams.search;
 
         progression.start();
 
         this.RetrieveQueries
-            .getAll(this.view, page, true, filters, sortField, sortDir)
+            .getAll(this.view, page, true, filters, this.sortField, this.sortDir)
             .then(function (nextData) {
                 progression.done();
                 self.entries = self.entries.concat(nextData.entries);

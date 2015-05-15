@@ -1,4 +1,3 @@
-import ListView from "../View/ListView";
 import ReferenceField from "./ReferenceField";
 
 class ReferencedListField extends ReferenceField {
@@ -18,11 +17,6 @@ class ReferencedListField extends ReferenceField {
 
     targetFields(value) {
         if (!arguments.length) return this._targetFields;
-        if (!this._referencedView) {
-            this._referencedView = new ListView();
-        }
-
-        this._referencedView.fields(value);
         this._targetFields = value;
 
         return this;
@@ -39,6 +33,10 @@ class ReferencedListField extends ReferenceField {
         }
 
         return columns;
+    }
+
+    getSortFieldName() {
+        return this._targetEntity.name() + '_ListView.' + (this.sortField() || this._targetReferenceField);
     }
 }
 

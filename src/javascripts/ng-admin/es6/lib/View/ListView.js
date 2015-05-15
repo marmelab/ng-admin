@@ -46,6 +46,10 @@ class ListView extends View {
         return this._sortDir;
     }
 
+    getSortFieldName() {
+        return this.name() + '.' + this._sortField;
+    }
+
     infinitePagination() {
         if (arguments.length) {
             this._infinitePagination = arguments[0];

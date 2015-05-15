@@ -14,7 +14,9 @@ define(function (require) {
                 entries: '=',
                 fields: '&',
                 entity: '&',
-                perPage: '='
+                perPage: '=',
+                sortDir: '=',
+                sortField: '='
             },
             link: function(scope) {
                 scope.gotoList = function () {

@@ -28,16 +28,15 @@ define(function (require) {
             config = function () {
                 return {
                     baseApiUrl: angular.noop,
-                    getRouteFor: function (view) {
-                        return 'http://localhost/' + view.getEntity().name();
+                    getRouteFor: function (entity) {
+                        return 'http://localhost/' + entity.name();
                     }
                 };
             };
 
-            catEntity = new Entity('cat');
+            catEntity = new Entity('cat').identifier(new Field('id'));
             humanEntity = new Entity('human');
             catView = catEntity.listView()
-                .addField(new Field('id').identifier(true))
                 .addField(new TextField('name'))
                 .addField(new ReferenceField('human_id').targetEntity(humanEntity).targetField(new Field('firstName')));
 
@@ -153,8 +152,7 @@ define(function (require) {
         describe('getReferencedListData', function() {
             it('should return all referencedLists data for a View', function (done) {
                 var retrieveQueries = new RetrieveQueries($q, Restangular, config, PromisesResolver),
-                    state = new Entity('states'),
-                    stateId = new Field('id').identifier(true),
+                    state = new Entity('states').identifier(new Field('id')),
                     character = new Entity('characters'),
                     stateCharacters = new ReferencedListField('character');
 
@@ -174,7 +172,6 @@ define(function (require) {
                     .targetEntity(character);
 
                 state.listView()
-                    .addField(stateId)
                     .addField(stateCharacters);
 
                 spyOn(Restangular, 'getList').and.returnValue(mixins.buildPromise(mixins.buildPromise({data: rawCharacters})));
@@ -199,15 +196,14 @@ define(function (require) {
                         getQueryParamsFor: function (view, params) {
                             return params;
                         },
-                        getRouteFor: function (view, identyId) {
-                            return 'http://localhost/' + view.getEntity().name() + (identyId ? '/' + identyId : '');
+                        getRouteFor: function (entity, viewUrl, viewType, identyId) {
+                            return 'http://localhost/' + entity.name() + (identyId ? '/' + identyId : '');
                         }
                     };
                 };
 
-                entity = new Entity('cat');
+                entity = new Entity('cat').identifier(new Field('id'));
                 view = entity.creationView()
-                    .addField(new Field('id').identifier(true))
                     .addField(new TextField('name'));
             });
 
@@ -223,7 +219,7 @@ define(function (require) {
 
                 var retrieveQueries = new RetrieveQueries({}, Restangular, config, PromisesResolver);
 
-                retrieveQueries.getOne(view, 1)
+                retrieveQueries.getOne(entity, view.type, 1)
                     .then(function (rawEntry) {
                         expect(Restangular.oneUrl).toHaveBeenCalledWith('cat', 'http://localhost/cat/1');
                         expect(Restangular.get).toHaveBeenCalledWith();

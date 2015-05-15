@@ -18,9 +18,8 @@ describe('DataStore', function() {
     it('should map some raw entities', function () {
         var view = new View();
         view
-            .addField(new Field('post_id').identifier(true))
             .addField(new Field('title'))
-            .setEntity(new Entity());
+            .setEntity(new Entity().identifier(new Field('post_id')));
 
         var entries = dataStore.mapEntries(view.entity.name(), view.identifier(), view.getFields(), [
             { post_id: 1, title: 'Hello', published: true},
@@ -62,8 +61,7 @@ describe('DataStore', function() {
 
             human
                 .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
+                .editionView();
 
             ref
                 .targetEntity(human)
@@ -92,8 +90,7 @@ describe('DataStore', function() {
 
             human
                 .identifier(new Field('id'))
-                .editionView()
-                .addField(new Field('id').identifier(true));
+                .editionView();
 
             ref
                 .targetField(new Field('name'))

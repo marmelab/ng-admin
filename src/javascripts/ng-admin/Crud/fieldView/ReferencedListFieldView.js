@@ -2,11 +2,13 @@ define(function(require) {
     "use strict";
 
     function getReadWidget() {
-        return '<ma-datagrid name="{{ field.getReferencedView().name() }}" ' +
+        return '<ma-datagrid name="{{ field.datagridName() }}" ' +
                  'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
-                 'fields="::field.getReferencedView().fields()" ' +
+                 'fields="::field.targetFields()" ' +
                  'list-actions="::field.listActions()" ' +
-                 'entity="::field.getReferencedView().entity">' +
+                 'entity="::field.targetEntity()" ' +
+                 'sort-field="::field.sortField()" ' +
+                 'sort-dir="::field.sortDir()">' +
             '</ma-datagrid>';
     }
     function getLinkWidget() {
@@ -16,11 +18,13 @@ define(function(require) {
         return 'error: cannot display referenced_list field as filter';
     }
     function getWriteWidget() {
-        return '<ma-datagrid name="{{ field.getReferencedView().name() }}"' +
+        return '<ma-datagrid name="{{ field.datagridName() }}"' +
                   'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
-                  'fields="::field.getReferencedView().fields()" ' +
+                  'fields="::field.targetFields()" ' +
                   'list-actions="::field.listActions()" ' +
-                  'entity="::field.getReferencedView().entity">' +
+                  'entity="::field.targetEntity()" ' +
+                  'sort-field="::field.sortField()" ' +
+                  'sort-dir="::field.sortDir()">' +
             '</ma-datagrid>';
     }
     return {

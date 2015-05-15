@@ -31,16 +31,15 @@ class Application {
         return this._entities.map(entity => entity.views[type]);
     }
 
-    getRouteFor(view, entityId) {
-        var entity = view.getEntity(),
-            baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
-            url = view.getUrl(entityId) || entity.getUrl(view, entityId);
+    getRouteFor(entity, viewUrl, viewType, identifierValue, identifierName) {
+        var baseApiUrl = entity.baseApiUrl() || this.baseApiUrl(),
+            url = viewUrl || entity.getUrl(viewType, identifierValue, identifierName);
 
         // If the view or the entity don't define the url, retrieve it from the baseURL of the entity or the app
         if (!url) {
             url = baseApiUrl + entity.name();
-            if (entityId) {
-                url += '/' + entityId;
+            if (identifierValue) {
+                url += '/' + identifierValue;
             }
         } else if (!/^(?:[a-z]+:)?\/\//.test(url)) {
             // Add baseUrl for relative URL
