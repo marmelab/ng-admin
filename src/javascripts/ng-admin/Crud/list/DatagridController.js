@@ -17,6 +17,7 @@ define(function () {
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
         this.filters = {};
+        this.shouldDisplayActions = this.$scope.listActions().length > 0;
 
         $scope.toggleSelect = this.toggleSelect.bind(this);
         $scope.toggleSelectAll = this.toggleSelectAll.bind(this);
@@ -117,11 +118,6 @@ define(function () {
         }
 
         this.$scope.selection = [];
-    };
-
-
-    DatagridController.prototype.shouldDisplayActions = function () {
-        return this.$scope.listActions().length > 0;
     };
 
     DatagridController.$inject = ['$scope', '$location', '$anchorScroll'];
