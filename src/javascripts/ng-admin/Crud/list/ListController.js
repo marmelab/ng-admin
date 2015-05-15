@@ -3,10 +3,9 @@
 define(function () {
     'use strict';
 
-    var ListController = function ($scope, $stateParams, $filter, $location, $anchorScroll, RetrieveQueries, progression, view, dataStore, totalItems) {
+    var ListController = function ($scope, $stateParams, $location, $anchorScroll, RetrieveQueries, progression, view, dataStore, totalItems) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
-        this.$filter = $filter;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
         this.RetrieveQueries = RetrieveQueries;
@@ -18,7 +17,7 @@ define(function () {
         this.actions = view.actions();
         this.batchActions = view.batchActions();
         this.loadingPage = false;
-        this.filters = this.$filter('orderElement')(view.filters());
+        this.filters = view.filters();
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.dataStore = dataStore;
         this.fields = view.fields();
@@ -64,13 +63,12 @@ define(function () {
     ListController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$stateParams = undefined;
-        this.$filter = undefined;
         this.$location = undefined;
         this.$anchorScroll = undefined;
         this.dataStore = undefined;
     };
 
-    ListController.$inject = ['$scope', '$stateParams', '$filter', '$location', '$anchorScroll', 'RetrieveQueries', 'progression', 'view', 'dataStore', 'totalItems'];
+    ListController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'RetrieveQueries', 'progression', 'view', 'dataStore', 'totalItems'];
 
     return ListController;
 });

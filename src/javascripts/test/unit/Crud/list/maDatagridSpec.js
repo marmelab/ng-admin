@@ -9,7 +9,6 @@ define(function (require) {
             Entry = require('ng-admin/es6/lib/Entry'),
             Field = require('ng-admin/es6/lib/Field/Field'),
             TextField = require('ng-admin/es6/lib/Field/TextField'),
-            orderElement = require('ng-admin/Main/component/filter/OrderElement'),
             $compile,
             scope,
             directiveUsage = '<ma-datagrid name="{{ name }}" entries="entries" fields="fields" list-actions="listActions"' +
@@ -17,7 +16,6 @@ define(function (require) {
                 '</ma-datagrid>';
 
         angular.module('testapp_Datagrid', [])
-            .filter('orderElement', orderElement)
             .directive('maDatagrid', directive);
         require('angular-mocks');
 

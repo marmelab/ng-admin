@@ -17,8 +17,6 @@ define(function (require) {
 
     MainModule.provider('NgAdminConfiguration', require('ng-admin/Main/component/provider/NgAdminConfiguration'));
 
-    MainModule.filter('enabled', require('ng-admin/Main/component/filter/Enabled'));
-    MainModule.filter('orderElement', require('ng-admin/Main/component/filter/OrderElement'));
     MainModule.filter('stripTags', require('ng-admin/Main/component/filter/StripTags'));
 
     MainModule.directive('maDashboardPanel', require('ng-admin/Main/component/directive/maDashboardPanel'));

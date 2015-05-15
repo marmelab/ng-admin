@@ -1,4 +1,5 @@
 import View from './View';
+import orderElement from "../Utils/orderElement";
 
 class ListView extends View {
     constructor(name) {
@@ -94,7 +95,7 @@ class ListView extends View {
             return this._filters;
         }
 
-        this._filters = filters;
+        this._filters = orderElement.order(filters);
 
         return this;
     }

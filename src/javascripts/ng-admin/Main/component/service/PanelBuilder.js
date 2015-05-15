@@ -5,7 +5,6 @@ define(function () {
 
     /**
      * @param {$q}                 $q
-     * @param {$filter}            $filter
      * @param {$location}          $location
      * @param {RetrieveQueries}    RetrieveQueries
      * @param {Configuration}      Configuration
@@ -13,9 +12,8 @@ define(function () {
      *
      * @constructor
      */
-    function PanelBuilder($q, $filter, $location, RetrieveQueries, Configuration, AdminDescription) {
+    function PanelBuilder($q, $location, RetrieveQueries, Configuration, AdminDescription) {
         this.$q = $q;
-        this.$filter = $filter;
         this.$location = $location;
         this.RetrieveQueries = RetrieveQueries;
         this.dataStore = AdminDescription.getDataStore();
@@ -34,9 +32,6 @@ define(function () {
             dashboardView,
             self = this,
             i;
-
-        dashboardViews = this.$filter('enabled')(dashboardViews);
-        dashboardViews = this.$filter('orderElement')(dashboardViews);
 
         for (i in dashboardViews) {
             dashboardView = dashboardViews[i];
@@ -73,7 +68,7 @@ define(function () {
         });
     };
 
-    PanelBuilder.$inject = ['$q', '$filter', '$location', 'RetrieveQueries', 'NgAdminConfiguration', 'AdminDescription'];
+    PanelBuilder.$inject = ['$q', '$location', 'RetrieveQueries', 'NgAdminConfiguration', 'AdminDescription'];
 
     return PanelBuilder;
 });

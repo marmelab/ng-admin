@@ -80,18 +80,17 @@ define(function (require) {
 
     function getPanelBuilder(dashboardViews, responses) {
         var q = { all: function() { return mixins.buildPromise(responses); } };
-        var filter = function() { return function(a) { return a; } };
         var Configuration = function() {
             return {
                 getViewsOfType: function() {
                     return dashboardViews;
                 }
-            }
+            };
         };
         var location = { search: function() { return {}; } };
         var retrieveQueries = { getAll: function() {} };
         var AdminDescription = { getDataStore: function() { return new DataStore(); } };
 
-        return new PanelBuilder(q, filter, location, retrieveQueries, Configuration, AdminDescription);
+        return new PanelBuilder(q, location, retrieveQueries, Configuration, AdminDescription);
     }
 });
