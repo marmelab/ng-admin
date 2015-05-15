@@ -119,6 +119,11 @@ define(function () {
         this.$scope.selection = [];
     };
 
+
+    DatagridController.prototype.shouldDisplayActions = function () {
+        return this.$scope.listActions().length > 0;
+    };
+
     DatagridController.$inject = ['$scope', '$location', '$anchorScroll'];
 
     return DatagridController;
