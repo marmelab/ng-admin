@@ -19,14 +19,11 @@ define(function () {
                     var ids = $scope.selection().map(function(entry) {
                         return entry.identifierValue;
                     });
-                    $state.go('batchDelete', {
+
+                    $state.go('batchDelete', angular.extend({
                         ids: ids,
-                        entity: entity.name(),
-                        page: $state.params.page,
-                        search: $state.params.search,
-                        sortField: $state.params.sortField,
-                        sortDir: $state.params.sortDir
-                    });
+                        entity: $scope.entity().name()
+                    }, $state.params));
                 };
             },
             template:

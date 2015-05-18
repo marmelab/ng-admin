@@ -26,13 +26,11 @@ define(function () {
             $state = this.$state, entityName = this.entity.name();
 
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
-            $state.go($state.get('list'), {
+
+            $state.go($state.get('list'), angular.extend({
                 entity: entityName,
-                page: $state.params.page,
-                search: $state.params.search,
-                sortField: $state.params.sortField,
-                sortDir: $state.params.sortDir
-            });
+                id: this.entityId
+            }, $state.params));
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
             // @TODO: share this method when splitting controllers
@@ -47,14 +45,11 @@ define(function () {
 
     DeleteController.prototype.back = function () {
         var $state = this.$state;
-        $state.go($state.get('edit'), {
+
+        $state.go($state.get('edit'), angular.extend({
             entity: this.entity.name(),
-            id: this.entityId,
-            page: $state.params.page,
-            search: $state.params.search,
-            sortField: $state.params.sortField,
-            sortDir: $state.params.sortDir
-        });
+            id: this.entityId
+        }, $state.params));
     };
 
     DeleteController.prototype.destroy = function () {

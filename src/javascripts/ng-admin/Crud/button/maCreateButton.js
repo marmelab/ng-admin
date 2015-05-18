@@ -15,13 +15,7 @@ define(function () {
                 scope.label = scope.label || 'Create';
 
                 scope.gotoCreate = function () {
-                    $state.go($state.get('create'), {
-                        entity: scope.entity().name(),
-                        page: $state.params.page,
-                        search: $state.params.search,
-                        sortField: $state.params.sortField,
-                        sortDir: $state.params.sortDir
-                    });
+                    $state.go($state.get('create'), angular.extend({entity: scope.entity().name()}, $state.params));
                 };
             },
             template:

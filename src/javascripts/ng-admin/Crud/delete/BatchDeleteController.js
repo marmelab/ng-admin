@@ -28,13 +28,9 @@ define(function () {
             entityName = this.entity.name();
 
         this.WriteQueries.batchDelete(this.view, this.entityIds).then(function () {
-            $state.go($state.get('list'), {
-                entity: entityName,
-                page: $state.params.page,
-                search: $state.params.search,
-                sortField: $state.params.sortField,
-                sortDir: $state.params.sortDir
-            });
+            $state.go($state.get('list'), angular.extend({
+                entity: entityName
+            }, $state.params));
             notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
             // @TODO: share this method when splitting controllers
@@ -48,13 +44,10 @@ define(function () {
     };
 
     BatchDeleteController.prototype.back = function () {
-        this.$state.go(this.$state.get('list'), {
-            entity: this.entity.name(),
-            page: this.$state.params.page,
-            search: this.$state.params.search,
-            sortField: this.$state.params.sortField,
-            sortDir: this.$state.params.sortDir
-        });
+
+        this.$state.go(this.$state.get('list'), angular.extend({
+            entity: this.entity().name()
+        }, this.$state.params));
     };
 
     BatchDeleteController.prototype.destroy = function () {

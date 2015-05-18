@@ -15,14 +15,11 @@ define(function () {
             link: function (scope) {
                 scope.label = scope.label || 'Edit';
                 scope.gotoEdit = function () {
-                    $state.go($state.get('edit'), {
+                    $state.go($state.get('edit'),
+                    angular.extend({
                         entity: scope.entity().name(),
-                        id: scope.entry().identifierValue,
-                        page: $state.params.page,
-                        search: $state.params.search,
-                        sortField: $state.params.sortField,
-                        sortDir: $state.params.sortDir
-                    });
+                        id: scope.entry().identifierValue
+                    }, $state.params));
                 };
             },
             template:
