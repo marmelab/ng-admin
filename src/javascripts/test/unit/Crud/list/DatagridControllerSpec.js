@@ -21,7 +21,10 @@ define(function (require) {
                     return new Entity('my_entity');
                 },
                 entries: entries,
-                selection: []
+                selection: [],
+                listActions: function () {
+                    return [];
+                }
             }, {
                 search: function () {
                     return {};
