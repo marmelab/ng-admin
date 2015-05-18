@@ -127,7 +127,7 @@ class ReadQueries extends Queries {
             }
         }
 
-        return fillReferencedData(calls, references, rawValues);
+        return fillFilteredReferencedData(calls, references, rawValues);
     };
 
     /**
@@ -157,7 +157,7 @@ class ReadQueries extends Queries {
             calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
         }
 
-        return fillReferencedData(calls, references, rawValues);
+        return fillOptimizedReferencedData(calls, references);
     }
 
     /**
@@ -182,7 +182,7 @@ class ReadQueries extends Queries {
             calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
         }
 
-        return fillReferencedData(calls, references);
+        return fillOptimizedReferencedData(calls, references);
     }
 
     /**
@@ -192,8 +192,42 @@ class ReadQueries extends Queries {
      * @param {[Reference]} references
      * @returns {Promise}
      */
-    fillReferencedData(apiCalls, references, rawValues) {
-        // @TODO : Make it general for getReferencedData, getChoicesData & getOptimizedReferencedData
+    fillOptimizedReferencedData(apiCalls, references) {
+        return this._promisesResolver.allEvenFailed(apiCalls)
+            .then((responses) => {
+                if (responses.length === 0) {
+                    return {};
+                }
+
+                let referencedData = {},
+                    i = 0;
+
+                for (let j in references) {
+                    let reference = references[j],
+                        response = responses[i++];
+
+                    // Retrieve entries depending on 1 or many request was done
+                    if (response.status == 'error') {
+                        // the response failed
+                        continue;
+                    }
+
+                    referencedData[reference.name()] = response.result.data;
+                }
+
+                return referencedData;
+            });
+    }
+
+    /**
+     * Fill all reference entries to return [{targetEntity.identifier: targetLabel}, ...]
+     *
+     * @param {[Promise]} apiCalls
+     * @param {[Reference]} references
+     * @param {[Object]} rawValues
+     * @returns {Promise}
+     */
+    fillFilteredReferencedData(apiCalls, references, rawValues) {
         return this._promisesResolver.allEvenFailed(apiCalls)
             .then((responses) => {
                 if (responses.length === 0) {
@@ -205,23 +239,8 @@ class ReadQueries extends Queries {
                     i = 0;
 
                 for (let j in references) {
-                    let reference = references[j],
-                        singleCallFilters = reference.getSingleApiCall(identifiers);
-
-                    // Retrieve entries depending on 1 or many request was done
-                    if (singleCallFilters || !rawValues) {
-                        response = responses[i++];
-                        if (response.status == 'error') {
-                            // the response failed
-                            continue;
-                        }
-
-                        referencedData[reference.name()] = response.result.data;
-
-                        continue;
-                    }
-
                     let data = [],
+                        reference = references[j],
                         identifiers = reference.getIdentifierValues(rawValues);
 
                     for (let k in identifiers) {
