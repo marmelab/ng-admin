@@ -13,18 +13,18 @@ define(function (require) {
             entries = [
                 new Entry('my_entity', {value: 1}, 1),
                 new Entry('my_entity', {value: 2}, 2),
-                new Entry('my_entity', {value: 3}, 3),
+                new Entry('my_entity', {value: 3}, 3)
             ];
 
             dataGridController = new DataGridController({
+                listActions: function() {
+                    return [];
+                },
                 entity: function () {
                     return new Entity('my_entity');
                 },
                 entries: entries,
-                selection: [],
-                listActions: function () {
-                    return [];
-                }
+                selection: []
             }, {
                 search: function () {
                     return {};

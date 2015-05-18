@@ -2,55 +2,11 @@
 define(function () {
     'use strict';
 
-    function PromisesResolver($q) {
-
-        function allEvenFailed(promises) {
-            if (!Array.isArray(promises)) {
-                throw 'allEvenFailed can only handle an array of promises';
-            }
-            var deferred = $q.defer();
-            if (promises.length === 0) {
-                deferred.resolve([]);
-                return deferred.promise;
-            }
-
-            var states = [];
-            var results = [];
-
-            promises.forEach(function (promise, key) {
-                states[key] = false; // promises are not resolved by default
-            });
-
-            promises.forEach(function (promise, key) {
-                function resolve(result) {
-                    states[key] = true;
-                    results[key] = result; // result may be an error
-                    for (var i in states) {
-                        if (!states[i]) {
-                            return;
-                        }
-                    }
-                    deferred.resolve(results);
-                }
-                function resolveSuccess(result) {
-                    return resolve({ status: 'success', result: result });
-                }
-                function resolveError(result) {
-                    return resolve({ status: 'error', error: result })
-                }
-                // whether the promise ends with success or error, consider it done
-                $q.when(promise).then(resolveSuccess, resolveError);
-            });
-
-            return deferred.promise;
-        };
-
-        return {
-            allEvenFailed: allEvenFailed
-        };
+    function PromisesResolver(AdminDescription) {
+        return AdminDescription.getPromisesResolver();
     }
 
-    PromisesResolver.$inject = ['$q'];
+    PromisesResolver.$inject = ['AdminDescription'];
 
     return PromisesResolver;
 });
