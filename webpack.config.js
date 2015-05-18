@@ -1,26 +1,33 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var sources = [
+function getEntrySources(sources) {
+    if (process.env.NODE_ENV !== 'production') { // for live reload
+        sources.push('webpack-dev-server/client?http://localhost:8080');
+    }
+
+    return sources;
+}
+
+var ngAdminSources = [
+    './src/javascripts/ng-admin.js',
+    './src/sass/ng-admin.scss'
+];
+
+var vendorSources = [
+    './src/javascripts/vendors.js',
     'font-awesome/scss/font-awesome.scss',
     'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-    './src/sass/ng-admin.scss',
-
     'nprogress/nprogress.css',
     'humane-js/themes/flatty.css',
     'textangular/src/textAngular.css',
     'codemirror/lib/codemirror.css',
-    'codemirror/addon/lint/lint.css',
-
-    './src/javascripts/ng-admin.js'
+    'codemirror/addon/lint/lint.css'
 ];
-
-if (process.env.NODE_ENV !== 'production') { // for live reload
-    sources.push('webpack-dev-server/client?http://localhost:8080');
-}
 
 module.exports = {
     entry: {
-        'ng-admin': sources
+        'ng-admin-standalone': getEntrySources(ngAdminSources.concat(vendorSources)),
+        'ng-admin': getEntrySources(ngAdminSources)
     },
     output: {
         publicPath: "http://localhost:8080/",
@@ -37,7 +44,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('build/ng-admin.min.css', {
+        new ExtractTextPlugin('build/[name].min.css', {
             allChunks: true
         })
     ]

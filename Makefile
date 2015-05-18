@@ -18,6 +18,8 @@ build-dev:
 build:
 	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --progress
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
+	@cp build/ng-admin* examples/blog/build
+	@echo "Demo updated!"
 
 test:
 	@grunt test:local

@@ -1,4 +1,3 @@
-require('./vendors.js');
 require('./ng-admin/Main/MainModule');
 require('./ng-admin/Crud/CrudModule');
 
