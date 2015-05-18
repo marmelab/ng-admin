@@ -75,12 +75,16 @@ define(function (require) {
                     totalItems: ['response', function (response) {
                         return response.totalItems;
                     }],
-                    referencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getReferencedData(view.getReferences(), response.data);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
                     }],
-                    referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
-                        var references = view.getReferences();
-                        var referencedEntries;
+                    optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                        return ReadQueries.getFilteredReferenceData(view.getOptimizedReferences(), response.data);
+                    }],
+                    referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        var references = view.getReferences(),
+                            referencedData = nonOptimizedReferencedData.concat(optimizedReferencedData),
+                            referencedEntries;
 
                         for (var name in referencedData) {
                             referencedEntries = dataStore.mapEntries(
@@ -118,7 +122,7 @@ define(function (require) {
                         return true;
                     }],
                     filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getFilterReferences());
+                        return ReadQueries.getAllReferencedData(view.getFilterReferences());
                     }],
                     filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
                         var filters = view.getFilterReferences();
@@ -171,7 +175,7 @@ define(function (require) {
                         );
                     }],
                     referencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
-                        return ReadQueries.getReferencedData(view.getReferences(), [entry.values]);
+                        return ReadQueries.getFilteredReferenceData(view.getReferences(), [entry.values]);
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -248,7 +252,7 @@ define(function (require) {
                         return entry;
                     }],
                     referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getReferences());
+                        return ReadQueries.getAllReferencedData(view.getReferences());
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -301,7 +305,7 @@ define(function (require) {
                         );
                     }],
                     referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getReferences());
+                        return ReadQueries.getAllReferencedData(view.getReferences());
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();

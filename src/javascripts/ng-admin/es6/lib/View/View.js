@@ -136,6 +136,14 @@ class View {
         return result;
     }
 
+    getNonOptimizedReferences() {
+        return getReferences().filter(r => !r.getSingleApiCall());
+    }
+
+    getOptimizedReferences() {
+        return getReferences().filter(r => !!r.getSingleApiCall());
+    }
+
     getReferencedLists() {
         let result = {};
         let lists = this._fields.filter(f => f.type() === 'referenced_list');
