@@ -1,4 +1,3 @@
-global.angular = require('angular');
 global.rangy = require('../../node_modules/rangy/lib/rangy-core');
 global.rangy = require('../../node_modules/rangy/lib/rangy-selectionsaverestore');
 global.numeral = require('numeral');
