@@ -1,7 +1,7 @@
 .PHONY: build
 
 watch:
-	./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --host=0.0.0.0
+	@./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --host=0.0.0.0
 
 install:
 	bower install
@@ -12,11 +12,11 @@ run:
 	@grunt
 
 build-dev:
-	@grunt build:dev
+	@./node_modules/webpack/bin/webpack.js --progress
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (no minification)"
 
 build:
-	@grunt build
+	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --progress
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
 test:
