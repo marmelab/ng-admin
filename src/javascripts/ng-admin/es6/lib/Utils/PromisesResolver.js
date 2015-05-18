@@ -2,7 +2,7 @@
 class PromisesResolver {
     static allEvenFailed(promises) {
         if (!Array.isArray(promises)) {
-            throw 'allEvenFailed can only handle an array of promises';
+            throw Error('allEvenFailed can only handle an array of promises');
         }
 
         return new Promise((resolve, reject) => {

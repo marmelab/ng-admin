@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 
 import orderElement from "../../../lib/Utils/orderElement";
 
-describe('Menu', () => {
+describe('orderElement', () => {
 
     describe("order()", () => {
 
