@@ -64,32 +64,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        watch: {
-            configFiles: {
-                files: ['Gruntfile.js', 'grunt/grunt-*.json'],
-                tasks: ['build:dev', 'ngconfig', 'copy_build:dev'],
-                options: {
-                    // reload watchers since configuration may have changed
-                    reload: true
-                }
-            },
-            javascripts: {
-                files: ['src/javascripts/ng-admin.js', 'src/javascripts/ng-admin/**/**/*.js', 'src/javascripts/ng-admin/**/**/*.html'],
-                tasks: ['ngconfig', 'requirejs:dev', 'ngAnnotate', 'copy:js_dev', 'copy:es6_dev', 'copy:es6_devmap'],
-                options: {
-                    atBegin: true,
-                    livereload: true
-                }
-            },
-            sass: {
-                files: ['src/sass/*.scss'],
-                tasks: ['compass:dev', 'concat:css', 'copy:fonts_dev', 'copy:assets_dev', 'copy:css_dev'],
-                options: {
-                    atBegin: true,
-                    livereload: true
-                }
-            }
-        },
         karma: {
             unit: {
                 configFile: 'src/javascripts/test/karma.conf.js',
@@ -123,7 +97,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'connect', 'protractor']);
     grunt.registerTask('copy_build', ['copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
 
-    grunt.registerTask('test:local', ['mochaTest', 'karma', 'build:dev', 'copy_build:dev', 'test:local:e2e']);
+    grunt.registerTask('test:local', ['mochaTest', 'karma', 'copy_build:dev', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
 
     grunt.registerTask('default', ['copy:angular', 'json_server', 'connect']);

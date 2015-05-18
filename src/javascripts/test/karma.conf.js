@@ -1,49 +1,69 @@
 module.exports = function (config) {
     'use strict';
+
+    // Retrieve a Webpack config specialized in tests
+    var webpackConfig = require('../../../webpack.config');
+    webpackConfig.context = __dirname + '/../../..';
+    delete webpackConfig.entry;
+    delete webpackConfig.output;
+
     config.set({
         basePath: '../',
-        frameworks: ['requirejs', 'jasmine'],
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
-        plugins: ['karma-requirejs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
-
+        frameworks: ['jasmine'],
         files: [
-            {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false},
-            {pattern: 'bower_components/angular-numeraljs/dist/angular-numeraljs.js', included: false},
-            {pattern: 'bower_components/angular/angular.js', included: false},
-            {pattern: 'bower_components/codemirror/addon/edit/closebrackets.js', included: false},
-            {pattern: 'bower_components/codemirror/addon/edit/matchbrackets.js', included: false},
-            {pattern: 'bower_components/codemirror/addon/lint/json-lint.js', included: false},
-            {pattern: 'bower_components/codemirror/addon/lint/lint.js', included: false},
-            {pattern: 'bower_components/codemirror/addon/selection/active-line.js', included: false},
-            {pattern: 'bower_components/codemirror/lib/codemirror.js', included: false},
-            {pattern: 'bower_components/codemirror/mode/javascript/javascript.js', included: false},
-            {pattern: 'bower_components/jsonlint/lib/jsonlint.js', included: false},
-            {pattern: 'bower_components/numeral/numeral.js', included: false},
-            {pattern: 'bower_components/requirejs-text/text.js', included: false},
+            '../../node_modules/angular/angular.min.js',
+            '../../node_modules/angular-mocks/angular-mocks.js',
+            '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
+            '../../node_modules/numeral/numeral.js',
 
-            // ng-admin application files
-            {pattern: 'ng-admin/**/**/**/*.js', included: false},
-            {pattern: 'ng-admin/**/*/*.html', included: false},
-            {pattern: 'ng-admin/**/view/**/*.html', included: false},
-            {pattern: 'ng-admin/es6/lib/**/*.js', included: false},
-            {pattern: 'ng-admin/lib/**/*.js', included: false},
-            {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
-
-            // Test files
-            {pattern: 'test/function.bind.shim.js', included: true},
-            {pattern: 'test/mock/*.js', included: false},
-            {pattern: 'test/unit/**/**/*.js', included: false},
-
-            // Test bootstrap
-            'test/app-test.js'
+            'test/unit/**/*.js'
         ],
+        plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
+
+        //files: [
+        //    {pattern: 'bower_components/angular-mocks/angular-mocks.js', included: true},
+        //    {pattern: '../../node_modules/angular/angular.js', included: true},
+        //    {pattern: '../../node_modules/angular-numeraljs/dist/angular-numeraljs.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/lib/codemirror.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/addon/edit/closebrackets.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/addon/edit/matchbrackets.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/addon/lint/json-lint.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/addon/lint/lint.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/addon/selection/active-line.js', included: true},
+        //    {pattern: '../../node_modules/codemirror/mode/javascript/javascript.js', included: true},
+        //    {pattern: '../../node_modules/jsonlint/lib/jsonlint.js', included: true},
+        //    {pattern: '../../node_modules/numeral/numeral.js', included: true},
+        //
+        //    // ng-admin application files
+        //    {pattern: 'vendors.js', included: true},
+        //    {pattern: 'ng-admin/**/**/**/*.js', included: true},
+        //    {pattern: 'ng-admin/**/*/*.html', included: true},
+        //    {pattern: 'ng-admin/**/view/**/*.html', included: true},
+        //    {pattern: 'ng-admin/es6/lib/**/*.js', included: true},
+        //    {pattern: 'ng-admin/lib/**/*.js', included: true},
+        //    {pattern: 'ng-admin/lib/polyfill/bind.js', included: true},
+        //
+        //    // Test files
+        //    {pattern: 'test/function.bind.shim.js', included: true},
+        //    {pattern: 'test/mock/*.js', included: true},
+        //    {pattern: 'test/unit/**/**/*.js', included: true},
+        //
+        //    // Test bootstrap
+        //    'test/app-test.js'
+        //],
         preprocessors: {
-            'ng-admin/es6/lib/**/*.js': 'babel'
+            //'ng-admin/es6/lib/**/*.js': 'babel',
+            'test/**/*.js': 'webpack'
         },
-        babelPreprocessor: {
-            options: {
-                modules: "amd"
-            }
-        }
+        //babelPreprocessor: {
+        //    options: {
+        //        modules: "amd"
+        //    }
+        //},
+        webpackMiddleware: {
+            noInfo: true
+        },
+        webpack: webpackConfig
     });
 };

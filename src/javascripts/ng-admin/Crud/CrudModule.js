@@ -1,5 +1,4 @@
 var angular = require('angular');
-var inflection = require('nginflection');
 
 var CrudModule = angular.module('crud', [
     'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload', 'ngNumeraljs'
