@@ -37,7 +37,7 @@ describe('PromisesResolver', () => {
             // Check that all promises were resolved
             result.then(() => {
                 assert.equal(p1Result, 'p1');
-                assert.equal(p1Result, 'p2');
+                assert.equal(p2Result, 'p2');
 
                 // assert.equal does not throw an error when failing,
                 // so we use a callback that timeout in case of error
