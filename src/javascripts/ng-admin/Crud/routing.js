@@ -174,11 +174,11 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
@@ -255,11 +255,11 @@ define(function (require) {
 
                         return entry;
                     }],
-                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
@@ -312,11 +312,11 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
@@ -404,7 +404,7 @@ define(function (require) {
                 templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),
                 params: {
                     entity: null,
-                    ids: [],
+                    ids: []
                 },
                 resolve: {
                     view: viewProvider('BatchDeleteView'),
