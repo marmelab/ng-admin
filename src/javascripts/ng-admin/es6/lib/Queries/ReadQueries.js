@@ -102,11 +102,12 @@ class ReadQueries extends Queries {
 
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * by calling the API for each entries
      *
-     * @param {Object} references A hash of Reference and ReferenceMany objects
+     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
      * @param {Array} rawValues
      *
-     * @returns {promise}
+     * @returns {Promise}
      */
     getFilteredReferenceData(references, rawValues) {
         if (!references.length) {
@@ -129,6 +130,15 @@ class ReadQueries extends Queries {
         return fillReferencedData(calls, references, rawValues);
     };
 
+    /**
+     * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * by calling the API once
+     *
+     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
+     * @param {Array} rawValues
+     *
+     * @returns {Promise}
+     */
     getOptimizedReferencedData(references, rawValues) {
         if (!references.length) {
             return this._promisesResolver.empty();
@@ -150,6 +160,14 @@ class ReadQueries extends Queries {
         return fillReferencedData(calls, references, rawValues);
     }
 
+    /**
+     * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * without filters on an entity
+     *
+     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
+     *
+     * @returns {Promise}
+     */
     getAllReferencedData(references) {
         if (!references.length) {
             return this._promisesResolver.empty();
@@ -168,7 +186,7 @@ class ReadQueries extends Queries {
     }
 
     /**
-     * Fill all reference entries
+     * Fill all reference entries to return [{targetEntity.identifier: targetLabel}, ...]
      *
      * @param {[Promise]} apiCalls
      * @param {[Reference]} references
