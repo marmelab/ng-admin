@@ -28,10 +28,10 @@ define(function (require) {
 
     CrudModule.service('EntryFormatter', require('ng-admin/Crud/misc/EntryFormatter'));
     CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
-    CrudModule.service('RetrieveQueries', require('ng-admin/Crud/repository/RetrieveQueries'));
-    CrudModule.service('CreateQueries', require('ng-admin/Crud/repository/CreateQueries'));
-    CrudModule.service('UpdateQueries', require('ng-admin/Crud/repository/UpdateQueries'));
-    CrudModule.service('DeleteQueries', require('ng-admin/Crud/repository/DeleteQueries'));
+    CrudModule.service('ReadQueries', require('ng-admin/Crud/repository/ReadQueries'));
+    CrudModule.service('WriteQueries', require('ng-admin/Crud/repository/WriteQueries'));
+
+    CrudModule.service('RestWrapper', require('ng-admin/Crud/misc/RestWrapper'));
 
     CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
 

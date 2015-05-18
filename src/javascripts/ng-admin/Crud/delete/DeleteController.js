@@ -3,10 +3,10 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $location, DeleteQueries, notification, params, view, entry) {
+    var DeleteController = function ($scope, $location, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$location = $location;
-        this.DeleteQueries = DeleteQueries;
+        this.WriteQueries = WriteQueries;
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = view;
@@ -26,7 +26,7 @@ define(function () {
             $location = this.$location,
             entityLabel = this.entityLabel;
 
-        this.DeleteQueries.deleteOne(this.view, this.entityId).then(function () {
+        this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
             $location.path(entityLabel + '/list');
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
@@ -47,12 +47,12 @@ define(function () {
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$location = undefined;
-        this.DeleteQueries = undefined;
+        this.WriteQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$location', 'DeleteQueries', 'notification', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$location', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
 
     return DeleteController;
 });

@@ -64,19 +64,19 @@ define(function (require) {
                 resolve: {
                     dataStore: dataStoreProvider(),
                     view: viewProvider('ListView'),
-                    response: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
+                    response: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                         var page = $stateParams.page,
                             filters = $stateParams.search,
                             sortField = $stateParams.sortField,
                             sortDir = $stateParams.sortDir;
 
-                        return RetrieveQueries.getAll(view, page, filters, sortField, sortDir);
+                        return ReadQueries.getAll(view, page, filters, sortField, sortDir);
                     }],
                     totalItems: ['response', function (response) {
                         return response.totalItems;
                     }],
-                    referencedData: ['RetrieveQueries', 'view', 'response', function (RetrieveQueries, view, response) {
-                        return RetrieveQueries.getReferencedData(view.getReferences(), response.data);
+                    referencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                        return ReadQueries.getReferencedData(view.getReferences(), response.data);
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -117,8 +117,8 @@ define(function (require) {
 
                         return true;
                     }],
-                    filterData: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedData(view.getFilterReferences());
+                    filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
+                        return ReadQueries.getReferencedData(view.getFilterReferences());
                     }],
                     filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
                         var filters = view.getFilterReferences();
@@ -159,8 +159,8 @@ define(function (require) {
                 resolve: {
                     dataStore: dataStoreProvider(),
                     view: viewProvider('ShowView'),
-                    rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
+                    rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
+                        return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }],
                     entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
                         return dataStore.mapEntry(
@@ -170,8 +170,8 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    referencedData: ['RetrieveQueries', 'view', 'entry', function (RetrieveQueries, view, entry) {
-                        return RetrieveQueries.getReferencedData(view.getReferences(), [entry.values]);
+                    referencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getReferencedData(view.getReferences(), [entry.values]);
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -193,12 +193,12 @@ define(function (require) {
 
                         return true;
                     }],
-                    referencedListData: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
+                    referencedListData: ['$stateParams', 'ReadQueries', 'view', 'entry', function ($stateParams, ReadQueries, view, entry) {
                         var referencedLists = view.getReferencedLists();
                         var sortField = $stateParams.sortField;
                         var sortDir = $stateParams.sortDir;
 
-                        return RetrieveQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
+                        return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                     }],
                     referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
                         var referencedLists = view.getReferencedLists();
@@ -247,8 +247,8 @@ define(function (require) {
 
                         return entry;
                     }],
-                    referencedData: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedData(view.getReferences());
+                    referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
+                        return ReadQueries.getReferencedData(view.getReferences());
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -289,8 +289,8 @@ define(function (require) {
                 resolve: {
                     dataStore: dataStoreProvider(),
                     view: viewProvider('EditView'),
-                    rawEntry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
+                    rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
+                        return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }],
                     entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
                         return dataStore.mapEntry(
@@ -300,8 +300,8 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    referencedData: ['RetrieveQueries', 'view', function (RetrieveQueries, view) {
-                        return RetrieveQueries.getReferencedData(view.getReferences());
+                    referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
+                        return ReadQueries.getReferencedData(view.getReferences());
                     }],
                     referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
                         var references = view.getReferences();
@@ -323,12 +323,12 @@ define(function (require) {
 
                         return true;
                     }],
-                    referencedListData: ['$stateParams', 'RetrieveQueries', 'view', 'entry', function ($stateParams, RetrieveQueries, view, entry) {
+                    referencedListData: ['$stateParams', 'ReadQueries', 'view', 'entry', function ($stateParams, ReadQueries, view, entry) {
                         var referencedLists = view.getReferencedLists();
                         var sortField = $stateParams.sortField;
                         var sortDir = $stateParams.sortDir;
 
-                        return RetrieveQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
+                        return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                     }],
                     referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
                         var referencedLists = view.getReferencedLists();
@@ -373,8 +373,8 @@ define(function (require) {
                     params: ['$stateParams', function ($stateParams) {
                         return $stateParams;
                     }],
-                    entry: ['$stateParams', 'RetrieveQueries', 'view', function ($stateParams, RetrieveQueries, view) {
-                        return RetrieveQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
+                    entry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
+                        return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                     }]
                 }
             });

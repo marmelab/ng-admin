@@ -3,13 +3,13 @@
 define(function () {
     'use strict';
 
-    var BatchDeleteController = function ($scope, $state, $stateParams, $location, $window, DeleteQueries, notification, view) {
+    var BatchDeleteController = function ($scope, $state, $stateParams, $location, $window, WriteQueries, notification, view) {
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
         this.$location = $location;
         this.$window = $window;
-        this.DeleteQueries = DeleteQueries;
+        this.WriteQueries = WriteQueries;
         this.notification = notification;
         this.view = view;
         this.entity = view.getEntity();
@@ -29,7 +29,7 @@ define(function () {
             $state = this.$state,
             entityName = this.entity.name();
 
-        this.DeleteQueries.batchDelete(this.view, this.entityIds).then(function () {
+        this.WriteQueries.batchDelete(this.view, this.entityIds).then(function () {
             $state.go($state.get('list'), { 'entity': entityName });
             notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
@@ -53,10 +53,10 @@ define(function () {
         this.$stateParams = undefined;
         this.$location = undefined;
         this.$window = undefined;
-        this.DeleteQueries = undefined;
+        this.WriteQueries = undefined;
     };
 
-    BatchDeleteController.$inject = ['$scope', '$state', '$stateParams', '$location', '$window', 'DeleteQueries', 'notification', 'view'];
+    BatchDeleteController.$inject = ['$scope', '$state', '$stateParams', '$location', '$window', 'WriteQueries', 'notification', 'view'];
 
     return BatchDeleteController;
 });

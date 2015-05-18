@@ -3,13 +3,12 @@
 define(function () {
     'use strict';
 
-    var FormController = function ($scope, $state, CreateQueries, UpdateQueries, Configuration,
+    var FormController = function ($scope, $state, WriteQueries, Configuration,
                                    progression, notification, view, dataStore) {
 
         this.$scope = $scope;
         this.$state = $state;
-        this.CreateQueries = CreateQueries;
-        this.UpdateQueries = UpdateQueries;
+        this.WriteQueries = WriteQueries;
         this.dataStore = dataStore;
         this.progression = progression;
         this.notification = notification;
@@ -84,7 +83,7 @@ define(function () {
             notification = this.notification,
             $state = this.$state;
         progression.start();
-        this.CreateQueries
+        this.WriteQueries
             .createOne(this.view, entry)
             .then(function (rawEntry) {
                 var entry = this.dataStore.mapEntry(entity.name(), this.view.identifier(), this.view.getFields(), rawEntry);
@@ -103,7 +102,7 @@ define(function () {
         var progression = this.progression,
             notification = this.notification;
         progression.start();
-        this.UpdateQueries
+        this.WriteQueries
             .updateOne(this.view, entry, this.originEntityId)
             .then(function () {
                 progression.done();
@@ -126,14 +125,13 @@ define(function () {
     FormController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$state = undefined;
-        this.CreateQueries = undefined;
-        this.UpdateQueries = undefined;
+        this.WriteQueries = undefined;
         this.dataStore = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    FormController.$inject = ['$scope', '$state', 'CreateQueries', 'UpdateQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+    FormController.$inject = ['$scope', '$state', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
 
     return FormController;
 });

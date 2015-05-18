@@ -23,7 +23,7 @@ class ReferencedListField extends ReferenceField {
     }
 
     getGridColumns() {
-        var columns = [];
+        let columns = [];
         for (let i = 0, l = this._targetFields.length ; i < l ; i++) {
             let field = this._targetFields[i];
             columns.push({

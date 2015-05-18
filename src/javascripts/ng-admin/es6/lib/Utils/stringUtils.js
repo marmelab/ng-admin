@@ -8,7 +8,7 @@ export default {
             return text;
         }
 
-        var f = text.charAt(0).toUpperCase();
+        let f = text.charAt(0).toUpperCase();
         text = f + text.substr(1);
 
         return text.replace(/[-_](.)/g, function (match, group1) {

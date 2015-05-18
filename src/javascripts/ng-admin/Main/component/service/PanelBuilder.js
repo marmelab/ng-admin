@@ -6,16 +6,16 @@ define(function () {
     /**
      * @param {$q}                 $q
      * @param {$location}          $location
-     * @param {RetrieveQueries}    RetrieveQueries
+     * @param {ReadQueries}        ReadQueries
      * @param {Configuration}      Configuration
      * @param {AdminDescription}   AdminDescription
      *
      * @constructor
      */
-    function PanelBuilder($q, $location, RetrieveQueries, Configuration, AdminDescription) {
+    function PanelBuilder($q, $location, ReadQueries, Configuration, AdminDescription) {
         this.$q = $q;
         this.$location = $location;
-        this.RetrieveQueries = RetrieveQueries;
+        this.ReadQueries = ReadQueries;
         this.dataStore = AdminDescription.getDataStore();
         this.Configuration = Configuration();
     }
@@ -35,7 +35,7 @@ define(function () {
 
         for (i in dashboardViews) {
             dashboardView = dashboardViews[i];
-            promises.push(self.RetrieveQueries.getAll(dashboardView, 1, {}, dashboardView.getSortFieldName(), dashboardView.sortDir()));
+            promises.push(self.ReadQueries.getAll(dashboardView, 1, {}, dashboardView.getSortFieldName(), dashboardView.sortDir()));
         }
 
         return this.$q.all(promises).then(function (responses) {
@@ -68,7 +68,7 @@ define(function () {
         });
     };
 
-    PanelBuilder.$inject = ['$q', '$location', 'RetrieveQueries', 'NgAdminConfiguration', 'AdminDescription'];
+    PanelBuilder.$inject = ['$q', '$location', 'ReadQueries', 'NgAdminConfiguration', 'AdminDescription'];
 
     return PanelBuilder;
 });

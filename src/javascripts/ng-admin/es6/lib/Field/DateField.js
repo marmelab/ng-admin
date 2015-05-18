@@ -10,7 +10,8 @@ class DateField extends Field {
                 // in order to convert it back to date, we must remove the timezone, then
                 // remove hours and minutes
                 date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-                var dateString = date.toJSON();
+
+                let dateString = date.toJSON();
                 return dateString ? dateString.substr(0,10) : null;
             }
         };
