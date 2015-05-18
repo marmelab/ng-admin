@@ -17,15 +17,14 @@ define(function (require) {
             ];
 
             dataGridController = new DataGridController({
-                listActions: function() {},
+                listActions: function() {
+                    return [];
+                },
                 entity: function () {
                     return new Entity('my_entity');
                 },
                 entries: entries,
-                selection: [],
-                listActions: function () {
-                    return [];
-                }
+                selection: []
             }, {
                 search: function () {
                     return {};
