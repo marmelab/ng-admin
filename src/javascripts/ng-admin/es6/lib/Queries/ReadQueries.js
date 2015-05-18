@@ -104,14 +104,14 @@ class ReadQueries extends Queries {
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
      * by calling the API for each entries
      *
-     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
+     * @param {ReferenceField} references A hash of Reference and ReferenceMany objects
      * @param {Array} rawValues
      *
      * @returns {Promise}
      */
     getFilteredReferenceData(references, rawValues) {
-        if (!references.length) {
-            return this._promisesResolver.empty();
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
         }
 
         let getOne = this.getOne.bind(this),
@@ -127,7 +127,7 @@ class ReadQueries extends Queries {
             }
         }
 
-        return fillFilteredReferencedData(calls, references, rawValues);
+        return this.fillFilteredReferencedData(calls, references, rawValues);
     };
 
     /**
@@ -140,8 +140,8 @@ class ReadQueries extends Queries {
      * @returns {Promise}
      */
     getOptimizedReferencedData(references, rawValues) {
-        if (!references.length) {
-            return this._promisesResolver.empty();
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
         }
 
         let getRawValues = this.getRawValues.bind(this),
@@ -157,7 +157,7 @@ class ReadQueries extends Queries {
             calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
         }
 
-        return fillOptimizedReferencedData(calls, references);
+        return this.fillOptimizedReferencedData(calls, references);
     }
 
     /**
@@ -169,11 +169,12 @@ class ReadQueries extends Queries {
      * @returns {Promise}
      */
     getAllReferencedData(references) {
-        if (!references.length) {
-            return this._promisesResolver.empty();
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
         }
 
-        let calls = [];
+        let calls = [],
+            getRawValues = this.getRawValues.bind(this);
 
         for (let i in references) {
             let reference = references[i],
@@ -182,7 +183,7 @@ class ReadQueries extends Queries {
             calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
         }
 
-        return fillOptimizedReferencedData(calls, references);
+        return this.fillOptimizedReferencedData(calls, references);
     }
 
     /**

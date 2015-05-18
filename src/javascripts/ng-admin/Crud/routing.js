@@ -83,7 +83,7 @@ define(function (require) {
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
-                            referencedData = nonOptimizedReferencedData.concat(optimizedReferencedData),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                             referencedEntries;
 
                         for (var name in referencedData) {
@@ -182,7 +182,7 @@ define(function (require) {
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
-                            referencedData = nonOptimizedReferencedData.concat(optimizedReferencedData),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                             referencedEntries;
 
                         for (var name in referencedData) {
@@ -263,7 +263,7 @@ define(function (require) {
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
-                            referencedData = nonOptimizedReferencedData.concat(optimizedReferencedData),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                             referencedEntries;
 
                         for (var name in referencedData) {
@@ -320,7 +320,7 @@ define(function (require) {
                     }],
                     referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                         var references = view.getReferences(),
-                            referencedData = nonOptimizedReferencedData.concat(optimizedReferencedData),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                             referencedEntries;
 
                         for (var name in referencedData) {

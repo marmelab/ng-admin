@@ -137,11 +137,11 @@ class View {
     }
 
     getNonOptimizedReferences() {
-        return getReferences().filter(r => !r.getSingleApiCall());
+        return this._getReferencesByOptimizationType(false);
     }
 
     getOptimizedReferences() {
-        return getReferences().filter(r => !!r.getSingleApiCall());
+        return this._getReferencesByOptimizationType(true);
     }
 
     getReferencedLists() {
@@ -238,6 +238,27 @@ class View {
                 validation.validator(entry.values[field.name()]);
             }
         });
+    }
+
+    /**
+     *
+     * @param {Boolean} optimized
+     * @returns {[Reference]}
+     * @private
+     */
+    _getReferencesByOptimizationType(optimized=true) {
+        let result = {},
+            references = this.getReferences();
+
+        for (let i in references) {
+            let reference = references[i];
+
+            if (!!reference.getSingleApiCall() === optimized) {
+                result[i] = reference;
+            }
+        }
+
+        return result;
     }
 }
 
