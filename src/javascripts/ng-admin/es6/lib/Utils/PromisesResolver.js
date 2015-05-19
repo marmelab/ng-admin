@@ -1,5 +1,11 @@
 
 class PromisesResolver {
+    static empty(value) {
+        return new Promise((resolve) => {
+            resolve(value);
+        });
+    }
+
     static allEvenFailed(promises) {
         if (!Array.isArray(promises)) {
             throw Error('allEvenFailed can only handle an array of promises');

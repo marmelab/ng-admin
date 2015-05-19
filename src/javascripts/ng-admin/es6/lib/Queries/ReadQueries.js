@@ -34,7 +34,10 @@ class ReadQueries extends Queries {
         page = page || 1;
         let url = view.getUrl();
 
-        return this.getRawValues(view.entity, view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField || view.getSortFieldName(), sortDir || view.sortDir(), url)
+        sortField = sortField || view.getSortFieldName();
+        sortDir = sortDir || view.sortDir();
+
+        return this.getRawValues(view.entity, view.name(), view.type, page, view.perPage(), filters, view.filters(), sortField, sortDir, url)
             .then((values) => {
                 return {
                     data: values.data,
@@ -63,16 +66,19 @@ class ReadQueries extends Queries {
     getRawValues(entity, viewName, viewType, page, perPage, filterValues, filterFields, sortField, sortDir, url) {
         let params = {};
 
+        // Compute pagination
         if (page !== -1) {
             params._page = (typeof (page) === 'undefined') ? 1 : parseInt(page, 10);
             params._perPage = perPage;
         }
 
+        // Compute sorting
         if (sortField && sortField.split('.')[0] === viewName) {
             params._sortField = sortField.split('.')[1];
             params._sortDir = sortDir;
         }
 
+        // Compute filtering
         if (filterValues && Object.keys(filterValues).length !== 0) {
             params._filters = {};
             let filterName;
@@ -96,47 +102,134 @@ class ReadQueries extends Queries {
 
     /**
      * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * by calling the API for each entries
      *
-     * @param {Object} references A hash of Reference and ReferenceMany objects
+     * @param {ReferenceField} references A hash of Reference and ReferenceMany objects
      * @param {Array} rawValues
      *
-     * @returns {promise}
+     * @returns {Promise}
      */
-    getReferencedData(references, rawValues) {
-        let getRawValues = this.getRawValues.bind(this),
-            getOne = this.getOne.bind(this),
-            identifiers,
-            calls = [],
-            data;
+    getFilteredReferenceData(references, rawValues) {
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
+        }
+
+        let getOne = this.getOne.bind(this),
+            calls = [];
 
         for (let i in references) {
             let reference = references[i],
-                targetEntity = reference.targetEntity();
-
-            if (!rawValues) {
-                calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
-
-                continue;
-            }
-
-            // get only for identifiers
-            identifiers = reference.getIdentifierValues(rawValues);
-
-            // Check if we should retrieve values with 1 or multiple requests
-            if (reference.hasSingleApiCall()) {
-                let singleCallFilters = reference.getSingleApiCall(identifiers);
-                calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
-
-                continue;
-            }
+                targetEntity = reference.targetEntity(),
+                identifiers = reference.getIdentifierValues(rawValues);
 
             for (let k in identifiers) {
                 calls.push(getOne(targetEntity, 'listView', identifiers[k], reference.name()));
             }
         }
 
-        // Fill all reference entries
-        return this._promisesResolver.allEvenFailed(calls)
+        return this.fillFilteredReferencedData(calls, references, rawValues);
+    };
+
+    /**
+     * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * by calling the API once
+     *
+     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
+     * @param {Array} rawValues
+     *
+     * @returns {Promise}
+     */
+    getOptimizedReferencedData(references, rawValues) {
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
+        }
+
+        let getRawValues = this.getRawValues.bind(this),
+            calls = [];
+
+        for (let i in references) {
+            let reference = references[i],
+                targetEntity = reference.targetEntity(),
+                identifiers = reference.getIdentifierValues(rawValues);
+
+            // Check if we should retrieve values with 1 or multiple requests
+            let singleCallFilters = reference.getSingleApiCall(identifiers);
+            calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
+        }
+
+        return this.fillOptimizedReferencedData(calls, references);
+    }
+
+    /**
+     * Returns all References for an entity with associated values [{targetEntity.identifier: targetLabel}, ...]
+     * without filters on an entity
+     *
+     * @param {[ReferenceField]} references A hash of Reference and ReferenceMany objects
+     *
+     * @returns {Promise}
+     */
+    getAllReferencedData(references) {
+        if (!references || !Object.keys(references).length) {
+            return this._promisesResolver.empty({});
+        }
+
+        let calls = [],
+            getRawValues = this.getRawValues.bind(this);
+
+        for (let i in references) {
+            let reference = references[i],
+                targetEntity = reference.targetEntity();
+
+            calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), reference.filters(), {}, reference.sortField(), reference.sortDir()));
+        }
+
+        return this.fillOptimizedReferencedData(calls, references);
+    }
+
+    /**
+     * Fill all reference entries to return [{targetEntity.identifier: targetLabel}, ...]
+     *
+     * @param {[Promise]} apiCalls
+     * @param {[Reference]} references
+     * @returns {Promise}
+     */
+    fillOptimizedReferencedData(apiCalls, references) {
+        return this._promisesResolver.allEvenFailed(apiCalls)
+            .then((responses) => {
+                if (responses.length === 0) {
+                    return {};
+                }
+
+                let referencedData = {},
+                    i = 0;
+
+                for (let j in references) {
+                    let reference = references[j],
+                        response = responses[i++];
+
+                    // Retrieve entries depending on 1 or many request was done
+                    if (response.status == 'error') {
+                        // the response failed
+                        continue;
+                    }
+
+                    referencedData[reference.name()] = response.result.data;
+                }
+
+                return referencedData;
+            });
+    }
+
+    /**
+     * Fill all reference entries to return [{targetEntity.identifier: targetLabel}, ...]
+     *
+     * @param {[Promise]} apiCalls
+     * @param {[Reference]} references
+     * @param {[Object]} rawValues
+     * @returns {Promise}
+     */
+    fillFilteredReferencedData(apiCalls, references, rawValues) {
+        return this._promisesResolver.allEvenFailed(apiCalls)
             .then((responses) => {
                 if (responses.length === 0) {
                     return {};
@@ -147,24 +240,10 @@ class ReadQueries extends Queries {
                     i = 0;
 
                 for (let j in references) {
-                    let reference = references[j],
-                        singleCallFilters = reference.getSingleApiCall(identifiers);
+                    let data = [],
+                        reference = references[j],
+                        identifiers = reference.getIdentifierValues(rawValues);
 
-                    // Retrieve entries depending on 1 or many request was done
-                    if (singleCallFilters || !rawValues) {
-                        response = responses[i++];
-                        if (response.status == 'error') {
-                            // the response failed
-                            continue;
-                        }
-
-                        referencedData[reference.name()] = response.result.data;
-
-                        continue;
-                    }
-
-                    data = [];
-                    identifiers = reference.getIdentifierValues(rawValues);
                     for (let k in identifiers) {
                         response = responses[i++];
                         if (response.status == 'error') {
@@ -183,7 +262,7 @@ class ReadQueries extends Queries {
 
                 return referencedData;
             });
-    };
+    }
 
     /**
      * Returns all ReferencedList for an entity for associated values [{targetEntity.identifier: [targetFields, ...]}}
@@ -217,7 +296,7 @@ class ReadQueries extends Queries {
                 for (let i in referencedLists) {
                     let response = responses[j++];
                     if (response.status == 'error') {
-                        // one of the responses failed
+                        // If a response fail, skip it
                         continue;
                     }
 

@@ -75,12 +75,16 @@ define(function (require) {
                     totalItems: ['response', function (response) {
                         return response.totalItems;
                     }],
-                    referencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                        return ReadQueries.getReferencedData(view.getReferences(), response.data);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
                     }],
-                    referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
-                        var references = view.getReferences();
-                        var referencedEntries;
+                    optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
+                    }],
+                    referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        var references = view.getReferences(),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                            referencedEntries;
 
                         for (var name in referencedData) {
                             referencedEntries = dataStore.mapEntries(
@@ -118,7 +122,7 @@ define(function (require) {
                         return true;
                     }],
                     filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getFilterReferences());
+                        return ReadQueries.getAllReferencedData(view.getFilterReferences());
                     }],
                     filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
                         var filters = view.getFilterReferences();
@@ -170,12 +174,16 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    referencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
-                        return ReadQueries.getReferencedData(view.getReferences(), [entry.values]);
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
-                        var references = view.getReferences();
-                        var referencedEntries;
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
+                    }],
+                    referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        var references = view.getReferences(),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                            referencedEntries;
 
                         for (var name in referencedData) {
                             referencedEntries = dataStore.mapEntries(
@@ -247,12 +255,16 @@ define(function (require) {
 
                         return entry;
                     }],
-                    referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getReferences());
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
-                        var references = view.getReferences();
-                        var referencedEntries;
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
+                    }],
+                    referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        var references = view.getReferences(),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                            referencedEntries;
 
                         for (var name in referencedData) {
                             referencedEntries = dataStore.mapEntries(
@@ -300,13 +312,17 @@ define(function (require) {
                             rawEntry
                         );
                     }],
-                    referencedData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                        return ReadQueries.getReferencedData(view.getReferences());
+                    nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
                     }],
-                    referencedEntries: ['dataStore', 'view', 'referencedData', function (dataStore, view, referencedData) {
-                        var references = view.getReferences();
+                    optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                        return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
+                    }],
+                    referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        var references = view.getReferences(),
+                            referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                            referencedEntries;
 
-                        var referencedEntries;
                         for (var name in referencedData) {
                             referencedEntries = dataStore.mapEntries(
                                 references[name].targetEntity().name(),
@@ -388,7 +404,7 @@ define(function (require) {
                 templateProvider: templateProvider('BatchDeleteView', batchDeleteTemplate),
                 params: {
                     entity: null,
-                    ids: [],
+                    ids: []
                 },
                 resolve: {
                     view: viewProvider('BatchDeleteView'),
