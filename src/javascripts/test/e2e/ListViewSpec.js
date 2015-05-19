@@ -30,7 +30,7 @@ xdescribe('ListView', function () {
         });
     });
 
-    describe('ma-list-button', function () {
+    xdescribe('ma-list-button', function () {
         var listUrl;
 
         beforeEach(function() {
@@ -38,7 +38,7 @@ xdescribe('ListView', function () {
             browser.get(listUrl);
         });
 
-        it('should restore the list with filter when used from edit', function () {
+        xit('should restore the list with filter when used from edit', function () {
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
                 $$('ma-edit-button a').then(function (elements) {
                     expect(elements[0].getText()).toBe(' Edit');
@@ -52,7 +52,7 @@ xdescribe('ListView', function () {
             });
         });
 
-        it('should restore the list with filter when used from delete', function () {
+        xit('should restore the list with filter when used from delete', function () {
             browser.get(listUrl);
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
 
