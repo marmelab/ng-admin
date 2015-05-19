@@ -5,6 +5,7 @@ global.numeral = require('numeral');
 require('angular-ui-router');
 require('angular-sanitize');
 require('angular-ui-codemirror');
+require('nginflection');
 require('textangular');
 
 require('../../node_modules/angular-numeraljs/dist/angular-numeraljs');

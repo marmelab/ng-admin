@@ -6,51 +6,34 @@ module.exports = function (grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
         copy: {
-            css_dev: {
-                src: 'build/ng-admin.min.css',
-                dest: 'examples/blog/build/ng-admin.css',
+            test_build: {
+                src: 'build/*',
+                dest: 'src/javascripts/test/fixtures/examples/blog/'
+            },
+            test_sample_app: {
+                src: 'examples/blog/*',
+                dest: 'src/javascripts/test/fixtures/',
                 options: {
                     process: function(content) {
-                        return content.replace(/url\("\.\.\/src\/javascripts\/bower_components\/bootstrap-sass-official\/assets\/fonts\/bootstrap/g, 'url(".');
+                        return content.replace(/http\:\/\/localhost\:8080\//g, '/');
                     }
                 }
-            },
-            fonts_dev: {
-                cwd: 'src/javascripts/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/',
-                src: ['**'],
-                dest: 'examples/blog/build/',
-                expand: true
-            },
-            assets_dev: {
-                cwd: 'assets/',
-                src: ['**'],
-                dest: 'examples/blog/assets/',
-                expand: true
-            },
-            js_dev: {
-                src: 'build/ng-admin.min.js',
-                dest: 'examples/blog/build/ng-admin.js'
-            },
-            css: {
-                src: 'build/ng-admin.min.css',
-                dest: 'examples/blog/build/ng-admin.min.css',
-                options: {
-                    process: function(content) {
-                        return content.replace(/url\("\.\.\/src\/javascripts\/bower_components\/bootstrap-sass-official\/assets\/fonts\/bootstrap/g, 'url(".');
-                    }
-                }
-            },
-            angular: {
-                src: 'src/javascripts/bower_components/angular/angular.js',
-                dest: 'examples/blog/build/angular.js'
             }
         },
         connect: {
-            server: {
+            dev: {
                 options: {
                     port: 8000,
                     base: 'examples/blog/',
-                    keepalive: true,
+                    keepalive: false,
+                    livereload: false
+                }
+            },
+            test: {
+                options: {
+                    port: 8000,
+                    base: 'src/javascripts/test/fixtures/examples/blog/',
+                    keepalive: false,
                     livereload: false
                 }
             }
@@ -84,21 +67,27 @@ module.exports = function (grunt) {
                 },
                 src: ['src/javascripts/ng-admin/es6/tests/**/*.js']
             }
+        },
+        exec: {
+            webpack: './node_modules/webpack/bin/webpack.js',
+            webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors'
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-protractor-runner');
     grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['mochaTest', 'karma', 'build', 'copy_build', 'connect', 'protractor']);
-    grunt.registerTask('copy_build', ['copy:config', 'copy:angular', 'copy:js_dev', 'copy:css', 'copy:fonts_dev']);
+    grunt.registerTask('test', ['mochaTest', 'karma', 'test:e2e']);
+    grunt.registerTask('test:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
+    grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build']);
 
-    grunt.registerTask('test:local', ['mochaTest', 'karma', 'copy_build:dev', 'test:local:e2e']);
-    grunt.registerTask('test:local:e2e', ['json_server', 'connect', 'protractor']);
+    grunt.registerTask('test:local', ['mochaTest', 'karma', 'test:local:e2e']);
+    grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
 
-    grunt.registerTask('default', ['copy:angular', 'json_server', 'connect']);
+    grunt.registerTask('default', ['json_server', 'connect:dev', 'exec:webpack_watch']);
 };
