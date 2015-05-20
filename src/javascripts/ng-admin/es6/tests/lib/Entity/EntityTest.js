@@ -46,10 +46,13 @@ describe('Entity', function() {
         it('should set read-only attribute', function() {
             entity.readOnly();
             assert.equal(true, entity.isReadOnly);
-        }) ;
+        });
 
         it('should disable all edition views', function() {
             entity.readOnly();
+            entity.views.ListView.enable();
+            entity.views.DashboardView.enable();
+
             assert.equal(true, entity.menuView().enabled);
             assert.equal(true, entity.dashboardView().enabled);
             assert.equal(true, entity.listView().enabled);

@@ -18,7 +18,7 @@ class View {
     }
 
     get enabled() {
-        return this._enabled || this._fields.length;
+        return this._enabled || !!this._fields.length;
     }
 
     title(title) {
@@ -47,10 +47,14 @@ class View {
 
     disable() {
         this._enabled = false;
+
+        return this;
     }
 
     enable() {
         this._enabled = true;
+
+        return this;
     }
 
     /**

@@ -7,6 +7,10 @@ class MenuView extends View {
         this._icon = null;
     }
 
+    get enabled() {
+        return this._enabled || this.entity.views['ListView'].enabled;
+    }
+
     icon() {
         if (arguments.length) {
             console.warn('entity.menuView() is deprecated. Please use the Menu class instead');
