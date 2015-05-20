@@ -32,7 +32,7 @@ define(function (require) {
                 error404.status = 404; // trigger the 404 error
                 throw error404;
             }
-            if (!view.isEnabled()) {
+            if (!view.enabled) {
                 throw new Error('The ' + viewName + ' is disabled for this entity');
             }
             return view;
