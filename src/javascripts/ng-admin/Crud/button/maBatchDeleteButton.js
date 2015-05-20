@@ -17,9 +17,13 @@ define(function () {
                 $scope.gotoBatchDelete = function () {
                     var entity = $scope.entity();
                     var ids = $scope.selection().map(function(entry) {
-                        return entry.identifierValue
+                        return entry.identifierValue;
                     });
-                    $state.go('batchDelete', { ids: ids, entity: entity.name() });
+
+                    $state.go('batchDelete', angular.extend({
+                        ids: ids,
+                        entity: $scope.entity().name()
+                    }, $state.params));
                 };
             },
             template:

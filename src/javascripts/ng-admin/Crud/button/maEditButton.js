@@ -14,9 +14,12 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'Edit';
-
                 scope.gotoEdit = function () {
-                    $state.go($state.get('edit'), { entity: scope.entity().name(), id: scope.entry().identifierValue });
+                    $state.go($state.get('edit'),
+                    angular.extend({
+                        entity: scope.entity().name(),
+                        id: scope.entry().identifierValue
+                    }, $state.params));
                 };
             },
             template:

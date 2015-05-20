@@ -15,7 +15,7 @@ define(function () {
                 scope.label = scope.label || 'Create';
 
                 scope.gotoCreate = function () {
-                    $state.go($state.get('create'), { 'entity': scope.entity().name() });
+                    $state.go($state.get('create'), angular.extend({entity: scope.entity().name()}, $state.params));
                 };
             },
             template:

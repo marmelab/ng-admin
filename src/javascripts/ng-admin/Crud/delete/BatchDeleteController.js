@@ -3,17 +3,15 @@
 define(function () {
     'use strict';
 
-    var BatchDeleteController = function ($scope, $state, $stateParams, $location, $window, WriteQueries, notification, view) {
+    var BatchDeleteController = function ($scope, $state, WriteQueries, notification, view) {
+
         this.$scope = $scope;
         this.$state = $state;
-        this.$stateParams = $stateParams;
-        this.$location = $location;
-        this.$window = $window;
         this.WriteQueries = WriteQueries;
         this.notification = notification;
         this.view = view;
         this.entity = view.getEntity();
-        this.entityIds = $stateParams.ids;
+        this.entityIds = $state.params.ids;
         this.selection = []; // fixme: query db to get selection
         this.title = view.title();
         this.description = view.description();
@@ -30,7 +28,9 @@ define(function () {
             entityName = this.entity.name();
 
         this.WriteQueries.batchDelete(this.view, this.entityIds).then(function () {
-            $state.go($state.get('list'), { 'entity': entityName });
+            $state.go($state.get('list'), angular.extend({
+                entity: entityName
+            }, $state.params));
             notification.log('Elements successfully deleted.', { addnCls: 'humane-flatty-success' });
         }, function (response) {
             // @TODO: share this method when splitting controllers
@@ -44,19 +44,19 @@ define(function () {
     };
 
     BatchDeleteController.prototype.back = function () {
-        this.$window.history.back();
+
+        this.$state.go(this.$state.get('list'), angular.extend({
+            entity: this.entity().name()
+        }, this.$state.params));
     };
 
     BatchDeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$state = undefined;
-        this.$stateParams = undefined;
-        this.$location = undefined;
-        this.$window = undefined;
         this.WriteQueries = undefined;
     };
 
-    BatchDeleteController.$inject = ['$scope', '$state', '$stateParams', '$location', '$window', 'WriteQueries', 'notification', 'view'];
+    BatchDeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'view'];
 
     return BatchDeleteController;
 });

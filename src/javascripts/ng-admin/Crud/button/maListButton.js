@@ -5,7 +5,7 @@ define(function () {
 
     /**
      * Link to list
-     * 
+     *
      * Usage:
      * <ma-list-button entity="entity" size="xs"></ma-list-button>
      */
@@ -19,9 +19,18 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'List';
+                var parentEntityName = scope.$parent.entity ? scope.$parent.entity.name() : null;
+                var entityName = scope.entity().name();
+
+                var params = {
+                    entity: entityName
+                };
+                if (entityName === parentEntityName) {
+                    angular.extend(params, $state.params);
+                }
 
                 scope.gotoList = function () {
-                    $state.go($state.get('list'), { 'entity': scope.entity().name() });
+                    $state.go($state.get('list'), params);
                 };
             },
             template:
