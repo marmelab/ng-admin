@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <ma-view-actions override="::deleteController.actions" entry="::entry" entity="::deleteController.entity">
-            <ma-list-button entity="::entity"></ma-list-button>
+            <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
         </ma-view-actions>
 
         <div class="page-header">
