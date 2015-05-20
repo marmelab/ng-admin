@@ -15,7 +15,7 @@ define(function (require) {
             var referenceEntity = field.targetEntity().name();
             var relatedEntity = Configuration().getEntity(referenceEntity);
             if (!relatedEntity) return false;
-            return relatedEntity.isReadOnly ? relatedEntity.showView().isEnabled() : relatedEntity.editionView().isEnabled();
+            return relatedEntity.isReadOnly ? relatedEntity.showView().enabled : relatedEntity.editionView().enabled;
         };
 
         return {

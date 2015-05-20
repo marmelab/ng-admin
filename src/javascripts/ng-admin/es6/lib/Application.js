@@ -101,7 +101,8 @@ class Application {
                 this._menu = this.buildMenuFromEntities();
             }
             return this._menu
-        };
+        }
+
         this._menu = menu;
         return this;
     }

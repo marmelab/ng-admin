@@ -8,7 +8,7 @@ class View {
         this._description = '';
         this._template = null;
 
-        this._enabled = true;
+        this._enabled = false;
         this._fields = [];
         this._type = null;
         this._name = name;
@@ -18,7 +18,7 @@ class View {
     }
 
     get enabled() {
-        return this._enabled;
+        return this._enabled || !!this._fields.length;
     }
 
     title(title) {
@@ -47,17 +47,21 @@ class View {
 
     disable() {
         this._enabled = false;
+
+        return this;
     }
 
     enable() {
         this._enabled = true;
+
+        return this;
     }
 
     /**
      * @deprecated Use getter "enabled" instead
      */
     isEnabled() {
-        return this._enabled;
+        return this.enabled;
     }
 
     /**

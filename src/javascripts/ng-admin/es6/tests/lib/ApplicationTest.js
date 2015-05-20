@@ -102,10 +102,16 @@ describe('Application', function() {
         });
 
         it('should return only views of type', () => {
-            let application = new Application();
+            let application = new Application(),
+                post = new Entity('post'),
+                comment = new Entity('comment');
+
+            post.views["DashboardView"].enable();
+            comment.views["DashboardView"].enable();
+
             application
-                .addEntity(new Entity('post'))
-                .addEntity(new Entity('comment'));
+                .addEntity(post)
+                .addEntity(comment);
 
             let views = application.getViewsOfType('DashboardView');
 
@@ -121,9 +127,13 @@ describe('Application', function() {
         it('should return only enabled views of type', () => {
             let application = new Application();
             let comment = new Entity('comment');
+            let post = new Entity('post');
+
             comment.views.DashboardView.disable();
+            post.views.DashboardView.enable();
+
             application
-                .addEntity(new Entity('post'))
+                .addEntity(post)
                 .addEntity(comment);
 
             let views = application.getViewsOfType('DashboardView');
@@ -135,6 +145,11 @@ describe('Application', function() {
         it('should return ordered views of type', function() {
             let application = new Application();
             let [post, comment, tag] = [new Entity('post'), new Entity('comment'), new Entity('tag')];
+
+            post.views["DashboardView"].enable();
+            comment.views["DashboardView"].enable();
+            tag.views["DashboardView"].enable();
+
             post.views.DashboardView.order(2);
             comment.views.DashboardView.order(1);
             tag.views.DashboardView.order(3);
@@ -165,10 +180,17 @@ describe('Application', function() {
 
     describe('buildMenuFromEntities', () => {
         it('should create a menu based on the entity list', () => {
-            let application = new Application();
+            let application = new Application(),
+                comment = new Entity('comment'),
+                post = new Entity('post');
+
+            comment.views.ListView.enable();
+            post.views.ListView.enable();
+
             application
-                .addEntity(new Entity('post'))
-                .addEntity(new Entity('comment'));
+                .addEntity(post)
+                .addEntity(comment);
+
             let menu = application.buildMenuFromEntities();
             assert.equal(2, menu.children().length);
             let [menu1, menu2] = menu.children();
@@ -178,9 +200,15 @@ describe('Application', function() {
         it('should use the menuView order when provided', () => {
             let application = new Application();
             let [e1, e2, e3] = [new Entity('e1'), new Entity('e2'), new Entity('e3')];
+
             e1.menuView().order(2);
             e2.menuView().order(1);
             e3.menuView().order(3);
+
+            e1.views.ListView.enable();
+            e2.views.ListView.enable();
+            e3.views.ListView.enable();
+
             application
                 .addEntity(e1)
                 .addEntity(e2)
