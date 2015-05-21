@@ -25,12 +25,13 @@ define(function (require) {
      * @returns {promise} the updated object
      */
     UpdateQueries.prototype.updateOne = function (view, rawEntity, originEntityId) {
-        var entityId = originEntityId || rawEntity[view.getEntity().identifier().name()];
+        var entityId = originEntityId || rawEntity[view.getEntity().identifier().name()],
+            method = view.entity.updateMethod(),
+            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier())),
+            operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPUT(rawEntity);
 
         // Get element data
-        return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier()))
-            .customPUT(rawEntity)
+        return operation
             .then(function (response) {
                 return response.data;
             });

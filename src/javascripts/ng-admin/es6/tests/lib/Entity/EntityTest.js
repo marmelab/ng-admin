@@ -58,4 +58,28 @@ describe('Entity', function() {
             assert.equal(false, entity.deletionView().enabled);
         });
     })
+
+    describe('createMethod', function() {
+        it('should return given createMethod if already set', function() {
+            var post = new Entity('post').createMethod('PUT');
+            assert.equal('PUT', post.createMethod());
+        });
+
+        it('should return null if no createMethod has been set', function() {
+            var post = new Entity('post');
+            assert.equal(null, post.createMethod());
+        });
+    });
+
+    describe('updateMethod', function() {
+        it('should return given updateMethod if already set', function() {
+            var post = new Entity('post').updateMethod('POST');
+            assert.equal('POST', post.updateMethod());
+        });
+
+        it('should return null if no updateMethod has been set', function() {
+            var post = new Entity('post');
+            assert.equal(null, post.updateMethod());
+        });
+    });
 });

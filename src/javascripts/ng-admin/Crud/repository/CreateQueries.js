@@ -24,12 +24,14 @@ define(function (require) {
      * @returns {promise}  the new object
      */
     CreateQueries.prototype.createOne = function (view, rawEntity) {
-        return this.Restangular
-            .oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type))
-            .customPOST(rawEntity)
-            .then(function (response) {
-                return response.data;
-            });
+
+        var method = view.entity.createMethod(),
+            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type)),
+            operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPOST(rawEntity);
+
+        return operation.then(function (response) {
+            return response.data;
+        });
     };
 
     CreateQueries.$inject = ['$q', 'Restangular', 'NgAdminConfiguration', 'PromisesResolver'];

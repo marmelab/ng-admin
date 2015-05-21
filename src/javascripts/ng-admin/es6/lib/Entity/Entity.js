@@ -23,6 +23,8 @@ class Entity {
         this._errorMessage = null;
         this._order = 0;
         this._url = null;
+        this._createMethod = null; // manually set the HTTP-method for create operation, defaults to POST
+        this._updateMethod = null; // manually set the HTTP-method for update operation, defaults to PUT
 
         this._initViews();
     }
@@ -123,6 +125,18 @@ class Entity {
     baseApiUrl(baseApiUrl) {
         if (!arguments.length) return this._baseApiUrl;
         this._baseApiUrl = baseApiUrl;
+        return this;
+    }
+
+    createMethod(createMethod) {
+        if (!arguments.length) return this._createMethod;
+        this._createMethod = createMethod;
+        return this;
+    }
+
+    updateMethod(updateMethod) {
+        if (!arguments.length) return this._updateMethod;
+        this._updateMethod = updateMethod;
         return this;
     }
 
