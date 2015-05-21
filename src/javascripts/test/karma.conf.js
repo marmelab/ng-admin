@@ -17,6 +17,7 @@ module.exports = function (config) {
             '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
             '../../node_modules/numeral/numeral.js',
 
+            'test/function.bind.shim.js',
             'test/unit/**/*.js'
         ],
         plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
