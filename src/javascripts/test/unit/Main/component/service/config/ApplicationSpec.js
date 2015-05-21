@@ -31,7 +31,10 @@ describe("Service: Application config", function () {
         it('should returns all view of a certain type.', function () {
             var app = new Application(),
                 entity1 = new Entity('myEntity1'),
-                entity2 = new Entity('myEntity2');
+                entity2 = new Entity('myEntity2'),
+                dashboard = entity1.dashboardView().enable(),
+                dashboard2 = entity2.dashboardView().enable(),
+                createView = entity2.creationView().enable();
 
             app.addEntity(entity1);
             app.addEntity(entity2);
@@ -41,8 +44,8 @@ describe("Service: Application config", function () {
                 lists = app.getViewsOfType('ListView');
 
             expect(dashboards.length).toBe(2);
-            expect(forms.length).toBe(2);
-            expect(lists.length).toBe(2);
+            expect(forms.length).toBe(1);
+            expect(lists.length).toBe(0);
 
             expect(dashboards[0].getEntity().name()).toBe('myEntity1');
             expect(dashboards[1].getEntity().name()).toBe('myEntity2');
