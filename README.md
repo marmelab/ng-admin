@@ -32,20 +32,63 @@ Retrieve the module from bower:
 bower install ng-admin --save
 ```
 
-Include the ng-admin CSS, and the ng-admin JS (after the angular.js JS):
+### Embed ng-admin on your page
+
+#### Stand-alone version
+
+If you just want to embed ng-admin script and stylesheet including all dependencies, you can use the stand-alone files. Just add them into your page:
 
 ```html
-<link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin.min.css">
-<script src="/path/to/bower_components/angular/angular.min.js" type="text/javascript"></script>
-<script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin-standalone.min.css">
+<script src="/path/to/bower_components/ng-admin/build/ng-admin-standalone.min.js"></script>
 ```
 
-Make your application depend on it:
+#### Including ng-admin core
+
+If you rather like to embed dependencies separately, here is a snippet showing all required scripts:
+
+``` html
+<link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="bower_components/ng-admin/build/ng-admin.min.css" />
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-numeraljs/dist/angular-numeraljs.min.js"></script>
+<script src="bower_components/humane/humane.js"></script>
+<script src="bower_components/inflection/inflection.min.js"></script>
+<script src="bower_components/lodash/lodash.min.js"></script>
+<script src="bower_components/ng-file-upload/angular-file-upload-all.min.js"></script>
+<script src="bower_components/ngInflection/ngInflection.js"></script>
+<script src="bower_components/nprogress/nprogress.js"></script>
+<script src="bower_components/restangular/dist/restangular.min.js"></script>
+<script src="bower_components/textAngular/dist/textAngular.min.js"></script>
+<script src="bower_components/papaparse/papaparse.min.js"></script>
+<script src="bower_components/numeral/min/numeral.min.js"></script>
+<script src="bower_components/codemirror/lib/codemirror.js"></script>
+<script src="bower_components/codemirror/addon/edit/closebrackets.js"></script>
+<script src="bower_components/codemirror/addon/lint/lint.js"></script>
+<script src="bower_components/jsonlint/lib/jsonlint.js"></script>
+<script src="bower_components/codemirror/addon/lint/json-lint.js"></script>
+<script src="bower_components/codemirror/addon/selection/active-line.js"></script>
+<script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+<script src="bower_components/ng-admin/build/ng-admin.min.js"></script>
+```
+
+### Configuring ng-admin
+
+Make your application depend on ng-admin:
+
 ```js
 var app = angular.module('myApp', ['ng-admin']);
 ```
 
-Configure ng-admin:
+First step is to map ng-admin entities to your API:
+
 ```js
 app.config(function (NgAdminConfigurationProvider) {
     var nga = NgAdminConfigurationProvider;
@@ -75,6 +118,7 @@ Your application should use a `ui-view`:
 ### Production ready
 
 You can enable `ng-strict-di` angular mode to boost your application performance:
+
 ```html
 <body ng-app="myApp" ng-strict-di>
 ```
@@ -778,10 +822,10 @@ Then, connect to `http://localhost:8000/` to browse the admin app.
 Concatenate and minify the app with:
 
 ```sh
-make build-dev
+make build
 ```
 
-The two files `build/ng-admin.min.css` and `build/ng-admin.min.js` will be updated, without minification. Use `make build` instead to build a minified, production-ready version of the two files.
+All build files (stand-alone et lite versions) will then be updated and minified, ready for production.
 
 ### Testing
 
