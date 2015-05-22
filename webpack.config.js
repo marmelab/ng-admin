@@ -35,7 +35,8 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js/, loaders: ['ng-annotate', 'babel'], exclude: /node_modules\/(?!admin-config)/ },
+            { test: /\.js/, loaders: ['babel'], exclude: /node_modules\/(?!admin-config)/ },
+            { test: /\.js/, loaders: ['ng-annotate'] },
             { test: /\.html$/, loader: 'html' },
             { test: /\.(woff2?|svg|ttf|eot)(\?.*)?$/, loader: 'url' },
             { test: /\.css$/, loader: ExtractTextPlugin.extract('css') },

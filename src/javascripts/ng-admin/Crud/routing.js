@@ -258,28 +258,24 @@ function routing($stateProvider) {
 
                     return entry;
                 }],
-                nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
-                    return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
+                choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
+                    return ReadQueries.getAllReferencedData(view.getReferences());
                 }],
-                optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
-                    return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
-                }],
-                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
-                    var references = view.getReferences(),
-                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                        referencedEntries;
+                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
+                    var choices = view.getReferences();
+                    var choceEntries;
 
-                    for (var name in referencedData) {
-                        referencedEntries = dataStore.mapEntries(
-                            references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier(),
-                            [references[name].targetField()],
-                            referencedData[name]
+                    for (var name in filterData) {
+                        choceEntries = dataStore.mapEntries(
+                            choices[name].targetEntity().name(),
+                            choices[name].targetEntity().identifier(),
+                            [choices[name].targetField()],
+                            filterData[name]
                         );
 
                         dataStore.setEntries(
-                            references[name].targetEntity().uniqueId + '_choices',
-                            referencedEntries
+                            choices[name].targetEntity().uniqueId + '_choices',
+                            choceEntries
                         );
                     }
 
@@ -337,7 +333,7 @@ function routing($stateProvider) {
                         );
 
                         dataStore.setEntries(
-                            references[name].targetEntity().uniqueId + '_choices',
+                            references[name].targetEntity().uniqueId + '_values',
                             referencedEntries
                         );
                     }
@@ -377,6 +373,29 @@ function routing($stateProvider) {
                     dataStore.fillReferencesValuesFromEntry(entry, view.getReferences(), true);
 
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
+                    return true;
+                }],
+                choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
+                    return ReadQueries.getAllReferencedData(view.getReferences());
+                }],
+                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
+                    var choices = view.getReferences();
+                    var choceEntries;
+
+                    for (var name in filterData) {
+                        choceEntries = dataStore.mapEntries(
+                            choices[name].targetEntity().name(),
+                            choices[name].targetEntity().identifier(),
+                            [choices[name].targetField()],
+                            filterData[name]
+                        );
+
+                        dataStore.setEntries(
+                            choices[name].targetEntity().uniqueId + '_choices',
+                            choceEntries
+                        );
+                    }
+
                     return true;
                 }]
             }
