@@ -1,8 +1,8 @@
 /*global jasmine,angular,describe,it,expect*/
-var Application = require('../../../../../../ng-admin/es6/lib/Application'),
-    Entity = require('../../../../../../ng-admin/es6/lib/Entity/Entity'),
-    DashboardView = require('../../../../../../ng-admin/es6/lib/View/DashboardView'),
-    CreateView = require('../../../../../../ng-admin/es6/lib/View/CreateView');
+var Application = require('admin-config/lib/Application'),
+    Entity = require('admin-config/lib/Entity/Entity'),
+    DashboardView = require('admin-config/lib/View/DashboardView'),
+    CreateView = require('admin-config/lib/View/CreateView');
 
 describe("Service: Application config", function () {
     'use strict';

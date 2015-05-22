@@ -1,9 +1,9 @@
 /*global jasmine,angular,describe,it,expect*/
 var PanelBuilder = require('../../../../../ng-admin/Main/component/service/PanelBuilder'),
-    Field = require('../../../../../ng-admin/es6/lib/Field/Field'),
-    DashboardView = require('../../../../../ng-admin/es6/lib/View/DashboardView'),
-    Entity = require('../../../../../ng-admin/es6/lib/Entity/Entity'),
-    DataStore = require('../../../../../ng-admin/es6/lib/DataStore/DataStore'),
+    Field = require('admin-config/lib/Field/Field'),
+    DashboardView = require('admin-config/lib/View/DashboardView'),
+    Entity = require('admin-config/lib/Entity/Entity'),
+    DataStore = require('admin-config/lib/DataStore/DataStore'),
     mixins = require('../../../../mock/mixins');
 
 describe("PanelBuilder", function () {

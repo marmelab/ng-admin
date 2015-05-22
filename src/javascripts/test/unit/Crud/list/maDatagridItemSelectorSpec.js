@@ -3,7 +3,7 @@ describe('directive: ma-datagrid-item-selector', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/list/maDatagridItemSelector'),
-        Entry = require('../../../../ng-admin/es6/lib/Entry'),
+        Entry = require('admin-config/lib/Entry'),
         $compile,
         scope,
         directiveUsage = '<ma-datagrid-item-selector entry="entry" selection="selection"></ma-datagrid-item-selector>'

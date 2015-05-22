@@ -3,7 +3,7 @@ describe('directive: ma-datagrid-multi-selector', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/list/maDatagridMultiSelector'),
-        Entry = require('../../../../ng-admin/es6/lib/Entry'),
+        Entry = require('admin-config/lib/Entry'),
         $compile,
         scope,
         directiveUsage = '<ma-datagrid-multi-selector entries="entries" selection="selection"></ma-datagrid-multi-selector>'

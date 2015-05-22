@@ -1,8 +1,8 @@
 /*global describe,module,beforeEach,inject,it,expect*/
-var ListView = require('../../../../../../../ng-admin/es6/lib/View/ListView'),
-    DataStore = require('../../../../../../../ng-admin/es6/lib/DataStore/DataStore'),
-    Entity = require('../../../../../../../ng-admin/es6/lib/Entity/Entity'),
-    Field = require('../../../../../../../ng-admin/es6/lib/Field/Field');
+var ListView = require('admin-config/lib/View/ListView'),
+    DataStore = require('admin-config/lib/DataStore/DataStore'),
+    Entity = require('admin-config/lib/Entity/Entity'),
+    Field = require('admin-config/lib/Field/Field');
 
 var dataStore = new DataStore();
 

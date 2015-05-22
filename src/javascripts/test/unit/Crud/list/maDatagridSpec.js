@@ -1,10 +1,10 @@
 /*global angular,inject,describe,it,expect,beforeEach,module*/
 describe('directive: ma-datagrid', function () {
     var directive = require('../../../../ng-admin/Crud/list/maDatagrid'),
-        Entity = require('../../../../ng-admin/es6/lib/Entity/Entity'),
-        Entry = require('../../../../ng-admin/es6/lib/Entry'),
-        Field = require('../../../../ng-admin/es6/lib/Field/Field'),
-        TextField = require('../../../../ng-admin/es6/lib/Field/TextField'),
+        Entity = require('admin-config/lib/Entity/Entity'),
+        Entry = require('admin-config/lib/Entry'),
+        Field = require('admin-config/lib/Field/Field'),
+        TextField = require('admin-config/lib/Field/TextField'),
         $compile,
         scope,
         directiveUsage = '<ma-datagrid name="{{ name }}" entries="entries" fields="fields" list-actions="listActions"' +

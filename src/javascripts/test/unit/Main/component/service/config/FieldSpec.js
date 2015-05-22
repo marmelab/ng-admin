@@ -1,8 +1,8 @@
 /*global jasmine,angular,describe,it,expect*/
-var Field = require('../../../../../../ng-admin/es6/lib/Field/Field'),
-    ListView = require('../../../../../../ng-admin/es6/lib/View/ListView'),
-    DashboardView = require('../../../../../../ng-admin/es6/lib/View/DashboardView'),
-    Entity = require('../../../../../../ng-admin/es6/lib/Entity/Entity');
+var Field = require('admin-config/lib/Field/Field'),
+    ListView = require('admin-config/lib/View/ListView'),
+    DashboardView = require('admin-config/lib/View/DashboardView'),
+    Entity = require('admin-config/lib/Entity/Entity');
 
 describe("Service: Field config", function () {
     describe('label()', function() {
