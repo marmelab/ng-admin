@@ -3,7 +3,7 @@ describe('directive: input-field', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maInputField');
-    var Field = require('../../../../ng-admin/es6/lib/Field/Field');
+    var Field = require('admin-config/lib/Field/Field');
     angular.module('testapp_InputField', []).directive('maInputField', directive);
 
     var $compile,

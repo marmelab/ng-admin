@@ -1,8 +1,8 @@
 /*global describe,it,expect,beforeEach*/
 describe('controller: ma-datagrid', function () {
     var DataGridController = require('../../../../ng-admin/Crud/list/DatagridController'),
-        Entity = require('../../../../ng-admin/es6/lib/Entity/Entity'),
-        Entry = require('../../../../ng-admin/es6/lib/Entry');
+        Entity = require('admin-config/lib/Entity/Entity'),
+        Entry = require('admin-config/lib/Entry');
 
     var dataGridController, entries;
 

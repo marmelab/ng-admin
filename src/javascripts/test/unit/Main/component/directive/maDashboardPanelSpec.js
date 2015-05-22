@@ -3,7 +3,7 @@ describe('directive: ma-dashboard-panel', function () {
     'use strict';
 
     var directive = require('../../../../../ng-admin/Main/component/directive/maDashboardPanel'),
-        Entity = require('../../../../../ng-admin/es6/lib/Entity/Entity'),
+        Entity = require('admin-config/lib/Entity/Entity'),
         $compile,
         scope,
         directiveUsage = '<ma-dashboard-panel label="{{ label }}" view-name="{{ viewName }}" fields="fields"' +

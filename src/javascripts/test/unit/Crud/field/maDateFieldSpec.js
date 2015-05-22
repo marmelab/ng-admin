@@ -3,7 +3,7 @@ describe('directive: date-field', function() {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maDateField');
-    var DateField = require('../../../../ng-admin/es6/lib/Field/DateField');
+    var DateField = require('admin-config/lib/Field/DateField');
     angular.module('testapp_DateField', []).directive('maDateField', directive);
 
     var $compile,

@@ -3,7 +3,7 @@ describe('directive: choice-field', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maChoiceField');
-    var ChoiceField = require('../../../../ng-admin/es6/lib/Field/ChoiceField');
+    var ChoiceField = require('admin-config/lib/Field/ChoiceField');
 
     angular.module('testapp_ChoiceField', []).directive('maChoiceField', directive);
 

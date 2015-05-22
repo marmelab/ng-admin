@@ -3,8 +3,8 @@ describe('directive: choices-field', function() {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maChoicesField');
-    var ChoiceField = require('../../../../ng-admin/es6/lib/Field/ChoiceField');
-    var DataStore = require('../../../../ng-admin/es6/lib/DataStore/DataStore');
+    var ChoiceField = require('admin-config/lib/Field/ChoiceField');
+    var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var dataStoreModule = angular.module('testapp_DataStore', []);
     dataStoreModule.constant('DataStore', new DataStore());
