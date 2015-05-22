@@ -263,10 +263,10 @@ function routing($stateProvider) {
                 }],
                 choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
                     var choices = view.getReferences();
-                    var choceEntries;
+                    var choiceEntries;
 
                     for (var name in filterData) {
-                        choceEntries = dataStore.mapEntries(
+                        choiceEntries = dataStore.mapEntries(
                             choices[name].targetEntity().name(),
                             choices[name].targetEntity().identifier(),
                             [choices[name].targetField()],
@@ -275,7 +275,7 @@ function routing($stateProvider) {
 
                         dataStore.setEntries(
                             choices[name].targetEntity().uniqueId + '_choices',
-                            choceEntries
+                            choiceEntries
                         );
                     }
 
@@ -380,10 +380,10 @@ function routing($stateProvider) {
                 }],
                 choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
                     var choices = view.getReferences();
-                    var choceEntries;
+                    var choiceEntries;
 
                     for (var name in filterData) {
-                        choceEntries = dataStore.mapEntries(
+                        choiceEntries = dataStore.mapEntries(
                             choices[name].targetEntity().name(),
                             choices[name].targetEntity().identifier(),
                             [choices[name].targetField()],
@@ -392,7 +392,7 @@ function routing($stateProvider) {
 
                         dataStore.setEntries(
                             choices[name].targetEntity().uniqueId + '_choices',
-                            choceEntries
+                            choiceEntries
                         );
                     }
 

@@ -32,7 +32,6 @@ define(function () {
                 scope.exportToCsv = function () {
 
                     ReadQueries.getAll(exportView, -1, true, $stateParams.search, $stateParams.sortField, $stateParams.sortDir).then(function (response) {
-                        console.log(response);
                         var results = [];
                         var entries = scope.datastore.mapEntries(scope.entity.name(), exportView.identifier(), exportView.fields(), response.data);
                         for (var i = entries.length - 1; i >= 0; i--) {
