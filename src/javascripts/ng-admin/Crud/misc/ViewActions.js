@@ -16,7 +16,8 @@ define(function (require) {
                 'entry': '=',
                 'entity': '=',
                 'selection': '=',
-                batchButtons: '&'
+                batchButtons: '&',
+                datastore: '='
             },
             template: viewActionsTemplate,
             link: function($scope, element, attrs, controller, transcludeFn) {

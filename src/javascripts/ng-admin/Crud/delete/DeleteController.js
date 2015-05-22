@@ -32,7 +32,7 @@ define(function () {
                 id: this.entityId
             }, $state.params));
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
-        }, function (response) {
+        }.bind(this), function (response) {
             // @TODO: share this method when splitting controllers
             var body = response.data;
             if (typeof body === 'object') {

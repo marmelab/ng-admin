@@ -42,7 +42,7 @@ define(function () {
 
     RestWrapper.prototype.createOne = function(rawEntity, entityName, url) {
         return this.Restangular
-            .oneUrl()
+            .oneUrl(entityName, url)
             .customPOST(rawEntity)
             .then(function (response) {
                 return response.data;
