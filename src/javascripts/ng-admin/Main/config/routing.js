@@ -1,6 +1,6 @@
-var layoutTemplate = require('../view/layout.html');
-dashboardTemplate = require('../view/dashboard.html'),
-errorTemplate = require('../view/404.html');
+var layoutTemplate = require('../view/layout.html'),
+    dashboardTemplate = require('../view/dashboard.html'),
+    errorTemplate = require('../view/404.html');
 
 function routing($stateProvider, $urlRouterProvider) {
 

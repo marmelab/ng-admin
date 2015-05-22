@@ -1,7 +1,7 @@
 require('./ng-admin/Main/MainModule');
 require('./ng-admin/Crud/CrudModule');
 
-var Factory = require('./ng-admin/es6/lib/Factory');
+import Factory from 'admin-config/lib/Factory';
 
 var factory = angular.module('AdminDescriptionModule', []);
 factory.constant('AdminDescription', new Factory());
