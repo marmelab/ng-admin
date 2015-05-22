@@ -17,6 +17,7 @@ define(function () {
         this.actions = view.actions();
         this.batchActions = view.batchActions();
         this.loadingPage = false;
+        this.search = $stateParams.search;
         this.filters = view.filters();
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.dataStore = dataStore;
@@ -40,13 +41,12 @@ define(function () {
         }
 
         var progression = this.progression,
-            self = this,
-            filters = this.$stateParams.search;
+            self = this;
 
         progression.start();
 
         this.ReadQueries
-            .getAll(this.view, page, true, filters, this.sortField, this.sortDir)
+            .getAll(this.view, page, true, this.search, this.sortField, this.sortDir)
             .then(function (nextData) {
                 progression.done();
                 self.entries = self.entries.concat(nextData.entries);
