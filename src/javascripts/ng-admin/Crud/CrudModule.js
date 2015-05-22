@@ -1,106 +1,89 @@
-/*global define*/
-var inflection; // FIXME
-define(function (require) {
-    'use strict';
+var angular = require('angular');
 
-    var angular = require('angular');
-    inflection = require('inflection');
-    var numeral = require('numeral');
+var CrudModule = angular.module('crud', [
+    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload', 'ngNumeraljs'
+]);
 
-    require('angular-ui-router');
-    require('angular-sanitize');
-    require('angular-bootstrap-tpls');
-    require('ng-file-upload');
-    require('textangular');
-    require('ngInflection');
-    require('angular-ui-codemirror');
-    require('angular-numeraljs');
+CrudModule.controller('ListController', require('./list/ListController'));
+CrudModule.controller('ShowController', require('./show/ShowController'));
+CrudModule.controller('FormController', require('./form/FormController'));
+CrudModule.controller('DeleteController', require('./delete/DeleteController'));
+CrudModule.controller('BatchDeleteController', require('./delete/BatchDeleteController'));
 
-    var CrudModule = angular.module('crud', [
-        'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload', 'ngNumeraljs'
-    ]);
+CrudModule.service('EntryFormatter', require('./misc/EntryFormatter'));
+CrudModule.service('PromisesResolver', require('./misc/PromisesResolver'));
+CrudModule.service('ReadQueries', require('./repository/ReadQueries'));
+CrudModule.service('WriteQueries', require('./repository/WriteQueries'));
 
-    CrudModule.controller('ListController', require('ng-admin/Crud/list/ListController'));
-    CrudModule.controller('ShowController', require('ng-admin/Crud/show/ShowController'));
-    CrudModule.controller('FormController', require('ng-admin/Crud/form/FormController'));
-    CrudModule.controller('DeleteController', require('ng-admin/Crud/delete/DeleteController'));
-    CrudModule.controller('BatchDeleteController', require('ng-admin/Crud/delete/BatchDeleteController'));
+CrudModule.service('RestWrapper', require('./misc/RestWrapper'));
 
-    CrudModule.service('EntryFormatter', require('ng-admin/Crud/misc/EntryFormatter'));
-    CrudModule.service('PromisesResolver', require('ng-admin/Crud/misc/PromisesResolver'));
-    CrudModule.service('ReadQueries', require('ng-admin/Crud/repository/ReadQueries'));
-    CrudModule.service('WriteQueries', require('ng-admin/Crud/repository/WriteQueries'));
+CrudModule.directive('maJsonValidator', require('./validator/maJsonValidator'));
 
-    CrudModule.service('RestWrapper', require('ng-admin/Crud/misc/RestWrapper'));
+CrudModule.directive('maField', require('./field/maField'));
+CrudModule.directive('maButtonField', require('./field/maButtonField'));
+CrudModule.directive('maChoiceField', require('./field/maChoiceField'));
+CrudModule.directive('maChoicesField', require('./field/maChoicesField'));
+CrudModule.directive('maDateField', require('./field/maDateField'));
+CrudModule.directive('maInputField', require('./field/maInputField'));
+CrudModule.directive('maJsonField', require('./field/maJsonField'));
+CrudModule.directive('maFileField', require('./field/maFileField'));
+CrudModule.directive('maCheckboxField', require('./field/maCheckboxField'));
+CrudModule.directive('maTextField', require('./field/maTextField'));
+CrudModule.directive('maWysiwygField', require('./field/maWysiwygField'));
+CrudModule.directive('maTemplateField', require('./field/maTemplateField'));
 
-    CrudModule.directive('maJsonValidator', require('ng-admin/Crud/validator/maJsonValidator'));
+CrudModule.provider('FieldViewConfiguration', require('./fieldView/FieldViewConfiguration'));
 
-    CrudModule.directive('maField', require('ng-admin/Crud/field/maField'));
-    CrudModule.directive('maButtonField', require('ng-admin/Crud/field/maButtonField'));
-    CrudModule.directive('maChoiceField', require('ng-admin/Crud/field/maChoiceField'));
-    CrudModule.directive('maChoicesField', require('ng-admin/Crud/field/maChoicesField'));
-    CrudModule.directive('maDateField', require('ng-admin/Crud/field/maDateField'));
-    CrudModule.directive('maInputField', require('ng-admin/Crud/field/maInputField'));
-    CrudModule.directive('maJsonField', require('ng-admin/Crud/field/maJsonField'));
-    CrudModule.directive('maFileField', require('ng-admin/Crud/field/maFileField'));
-    CrudModule.directive('maCheckboxField', require('ng-admin/Crud/field/maCheckboxField'));
-    CrudModule.directive('maTextField', require('ng-admin/Crud/field/maTextField'));
-    CrudModule.directive('maWysiwygField', require('ng-admin/Crud/field/maWysiwygField'));
-    CrudModule.directive('maTemplateField', require('ng-admin/Crud/field/maTemplateField'));
+CrudModule.directive('listActions', require('./list/ListActions'));
+CrudModule.directive('maDatagrid', require('./list/maDatagrid'));
+CrudModule.directive('maDatagridPagination', require('./list/maDatagridPagination'));
+CrudModule.directive('maDatagridInfinitePagination', require('./list/maDatagridInfinitePagination'));
+CrudModule.directive('maDatagridItemSelector', require('./list/maDatagridItemSelector'));
+CrudModule.directive('maDatagridMultiSelector', require('./list/maDatagridMultiSelector'));
+CrudModule.directive('maFilter', require('./filter/maFilter'));
 
-    CrudModule.provider('FieldViewConfiguration', require('ng-admin/Crud/fieldView/FieldViewConfiguration'));
+CrudModule.directive('maColumn', require('./column/maColumn'));
+CrudModule.directive('maBooleanColumn', require('./column/maBooleanColumn'));
+CrudModule.directive('maChoicesColumn', require('./column/maChoicesColumn'));
+CrudModule.directive('maDateColumn', require('./column/maDateColumn'));
+CrudModule.directive('maJsonColumn', require('./column/maJsonColumn'));
+CrudModule.directive('maNumberColumn', require('./column/maNumberColumn'));
+CrudModule.directive('maReferenceManyColumn', require('./column/maReferenceManyColumn'));
+CrudModule.directive('maReferenceManyLinkColumn', require('./column/maReferenceManyLinkColumn'));
+CrudModule.directive('maStringColumn', require('./column/maStringColumn'));
+CrudModule.directive('maTemplateColumn', require('./column/maTemplateColumn'));
+CrudModule.directive('maWysiwygColumn', require('./column/maWysiwygColumn'));
 
-    CrudModule.directive('listActions', require('ng-admin/Crud/list/ListActions'));
-    CrudModule.directive('maDatagrid', require('ng-admin/Crud/list/maDatagrid'));
-    CrudModule.directive('maDatagridPagination', require('ng-admin/Crud/list/maDatagridPagination'));
-    CrudModule.directive('maDatagridInfinitePagination', require('ng-admin/Crud/list/maDatagridInfinitePagination'));
-    CrudModule.directive('maDatagridItemSelector', require('ng-admin/Crud/list/maDatagridItemSelector'));
-    CrudModule.directive('maDatagridMultiSelector', require('ng-admin/Crud/list/maDatagridMultiSelector'));
-    CrudModule.directive('maFilter', require('ng-admin/Crud/filter/maFilter'));
+CrudModule.directive('maBackButton', require('./button/maBackButton'));
+CrudModule.directive('maCreateButton', require('./button/maCreateButton'));
+CrudModule.directive('maEditButton', require('./button/maEditButton'));
+CrudModule.directive('maFilteredListButton', require('./button/maFilteredListButton'));
+CrudModule.directive('maShowButton', require('./button/maShowButton'));
+CrudModule.directive('maListButton', require('./button/maListButton'));
+CrudModule.directive('maDeleteButton', require('./button/maDeleteButton'));
+CrudModule.directive('maBatchDeleteButton', require('./button/maBatchDeleteButton'));
+CrudModule.directive('maExportToCsvButton', require('./button/maExportToCsvButton'));
 
-    CrudModule.directive('maColumn', require('ng-admin/Crud/column/maColumn'));
-    CrudModule.directive('maBooleanColumn', require('ng-admin/Crud/column/maBooleanColumn'));
-    CrudModule.directive('maChoicesColumn', require('ng-admin/Crud/column/maChoicesColumn'));
-    CrudModule.directive('maDateColumn', require('ng-admin/Crud/column/maDateColumn'));
-    CrudModule.directive('maJsonColumn', require('ng-admin/Crud/column/maJsonColumn'));
-    CrudModule.directive('maNumberColumn', require('ng-admin/Crud/column/maNumberColumn'));
-    CrudModule.directive('maReferenceManyColumn', require('ng-admin/Crud/column/maReferenceManyColumn'));
-    CrudModule.directive('maReferenceManyLinkColumn', require('ng-admin/Crud/column/maReferenceManyLinkColumn'));
-    CrudModule.directive('maStringColumn', require('ng-admin/Crud/column/maStringColumn'));
-    CrudModule.directive('maTemplateColumn', require('ng-admin/Crud/column/maTemplateColumn'));
-    CrudModule.directive('maWysiwygColumn', require('ng-admin/Crud/column/maWysiwygColumn'));
+CrudModule.directive('maViewActions', require('./misc/ViewActions'));
+CrudModule.directive('maViewBatchActions', require('./misc/ViewBatchActions'));
+CrudModule.directive('compile', require('./misc/Compile'));
 
-    CrudModule.directive('maBackButton', require('ng-admin/Crud/button/maBackButton'));
-    CrudModule.directive('maCreateButton', require('ng-admin/Crud/button/maCreateButton'));
-    CrudModule.directive('maEditButton', require('ng-admin/Crud/button/maEditButton'));
-    CrudModule.directive('maFilteredListButton', require('ng-admin/Crud/button/maFilteredListButton'));
-    CrudModule.directive('maShowButton', require('ng-admin/Crud/button/maShowButton'));
-    CrudModule.directive('maListButton', require('ng-admin/Crud/button/maListButton'));
-    CrudModule.directive('maDeleteButton', require('ng-admin/Crud/button/maDeleteButton'));
-    CrudModule.directive('maBatchDeleteButton', require('ng-admin/Crud/button/maBatchDeleteButton'));
-    CrudModule.directive('maExportToCsvButton', require('ng-admin/Crud/button/maExportToCsvButton'));
+CrudModule.config(require('./routing'));
+CrudModule.config(require('./config/factories'));
 
-    CrudModule.directive('maViewActions', require('ng-admin/Crud/misc/ViewActions'));
-    CrudModule.directive('maViewBatchActions', require('ng-admin/Crud/misc/ViewBatchActions'));
-    CrudModule.directive('compile', require('ng-admin/Crud/misc/Compile'));
-
-    CrudModule.config(require('ng-admin/Crud/routing'));
-    CrudModule.config(require('ng-admin/Crud/config/factories'));
-
-    CrudModule.factory('Papa', function () {
-        return require('papaparse');
-    });
-
-    CrudModule.factory('notification', function () {
-        var humane = require('humane');
-        humane.timeout = 5000;
-        humane.clickToClose = true;
-        return humane;
-    });
-
-    CrudModule.factory('progression', function () {
-        return require('nprogress');
-    });
-
-    return CrudModule;
+CrudModule.factory('Papa', function () {
+    return require('papaparse');
 });
+
+CrudModule.factory('notification', function () {
+    var humane = require('humane-js');
+    humane.timeout = 5000;
+    humane.clickToClose = true;
+    return humane;
+});
+
+CrudModule.factory('progression', function () {
+    return require('nprogress');
+});
+
+module.exports = CrudModule;

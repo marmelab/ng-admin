@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var viewActionsTemplate = require('text!./view-batch-actions.html');
+    var viewActionsTemplate = require('./view-batch-actions.html');
 
     function ViewBatchActionsDirective($injector) {
         var $compile = $injector.get('$compile');

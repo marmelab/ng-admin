@@ -4,11 +4,9 @@ dist
 .sass-cache
 src/javascripts/bower_components
 src/javascripts/config.js
+src/javascripts/test/fixtures/examples/blog
 src/styles/*.css
-build/require
-build/es6
-build/ng-admin-configuration.js
-build/ng-admin.css
 src/css
 examples/blog/build
 examples/blog/assets
+npm-debug.log

@@ -1,11 +1,4 @@
-$icon-font-path: if(compass-env() == 'development', "../src/javascripts/bower_components/", "../../") + "bootstrap-sass-official/assets/fonts/bootstrap/";
-
-// bower:scss
-@import "../javascripts/bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
-// endbower
-
 @import "sb-admin";
-@import "font-awesome/font-awesome";
 
 #nprogress div.spinner {
     width: 18px;

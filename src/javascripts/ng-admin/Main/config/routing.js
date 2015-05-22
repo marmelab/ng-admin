@@ -1,50 +1,44 @@
-/*global define*/
+var layoutTemplate = require('../view/layout.html');
+dashboardTemplate = require('../view/dashboard.html'),
+errorTemplate = require('../view/404.html');
 
-define(function (require) {
-    'use strict';
+function routing($stateProvider, $urlRouterProvider) {
 
-    var layoutTemplate = require('text!../view/layout.html'),
-        dashboardTemplate = require('text!../view/dashboard.html'),
-        errorTemplate = require('text!../view/404.html');
+    $stateProvider.state('main', {
+        abstract: true,
+        controller: 'AppController',
+        controllerAs: 'appController',
+        templateProvider: ['NgAdminConfiguration', function(Configuration) {
+            return Configuration().layout() || layoutTemplate;
+        }]
+    });
 
-    function routing($stateProvider, $urlRouterProvider) {
+    $stateProvider.state('dashboard', {
+        parent: 'main',
+        url: '/dashboard?sortField&sortDir',
+        params: {
+            sortField: null,
+            sortDir: null
+        },
+        controller: 'DashboardController',
+        controllerAs: 'dashboardController',
+        template: dashboardTemplate
+    });
 
-        $stateProvider.state('main', {
-            abstract: true,
-            controller: 'AppController',
-            controllerAs: 'appController',
-            templateProvider: ['NgAdminConfiguration', function(Configuration) {
-                return Configuration().layout() || layoutTemplate;
-            }]
-        });
+    $stateProvider.state('ma-404', {
+        parent: 'main',
+        template: errorTemplate
+    });
 
-        $stateProvider.state('dashboard', {
-            parent: 'main',
-            url: '/dashboard?sortField&sortDir',
-            params: {
-                sortField: null,
-                sortDir: null
-            },
-            controller: 'DashboardController',
-            controllerAs: 'dashboardController',
-            template: dashboardTemplate
-        });
+    $urlRouterProvider.when('', '/dashboard');
 
-        $stateProvider.state('ma-404', {
-            parent: 'main',
-            template: errorTemplate
-        });
+    $urlRouterProvider.otherwise(function($injector, $location) {
+        var state = $injector.get('$state');
+        state.go('ma-404');
+        return $location.path();
+    });
+}
 
-        $urlRouterProvider.when('', '/dashboard');
+routing.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-        $urlRouterProvider.otherwise(function($injector, $location) {
-            var state = $injector.get('$state');
-            state.go('ma-404');
-            return $location.path();
-        });
-    }
-
-    routing.$inject = ['$stateProvider', '$urlRouterProvider'];
-
-    return routing;
-});
+module.exports = routing;

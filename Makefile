@@ -8,12 +8,9 @@ install:
 run:
 	@grunt
 
-build-dev:
-	@grunt build:dev
-	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (no minification)"
-
 build:
-	@grunt build
+	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --progress
+	@cp -Rf build/* examples/blog/build/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
 test:

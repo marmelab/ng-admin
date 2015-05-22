@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    var listActionsTemplate = require('text!./ListActions.html');
+    var listActionsTemplate = require('./ListActions.html');
 
     function ListActionsDirective() {
 
