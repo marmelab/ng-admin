@@ -6,7 +6,7 @@
     left: 50%;
 }
 
-.navbar-static-top {
+#wrapper .navbar-static-top {
     margin-bottom: 0;
     .navbar-right {
         margin-right: 15px;
@@ -67,9 +67,8 @@ ul.collapsible {
 * Grid
 */
 
-.page-header {
+#page-wrapper .page-header {
     margin: 10px 0 15px;
-
     .lead {
         margin-bottom: 0;
     }
