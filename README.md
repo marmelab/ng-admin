@@ -39,8 +39,8 @@ bower install ng-admin --save
 If you just want to embed ng-admin script and stylesheet including all dependencies, you can use the stand-alone files. Just add them into your page:
 
 ```html
-<link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin-standalone.min.css">
-<script src="/path/to/bower_components/ng-admin/build/ng-admin-standalone.min.js"></script>
+<link rel="stylesheet" href="/path/to/bower_components/ng-admin/build/ng-admin.min.css">
+<script src="/path/to/bower_components/ng-admin/build/ng-admin.min.js"></script>
 ```
 
 #### Including ng-admin core
@@ -49,7 +49,7 @@ If you rather like to embed dependencies separately, here is a snippet showing a
 
 ``` html
 <link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="bower_components/ng-admin/build/ng-admin.min.css" />
+<link rel="stylesheet" href="bower_components/ng-admin/build/ng-admin-only.min.css" />
 
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -76,7 +76,7 @@ If you rather like to embed dependencies separately, here is a snippet showing a
 <script src="bower_components/codemirror/addon/lint/json-lint.js"></script>
 <script src="bower_components/codemirror/addon/selection/active-line.js"></script>
 <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
-<script src="bower_components/ng-admin/build/ng-admin.min.js"></script>
+<script src="bower_components/ng-admin/build/ng-admin-only.min.js"></script>
 ```
 
 ### Configuring ng-admin
