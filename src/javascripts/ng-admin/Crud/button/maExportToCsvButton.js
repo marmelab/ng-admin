@@ -45,16 +45,16 @@ define(function () {
                             notification.log(error.message, {addnCls: 'humane-flatty-error'});
                         })
                         .then(function (rawEntries) {
-                            nonOptimizedReferencedData = ReadQueries.getFilteredReferenceData(exportView.getNonOptimizedReferences(), rawEntries);
-
-                            return rawEntries;
+                            return ReadQueries.getFilteredReferenceData(exportView.getNonOptimizedReferences(), rawEntries);
                         })
-                        .then(function (rawEntries) {
-                            optimizedReferencedData = ReadQueries.getOptimizedReferencedData(exportView.getOptimizedReferences(), rawEntries);
+                        .then(function (nonOptimizedReference) {
+                            nonOptimizedReferencedData = nonOptimizedReference;
 
-                            return rawEntries;
+                            return ReadQueries.getOptimizedReferencedData(exportView.getOptimizedReferences(), rawEntries);
                         })
-                        .then(function (rawEntries) {
+                        .then(function (optimizedReference) {
+                            optimizedReferencedData = optimizedReference;
+
                             var references = exportView.getReferences(),
                                 referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                                 referencedEntries;
@@ -72,10 +72,8 @@ define(function () {
                                     referencedEntries
                                 );
                             }
-
-                            return rawEntries;
                         })
-                        .then(function (rawEntries) {
+                        .then(function () {
                             var entries = scope.datastore.mapEntries(
                                 exportView.entity.name(),
                                 exportView.identifier(),
@@ -92,14 +90,14 @@ define(function () {
                             }
                             var csv = Papa.unparse(results);
                             var fakeLink = document.createElement('a');
+                            document.body.appendChild(fakeLink);
 
                             fakeLink.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csv));
                             fakeLink.setAttribute('download', scope.entity.name() + '.csv');
                             fakeLink.click();
-                        })
-                        ;
+                        });
                 };
-            },
+            }
         };
     }
 
