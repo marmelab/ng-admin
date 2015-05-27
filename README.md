@@ -265,10 +265,10 @@ A read-only entity doesn't allow access to the mutation views (editionView, crea
 
         var tag = nga.entity('tags').readOnly();
         
-* `baseURL()`
+* `baseApiUrl()`
 Defines the base API endpoint for all views of this entity
 
-        var comment = nga.entity('comments').baseURL('http://localhost:3001/');
+        var comment = nga.entity('comments').baseApiUrl('http://localhost:3001/');
         
 * `url()`
 Defines the API endpoint for all views of this entity. It can be a string or a function.
