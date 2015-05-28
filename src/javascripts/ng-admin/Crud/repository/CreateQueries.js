@@ -26,8 +26,8 @@ define(function (require) {
     CreateQueries.prototype.createOne = function (view, rawEntity) {
 
         var method = view.entity.createMethod(),
-            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type)),
-            operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPOST(rawEntity);
+            resource = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(), view.type)),
+            operation = method ? resource.customOperation(method, null, {}, {}, rawEntity) : resource.customPOST(rawEntity);
 
         return operation.then(function (response) {
             return response.data;

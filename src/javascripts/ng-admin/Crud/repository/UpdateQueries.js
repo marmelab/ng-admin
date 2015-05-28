@@ -27,8 +27,8 @@ define(function (require) {
     UpdateQueries.prototype.updateOne = function (view, rawEntity, originEntityId) {
         var entityId = originEntityId || rawEntity[view.getEntity().identifier().name()],
             method = view.entity.updateMethod(),
-            url = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier())),
-            operation = method ? url.customOperation(method, null, {}, {}, rawEntity) : url.customPUT(rawEntity);
+            resource = this.Restangular.oneUrl(view.entity.name(), this.config.getRouteFor(view.entity, view.getUrl(entityId), view.type, entityId, view.identifier())),
+            operation = method ? resource.customOperation(method, null, {}, {}, rawEntity) : resource.customPUT(rawEntity);
 
         // Get element data
         return operation
