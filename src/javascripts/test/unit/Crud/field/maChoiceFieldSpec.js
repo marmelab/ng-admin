@@ -51,7 +51,7 @@ describe('directive: choice-field', function () {
         scope.$digest();
         var options = element.find('option');
         expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
+        expect(options[1].value).toEqual('string:bar');
     });
 
     it("should contain the choices as options", function () {
@@ -64,9 +64,9 @@ describe('directive: choice-field', function () {
         scope.$digest();
         var options = element.find('option');
         expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
+        expect(options[1].value).toEqual('string:bar');
         expect(options[2].label).toEqual('baz');
-        expect(options[2].value).toEqual('1');
+        expect(options[2].value).toEqual('string:bazValue');
     });
 
     it("should contain the choices from choicesFunc as options", function () {
@@ -82,9 +82,9 @@ describe('directive: choice-field', function () {
         scope.$digest();
         var options = element.find('option');
         expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
+        expect(options[1].value).toEqual('string:bar');
         expect(options[2].label).toEqual('baz');
-        expect(options[2].value).toEqual('1');
+        expect(options[2].value).toEqual('string:bazValue');
     });
 
     it("should pass entry to choicesFunc", function () {
@@ -111,6 +111,6 @@ describe('directive: choice-field', function () {
         scope.$digest();
         var options = element.find('option');
         expect(options[2].selected).toBeTruthy();
-        expect(options[2].value).toEqual('1');
+        expect(options[2].value).toEqual('string:bazValue');
     });
 });
