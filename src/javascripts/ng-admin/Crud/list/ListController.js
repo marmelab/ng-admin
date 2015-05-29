@@ -47,9 +47,16 @@ define(function () {
 
         this.ReadQueries
             .getAll(this.view, page, true, this.search, this.sortField, this.sortDir)
-            .then(function (nextData) {
+            .then(function (response) {
                 progression.done();
-                self.entries = self.entries.concat(nextData.entries);
+                self.dataStore.mapEntries(
+                    self.entity.name(),
+                    self.view.identifier(),
+                    self.fields,
+                    response.data
+                ).map(function (entry) {
+                    self.dataStore.addEntry(self.entity.uniqueId, entry);
+                });
                 self.loadingPage = false;
             });
     };
