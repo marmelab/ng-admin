@@ -15,7 +15,7 @@ function maDashboardPanel($location) {
         },
         link: function(scope) {
             scope.gotoList = function () {
-                $location.path(scope.entity().name() + '/list/');
+                $location.path(scope.entity().name() + '/list');
             };
         },
         template: dashboardPanelView
