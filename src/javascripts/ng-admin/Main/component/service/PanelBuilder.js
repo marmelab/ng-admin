@@ -20,17 +20,25 @@ function PanelBuilder($q, $location, ReadQueries, Configuration, AdminDescriptio
  *
  * @returns {promise}
  */
-PanelBuilder.prototype.getPanelsData = function () {
+PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
     var dashboardViews = this.Configuration.getViewsOfType('DashboardView'),
         dataStore = this.dataStore,
         promises = [],
         dashboardView,
+        dashboardSortField,
+        dashboardSortDir,
         self = this,
         i;
 
     for (i in dashboardViews) {
         dashboardView = dashboardViews[i];
-        promises.push(self.ReadQueries.getAll(dashboardView, 1, {}, dashboardView.getSortFieldName(), dashboardView.sortDir()));
+        dashboardSortField = dashboardView.getSortFieldName();
+        dashboardSortDir = dashboardView.sortDir();
+        if (sortField && sortField.split('.')[0] === dashboardView.name()) {
+            dashboardSortField = sortField;
+            dashboardSortDir = sortDir;
+        }
+        promises.push(self.ReadQueries.getAll(dashboardView, 1, {}, dashboardSortField, dashboardSortDir));
     }
 
     return this.$q.all(promises).then(function (responses) {

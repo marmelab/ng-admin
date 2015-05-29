@@ -16,6 +16,11 @@ define(function (require) {
         this.PanelBuilder = PanelBuilder;
 
         this.$scope.edit = this.edit.bind(this);
+
+        var searchParams = this.$location.search();
+        this.sortField = 'sortField' in searchParams ? searchParams.sortField : null;
+        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : null;
+
         this.retrievePanels();
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -28,7 +33,7 @@ define(function (require) {
         var self = this;
         this.panels = [];
 
-        this.PanelBuilder.getPanelsData().then(function (panels) {
+        this.PanelBuilder.getPanelsData(this.sortField, this.sortDir).then(function (panels) {
             self.panels = panels;
         });
     };

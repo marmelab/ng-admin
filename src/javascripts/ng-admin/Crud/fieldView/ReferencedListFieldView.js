@@ -7,7 +7,7 @@ define(function(require) {
                  'fields="::field.targetFields()" ' +
                  'list-actions="::field.listActions()" ' +
                  'entity="::field.targetEntity()" ' +
-                 'sort-field="::field.sortField()" ' +
+                 'sort-field="::field.getSortFieldName()" ' +
                  'sort-dir="::field.sortDir()">' +
             '</ma-datagrid>';
     }
@@ -23,7 +23,7 @@ define(function(require) {
                   'fields="::field.targetFields()" ' +
                   'list-actions="::field.listActions()" ' +
                   'entity="::field.targetEntity()" ' +
-                  'sort-field="::field.sortField()" ' +
+                  'sort-field="::field.getSortFieldName()" ' +
                   'sort-dir="::field.sortDir()">' +
             '</ma-datagrid>';
     }
