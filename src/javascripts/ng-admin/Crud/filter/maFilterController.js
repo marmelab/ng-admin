@@ -40,7 +40,7 @@ define(function () {
             field = filters[i];
             fieldName = field.name();
 
-            if (this.$scope.values[fieldName]) {
+            if (this.$scope.values[fieldName] !== null) {
                 values[fieldName] = this.$scope.values[fieldName];
             }
         }
