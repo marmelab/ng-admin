@@ -64,6 +64,7 @@
         // customize entities and views
 
         post.dashboardView() // customize the dashboard panel for this entity
+            .name('posts')
             .title('Recent posts')
             .order(1) // display the post panel first in the dashboard
             .perPage(5) // limit the panel to the 5 latest posts
@@ -128,9 +129,11 @@
                     .targetEntity(comment)
                     .targetReferenceField('post_id')
                     .targetFields([
-                        nga.field('id'),
+                        nga.field('created_at').label('Posted'),
                         nga.field('body').label('Comment')
-                    ]),
+                    ])
+                    .sortField('created_at')
+                    .sortDir('DESC'),
                 nga.field('', 'template').label('')
                     .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button></span>')
             ]);
