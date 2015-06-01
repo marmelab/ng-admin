@@ -9,7 +9,7 @@ define(function () {
 
     FieldViewConfiguration.prototype.registerFieldView = function(type, FieldView) {
         this.fieldViews[type] = FieldView;
-    }
+    };
 
     FieldViewConfiguration.prototype.$get = function () {
         return this.fieldViews;
