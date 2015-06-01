@@ -28,7 +28,7 @@ describe('ShowView', function () {
             $$('.ng-admin-field-comments th').then(function (inputs) {
                 expect(inputs.length).toBe(2);
 
-                expect(inputs[0].getAttribute('class')).toBe('ng-scope ng-admin-column-id');
+                expect(inputs[0].getAttribute('class')).toBe('ng-scope ng-admin-column-created_at');
                 expect(inputs[1].getAttribute('class')).toBe('ng-scope ng-admin-column-body');
             });
         });
