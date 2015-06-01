@@ -46,17 +46,21 @@ define(function () {
         progression.start();
 
         this.ReadQueries
-            .getAll(this.view, page, true, this.search, this.sortField, this.sortDir)
+            .getAll(this.view, page, this.search, this.sortField, this.sortDir)
             .then(function (response) {
                 progression.done();
+                var references = self.view.getReferences();
+
                 self.dataStore.mapEntries(
                     self.entity.name(),
                     self.view.identifier(),
                     self.fields,
                     response.data
                 ).map(function (entry) {
+                    self.dataStore.fillReferencesValuesFromEntry(entry, references, true);
                     self.dataStore.addEntry(self.entity.uniqueId, entry);
                 });
+
                 self.loadingPage = false;
             });
     };
