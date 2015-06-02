@@ -40,7 +40,8 @@ define(function () {
             field = filters[i];
             fieldName = field.name();
 
-            if (this.$scope.values[fieldName]) {
+            if ((field.type() === 'boolean' && this.$scope.values[fieldName]) || // for boolean false is the same as null
+                (field.type() !== 'boolean' && this.$scope.values[fieldName] !== null)) {
                 values[fieldName] = this.$scope.values[fieldName];
             }
         }
