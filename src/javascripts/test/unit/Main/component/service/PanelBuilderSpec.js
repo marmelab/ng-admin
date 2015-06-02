@@ -12,7 +12,7 @@ describe("PanelBuilder", function () {
     describe('getPanelsData', function() {
 
         it('should retrieve panels', function (done) {
-            var entity = new Entity(),
+            var entity = new Entity('myEntity'),
                 view1 = new DashboardView('view1')
                     .title('dashboard1')
                     .setEntity(entity)
@@ -84,8 +84,15 @@ function getPanelBuilder(dashboardViews, responses) {
             }
         };
     };
-    var retrieveQueries = { getAll: function() {} };
+    var location = { search: function() { return {}; } };
+    var readQueries = {
+        getAll: function() {
+            return mixins.buildPromise({ data: [] });
+        },
+        getFilteredReferenceData: function() { return {}; },
+        getOptimizedReferencedData: function() { return {}; }
+    };
     var AdminDescription = { getDataStore: function() { return new DataStore(); } };
 
-    return new PanelBuilder(q, retrieveQueries, Configuration, AdminDescription);
+    return new PanelBuilder(q, readQueries, Configuration, AdminDescription);
 }
