@@ -415,13 +415,22 @@ function routing($stateProvider) {
                 sortDir: null
             },
             resolve: {
+                dataStore: dataStoreProvider(),
                 view: viewProvider('DeleteView'),
                 params: ['$stateParams', function ($stateParams) {
                     return $stateParams;
                 }],
-                entry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
+                rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
-                }]
+                }],
+                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
+                    return dataStore.mapEntry(
+                        view.entity.name(),
+                        view.identifier(),
+                        view.getFields(),
+                        rawEntry
+                    );
+                }],
             }
         });
 
