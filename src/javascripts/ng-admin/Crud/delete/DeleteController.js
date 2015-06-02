@@ -15,7 +15,6 @@ define(function () {
         this.actions = view.actions();
         this.entity = view.getEntity();
         this.notification = notification;
-
         this.$scope.entry = entry;
         this.$scope.view = view;
         $scope.$on('$destroy', this.destroy.bind(this));

@@ -15,6 +15,10 @@ function PanelBuilder($q, $location, ReadQueries, Configuration, AdminDescriptio
     this.Configuration = Configuration();
 }
 
+PanelBuilder.prototype.hasEntities = function() {
+    return this.Configuration.entities.length > 0;
+}
+
 /**
  * Returns all elements of each dashboard panels
  *
