@@ -36,7 +36,62 @@ PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
             dashboardSortField = sortField;
             dashboardSortDir = sortDir;
         }
-        promises.push(self.ReadQueries.getAll(dashboardView, 1, {}, dashboardSortField, dashboardSortDir));
+        promises.push((function (dashboardView, dashboardSortField, dashboardSortDir) {
+            var rawEntries, nonOptimizedReferencedData, optimizedReferencedData;
+
+            return self.ReadQueries
+                .getAll(dashboardView, 1, {}, dashboardSortField, dashboardSortDir)
+                .then(function (response) {
+                    rawEntries = response.data;
+
+                    return rawEntries;
+                })
+                .then(function (rawEntries) {
+                    return self.ReadQueries.getFilteredReferenceData(dashboardView.getNonOptimizedReferences(), rawEntries);
+                })
+                .then(function (nonOptimizedReference) {
+                    nonOptimizedReferencedData = nonOptimizedReference;
+
+                    return self.ReadQueries.getOptimizedReferencedData(dashboardView.getOptimizedReferences(), rawEntries);
+                })
+                .then(function (optimizedReference) {
+                    optimizedReferencedData = optimizedReference;
+
+                    var references = dashboardView.getReferences(),
+                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                        referencedEntries;
+
+                    for (var name in referencedData) {
+                        referencedEntries = dataStore.mapEntries(
+                            references[name].targetEntity().name(),
+                            references[name].targetEntity().identifier(),
+                            [references[name].targetField()],
+                            referencedData[name]
+                        );
+
+                        dataStore.setEntries(
+                            references[name].targetEntity().uniqueId + '_values',
+                            referencedEntries
+                        );
+                    }
+                })
+                .then(function () {
+                    var entries = dataStore.mapEntries(
+                        dashboardView.entity.name(),
+                        dashboardView.identifier(),
+                        dashboardView.getFields(),
+                        rawEntries
+                    );
+
+
+                    // shortcut to diplay collection of entry with included referenced values
+                    dataStore.fillReferencesValuesFromCollection(entries, dashboardView.getReferences(), true);
+
+                    return {
+                        entries: entries
+                    };
+                });
+        })(dashboardView, dashboardSortField, dashboardSortDir));
     }
 
     return this.$q.all(promises).then(function (responses) {
@@ -59,7 +114,7 @@ PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
                 fields: fields,
                 entity: entity,
                 perPage: view.perPage(),
-                entries: dataStore.mapEntries(entity.name(), entity.identifier(), fields, response.data),
+                entries: response.entries,
                 sortField: view.getSortFieldName(),
                 sortDir: view.sortDir()
             });
