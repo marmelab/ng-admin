@@ -9,7 +9,34 @@ describe('directive: ma-dashboard-panel', function () {
         directiveUsage = '<ma-dashboard-panel label="{{ label }}" view-name="{{ viewName }}" fields="fields"' +
             ' entries="entries" entity="entity" per-page="perPage"></ma-dashboard-panel>';
 
-    angular.module('testapp_DashboardPanel', []).directive('maDashboardPanel', directive);
+    angular.module('testapp_state', [])
+        .service('$state', function($q) {
+            this.expectedTransitions = [];
+            this.transitionTo = function(stateName){
+                if (this.expectedTransitions.length > 0){
+                    var expectedState = this.expectedTransitions.shift();
+                    if (expectedState !== stateName){
+                        throw Error('Expected transition to state: ' + expectedState + ' but transitioned to ' + stateName );
+                    }
+                } else {
+                    throw Error('No more transitions were expected! Tried to transition to ' + stateName );
+                }
+                return $q.when();
+            };
+            this.go = this.transitionTo;
+            this.expectTransitionTo = function(stateName){
+                this.expectedTransitions.push(stateName);
+            };
+
+            this.ensureAllTransitionsHappened = function(){
+                if (this.expectedTransitions.length > 0){
+                    throw Error('Not all transitions happened!');
+                }
+            };
+        });
+
+    angular.module('testapp_DashboardPanel', ['testapp_state'])
+        .directive('maDashboardPanel', directive);
 
     beforeEach(angular.mock.module('testapp_DashboardPanel'));
 

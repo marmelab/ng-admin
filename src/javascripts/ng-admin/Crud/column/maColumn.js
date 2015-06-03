@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    function maColumn($location, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
+    function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
 
         function isDetailLink(field) {
             if (field.isDetailLink() === false) {
@@ -16,7 +16,7 @@ define(function (require) {
             var relatedEntity = Configuration().getEntity(referenceEntity);
             if (!relatedEntity) return false;
             return relatedEntity.isReadOnly ? relatedEntity.showView().enabled : relatedEntity.editionView().enabled;
-        };
+        }
 
         return {
             restrict: 'E',
@@ -38,33 +38,31 @@ define(function (require) {
                 }
                 $compile(element.contents())(scope);
                 scope.gotoDetail = function () {
-                    this.clearRouteParams();
                     var route = scope.field.detailLinkRoute();
                     if (route == 'edit' && !scope.entity().editionView().enabled) {
                         route = 'show';
                     }
-                    $location.path('/' + scope.entry.entityName + '/' + route + '/' + scope.entry.identifierValue);
-                    $anchorScroll(0);
+                    $state.go($state.get(route),
+                    angular.extend({
+                        entity: scope.entry.entityName,
+                        id: scope.entry.identifierValue
+                    }, $state.params));
                 };
                 scope.gotoReference = function () {
-                    this.clearRouteParams();
                     var referenceEntity = scope.field.targetEntity().name();
                     var relatedEntity = Configuration().getEntity(referenceEntity);
                     var referenceId = scope.entry.values[scope.field.name()];
                     var route = relatedEntity.isReadOnly ? 'show' : scope.field.detailLinkRoute();
-                    $location.path('/' + referenceEntity + '/' + route + '/' + referenceId);
-                };
-                scope.clearRouteParams = function () {
-                    $location.search('q', null);
-                    $location.search('page', null);
-                    $location.search('sortField', null);
-                    $location.search('sortDir', null);
+                    $state.go($state.get(route), {
+                        entity: referenceEntity,
+                        id: referenceId
+                    });
                 };
             }
         };
     }
 
-    maColumn.$inject = ['$location', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
+    maColumn.$inject = ['$state', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
 
     return maColumn;
 });

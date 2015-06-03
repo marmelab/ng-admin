@@ -6,14 +6,14 @@ define(function () {
     /**
      *
      * @param {$scope}               $scope
-     * @param {$location}            $location
+     * @param {$state}            $state
      * @param {NgAdmin} Configuration
      * @constructor
      */
-    var AppController = function ($scope, $location, Configuration) {
+    var AppController = function ($scope, $state, Configuration) {
         var application = Configuration();
         this.$scope = $scope;
-        this.$location = $location;
+        this.$state = $state;
         this.menu = application.menu();
         this.applicationName = application.title();
         this.header = application.header();
@@ -22,15 +22,15 @@ define(function () {
     };
 
     AppController.prototype.displayHome = function () {
-        this.$location.path('dashboard');
+        this.$state.go(this.$state.get('dashboard'));
     };
 
     AppController.prototype.destroy = function () {
         this.$scope = undefined;
-        this.$location = undefined;
+        this.$state = undefined;
     };
 
-    AppController.$inject = ['$scope', '$location', 'NgAdminConfiguration'];
+    AppController.$inject = ['$scope', '$state', 'NgAdminConfiguration'];
 
     return AppController;
 });

@@ -1,15 +1,13 @@
 /**
  * @param {$q}                 $q
- * @param {$location}          $location
  * @param {ReadQueries}        ReadQueries
  * @param {Configuration}      Configuration
  * @param {AdminDescription}   AdminDescription
  *
  * @constructor
  */
-function PanelBuilder($q, $location, ReadQueries, Configuration, AdminDescription) {
+function PanelBuilder($q, ReadQueries, Configuration, AdminDescription) {
     this.$q = $q;
-    this.$location = $location;
     this.ReadQueries = ReadQueries;
     this.dataStore = AdminDescription.getDataStore();
     this.Configuration = Configuration();
@@ -71,6 +69,6 @@ PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
     });
 };
 
-PanelBuilder.$inject = ['$q', '$location', 'ReadQueries', 'NgAdminConfiguration', 'AdminDescription'];
+PanelBuilder.$inject = ['$q', 'ReadQueries', 'NgAdminConfiguration', 'AdminDescription'];
 
 module.exports = PanelBuilder;

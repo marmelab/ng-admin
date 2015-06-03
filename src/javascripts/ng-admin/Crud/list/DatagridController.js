@@ -7,11 +7,12 @@ define(function () {
      *
      * @param {$scope} $scope
      * @param {$location} $location
+     * @param {$stateParams} $stateParams
      * @param {$anchorScroll} $anchorScroll
      *
      * @constructor
      */
-    function DatagridController($scope, $location, $anchorScroll) {
+    function DatagridController($scope, $location, $stateParams, $anchorScroll) {
         $scope.entity = $scope.entity();
         this.$scope = $scope;
         this.$location = $location;
@@ -22,32 +23,9 @@ define(function () {
         $scope.toggleSelect = this.toggleSelect.bind(this);
         $scope.toggleSelectAll = this.toggleSelectAll.bind(this);
 
-        this.$scope.gotoDetail = this.gotoDetail.bind(this);
-
-        var searchParams = this.$location.search();
-        this.sortField = 'sortField' in searchParams ? searchParams.sortField : this.$scope.sortField;
-        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : this.$scope.sortDir;
+        this.sortField = 'sortField' in $stateParams ? $stateParams.sortField : null;
+        this.sortDir = 'sortDir' in $stateParams ? $stateParams.sortDir : null;
     }
-
-    /**
-     * Link to edit entity page
-     *
-     * @param {Entry} entry
-     */
-    DatagridController.prototype.gotoDetail = function (entry) {
-        this.clearRouteParams();
-        var entity = this.$scope.entity;
-        var route = entity.editionView().enabled ? 'edit' : 'show';
-        this.$location.path('/' + entry.entityName + '/' + route + '/' + entry.identifierValue);
-        this.$anchorScroll(0);
-    };
-
-    DatagridController.prototype.clearRouteParams = function () {
-        this.$location.search('q', null);
-        this.$location.search('page', null);
-        this.$location.search('sortField', null);
-        this.$location.search('sortDir', null);
-    };
 
     /**
      * Return true if a column is being sorted
@@ -120,7 +98,7 @@ define(function () {
         this.$scope.selection = [];
     };
 
-    DatagridController.$inject = ['$scope', '$location', '$anchorScroll'];
+    DatagridController.$inject = ['$scope', '$location', '$stateParams', '$anchorScroll'];
 
     return DatagridController;
 });
