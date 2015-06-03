@@ -11,7 +11,10 @@ describe('directive: ma-datagrid', function () {
             'entity="entity" next-page="nextPage" per-page="itemsPerPage" total-items="{{ totalItems }}" infinite-pagination="infinitePagination">' +
             '</ma-datagrid>';
 
-    angular.module('testapp_Datagrid', [])
+    angular.module('testapp_stateParams', [])
+        .service('$stateParams', function($q){ return {}; });
+
+    angular.module('testapp_Datagrid', ['testapp_stateParams'])
         .directive('maDatagrid', directive);
 
     beforeEach(angular.mock.module('testapp_Datagrid'));

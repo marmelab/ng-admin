@@ -6,20 +6,16 @@ define(function (require) {
     /**
      *
      * @param {$scope}       $scope
-     * @param {$location}    $location
+     * @param {$state}    $state
      * @param {PanelBuilder} PanelBuilder
      * @constructor
      */
-    function DashboardController($scope, $location, PanelBuilder) {
+    function DashboardController($scope, $state, PanelBuilder) {
         this.$scope = $scope;
-        this.$location = $location;
+        this.$state = $state;
         this.PanelBuilder = PanelBuilder;
 
         this.$scope.edit = this.edit.bind(this);
-
-        var searchParams = this.$location.search();
-        this.sortField = 'sortField' in searchParams ? searchParams.sortField : null;
-        this.sortDir = 'sortDir' in searchParams ? searchParams.sortDir : null;
 
         this.retrievePanels();
 
@@ -33,7 +29,11 @@ define(function (require) {
         var self = this;
         this.panels = [];
 
-        this.PanelBuilder.getPanelsData(this.sortField, this.sortDir).then(function (panels) {
+        var searchParams = this.$state.params;
+        var sortField = 'sortField' in searchParams ? searchParams.sortField : null;
+        var sortDir = 'sortDir' in searchParams ? searchParams.sortDir : null;
+
+        this.PanelBuilder.getPanelsData(sortField, sortDir).then(function (panels) {
             self.panels = panels;
         });
     };
@@ -44,16 +44,19 @@ define(function (require) {
      * @param {Entry} entry
      */
     DashboardController.prototype.edit = function (entry) {
-        this.$location.path(entry.entityName + '/edit/' + entry.identifierValue);
+        this.$state.go(this.$state.get('edit'), {
+            entity: entry.entityName,
+            id: entry.identifierValue
+        });
     };
 
     DashboardController.prototype.destroy = function () {
         this.$scope = undefined;
-        this.$location = undefined;
+        this.$state = undefined;
         this.PanelBuilder = undefined;
     };
 
-    DashboardController.$inject = ['$scope', '$location', 'PanelBuilder'];
+    DashboardController.$inject = ['$scope', '$state', 'PanelBuilder'];
 
     return DashboardController;
 });

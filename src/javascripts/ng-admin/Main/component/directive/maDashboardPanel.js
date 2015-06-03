@@ -1,6 +1,6 @@
 var dashboardPanelView = require('../../view/dashboard-panel.html');
 
-function maDashboardPanel($location) {
+function maDashboardPanel($state) {
     return {
         restrict: 'E',
         scope: {
@@ -9,20 +9,18 @@ function maDashboardPanel($location) {
             entries: '=',
             fields: '&',
             entity: '&',
-            perPage: '=',
-            sortDir: '=',
-            sortField: '='
+            perPage: '='
         },
         link: function(scope) {
             scope.gotoList = function () {
-                $location.path(scope.entity().name() + '/list');
+                $state.go($state.get('list'), { entity: scope.entity().name() });
             };
         },
         template: dashboardPanelView
     };
 }
 
-maDashboardPanel.$inject = ['$location'];
+maDashboardPanel.$inject = ['$state'];
 
 module.exports = maDashboardPanel;
 

@@ -26,7 +26,7 @@ describe('controller: ma-datagrid', function () {
             search: function () {
                 return {};
             }
-        });
+        }, {});
     });
 
     describe('toggleSelect', function () {

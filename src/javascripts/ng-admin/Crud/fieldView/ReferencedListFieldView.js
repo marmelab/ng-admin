@@ -6,9 +6,7 @@ define(function(require) {
                  'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                  'fields="::field.targetFields()" ' +
                  'list-actions="::field.listActions()" ' +
-                 'entity="::field.targetEntity()" ' +
-                 'sort-field="::field.getSortFieldName()" ' +
-                 'sort-dir="::field.sortDir()">' +
+                 'entity="::field.targetEntity()">' +
             '</ma-datagrid>';
     }
     function getLinkWidget() {
@@ -22,9 +20,7 @@ define(function(require) {
                   'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
                   'fields="::field.targetFields()" ' +
                   'list-actions="::field.listActions()" ' +
-                  'entity="::field.targetEntity()" ' +
-                  'sort-field="::field.getSortFieldName()" ' +
-                  'sort-dir="::field.sortDir()">' +
+                  'entity="::field.targetEntity()">' +
             '</ma-datagrid>';
     }
     return {

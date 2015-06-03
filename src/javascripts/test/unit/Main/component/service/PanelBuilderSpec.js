@@ -84,9 +84,8 @@ function getPanelBuilder(dashboardViews, responses) {
             }
         };
     };
-    var location = { search: function() { return {}; } };
     var retrieveQueries = { getAll: function() {} };
     var AdminDescription = { getDataStore: function() { return new DataStore(); } };
 
-    return new PanelBuilder(q, location, retrieveQueries, Configuration, AdminDescription);
+    return new PanelBuilder(q, retrieveQueries, Configuration, AdminDescription);
 }

@@ -16,9 +16,7 @@ define(function (require) {
                 selection: '=',
                 fields: '&',
                 listActions: '&',
-                entity: '&',
-                sortField: '=',
-                sortDir: '='
+                entity: '&'
             },
             controllerAs: 'datagrid',
             controller: DatagridController

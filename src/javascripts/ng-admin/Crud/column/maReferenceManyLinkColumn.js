@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    function maReferenceManyLinkColumn($location, Configuration) {
+    function maReferenceManyLinkColumn($state, Configuration) {
         return {
             restrict: 'E',
             scope: {
@@ -19,7 +19,7 @@ define(function (require) {
                     relatedEntity = Configuration().getEntity(referenceEntity);
                 scope.gotoReference = function (referenceId) {
                     var route = relatedEntity.isReadOnly ? 'show' : 'edit';
-                    $location.path('/' + referenceEntity + '/' + route + '/' + referenceId);
+                    $state.go($state.get(route), { entity: referenceEntity, id: referenceId });
                 };
             },
             template:
@@ -29,7 +29,7 @@ define(function (require) {
         };
     }
 
-    maReferenceManyLinkColumn.$inject = ['$location', 'NgAdminConfiguration'];
+    maReferenceManyLinkColumn.$inject = ['$state', 'NgAdminConfiguration'];
 
     return maReferenceManyLinkColumn;
 });
