@@ -40,22 +40,22 @@ define(function () {
             .getList(params);
     };
 
-    RestWrapper.prototype.createOne = function(rawEntity, entityName, url) {
-        return this.Restangular
-            .oneUrl(entityName, url)
-            .customPOST(rawEntity)
-            .then(function (response) {
-                return response.data;
-            });
+    RestWrapper.prototype.createOne = function(rawEntity, entityName, url, method) {
+        var resource = this.Restangular.oneUrl(entityName, url),
+            operation = method ? resource.customOperation(method, null, {}, {}, rawEntity) : resource.customPOST(rawEntity);
+
+        return operation.then(function (response) {
+            return response.data;
+        });
     };
 
-    RestWrapper.prototype.updateOne = function(rawEntity, entityName, url) {
-        return this.Restangular
-            .oneUrl(entityName, url)
-            .customPUT(rawEntity)
-            .then(function (response) {
-                return response.data;
-            });
+    RestWrapper.prototype.updateOne = function(rawEntity, entityName, url, method) {
+        var resource = this.Restangular.oneUrl(entityName, url),
+            operation = method ? resource.customOperation(method, null, {}, {}, rawEntity) : resource.customPUT(rawEntity);
+
+        return operation.then(function (response) {
+            return response.data;
+        });
     };
 
     RestWrapper.prototype.deleteOne = function(entityName, url) {
