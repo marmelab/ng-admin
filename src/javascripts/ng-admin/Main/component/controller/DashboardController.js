@@ -36,6 +36,7 @@ define(function (require) {
         this.PanelBuilder.getPanelsData(sortField, sortDir).then(function (panels) {
             self.panels = panels;
         });
+        this.hasEntities = this.PanelBuilder.hasEntities();
     };
 
     /**

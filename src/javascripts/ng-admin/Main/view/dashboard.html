@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-if="dashboardController.hasEntities">
     <div class="col-lg-12">
         <div class="page-header">
             <h1>Dashboard</h1>
@@ -31,6 +31,15 @@
                              sort-field="panel.sortField"
                              sort-dir="panel.sortDir">
             </ma-dashboard-panel>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="!dashboardController.hasEntities">
+    <div class="col-lg-12">
+        <div class="dashboard-invite">
+            <p>All dependencies are set, ng-admin is ready to run!</p>
+            <p>Now you can <a href="https://github.com/marmelab/ng-admin/blob/master/README.md#configuring-ng-admin">update the configuration</a>: add entities to the admin, then refresh.</p>
         </div>
     </div>
 </div>
