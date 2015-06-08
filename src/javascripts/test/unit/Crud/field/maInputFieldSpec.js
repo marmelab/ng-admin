@@ -59,4 +59,11 @@ describe('directive: input-field', function () {
         scope.$digest();
         expect(element.find('input').val()).toBe('baz');
     });
+
+    it('should set `step` attribute in scope if passed as element attribute', function() {
+        scope.field = new Field().attributes({ step: 'any' });
+        var element = $compile(directiveUsage)(scope);
+        scope.$digest();
+        expect(element.find('input')[0].step).toBe('any');
+    });
 });

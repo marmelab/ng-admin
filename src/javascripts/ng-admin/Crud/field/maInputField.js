@@ -24,6 +24,11 @@ define(function (require) {
                 var input = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
+                    if (name === 'step') { // allow to use `step` attribute instead of `scope.step`
+                        scope.step = attributes[name];
+                        continue;
+                    }
+
                     input[name] = attributes[name];
                 }
             },
