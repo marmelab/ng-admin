@@ -10,6 +10,6 @@ require('textangular');
 
 require('../../node_modules/angular-numeraljs/dist/angular-numeraljs');
 require('../../node_modules/angular-bootstrap/dist/ui-bootstrap-tpls');
-require('../../node_modules/angular-file-upload/dist/angular-file-upload');
+require('../../node_modules/ng-file-upload/dist/ng-file-upload');
 
 global._ = require('underscore');

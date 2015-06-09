@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 var CrudModule = angular.module('crud', [
-    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'angularFileUpload', 'ngNumeraljs'
+    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
 ]);
 
 CrudModule.controller('ListController', require('./list/ListController'));
