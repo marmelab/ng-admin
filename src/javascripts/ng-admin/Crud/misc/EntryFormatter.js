@@ -13,11 +13,13 @@ define(function () {
 
     EntryFormatter.prototype.formatField = function formatField(field) {
         var label = field.label() || field.name();
+
         switch (field.type()) {
             case 'boolean':
             case 'choice':
             case 'choices':
             case 'number':
+            case 'float':
             case 'string':
             case 'text':
             case 'wysiwyg':
@@ -31,6 +33,7 @@ define(function () {
                         value: entry.values[field.name()]
                     };
                 };
+            case 'datetime':
             case 'date':
                 var formatDate = this.formatDate(field.format());
                 return function (entry) {
@@ -46,6 +49,7 @@ define(function () {
                         value: entry.listValues[field.name()]
                     };
                 };
+            case 'referenced_many':
             case 'referenced_list':
                 return; //ignored
         }
