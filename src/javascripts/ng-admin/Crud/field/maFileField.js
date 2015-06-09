@@ -8,7 +8,7 @@ define(function (require) {
      *
      * @example <ma-file-field field="field"></ma-file-field>
      */
-    function maFileField($upload, $timeout) {
+    function maFileField(Upload, $timeout) {
         return {
             scope: {
                 'field': '&',
@@ -23,7 +23,10 @@ define(function (require) {
                     }
 
                     scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
-                    scope.accept = uploadInformation.hasOwnProperty('accept') ? uploadInformation.accept : '*';
+                    scope.accept = "'*'";
+                    if (uploadInformation.hasOwnProperty('accept')) {
+                        scope.accept = typeof uploadInformation.accept === 'function' ? uploadInformation.accept : "'" + uploadInformation.accept + "'";
+                    }
                     scope.apifilename = uploadInformation.hasOwnProperty('apifilename') ? uploadInformation.apifilename : false;
 
                     var files = scope.value ? scope.value.split(',') : [];
@@ -49,7 +52,7 @@ define(function (require) {
                     }
 
                     scope.fileSelected = function(selectedFiles) {
-                        if (!selectedFiles) {
+                        if (!selectedFiles || !selectedFiles.length) {
                             return;
                         }
 
@@ -59,7 +62,7 @@ define(function (require) {
                         for (var file in selectedFiles) {
                             uploadParams = angular.copy(scope.field().uploadInformation());
                             uploadParams.file = selectedFiles[file];
-                            $upload
+                            Upload
                                 .upload(uploadParams)
                                 .progress(function(evt) {
                                     scope.files[evt.config.file.name] = {
@@ -116,12 +119,12 @@ define(function (require) {
         '</div>' +
     '</div>' +
 '</div>' +
-'<input type="file" ng-multiple="multiple" accept="{{ accept }}" ng-file-select ng-model="selectedFiles" ng-file-change="fileSelected($files)"' +
+'<input type="file" ngf-multiple="multiple" ngf-accept="{{ accept }}" ngf-select ngf-change="fileSelected($files)"' +
         'id="{{ name }}" name="{{ name }}" ng-required="v.required" style="display:none" />'
         };
     }
 
-    maFileField.$inject = ['$upload', '$timeout'];
+    maFileField.$inject = ['Upload', '$timeout'];
 
     return maFileField;
 });

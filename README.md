@@ -62,7 +62,7 @@ If you rather like to embed dependencies separately, here is a snippet showing a
 <script src="bower_components/humane/humane.js"></script>
 <script src="bower_components/inflection/inflection.min.js"></script>
 <script src="bower_components/lodash/lodash.min.js"></script>
-<script src="bower_components/ng-file-upload/angular-file-upload-all.min.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload-all.min.js"></script>
 <script src="bower_components/ngInflection/ngInflection.js"></script>
 <script src="bower_components/nprogress/nprogress.js"></script>
 <script src="bower_components/restangular/dist/restangular.min.js"></script>
