@@ -1,13 +1,13 @@
-/*global xdescribe,xit,expect,$$,element,browser,by*/
-xdescribe('ListView', function () {
+/*global describe,it,expect,$$,element,browser,by*/
+describe('ListView', function () {
     'use strict';
 
     beforeEach(function () {
         browser.get(browser.baseUrl + '#/posts/list');
     });
 
-    xdescribe('Edition link', function () {
-        xit('should allow edition of an entity', function () {
+    describe('Edition link', function () {
+        it('should allow edition of an entity', function () {
             // Retrieve first edit button
             $('table tr:nth-child(1) ma-edit-button a').click();
 
@@ -18,8 +18,8 @@ xdescribe('ListView', function () {
         });
     });
 
-    xdescribe('Show link', function () {
-        xit('should allow display of an entity', function () {
+    describe('Show link', function () {
+        it('should allow display of an entity', function () {
             // Retrieve first edit button
             $('table tr:nth-child(1) ma-show-button a').click();
 
@@ -30,7 +30,7 @@ xdescribe('ListView', function () {
         });
     });
 
-    xdescribe('ma-list-button', function () {
+    describe('ma-list-button', function () {
         var listUrl;
 
         beforeEach(function() {
@@ -38,7 +38,7 @@ xdescribe('ListView', function () {
             browser.get(listUrl);
         });
 
-        xit('should restore the list with filter when used from edit', function () {
+        it('should restore the list with filter when used from edit', function () {
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
                 $$('ma-edit-button a').then(function (elements) {
                     expect(elements[0].getText()).toBe(' Edit');
@@ -52,7 +52,7 @@ xdescribe('ListView', function () {
             });
         });
 
-        xit('should restore the list with filter when used from delete', function () {
+        it('should restore the list with filter when used from delete', function () {
             browser.get(listUrl);
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
 
@@ -70,6 +70,71 @@ xdescribe('ListView', function () {
                         });
                     });
                 });
+            });
+        });
+    });
+
+    function selectItemAndGoToBatchDelete() {
+        return $$('ma-view-batch-actions button')
+        .then(function (elements) {
+            expect(elements.length).toBe(0);
+            return $$('ma-datagrid-item-selector');
+        })
+        .then(function (elements) {
+            // expect(elements.length).toBe(numComments);
+            elements[0].click();
+
+            return $$('ma-view-batch-actions button');
+        })
+        .then(function (elements) {
+            expect(elements.length).toBe(1);
+            elements[0].click();
+            return $$('ma-batch-delete-button');
+        })
+        .then(function (elements) {
+            expect(elements.length).toBe(1);
+            elements[0].click();
+            expect(browser.getCurrentUrl()).toMatch(browser.baseUrl + '/#/comments/batch-delete/');
+
+            return $$('button');
+        });
+    }
+
+    describe('ma-batch-delete-button', function () {
+        it('should show the batch delete button only when at least one line is selected', function () {
+            browser.get('/#/comments/list');
+            var numComments;
+            $$('tbody tr').then(function (elements) {
+                numComments = elements.length;
+                return selectItemAndGoToBatchDelete();
+            })
+            .then(function (elements) {
+                expect(elements[1].getText()).toBe('No');
+                elements[1].click();
+                expect(browser.getCurrentUrl()).toMatch(browser.baseUrl + '/#/comments/list');
+                return $$('tbody tr');
+            })
+            .then(function (elements) {
+                expect(elements.length).toBe(numComments);
+            });
+        });
+
+        // @TODO allow to delete item without broking other test
+        xit('should show the batch delete button only when at least one line is selected', function () {
+            browser.get('/#/comments/list');
+            var numComments;
+            $$('tbody tr').then(function (elements) {
+                numComments = elements.length;
+                return selectItemAndGoToBatchDelete();
+            })
+            .then(function (elements) {
+                expect(elements[0].getText()).toBe('Yes');
+                elements[0].click();
+                expect(browser.getCurrentUrl()).toMatch(browser.baseUrl + '/#/comments/list');
+                return $$('tbody tr');
+            })
+            .then(function (elements) {
+                expect(elements.length).toBe(numComments - 1);
             });
         });
     });
