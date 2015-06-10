@@ -46,7 +46,7 @@ define(function () {
     BatchDeleteController.prototype.back = function () {
 
         this.$state.go(this.$state.get('list'), angular.extend({
-            entity: this.entity().name()
+            entity: this.entity.name()
         }, this.$state.params));
     };
 
