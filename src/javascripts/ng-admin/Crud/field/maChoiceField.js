@@ -30,15 +30,17 @@ define(function (require) {
                 scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
                 var select = element.children()[0];
                 var attributes = field.attributes();
-                for (var name in attributes) {
+                for (var name in Object.keys(attributes)) {
                     select[name] = attributes[name];
                 }
             },
-            template:
-'<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control"' +
-  ' ng-options="item.value as item.label for item in getChoices(entry)">' +
-  '<option value="">-- select a value --</option>' +
-'</select>'
+            template: `
+                <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
+                    <ui-select-match placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                    <ui-select-choices repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
+                        {{ item.label }}
+                    </ui-select-choices>
+                </ui-select>`
         };
     }
 
