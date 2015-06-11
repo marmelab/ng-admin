@@ -1,22 +1,14 @@
-define(function(require) {
-    "use strict";
-
-    function getReadWidget() {
+module.exports = {
+    getReadWidget: function() {
         return '<ma-string-column value="::field.getLabelForChoice(entry.values[field.name()], entry)"></ma-string-column>';
-    }
-    function getLinkWidget() {
-        return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
-    }
-    function getFilterWidget() {
+    },
+    getLinkWidget: function() {
+        '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>'
+    },
+    getFilterWidget: function() {
         return '<ma-choice-field field="::field" value="values[field.name()]"></ma-choice-field>';
-    }
-    function getWriteWidget() {
+    },
+    getWriteWidget: function() {
         return '<ma-choice-field field="::field" entry="entry" value="entry.values[field.name()]"></ma-choice-field>';
     }
-    return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
-        getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
-    }
-});
+};

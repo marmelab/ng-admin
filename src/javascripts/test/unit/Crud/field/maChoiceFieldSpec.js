@@ -1,11 +1,11 @@
 /*global angular,inject,describe,it,expect,beforeEach*/
-describe('directive: choice-field', function () {
+fdescribe('directive: choice-field', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maChoiceField');
     var ChoiceField = require('admin-config/lib/Field/ChoiceField');
 
-    angular.module('testapp_ChoiceField', []).directive('maChoiceField', directive);
+    angular.module('testapp_ChoiceField', ['ui.select']).directive('maChoiceField', directive);
 
     var $compile,
         scope,
@@ -18,40 +18,20 @@ describe('directive: choice-field', function () {
         scope = _$rootScope_;
     }));
 
-    it("should contain a select tag", function () {
+    it("should contain a ui-select tag", function () {
         scope.field = new ChoiceField();
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.children()[0].nodeName).toBe('SELECT');
+
+        var uiSelect = element.children()[0];
+        expect(uiSelect.classList.contains('ui-select-container')).toBeTruthy();
     });
 
     it("should add any supplied attribute", function () {
         scope.field = new ChoiceField().attributes({ disabled: true });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.children()[0].disabled).toBeTruthy();
-    });
-
-    it("should provide an initial option for non-required fields", function () {
-        scope.field = new ChoiceField().choices([
-            {label: 'foo', value: 'bar'}
-        ]);
-        var element = $compile(directiveUsage)(scope);
-        scope.$digest();
-        var options = element.find('option');
-        expect(options[0].innerHTML).toEqual('-- select a value --');
-        expect(options[0].value).toEqual('');
-    });
-
-    it("should provide an initial option for non-required fields", function () {
-        scope.field = new ChoiceField().choices([
-            {label: 'foo', value: 'bar'}
-        ]).validation({ required: true });
-        var element = $compile(directiveUsage)(scope);
-        scope.$digest();
-        var options = element.find('option');
-        expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
+        expect(element.children()[0].getAttribute('disabled')).toBeTruthy();
     });
 
     it("should contain the choices as options", function () {
@@ -59,14 +39,15 @@ describe('directive: choice-field', function () {
             {label: 'foo', value: 'bar'},
             {label: 'baz', value: 'bazValue'}
         ]);
-        scope.value = 'bar';
+
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        var options = element.find('option');
-        expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
-        expect(options[2].label).toEqual('baz');
-        expect(options[2].value).toEqual('1');
+
+        var uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
+            {label: 'foo', value: 'bar'},
+            {label: 'baz', value: 'bazValue'}
+        ]));
     });
 
     it("should contain the choices from choicesFunc as options", function () {
@@ -74,30 +55,35 @@ describe('directive: choice-field', function () {
             {label: 'foo', value: 'bar'},
             {label: 'baz', value: 'bazValue'}
         ];
+
         scope.field = new ChoiceField().choices(function(entry){
             return choices;
         });
-        scope.value = 'bar';
+
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        var options = element.find('option');
-        expect(options[1].label).toEqual('foo');
-        expect(options[1].value).toEqual('0');
-        expect(options[2].label).toEqual('baz');
-        expect(options[2].value).toEqual('1');
+
+        var uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
+            {label: 'foo', value: 'bar'},
+            {label: 'baz', value: 'bazValue'}
+        ]));
     });
 
     it("should pass entry to choicesFunc", function () {
         var choices = [];
         var choicesFuncWasCalled = false;
+
         scope.entry = {moo: 'boo'};
         scope.field = new ChoiceField().choices(function(entry){
             expect(entry.moo).toEqual('boo');
             choicesFuncWasCalled = true;
             return choices;
         });
-        var element = $compile(directiveUsage)(scope);
+
+        $compile(directiveUsage)(scope);
         scope.$digest();
+
         expect(choicesFuncWasCalled).toBeTruthy();
     });
 
@@ -106,11 +92,16 @@ describe('directive: choice-field', function () {
             {label: 'foo', value: 'bar'},
             {label: 'baz', value: 'bazValue'}
         ]);
+
         scope.value = 'bazValue';
+
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        var options = element.find('option');
-        expect(options[2].selected).toBeTruthy();
-        expect(options[2].value).toEqual('1');
+
+        var uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(angular.toJson(uiSelect.selected)).toEqual(JSON.stringify({
+            label: 'baz',
+            value: 'bazValue'
+        }));
     });
 });

@@ -16,6 +16,7 @@ module.exports = function (config) {
             '../../node_modules/angular-mocks/angular-mocks.js',
             '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
             '../../node_modules/numeral/numeral.js',
+            '../../node_modules/ui-select/dist/select.js',
 
             'test/function.bind.shim.js',
             'test/unit/**/*.js'
