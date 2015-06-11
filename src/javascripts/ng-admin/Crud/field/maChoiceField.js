@@ -38,8 +38,7 @@ function maChoiceField($compile) {
                     }
 
                     $compile(element.contents())(scope);
-                },
-
+                }
             };
         }
     };

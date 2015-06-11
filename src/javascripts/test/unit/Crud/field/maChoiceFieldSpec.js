@@ -1,5 +1,5 @@
 /*global angular,inject,describe,it,expect,beforeEach*/
-fdescribe('directive: choice-field', function () {
+describe('directive: choice-field', function () {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maChoiceField');
