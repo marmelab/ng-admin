@@ -3,7 +3,7 @@ describe('directive: choices-field', function() {
     'use strict';
 
     var directive = require('../../../../ng-admin/Crud/field/maChoicesField');
-    var ChoiceField = require('admin-config/lib/Field/ChoiceField');
+    var ChoicesField = require('admin-config/lib/Field/ChoicesField');
     var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var dataStoreModule = angular.module('testapp_DataStore', []);
@@ -23,7 +23,7 @@ describe('directive: choices-field', function() {
     }));
 
     it("should contain a select multiple tag", function () {
-        scope.field = new ChoiceField();
+        scope.field = new ChoicesField();
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
 
@@ -32,7 +32,7 @@ describe('directive: choices-field', function() {
     });
 
     it("should add any supplied attribute", function () {
-        scope.field = new ChoiceField().attributes({ disabled: true });
+        scope.field = new ChoicesField().attributes({ disabled: true });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.children()[0].getAttribute('disabled')).toBeTruthy();
@@ -43,7 +43,7 @@ describe('directive: choices-field', function() {
         var choicesFuncWasCalled = false;
 
         scope.entry = {moo: 'boo'};
-        scope.field = new ChoiceField().choices(function(entry){
+        scope.field = new ChoicesField().choices(function(entry){
             expect(entry.moo).toEqual('boo');
             choicesFuncWasCalled = true;
             return choices;
@@ -61,7 +61,7 @@ describe('directive: choices-field', function() {
             {label: 'baz', value: 'bazValue'}
         ];
 
-        scope.field = new ChoiceField().choices(function(entry){
+        scope.field = new ChoicesField().choices(function(entry){
             return choices;
         });
 
@@ -76,7 +76,7 @@ describe('directive: choices-field', function() {
     });
 
     it("should contain the choices as options", function () {
-        scope.field = new ChoiceField().choices([
+        scope.field = new ChoicesField().choices([
             {label: 'foo', value: 'bar'},
             {label: 'baz', value: 'bazValue'}
         ]);
@@ -92,7 +92,7 @@ describe('directive: choices-field', function() {
     });
 
     it("should have the option with the bounded value selected", function () {
-        scope.field = new ChoiceField().choices([
+        scope.field = new ChoicesField().choices([
             {label: 'foo', value: 'fooValue'},
             {label: 'bar', value: 'barValue'},
             {label: 'baz', value: 'bazValue'}
