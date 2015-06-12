@@ -835,6 +835,12 @@ ng-admin has unit tests (powered by karma) and end to end tests (powered by prot
 make test
 ```
 
+**Tip:** if you are working on Karma tests, you can prevent from relaunching the whole process by disabling single-run:
+
+```
+KARMA_SINGLE_RUN=false grunt karma:unit
+```
+
 ## License
 
 ng-admin is licensed under the [MIT Licence](LICENSE), courtesy of [marmelab](http://marmelab.com).
