@@ -43,8 +43,8 @@ describe('directive: choice-field', function () {
             expect(element[0].querySelector('.ui-select-match').getAttribute('allow-clear')).toEqual(expectedAllowClearValue.toString());
         }
 
-        test(true, true);
-        test(false, false);
+        test(true, false);
+        test(false, true);
     });
 
     it("should contain the choices as options", function () {
