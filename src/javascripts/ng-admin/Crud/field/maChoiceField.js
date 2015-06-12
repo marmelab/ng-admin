@@ -10,17 +10,17 @@ function maChoiceField($compile) {
         compile: function() {
             return {
                 pre: function(scope, element) {
+                    var field = scope.field();
+                    scope.name = field.name();
+                    scope.v = field.validation();
+
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
-                            <ui-select-match placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                            <ui-select-match allow-clear="{{ v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
                             <ui-select-choices repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
-
-                    var field = scope.field();
-                    scope.name = field.name();
-                    scope.v = field.validation();
 
                     var choices;
                     if (field.type() === 'reference' || field.type() === 'reference_many') {

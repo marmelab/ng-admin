@@ -34,6 +34,19 @@ describe('directive: choice-field', function () {
         expect(element.children()[0].getAttribute('disabled')).toBeTruthy();
     });
 
+    it('should allow to remove selected option only if not required', function() {
+        function test(isRequired, expectedAllowClearValue) {
+            scope.field = new ChoiceField().validation({ required: isRequired });
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+
+            expect(element[0].querySelector('.ui-select-match').getAttribute('allow-clear')).toEqual(expectedAllowClearValue.toString());
+        }
+
+        test(true, true);
+        test(false, false);
+    });
+
     it("should contain the choices as options", function () {
         scope.field = new ChoiceField().choices([
             {label: 'foo', value: 'bar'},
