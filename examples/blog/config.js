@@ -190,8 +190,14 @@
                 nga.field('author'),
                 nga.field('body', 'wysiwyg'),
                 nga.field('post_id', 'reference')
+                    .perPage(5)
                     .label('Post')
                     .map(truncate)
+                    .filters(function(search) {
+                        return {
+                            q: search // Full-text search
+                        };
+                    })
                     .targetEntity(post)
                     .targetField(nga.field('title'))
                     .validation({ required: true }),
