@@ -41,6 +41,14 @@ NgAdminConfiguration.prototype.menu = function(entity) {
     return this.adminDescription.menu(entity);
 };
 
+NgAdminConfiguration.prototype.collection = function(collection) {
+    return this.adminDescription.collection(collection);
+};
+
+NgAdminConfiguration.prototype.dashboard = function(dashboard) {
+    return this.adminDescription.dashboard(dashboard);
+};
+
 NgAdminConfiguration.$inject = ['$compileProvider'];
 
 module.exports = NgAdminConfiguration;

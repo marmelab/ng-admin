@@ -22,7 +22,9 @@ function routing($stateProvider, $urlRouterProvider) {
         },
         controller: 'DashboardController',
         controllerAs: 'dashboardController',
-        template: dashboardTemplate
+        templateProvider: ['NgAdminConfiguration', function(Configuration) {
+            return Configuration().dashboard().template() || dashboardTemplate;
+        }]
     });
 
     $stateProvider.state('ma-404', {

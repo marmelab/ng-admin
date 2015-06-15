@@ -23,45 +23,45 @@ PanelBuilder.prototype.hasEntities = function() {
  * @returns {promise}
  */
 PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
-    var dashboardViews = this.Configuration.getViewsOfType('DashboardView'),
+    var collections = this.Configuration.dashboard().collections(),
         dataStore = this.dataStore,
-        promises = [],
-        dashboardView,
-        dashboardSortField,
-        dashboardSortDir,
+        promises = {},
+        collection,
+        collectionSortField,
+        collectionSortDir,
         self = this,
-        i;
+        collectionName;
 
-    for (i in dashboardViews) {
-        dashboardView = dashboardViews[i];
-        dashboardSortField = dashboardView.getSortFieldName();
-        dashboardSortDir = dashboardView.sortDir();
-        if (sortField && sortField.split('.')[0] === dashboardView.name()) {
-            dashboardSortField = sortField;
-            dashboardSortDir = sortDir;
+    for (collectionName in collections) {
+        collection = collections[collectionName];
+        collectionSortField = collection.getSortFieldName();
+        collectionSortDir = collection.sortDir();
+        if (sortField && sortField.split('.')[0] === collection.name()) {
+            collectionSortField = sortField;
+            collectionSortDir = sortDir;
         }
-        promises.push((function (dashboardView, dashboardSortField, dashboardSortDir) {
+        promises[collectionName] = (function (collection, collectionSortField, collectionSortDir) {
             var rawEntries, nonOptimizedReferencedData, optimizedReferencedData;
 
             return self.ReadQueries
-                .getAll(dashboardView, 1, {}, dashboardSortField, dashboardSortDir)
+                .getAll(collection, 1, {}, collectionSortField, collectionSortDir)
                 .then(function (response) {
                     rawEntries = response.data;
 
                     return rawEntries;
                 })
                 .then(function (rawEntries) {
-                    return self.ReadQueries.getFilteredReferenceData(dashboardView.getNonOptimizedReferences(), rawEntries);
+                    return self.ReadQueries.getFilteredReferenceData(collection.getNonOptimizedReferences(), rawEntries);
                 })
                 .then(function (nonOptimizedReference) {
                     nonOptimizedReferencedData = nonOptimizedReference;
 
-                    return self.ReadQueries.getOptimizedReferencedData(dashboardView.getOptimizedReferences(), rawEntries);
+                    return self.ReadQueries.getOptimizedReferencedData(collection.getOptimizedReferences(), rawEntries);
                 })
                 .then(function (optimizedReference) {
                     optimizedReferencedData = optimizedReference;
 
-                    var references = dashboardView.getReferences(),
+                    var references = collection.getReferences(),
                         referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                         referencedEntries;
 
@@ -81,50 +81,45 @@ PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
                 })
                 .then(function () {
                     var entries = dataStore.mapEntries(
-                        dashboardView.entity.name(),
-                        dashboardView.identifier(),
-                        dashboardView.getFields(),
+                        collection.entity.name(),
+                        collection.identifier(),
+                        collection.getFields(),
                         rawEntries
                     );
 
 
                     // shortcut to diplay collection of entry with included referenced values
-                    dataStore.fillReferencesValuesFromCollection(entries, dashboardView.getReferences(), true);
+                    dataStore.fillReferencesValuesFromCollection(entries, collection.getReferences(), true);
 
                     return {
                         entries: entries
                     };
                 });
-        })(dashboardView, dashboardSortField, dashboardSortDir));
+        })(collection, collectionSortField, collectionSortDir);
     }
 
     return this.$q.all(promises).then(function (responses) {
-        var i,
-            response,
-            view,
+        var collectionName,
+            collection,
             entity,
-            fields,
-            panels = [];
+            collectionData = {};
 
-        for (i in responses) {
-            response = responses[i];
-            view = dashboardViews[i];
-            entity = view.getEntity();
-            fields = view.fields();
-
-            panels.push({
-                label: view.title() || view.getEntity().label(),
-                viewName: view.name(),
-                fields: fields,
+        for (collectionName in responses) {
+            collection = collections[collectionName];
+            entity = collection.getEntity();
+            collectionData[collectionName] = {
+                label: collection.title() || entity.label(),
+                viewName: collection.name(),
+                fields: collection.fields(),
                 entity: entity,
-                perPage: view.perPage(),
-                entries: response.entries,
-                sortField: view.getSortFieldName(),
-                sortDir: view.sortDir()
-            });
+                order: collection.order(),
+                entries: responses[collectionName].entries,
+                sortField: collection.getSortFieldName(),
+                sortDir: collection.sortDir()
+            };
         }
 
-        return panels;
+        return collectionData;
     });
 };
 

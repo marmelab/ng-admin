@@ -13,11 +13,8 @@ define(function (require) {
     function DashboardController($scope, $state, PanelBuilder) {
         this.$scope = $scope;
         this.$state = $state;
-        this.PanelBuilder = PanelBuilder;
 
-        this.$scope.edit = this.edit.bind(this);
-
-        this.retrievePanels();
+        this.retrieveCollections(PanelBuilder);
 
         $scope.$on('$destroy', this.destroy.bind(this));
     }
@@ -25,36 +22,30 @@ define(function (require) {
     /**
      * Retrieve all dashboard panels
      */
-    DashboardController.prototype.retrievePanels = function () {
-        var self = this;
-        this.panels = [];
+    DashboardController.prototype.retrieveCollections = function (PanelBuilder) {
+        this.collections = {};
+        this.orderedCollections = [];
 
         var searchParams = this.$state.params;
         var sortField = 'sortField' in searchParams ? searchParams.sortField : null;
         var sortDir = 'sortDir' in searchParams ? searchParams.sortDir : null;
 
-        this.PanelBuilder.getPanelsData(sortField, sortDir).then(function (panels) {
-            self.panels = panels;
+        PanelBuilder.getPanelsData(sortField, sortDir).then(collections => {
+            this.collections = collections;
+            let orderedCollections = [];
+            for (var name in collections) {
+                orderedCollections.push(collections[name]);
+            }
+            this.orderedCollections = orderedCollections.sort((collectionA, collectionB) => {
+                return collectionA.order - collectionB.order;
+            });
         });
-        this.hasEntities = this.PanelBuilder.hasEntities();
-    };
-
-    /**
-     * Link to edit entity page
-     *
-     * @param {Entry} entry
-     */
-    DashboardController.prototype.edit = function (entry) {
-        this.$state.go(this.$state.get('edit'), {
-            entity: entry.entityName,
-            id: entry.identifierValue
-        });
+        this.hasEntities = PanelBuilder.hasEntities();
     };
 
     DashboardController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$state = undefined;
-        this.PanelBuilder = undefined;
     };
 
     DashboardController.$inject = ['$scope', '$state', 'PanelBuilder'];

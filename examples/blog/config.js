@@ -62,14 +62,6 @@
             .addEntity(comment);
 
         // customize entities and views
-
-        post.dashboardView() // customize the dashboard panel for this entity
-            .name('posts')
-            .title('Recent posts')
-            .order(1) // display the post panel first in the dashboard
-            .perPage(5) // limit the panel to the 5 latest posts
-            .fields([nga.field('title').isDetailLink(true).map(truncate)]); // fields() called with arguments add fields to the view
-
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
             .description('List of posts with infinite pagination') // description appears under the title
@@ -150,20 +142,6 @@
                     .template('<send-email post="entry"></send-email>')
             ]);
 
-        comment.dashboardView()
-            .title('Last comments')
-            .order(2) // display the comment panel second in the dashboard
-            .perPage(5)
-            .fields([
-                nga.field('id'),
-                nga.field('body', 'wysiwyg')
-                    .label('Comment')
-                    .stripTags(true)
-                    .map(truncate),
-                nga.field(null, 'template') // template fields don't need a name in dashboard view
-                    .label('')
-                    .template('<post-link entry="entry"></post-link>') // you can use custom directives, too
-            ]);
 
         comment.listView()
             .title('Comments')
@@ -229,15 +207,6 @@
         comment.deletionView()
             .title('Deletion confirmation'); // customize the deletion confirmation message
 
-        tag.dashboardView()
-            .title('Recent tags')
-            .order(3)
-            .perPage(10)
-            .fields([
-                nga.field('id'),
-                nga.field('name'),
-                nga.field('published', 'boolean').label('Is published ?')
-            ]);
 
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
@@ -280,6 +249,43 @@
             .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
             .addChild(nga.menu().title('Other')
                 .addChild(nga.menu().title('Stats').icon('').link('/stats'))
+            )
+        );
+
+        // customize dashboard
+        admin.dashboard(nga.dashboard()
+            .addCollection('posts', nga.collection(post)
+                .title('Recent posts')
+                .perPage(5) // limit the panel to the 5 latest posts
+                .fields([
+                    nga.field('title').isDetailLink(true).map(truncate)
+                ])
+                .order(1)
+            )
+            .addCollection('comments', nga.collection(comment)
+                .title('Last comments')
+                .perPage(5)
+                .fields([
+                    nga.field('id'),
+                    nga.field('body', 'wysiwyg')
+                        .label('Comment')
+                        .stripTags(true)
+                        .map(truncate),
+                    nga.field(null, 'template') // template fields don't need a name in dashboard view
+                        .label('')
+                        .template('<post-link entry="entry"></post-link>') // you can use custom directives, too
+                ])
+                .order(2)
+            )
+            .addCollection('tags', nga.collection(tag)
+                .title('Recent tags')
+                .perPage(10)
+                .fields([
+                    nga.field('id'),
+                    nga.field('name'),
+                    nga.field('published', 'boolean').label('Is published ?')
+                ])
+                .order(3)
             )
         );
 

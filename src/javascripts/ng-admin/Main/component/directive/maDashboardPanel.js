@@ -8,8 +8,7 @@ function maDashboardPanel($state) {
             viewName: '@',
             entries: '=',
             fields: '&',
-            entity: '&',
-            perPage: '='
+            entity: '&'
         },
         link: function(scope) {
             scope.gotoList = function () {
