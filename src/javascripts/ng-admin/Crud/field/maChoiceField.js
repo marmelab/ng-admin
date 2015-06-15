@@ -1,48 +1,50 @@
-/*global define*/
+function maChoiceField($compile) {
+    return {
+        scope: {
+            'field': '&',
+            'value': '=',
+            'entry':  '=?',
+            'datastore': '&?'
+        },
+        restrict: 'E',
+        compile: function() {
+            return {
+                pre: function(scope, element) {
+                    var field = scope.field();
+                    scope.name = field.name();
+                    scope.v = field.validation();
 
-define(function (require) {
-    'use strict';
+                    var template = `
+                        <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
+                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                            <ui-select-choices repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
+                                {{ item.label }}
+                            </ui-select-choices>
+                        </ui-select>`;
 
-    /**
-     * Edition field for an element in a list - a select.
-     *
-     * @example <ma-choice-field entry="entry" field="field" value="value"></ma-choice-field>
-     */
-    function maChoiceField() {
-        return {
-            scope: {
-                'field': '&',
-                'value': '=',
-                'entry':  '=?',
-                'datastore': '&?'
-            },
-            restrict: 'E',
-            link: function(scope, element) {
-                var field = scope.field();
-                scope.name = field.name();
-                scope.v = field.validation();
-                var choices;
-                if (field.type() === 'reference' || field.type() === 'reference_many') {
-                    choices = scope.datastore().getChoices(field);
-                } else {
-                    choices = field.choices();
+                    var choices;
+                    if (field.type() === 'reference' || field.type() === 'reference_many') {
+                        choices = scope.datastore().getChoices(field);
+                    } else {
+                        choices = field.choices();
+                    }
+                    scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
+                    element.html(template);
+
+                    var select = element.children()[0];
+                    var attributes = field.attributes();
+                    for (var name in attributes) {
+                        select.setAttribute(name, attributes[name]);
+                    }
+
+                    $compile(element.contents())(scope);
                 }
-                scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
-                var select = element.children()[0];
-                var attributes = field.attributes();
-                for (var name in attributes) {
-                    select[name] = attributes[name];
-                }
-            },
-            template:
-'<select ng-model="value" ng-required="v.required" id="{{ name }}" name="{{ name }}" class="form-control"' +
-  ' ng-options="item.value as item.label for item in getChoices(entry)">' +
-  '<option value="">-- select a value --</option>' +
-'</select>'
-        };
-    }
+            };
+        }
+    };
+}
 
-    maChoiceField.$inject = [];
+maChoiceField.$inject = ['$compile'];
 
-    return maChoiceField;
-});
+module.exports = maChoiceField;
+

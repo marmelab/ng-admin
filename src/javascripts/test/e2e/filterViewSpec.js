@@ -8,7 +8,7 @@ describe('Global filter', function () {
 
     it('should display filters uppon the listview', function () {
         $$('.filters .filter input').then(function (inputs) {
-            expect(inputs.length).toBe(2);
+            expect(inputs.length).toBe(4); // 2 for text filters, 2 for ui-select filter
 
             expect(inputs[0].getAttribute('placeholder')).toBe('Global Search');
             expect(inputs[1].getAttribute('placeholder')).toBe('Filter by date');
@@ -53,7 +53,10 @@ describe('Global filter', function () {
 
     it('should filter on reference', function () {
         // Filter on post_id '3' (Perspiciatis adipisci vero qui ipsam iure porro)
-        $$('.filters .filter select option[value="2"]').click();
+        element(by.css('.filters .ui-select-placeholder')).click();
+        element(by.css('.filters .ui-select-search')).sendKeys('Perspi');
+        element(by.css('#ui-select-choices-row-0-0')).click();
+
         $$('.filters button[type="submit"]').click();
         $$('.grid tr td:nth-child(4)').then(function (tdElements) {
             expect(tdElements.length).toBe(2);
@@ -64,7 +67,10 @@ describe('Global filter', function () {
 
     it('should update the pagination total', function () {
         // Filter on post id '3' (Perspiciatis adipisci vero qui ipsam iure porro)
-        $$('.filters .filter select option[value="2"]').click();
+        element(by.css('.filters .ui-select-placeholder')).click();
+        element(by.css('.filters .ui-select-search')).sendKeys('Perspi');
+        element(by.css('#ui-select-choices-row-0-0')).click();
+
         $$('.filters button[type="submit"]').click();
         $$('ma-datagrid-pagination .total').then(function (totalElements) {
             expect(totalElements[0].getText()).toBe('1 - 2 on 2');

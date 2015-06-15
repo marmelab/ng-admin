@@ -31,6 +31,7 @@ CrudModule.directive('maCheckboxField', require('./field/maCheckboxField'));
 CrudModule.directive('maTextField', require('./field/maTextField'));
 CrudModule.directive('maWysiwygField', require('./field/maWysiwygField'));
 CrudModule.directive('maTemplateField', require('./field/maTemplateField'));
+CrudModule.directive('uiSelectRequired', require('./field/uiSelectRequired'));
 
 CrudModule.provider('FieldViewConfiguration', require('./fieldView/FieldViewConfiguration'));
 

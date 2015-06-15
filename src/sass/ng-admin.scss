@@ -91,10 +91,6 @@ ma-view-actions {
 }
 
 .list-header {
-
-    /**
-     * Filters
-     */
     .filters {
         .filter {
             margin-right: 5px;
@@ -121,6 +117,15 @@ ma-view-actions {
 
         .form-control {
             width: auto;
+        }
+
+        .input-reference {
+            .form-control { // fix ui-select display
+                float: none;
+                .ui-select-match-text, .ui-select-placeholder {
+                    padding-right: 20px;
+                }
+            }
         }
     }
 }

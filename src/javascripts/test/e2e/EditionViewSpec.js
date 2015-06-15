@@ -11,23 +11,11 @@ describe('EditionViews', function () {
     });
 
     describe('ChoiceField', function() {
-
-        it('should render as a dropdown when choices is an array', function () {
-            $$('.ng-admin-field-category select option').then(function (options) {
-                expect(options[1].getText()).toBe('Tech');
-                expect(options[1].getAttribute('selected')).toBe('true');
-                expect(options[2].getText()).toBe('Lifestyle');
+        it('should render correctly choice fields', function () {
+            $$('.ng-admin-field-category .ui-select-container').then(function (uiSelect) {
+                expect(uiSelect.length).toBe(1);
             });
         });
-
-        it('should render as a dropdown when choices is a function', function () {
-            $$('.ng-admin-field-subcategory select option').then(function (options) {
-                expect(options[1].getText()).toBe('Computers');
-                expect(options[1].getAttribute('selected')).toBe('true');
-                expect(options[2].getText()).toBe('Gadgets');
-            });
-        });
-
     });
 
 });

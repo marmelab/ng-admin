@@ -7,6 +7,7 @@ require('angular-sanitize');
 require('angular-ui-codemirror');
 require('nginflection');
 require('textangular');
+require('ui-select');
 
 require('../../node_modules/angular-numeraljs/dist/angular-numeraljs');
 require('../../node_modules/angular-bootstrap/dist/ui-bootstrap-tpls');

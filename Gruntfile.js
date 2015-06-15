@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'src/javascripts/test/karma.conf.js',
-                singleRun: true
+                singleRun: process.env.KARMA_SINGLE_RUN !== 'false'
             }
         },
         protractor: {
