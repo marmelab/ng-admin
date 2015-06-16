@@ -1,4 +1,4 @@
-describe('ReferenceField', function() {
+fdescribe('ReferenceField', function() {
     var directive = require('../../../../ng-admin/Crud/field/maReferenceField');
     var ReferenceField = require('admin-config/lib/Field/ReferenceField');
 
@@ -20,6 +20,13 @@ describe('ReferenceField', function() {
 
                     return deferred.promise;
                 });
+
+                this.getOne = jasmine.createSpy('getOne').and.callFake(function() {
+                    var deferred = $q.defer();
+                    deferred.resolve({ name: 'bar' });
+
+                    return deferred.promise;
+                });
             });
         });
     });
@@ -36,16 +43,7 @@ describe('ReferenceField', function() {
         MockedReadQueries = ReadQueries;
     }));
 
-    it('should be an ui-select field', function() {
-        scope.field = new ReferenceField();
-        var element = $compile(directiveUsage)(scope);
-        scope.$digest();
-
-        var uiSelect = element[0].querySelector('.ui-select-container');
-        expect(uiSelect).toBeTruthy();
-    });
-
-    fit('should call remote API when inputting first characters', function () {
+    beforeEach(function() {
         scope.field = new ReferenceField('post_id')
             .targetField({
                 name: () => 'name'
@@ -57,7 +55,17 @@ describe('ReferenceField', function() {
                     };
                 }
             });
+    });
 
+    it('should be an ui-select field', function() {
+        var element = $compile(directiveUsage)(scope);
+        scope.$digest();
+
+        var uiSelect = element[0].querySelector('.ui-select-container');
+        expect(uiSelect).toBeTruthy();
+    });
+
+    it('should call remote API when inputting first characters', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
 
@@ -76,10 +84,14 @@ describe('ReferenceField', function() {
     });
 
     it('should be pre-filled with related label at initialization', function () {
-        expect(false).toBe(true);
-    });
+        scope.value = 2;
 
-    it('should update field value when clicking on autocomplete result', function() {
-        expect(false).toBe(true);
-    })
+        var element = $compile(directiveUsage)(scope);
+        scope.$digest();
+        $timeout.flush();
+
+        var uiSelect = angular.element(element[0].querySelector('.ui-select-match-text'));
+        expect(MockedReadQueries.getOne).toHaveBeenCalled();
+        expect(uiSelect.text()).toBe('bar');
+    });
 });

@@ -16,6 +16,9 @@ function maReferenceField($compile, ReadQueries) {
 
                     scope.choices = [];
 
+                    var valueFieldName = field.targetEntity().identifier().name()
+                    var labelFieldName = field.targetField().name();
+
                     scope.refreshChoices = function(search) {
                         var referenceFields = {};
                         referenceFields[scope.name] = field;
@@ -23,9 +26,6 @@ function maReferenceField($compile, ReadQueries) {
                         return ReadQueries.getAllReferencedData(referenceFields, search)
                             .then(r => r[field.name()])
                             .then(results => {
-                                var valueFieldName = field.targetEntity().identifier().name()
-                                var labelFieldName = field.targetField().name();
-
                                 return results.map(function(r) {
                                     return {
                                         value: r[valueFieldName],
@@ -35,7 +35,7 @@ function maReferenceField($compile, ReadQueries) {
                             })
                             .then(formattedResults => {
                                 scope.choices = formattedResults;
-                                this.$root.$$phase || scope.$apply();
+                                scope.$root.$$phase || scope.$apply();
                             });
                     };
 
@@ -58,7 +58,19 @@ function maReferenceField($compile, ReadQueries) {
                         select.setAttribute(name, attributes[name]);
                     }
 
-                    $compile(element.contents())(scope);
+                    // Pre-fill component with given value if any
+                    if (scope.value) {
+                        return ReadQueries.getOne(field.targetEntity(), null, scope.value)
+                            .then(function(r) {
+                                scope.choices = [
+                                    { value: r[valueFieldName], label: r[labelFieldName] }
+                                ];
+
+                                $compile(element.contents())(scope);
+                            });
+                    } else {
+                        $compile(element.contents())(scope);
+                    }
                 }
             };
         }
