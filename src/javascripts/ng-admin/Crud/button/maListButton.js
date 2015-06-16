@@ -34,7 +34,7 @@ define(function () {
                 };
             },
             template:
-'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">' +
+'<a class="btn btn-default btn-list" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">' +
     '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
         };

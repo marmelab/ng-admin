@@ -23,7 +23,7 @@ define(function () {
                 };
             },
             template:
-'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">' +
+'<a class="btn btn-default btn-delete" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">' +
     '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</a>'
 
