@@ -114,6 +114,12 @@
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
+                    .filters(function(search) {
+                        return {
+                            q: search,
+                            published: true
+                        }
+                    })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')

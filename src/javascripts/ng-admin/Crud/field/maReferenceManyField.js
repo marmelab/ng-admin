@@ -1,4 +1,13 @@
-function maReferenceField($compile, ReadQueries) {
+/**
+ * Edition field for a selection of elements in a list - a multiple select.
+ *
+ * @example <ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>
+ */
+require("babel/polyfill");
+
+function maReferenceManyField($compile, ReadQueries) {
+    'use strict';
+
     return {
         scope: {
             'field': '&',
@@ -15,8 +24,9 @@ function maReferenceField($compile, ReadQueries) {
                     scope.v = field.validation();
 
                     scope.choices = [];
+                    scope.value = [... new Set(scope.value)]; // remove duplicates from array
 
-                    var valueFieldName = field.targetEntity().identifier().name()
+                    var valueFieldName = field.targetEntity().identifier().name();
                     var labelFieldName = field.targetField().name();
 
                     scope.refreshChoices = function(search) {
@@ -34,7 +44,11 @@ function maReferenceField($compile, ReadQueries) {
                                 });
                             })
                             .then(formattedResults => {
-                                scope.choices = formattedResults;
+                                // remove already assigned values: ui-select still return them.
+                                return formattedResults.filter(fr => scope.value.indexOf(fr.value) === -1);
+                            })
+                            .then(filteredResults => {
+                                scope.choices = filteredResults;
                                 scope.$root.$$phase || scope.$apply();
                             });
                     };
@@ -42,8 +56,8 @@ function maReferenceField($compile, ReadQueries) {
                     scope.refreshDelay = field.refreshDelay();
 
                     var template = `
-                        <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
-                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                        <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple='true' ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
+                            <ui-select-match placeholder="Filter values">{{ $item.label }}</ui-select-match>
                             <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
@@ -59,11 +73,14 @@ function maReferenceField($compile, ReadQueries) {
 
                     // Pre-fill component with given value if any
                     if (scope.value) {
-                        return ReadQueries.getOne(field.targetEntity(), null, scope.value)
+                        return ReadQueries.getOptimizedReferencedData([field], scope.value)
                             .then(function(r) {
-                                scope.choices = [
-                                    { value: r[valueFieldName], label: r[labelFieldName] }
-                                ];
+                                scope.choices = r[field.name()].map(v => {
+                                    return {
+                                        value: v[valueFieldName],
+                                        label: v[labelFieldName]
+                                    };
+                                });
 
                                 $compile(element.contents())(scope);
                             });
@@ -76,7 +93,6 @@ function maReferenceField($compile, ReadQueries) {
     };
 }
 
-maReferenceField.$inject = ['$compile', 'ReadQueries'];
+maReferenceManyField.$inject = ['$compile', 'ReadQueries'];
 
-module.exports = maReferenceField;
-
+module.exports = maReferenceManyField;

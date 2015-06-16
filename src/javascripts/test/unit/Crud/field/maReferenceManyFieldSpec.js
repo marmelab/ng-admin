@@ -1,18 +1,17 @@
-describe('ReferenceField', function() {
-    var directive = require('../../../../ng-admin/Crud/field/maReferenceField');
-    var ReferenceField = require('admin-config/lib/Field/ReferenceField');
+fdescribe('ReferenceField', function() {
+    var directive = require('../../../../ng-admin/Crud/field/maReferenceManyField');
+    var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
 
     var $compile, $timeout, scope;
-    const directiveUsage = '<ma-reference-field entry="entry" field="field" value="value"></ma-reference-field>';
+    const directiveUsage = '<ma-reference-many-field entry="entry" field="field" value="value"></ma-reference-many-field>';
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
             $provide.service('ReadQueries', function($q) {
-                this.getAllReferencedData = jasmine.createSpy('getAllReferencedData').and.callFake(function() {
+                this.getOptimizedReferencedData = jasmine.createSpy('getOptimizedReferencedData').and.callFake(function() {
                     var deferred = $q.defer();
                     deferred.resolve({
-                        'post_id': [
-                            { id: 1, name: 'foo' },
+                        'tags': [
                             { id: 2, name: 'bar' },
                             { id: 3, name: 'qux' }
                         ]
@@ -21,9 +20,15 @@ describe('ReferenceField', function() {
                     return deferred.promise;
                 });
 
-                this.getOne = jasmine.createSpy('getOne').and.callFake(function() {
+                this.getAllReferencedData = jasmine.createSpy('getAllReferencedData').and.callFake(function() {
                     var deferred = $q.defer();
-                    deferred.resolve({ name: 'bar' });
+                    deferred.resolve({
+                        'tags': [
+                            { id: 1, name: 'foo' },
+                            { id: 2, name: 'bar' },
+                            { id: 3, name: 'qux' }
+                        ]
+                    });
 
                     return deferred.promise;
                 });
@@ -31,7 +36,7 @@ describe('ReferenceField', function() {
         });
     });
 
-    angular.module('myApp', ['ui.select']).directive('maReferenceField', directive);
+    angular.module('myApp', ['ui.select']).directive('maReferenceManyField', directive);
 
     beforeEach(angular.mock.module('myApp'));
 
@@ -44,7 +49,7 @@ describe('ReferenceField', function() {
     }));
 
     beforeEach(function() {
-        scope.field = new ReferenceField('post_id')
+        scope.field = new ReferenceManyField('tags')
             .targetField({
                 name: () => 'name'
             })
@@ -75,7 +80,7 @@ describe('ReferenceField', function() {
         uiSelect.refreshItems(choices.attr('refresh'));
         $timeout.flush();
 
-        expect(MockedReadQueries.getAllReferencedData).toHaveBeenCalled();
+        expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
         expect(angular.toJson(uiSelect.items)).toEqual(angular.toJson([
             { value: 1, label: 'foo' },
             { value: 2, label: 'bar' },
@@ -83,15 +88,16 @@ describe('ReferenceField', function() {
         ]));
     });
 
-    it('should be pre-filled with related label at initialization', function () {
-        scope.value = 2;
+    it('should be pre-filled with related labels at initialization', function () {
+        scope.value = [2, 3];
 
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         $timeout.flush();
 
-        var uiSelect = angular.element(element[0].querySelector('.ui-select-match-text'));
-        expect(MockedReadQueries.getOne).toHaveBeenCalled();
-        expect(uiSelect.text()).toBe('bar');
+        var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
+        expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
+        expect(tags[0].innerText).toBe('bar');
+        expect(tags[1].innerText).toBe('qux');
     });
 });
