@@ -23,6 +23,10 @@ define(function (require) {
                     scope.value = field.parse()(rawValue);
                 });
                 scope.format = field.format();
+                if (!scope.format) {
+                    scope.format = field.type() === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
+                }
+
                 scope.v = field.validation();
                 scope.isOpen = false;
                 var input = element.find('input').eq(0);

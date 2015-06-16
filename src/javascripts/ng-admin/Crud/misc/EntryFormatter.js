@@ -13,8 +13,9 @@ define(function () {
 
     EntryFormatter.prototype.formatField = function formatField(field) {
         var label = field.label() || field.name();
+        var type = field.type();
 
-        switch (field.type()) {
+        switch (type) {
             case 'boolean':
             case 'choice':
             case 'choices':
@@ -33,9 +34,14 @@ define(function () {
                         value: entry.values[field.name()]
                     };
                 };
-            case 'datetime':
             case 'date':
-                var formatDate = this.formatDate(field.format());
+            case 'datetime':
+                var format = field.format();
+                if (!format) {
+                    format = type === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
+                }
+
+                var formatDate = this.formatDate(format);
                 return function (entry) {
                     return {
                         name: label,
