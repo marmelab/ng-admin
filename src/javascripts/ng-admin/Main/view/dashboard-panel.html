@@ -1,10 +1,10 @@
 <div class="panel-heading">
-    <a ng-click="gotoList()">{{ label }}</a>
+    <a ng-click="gotoList()">{{ collection.title() || collection.entity().label() }}</a>
 </div>
 
-<ma-datagrid name="{{ viewName }}"
-    entries="entries"
-    fields="fields()"
-    entity="entity()"
+<ma-datagrid name="{{ collection.name() }}"
+    entries="entries()"
+    fields="collection.fields()"
+    entity="collection.entity()"
     list-actions="false">
 </ma-datagrid>

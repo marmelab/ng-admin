@@ -88,27 +88,13 @@ Here is a copy of the default dashboard template, which you can use as a startin
 
 <div class="row dashboard-content">
     <div class="col-lg-6">
-        <div class="panel panel-default" ng-repeat="collection in dashboardController.orderedCollections" ng-if="$even">
-            <ma-dashboard-panel label="{{ collection.label }}"
-                             view-name="{{ collection.viewName }}"
-                             fields="collection.fields"
-                             entries="collection.entries"
-                             entity="collection.entity"
-                             sort-field="collection.sortField"
-                             sort-dir="collection.sortDir">
-            </ma-dashboard-panel>
+        <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$even">
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="panel panel-default" ng-repeat="collection in dashboardController.orderedCollections" ng-if="$odd">
-            <ma-dashboard-panel label="{{ collection.label }}"
-                             view-name="{{ collection.viewName }}"
-                             fields="collection.fields"
-                             entries="collection.entries"
-                             entity="collection.entity"
-                             sort-field="collection.sortField"
-                             sort-dir="collection.sortDir">
-            </ma-dashboard-panel>
+        <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$odd">
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
         </div>
     </div>
 </div>
@@ -117,57 +103,18 @@ Here is a copy of the default dashboard template, which you can use as a startin
 If you decide to use a custom template, you should probably remove the `ng-repeat` and insert the collections one by one, using their names. This way, you can achieve a completely custom layout, and even include custom directives like charts. In that case, don't bother to define `title()` and `order()` in the collection, since you can more easily write them down in the template.
 
 ```html
-<div class="row" ng-if="dashboardController.hasEntities">
-    <div class="col-lg-12">
-        <div class="page-header">
-            <h1>Dashboard</h1>
-        </div>
-    </div>
-</div>
-
 <div class="row dashboard-content">
     <div class="col-lg-6">
-        <div class="panel panel-default" >
-            <div class="panel-heading">
-                <a ng-click="dashboardController.$state.go(dashboardController.$state.get('list'), { entity: 'posts' })">Recent Posts</a>
-            </div>
-
-            <ma-datagrid name="{{ dashboardController.collections.posts.viewName }}"
-                entries="dashboardController.collections.posts.entries"
-                fields="dashboardController.collections.posts.fields"
-                entity="dashboardController.collections.posts.entity"
-                list-actions="false">
-            </ma-datagrid>
+        <div class="panel panel-default">
+            <ma-dashboard-panel collection="dashboardController.collections.posts" entries="dashboardController.entries[dashboardController.collections.posts.name()]"></ma-dashboard-panel>
         </div>
     </div>
-    <div class="panel panel-default" >
-        <div class="panel-heading">
-            <a ng-click="dashboardController.$state.go(dashboardController.$state.get('list'), { entity: 'comments' })">Last Commentd</a>
-        </div>
-
-        <ma-datagrid name="{{ dashboardController.collections.comments.viewName }}"
-            entries="dashboardController.collections.comments.entries"
-            fields="dashboardController.collections.comments.fields"
-            entity="dashboardController.collections.comments.entity"
-            list-actions="false">
-        </ma-datagrid>
-    </div>
-</div>
-<div class="row dashboard-content">
     <div class="col-lg-6">
-        <div class="panel panel-default" >
-            <div class="panel-heading">
-                <a ng-click="dashboardController.$state.go(dashboardController.$state.get('list'), { entity: 'tags' })">Recent Tags</a>
-            </div>
-
-            <ma-datagrid name="{{ dashboardController.collections.tags.viewName }}"
-                entries="dashboardController.collections.tags.entries"
-                fields="dashboardController.collections.tags.fields"
-                entity="dashboardController.collections.tags.entity"
-                list-actions="false">
-            </ma-datagrid>
+        <div class="panel panel-default">
+            <ma-dashboard-panel collection="dashboardController.collections.comments" entries="dashboardController.entries[dashboardController.collections.comments.name()]"></ma-dashboard-panel>
         </div>
     </div>
 </div>
+
 ```
 

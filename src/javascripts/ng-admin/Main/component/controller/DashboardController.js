@@ -14,31 +14,29 @@ define(function (require) {
         this.$scope = $scope;
         this.$state = $state;
 
-        this.retrieveCollections(PanelBuilder);
+        this.retrieveCollectionsAndData(PanelBuilder);
 
         $scope.$on('$destroy', this.destroy.bind(this));
+    }
+
+    DashboardController.prototype.gotoList = function(entityName) {
+        this.$state.go(this.$state.get('list'), { entity: entityName });
     }
 
     /**
      * Retrieve all dashboard panels
      */
-    DashboardController.prototype.retrieveCollections = function (PanelBuilder) {
-        this.collections = {};
-        this.orderedCollections = [];
+    DashboardController.prototype.retrieveCollectionsAndData = function (PanelBuilder) {
+        let collections = PanelBuilder.getCollections();
+        this.entries = {};
 
         var searchParams = this.$state.params;
         var sortField = 'sortField' in searchParams ? searchParams.sortField : null;
         var sortDir = 'sortDir' in searchParams ? searchParams.sortDir : null;
 
-        PanelBuilder.getPanelsData(sortField, sortDir).then(collections => {
-            this.collections = collections;
-            let orderedCollections = [];
-            for (var name in collections) {
-                orderedCollections.push(collections[name]);
-            }
-            this.orderedCollections = orderedCollections.sort((collectionA, collectionB) => {
-                return collectionA.order - collectionB.order;
-            });
+        PanelBuilder.getEntries(sortField, sortDir).then(entries => {
+            this.entries = entries;
+            this.collections = collections; // we set collectrions only when entries are fetched to avoid double draw
         });
         this.hasEntities = PanelBuilder.hasEntities();
     };

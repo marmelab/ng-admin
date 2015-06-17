@@ -8,27 +8,13 @@
 
 <div class="row dashboard-content">
     <div class="col-lg-6">
-        <div class="panel panel-default" ng-repeat="collection in dashboardController.orderedCollections" ng-if="$even">
-            <ma-dashboard-panel label="{{ collection.label }}"
-                             view-name="{{ collection.viewName }}"
-                             fields="collection.fields"
-                             entries="collection.entries"
-                             entity="collection.entity"
-                             sort-field="collection.sortField"
-                             sort-dir="collection.sortDir">
-            </ma-dashboard-panel>
+        <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$even">
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="panel panel-default" ng-repeat="collection in dashboardController.orderedCollections" ng-if="$odd">
-            <ma-dashboard-panel label="{{ collection.label }}"
-                             view-name="{{ collection.viewName }}"
-                             fields="collection.fields"
-                             entries="collection.entries"
-                             entity="collection.entity"
-                             sort-field="collection.sortField"
-                             sort-dir="collection.sortDir">
-            </ma-dashboard-panel>
+        <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$odd">
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
         </div>
     </div>
 </div>

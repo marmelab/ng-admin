@@ -17,13 +17,17 @@ PanelBuilder.prototype.hasEntities = function() {
     return this.Configuration.entities.length > 0;
 }
 
+PanelBuilder.prototype.getCollections = function (sortField, sortDir) {
+    return this.Configuration.dashboard().collections();
+}
+
 /**
- * Returns all elements of each dashboard panels
+ * Returns all entries for all collections
  *
  * @returns {promise}
  */
-PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
-    var collections = this.Configuration.dashboard().collections(),
+PanelBuilder.prototype.getEntries = function (sortField, sortDir) {
+    var collections = this.getCollections(),
         dataStore = this.dataStore,
         promises = {},
         collection,
@@ -87,39 +91,23 @@ PanelBuilder.prototype.getPanelsData = function (sortField, sortDir) {
                         rawEntries
                     );
 
-
                     // shortcut to diplay collection of entry with included referenced values
                     dataStore.fillReferencesValuesFromCollection(entries, collection.getReferences(), true);
 
-                    return {
-                        entries: entries
-                    };
+                    return entries;
                 });
         })(collection, collectionSortField, collectionSortDir);
     }
 
     return this.$q.all(promises).then(function (responses) {
         var collectionName,
-            collection,
-            entity,
-            collectionData = {};
+            entries = {};
 
         for (collectionName in responses) {
-            collection = collections[collectionName];
-            entity = collection.getEntity();
-            collectionData[collectionName] = {
-                label: collection.title() || entity.label(),
-                viewName: collection.name(),
-                fields: collection.fields(),
-                entity: entity,
-                order: collection.order(),
-                entries: responses[collectionName].entries,
-                sortField: collection.getSortFieldName(),
-                sortDir: collection.sortDir()
-            };
+            entries[collections[collectionName].name()] = responses[collectionName];
         }
 
-        return collectionData;
+        return entries;
     });
 };
 

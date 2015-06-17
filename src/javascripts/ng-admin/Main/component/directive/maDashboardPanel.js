@@ -4,15 +4,13 @@ function maDashboardPanel($state) {
     return {
         restrict: 'E',
         scope: {
-            label: '@',
-            viewName: '@',
-            entries: '=',
-            fields: '&',
-            entity: '&'
+            collection: '&',
+            entries: '&'
         },
         link: function(scope) {
+            scope.collection = scope.collection();
             scope.gotoList = function () {
-                $state.go($state.get('list'), { entity: scope.entity().name() });
+                $state.go($state.get('list'), { entity: scope.collection.entity.name() });
             };
         },
         template: dashboardPanelView
