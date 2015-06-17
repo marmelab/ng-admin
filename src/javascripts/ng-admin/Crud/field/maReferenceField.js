@@ -43,7 +43,7 @@ function maReferenceField($compile, ReadQueries) {
 
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
-                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="Enter a value">{{ $select.selected.label }}</ui-select-match>
                             <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
@@ -59,7 +59,7 @@ function maReferenceField($compile, ReadQueries) {
 
                     // Pre-fill component with given value if any
                     if (scope.value) {
-                        return ReadQueries.getOne(field.targetEntity(), null, scope.value)
+                        ReadQueries.getOne(field.targetEntity(), null, scope.value)
                             .then(function(r) {
                                 scope.choices = [
                                     { value: r[valueFieldName], label: r[labelFieldName] }

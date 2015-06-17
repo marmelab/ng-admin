@@ -12,7 +12,7 @@ module.exports = function (config) {
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
         frameworks: ['jasmine'],
         files: [
-            '../../node_modules/angular/angular.min.js',
+            '../../node_modules/angular/angular.js',
             '../../node_modules/angular-mocks/angular-mocks.js',
             '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
             '../../node_modules/numeral/numeral.js',
@@ -26,7 +26,8 @@ module.exports = function (config) {
             'test/**/*.js': 'webpack'
         },
         webpackMiddleware: {
-            noInfo: true
+            noInfo: true,
+            devtool: 'inline-source-map' //just do inline source maps instead of the default
         },
         webpack: webpackConfig
     });

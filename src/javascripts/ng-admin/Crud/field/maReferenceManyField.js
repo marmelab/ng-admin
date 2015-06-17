@@ -3,8 +3,6 @@
  *
  * @example <ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>
  */
-require("babel/polyfill");
-
 function maReferenceManyField($compile, ReadQueries) {
     'use strict';
 
@@ -22,9 +20,7 @@ function maReferenceManyField($compile, ReadQueries) {
                     var field = scope.field();
                     scope.name = field.name();
                     scope.v = field.validation();
-
                     scope.choices = [];
-                    scope.value = [... new Set(scope.value)]; // remove duplicates from array
 
                     var valueFieldName = field.targetEntity().identifier().name();
                     var labelFieldName = field.targetField().name();
@@ -44,8 +40,13 @@ function maReferenceManyField($compile, ReadQueries) {
                                 });
                             })
                             .then(formattedResults => {
+                                if (!scope.value) {
+                                    return formattedResults;
+                                }
+
                                 // remove already assigned values: ui-select still return them.
-                                return formattedResults.filter(fr => scope.value.indexOf(fr.value) === -1);
+                                var selectedValues = scope.value.map(v => v.value);
+                                return formattedResults.filter(fr => selectedValues.indexOf(fr.value) === -1);
                             })
                             .then(filteredResults => {
                                 scope.choices = filteredResults;
@@ -56,9 +57,10 @@ function maReferenceManyField($compile, ReadQueries) {
                     scope.refreshDelay = field.refreshDelay();
 
                     var template = `
+                    <h1>Many</h1>
                         <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple='true' ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match placeholder="Filter values">{{ $item.label }}</ui-select-match>
-                            <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
+                            <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by item.value">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
@@ -73,14 +75,15 @@ function maReferenceManyField($compile, ReadQueries) {
 
                     // Pre-fill component with given value if any
                     if (scope.value) {
-                        return ReadQueries.getOptimizedReferencedData([field], scope.value)
+                        ReadQueries.getOptimizedReferencedData([field], scope.value)
                             .then(function(r) {
-                                scope.choices = r[field.name()].map(v => {
+                                scope.value = r[field.name()].map(v => {
                                     return {
                                         value: v[valueFieldName],
                                         label: v[labelFieldName]
                                     };
                                 });
+                                scope.choices = scope.value;
 
                                 $compile(element.contents())(scope);
                             });

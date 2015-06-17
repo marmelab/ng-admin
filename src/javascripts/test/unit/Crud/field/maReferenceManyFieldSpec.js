@@ -1,4 +1,4 @@
-fdescribe('ReferenceField', function() {
+describe('ReferenceField', function() {
     var directive = require('../../../../ng-admin/Crud/field/maReferenceManyField');
     var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
 
@@ -64,6 +64,7 @@ fdescribe('ReferenceField', function() {
 
     it('should be an ui-select field', function() {
         var element = $compile(directiveUsage)(scope);
+        $timeout.flush();
         scope.$digest();
 
         var uiSelect = element[0].querySelector('.ui-select-container');
@@ -72,6 +73,7 @@ fdescribe('ReferenceField', function() {
 
     it('should call remote API when inputting first characters', function () {
         var element = $compile(directiveUsage)(scope);
+        $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
@@ -80,7 +82,7 @@ fdescribe('ReferenceField', function() {
         uiSelect.refreshItems(choices.attr('refresh'));
         $timeout.flush();
 
-        expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
+        expect(MockedReadQueries.getAllReferencedData).toHaveBeenCalled();
         expect(angular.toJson(uiSelect.items)).toEqual(angular.toJson([
             { value: 1, label: 'foo' },
             { value: 2, label: 'bar' },
