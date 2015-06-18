@@ -253,40 +253,92 @@
         );
 
         // customize dashboard
+        var customDashboardTemplate =
+        '<div class="row dashboard-starter"></div>' +
+        '<div class="row dashboard-content"><div class="col-lg-12"><div class="alert alert-info">' +
+            'Welcome to the demo! Fell free to explore and modify the data. We reset it every few minutes.' +
+        '</div></div></div>' +
+        '<div class="row dashboard-content">' +
+            '<div class="col-lg-12">' +
+                '<div class="panel panel-default">' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.comments" entries="dashboardController.entries.comments"></ma-dashboard-panel>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+        '<div class="row dashboard-content">' +
+            '<div class="col-lg-6">' +
+                '<div class="panel panel-green">' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts"></ma-dashboard-panel>' +
+                '</div>' +
+                '<div class="panel panel-green">' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts"></ma-dashboard-panel>' +
+                '</div>' +
+            '</div>' +
+            '<div class="col-lg-6">' +
+                '<div class="panel panel-yellow">' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags"></ma-dashboard-panel>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
         admin.dashboard(nga.dashboard()
-            .addCollection('posts', nga.collection(post)
+            .addCollection(nga.collection(post)
+                .name('recent_posts')
                 .title('Recent posts')
                 .perPage(5) // limit the panel to the 5 latest posts
                 .fields([
-                    nga.field('title').isDetailLink(true).map(truncate)
+                    nga.field('published_at', 'date').label('Published').format('MMM d'),
+                    nga.field('title').isDetailLink(true).map(truncate),
+                    nga.field('views', 'number')
                 ])
+                .sortField('published_at')
+                .sortDir('DESC')
                 .order(1)
             )
-            .addCollection('comments', nga.collection(comment)
-                .title('Last comments')
-                .perPage(5)
+            .addCollection(nga.collection(post)
+                .name('popular_posts')
+                .title('Popular posts')
+                .perPage(5) // limit the panel to the 5 latest posts
                 .fields([
-                    nga.field('id'),
+                    nga.field('published_at', 'date').label('Published').format('MMM d'),
+                    nga.field('title').isDetailLink(true).map(truncate),
+                    nga.field('views', 'number')
+                ])
+                .sortField('views')
+                .sortDir('DESC')
+                .order(3)
+            )
+            .addCollection(nga.collection(comment)
+                .title('Last comments')
+                .perPage(10)
+                .fields([
+                    nga.field('created_at', 'date')
+                        .label('Posted'),
                     nga.field('body', 'wysiwyg')
                         .label('Comment')
                         .stripTags(true)
-                        .map(truncate),
-                    nga.field(null, 'template') // template fields don't need a name in dashboard view
-                        .label('')
-                        .template('<post-link entry="entry"></post-link>') // you can use custom directives, too
+                        .map(truncate)
+                        .isDetailLink(true),
+                    nga.field('post_id', 'reference')
+                        .label('Post')
+                        .map(truncate)
+                        .targetEntity(post)
+                        .targetField(nga.field('title').map(truncate))
                 ])
+                .sortField('created_at')
+                .sortDir('DESC')
                 .order(2)
             )
-            .addCollection('tags', nga.collection(tag)
-                .title('Recent tags')
+            .addCollection(nga.collection(tag)
+                .title('Tags publication status')
                 .perPage(10)
                 .fields([
-                    nga.field('id'),
                     nga.field('name'),
                     nga.field('published', 'boolean').label('Is published ?')
                 ])
-                .order(3)
+                .listActions(['show'])
+                .order(4)
             )
+            .template(customDashboardTemplate)
         );
 
         nga.configure(admin);

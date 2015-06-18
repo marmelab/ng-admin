@@ -2,7 +2,7 @@ function getReadWidget() {
     return '<ma-wysiwyg-column field="::field" value="::entry.values[field.name()]"></ma-wysiwyg-column>';
 }
 function getLinkWidget() {
-    return 'error: cannot display wysiwyg field as linkable';
+    return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
 }
 function getFilterWidget() {
     return '<ma-input-field field="::field" value="values[field.name()]"></ma-input-field>';
