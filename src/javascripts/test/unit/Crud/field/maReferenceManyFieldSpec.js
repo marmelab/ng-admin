@@ -8,7 +8,7 @@ describe('ReferenceField', function() {
     beforeEach(function() {
         angular.mock.module(function($provide) {
             $provide.service('ReadQueries', function($q) {
-                this.getOptimizedReferencedData = jasmine.createSpy('getOptimizedReferencedData').and.callFake(function() {
+                function getTagPromise() {
                     var deferred = $q.defer();
                     deferred.resolve({
                         'tags': [
@@ -18,7 +18,10 @@ describe('ReferenceField', function() {
                     });
 
                     return deferred.promise;
-                });
+                }
+
+                this.getOptimizedReferencedData = jasmine.createSpy('getOptimizedReferencedData').and.callFake(getTagPromise);
+                this.getFilteredReferenceData = jasmine.createSpy('getFilteredReferenceData').and.callFake(getTagPromise);
 
                 this.getAllReferencedData = jasmine.createSpy('getAllReferencedData').and.callFake(function() {
                     var deferred = $q.defer();
@@ -90,16 +93,32 @@ describe('ReferenceField', function() {
         ]));
     });
 
-    it('should be pre-filled with related labels at initialization', function () {
-        scope.value = [2, 3];
+    describe('should be pre-filled with related labels at initialization', function () {
+        it('using several API calls if single API call is not defined', function() {
+            scope.value = [2, 3];
 
-        var element = $compile(directiveUsage)(scope);
-        scope.$digest();
-        $timeout.flush();
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            $timeout.flush();
 
-        var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
-        expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
-        expect(tags[0].innerText).toBe('bar');
-        expect(tags[1].innerText).toBe('qux');
+            var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
+            expect(MockedReadQueries.getFilteredReferenceData).toHaveBeenCalled();
+            expect(tags[0].innerText).toBe('bar');
+            expect(tags[1].innerText).toBe('qux');
+        });
+
+        it('with a single API call if single API call has been defined', function() {
+            scope.value = [2, 3];
+            scope.field.singleApiCall(function() {});
+
+            var element = $compile(directiveUsage)(scope);
+            scope.$digest();
+            $timeout.flush();
+
+            var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
+            expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
+            expect(tags[0].innerText).toBe('bar');
+            expect(tags[1].innerText).toBe('qux');
+        });
     });
 });

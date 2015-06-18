@@ -56,11 +56,11 @@ function maReferenceManyField($compile, ReadQueries) {
 
                     scope.refreshDelay = field.refreshDelay();
 
+                    var refreshAttributes = scope.refreshDelay !== null ? 'refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)"' : '';
                     var template = `
-                    <h1>Many</h1>
                         <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple='true' ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match placeholder="Filter values">{{ $item.label }}</ui-select-match>
-                            <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by item.value">
+                            <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices | filter: {label: $select.search}">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
@@ -73,9 +73,14 @@ function maReferenceManyField($compile, ReadQueries) {
                         select.setAttribute(name, attributes[name]);
                     }
 
-                    // Pre-fill component with given value if any
-                    if (scope.value) {
-                        ReadQueries.getOptimizedReferencedData([field], scope.value)
+                    // Pre-fill component with given value if no refresh and if value is set
+                    if (scope.refreshDelay !== null && scope.value) {
+                        let method = ReadQueries.getFilteredReferenceData;
+                        if (field.hasSingleApiCall()) {
+                            method = ReadQueries.getOptimizedReferencedData;
+                        }
+
+                        method.bind(ReadQueries)([field], [{ tags: scope.value }])
                             .then(function(r) {
                                 scope.value = r[field.name()].map(v => {
                                     return {
@@ -88,7 +93,9 @@ function maReferenceManyField($compile, ReadQueries) {
                                 $compile(element.contents())(scope);
                             });
                     } else {
-                        $compile(element.contents())(scope);
+                        scope.refreshChoices().then(function() {
+                            $compile(element.contents())(scope);
+                        });
                     }
                 }
             };

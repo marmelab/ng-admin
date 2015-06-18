@@ -1,9 +1,11 @@
-xdescribe('ReferenceField', function() {
+describe('ReferenceField', function() {
     var directive = require('../../../../ng-admin/Crud/field/maReferenceField');
     var ReferenceField = require('admin-config/lib/Field/ReferenceField');
 
     var $compile, $timeout, scope;
     const directiveUsage = '<ma-reference-field entry="entry" field="field" value="value"></ma-reference-field>';
+
+    angular.module('myTestingApp', ['ui.select']).directive('maReferenceField', directive);
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
@@ -31,7 +33,7 @@ xdescribe('ReferenceField', function() {
         });
     });
 
-    beforeEach(angular.mock.module('myApp'));
+    beforeEach(angular.mock.module('myTestingApp'));
 
     var MockedReadQueries;
     beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReadQueries) {
@@ -55,12 +57,9 @@ xdescribe('ReferenceField', function() {
             });
     });
 
-    angular.module('myApp', ['ui.select']).directive('maReferenceField', directive);
-
     it('should be an ui-select field', function() {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        console.log(element);
 
         var uiSelect = element[0].querySelector('.ui-select-container');
         expect(uiSelect).toBeTruthy();

@@ -3,7 +3,7 @@ module.exports = {
         return '<ma-string-column value="::entry.listValues[field.name()]"></ma-string-column>';
     },
     getLinkWidget: function () {
-        return '<a ng-click="gotoReference()">' + getReadWidget() + '</a>';
+        return '<a ng-click="gotoReference()">' + this.getReadWidget() + '</a>';
     },
     getFilterWidget: function () {
         return '<ma-reference-field field="::field" value="values[field.name()]" datastore="::datastore"></ma-reference-field>';
