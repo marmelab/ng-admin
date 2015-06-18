@@ -41,10 +41,12 @@ function maReferenceField($compile, ReadQueries) {
 
                     scope.refreshDelay = field.refreshDelay();
 
+                    var refreshAttributes = scope.refreshDelay !== null ? 'refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)"' : '';
+
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match allow-clear="{{ !v.required }}" placeholder="Enter a value">{{ $select.selected.label }}</ui-select-match>
-                            <ui-select-choices refresh-delay="{{ refreshDelay }}" refresh="refreshChoices($select.search)" repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
+                            <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
@@ -58,7 +60,7 @@ function maReferenceField($compile, ReadQueries) {
                     }
 
                     // Pre-fill component with given value if any
-                    if (scope.value) {
+                    if (scope.refreshDelay !== null && scope.value) {
                         ReadQueries.getOne(field.targetEntity(), null, scope.value)
                             .then(function(r) {
                                 scope.choices = [
@@ -68,7 +70,9 @@ function maReferenceField($compile, ReadQueries) {
                                 $compile(element.contents())(scope);
                             });
                     } else {
-                        $compile(element.contents())(scope);
+                        scope.refreshChoices().then(function() {
+                            $compile(element.contents())(scope);
+                        });
                     }
                 }
             };

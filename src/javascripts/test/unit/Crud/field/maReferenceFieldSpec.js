@@ -94,4 +94,15 @@ describe('ReferenceField', function() {
         expect(MockedReadQueries.getOne).toHaveBeenCalled();
         expect(uiSelect.text()).toBe('bar');
     });
+
+    it('should get all choices loaded at initialization if refreshDelay is null', function() {
+        scope.field.refreshDelay(null);
+
+        var element = $compile(directiveUsage)(scope);
+        $timeout.flush();
+        scope.$digest();
+
+        var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
+        expect(uiSelect.items.length).toBe(3);
+    });
 });

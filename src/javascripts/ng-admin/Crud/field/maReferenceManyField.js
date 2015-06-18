@@ -74,7 +74,7 @@ function maReferenceManyField($compile, ReadQueries) {
                     }
 
                     // Pre-fill component with given value if no refresh and if value is set
-                    if (scope.refreshDelay !== null && scope.value) {
+                    if (scope.refreshDelay !== null && scope.value && scope.value.length) {
                         let method = ReadQueries.getFilteredReferenceData;
                         if (field.hasSingleApiCall()) {
                             method = ReadQueries.getOptimizedReferencedData;

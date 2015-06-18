@@ -93,6 +93,17 @@ describe('ReferenceField', function() {
         ]));
     });
 
+    it('should get all choices loaded at initialization if refreshDelay is null', function() {
+        scope.field.refreshDelay(null);
+
+        var element = $compile(directiveUsage)(scope);
+        $timeout.flush();
+        scope.$digest();
+
+        var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
+        expect(uiSelect.items.length).toBe(3);
+    });
+
     describe('should be pre-filled with related labels at initialization', function () {
         it('using several API calls if single API call is not defined', function() {
             scope.value = [2, 3];
