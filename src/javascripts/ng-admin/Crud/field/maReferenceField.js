@@ -29,7 +29,7 @@ function maReferenceField($compile, ReadQueries) {
                                 return results.map(function(r) {
                                     return {
                                         value: r[valueFieldName],
-                                        label: r[labelFieldName]
+                                        label: field.getMappedValue(r[labelFieldName], r)
                                     };
                                 });
                             })
@@ -63,9 +63,10 @@ function maReferenceField($compile, ReadQueries) {
                     if (scope.refreshDelay !== null && scope.value) {
                         ReadQueries.getOne(field.targetEntity(), null, scope.value)
                             .then(function(r) {
-                                scope.choices = [
-                                    { value: r[valueFieldName], label: r[labelFieldName] }
-                                ];
+                                scope.choices = [{
+                                    value: r[valueFieldName],
+                                    label: field.getMappedValue(r[labelFieldName], r)
+                                }];
 
                                 $compile(element.contents())(scope);
                             });

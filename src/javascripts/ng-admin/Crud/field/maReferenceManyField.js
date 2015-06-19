@@ -35,7 +35,7 @@ function maReferenceManyField($compile, ReadQueries) {
                                 return results.map(function(r) {
                                     return {
                                         value: r[valueFieldName],
-                                        label: r[labelFieldName]
+                                        label: field.getMappedValue(r[labelFieldName], r)
                                     };
                                 });
                             })
@@ -85,7 +85,7 @@ function maReferenceManyField($compile, ReadQueries) {
                                 scope.value = r[field.name()].map(v => {
                                     return {
                                         value: v[valueFieldName],
-                                        label: v[labelFieldName]
+                                        label: field.getMappedValue(v[labelFieldName], r)
                                     };
                                 });
                                 scope.choices = scope.value;

@@ -1,4 +1,4 @@
-describe('ReferenceField', function() {
+describe('ReferenceManyField', function() {
     var directive = require('../../../../ng-admin/Crud/field/maReferenceManyField');
     var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
 
@@ -27,9 +27,9 @@ describe('ReferenceField', function() {
                     var deferred = $q.defer();
                     deferred.resolve({
                         'tags': [
-                            { id: 1, name: 'foo' },
-                            { id: 2, name: 'bar' },
-                            { id: 3, name: 'qux' }
+                            { id: 1, name: 'foo', count: 19 },
+                            { id: 2, name: 'bar', count: 43 },
+                            { id: 3, name: 'qux', count: 31 }
                         ]
                     });
 
@@ -90,6 +90,21 @@ describe('ReferenceField', function() {
             { value: 1, label: 'foo' },
             { value: 2, label: 'bar' },
             { value: 3, label: 'qux' }
+        ]));
+    });
+
+    it('should return value transformed by `maps` field functions', function() {
+        scope.field.map((e, r) => `${r.name} (${r.count})`);
+
+        var element = $compile(directiveUsage)(scope);
+        $timeout.flush();
+        scope.$digest();
+
+        var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
+        expect(angular.toJson(uiSelect.items)).toBe(angular.toJson([
+            { value: 1, label: 'foo (19)' },
+            { value: 2, label: 'bar (43)' },
+            { value: 3, label: 'qux (31)' }
         ]));
     });
 
