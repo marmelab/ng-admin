@@ -12,7 +12,7 @@ function maDashboardPanel($state) {
         },
         template: 
         '<div class="panel-heading">' +
-            '<a ng-click="gotoList()">{{ collection().title() || collection().entity().label() }}</a>' +
+            '<a ng-click="gotoList()">{{ collection().title() || collection().entity.label() }}</a>' +
         '</div>' +
         '<ma-datagrid name="{{ collection().name() }}"' +
         '    entries="entries()"' +
