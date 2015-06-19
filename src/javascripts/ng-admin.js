@@ -1,3 +1,5 @@
+require('es6-promise').polyfill(); // for IE
+
 require('./ng-admin/Main/MainModule');
 require('./ng-admin/Crud/CrudModule');
 
