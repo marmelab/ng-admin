@@ -8,8 +8,6 @@ var MainModule = angular.module('main', ['ui.router', 'restangular']);
 MainModule.controller('AppController', require('./component/controller/AppController'));
 MainModule.controller('DashboardController', require('./component/controller/DashboardController'));
 
-MainModule.service('PanelBuilder', require('./component/service/PanelBuilder'));
-
 MainModule.provider('NgAdminConfiguration', require('./component/provider/NgAdminConfiguration'));
 
 MainModule.filter('orderElement', require('./component/filter/OrderElement'));

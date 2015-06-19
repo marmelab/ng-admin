@@ -15,6 +15,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Entity Configuration](#entity-configuration)
 * [View Configuration](#view-configuration)
 * [Menu Configuration](#menu-configuration)
+* [Dashboard Configuration](doc/Dashboard.md)
 * [Reusable Directives](#reusable-directives)
 * [Relationships](#relationships)
 * [Customizing the API Mapping](doc/API-mapping.md)
@@ -84,7 +85,7 @@ If you rather like to embed dependencies separately, here is a snippet showing a
 Make your application depend on ng-admin:
 
 ```js
-var app = angular.module('myApp', ['ng-admin']);
+var admin = angular.module('myApp', ['ng-admin']);
 ```
 
 First step is to map ng-admin entities to your API:
@@ -93,15 +94,14 @@ First step is to map ng-admin entities to your API:
 app.config(function (NgAdminConfigurationProvider) {
     var nga = NgAdminConfigurationProvider;
     // set the main API endpoint for this admin
-    var app = nga.application('My backend')
+    var admin = nga.application('My backend')
         .baseApiUrl('http://localhost:3000/');
 
     // define an entity mapped by the http://localhost:3000/posts endpoint
     var post = nga.entity('posts');
-    app.addEntity(post);
+    admin.addEntity(post);
 
     // set the list of fields to map in each post view
-    post.dashboardView().fields(/* see example below */);
     post.listView().fields(/* see example below */);
     post.creationView().fields(/* see example below */);
     post.editionView().fields(/* see example below */);
@@ -137,7 +137,7 @@ Here is a full example for a backend that will let you create, update, and delet
 
 var app = angular.module('myApp', ['ng-admin']);
 
-app.config(function (NgAdminConfigurationProvider) {
+admin.config(function (NgAdminConfigurationProvider) {
     var nga = NgAdminConfigurationProvider;
     var app = nga.application('ng-admin backend demo', false) // application main title and debug disabled
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
@@ -147,16 +147,9 @@ app.config(function (NgAdminConfigurationProvider) {
         .identifier(nga.field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
     // set the application entities
-    app.addEntity(post);
+    admin.addEntity(post);
 
     // customize entities and views
-
-    post.dashboardView() // customize the dashboard panel for this entity
-        .title('Recent posts')
-        .order(1) // display the post panel first in the dashboard
-        .perPage(5) // limit the panel to the 5 latest posts
-        .fields([nga.field('title').isDetailLink(true).map(truncate)]); // fields() called with arguments add fields to the view
-
     post.listView()
         .title('All posts') // default title is "[Entity_name] list"
         .description('List of posts with infinite pagination') // description appears under the title
@@ -281,14 +274,13 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 
 ### View Types
 
-Each entity has 6 views that you can customize:
+Each entity has 5 views that you can customize:
 
 - `listView`
 - `creationView`
 - `editionView`
 - `showView` (unused by default)
 - `deletionView`
-- `dashboardView`: another special view to define a panel in the dashboard (the ng-admin homepage) for an entity.
 
 ### General View Settings
 
@@ -327,7 +319,7 @@ Customize the list of actions for this view. You can pass a list of button names
         editionView.actions(template);
 
 * `disable()`
-Disable this view. Useful e.g. to hide the panel for one entity in the dashboard, or to disable views that modify data and only let the `listView` enabled
+Disable this view. Useful e.g. to disable views that modify data and only leave the `listView` enabled
 
 * `url()`
 Defines the API endpoint for a view. It can be a string or a function.
@@ -335,16 +327,6 @@ Defines the API endpoint for a view. It can be a string or a function.
         comment.listView().url(function(entityId) {
             return '/comments/id/' + entityId; // Can be absolute or relative
         });
-
-### dashboardView Settings
-
-The `dashboardView` also defines `sortField` and `sortDir` fields like the `listView`.
-
-* `perPage(Number)`
-Set the number of items.
-
-* `order(Number)`
-Define the order of the Dashboard panel for this entity in the dashboard
 
 ### listView Settings
 
@@ -570,7 +552,7 @@ By default, ng-admin creates a sidebar menu with one entry per entity. If you wa
 The sidebar menu is built based on a `Menu` object, constructed with `nga.menu()`. A menu can have child menus. A menu can be constructed based on an entity. Here is the code to create a basic menu for the entities `post`, `comment`, and `tag`:
 
 ```js
-app.menu(nga.menu()
+admin.menu(nga.menu()
   .addChild(nga.menu(post))
   .addChild(nga.menu(comment))
   .addChild(nga.menu(tag))
@@ -580,7 +562,7 @@ app.menu(nga.menu()
 The menus appear in the order in which they were added to the main menu. The `Menu` class offers `icon()`, `title()`, and `template()` methods to customize how the menu renders.
 
 ```js
-app.menu(nga.menu()
+admin.menu(nga.menu()
   .addChild(nga.menu(post))
   .addChild(nga.menu(comment).title('Comments'))
   .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
@@ -590,7 +572,7 @@ app.menu(nga.menu()
 You can also choose to define a menu from scratch. In this case, you should define the internal state the menu points to using `link()`, and the function to determine whether the menu is active based on the current state with `active()`.
 
 ```js
-app.menu(nga.menu()
+admin.menu(nga.menu()
     .addChild(nga.menu()
         .title('Stats')
         .link('/stats')
@@ -604,21 +586,27 @@ app.menu(nga.menu()
 You can add also second-level menus.
 
 ```js
-app.menu(nga.menu()
+admin.menu(nga.menu()
     .addChild(nga.menu().title('Miscellaneous')
         .addChild(nga.menu().title('Stats').link('/stats'))
     )
 );
 ```
 
-*Tip*: `app.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `app.menu().getChildByTitle()`
+*Tip*: `admin.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `admin.menu().getChildByTitle()`
 
 ```js
-app.addEntity(post)
-app.menu().getChildByTitle('Post')
+admin.addEntity(post)
+admin.menu().getChildByTitle('Post')
     .title('Posts')
     .icon('<span class="glyphicon glyphicon-file"></span>');
 ```
+
+## Dashboard Configuration
+
+The home page of a ng-admin application is called the Dashboard. Use it to show important pieces of information to the end user, such as latest entries, or charts.
+
+See [Dashboard Configuration](doc/Dashboard.md) dedicated chapter.
 
 ## Reusable Directives
 
@@ -792,6 +780,34 @@ Define a function that returns parameters for filtering API calls. You can use i
                     return { 'tag_id[]': tagIds };
                 })
         ]);
+
+## Customizing the API Mapping
+
+All HTTP requests made by ng-admin to your REST API are carried out by [Restangular](https://github.com/mgonto/restangular), which is like `$resource` on steroids.
+
+The REST specification doesn't provide enough detail to cover all requirements of an administration GUI. ng-admin makes some assumptions about how your API is designed. All of these assumptions can be overridden by way of [Restangular's request and response interceptors](https://github.com/mgonto/restangular#addresponseinterceptor).
+
+That means you don't need to adapt your API to ng-admin; ng-admin can adapt to any REST API, thanks to the flexibility of Restangular.
+
+See the [Customizing the API Mapping](doc/API-mapping.md) dedicated chapter.
+
+## Theming
+
+You can override pretty much all the HTML generated by ng-admin, at different levels.
+
+See the [Theming](doc/Theming.md) dedicated chapter.
+
+## Adding Custom Pages
+
+For each entity, ng-admin creates the necessary pages for Creating, Retieving, Updating, and Deleting (CRUD) this entity. When you need to achieve more specific actions on an entity, you have to add a custom page - for instance a page asking for an email address to send a message to. How can you route to a specific page and display it in the ng-admin layout?
+
+See the [Adding Custom Pages](doc/Custom-pages.md) dedicated chapter.
+
+## Adding Custom Types
+
+When you map a field between a REST API response and ng-admin, you give it a type. This type determines how the data is displayed and edited. It is very easy to customize existing ng-admin types and add new ones.
+
+See the [Adding Custom Types](doc/Custom-types.md) dedicated chapter.
 
 ## Contributing
 

@@ -13,7 +13,7 @@ define(function () {
             }
 
             results.sort(function (field1, field2) {
-                return field1.order() - field2.order();
+                return typeof field1.order === 'function' ? field1.order() - field2.order() : field1.order - field2.order;
             });
 
             return results;

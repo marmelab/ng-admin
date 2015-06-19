@@ -6,8 +6,7 @@ describe('directive: ma-dashboard-panel', function () {
         Entity = require('admin-config/lib/Entity/Entity'),
         $compile,
         scope,
-        directiveUsage = '<ma-dashboard-panel label="{{ label }}" view-name="{{ viewName }}" fields="fields"' +
-            ' entries="entries" entity="entity" per-page="perPage"></ma-dashboard-panel>';
+        directiveUsage = '<ma-dashboard-panel collection="collection" entries="entries"></ma-dashboard-panel>';
 
     angular.module('testapp_state', [])
         .service('$state', function($q) {
@@ -43,18 +42,18 @@ describe('directive: ma-dashboard-panel', function () {
     beforeEach(inject(function (_$compile_, _$rootScope_) {
         $compile = _$compile_;
         scope = _$rootScope_;
-        scope.label = '';
-        scope.viewName = '';
-        scope.fields = [];
-        scope.entries = [];
-        scope.entity = new Entity();
-        scope.perPage = 15;
     }));
 
     it("should display a title with a datagrid", function () {
+        scope.collection = {
+            title: () => 'Comments',
+            name: () => 'myView',
+            fields: () => [],
+            entity: new Entity(),
+            listActions: () => {}
+        };
+        scope.entries = [];
         var element = $compile(directiveUsage)(scope);
-        scope.label = 'Comments';
-        scope.viewName = 'myView';
         scope.$digest();
 
         expect(element[0].querySelector('.panel-heading').innerHTML).toContain('Comments');

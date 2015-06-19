@@ -43,18 +43,36 @@ ul.collapsible {
 /**
 * Dashboard
 */
-.dashboard-content {
-    .panel-default {
+.dashboard-starter {
+    margin-bottom: 30px;
+}
 
-        /* sb-admin uses the > selector, angular forces us to repeat the definition */
+.dashboard-content {
+    .panel {
+        table {
+            margin-bottom: 0;
+        }
+    }
+
+    .panel-default {
         .panel-heading {
             color: #333;
             background-color: #f5f5f5;
             border-color: #ddd;
         }
+    }
 
-        table {
-            margin-bottom: 0;
+    .panel-red a, .panel-green a, .panel-yellow a {
+        color: #337AB7;
+    }
+
+    .panel-red a.btn-default, .panel-green a.btn-default, .panel-yellow a.btn-default {
+        color: #333;
+    }
+
+    .panel-red, .panel-green, .panel-yellow {
+        .panel-heading a {
+            color: #fff;
         }
     }
 

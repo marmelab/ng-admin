@@ -66,7 +66,8 @@ var myEntity = nga.entity('foo_endpoint');
 myEntity.listView().template(myTemplate);
 // continue myEntity configuration
 // ...
-app.addEntity(myEntity);
+var admin = nga.application('My Application');
+admin.addEntity(myEntity);
 ```
 
 ## Customizing The View Templates For The Entire Application
@@ -75,16 +76,30 @@ You can use the `app.customTemplate()` method to customize the template of a giv
 
 ```js
 var myTemplate = require('text!./path/to/list.html');
-app.customTemplate(function(viewName) {
+var admin = nga.application('My Application');
+admin.customTemplate(function(viewName) {
     if (viewName === 'ListView') {
         return myTemplate;
     }
 })
 ```
 
+## Customizing the Dashboard
+
+If you want to use a custom template dashboard, you must [define a custom dashboard configuration](doc/Dashboard.md). This will give you access to the `dashboard.template()` function:
+
+```js
+var myTemplate = require('text!./path/to/dashboard.html');
+var admin = nga.application('My Application');
+admin.dashboard(nga.dashboard()
+    .template(mytemplate)
+})
+```
+
+
 ## Customizing the Application Header
 
-If you want to override the application header (for instance to add authentication status on the top bar), use the `app.header()` setter with a valid HTML content. Angular directives are executed in the context of the layout. For instance, to display a custom title and a right aligned link, use the following code:
+If you want to override the application header (for instance to add authentication status on the top bar), use the `admin.header()` setter with a valid HTML content. Angular directives are executed in the context of the layout. For instance, to display a custom title and a right aligned link, use the following code:
 
 ```js
 var customHeaderTemplate =
@@ -98,18 +113,18 @@ var customHeaderTemplate =
         '<span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source' +
     '</a>' +
 '</p>';
-var app = nga.application('My Application');
-app.header(customHeaderTemplate);
+var admin = nga.application('My Application');
+admin.header(customHeaderTemplate);
 ```
 
 ## Customizing the Application Layout
 
-If the header is not enough, and you need to override the entire application layout use the `app.layout()` setter:
+If the header is not enough, and you need to override the entire application layout use the `admin.layout()` setter:
 
 ```js
 var myLayout = require('text!./path/to/layout.html');
-var app = nga.application('My Application');
-app.layout(myLayout);
+var admin = nga.application('My Application');
+admin.layout(myLayout);
 ```
 
 The original layout can be found in [src/javascripts/ng-admin/Main/view/layout.html](../src/javascripts/ng-admin/Main/view/layout.html).

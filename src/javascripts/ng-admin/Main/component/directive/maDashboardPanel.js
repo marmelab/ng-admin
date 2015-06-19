@@ -1,22 +1,25 @@
-var dashboardPanelView = require('../../view/dashboard-panel.html');
-
 function maDashboardPanel($state) {
     return {
         restrict: 'E',
         scope: {
-            label: '@',
-            viewName: '@',
-            entries: '=',
-            fields: '&',
-            entity: '&',
-            perPage: '='
+            collection: '&',
+            entries: '&'
         },
         link: function(scope) {
             scope.gotoList = function () {
-                $state.go($state.get('list'), { entity: scope.entity().name() });
+                $state.go($state.get('list'), { entity: scope.collection().entity.name() });
             };
         },
-        template: dashboardPanelView
+        template: 
+        '<div class="panel-heading">' +
+            '<a ng-click="gotoList()">{{ collection().title() || collection().entity.label() }}</a>' +
+        '</div>' +
+        '<ma-datagrid name="{{ collection().name() }}"' +
+        '    entries="entries()"' +
+        '    fields="::collection().fields()"' +
+        '    entity="::collection().entity"' +
+        '    list-actions="::collection().listActions()">' +
+        '</ma-datagrid>'
     };
 }
 
