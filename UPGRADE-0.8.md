@@ -22,7 +22,7 @@ The `Field.identifier(true)` does not exist anymore. Instead, you must specify t
 
 ## `dashboardView()` is deprecated, use `admin.dashboard()` instead
 
-To let developers customize the admin dashboard at will, ng-admin 0.8 decouples the dashboard data and presentation. You can setup the dashboard datasources and template on a new member of ythe admin class, `dahboard()`:
+To let developers customize the admin dashboard at will, ng-admin 0.8 decouples the dashboard data and presentation. You can setup the dashboard datasources and template on a new member of the admin class, `dashboard()`:
 
 ```js
 admin.dashboard(nga.dashboard()
