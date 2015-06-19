@@ -17,5 +17,4 @@ describe('EditionViews', function () {
             });
         });
     });
-
 });
