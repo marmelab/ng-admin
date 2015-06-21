@@ -46,6 +46,7 @@ CrudModule.directive('maDatagridInfinitePagination', require('./list/maDatagridI
 CrudModule.directive('maDatagridItemSelector', require('./list/maDatagridItemSelector'));
 CrudModule.directive('maDatagridMultiSelector', require('./list/maDatagridMultiSelector'));
 CrudModule.directive('maFilter', require('./filter/maFilter'));
+CrudModule.directive('maFilterButton', require('./filter/maFilterButton'));
 
 CrudModule.directive('maColumn', require('./column/maColumn'));
 CrudModule.directive('maBooleanColumn', require('./column/maBooleanColumn'));
@@ -68,9 +69,9 @@ CrudModule.directive('maListButton', require('./button/maListButton'));
 CrudModule.directive('maDeleteButton', require('./button/maDeleteButton'));
 CrudModule.directive('maBatchDeleteButton', require('./button/maBatchDeleteButton'));
 CrudModule.directive('maExportToCsvButton', require('./button/maExportToCsvButton'));
+CrudModule.directive('maViewBatchActions', require('./button/maViewBatchActions'));
 
 CrudModule.directive('maViewActions', require('./misc/ViewActions'));
-CrudModule.directive('maViewBatchActions', require('./misc/ViewBatchActions'));
 CrudModule.directive('compile', require('./misc/Compile'));
 
 CrudModule.config(require('./routing'));

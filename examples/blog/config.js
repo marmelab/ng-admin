@@ -166,7 +166,7 @@
                     .targetField(nga.field('title').map(truncate))
             ])
             .filters([
-                nga.field('q', 'string').label('').attributes({'placeholder': 'Global Search'}),
+                nga.field('q', 'string').label('Search'),
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .attributes({'placeholder': 'Filter by date'}),

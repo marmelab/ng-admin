@@ -1,0 +1,47 @@
+function maViewBatchActionsDirective($injector) {
+    var $compile = $injector.get('$compile');
+
+    return {
+        restrict: 'E',
+        scope: {
+            'entity': '=',
+            'selection': '=',
+            'buttons': '&'
+        },
+        link: function(scope) {
+            scope.isopen = false;
+
+            scope.toggleDropdown = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                scope.isopen = !scope.isopen;
+            };
+
+            scope.buttons = scope.buttons();
+            if (typeof scope.buttons === 'string') {
+                scope.customTemplate = scope.buttons;
+                scope.buttons = null;
+            }
+        },
+        template:
+`<span ng-if="selection" class="btn-group" dropdown is-open="isopen">
+    <button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
+        {{ selection.length }} Selected <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="button in buttons" ng-switch="button">
+            <a ng-switch-when="delete">
+                <ma-batch-delete-button selection="selection" entity="entity"/>
+            </a>
+            <a ng-switch-default>
+                <span compile="button"></span>
+            </a>
+        </li>
+    </ul>
+</span>`
+    };
+}
+
+maViewBatchActionsDirective.$inject = ['$injector'];
+
+module.exports = maViewBatchActionsDirective;

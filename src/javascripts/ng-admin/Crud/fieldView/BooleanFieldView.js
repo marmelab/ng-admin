@@ -8,7 +8,7 @@ define(function(require) {
         return '<a ng-click="gotoDetail()">' + getReadWidget() + '</a>';
     }
     function getFilterWidget() {
-        return '<ma-button-field field="::field" value="values[field.name()]"></ma-button-field>';
+        return '<ma-checkbox-field field="::field" value="values[field.name()]"></ma-checkbox-field>';
     }
     function getWriteWidget() {
         return '<ma-checkbox-field field="::field" value="entry.values[field.name()]"></ma-checkbox-field>';

@@ -13,8 +13,8 @@ function maFilterController($scope, $state, $stateParams) {
     this.$scope = $scope;
     this.$state = $state;
     this.$stateParams = $stateParams;
-    this.$scope.values = this.$stateParams.search || {};
-    this.$scope.filters = this.$scope.filters();
+    this.$scope.values = this.$scope.values() || {};
+    this.$scope.filters = this.$scope.filters;
     this.$scope.datastore = this.$scope.datastore();
     this.isFilterEmpty = isEmpty(this.$scope.values);
 }
@@ -25,6 +25,13 @@ function isEmpty(values) {
     }
     return true;
 }
+
+maFilterController.prototype.removeFilter = function(filter) {
+    this.$scope.filters = this.$scope.filters.filter(f => f !== filter);
+    if (filter.name() in this.$stateParams.search) {
+        this.filter();
+    }
+};
 
 maFilterController.prototype.filter = function () {
     var values = {},

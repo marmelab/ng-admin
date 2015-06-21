@@ -19,6 +19,7 @@ define(function () {
         this.loadingPage = false;
         this.search = $stateParams.search;
         this.filters = view.filters();
+        this.enabledFilters = this.filters.filter(filter => this.search && (filter.name() in this.search));
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.dataStore = dataStore;
         this.fields = view.fields();
