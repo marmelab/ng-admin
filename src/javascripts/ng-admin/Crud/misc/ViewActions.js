@@ -20,7 +20,8 @@ define(function (require) {
                 datastore: '=',
                 search: '=',
                 filters: '&',
-                enabledFilters: '='
+                enabledFilters: '=',
+                focus: '&'
             },
             template: viewActionsTemplate,
             link: function($scope, element, attrs, controller, transcludeFn) {

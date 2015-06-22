@@ -12,15 +12,8 @@ define(function () {
         this.progression = progression;
         this.view = view;
         this.entity = view.getEntity();
-        this.title = view.title();
-        this.description = view.description();
-        this.actions = view.actions();
-        this.batchActions = view.batchActions();
         this.loadingPage = false;
         this.search = $stateParams.search;
-        this.filters = view.filters();
-        this.enabledFilters = this.filters.filter(filter => this.search && (filter.name() in this.search));
-        this.hasFilters = Object.keys(this.filters).length > 0;
         this.dataStore = dataStore;
         this.fields = view.fields();
         this.listActions = view.listActions();
@@ -29,7 +22,6 @@ define(function () {
         this.infinitePagination = this.view.infinitePagination();
         this.nextPageCallback = this.nextPage.bind(this);
         this.setPageCallback = this.setPage.bind(this);
-        this.selection = this.batchActions.length ? [] : null;
         this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
         this.sortDir = this.$stateParams.sortDir || this.view.sortDir();
 

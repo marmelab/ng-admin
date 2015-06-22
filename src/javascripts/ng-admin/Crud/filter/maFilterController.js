@@ -16,7 +16,7 @@ function maFilterController($scope, $state, $stateParams) {
     this.$scope.values = this.$scope.values() || {};
     $scope.$watch('values', (newValues, oldValues) => {
         if (newValues != oldValues) {
-            this.filter();
+            this.filter(); // FIXME use debounce
         }
     }, true)
     this.$scope.filters = this.$scope.filters;
@@ -57,7 +57,7 @@ maFilterController.prototype.filter = function () {
 
     this.$stateParams.search = values;
     this.$stateParams.page = 1;
-    this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
+    this.$state.go('list', this.$stateParams);
 };
 
 maFilterController.prototype.shouldFilter = function () {

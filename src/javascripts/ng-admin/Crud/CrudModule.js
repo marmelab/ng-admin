@@ -4,6 +4,7 @@ var CrudModule = angular.module('crud', [
     'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
 ]);
 
+CrudModule.controller('ListLayoutController', require('./list/ListLayoutController'));
 CrudModule.controller('ListController', require('./list/ListController'));
 CrudModule.controller('ShowController', require('./show/ShowController'));
 CrudModule.controller('FormController', require('./form/FormController'));
@@ -39,7 +40,7 @@ CrudModule.directive('uiSelectRequired', require('./field/uiSelectRequired'));
 
 CrudModule.provider('FieldViewConfiguration', require('./fieldView/FieldViewConfiguration'));
 
-CrudModule.directive('listActions', require('./list/ListActions'));
+CrudModule.directive('maListActions', require('./list/maListActions'));
 CrudModule.directive('maDatagrid', require('./list/maDatagrid'));
 CrudModule.directive('maDatagridPagination', require('./list/maDatagridPagination'));
 CrudModule.directive('maDatagridInfinitePagination', require('./list/maDatagridInfinitePagination'));
