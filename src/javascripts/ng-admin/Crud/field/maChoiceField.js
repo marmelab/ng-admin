@@ -4,7 +4,9 @@ function maChoiceField($compile) {
             'field': '&',
             'value': '=',
             'entry':  '=?',
-            'datastore': '&?'
+            'datastore': '&?',
+            'refresh': '&',
+            'refreshDelay': '='
         },
         restrict: 'E',
         compile: function() {
@@ -17,12 +19,18 @@ function maChoiceField($compile) {
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
-                            <ui-select-choices repeat="item.value as item in choices | filter: {label: $select.search}">
+                            <ui-select-choices refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })" repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
 
-                    var choices = field.choices();
+                    var choices;
+                    if (field.type() === 'reference' || field.type() === 'reference_many') {
+                        choices = scope.datastore().getChoices(field);
+                    } else {
+                        choices = field.choices();
+                    }
+
                     scope.choices = typeof(choices) === 'function' ? choices(scope.entry) : choices;
                     element.html(template);
 

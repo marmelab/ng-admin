@@ -11,7 +11,9 @@ function maChoicesField($compile) {
             'field': '&',
             'value': '=',
             'entry':  '=?',
-            'datastore': '&?'
+            'datastore': '&?',
+            'refresh': '&',
+            'refreshDelay': '='
         },
         restrict: 'E',
         compile: function() {
@@ -24,8 +26,8 @@ function maChoicesField($compile) {
                     var template = `
                         <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match placeholder="Filter values">{{ $item.label }}</ui-select-match>
-                            <ui-select-choices repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
-                                    {{ item.label }}
+                            <ui-select-choices refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })" repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
+                                {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
 
