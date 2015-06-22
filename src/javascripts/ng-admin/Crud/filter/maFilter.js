@@ -10,7 +10,7 @@ function maFilterDirective(FieldViewConfiguration) {
         }).join('');
 
     var template = `
-        <form class="filters col-md-8 form-horizontal" ng-if="filterCtrl.shouldFilter()" ng-submit="filterCtrl.filter()">
+        <form class="filters col-md-8 form-horizontal" ng-if="filterCtrl.shouldFilter()">
             <div class="filter form-group input-{{ field.type() }}" ng-repeat="field in filters track by $index">
                 <div class="col-sm-1 col-xs-1 remove_filter">
                     <a ng-click="filterCtrl.removeFilter(field)"><span class="glyphicon glyphicon-remove"></span></a>
@@ -20,16 +20,6 @@ function maFilterDirective(FieldViewConfiguration) {
                 </label>
                 <div class="col-sm-8" ng-switch="field.type()" ng-class="field.getCssClasses(entry)">
                     ${filterWidgetTypes}
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-10">
-                    <button class="btn btn-default" type="submit">
-                        <span class="glyphicon glyphicon-search"></span> Filter
-                    </button>
-                    <button ng-if="!filterCtrl.isFilterEmpty" class="btn btn-default" type="button" ng-click="filterCtrl.clearFilters()">
-                        <span class="glyphicon glyphicon-remove"></span> Clear
-                    </button>
                 </div>
             </div>
         </form>

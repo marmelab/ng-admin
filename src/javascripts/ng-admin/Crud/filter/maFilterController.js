@@ -14,6 +14,11 @@ function maFilterController($scope, $state, $stateParams) {
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$scope.values = this.$scope.values() || {};
+    $scope.$watch('values', (newValues, oldValues) => {
+        if (newValues != oldValues) {
+            this.filter();
+        }
+    }, true)
     this.$scope.filters = this.$scope.filters;
     this.$scope.datastore = this.$scope.datastore();
     this.isFilterEmpty = isEmpty(this.$scope.values);
@@ -57,16 +62,6 @@ maFilterController.prototype.filter = function () {
 
 maFilterController.prototype.shouldFilter = function () {
     return Object.keys(this.$scope.filters).length;
-};
-
-maFilterController.prototype.clearFilters = function () {
-    var i;
-
-    for (i in this.$scope.values) {
-        this.$scope.values[i] = null;
-    }
-
-    this.filter();
 };
 
 maFilterController.prototype.destroy = function () {
