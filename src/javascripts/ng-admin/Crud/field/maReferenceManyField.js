@@ -1,4 +1,4 @@
-function maReferenceManyField(ReadQueries) {
+function maReferenceManyField(ReferenceRefresher) {
     'use strict';
 
     return {
@@ -15,32 +15,8 @@ function maReferenceManyField(ReadQueries) {
             scope.v = field.validation();
             scope.choices = [];
 
-            var valueFieldName = field.targetEntity().identifier().name();
-            var labelFieldName = field.targetField().name();
-
             scope.refresh = function(search) {
-                var referenceFields = {};
-                referenceFields[scope.name] = field;
-
-                return ReadQueries.getAllReferencedData(referenceFields, search)
-                    .then(r => r[field.name()])
-                    .then(results => {
-                        return results.map(function(r) {
-                            return {
-                                value: r[valueFieldName],
-                                label: field.getMappedValue(r[labelFieldName], r)
-                            };
-                        });
-                    })
-                    .then(formattedResults => {
-                        if (!scope.value) {
-                            return formattedResults;
-                        }
-
-                        // remove already assigned values: ui-select still return them.
-                        var selectedValues = scope.value.map(v => v.value);
-                        return formattedResults.filter(fr => selectedValues.indexOf(fr.value) === -1);
-                    })
+                return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(filteredResults => {
                         scope.choices = filteredResults;
                         scope.$root.$$phase || scope.$apply();
@@ -59,6 +35,6 @@ function maReferenceManyField(ReadQueries) {
     };
 }
 
-maReferenceManyField.$inject = ['ReadQueries'];
+maReferenceManyField.$inject = ['ReferenceRefresher'];
 
 module.exports = maReferenceManyField;

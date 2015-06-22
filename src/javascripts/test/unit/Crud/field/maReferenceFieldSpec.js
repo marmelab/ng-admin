@@ -1,31 +1,32 @@
 describe('ReferenceField', function() {
-    var directive = require('../../../../ng-admin/Crud/field/maReferenceField');
+    var choiceDirective = require('../../../../ng-admin/Crud/field/maChoiceField');
+    var referenceDirective = require('../../../../ng-admin/Crud/field/maReferenceField');
     var ReferenceField = require('admin-config/lib/Field/ReferenceField');
+    var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var $compile, $timeout, scope;
-    const directiveUsage = '<ma-reference-field entry="entry" field="field" value="value"></ma-reference-field>';
+    const directiveUsage = `
+        <ma-reference-field
+            entry="entry"
+            field="field"
+            value="value"
+            datastore="datastore">
+        </ma-reference-field>`;
 
-    angular.module('myTestingApp', ['ui.select']).directive('maReferenceField', directive);
+    angular.module('myTestingApp', ['ui.select', 'testapp_DataStore'])
+        .directive('maChoiceField', choiceDirective)
+        .directive('maReferenceField', referenceDirective);
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('ReadQueries', function($q) {
-                this.getAllReferencedData = jasmine.createSpy('getAllReferencedData').and.callFake(function() {
+            $provide.service('ReferenceRefresher', function($q) {
+                this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
                     var deferred = $q.defer();
-                    deferred.resolve({
-                        'post_id': [
-                            { id: 1, name: 'foo', count: 82 },
-                            { id: 2, name: 'bar', count: 43 },
-                            { id: 3, name: 'qux', count: 71 }
-                        ]
-                    });
-
-                    return deferred.promise;
-                });
-
-                this.getOne = jasmine.createSpy('getOne').and.callFake(function() {
-                    var deferred = $q.defer();
-                    deferred.resolve({ name: 'bar' });
+                    deferred.resolve([
+                        { value: 1, label: 'foo' },
+                        { value: 2, label: 'bar' },
+                        { value: 3, label: 'qux' }
+                    ]);
 
                     return deferred.promise;
                 });
@@ -35,15 +36,16 @@ describe('ReferenceField', function() {
 
     beforeEach(angular.mock.module('myTestingApp'));
 
-    var MockedReadQueries;
-    beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReadQueries) {
+    var MockedReferenceRefresher;
+    beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReferenceRefresher) {
         $compile = _$compile_;
         $timeout = _$timeout_;
         scope = _$rootScope_;
-        MockedReadQueries = ReadQueries;
+        MockedReferenceRefresher = ReferenceRefresher;
     }));
 
     beforeEach(function() {
+        scope.datastore = new DataStore();
         scope.field = new ReferenceField('post_id')
             .targetField({
                 name: () => 'name'
@@ -54,7 +56,8 @@ describe('ReferenceField', function() {
                         name: () => 'id'
                     };
                 }
-            });
+            })
+            .refreshDelay(500);
     });
 
     it('should be an ui-select field', function() {
@@ -72,29 +75,15 @@ describe('ReferenceField', function() {
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
         var choices = angular.element(element[0].querySelector('.ui-select-choices'));
 
-        uiSelect.refreshItems(choices.attr('refresh'));
+        uiSelect.refresh(element.attr('refresh'));
         $timeout.flush();
+        scope.$digest();
 
-        expect(MockedReadQueries.getAllReferencedData).toHaveBeenCalled();
+        expect(MockedReferenceRefresher.refresh).toHaveBeenCalled();
         expect(angular.toJson(uiSelect.items)).toEqual(angular.toJson([
             { value: 1, label: 'foo' },
             { value: 2, label: 'bar' },
             { value: 3, label: 'qux' }
-        ]));
-    });
-
-    it('should return value transformed by `maps` field functions', function() {
-        scope.field.map((e, r) => `${r.name} (${r.count})`);
-
-        var element = $compile(directiveUsage)(scope);
-        $timeout.flush();
-        scope.$digest();
-
-        var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-        expect(angular.toJson(uiSelect.items)).toBe(angular.toJson([
-            { value: 1, label: 'foo (82)' },
-            { value: 2, label: 'bar (43)' },
-            { value: 3, label: 'qux (71)' }
         ]));
     });
 
@@ -106,18 +95,26 @@ describe('ReferenceField', function() {
         $timeout.flush();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-match-text'));
-        expect(MockedReadQueries.getOne).toHaveBeenCalled();
         expect(uiSelect.text()).toBe('bar');
     });
 
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
         scope.field.refreshDelay(null);
 
+        scope.datastore = {
+            getChoices: jasmine.createSpy('getChoices').and.callFake(function () {
+                return [
+                    {value: 1, label: 'All records'}
+                ];
+            })
+        };
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-        expect(uiSelect.items.length).toBe(3);
+        expect(uiSelect.items).toEqual([
+            { value: 1, label: 'All records' }
+        ]);
     });
 });

@@ -1,4 +1,4 @@
-function maReferenceField(ReadQueries) {
+function maReferenceField(ReferenceRefresher) {
     return {
         scope: {
             'field': '&',
@@ -12,42 +12,23 @@ function maReferenceField(ReadQueries) {
             scope.name = field.name();
             scope.v = field.validation();
 
-            var valueFieldName = field.targetEntity().identifier().name()
-            var labelFieldName = field.targetField().name();
-
             scope.refresh = function(search) {
-                var referenceFields = {};
-                referenceFields[scope.name] = field;
-
-                return ReadQueries.getAllReferencedData(referenceFields, search)
-                    .then(r => r[field.name()])
-                    .then(results => {
-                        return results.map(function(r) {
-                            return {
-                                value: r[valueFieldName],
-                                label: field.getMappedValue(r[labelFieldName], r)
-                            };
-                        });
-                    })
+                return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(formattedResults => {
-                        scope.choices = formattedResults;
-                        scope.$root.$$phase || scope.$apply();
+                        scope.$broadcast('choices:update', { choices: formattedResults });
                     });
             };
-
-            scope.refreshDelay = field.refreshDelay();
         },
         template: `<ma-choice-field
                 field="field()"
                 datastore="datastore()"
-                refresh-delay="refreshDelay"
                 refresh="refresh($search)"
                 value="value">
             </ma-choice-field>`
     };
 }
 
-maReferenceField.$inject = ['ReadQueries'];
+maReferenceField.$inject = ['ReferenceRefresher'];
 
 module.exports = maReferenceField;
 
