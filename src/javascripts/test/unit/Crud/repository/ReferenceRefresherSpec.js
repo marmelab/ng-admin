@@ -81,19 +81,27 @@ describe('ReferenceRefresher', function() {
             });
         });
 
-        it('should return value transformed by `maps` field functions', function() {
-            scope.field.map((e, r) => `${r.name} (${r.count})`);
+        it('should return value transformed by `maps` field functions', function(done) {
+            var readQueries = new ReadQueries();
+            sinon.stub(readQueries, 'getAllReferencedData', function() {
+                return mixins.buildPromise({
+                    post: [
+                        { id: 1, title: 'Discover some awesome stuff' },
+                        { id: 2, title: 'Another great post'}
+                    ]
+                });
+            });
 
-            var element = $compile(directiveUsage)(scope);
-            $timeout.flush();
-            scope.$digest();
+            fakeField.getMappedValue = (v, e) => `${e.title} (#${e.id})`;
 
-            var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-            expect(angular.toJson(uiSelect.items)).toBe(angular.toJson([
-                { value: 1, label: 'foo (82)' },
-                { value: 2, label: 'bar (43)' },
-                { value: 3, label: 'qux (71)' }
-            ]));
+            var refresher = new ReferenceRefresher(readQueries);
+            refresher.refresh(fakeField, null).then(function(results) {
+                expect(results).toEqual([
+                    { value: 1, label: 'Discover some awesome stuff (#1)' },
+                    { value: 2, label: 'Another great post (#2)' }
+                ]);
+                done();
+            });
         });
     });
 });

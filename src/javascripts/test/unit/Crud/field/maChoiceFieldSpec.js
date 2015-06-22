@@ -31,7 +31,7 @@ describe('directive: choice-field', function () {
         scope.field = new ChoiceField().attributes({ disabled: true });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.children()[0].getAttribumate('disabled')).toBeTruthy();
+        expect(element.children()[0].getAttribute('disabled')).toBeTruthy();
     });
 
     it('should allow to remove selected option only if not required', function() {

@@ -17,18 +17,14 @@ function maReferenceManyField(ReferenceRefresher) {
 
             scope.refresh = function(search) {
                 return ReferenceRefresher.refresh(field, scope.value, search)
-                    .then(filteredResults => {
-                        scope.choices = filteredResults;
-                        scope.$root.$$phase || scope.$apply();
+                    .then(formattedResults => {
+                        scope.$broadcast('choices:update', { choices: formattedResults });
                     });
             };
-
-            scope.refreshDelay = field.refreshDelay();
         },
         template: `<ma-choices-field
                 field="field()"
                 datastore="datastore()"
-                refresh-delay="refreshDelay"
                 refresh="refresh($search)"
                 value="value">
             </ma-choice-field>`

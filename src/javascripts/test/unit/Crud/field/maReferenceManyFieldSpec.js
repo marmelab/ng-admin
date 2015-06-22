@@ -1,37 +1,23 @@
 describe('ReferenceManyField', function() {
-    var directive = require('../../../../ng-admin/Crud/field/maReferenceManyField');
+    var referenceManyFieldDirective = require('../../../../ng-admin/Crud/field/maReferenceManyField');
+    var choicesFieldDirective = require('../../../../ng-admin/Crud/field/maChoicesField');
+
     var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
+    var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var $compile, $timeout, scope;
-    const directiveUsage = '<ma-reference-many-field entry="entry" field="field" value="value"></ma-reference-many-field>';
+    const directiveUsage = '<ma-reference-many-field entry="entry" field="field" value="value" datastore="datastore"></ma-reference-many-field>';
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('ReadQueries', function($q) {
-                function getTagPromise() {
+            $provide.service('ReferenceRefresher', function($q) {
+                this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
                     var deferred = $q.defer();
-                    deferred.resolve({
-                        'tags': [
-                            { id: 2, name: 'bar' },
-                            { id: 3, name: 'qux' }
-                        ]
-                    });
-
-                    return deferred.promise;
-                }
-
-                this.getOptimizedReferencedData = jasmine.createSpy('getOptimizedReferencedData').and.callFake(getTagPromise);
-                this.getFilteredReferenceData = jasmine.createSpy('getFilteredReferenceData').and.callFake(getTagPromise);
-
-                this.getAllReferencedData = jasmine.createSpy('getAllReferencedData').and.callFake(function() {
-                    var deferred = $q.defer();
-                    deferred.resolve({
-                        'tags': [
-                            { id: 1, name: 'foo', count: 19 },
-                            { id: 2, name: 'bar', count: 43 },
-                            { id: 3, name: 'qux', count: 31 }
-                        ]
-                    });
+                    deferred.resolve([
+                        { value: 1, label: 'foo' },
+                        { value: 2, label: 'bar' },
+                        { value: 3, label: 'qux' }
+                    ]);
 
                     return deferred.promise;
                 });
@@ -39,19 +25,22 @@ describe('ReferenceManyField', function() {
         });
     });
 
-    angular.module('myApp', ['ui.select']).directive('maReferenceManyField', directive);
+    angular.module('myApp', ['ui.select'])
+        .directive('maChoicesField', choicesFieldDirective)
+        .directive('maReferenceManyField', referenceManyFieldDirective);
 
     beforeEach(angular.mock.module('myApp'));
 
-    var MockedReadQueries;
-    beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReadQueries) {
+    var MockedReferenceRefresher;
+    beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReferenceRefresher) {
         $compile = _$compile_;
         $timeout = _$timeout_;
         scope = _$rootScope_;
-        MockedReadQueries = ReadQueries;
+        MockedReferenceRefresher = ReferenceRefresher;
     }));
 
     beforeEach(function() {
+        scope.datastore = new DataStore();
         scope.field = new ReferenceManyField('tags')
             .targetField({
                 name: () => 'name'
@@ -67,7 +56,6 @@ describe('ReferenceManyField', function() {
 
     it('should be an ui-select field', function() {
         var element = $compile(directiveUsage)(scope);
-        $timeout.flush();
         scope.$digest();
 
         var uiSelect = element[0].querySelector('.ui-select-container');
@@ -82,10 +70,10 @@ describe('ReferenceManyField', function() {
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
         var choices = angular.element(element[0].querySelector('.ui-select-choices'));
 
-        uiSelect.refreshItems(choices.attr('refresh'));
+        uiSelect.refresh(choices.attr('refresh'));
         $timeout.flush();
 
-        expect(MockedReadQueries.getAllReferencedData).toHaveBeenCalled();
+        expect(MockedReferenceRefresher.refresh).toHaveBeenCalled();
         expect(angular.toJson(uiSelect.items)).toEqual(angular.toJson([
             { value: 1, label: 'foo' },
             { value: 2, label: 'bar' },
@@ -93,58 +81,25 @@ describe('ReferenceManyField', function() {
         ]));
     });
 
-    it('should return value transformed by `maps` field functions', function() {
-        scope.field.map((e, r) => `${r.name} (${r.count})`);
-
-        var element = $compile(directiveUsage)(scope);
-        $timeout.flush();
-        scope.$digest();
-
-        var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-        expect(angular.toJson(uiSelect.items)).toBe(angular.toJson([
-            { value: 1, label: 'foo (19)' },
-            { value: 2, label: 'bar (43)' },
-            { value: 3, label: 'qux (31)' }
-        ]));
-    });
-
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
         scope.field.refreshDelay(null);
 
+        scope.datastore = {
+            getChoices: jasmine.createSpy('getChoices').and.callFake(function () {
+                return [
+                    {value: 1, label: 'All records'}
+                ];
+            })
+        };
+
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-        expect(uiSelect.items.length).toBe(3);
-    });
 
-    describe('should be pre-filled with related labels at initialization', function () {
-        it('using several API calls if single API call is not defined', function() {
-            scope.value = [2, 3];
-
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            $timeout.flush();
-
-            var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
-            expect(MockedReadQueries.getFilteredReferenceData).toHaveBeenCalled();
-            expect(tags[0].innerText).toBe('bar');
-            expect(tags[1].innerText).toBe('qux');
-        });
-
-        it('with a single API call if single API call has been defined', function() {
-            scope.value = [2, 3];
-            scope.field.singleApiCall(function() {});
-
-            var element = $compile(directiveUsage)(scope);
-            scope.$digest();
-            $timeout.flush();
-
-            var tags = element[0].querySelectorAll('.ui-select-match-item .ng-scope');
-            expect(MockedReadQueries.getOptimizedReferencedData).toHaveBeenCalled();
-            expect(tags[0].innerText).toBe('bar');
-            expect(tags[1].innerText).toBe('qux');
-        });
+        expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
+            { value: 1, label: 'All records' }
+        ]));
     });
 });
