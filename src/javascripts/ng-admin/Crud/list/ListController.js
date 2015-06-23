@@ -25,6 +25,15 @@ define(function () {
         this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
         this.sortDir = this.$stateParams.sortDir || this.view.sortDir();
 
+        if ($scope.selectionUpdater) {
+            $scope.selection = $scope.selection || [];
+            console.log($scope.selection)
+            $scope.$watch('selection', $scope.selectionUpdater);
+        } else {
+            $scope.selection = null;
+        }
+        
+
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 

@@ -1,0 +1,21 @@
+<div class="row list-header">
+    <div class="col-lg-12">
+        <ma-view-actions override="::llCtrl.actions" selection="selection" batch-buttons="::llCtrl.batchActions" entity="::llCtrl.entity" datastore="::llCtrl.dataStore" search="::llCtrl.search" filters="::llCtrl.filters" enabled-filters="llCtrl.enabledFilters" focus="llCtrl.focus">
+            <ma-filter-button filters="filters()" enabled-filters="enabledFilters" focus="focus()"></ma-filter-button>
+            <ma-view-batch-actions buttons="::batchButtons()" selection="selection" entity="::entity"></ma-view-batch-actions>
+            <ma-export-to-csv-button entity="::entity" search="::search" datastore="::datastore"></ma-export-to-csv-button>
+            <ma-create-button ng-if="::entity.creationView().enabled" entity="::entity"></ma-create-button>
+        </ma-view-actions>
+
+        <div class="page-header">
+            <h1 compile="::llCtrl.view.title()">
+                {{ ::llCtrl.view.entity.name() | humanize | pluralize }} list
+            </h1>
+            <p class="lead" ng-if="::llCtrl.view.description()" compile="::llCtrl.view.description()">{{ ::llCtrl.view.description() }}</p>
+        </div>
+
+        <ma-filter ng-if="llCtrl.hasFilters" filters="llCtrl.enabledFilters" values="::llCtrl.search" datastore="::llCtrl.dataStore"></ma-filter>
+    </div>
+</div>
+
+<div ui-view="grid"></div>
