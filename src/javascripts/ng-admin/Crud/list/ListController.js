@@ -27,7 +27,6 @@ define(function () {
 
         if ($scope.selectionUpdater) {
             $scope.selection = $scope.selection || [];
-            console.log($scope.selection)
             $scope.$watch('selection', $scope.selectionUpdater);
         } else {
             $scope.selection = null;

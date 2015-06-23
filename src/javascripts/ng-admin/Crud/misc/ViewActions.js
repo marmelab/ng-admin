@@ -21,7 +21,7 @@ define(function (require) {
                 search: '=',
                 filters: '&',
                 enabledFilters: '=',
-                focus: '&'
+                enableFilter: '&'
             },
             template: viewActionsTemplate,
             link: function($scope, element, attrs, controller, transcludeFn) {

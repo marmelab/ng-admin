@@ -18,8 +18,10 @@ define(function () {
         this.enabledFilters = this.filters.filter(filter => this.search && (filter.name() in this.search));
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.focusedFilterId = null;
+        // required to pass enableFilter down 2 directives to the filterButton
         var self = this;
-        this.focus = function(filter) {
+        this.enableFilter = function(filter) {
+            self.enabledFilters.push(filter);
             self.focusedFilterId = filter.name();
             $timeout(() => window.document.getElementById(self.focusedFilterId).focus(), 200);
         }

@@ -32,6 +32,7 @@ function isEmpty(values) {
 }
 
 maFilterController.prototype.removeFilter = function(filter) {
+    delete this.$scope.values[filter.name()];
     this.$scope.filters = this.$scope.filters.filter(f => f !== filter);
     if (filter.name() in this.$stateParams.search) {
         this.filter();
