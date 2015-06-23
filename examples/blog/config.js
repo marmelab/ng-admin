@@ -166,7 +166,10 @@
                     .targetField(nga.field('title').map(truncate))
             ])
             .filters([
-                nga.field('q', 'string').label('Search'),
+                nga.field('q', 'template')
+                    .label('')
+                    .pinned(true)
+                    .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .attributes({'placeholder': 'Filter by date'}),

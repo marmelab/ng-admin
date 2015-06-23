@@ -49,6 +49,10 @@ maFilterController.prototype.filter = function () {
     for (i in filters) {
         field = filters[i];
         fieldName = field.name();
+        if (this.$scope.values[fieldName] === '') {
+            delete this.$scope.values[fieldName];
+            continue;
+        }
 
         if ((field.type() === 'boolean' && this.$scope.values[fieldName]) || // for boolean false is the same as null
             (field.type() !== 'boolean' && this.$scope.values[fieldName] !== null)) {

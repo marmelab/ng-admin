@@ -9,7 +9,8 @@ define(function (require) {
             scope: {
                 field: '&',
                 entry: '&',
-                entity: '&'
+                entity: '&',
+                value: '='
             },
             link: function(scope) {
                 scope.field = scope.field();

@@ -15,7 +15,10 @@ define(function () {
         this.loadingPage = false;
         this.search = $location.search().search ? JSON.parse($location.search().search) : {};
         this.filters = view.filters();
-        this.enabledFilters = this.filters.filter(filter => this.search && (filter.name() in this.search));
+        this.enabledFilters = this.filters.filter(filter => {
+            if (filter.pinned()) return true;
+            return this.search && (filter.name() in this.search)
+        });
         this.hasFilters = Object.keys(this.filters).length > 0;
         this.focusedFilterId = null;
         // required to pass enableFilter down 2 directives to the filterButton
