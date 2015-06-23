@@ -59,6 +59,7 @@ function maChoicesField($compile) {
                 post: function(scope) {
                     scope.$on('choices:update', function(e, data) {
                         scope.choices = data.choices;
+                        scope.$root.$$phase || scope.$digest();
                     });
                 }
             };
