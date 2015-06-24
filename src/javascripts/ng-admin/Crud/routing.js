@@ -117,10 +117,10 @@ function routing($stateProvider) {
                     return true;
                 }],
                 filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getFilterReferences());
+                    return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
                 }],
                 filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
-                    var filters = view.getFilterReferences();
+                    var filters = view.getFilterReferences(false);
                     var filterEntries;
 
                     for (var name in filterData) {
@@ -259,10 +259,10 @@ function routing($stateProvider) {
                     return entry;
                 }],
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getReferences());
+                    return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
                 choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
-                    var choices = view.getReferences();
+                    var choices = view.getReferences(false);
                     var choiceEntries;
 
                     for (var name in filterData) {
@@ -376,10 +376,10 @@ function routing($stateProvider) {
                     return true;
                 }],
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getReferences());
+                    return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
                 choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
-                    var choices = view.getReferences();
+                    var choices = view.getReferences(false);
                     var choiceEntries;
 
                     for (var name in filterData) {

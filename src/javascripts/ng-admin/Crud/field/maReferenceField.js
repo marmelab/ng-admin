@@ -12,6 +12,11 @@ function maReferenceField(ReferenceRefresher) {
             scope.name = field.name();
             scope.v = field.validation();
 
+            ReferenceRefresher.getInitialChoices(field, [scope.value])
+                .then(options => {
+                    scope.$broadcast('choices:update', { choices: options });
+                });
+
             scope.refresh = function(search) {
                 return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(formattedResults => {

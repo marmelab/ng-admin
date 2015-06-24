@@ -1,4 +1,9 @@
-function maChoiceField($compile) {
+function updateChoices(scope, choices) {
+    scope.choices = choices;
+    scope.$root.$$phase || scope.$digest();
+}
+
+function maChoiceField($compile, ReadQueries) {
     return {
         scope: {
             'field': '&',
@@ -16,17 +21,14 @@ function maChoiceField($compile) {
                     scope.v = field.validation();
 
                     var refreshAttributes = '';
-                    var choices = scope.choices;
-                    if (field.type() === 'reference' || field.type() === 'reference_many') {
-                        choices = scope.datastore().getChoices(field);
-
+                    if (field.type().indexOf('reference') === 0) {
                         let refreshDelay = field.refreshDelay();
                         if (refreshDelay) {
-                             refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
+                            refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                         }
-                    } else {
-                        choices = field.choices();
                     }
+
+                    var choices = field.choices ? field.choices() : [];
 
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
@@ -49,8 +51,7 @@ function maChoiceField($compile) {
                 },
                 post: function(scope) {
                     scope.$on('choices:update', function(e, data) {
-                        scope.choices = data.choices;
-                        scope.$root.$$phase || scope.$digest();
+                        updateChoices(scope, data.choices);
                     });
                 }
             };
@@ -58,7 +59,7 @@ function maChoiceField($compile) {
     };
 }
 
-maChoiceField.$inject = ['$compile'];
+maChoiceField.$inject = ['$compile', 'ReadQueries'];
 
 module.exports = maChoiceField;
 

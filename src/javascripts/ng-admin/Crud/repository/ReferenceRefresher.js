@@ -3,23 +3,25 @@ class ReferenceRefresher {
         this.ReadQueries = ReadQueries;
     }
 
+    _transformRecords(field, records) {
+        var valueFieldName = field.targetEntity().identifier().name();
+        var labelFieldName = field.targetField().name();
+
+        return records.map(function(r) {
+            return {
+                value: r[valueFieldName],
+                label: field.getMappedValue(r[labelFieldName], r)
+            };
+        });
+    }
+
     refresh(field, currentValue, search) {
         var referenceFields = {};
         referenceFields[field.name()] = field;
 
-        var valueFieldName = field.targetEntity().identifier().name();
-        var labelFieldName = field.targetField().name();
-
         return this.ReadQueries.getAllReferencedData(referenceFields, search)
             .then(r => r[field.name()])
-            .then(results => {
-                return results.map(function(r) {
-                    return {
-                        value: r[valueFieldName],
-                        label: field.getMappedValue(r[labelFieldName], r)
-                    };
-                });
-            })
+            .then(results => this._transformRecords(field, results))
             .then(formattedResults => {
                 if (!currentValue) {
                     return formattedResults;
@@ -29,6 +31,12 @@ class ReferenceRefresher {
                 var selectedValues = currentValue.map(v => v.value);
                 return formattedResults.filter(fr => selectedValues.indexOf(fr.value) === -1);
             });
+    }
+
+    getInitialChoices(field, values) {
+        return this.ReadQueries.getRecordsByIds(field.targetEntity(), values).then(
+            records => this._transformRecords(field, records)
+        );
     }
 }
 
