@@ -2,9 +2,13 @@
 describe('directive: date-field', function() {
     'use strict';
 
-    var directive = require('../../../../ng-admin/Crud/field/maDateField');
+    var dateDirective = require('../../../../ng-admin/Crud/field/maDateField');
+    var datepickerPopupDirective = require('../../../../ng-admin/Crud/field/datepickerPopup');
     var DateField = require('admin-config/lib/Field/DateField');
-    angular.module('testapp_DateField', []).directive('maDateField', directive);
+
+    angular.module('testapp_DateField', ['ui.bootstrap', 'ui.bootstrap.tpls'])
+        .directive('maDateField', dateDirective)
+        .directive('datepickerPopup', datepickerPopupDirective);
 
     var $compile,
         scope,
@@ -22,6 +26,16 @@ describe('directive: date-field', function() {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.find('input').eq(0).attr('type')).toBe('text');
+    });
+
+    it('should format default value correctly', function () {
+        scope.value = new Date(2014, 2, 1);
+        scope.field = (new DateField()).format('yyyy-MM-dd');
+
+        var element = $compile(directiveUsage)(scope);
+        scope.$digest();
+
+        expect(element.find('input').eq(0).val()).toBe('2014-03-01');
     });
 
     it("should use the supplied format as datepicker parameter", function () {

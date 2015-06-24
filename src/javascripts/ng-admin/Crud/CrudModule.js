@@ -19,6 +19,7 @@ CrudModule.service('RestWrapper', require('./misc/RestWrapper'));
 
 CrudModule.directive('maJsonValidator', require('./validator/maJsonValidator'));
 
+CrudModule.directive('datepickerPopup', require('./field/datepickerPopup'));
 CrudModule.directive('maField', require('./field/maField'));
 CrudModule.directive('maButtonField', require('./field/maButtonField'));
 CrudModule.directive('maChoiceField', require('./field/maChoiceField'));
