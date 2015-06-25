@@ -104,4 +104,42 @@ describe('ReferenceRefresher', function() {
             });
         });
     });
+
+    describe('getInitialChoices', function() {
+        var readQueries, refresher;
+        beforeEach(function() {
+            readQueries = new ReadQueries();
+            sinon.stub(readQueries, 'getRecordsByIds', function() {
+                return mixins.buildPromise([
+                    { id: 1, title: 'Discover some awesome stuff' },
+                    { id: 2, title: 'Another great post'}
+                ]);
+            });
+
+            refresher = new ReferenceRefresher(readQueries);
+        });
+
+        it('should retrieve correct labels from given values, in correct choices expected format', function(done) {
+            refresher.getInitialChoices(fakeField, [1, 2]).then(function(results) {
+                expect(readQueries.getRecordsByIds.called).toBeTruthy();
+                expect(results).toEqual([
+                    { value: 1, label: 'Discover some awesome stuff' },
+                    { value: 2, label: 'Another great post' }
+                ]);
+                done();
+            });
+        });
+
+        it('should return mapped values for labels', function(done) {
+            fakeField.getMappedValue = (v, e) => `${e.title} (#${e.id})`;
+            refresher.getInitialChoices(fakeField, [1, 2]).then(function(results) {
+                expect(results).toEqual([
+                    { value: 1, label: 'Discover some awesome stuff (#1)' },
+                    { value: 2, label: 'Another great post (#2)' }
+                ]);
+
+                done();
+            });
+        });
+    });
 });
