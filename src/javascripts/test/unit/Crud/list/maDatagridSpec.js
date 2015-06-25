@@ -50,7 +50,7 @@ describe('directive: ma-datagrid', function () {
         scope.$digest();
 
         expect(element[0].querySelector('thead th:nth-child(2)').innerHTML).toContain('Actions');
-        expect(element[0].querySelector('tbody tr td:nth-child(2) list-actions').nodeName).toContain('LIST-ACTIONS');
+        expect(element[0].querySelector('tbody tr td:nth-child(2) ma-list-actions').nodeName).toContain('MA-LIST-ACTIONS');
     });
 
 
