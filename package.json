@@ -87,7 +87,7 @@
     "style-loader": "^0.12.2",
     "superagent": "^0.18.2",
     "textangular": "^1.3.11",
-    "ui-select": "^0.11.2",
+    "ui-select": "angular-ui/ui-select#v0.12.0",
     "underscore": "^1.8.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.9.4",
