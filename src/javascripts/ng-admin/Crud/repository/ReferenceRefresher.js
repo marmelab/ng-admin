@@ -3,18 +3,6 @@ class ReferenceRefresher {
         this.ReadQueries = ReadQueries;
     }
 
-    _transformRecords(field, records) {
-        var valueFieldName = field.targetEntity().identifier().name();
-        var labelFieldName = field.targetField().name();
-
-        return records.map(function(r) {
-            return {
-                value: r[valueFieldName],
-                label: field.getMappedValue(r[labelFieldName], r)
-            };
-        });
-    }
-
     refresh(field, currentValue, search) {
         var referenceFields = {};
         referenceFields[field.name()] = field;
@@ -37,6 +25,18 @@ class ReferenceRefresher {
         return this.ReadQueries.getRecordsByIds(field.targetEntity(), values).then(
             records => this._transformRecords(field, records)
         );
+    }
+
+    _transformRecords(field, records) {
+        var valueFieldName = field.targetEntity().identifier().name();
+        var labelFieldName = field.targetField().name();
+
+        return records.map(function(r) {
+            return {
+                value: r[valueFieldName],
+                label: field.getMappedValue(r[labelFieldName], r)
+            };
+        });
     }
 }
 

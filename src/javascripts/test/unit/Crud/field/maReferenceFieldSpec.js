@@ -2,6 +2,7 @@ describe('ReferenceField', function() {
     var choiceDirective = require('../../../../ng-admin/Crud/field/maChoiceField');
     var referenceDirective = require('../../../../ng-admin/Crud/field/maReferenceField');
     var ReferenceField = require('admin-config/lib/Field/ReferenceField');
+    var mixins = require('../../../mock/mixins');
     var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var $compile, $timeout, scope;
@@ -20,15 +21,18 @@ describe('ReferenceField', function() {
     beforeEach(function() {
         angular.mock.module(function($provide) {
             $provide.service('ReferenceRefresher', function($q) {
+                this.getInitialChoices = jasmine.createSpy('getInitialChoices').and.callFake(function() {
+                    return mixins.buildPromise([
+                        { value: 2, label: 'bar' }
+                    ]);
+                });
+
                 this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
-                    var deferred = $q.defer();
-                    deferred.resolve([
+                    return mixins.buildPromise([
                         { value: 1, label: 'foo' },
                         { value: 2, label: 'bar' },
                         { value: 3, label: 'qux' }
                     ]);
-
-                    return deferred.promise;
                 });
             });
         });
@@ -99,22 +103,16 @@ describe('ReferenceField', function() {
     });
 
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
+        scope.value = 2;
         scope.field.refreshDelay(null);
 
-        scope.datastore = {
-            getChoices: jasmine.createSpy('getChoices').and.callFake(function () {
-                return [
-                    {value: 1, label: 'All records'}
-                ];
-            })
-        };
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
         expect(uiSelect.items).toEqual([
-            { value: 1, label: 'All records' }
+            { value: 2, label: 'bar' }
         ]);
     });
 });

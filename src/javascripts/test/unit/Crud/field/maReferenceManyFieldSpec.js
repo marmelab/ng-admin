@@ -1,8 +1,8 @@
-describe('ReferenceManyField', function() {
+fdescribe('ReferenceManyField', function() {
     var referenceManyFieldDirective = require('../../../../ng-admin/Crud/field/maReferenceManyField');
     var choicesFieldDirective = require('../../../../ng-admin/Crud/field/maChoicesField');
-
     var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
+    var mixins = require('../../../mock/mixins');
     var DataStore = require('admin-config/lib/DataStore/DataStore');
 
     var $compile, $timeout, scope;
@@ -11,15 +11,19 @@ describe('ReferenceManyField', function() {
     beforeEach(function() {
         angular.mock.module(function($provide) {
             $provide.service('ReferenceRefresher', function($q) {
+                this.getInitialChoices = jasmine.createSpy('getInitialChoices').and.callFake(function() {
+                    return mixins.buildPromise([
+                        { value: 2, label: 'bar' },
+                        { value: 3, label: 'qux' }
+                    ]);
+                });
+
                 this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
-                    var deferred = $q.defer();
-                    deferred.resolve([
+                    return mixins.buildPromise([
                         { value: 1, label: 'foo' },
                         { value: 2, label: 'bar' },
                         { value: 3, label: 'qux' }
                     ]);
-
-                    return deferred.promise;
                 });
             });
         });
@@ -84,22 +88,15 @@ describe('ReferenceManyField', function() {
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
         scope.field.refreshDelay(null);
 
-        scope.datastore = {
-            getChoices: jasmine.createSpy('getChoices').and.callFake(function () {
-                return [
-                    {value: 1, label: 'All records'}
-                ];
-            })
-        };
-
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
-
         expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
-            { value: 1, label: 'All records' }
+            { value: 1, label: 'foo' },
+            { value: 2, label: 'bar' },
+            { value: 3, label: 'qux' }
         ]));
     });
 });

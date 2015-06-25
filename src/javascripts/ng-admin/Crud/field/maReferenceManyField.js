@@ -15,12 +15,23 @@ function maReferenceManyField(ReferenceRefresher) {
             scope.v = field.validation();
             scope.choices = [];
 
+            if (scope.value) {
+                ReferenceRefresher.getInitialChoices(field, scope.value)
+                    .then(options => {
+                        scope.$broadcast('choices:update', { choices: options });
+                    });
+            }
+
             scope.refresh = function(search) {
                 return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(formattedResults => {
                         scope.$broadcast('choices:update', { choices: formattedResults });
                     });
             };
+
+            if (!field.refreshDelay()) {
+                scope.refresh();
+            }
         },
         template: `<ma-choices-field
                 field="field()"

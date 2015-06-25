@@ -24,18 +24,14 @@ function maChoicesField($compile) {
                     scope.v = field.validation();
 
                     var refreshAttributes = '';
-                    var choices = scope.choices;
-
-                    if (field.type() === 'reference' || field.type() === 'reference_many') {
-                        choices = scope.datastore().getChoices(field);
-
+                    if (field.type().indexOf('reference') === 0) {
                         let refreshDelay = field.refreshDelay();
                         if (refreshDelay) {
                             refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                         }
-                    } else {
-                        choices = field.choices();
                     }
+
+                    var choices = field.choices ? field.choices() : [];
 
                     var template = `
                         <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
