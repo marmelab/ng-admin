@@ -15,8 +15,8 @@ class ReferenceRefresher {
                     return formattedResults;
                 }
 
-                //remove already assigned values: ui-select still return them if multiple
-                var selectedValues = currentValue.map(v => v.value);
+                // remove already assigned values: ui-select still return them if multiple
+                var selectedValues = Array.isArray(currentValue) ? currentValue.map(v => v.value) : [currentValue.value];
                 return formattedResults.filter(fr => selectedValues.indexOf(fr.value) === -1);
             });
     }

@@ -22,7 +22,7 @@ function maChoiceField($compile) {
 
                     var refreshAttributes = '';
                     if (field.type().indexOf('reference') === 0) {
-                        let refreshDelay = field.refreshDelay();
+                        let refreshDelay = field.autocompleteOptions().refreshDelay;
                         if (refreshDelay) {
                             refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                         }

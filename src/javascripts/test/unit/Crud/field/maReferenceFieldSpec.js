@@ -61,7 +61,8 @@ describe('ReferenceField', function() {
                     };
                 }
             })
-            .refreshDelay(500);
+            .autocomplete(true)
+            .autocompleteOptions({ refreshDelay: 500 });
     });
 
     it('should be an ui-select field', function() {
@@ -104,7 +105,9 @@ describe('ReferenceField', function() {
 
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
         scope.value = 2;
-        scope.field.refreshDelay(null);
+        scope.field
+            .autocomplete(true)
+            .autocompleteOptions({ refreshDelay: null });
 
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();

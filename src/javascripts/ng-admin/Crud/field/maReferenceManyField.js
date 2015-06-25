@@ -29,7 +29,8 @@ function maReferenceManyField(ReferenceRefresher) {
                     });
             };
 
-            if (!field.refreshDelay()) {
+            // if no API request configured, fill field with all records
+            if (!field.autocompleteOptions().refreshDelay) {
                 scope.refresh();
             }
         },

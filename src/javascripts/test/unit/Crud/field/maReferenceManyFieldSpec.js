@@ -1,4 +1,4 @@
-fdescribe('ReferenceManyField', function() {
+describe('ReferenceManyField', function() {
     var referenceManyFieldDirective = require('../../../../ng-admin/Crud/field/maReferenceManyField');
     var choicesFieldDirective = require('../../../../ng-admin/Crud/field/maChoicesField');
     var ReferenceManyField = require('admin-config/lib/Field/ReferenceManyField');
@@ -86,7 +86,7 @@ fdescribe('ReferenceManyField', function() {
     });
 
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
-        scope.field.refreshDelay(null);
+        scope.field.autocompleteOptions({ refreshDelay: null });
 
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();

@@ -61,7 +61,7 @@ describe('ReferenceRefresher', function() {
             });
         });
 
-        it('should remove already selected values from result list (to fix some UI-Select duplicated options', function(done) {
+        it('should remove already selected values from result list (to fix some UI-Select duplicated options)', function(done) {
             var readQueries = new ReadQueries();
             sinon.stub(readQueries, 'getAllReferencedData', function() {
                 return mixins.buildPromise({

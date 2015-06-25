@@ -119,7 +119,8 @@
                             q: search
                         }
                     })
-                    .refreshDelay(300)
+                    .autocomplete(true)
+                    .autocompleteOptions({ refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
@@ -216,7 +217,8 @@
                     .targetEntity(post)
                     .targetField(nga.field('title'))
                     .validation({ required: true })
-                    .refreshDelay(300)
+                    .autocomplete(true)
+                    .autocompleteOptions({ refreshDelay: 300 })
             ]);
 
         comment.editionView()
