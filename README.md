@@ -420,7 +420,7 @@ If your API does not support `_filters` parameter but `posts_filter` (for exampl
             return { params: params };
         });
 
-But the most classic need will be to recover server side table an array of ids.   
+The most common use-case is to send an array of ids to server:   
 
         // Will call  /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
         post.batchDeleteView()
@@ -766,7 +766,7 @@ If your API does not support `_filters` parameter but `posts_filter` (for exampl
             return { params: params };
         });
 
-But the most classic need will be to recover server side table an array of ids.         
+But the most common use-case is to send an array of ids to server:         
 
         // Will call /posts?post_id[]=1&post_id[]=2&post_id[]=5...
         commentList.fields([

@@ -60,13 +60,13 @@ define(function () {
 
     RestWrapper.prototype.deleteOne = function(entityName, url) {
         return this.Restangular
-        .oneUrl(entityName, url)
+            .oneUrl(entityName, url)
             .customDELETE();
     };
 
     RestWrapper.prototype.deleteAll = function(entityName, url, params) {
         return this.Restangular
-        .oneUrl(entityName, url)
+            .oneUrl(entityName, url)
             .remove(params);
     };
 
