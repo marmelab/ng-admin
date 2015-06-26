@@ -13,8 +13,5 @@ build:
 	@cp -Rf build examples/blog/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
-build-dev:
-	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js --progress
-
 test:
 	@grunt test:local
