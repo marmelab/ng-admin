@@ -394,6 +394,18 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
                 .stripTags(true)
         ]);
 
+
+### batchDeleteView Settings
+
+* `singleApiCall(function(entityIds) {}`
+By default, the batch delete action make as many requests as you selected objects. If you want to delete all selected objects in a single request, you have to define a `singleApiCall` function. You can use it if you API support filter for multiple values on a DELETE request.
+
+        // Will call DELETE /posts?id[]=1&id[]=2&id%[]=5...
+        post.batchDeleteView()
+          .singleApiCall(function (ids) {
+            return { 'id[]': ids };
+          });
+
 ## Fields
 
 A field is the representation of a property of an entity. 
