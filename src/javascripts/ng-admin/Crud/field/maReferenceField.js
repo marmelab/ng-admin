@@ -12,17 +12,23 @@ function maReferenceField(ReferenceRefresher) {
             scope.name = field.name();
             scope.v = field.validation();
 
-            ReferenceRefresher.getInitialChoices(field, [scope.value])
-                .then(options => {
-                    scope.$broadcast('choices:update', { choices: options });
-                });
-
-            scope.refresh = function(search) {
+            function refresh(search) {
                 return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(formattedResults => {
                         scope.$broadcast('choices:update', { choices: formattedResults });
                     });
-            };
+            }
+
+            if (field.remoteComplete()) {
+                ReferenceRefresher.getInitialChoices(field, [scope.value])
+                    .then(options => {
+                        scope.$broadcast('choices:update', { choices: options });
+                    });
+
+                scope.refresh = refresh;
+            } else {
+                refresh();
+            }
         },
         template: `<ma-choice-field
                 field="field()"

@@ -61,8 +61,7 @@ describe('ReferenceField', function() {
                     };
                 }
             })
-            .autocomplete(true)
-            .autocompleteOptions({ refreshDelay: 500 });
+            .remoteComplete(true, { refreshDelay: 500 });
     });
 
     it('should be an ui-select field', function() {
@@ -104,18 +103,18 @@ describe('ReferenceField', function() {
     });
 
     it('should get all choices loaded at initialization if refreshDelay is null', function() {
-        scope.value = 2;
-        scope.field
-            .autocomplete(true)
-            .autocompleteOptions({ refreshDelay: null });
+        scope.field.remoteComplete(true, { refreshDelay: null });
 
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
 
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
+        expect(MockedReferenceRefresher.refresh).toHaveBeenCalled();
         expect(uiSelect.items).toEqual([
-            { value: 2, label: 'bar' }
+            { value: 1, label: 'foo' },
+            { value: 2, label: 'bar' },
+            { value: 3, label: 'qux' }
         ]);
     });
 });

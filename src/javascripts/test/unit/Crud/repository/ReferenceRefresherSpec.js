@@ -73,7 +73,7 @@ describe('ReferenceRefresher', function() {
             });
 
             var refresher = new ReferenceRefresher(readQueries);
-            refresher.refresh(fakeField, [{ value: 1 }], 'foo').then(function(results) {
+            refresher.refresh(fakeField, [1], 'foo').then(function(results) {
                 expect(results).toEqual([
                     { value: 2, label: 'Another great post' }
                 ]);

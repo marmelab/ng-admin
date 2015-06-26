@@ -119,8 +119,7 @@
                             q: search
                         }
                     })
-                    .autocomplete(true)
-                    .autocompleteOptions({ refreshDelay: 300 })
+                    .remoteComplete(false)//true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
@@ -186,11 +185,7 @@
                     .label('Post')
                     .targetEntity(post)
                     .targetField(nga.field('title'))
-                    .filters(function(search) {
-                        return {
-                            q: search
-                        };
-                    })
+                    .remoteComplete(true, { refreshDelay: 300 })
             ])
             .listActions(['edit', 'delete']);
 
@@ -202,7 +197,6 @@
                 nga.field('author'),
                 nga.field('body', 'wysiwyg'),
                 nga.field('post_id', 'reference')
-                    .perPage(5)
                     .label('Post')
                     .map(truncate)
                     .filters(function(search) {
@@ -217,8 +211,7 @@
                     .targetEntity(post)
                     .targetField(nga.field('title'))
                     .validation({ required: true })
-                    .autocomplete(true)
-                    .autocompleteOptions({ refreshDelay: 300 })
+                    .remoteComplete(true, { refreshDelay: 0 })
             ]);
 
         comment.editionView()

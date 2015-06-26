@@ -10,21 +10,25 @@ class ReferenceRefresher {
         return this.ReadQueries.getAllReferencedData(referenceFields, search)
             .then(r => r[field.name()])
             .then(results => this._transformRecords(field, results))
-            .then(formattedResults => {
-                if (!currentValue) {
-                    return formattedResults;
-                }
-
-                // remove already assigned values: ui-select still return them if multiple
-                var selectedValues = Array.isArray(currentValue) ? currentValue.map(v => v.value) : [currentValue.value];
-                return formattedResults.filter(fr => selectedValues.indexOf(fr.value) === -1);
-            });
+            .then(formattedResults => this._removeDuplicates(formattedResults, currentValue));
     }
 
     getInitialChoices(field, values) {
-        return this.ReadQueries.getRecordsByIds(field.targetEntity(), values).then(
-            records => this._transformRecords(field, records)
-        );
+        return this.ReadQueries.getRecordsByIds(field.targetEntity(), values)
+            .then(records => this._transformRecords(field, records));
+    }
+
+    _removeDuplicates(results, currentValue) {
+        // remove already assigned values: ui-select still return them if multiple
+        if (!currentValue) {
+            return results;
+        }
+
+        if (!Array.isArray(currentValue)) {
+            currentValue = [currentValue];
+        }
+
+        return results.filter(fr => currentValue.indexOf(fr.value) === -1);
     }
 
     _transformRecords(field, records) {

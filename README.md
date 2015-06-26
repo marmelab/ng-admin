@@ -725,11 +725,13 @@ Add filters to the referenced results list. It may be either an object or a func
                 });
         ]);
 
-* `refreshDelay`
-Wait at least `refreshDelay` milliseconds between two API calls. Default: `null`.
+* `remoteComplete([true|false], options = {})`
+Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
 
-**Note:** if this field is set to `null`, all references are retrieved (within the `perPage` parameter range) and stored locally at view
-initialization. No more API requests would be made during auto-completion time.
+Available options are:
+
+    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -815,11 +817,13 @@ Add filters to the referenced results list. It may be either an object or a func
                 });
         ]);
 
-* `refreshDelay`
-Wait at least `refreshDelay` milliseconds between two API calls. Default: 500ms.
+* `remoteComplete([true|false], options = {})`
+Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
 
-**Note:** if this field is set to `null`, all references are retrieved (within the `perPage` parameter range) and stored locally at view
-initialization. No more API requests would be made during auto-completion time.
+Available options are:
+
+    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
 
 ## Customizing the API Mapping
 

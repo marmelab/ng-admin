@@ -23,11 +23,9 @@ function maChoicesField($compile) {
                     scope.v = field.validation();
 
                     var refreshAttributes = '';
-                    if (field.type().indexOf('reference') === 0) {
-                        let refreshDelay = field.autocompleteOptions().refreshDelay;
-                        if (refreshDelay) {
-                            refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
-                        }
+                    if (field.type().indexOf('reference') === 0 && field.remoteComplete()) {
+                        scope.refreshDelay = field.remoteCompleteOptions().refreshDelay;
+                        refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                     }
 
                     var choices = field.choices ? field.choices() : [];
@@ -41,6 +39,7 @@ function maChoicesField($compile) {
                         </ui-select>`;
 
                     scope.choices = typeof(choices) === 'function' ? choices(scope.entry) : choices;
+                    console.log(scope.choices);
                     element.html(template);
 
                     var select = element.children()[0];

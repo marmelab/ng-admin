@@ -15,23 +15,24 @@ function maReferenceManyField(ReferenceRefresher) {
             scope.v = field.validation();
             scope.choices = [];
 
-            if (scope.value) {
-                ReferenceRefresher.getInitialChoices(field, scope.value)
-                    .then(options => {
-                        scope.$broadcast('choices:update', { choices: options });
-                    });
-            }
-
-            scope.refresh = function(search) {
+            function refresh(search) {
                 return ReferenceRefresher.refresh(field, scope.value, search)
                     .then(formattedResults => {
                         scope.$broadcast('choices:update', { choices: formattedResults });
                     });
-            };
+            }
 
-            // if no API request configured, fill field with all records
-            if (!field.autocompleteOptions().refreshDelay) {
-                scope.refresh();
+            if (field.remoteComplete()) {
+                if (scope.value) {
+                    ReferenceRefresher.getInitialChoices(field, scope.value)
+                        .then(options => {
+                            scope.$broadcast('choices:update', { choices: options });
+                        });
+                }
+
+                scope.refresh = refresh;
+            } else {
+                refresh();
             }
         },
         template: `<ma-choices-field
