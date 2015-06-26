@@ -22,17 +22,24 @@ function maReferenceManyField(ReferenceRefresher) {
                     });
             }
 
-            if (field.remoteComplete()) {
-                if (scope.value) {
-                    ReferenceRefresher.getInitialChoices(field, scope.value)
-                        .then(options => {
-                            scope.$broadcast('choices:update', { choices: options });
-                        });
-                }
+            // if value is set, we should retrieve references label from server
+            if (scope.value) {
+                ReferenceRefresher.getInitialChoices(field, scope.value)
+                    .then(options => {
+                        scope.$broadcast('choices:update', { choices: options });
 
-                scope.refresh = refresh;
+                        if (field.remoteComplete()) {
+                            scope.refresh = refresh;
+                        } else {
+                            refresh();
+                        }
+                    });
             } else {
-                refresh();
+                if (field.remoteComplete()) {
+                    scope.refresh = refresh;
+                } else {
+                    refresh();
+                }
             }
         },
         template: `<ma-choices-field

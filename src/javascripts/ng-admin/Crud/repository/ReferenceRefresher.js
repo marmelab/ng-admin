@@ -15,6 +15,7 @@ class ReferenceRefresher {
 
     getInitialChoices(field, values) {
         return this.ReadQueries.getRecordsByIds(field.targetEntity(), values)
+            .then(results => this._removeDuplicates(results, values))
             .then(records => this._transformRecords(field, records));
     }
 

@@ -39,7 +39,6 @@ function maChoicesField($compile) {
                         </ui-select>`;
 
                     scope.choices = typeof(choices) === 'function' ? choices(scope.entry) : choices;
-                    console.log(scope.choices);
                     element.html(template);
 
                     var select = element.children()[0];

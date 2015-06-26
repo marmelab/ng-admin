@@ -22,7 +22,7 @@ describe('directive: choices-field', function() {
         scope = _$rootScope_;
     }));
 
-    fit("should contain a select multiple tag", function () {
+    it("should contain a select multiple tag", function () {
         scope.field = new ChoicesField();
         var element = $compile(directiveUsage)(scope);
         scope.$digest();

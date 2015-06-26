@@ -119,7 +119,7 @@
                             q: search
                         }
                     })
-                    .remoteComplete(false)//true, { refreshDelay: 300 })
+                    .remoteComplete(true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
