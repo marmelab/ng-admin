@@ -64,6 +64,12 @@ define(function () {
             .customDELETE();
     };
 
+    RestWrapper.prototype.deleteAll = function(entityName, url, params) {
+        return this.Restangular
+        .oneUrl(entityName, url)
+            .customDELETE(null, params);
+    };
+
     RestWrapper.$inject = ['Restangular'];
 
     return RestWrapper;

@@ -12,12 +12,6 @@ define(function () {
         this.view = view;
         this.entity = view.getEntity();
         this.entityIds = $state.params.ids;
-        this.selection = []; // fixme: query db to get selection
-        this.title = view.title();
-        this.description = view.description();
-        this.actions = view.actions();
-        this.loadingPage = false;
-        this.fields = view.fields();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
