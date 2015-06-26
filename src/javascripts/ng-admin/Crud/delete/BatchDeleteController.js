@@ -12,11 +12,14 @@ define(function () {
         this.view = view;
         this.entity = view.getEntity();
         this.entityIds = $state.params.ids;
+        this.alreadyConfirm = false;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
     BatchDeleteController.prototype.batchDelete = function () {
+        if (this.alreadyConfirm) return false;
+        this.alreadyConfirm = true;
         var notification = this.notification,
             $state = this.$state,
             entityName = this.entity.name();
