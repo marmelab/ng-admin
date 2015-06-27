@@ -433,7 +433,7 @@ Tell if the value is a link in the list view. Default to true for the identifier
 Define the route for a link in the list view, i.e. `isDetailLink` of the field is true. The default is `edit`, hence the link points to the edition view. The other option is `show` to point to the show view.
 
 * `map(function)`
-Define a custom function to transform the value. It receive the value and the corresponding entry. Works in list, edit views and references.
+Define a custom function to transform the value received from the API response to the value displayed in the admin. This function receives 2 parameters: the value to transform, and the corresponding entry. Works in list, edit views and references.
 
         nga.field('characters')
             .map(function truncate(value, entry) {
@@ -445,6 +445,24 @@ Define a custom function to transform the value. It receive the value and the co
         nga.field('comment')
             .map(stripTags)
             .map(truncate);
+
+* `transform(function)`
+Define a custom function to transform the value displayed in the admin back to the one expected by the API. This function receives 2 parameters: the value to transform, and the corresponding entry. Used in edit view only. Use it in conjunction with `map()` to ease the conversion between the API response format and the format you want displayed on screen.
+
+        //           API
+        //   map()  v  ^  tranform()
+        //          Entry︎
+        //
+        // The API provides and expects last names in all caps, e.g. 'DOE'
+        // The admin should display them with capitalized last names, e.g 'Doe'
+        nga.field('last_name')
+            .map(function capitalize(value, entry) {
+                return value.substr(0,1).toUpperCase() + value.substr(1).toLowerCase()
+            })
+            .transform(function allCaps(value, entry) {
+                // the API expects upper case last names
+                return value.toUpperCase();
+            });
 
 * `validation(object)`
 Tell how to validate the view
