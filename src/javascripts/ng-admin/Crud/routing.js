@@ -138,12 +138,7 @@ function routing($stateProvider) {
                             return true;
                         }],
                         entries: ['dataStore', 'view', 'response', 'referencedEntries', function (dataStore, view, response, referencedEntries) {
-                            var entries = dataStore.mapEntries(
-                                view.entity.name(),
-                                view.identifier(),
-                                view.getFields(),
-                                response.data
-                            );
+                            var entries = view.mapEntries(response.data);
 
                             // shortcut to diplay collection of entry with included referenced values
                             dataStore.fillReferencesValuesFromCollection(entries, view.getReferences(), true);
@@ -182,13 +177,8 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
                 nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
@@ -324,13 +314,8 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
                 nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
@@ -442,13 +427,8 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
             }
         });
