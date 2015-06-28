@@ -40,36 +40,38 @@ describe('ListView', function () {
 
         it('should restore the list with filter when used from edit', function () {
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
-                $$('ma-edit-button a').then(function (elements) {
-                    expect(elements[0].getText()).toBe(' Edit');
-                    elements[0].click();
-                    expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/edit/2');
-                    $$('ma-list-button a').then(function (elements) {
-                        elements[0].click();
-                        expect(browser.getCurrentUrl()).toBe(listUrl);
-                    });
-                });
+                return $$('ma-edit-button a');
+            }).then(function (elements) {
+                expect(elements[0].getText()).toBe(' Edit');
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/edit/2');
+                return $$('ma-list-button a');
+            }).then(function (elements) {
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(listUrl);
             });
         });
 
         it('should restore the list with filter when used from delete', function () {
-            browser.get(listUrl);
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
-
-                $$('ma-delete-button a').then(function (elements) {
-                    expect(elements[0].getText()).toBe(' Delete');
-                    elements[0].click();
-                    expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/delete/2');
-                    $$('button.btn-default').then(function (elements) {
-                        elements[0].click();
-                        expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/edit/2');
-
-                        $$('ma-list-button a').then(function (elements) {
-                            elements[0].click();
-                            expect(browser.getCurrentUrl()).toBe(listUrl);
-                        });
-                    });
-                });
+                return $$('ma-delete-button a');
+            }).then(function (elements) {
+                expect(elements[0].getText()).toBe(' Delete');
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/delete/2');
+                return $$('button.btn-default');
+            }).then(function (elements) {
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/edit/2');
+                return $$('ma-list-button a');
+            }).then(function (elements) {
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(listUrl);
             });
         });
     });
