@@ -20,15 +20,18 @@ module.exports = function (config) {
             '../../node_modules/numeral/numeral.js',
             '../../node_modules/ui-select/dist/select.js',
 
+            'ng-admin.js',
             'test/function.bind.shim.js',
             'test/unit/**/*.js'
         ],
         plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
         preprocessors: {
+            'ng-admin.js': 'webpack',
             'test/**/*.js': 'webpack'
         },
         webpackMiddleware: {
-            noInfo: true
+            noInfo: true,
+            devtool: 'inline-source-map' //just do inline source maps instead of the default
         },
         webpack: webpackConfig
     });

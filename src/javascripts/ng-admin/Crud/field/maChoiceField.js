@@ -1,10 +1,16 @@
+function updateChoices(scope, choices) {
+    scope.choices = choices;
+    scope.$root.$$phase || scope.$digest();
+}
+
 function maChoiceField($compile) {
     return {
         scope: {
             'field': '&',
             'value': '=',
             'entry':  '=?',
-            'datastore': '&?'
+            'datastore': '&?',
+            'refresh': '&'
         },
         restrict: 'E',
         compile: function() {
@@ -14,21 +20,23 @@ function maChoiceField($compile) {
                     scope.name = field.name();
                     scope.v = field.validation();
 
+                    var refreshAttributes = '';
+                    if (field.type().indexOf('reference') === 0 && field.remoteComplete()) {
+                        scope.refreshDelay = field.remoteCompleteOptions().refreshDelay;
+                        refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
+                    }
+
+                    var choices = field.choices ? field.choices() : [];
+
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
-                            <ui-select-choices repeat="item.value as item in getChoices(entry) | filter: {label: $select.search}">
+                            <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
                         </ui-select>`;
 
-                    var choices;
-                    if (field.type() === 'reference' || field.type() === 'reference_many') {
-                        choices = scope.datastore().getChoices(field);
-                    } else {
-                        choices = field.choices();
-                    }
-                    scope.getChoices = typeof(choices) === 'function' ? choices : function() { return choices; };
+                    scope.choices = typeof(choices) === 'function' ? choices(scope.entry) : choices;
                     element.html(template);
 
                     var select = element.children()[0];
@@ -38,6 +46,11 @@ function maChoiceField($compile) {
                     }
 
                     $compile(element.contents())(scope);
+                },
+                post: function(scope) {
+                    scope.$on('choices:update', function(e, data) {
+                        updateChoices(scope, data.choices);
+                    });
                 }
             };
         }

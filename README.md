@@ -710,8 +710,28 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...])`
-Add filters to the referenced results list.
+* `filters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
+
+        myView.fields([
+            nga.field('post_id', 'reference')
+                .targetEntity(post) // Select a target Entity
+                .targetField(nga.field('title')) // Select a label Field
+                .filters(function(search) {
+                    // will send `GET /posts?title=foo%` query
+                    return {
+                        title: search + '%'
+                    };
+                });
+        ]);
+
+* `remoteComplete([true|false], options = {})`
+Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
+
+Available options are:
+
+    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -746,8 +766,8 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...])`
-Add filters to the referenced results list.
+* `filters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list. It should be an object.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -780,6 +800,30 @@ Define a function that returns parameters for filtering API calls. You can use i
                     return { 'tag_id[]': tagIds };
                 })
         ]);
+
+* `filters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
+
+        myView.fields([
+            nga.field('tags', 'reference_many')
+                .targetEntity(tag) // Select a target Entity
+                .targetField(nga.field('name')) // Select a label Field
+                .filters(function(search) {
+                    // will send `GET /tags?name=foo%&published=true` query
+                    return {
+                        name: search + '%',
+                        published: true
+                    };
+                });
+        ]);
+
+* `remoteComplete([true|false], options = {})`
+Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
+
+Available options are:
+
+    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
 
 ## Customizing the API Mapping
 

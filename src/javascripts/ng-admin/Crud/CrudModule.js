@@ -13,6 +13,7 @@ CrudModule.controller('BatchDeleteController', require('./delete/BatchDeleteCont
 CrudModule.service('EntryFormatter', require('./misc/EntryFormatter'));
 CrudModule.service('PromisesResolver', require('./misc/PromisesResolver'));
 CrudModule.service('ReadQueries', require('./repository/ReadQueries'));
+CrudModule.service('ReferenceRefresher', require('./repository/ReferenceRefresher'));
 CrudModule.service('WriteQueries', require('./repository/WriteQueries'));
 
 CrudModule.service('RestWrapper', require('./misc/RestWrapper'));
@@ -29,6 +30,8 @@ CrudModule.directive('maInputField', require('./field/maInputField'));
 CrudModule.directive('maJsonField', require('./field/maJsonField'));
 CrudModule.directive('maFileField', require('./field/maFileField'));
 CrudModule.directive('maCheckboxField', require('./field/maCheckboxField'));
+CrudModule.directive('maReferenceField', require('./field/maReferenceField'));
+CrudModule.directive('maReferenceManyField', require('./field/maReferenceManyField'));
 CrudModule.directive('maTextField', require('./field/maTextField'));
 CrudModule.directive('maWysiwygField', require('./field/maWysiwygField'));
 CrudModule.directive('maTemplateField', require('./field/maTemplateField'));

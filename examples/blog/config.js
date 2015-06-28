@@ -114,6 +114,12 @@
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
+                    .filters(function(search) {
+                        return {
+                            q: search
+                        }
+                    })
+                    .remoteComplete(true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
@@ -179,6 +185,7 @@
                     .label('Post')
                     .targetEntity(post)
                     .targetField(nga.field('title'))
+                    .remoteComplete(true, { refreshDelay: 300 })
             ])
             .listActions(['edit', 'delete']);
 
@@ -192,9 +199,19 @@
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
+                    .filters(function(search) {
+                        if (!search) {
+                            return;
+                        }
+
+                        return {
+                            q: search // Full-text search
+                        };
+                    })
                     .targetEntity(post)
                     .targetField(nga.field('title'))
-                    .validation({ required: true }),
+                    .validation({ required: true })
+                    .remoteComplete(true, { refreshDelay: 0 })
             ]);
 
         comment.editionView()
