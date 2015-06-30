@@ -16,10 +16,10 @@ define(function () {
                 scope.label = scope.label || 'Delete';
 
                 scope.gotoDelete = function () {
-                    $state.go($state.get('delete'), angular.extend({
+                    $state.go($state.get('delete'), angular.extend({}, $state.params, {
                         entity: scope.entity().name(),
                         id: scope.entry().identifierValue
-                    }, $state.params));
+                    }));
                 };
             },
             template:
