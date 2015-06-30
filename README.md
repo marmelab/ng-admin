@@ -22,6 +22,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Theming](doc/Theming.md)
 * [Adding Custom Pages](doc/Custom-pages.md)
 * [Adding Custom Types](doc/Custom-types.md)
+* [Support (via StackOverflow)](http://stackoverflow.com/questions/tagged/ng-admin)
 * [Contributing](#contributing)
 * [License](#license)
 
