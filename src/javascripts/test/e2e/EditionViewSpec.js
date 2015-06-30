@@ -79,4 +79,14 @@ describe('EditionView', function () {
             });
         });
     });
+
+    describe('referenced_list ma-delete-button', function() {
+        it('should navigate to proper deleteView', function () {
+            $$('.ng-admin-field-comments ma-delete-button').first().click();
+            browser.getLocationAbsUrl().then(function(url){
+                expect(url).toContain('/comments/delete/');
+            });
+        });
+    });
+
 });

@@ -132,7 +132,9 @@
                     .targetFields([
                         nga.field('id').isDetailLink(true),
                         nga.field('created_at').label('Posted'),
-                        nga.field('body').label('Comment')
+                        nga.field('body').label('Comment'),
+                        nga.field('delete_comment', 'template').label('Delete')
+                            .template('<ma-delete-button entry="::entry" entity="::entity()" size="xs"></ma-delete-button>')
                     ])
                     .sortField('created_at')
                     .sortDir('DESC'),
