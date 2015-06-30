@@ -4,6 +4,7 @@ var CrudModule = angular.module('crud', [
     'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
 ]);
 
+CrudModule.controller('ListLayoutController', require('./list/ListLayoutController'));
 CrudModule.controller('ListController', require('./list/ListController'));
 CrudModule.controller('ShowController', require('./show/ShowController'));
 CrudModule.controller('FormController', require('./form/FormController'));
@@ -39,13 +40,14 @@ CrudModule.directive('uiSelectRequired', require('./field/uiSelectRequired'));
 
 CrudModule.provider('FieldViewConfiguration', require('./fieldView/FieldViewConfiguration'));
 
-CrudModule.directive('listActions', require('./list/ListActions'));
+CrudModule.directive('maListActions', require('./list/maListActions'));
 CrudModule.directive('maDatagrid', require('./list/maDatagrid'));
 CrudModule.directive('maDatagridPagination', require('./list/maDatagridPagination'));
 CrudModule.directive('maDatagridInfinitePagination', require('./list/maDatagridInfinitePagination'));
 CrudModule.directive('maDatagridItemSelector', require('./list/maDatagridItemSelector'));
 CrudModule.directive('maDatagridMultiSelector', require('./list/maDatagridMultiSelector'));
 CrudModule.directive('maFilter', require('./filter/maFilter'));
+CrudModule.directive('maFilterButton', require('./filter/maFilterButton'));
 
 CrudModule.directive('maColumn', require('./column/maColumn'));
 CrudModule.directive('maBooleanColumn', require('./column/maBooleanColumn'));
@@ -68,9 +70,9 @@ CrudModule.directive('maListButton', require('./button/maListButton'));
 CrudModule.directive('maDeleteButton', require('./button/maDeleteButton'));
 CrudModule.directive('maBatchDeleteButton', require('./button/maBatchDeleteButton'));
 CrudModule.directive('maExportToCsvButton', require('./button/maExportToCsvButton'));
+CrudModule.directive('maViewBatchActions', require('./button/maViewBatchActions'));
 
 CrudModule.directive('maViewActions', require('./misc/ViewActions'));
-CrudModule.directive('maViewBatchActions', require('./misc/ViewBatchActions'));
 CrudModule.directive('compile', require('./misc/Compile'));
 
 CrudModule.config(require('./routing'));

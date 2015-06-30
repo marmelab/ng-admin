@@ -166,21 +166,13 @@
                     .targetField(nga.field('title').map(truncate))
             ])
             .filters([
-                nga.field('q', 'string').label('').attributes({'placeholder': 'Global Search'}),
+                nga.field('q', 'template')
+                    .label('')
+                    .pinned(true)
+                    .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .attributes({'placeholder': 'Filter by date'}),
-                nga.field('today', 'boolean').map(function() {
-                    var now = new Date(),
-                        year = now.getFullYear(),
-                        month = now.getMonth() + 1,
-                        day = now.getDate();
-                    month = month < 10 ? '0' + month : month;
-                    day = day < 10 ? '0' + day : day;
-                    return {
-                        created_at: [year, month, day].join('-') // ?created_at=... will be appended to the API call
-                    };
-                }),
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .targetEntity(post)

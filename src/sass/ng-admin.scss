@@ -111,14 +111,10 @@ ma-view-actions {
 .list-header {
     .filters {
         .filter {
-            margin-right: 5px;
-
-            .input-group-btn {
-                width: auto;
-            }
-
-            select {
-                width: 250px;
+            .remove_filter {
+                @media (min-width: 768px) {
+                    padding-top: 8px
+                }
             }
         }
 
@@ -131,10 +127,6 @@ ma-view-actions {
             .btn-default {
               height: 34px;
             }
-        }
-
-        .form-control {
-            width: auto;
         }
 
         .input-reference {

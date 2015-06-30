@@ -13,8 +13,13 @@ function maFilterController($scope, $state, $stateParams) {
     this.$scope = $scope;
     this.$state = $state;
     this.$stateParams = $stateParams;
-    this.$scope.values = this.$stateParams.search || {};
-    this.$scope.filters = this.$scope.filters();
+    this.$scope.values = this.$scope.values() || {};
+    $scope.$watch('values', (newValues, oldValues) => {
+        if (newValues != oldValues) {
+            this.filter(); // FIXME use debounce
+        }
+    }, true)
+    this.$scope.filters = this.$scope.filters;
     this.$scope.datastore = this.$scope.datastore();
     this.isFilterEmpty = isEmpty(this.$scope.values);
 }
@@ -26,6 +31,14 @@ function isEmpty(values) {
     return true;
 }
 
+maFilterController.prototype.removeFilter = function(filter) {
+    delete this.$scope.values[filter.name()];
+    this.$scope.filters = this.$scope.filters.filter(f => f !== filter);
+    if (filter.name() in this.$stateParams.search) {
+        this.filter();
+    }
+};
+
 maFilterController.prototype.filter = function () {
     var values = {},
         filters = this.$scope.filters,
@@ -36,6 +49,10 @@ maFilterController.prototype.filter = function () {
     for (i in filters) {
         field = filters[i];
         fieldName = field.name();
+        if (this.$scope.values[fieldName] === '') {
+            delete this.$scope.values[fieldName];
+            continue;
+        }
 
         if ((field.type() === 'boolean' && this.$scope.values[fieldName]) || // for boolean false is the same as null
             (field.type() !== 'boolean' && this.$scope.values[fieldName] !== null)) {
@@ -45,21 +62,11 @@ maFilterController.prototype.filter = function () {
 
     this.$stateParams.search = values;
     this.$stateParams.page = 1;
-    this.$state.go(this.$state.current, this.$stateParams, { reload: true, inherit: false, notify: true });
+    this.$state.go('list', this.$stateParams);
 };
 
 maFilterController.prototype.shouldFilter = function () {
     return Object.keys(this.$scope.filters).length;
-};
-
-maFilterController.prototype.clearFilters = function () {
-    var i;
-
-    for (i in this.$scope.values) {
-        this.$scope.values[i] = null;
-    }
-
-    this.filter();
 };
 
 maFilterController.prototype.destroy = function () {

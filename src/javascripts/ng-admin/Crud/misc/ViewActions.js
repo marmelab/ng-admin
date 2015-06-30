@@ -12,13 +12,16 @@ define(function (require) {
             restrict: 'E',
             transclude: true,
             scope: {
-                'override': '&',
-                'entry': '=',
-                'entity': '=',
-                'selection': '=',
+                override: '&',
+                entry: '=',
+                entity: '=',
+                selection: '=',
                 batchButtons: '&',
                 datastore: '=',
-                search: '='
+                search: '=',
+                filters: '&',
+                enabledFilters: '=',
+                enableFilter: '&'
             },
             template: viewActionsTemplate,
             link: function($scope, element, attrs, controller, transcludeFn) {

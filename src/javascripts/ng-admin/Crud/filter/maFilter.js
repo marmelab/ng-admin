@@ -10,30 +10,30 @@ function maFilterDirective(FieldViewConfiguration) {
         }).join('');
 
     var template = `
-        <form class="filters navbar-form well well-sm" ng-if="filterCtrl.shouldFilter()" ng-submit="filterCtrl.filter()">
-            <div class="filter form-group input-{{ field.type() }}" ng-repeat="field in filters track by $index" ng-class="{\'input-group\':field.label()}">
-                <label for="{{ field.name() }}" ng-if="field.label() && field.type() != \'boolean\'" class="input-group-addon">
-                    {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
-                </label>
-                <div ng-switch="field.type()" ng-class="field.getCssClasses(entry)">
-                    ${filterWidgetTypes}
-                </div>
+<div class="row">
+    <form class="filters col-md-offset-6 col-md-6 form-horizontal" ng-if="filterCtrl.shouldFilter()">
+        <div class="filter form-group input-{{ field.type() }}" ng-repeat="field in filters track by $index">
+            <div class="col-sm-1 col-xs-1 remove_filter">
+                <a ng-if="!field.pinned()" ng-click="filterCtrl.removeFilter(field)"><span class="glyphicon glyphicon-remove"></span></a>
             </div>
-            <button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search"></span> Filter
-            </button>
-            <button ng-if="!filterCtrl.isFilterEmpty" class="btn btn-default" type="button" ng-click="filterCtrl.clearFilters()">
-                <span class="glyphicon glyphicon-remove"></span> Clear
-            </button>
-        </form>
+            <label for="{{ field.name() }}" class="col-sm-4 col-xs-11 control-label">
+                {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
+            </label>
+            <div class="col-sm-7" ng-switch="field.type()" ng-class="field.getCssClasses(entry)">
+                ${filterWidgetTypes}
+            </div>
+        </div>
+    </form>
+</div>
     `;
 
     return {
         restrict: 'E',
         template: template,
         scope: {
-            filters: '&',
-            datastore: '&'
+            filters: '=',
+            datastore: '&',
+            values: '&'
         },
         controllerAs: 'filterCtrl',
         controller: FilterController

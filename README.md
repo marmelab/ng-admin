@@ -352,6 +352,19 @@ Add filters to the list. Each field maps a property in the API endpoint result.
             nga.field('age', 'number')
         ]);
 
+    Filters appear when the user clicks on the "Add filter" button at the top of the list. You can also set a filter field as "pinned", to be sure it's always displayed.
+
+        listView.filters([
+            nga.field('q').label('Search').pinned(true)
+        ]);
+
+    Filter fields can be of any type, including `reference` and `template`. this allows to define custom filters with ease.
+
+        listView.filters([
+            nga.field('q', 'template').label('')
+                .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
+        ]);
+
 * `listActions(String|Array)`
 Add an action column with action buttons on each line. You can pass a list of button names among 'show', 'edit', and 'delete'.
 
@@ -455,6 +468,9 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
+
+* `pinned(boolean)`
+Whether the field should always appear. Used in filters (see listView Settings). Default to false.
 
 ### `number` Field Settings
 

@@ -1,4 +1,5 @@
-var listTemplate = require('./list/list.html'),
+var listLayoutTemplate = require('./list/listLayout.html'),
+    listTemplate = require ('./list/list.html'),
     showTemplate = require('./show/show.html'),
     createTemplate = require('./form/create.html'),
     editTemplate = require('./form/edit.html'),
@@ -43,79 +44,19 @@ function dataStoreProvider() {
 function routing($stateProvider) {
 
     $stateProvider
-        .state('list', {
-            parent: 'main',
-            url: '/:entity/list?{search:json}&page&sortField&sortDir',
+        .state('listLayout', {
+            abstract: true,
+            url: '/:entity/list',
             params: {
-                entity: null,
-                page: null,
-                search: null,
-                sortField: null,
-                sortDir: null
+                entity: null
             },
-            controller: 'ListController',
-            controllerAs: 'listController',
-            templateProvider: templateProvider('ListView', listTemplate),
+            parent: 'main',
+            controller: 'ListLayoutController',
+            controllerAs: 'llCtrl',
+            templateProvider: templateProvider('ListView', listLayoutTemplate),
             resolve: {
                 dataStore: dataStoreProvider(),
                 view: viewProvider('ListView'),
-                response: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
-                    var page = $stateParams.page,
-                        filters = $stateParams.search,
-                        sortField = $stateParams.sortField,
-                        sortDir = $stateParams.sortDir;
-
-                    return ReadQueries.getAll(view, page, filters, sortField, sortDir);
-                }],
-                totalItems: ['response', function (response) {
-                    return response.totalItems;
-                }],
-                nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                    return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
-                }],
-                optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
-                    return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
-                }],
-                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
-                    var references = view.getReferences(),
-                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                        referencedEntries;
-
-                    for (var name in referencedData) {
-                        referencedEntries = dataStore.mapEntries(
-                            references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier(),
-                            [references[name].targetField()],
-                            referencedData[name]
-                        );
-
-                        dataStore.setEntries(
-                            references[name].targetEntity().uniqueId + '_values',
-                            referencedEntries
-                        );
-                    }
-
-                    return true;
-                }],
-                entries: ['dataStore', 'view', 'response', 'referencedEntries', function (dataStore, view, response, referencedEntries) {
-                    var entries = dataStore.mapEntries(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        response.data
-                    );
-
-                    // shortcut to diplay collection of entry with included referenced values
-                    dataStore.fillReferencesValuesFromCollection(entries, view.getReferences(), true);
-
-                    // set entries here ???
-                    dataStore.setEntries(
-                        view.getEntity().uniqueId,
-                        entries
-                    );
-
-                    return true;
-                }],
                 filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
                 }],
@@ -139,6 +80,84 @@ function routing($stateProvider) {
 
                     return true;
                 }]
+            }
+        })
+        .state('list', {
+            url: '?{search:json}&page&sortField&sortDir',
+            params: {
+                page: null,
+                search: null,
+                sortField: null,
+                sortDir: null
+            },
+            parent: 'listLayout',
+            views: {
+                grid: {
+                    controller: 'ListController',
+                    controllerAs: 'listController',
+                    template: listTemplate,
+                    resolve: {
+                        dataStore: dataStoreProvider(),
+                        view: viewProvider('ListView'),
+                        response: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
+                            var page = $stateParams.page,
+                                filters = $stateParams.search,
+                                sortField = $stateParams.sortField,
+                                sortDir = $stateParams.sortDir;
+
+                            return ReadQueries.getAll(view, page, filters, sortField, sortDir);
+                        }],
+                        totalItems: ['response', function (response) {
+                            return response.totalItems;
+                        }],
+                        nonOptimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                            return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), response.data);
+                        }],
+                        optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
+                            return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
+                        }],
+                        referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                            var references = view.getReferences(),
+                                referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
+                                referencedEntries;
+
+                            for (var name in referencedData) {
+                                referencedEntries = dataStore.mapEntries(
+                                    references[name].targetEntity().name(),
+                                    references[name].targetEntity().identifier(),
+                                    [references[name].targetField()],
+                                    referencedData[name]
+                                );
+
+                                dataStore.setEntries(
+                                    references[name].targetEntity().uniqueId + '_values',
+                                    referencedEntries
+                                );
+                            }
+
+                            return true;
+                        }],
+                        entries: ['dataStore', 'view', 'response', 'referencedEntries', function (dataStore, view, response, referencedEntries) {
+                            var entries = dataStore.mapEntries(
+                                view.entity.name(),
+                                view.identifier(),
+                                view.getFields(),
+                                response.data
+                            );
+
+                            // shortcut to diplay collection of entry with included referenced values
+                            dataStore.fillReferencesValuesFromCollection(entries, view.getReferences(), true);
+
+                            // set entries here ???
+                            dataStore.setEntries(
+                                view.getEntity().uniqueId,
+                                entries
+                            );
+
+                            return true;
+                        }],
+                    }
+                }
             }
         });
 

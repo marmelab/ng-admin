@@ -11,11 +11,11 @@ define(function () {
                 selection: '=',
                 toggleSelect: '&'
             },
-            template: '<input type="checkbox" ng-click="toggle(entry)" ng-checked="selection.indexOf(entry) !== -1"/>',
+            template: '<input type="checkbox" ng-click="toggle(entry)" ng-checked="isInSelection()"/>',
             link: function (scope) {
-                scope.toggle = function (entry) {
-                    scope.toggleSelect({entry: entry});
-                };
+                scope.toggle = entry => scope.toggleSelect({entry: entry});
+                let e = scope.entry;
+                scope.isInSelection = () => scope.selection.filter(s => s._entityName == e._entityName && s._identifierValue == e._identifierValue).length > 0;
             }
         };
     }
