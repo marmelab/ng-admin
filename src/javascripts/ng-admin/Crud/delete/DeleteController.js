@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $state, WriteQueries, notification, params, view, entry) {
+    var DeleteController = function ($scope, $window, $state, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$state = $state;
         this.WriteQueries = WriteQueries;
@@ -17,6 +17,7 @@ define(function () {
         this.notification = notification;
         this.$scope.entry = entry;
         this.$scope.view = view;
+        this.goBack = function(){ $window.history.back(); }
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
@@ -26,10 +27,7 @@ define(function () {
 
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
 
-            $state.go($state.get('list'), angular.extend({
-                entity: entityName,
-                id: this.entityId
-            }, $state.params));
+            this.goBack();
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }.bind(this), function (response) {
             // @TODO: share this method when splitting controllers
@@ -43,12 +41,7 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        var $state = this.$state;
-
-        $state.go($state.get('edit'), angular.extend({
-            entity: this.entity.name(),
-            id: this.entityId
-        }, $state.params));
+        this.goBack();
     };
 
     DeleteController.prototype.destroy = function () {
@@ -59,7 +52,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$window', '$state', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
 
     return DeleteController;
 });
