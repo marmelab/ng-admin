@@ -66,11 +66,6 @@ describe('ListView', function () {
             }).then(function (elements) {
                 return elements[0].click();
             }).then(function() {
-                expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/edit/2');
-                return $$('ma-list-button a');
-            }).then(function (elements) {
-                return elements[0].click();
-            }).then(function() {
                 expect(browser.getCurrentUrl()).toBe(listUrl);
             });
         });
