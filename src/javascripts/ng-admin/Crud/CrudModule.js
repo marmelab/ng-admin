@@ -39,6 +39,7 @@ CrudModule.directive('maTemplateField', require('./field/maTemplateField'));
 CrudModule.directive('uiSelectRequired', require('./field/uiSelectRequired'));
 
 CrudModule.provider('FieldViewConfiguration', require('./fieldView/FieldViewConfiguration'));
+CrudModule.provider('CsvExportConfiguration', require('./button/CsvExportConfiguration'));
 
 CrudModule.directive('maListActions', require('./list/maListActions'));
 CrudModule.directive('maDatagrid', require('./list/maDatagrid'));

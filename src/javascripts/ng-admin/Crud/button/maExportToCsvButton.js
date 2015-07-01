@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, ReadQueries) {
+    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, ReadQueries, CsvExportConfiguration) {
         return {
             restrict: 'E',
             scope: {
@@ -88,7 +88,8 @@ define(function () {
                             for (var i = entries.length - 1; i >= 0; i--) {
                                 results[i] = formatEntry(entries[i]);
                             }
-                            var csv = Papa.unparse(results);
+                            var papaparseConfig = CsvExportConfiguration.getPapaparseConfig();
+                            var csv = Papa.unparse(results, papaparseConfig);
                             var fakeLink = document.createElement('a');
                             document.body.appendChild(fakeLink);
 
@@ -101,7 +102,7 @@ define(function () {
         };
     }
 
-    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'ReadQueries'];
+    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'ReadQueries', 'CsvExportConfiguration'];
 
     return maExportToCsvButton;
 });

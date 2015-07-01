@@ -434,5 +434,10 @@
             template: customPageTemplate
         });
     }]);
-
+    app.config(['CsvExportConfigurationProvider', function(CsvExportConfigurationProvider) {
+        var csvExport = CsvExportConfigurationProvider;
+        csvExport.set('delimiter', '%');
+        csvExport.set('quotes', true);
+        csvExport.set('newline', '\r');
+    }]);
 }());
