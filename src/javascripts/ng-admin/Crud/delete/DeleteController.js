@@ -26,7 +26,7 @@ define(function () {
             $window = this.$window;
 
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
-            $window.history.back();
+            this.back();
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }.bind(this), function (response) {
             // @TODO: share this method when splitting controllers
@@ -40,9 +40,7 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        var $window = this.$window;
-
-        $window.history.back();
+        this.$window.history.back();
     };
 
     DeleteController.prototype.destroy = function () {
