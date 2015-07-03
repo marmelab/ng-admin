@@ -7,7 +7,7 @@ function maNgAdminDirective(NgAdminConfiguration) {
         },
         restrict: 'E',
         link: function(scope) {
-          scope.configuration = NgAdminConfiguration;
+            scope.configuration = NgAdminConfiguration;
         },
         template: `<div ui-view></div>`
     };
