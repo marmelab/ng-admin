@@ -28,7 +28,10 @@ var vendorSources = [
 module.exports = {
     entry: {
         'ng-admin': getEntrySources(ngAdminSources.concat(vendorSources)),
-        'ng-admin-only': getEntrySources(ngAdminSources)
+        'ng-admin-only': getEntrySources(ngAdminSources),
+        'blog-config': getEntrySources([
+            './examples/blog/config.js'
+        ])
     },
     output: {
         publicPath: "http://localhost:8080/",

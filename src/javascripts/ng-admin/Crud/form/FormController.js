@@ -1,4 +1,4 @@
-var FormController = function ($scope, $state, WriteQueries, Configuration,
+var FormController = function ($scope, $state, WriteQueries, configuration,
                                progression, notification, view, dataStore) {
 
     this.$scope = $scope;
@@ -11,7 +11,7 @@ var FormController = function ($scope, $state, WriteQueries, Configuration,
     this.description = view.description();
     this.actions = view.actions();
     this.fields = view.fields();
-    this.config = Configuration();
+    this.config = configuration;
     this.view = view;
     this.entity = this.view.getEntity();
     this.$scope.entry = dataStore.getFirstEntry(this.entity.uniqueId);

@@ -12,12 +12,11 @@ CrudModule.controller('DeleteController', require('./delete/DeleteController'));
 CrudModule.controller('BatchDeleteController', require('./delete/BatchDeleteController'));
 
 CrudModule.service('EntryFormatter', require('./misc/EntryFormatter'));
-CrudModule.service('PromisesResolver', require('./misc/PromisesResolver'));
 CrudModule.service('ReadQueries', require('./repository/ReadQueries'));
 CrudModule.service('ReferenceRefresher', require('./repository/ReferenceRefresher'));
 CrudModule.service('WriteQueries', require('./repository/WriteQueries'));
-
 CrudModule.service('RestWrapper', require('./misc/RestWrapper'));
+CrudModule.value('PromisesResolver', require('./misc/PromisesResolver'));
 
 CrudModule.directive('maJsonValidator', require('./validator/maJsonValidator'));
 

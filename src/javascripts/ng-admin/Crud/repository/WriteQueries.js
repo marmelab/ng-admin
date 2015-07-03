@@ -1,22 +1,18 @@
-/*global define*/
-define(function () {
-    'use strict';
+var WriteQueries = require('admin-config/lib/Queries/WriteQueries');
 
-    /**
-     *
-     * @param {RestWrapper} RestWrapper
-     * @param {Configuration} Configuration
-     * @param {AdminDescription} AdminDescription
-     * @param {PromisesResolver} PromisesResolver
-     *
-     * @returns {ReadQueries}
-     * @constructor
-     */
-    function WriteQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-        return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration())
-    }
+/**
+ *
+ * @param {RestWrapper} RestWrapper
+ * @param {PromisesResolver} PromisesResolver
+ * @param {Configuration} configuration
+ *
+ * @returns {WriteQueries}
+ * @constructor
+ */
+function WriteQueriesService(RestWrapper, PromisesResolver, configuration) {
+    return new WriteQueries(RestWrapper, PromisesResolver, configuration);
+}
 
-    WriteQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];
+WriteQueriesService.$inject = ['RestWrapper', 'PromisesResolver', 'NgAdminConfiguration'];
 
-    return WriteQueries;
-});
+module.exports = WriteQueriesService;

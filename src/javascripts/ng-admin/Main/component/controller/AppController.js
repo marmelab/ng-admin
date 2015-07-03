@@ -10,13 +10,12 @@ define(function () {
      * @param {NgAdmin} Configuration
      * @constructor
      */
-    var AppController = function ($scope, $state, Configuration) {
-        var application = Configuration();
+    var AppController = function ($scope, $state, configuration) {
         this.$scope = $scope;
         this.$state = $state;
-        this.menu = application.menu();
-        this.applicationName = application.title();
-        this.header = application.header();
+        this.menu = configuration.menu();
+        this.applicationName = configuration.title();
+        this.header = configuration.header();
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };

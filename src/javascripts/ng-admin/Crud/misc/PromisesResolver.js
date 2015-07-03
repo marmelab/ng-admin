@@ -1,12 +1,5 @@
-/*global define*/
-define(function () {
-    'use strict';
+var PromisesResolver = require('admin-config/lib/Utils/PromisesResolver');
 
-    function PromisesResolver(AdminDescription) {
-        return AdminDescription.getPromisesResolver();
-    }
+PromisesResolver.$inject = [];
 
-    PromisesResolver.$inject = ['AdminDescription'];
-
-    return PromisesResolver;
-});
+module.exports = PromisesResolver;
