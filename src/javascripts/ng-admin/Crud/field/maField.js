@@ -42,7 +42,7 @@ define(function (require) {
                 scope.datastore = scope.datastore();
 
                 scope.getClassesForField = function(field, entry) {
-                    return 'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
+                    return 'ng-admin-field-' + field.name().replace('.', '_') + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
                 };
 
                 scope.getInputForField = function(field) {
