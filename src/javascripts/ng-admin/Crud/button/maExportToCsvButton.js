@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    function maExportToCsvButton ($stateParams, Papa, notification, entryFormatter, ReadQueries) {
+    function maExportToCsvButton ($stateParams, Papa, notification, AdminDescription, entryFormatter, ReadQueries) {
         return {
             restrict: 'E',
             scope: {
@@ -37,34 +37,28 @@ define(function () {
                     var optimizedReferencedData;
 
                     ReadQueries.getAll(exportView, -1, scope.search(), $stateParams.sortField, $stateParams.sortDir)
-                        .then(function (response) {
+                        .then(response => {
                             rawEntries = response.data;
-
                             return rawEntries;
-                        }, function (error) {
-                            notification.log(error.message, {addnCls: 'humane-flatty-error'});
                         })
-                        .then(function (rawEntries) {
-                            return ReadQueries.getFilteredReferenceData(exportView.getNonOptimizedReferences(), rawEntries);
-                        })
-                        .then(function (nonOptimizedReference) {
+                        .then(rawEntries => ReadQueries.getFilteredReferenceData(exportView.getNonOptimizedReferences(), rawEntries))
+                        .then(nonOptimizedReference => {
                             nonOptimizedReferencedData = nonOptimizedReference;
-
                             return ReadQueries.getOptimizedReferencedData(exportView.getOptimizedReferences(), rawEntries);
                         })
-                        .then(function (optimizedReference) {
+                        .then(optimizedReference => {
                             optimizedReferencedData = optimizedReference;
-
                             var references = exportView.getReferences(),
                                 referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                                 referencedEntries;
 
                             for (var name in referencedData) {
-                                referencedEntries = scope.datastore.mapEntries(
-                                    references[name].targetEntity().name(),
-                                    references[name].targetEntity().identifier(),
+                                referencedEntries = AdminDescription.getEntryConstructor().createArrayFromRest(
+                                    referencedData[name],
                                     [references[name].targetField()],
-                                    referencedData[name]
+                                    references[name].targetEntity().name(),
+                                    references[name].targetEntity().identifier().name()
+                                    
                                 );
 
                                 scope.datastore.setEntries(
@@ -74,12 +68,7 @@ define(function () {
                             }
                         })
                         .then(function () {
-                            var entries = scope.datastore.mapEntries(
-                                exportView.entity.name(),
-                                exportView.identifier(),
-                                exportView.getFields(),
-                                rawEntries
-                            );
+                            var entries = exportView.mapEntries(rawEntries);
 
                             // shortcut to diplay collection of entry with included referenced values
                             scope.datastore.fillReferencesValuesFromCollection(entries, exportView.getReferences(), true);
@@ -95,13 +84,15 @@ define(function () {
                             fakeLink.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csv));
                             fakeLink.setAttribute('download', scope.entity.name() + '.csv');
                             fakeLink.click();
+                        }, function (error) {
+                            notification.log(error.message, {addnCls: 'humane-flatty-error'});
                         });
                 };
             }
         };
     }
 
-    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'EntryFormatter', 'ReadQueries'];
+    maExportToCsvButton.$inject = ['$stateParams', 'Papa', 'notification', 'AdminDescription', 'EntryFormatter', 'ReadQueries'];
 
     return maExportToCsvButton;
 });
