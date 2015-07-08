@@ -18,9 +18,9 @@ define(function () {
                 };
             },
             template:
-'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">' +
-    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
-'</a>'
+` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{ ::label }}
+</a>`
         };
     }
 

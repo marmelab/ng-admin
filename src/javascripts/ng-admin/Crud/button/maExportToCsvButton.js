@@ -12,7 +12,6 @@ define(function () {
                 datastore: '&',
                 search: '&'
             },
-            template: '<button ng-if="has_export" class="btn btn-default" ng-click="exportToCsv()"><span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;{{ ::label }}</button>',
             link: function(scope) {
                 scope.label = scope.label || 'Export';
 
@@ -97,7 +96,13 @@ define(function () {
                             fakeLink.click();
                         });
                 };
-            }
+            },
+            template:
+`<span ng-if="has_export">
+    <a class="btn btn-default" ng-click="exportToCsv()">
+        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;{{ ::label }}
+    </a>
+</span>`
         };
     }
 

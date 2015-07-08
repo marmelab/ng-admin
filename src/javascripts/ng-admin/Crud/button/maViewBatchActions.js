@@ -23,21 +23,22 @@ function maViewBatchActionsDirective($injector) {
                 scope.buttons = null;
             }
         },
+        // the ng-class hidden is necessary to hide the inner blank space used for spacing buttons when the selection is not empty
         template:
-`<span ng-if="selection" class="btn-group" dropdown is-open="isopen">
-    <button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
-        {{ selection.length }} Selected <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="button in buttons" ng-switch="button">
-            <a ng-switch-when="delete">
-                <ma-batch-delete-button selection="selection" entity="entity"/>
-            </a>
-            <a ng-switch-default>
-                <span compile="button"></span>
-            </a>
-        </li>
-    </ul>
+`<span ng-if="selection" ng-class="{hidden:!selection || selection.length==0}"> <span class="btn-group" dropdown is-open="isopen"><button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
+            {{ selection.length }} Selected <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="button in buttons" ng-switch="button">
+                <a ng-switch-when="delete">
+                    <ma-batch-delete-button selection="selection" entity="entity"/>
+                </a>
+                <a ng-switch-default>
+                    <span compile="button"></span>
+                </a>
+            </li>
+        </ul>
+    </span>
 </span>`
     };
 }
