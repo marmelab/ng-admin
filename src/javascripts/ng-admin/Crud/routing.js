@@ -206,7 +206,7 @@ function routing($stateProvider) {
                             referencedData[name],
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier()
+                            references[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -237,7 +237,7 @@ function routing($stateProvider) {
                             referencedListEntries,
                             referencedList.targetFields(),
                             referencedList.targetEntity().name(),
-                            referencedList.targetEntity().identifier()
+                            referencedList.targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -290,7 +290,7 @@ function routing($stateProvider) {
                             filterData[name],
                             [choices[name].targetField()],
                             choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier()
+                            choices[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -345,7 +345,7 @@ function routing($stateProvider) {
                             referencedData[name],
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier()
+                            references[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -376,7 +376,7 @@ function routing($stateProvider) {
                             referencedListEntries,
                             referencedList.targetFields(),
                             referencedList.targetEntity().name(),
-                            referencedList.targetEntity().identifier()
+                            referencedList.targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -403,7 +403,7 @@ function routing($stateProvider) {
                             filterData[name],
                             [choices[name].targetField()],
                             choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier()
+                            choices[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
