@@ -1,6 +1,7 @@
 {
   "name": "ng-admin",
   "version": "0.7.0",
+  "license": "MIT",
   "private": false,
   "main": "build/ng-admin.min.js",
   "repository": {
