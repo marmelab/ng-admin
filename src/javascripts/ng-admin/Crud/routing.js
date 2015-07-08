@@ -272,8 +272,8 @@ function routing($stateProvider) {
                 dataStore: dataStoreProvider(),
                 view: viewProvider('CreateView'),
                 Entry: entryConstructorProvider(),
-                entry: ['dataStore', 'view', function (dataStore, view) {
-                    var entry = dataStore.createEntry(view.entity.name(), view.identifier(), view.getFields());
+                entry: ['dataStore', 'Entry', 'view', function (dataStore, Entry, view) {
+                    var entry = Entry.createForFields(view.getFields(), view.entity.name());
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
 
                     return entry;
