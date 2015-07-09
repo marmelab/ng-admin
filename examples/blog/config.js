@@ -28,7 +28,9 @@
                 // custom sort params
                 if (params._sortField) {
                     params._sort = params._sortField;
+                    params._order = params._sortDir;
                     delete params._sortField;
+                    delete params._sortDir;
                 }
                 // custom filters
                 if (params._filters) {

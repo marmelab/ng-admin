@@ -47,7 +47,7 @@
     "grunt-contrib-uglify": "~0.6.0",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-exec": "^0.4.6",
-    "grunt-json-server": "git://github.com/fzaninotto/grunt-json-server.git#c834e50e2151a16930f1378324cf96b91438bdae",
+    "grunt-json-server": "git://github.com/fzaninotto/grunt-json-server.git",
     "grunt-karma": "^0.8.3",
     "grunt-mocha-test": "^0.12.7",
     "grunt-ng-annotate": "^0.10.0",
