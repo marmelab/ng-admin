@@ -11,7 +11,7 @@
                     <li ng-repeat="menu in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
                         <a ng-click="gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                             <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
-                            {{ menu.title() }}
+                            {{ ::menu.title() }}
                         </a>
                     </li>
                 </ul>

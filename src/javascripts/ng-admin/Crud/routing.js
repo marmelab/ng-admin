@@ -1,4 +1,5 @@
-var listLayoutTemplate = require('./list/listLayout.html'),
+var factory = new (require('admin-config/lib/Factory'))(),
+    listLayoutTemplate = require('./list/listLayout.html'),
     listTemplate = require ('./list/list.html'),
     showTemplate = require('./show/show.html'),
     createTemplate = require('./form/create.html'),
@@ -7,22 +8,22 @@ var listLayoutTemplate = require('./list/listLayout.html'),
     batchDeleteTemplate = require('./delete/batchDelete.html');
 
 function templateProvider(viewName, defaultView) {
-    return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+    return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, configuration) {
         var customTemplate;
-        var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+        var view = configuration.getViewByEntityAndType($stateParams.entity, viewName);
         customTemplate = view.template();
         if (customTemplate) return customTemplate;
-        customTemplate = Configuration().customTemplate()(viewName);
+        customTemplate = configuration.customTemplate()(viewName);
         if (customTemplate) return customTemplate;
         return defaultView;
     }];
 }
 
 function viewProvider(viewName) {
-    return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
+    return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, configuration) {
         var view;
         try {
-            view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
+            view = configuration.getViewByEntityAndType($stateParams.entity, viewName);
         } catch (e) {
             var error404 = new Error('Unknown view or entity name');
             error404.status = 404; // trigger the 404 error
@@ -36,13 +37,10 @@ function viewProvider(viewName) {
 }
 
 function dataStoreProvider() {
-    return ['AdminDescription', function (AdminDescription) {
-        return AdminDescription.getDataStore();
-    }];
+    return factory.getDataStore;
 }
 
 function routing($stateProvider) {
-
     $stateProvider
         .state('listLayout', {
             abstract: true,

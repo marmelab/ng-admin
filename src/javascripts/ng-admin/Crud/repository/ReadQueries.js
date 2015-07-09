@@ -1,22 +1,18 @@
-/*global define*/
-define(function () {
-    'use strict';
+var ReadQueries = require('admin-config/lib/Queries/ReadQueries');
 
-    /**
-     *
-     * @param {RestWrapper} RestWrapper
-     * @param {Configuration} Configuration
-     * @param {AdminDescription} AdminDescription
-     * @param {PromisesResolver} PromisesResolver
-     *
-     * @returns {ReadQueries}
-     * @constructor
-     */
-    function ReadQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-        return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration())
-    }
+/**
+ *
+ * @param {RestWrapper} RestWrapper
+ * @param {PromisesResolver} PromisesResolver
+ * @param {Configuration} configuration
+ *
+ * @returns {ReadQueries}
+ * @constructor
+ */
+function ReadQueriesService(RestWrapper, PromisesResolver, configuration) {
+    return new ReadQueries(RestWrapper, PromisesResolver, configuration);
+}
 
-    ReadQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];
+ReadQueriesService.$inject = ['RestWrapper', 'PromisesResolver', 'NgAdminConfiguration'];
 
-    return ReadQueries;
-});
+module.exports = ReadQueriesService;

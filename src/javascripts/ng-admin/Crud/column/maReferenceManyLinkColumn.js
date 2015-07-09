@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    function maReferenceManyLinkColumn($state, Configuration) {
+    function maReferenceManyLinkColumn($state, configuration) {
         return {
             restrict: 'E',
             scope: {
@@ -16,7 +16,7 @@ define(function (require) {
                 scope.values = scope.values();
                 scope.ids = scope.ids();
                 var referenceEntity = scope.field.targetEntity().name(),
-                    relatedEntity = Configuration().getEntity(referenceEntity);
+                    relatedEntity = configuration.getEntity(referenceEntity);
                 scope.gotoReference = function (referenceId) {
                     var route = relatedEntity.isReadOnly ? 'show' : 'edit';
                     $state.go($state.get(route), { entity: referenceEntity, id: referenceId });

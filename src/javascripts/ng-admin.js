@@ -3,15 +3,7 @@ require('es6-promise').polyfill(); // for IE
 require('./ng-admin/Main/MainModule');
 require('./ng-admin/Crud/CrudModule');
 
-var Factory = require('admin-config/lib/Factory');
-
-var factory = angular.module('AdminDescriptionModule', []);
-factory.constant('AdminDescription', new Factory());
-
-var ngadmin = angular.module('ng-admin', ['ui.select', 'main', 'crud', 'AdminDescriptionModule']);
-ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
-    NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
-});
+var ngadmin = angular.module('ng-admin', ['ui.select', 'main', 'crud']);
 
 ngadmin.config(function(uiSelectConfig) {
     uiSelectConfig.theme = 'bootstrap';

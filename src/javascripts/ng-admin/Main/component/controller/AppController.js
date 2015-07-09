@@ -1,36 +1,18 @@
-/*global define*/
+var AppController = function ($scope, $state) {
+    this.$scope = $scope;
+    this.$state = $state;
+};
 
-define(function () {
-    'use strict';
 
-    /**
-     *
-     * @param {$scope}               $scope
-     * @param {$state}            $state
-     * @param {NgAdmin} Configuration
-     * @constructor
-     */
-    var AppController = function ($scope, $state, Configuration) {
-        var application = Configuration();
-        this.$scope = $scope;
-        this.$state = $state;
-        this.menu = application.menu();
-        this.applicationName = application.title();
-        this.header = application.header();
+AppController.prototype.displayHome = function () {
+    this.$state.go(this.$state.get('dashboard'));
+};
 
-        $scope.$on('$destroy', this.destroy.bind(this));
-    };
+AppController.prototype.destroy = function () {
+    this.$scope = undefined;
+    this.$state = undefined;
+};
 
-    AppController.prototype.displayHome = function () {
-        this.$state.go(this.$state.get('dashboard'));
-    };
+AppController.$inject = ['$scope', '$state'];
 
-    AppController.prototype.destroy = function () {
-        this.$scope = undefined;
-        this.$state = undefined;
-    };
-
-    AppController.$inject = ['$scope', '$state', 'NgAdminConfiguration'];
-
-    return AppController;
-});
+module.exports = AppController;

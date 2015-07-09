@@ -1,11 +1,10 @@
-var layoutTemplate = require('../view/layout.html'),
+var factory = new (require('admin-config/lib/Factory'))(),
+    layoutTemplate = require('../view/layout.html'),
     dashboardTemplate = require('../view/dashboard.html'),
     errorTemplate = require('../view/404.html');
 
 function dataStoreProvider() {
-    return ['AdminDescription', function (AdminDescription) {
-        return AdminDescription.getDataStore();
-    }];
+    return factory.getDataStore;
 }
 
 function routing($stateProvider, $urlRouterProvider) {
@@ -14,8 +13,8 @@ function routing($stateProvider, $urlRouterProvider) {
         abstract: true,
         controller: 'AppController',
         controllerAs: 'appController',
-        templateProvider: ['NgAdminConfiguration', function(Configuration) {
-            return Configuration().layout() || layoutTemplate;
+        templateProvider: ['NgAdminConfiguration', function(configuration) {
+            return configuration.layout() || layoutTemplate;
         }]
     });
 
@@ -28,16 +27,16 @@ function routing($stateProvider, $urlRouterProvider) {
         },
         controller: 'DashboardController',
         controllerAs: 'dashboardController',
-        templateProvider: ['NgAdminConfiguration', function(Configuration) {
-            return Configuration().dashboard().template() || dashboardTemplate;
+        templateProvider: ['NgAdminConfiguration', function(configuration) {
+            return configuration.dashboard().template() || dashboardTemplate;
         }],
         resolve: {
             dataStore: dataStoreProvider(),
-            hasEntities: ['NgAdminConfiguration', function(Configuration) {
-                return Configuration().entities.length > 0;
+            hasEntities: ['NgAdminConfiguration', function(configuration) {
+                return configuration.entities.length > 0;
             }],
-            collections: ['NgAdminConfiguration', function(Configuration) {
-                return Configuration().dashboard().collections();
+            collections: ['NgAdminConfiguration', function(configuration) {
+                return configuration.dashboard().collections();
             }],
             responses: ['$stateParams', '$q', 'collections', 'dataStore', 'ReadQueries', function($stateParams, $q, collections, dataStore, ReadQueries) {
                 var sortField = 'sortField' in $stateParams ? $stateParams.sortField : null;
