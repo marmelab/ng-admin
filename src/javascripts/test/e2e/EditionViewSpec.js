@@ -9,9 +9,37 @@ describe('EditionView', function () {
         });
 
         it('should map nested fields from the REST response', function () {
-            $$('.ng-admin-field-author_name input').then(function (inputs) {
+            $$('.ng-admin-field-author_name input')
+            .then(function (inputs) {
                 expect(inputs.length).toBe(1);
                 expect(inputs[0].getAttribute('value')).toBe('Logan Schowalter');
+                return inputs[0];
+            })
+            .then(function(input) {
+                return input.sendKeys('r');
+            })
+            .then(function() {
+                return $$('button[type="submit"]').first().click();
+            })
+            .then(function() {
+                return browser.get(browser.baseUrl + '#/comments/list');     
+            })
+            .then(function() {
+                return browser.get(browser.baseUrl + '#/comments/edit/11');
+            })
+            .then(function() {
+                return $$('.ng-admin-field-author_name input').first();
+            })
+            .then(function (input) {
+                expect(input.getAttribute('value')).toBe('Logan Schowalterr');
+                // the data was modified in the server, we need to change it back to its original value
+                return input;
+            })
+            .then(function(input) {
+                return input.sendKeys("\b");
+            })
+            .then(function() {
+                return $$('button[type="submit"]').first().click();
             });
         });
     })
