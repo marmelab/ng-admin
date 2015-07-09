@@ -23,9 +23,9 @@ define(function () {
                 };
             },
             template:
-'<a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoEdit()">' +
-    '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
-'</a>'
+` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoEdit()">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{{ ::label }}
+</a>`
         };
     }
 
