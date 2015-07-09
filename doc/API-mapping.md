@@ -93,7 +93,7 @@ app.config(function(RestangularProvider) {
 ```js
 listView.fields([
     nga.field('name'),
-    nga.field('author.name').label('Author name')
+    nga.field('author.name')
 ])
 ```
 
