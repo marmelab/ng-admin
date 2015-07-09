@@ -10,6 +10,7 @@ define(function (require) {
             .map(function(fieldView, field) {
                 return '<span ng-switch-when="' + field + '">' + fieldView.getWriteWidget() +'</span>';
             }).join('');
+
         var template =
 '<div id="row-{{ field.name() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">' +
     '<label for="{{ field.name() }}" class="col-sm-2 control-label">' +
@@ -25,6 +26,7 @@ define(function (require) {
         '</p>' +
     '</div>' +
 '</div>';
+
         return {
             restrict: 'E',
             scope: {

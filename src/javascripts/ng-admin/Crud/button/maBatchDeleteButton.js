@@ -28,7 +28,7 @@ define(function () {
             },
             template:
 '<span ng-click="gotoBatchDelete()">' +
-    '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
+    '<span class="glyphicon glyphicon-trash btn-batch-delete" aria-hidden="true"></span>&nbsp;{{ ::label }}' +
 '</span>'
 
         };
