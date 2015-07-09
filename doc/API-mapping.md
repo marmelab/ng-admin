@@ -76,6 +76,27 @@ app.config(function(RestangularProvider) {
 }
 ```
 
+**Tip**: If you want to define a field mapped to a deeply nested property, you don't need an interceptor. Just define the field with a name made by the path to the property using dots as separators:
+
+```json
+{
+    "id": 12,
+    "name": "War and Peace",
+    "author": {
+        "id": 345,
+        "name": "Leo Tolstoi"
+    },
+    "publication_date": "2014-01-01T00:00:00Z"
+}
+```
+
+```js
+listView.fields([
+    nga.field('name'),
+    nga.field('author.name').label('Author name')
+])
+```
+
 ## Pagination
 
 ng-admin assumes that your API accepts `_page` and `_perPage` query parameters to paginate lists:
