@@ -73,3 +73,26 @@ admin.dashboard(nga.dashboard()
 See the [Dashboard Configuration](doc/Dashboard.md) dedicated chapter for more details.
 
 Calls to `dashboardView()` are still supported in ng-admin 0.8, but will raise an error in future versions. 
+
+## `field.map()` callbacks no longer apply to POST and PUT queries
+
+Registering a transformation callback using `field.map()` used to be applied both ways: from the REST response to the Entry object used by ng-admin (in read queries using GET), and from the Entry object to the body of the REST requests (for write queries using POST and PUT). This didn't make sense, and prevented a proper use of this `map()` feature in the edition and creation view.
+
+Now `map()` only applies to read queries, and a symmetric feature called `transform()` was added to handle the transformation of ng-admin values from forms to REST requests.
+
+```js
+//   API
+//   map()  v  ^  tranform()
+//          Entry︎
+//
+// The API provides and expects last names in all caps, e.g. 'DOE'
+// The admin should display them with capitalized last names, e.g 'Doe'
+nga.field('last_name')
+    .map(function capitalize(value, entry) {
+        return value.substr(0,1).toUpperCase() + value.substr(1).toLowerCase()
+    })
+    .transform(function allCaps(value, entry) {
+        // the API expects upper case last names
+        return value.toUpperCase();
+    });
+```
