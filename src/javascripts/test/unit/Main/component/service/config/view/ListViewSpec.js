@@ -28,7 +28,7 @@ describe("Service: ListView config", function () {
                     return value.substr(0, 5) + '...';
                 }));
 
-            var entries = dataStore.mapEntries(list.entity.name(), list.identifier(), list.getFields(), [
+            var entries = list.mapEntries([
                 { id: 1, human_id: 1, name: 'Suna'},
                 { id: 2, human_id: 2, name: 'Boby'},
                 { id: 3, human_id: 1, name: 'Mizute'}

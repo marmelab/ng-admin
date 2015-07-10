@@ -8,6 +8,12 @@ function dataStoreProvider() {
     }];
 }
 
+function entryConstructorProvider() {
+    return ['AdminDescription', function (AdminDescription) {
+        return AdminDescription.getEntryConstructor();
+    }];
+}
+
 function routing($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('main', {
@@ -33,13 +39,14 @@ function routing($stateProvider, $urlRouterProvider) {
         }],
         resolve: {
             dataStore: dataStoreProvider(),
+            Entry: entryConstructorProvider(),
             hasEntities: ['NgAdminConfiguration', function(Configuration) {
                 return Configuration().entities.length > 0;
             }],
             collections: ['NgAdminConfiguration', function(Configuration) {
                 return Configuration().dashboard().collections();
             }],
-            responses: ['$stateParams', '$q', 'collections', 'dataStore', 'ReadQueries', function($stateParams, $q, collections, dataStore, ReadQueries) {
+            responses: ['$stateParams', '$q', 'collections', 'dataStore', 'Entry', 'ReadQueries', function($stateParams, $q, collections, dataStore, Entry, ReadQueries) {
                 var sortField = 'sortField' in $stateParams ? $stateParams.sortField : null;
                 var sortDir = 'sortDir' in $stateParams ? $stateParams.sortDir : null;
 
@@ -62,20 +69,17 @@ function routing($stateProvider, $urlRouterProvider) {
 
                         return ReadQueries
                             .getAll(collection, 1, {}, collectionSortField, collectionSortDir)
-                            .then(function (response) {
+                            .then(response => {
                                 rawEntries = response.data;
-
                                 return rawEntries;
                             })
-                            .then(function (rawEntries) {
-                                return ReadQueries.getFilteredReferenceData(collection.getNonOptimizedReferences(), rawEntries);
-                            })
-                            .then(function (nonOptimizedReference) {
+                            .then(rawEntries => ReadQueries.getFilteredReferenceData(collection.getNonOptimizedReferences(), rawEntries)
+                            )
+                            .then(nonOptimizedReference => {
                                 nonOptimizedReferencedData = nonOptimizedReference;
-
                                 return ReadQueries.getOptimizedReferencedData(collection.getOptimizedReferences(), rawEntries);
                             })
-                            .then(function (optimizedReference) {
+                            .then(optimizedReference => {
                                 optimizedReferencedData = optimizedReference;
 
                                 var references = collection.getReferences(),
@@ -83,11 +87,11 @@ function routing($stateProvider, $urlRouterProvider) {
                                     referencedEntries;
 
                                 for (var name in referencedData) {
-                                    referencedEntries = dataStore.mapEntries(
-                                        references[name].targetEntity().name(),
-                                        references[name].targetEntity().identifier(),
+                                    referencedEntries = Entry.createArrayFromRest(
+                                        referencedData[name],
                                         [references[name].targetField()],
-                                        referencedData[name]
+                                        references[name].targetEntity().name(),
+                                        references[name].targetEntity().identifier().name()
                                     );
 
                                     dataStore.setEntries(
@@ -96,15 +100,10 @@ function routing($stateProvider, $urlRouterProvider) {
                                     );
                                 }
                             })
-                            .then(function () {
-                                var entries = dataStore.mapEntries(
-                                    collection.entity.name(),
-                                    collection.identifier(),
-                                    collection.getFields(),
-                                    rawEntries
-                                );
+                            .then(() => {
+                                var entries = collection.mapEntries(rawEntries);
 
-                                // shortcut to diplay collection of entry with included referenced values
+                                // shortcut to display collection of entry with included referenced values
                                 dataStore.fillReferencesValuesFromCollection(entries, collection.getReferences(), true);
 
                                 return entries;

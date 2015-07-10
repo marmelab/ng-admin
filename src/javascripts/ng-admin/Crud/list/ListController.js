@@ -41,28 +41,24 @@ define(function () {
             return;
         }
 
-        var progression = this.progression,
-            self = this;
+        let view = this.view,
+            datastore = this.datastore;
 
-        progression.start();
+        this.progression.start();
 
         this.ReadQueries
-            .getAll(this.view, page, this.search, this.sortField, this.sortDir)
-            .then(function (response) {
-                progression.done();
-                var references = self.view.getReferences();
+            .getAll(view, page, this.search, this.sortField, this.sortDir)
+            .then(response => {
+                this.progression.done();
+                var references = view.getReferences();
 
-                self.dataStore.mapEntries(
-                    self.entity.name(),
-                    self.view.identifier(),
-                    self.fields,
-                    response.data
-                ).map(function (entry) {
-                    self.dataStore.fillReferencesValuesFromEntry(entry, references, true);
-                    self.dataStore.addEntry(self.entity.uniqueId, entry);
-                });
+                view.mapEntries(response.data)
+                    .map(entry => {
+                        dataStore.fillReferencesValuesFromEntry(entry, references, true);
+                        dataStore.addEntry(this.entity.uniqueId, entry);
+                    });
 
-                self.loadingPage = false;
+                this.loadingPage = false;
             });
     };
 

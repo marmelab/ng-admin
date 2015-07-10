@@ -41,6 +41,13 @@ function dataStoreProvider() {
     }];
 }
 
+
+function entryConstructorProvider() {
+    return ['AdminDescription', function (AdminDescription) {
+        return AdminDescription.getEntryConstructor();
+    }];
+}
+
 function routing($stateProvider) {
 
     $stateProvider
@@ -56,6 +63,7 @@ function routing($stateProvider) {
             templateProvider: templateProvider('ListView', listLayoutTemplate),
             resolve: {
                 dataStore: dataStoreProvider(),
+                Entry: entryConstructorProvider(),
                 view: viewProvider('ListView'),
                 filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
@@ -65,11 +73,11 @@ function routing($stateProvider) {
                     var filterEntries;
 
                     for (var name in filterData) {
-                        filterEntries = dataStore.mapEntries(
-                            filters[name].targetEntity().name(),
-                            filters[name].targetEntity().identifier(),
+                        filterEntries = Entry.createArrayFromRest(
+                            filterData[name],
                             [filters[name].targetField()],
-                            filterData[name]
+                            filters[name].targetEntity().name(),
+                            filters[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -98,6 +106,7 @@ function routing($stateProvider) {
                     template: listTemplate,
                     resolve: {
                         dataStore: dataStoreProvider(),
+                        Entry: entryConstructorProvider(),
                         view: viewProvider('ListView'),
                         response: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                             var page = $stateParams.page,
@@ -116,17 +125,17 @@ function routing($stateProvider) {
                         optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
                             return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
                         }],
-                        referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
                             var references = view.getReferences(),
                                 referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                                 referencedEntries;
 
                             for (var name in referencedData) {
-                                referencedEntries = dataStore.mapEntries(
-                                    references[name].targetEntity().name(),
-                                    references[name].targetEntity().identifier(),
+                                referencedEntries = Entry.createArrayFromRest(
+                                    referencedData[name],
                                     [references[name].targetField()],
-                                    referencedData[name]
+                                    references[name].targetEntity().name(),
+                                    references[name].targetEntity().identifier().name()
                                 );
 
                                 dataStore.setEntries(
@@ -138,12 +147,7 @@ function routing($stateProvider) {
                             return true;
                         }],
                         entries: ['dataStore', 'view', 'response', 'referencedEntries', function (dataStore, view, response, referencedEntries) {
-                            var entries = dataStore.mapEntries(
-                                view.entity.name(),
-                                view.identifier(),
-                                view.getFields(),
-                                response.data
-                            );
+                            var entries = view.mapEntries(response.data);
 
                             // shortcut to diplay collection of entry with included referenced values
                             dataStore.fillReferencesValuesFromCollection(entries, view.getReferences(), true);
@@ -178,17 +182,13 @@ function routing($stateProvider) {
             },
             resolve: {
                 dataStore: dataStoreProvider(),
+                Entry: entryConstructorProvider(),
                 view: viewProvider('ShowView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
                 nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
@@ -196,17 +196,17 @@ function routing($stateProvider) {
                 optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                 }],
-                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
                         referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                         referencedEntries;
 
                     for (var name in referencedData) {
-                        referencedEntries = dataStore.mapEntries(
-                            references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier(),
+                        referencedEntries = Entry.createArrayFromRest(
+                            referencedData[name],
                             [references[name].targetField()],
-                            referencedData[name]
+                            references[name].targetEntity().name(),
+                            references[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -224,7 +224,7 @@ function routing($stateProvider) {
 
                     return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                 }],
-                referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
+                referencedListEntries: ['dataStore', 'Entry', 'view', 'referencedListData', function (dataStore, Entry, view, referencedListData) {
                     var referencedLists = view.getReferencedLists();
                     var referencedList;
                     var referencedListEntries;
@@ -233,11 +233,11 @@ function routing($stateProvider) {
                         referencedList = referencedLists[i];
                         referencedListEntries = referencedListData[i];
 
-                        referencedListEntries = dataStore.mapEntries(
-                            referencedList.targetEntity().name(),
-                            referencedList.targetEntity().identifier(),
+                        referencedListEntries = Entry.createArrayFromRest(
+                            referencedListEntries,
                             referencedList.targetFields(),
-                            referencedListEntries
+                            referencedList.targetEntity().name(),
+                            referencedList.targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -271,8 +271,9 @@ function routing($stateProvider) {
             resolve: {
                 dataStore: dataStoreProvider(),
                 view: viewProvider('CreateView'),
-                entry: ['dataStore', 'view', function (dataStore, view) {
-                    var entry = dataStore.createEntry(view.entity.name(), view.identifier(), view.getFields());
+                Entry: entryConstructorProvider(),
+                entry: ['dataStore', 'Entry', 'view', function (dataStore, Entry, view) {
+                    var entry = Entry.createForFields(view.getFields(), view.entity.name());
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
 
                     return entry;
@@ -280,16 +281,16 @@ function routing($stateProvider) {
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
-                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
+                choiceEntries: ['dataStore', 'Entry', 'view', 'choiceData', function (dataStore, Entry, view, filterData) {
                     var choices = view.getReferences(false);
                     var choiceEntries;
 
                     for (var name in filterData) {
-                        choiceEntries = dataStore.mapEntries(
-                            choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier(),
+                        choiceEntries = Entry.createArrayFromRest(
+                            filterData[name],
                             [choices[name].targetField()],
-                            filterData[name]
+                            choices[name].targetEntity().name(),
+                            choices[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -320,17 +321,13 @@ function routing($stateProvider) {
             },
             resolve: {
                 dataStore: dataStoreProvider(),
+                Entry: entryConstructorProvider(),
                 view: viewProvider('EditView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
                 nonOptimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getFilteredReferenceData(view.getNonOptimizedReferences(), [entry.values]);
@@ -338,17 +335,17 @@ function routing($stateProvider) {
                 optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                 }],
-                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
                         referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                         referencedEntries;
 
                     for (var name in referencedData) {
-                        referencedEntries = dataStore.mapEntries(
-                            references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier(),
+                        referencedEntries = Entry.createArrayFromRest(
+                            referencedData[name],
                             [references[name].targetField()],
-                            referencedData[name]
+                            references[name].targetEntity().name(),
+                            references[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -366,7 +363,7 @@ function routing($stateProvider) {
 
                     return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                 }],
-                referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
+                referencedListEntries: ['dataStore', 'Entry', 'view', 'referencedListData', function (dataStore, Entry, view, referencedListData) {
                     var referencedLists = view.getReferencedLists();
                     var referencedList;
                     var referencedListEntries;
@@ -375,11 +372,11 @@ function routing($stateProvider) {
                         referencedList = referencedLists[i];
                         referencedListEntries = referencedListData[i];
 
-                        referencedListEntries = dataStore.mapEntries(
-                            referencedList.targetEntity().name(),
-                            referencedList.targetEntity().identifier(),
+                        referencedListEntries = Entry.createArrayFromRest(
+                            referencedListEntries,
                             referencedList.targetFields(),
-                            referencedListEntries
+                            referencedList.targetEntity().name(),
+                            referencedList.targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -397,16 +394,16 @@ function routing($stateProvider) {
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
-                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
+                choiceEntries: ['dataStore', 'Entry', 'view', 'choiceData', function (dataStore, Entry, view, filterData) {
                     var choices = view.getReferences(false);
                     var choiceEntries;
 
                     for (var name in filterData) {
-                        choiceEntries = dataStore.mapEntries(
-                            choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier(),
+                        choiceEntries = Entry.createArrayFromRest(
+                            filterData[name],
                             [choices[name].targetField()],
-                            filterData[name]
+                            choices[name].targetEntity().name(),
+                            choices[name].targetEntity().identifier().name()
                         );
 
                         dataStore.setEntries(
@@ -442,13 +439,8 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['dataStore', 'view', 'rawEntry', function(dataStore, view, rawEntry) {
-                    return dataStore.mapEntry(
-                        view.entity.name(),
-                        view.identifier(),
-                        view.getFields(),
-                        rawEntry
-                    );
+                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                    return view.mapEntry(rawEntry);
                 }],
             }
         });

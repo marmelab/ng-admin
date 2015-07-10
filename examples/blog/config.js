@@ -28,7 +28,9 @@
                 // custom sort params
                 if (params._sortField) {
                     params._sort = params._sortField;
+                    params._order = params._sortDir;
                     delete params._sortField;
+                    delete params._sortDir;
                 }
                 // custom filters
                 if (params._filters) {
@@ -155,7 +157,8 @@
             .fields([
                 nga.field('created_at', 'date')
                     .label('Posted'),
-                nga.field('author'),
+                nga.field('author.name')
+                    .label('Author'),
                 nga.field('body', 'wysiwyg')
                     .stripTags(true)
                     .map(truncate),
@@ -186,7 +189,8 @@
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .defaultValue(new Date()), // preset fields in creation view with defaultValue
-                nga.field('author'),
+                nga.field('author.name')
+                    .label('Author'),
                 nga.field('body', 'wysiwyg'),
                 nga.field('post_id', 'reference')
                     .label('Post')

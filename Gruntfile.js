@@ -43,7 +43,8 @@ module.exports = function (grunt) {
                 options: {
                     port: 3000,
                     db: 'examples/blog/stub-server.json',
-                    keepalive: false
+                    keepalive: false,
+                    logger: false
                 }
             }
         },
