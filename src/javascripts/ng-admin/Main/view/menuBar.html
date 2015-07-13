@@ -2,7 +2,7 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
-                <a ng-click="gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
+                <a ng-click="menu.hasChild() ? toggleMenu(menu) : gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                     <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
                     {{ menu.title() }}
                     <span ng-if="::menu.hasChild()" class="glyphicon arrow" ng-class="::{'glyphicon-menu-down': isOpen(menu), 'glyphicon-menu-right': !isOpen(menu) }"></span>
