@@ -97,6 +97,15 @@ listView.fields([
 ])
 ```
 
+## HTTP Method
+
+The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`.
+
+```js
+bookEntity.createMethod('PUT');   // default is POST
+bookEntity.updateMethod('PATCH'); // default is PUT
+```
+
 ## Pagination
 
 ng-admin assumes that your API accepts `_page` and `_perPage` query parameters to paginate lists:
