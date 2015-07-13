@@ -16,13 +16,13 @@ define(function () {
      *
      * @returns {promise}
      */
-    RestWrapper.prototype.getOne = function(entityName, url) {
-        return this.Restangular
-            .oneUrl(entityName, url)
-            .get()
-            .then(function (response) {
-                return response.data;
-            });
+    RestWrapper.prototype.getOne = function(entityName, url, method) {
+        var resource = this.Restangular.oneUrl(entityName, url),
+            operation = method ? resource.customOperation(method, null, {}, {}, null) : resource.customGET();
+
+        return operation.then(function (response) {
+            return response.data;
+        });
     };
 
     /**
@@ -34,10 +34,11 @@ define(function () {
      *
      * @returns {promise}
      */
-    RestWrapper.prototype.getList = function(params, entityName, url) {
-        return this.Restangular
-            .allUrl(entityName, url)
-            .getList(params);
+    RestWrapper.prototype.getList = function(params, entityName, url, method) {
+        var resource = this.Restangular.allUrl(entityName, url),
+            operation = method ? resource.customOperation(method, null, {}, {}, params) : resource.customGET(params);
+
+        return operation;
     };
 
     RestWrapper.prototype.createOne = function(rawEntity, entityName, url, method) {
