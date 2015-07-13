@@ -161,6 +161,8 @@ app.config(function(RestangularProvider) {
 });
 ```
 
+**Tip**: If you added the `X-Total-Count` header to your API but the pagination controls don't appear, maybe it's a [cross-origin resource sharing (CORS)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem. The admin application is probably hosted on another domain than the API, so you must explicitly allow the access to the header from the admin app domain. To do so, add a `Access-Control-Expose-Headers: x-total-count` header to the API response.
+
 ## Sort Columns and Sort Order
 
 To sort each list view, ng-admin uses `_sortField` & `_sortDir` query parameters.
