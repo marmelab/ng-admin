@@ -97,6 +97,15 @@ listView.fields([
 ])
 ```
 
+## HTTP Method
+
+The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`.
+
+```js
+bookEntity.createMethod('PUT');   // default is POST
+bookEntity.updateMethod('PATCH'); // default is PUT
+```
+
 ## Pagination
 
 ng-admin assumes that your API accepts `_page` and `_perPage` query parameters to paginate lists:
@@ -160,6 +169,8 @@ app.config(function(RestangularProvider) {
     });
 });
 ```
+
+**Tip**: If you added the `X-Total-Count` header to your API but the pagination controls don't appear, maybe it's a [cross-origin resource sharing (CORS)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem. The admin application is probably hosted on another domain than the API, so you must explicitly allow the access to the header from the admin app domain. To do so, add a `Access-Control-Expose-Headers: x-total-count` header to the API response.
 
 ## Sort Columns and Sort Order
 
