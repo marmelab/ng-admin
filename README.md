@@ -138,9 +138,9 @@ Here is a full example for a backend that will let you create, update, and delet
 
 var app = angular.module('myApp', ['ng-admin']);
 
-admin.config(function (NgAdminConfigurationProvider) {
+app.config(function (NgAdminConfigurationProvider) {
     var nga = NgAdminConfigurationProvider;
-    var app = nga.application('ng-admin backend demo', false) // application main title and debug disabled
+    var admin = nga.application('ng-admin backend demo', false) // application main title and debug disabled
         .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
     // define all entities at the top to allow references between them
@@ -204,7 +204,7 @@ admin.config(function (NgAdminConfigurationProvider) {
                 .template('<other-page-link></other-link-link>')
         ]);
 
-    nga.configure(app);
+    nga.configure(admin);
 });
 ```
 
@@ -415,7 +415,7 @@ A field is the representation of a property of an entity.
 ### General Field Settings
 
 * `nga.field(name, type)`
-Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `number`, `string`, `text`, `boolean`, `wysiwyg`, `email`, `date`, `datetime`,  `choice`, `choices`, `json`, `file`, and `template`
+Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, `reference_many`, and `template`.
 
 * `label(string label)`
 Define the label of the field. Defaults to the uppercased field name.
