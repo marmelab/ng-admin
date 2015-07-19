@@ -242,7 +242,7 @@ tag.showView()
 // customize header
 var customHeaderTemplate =
 '<div class="navbar-header">' +
-    '<a class="navbar-brand" href="#" ng-click="appController.displayHome()">{{ configuration.title() }}</a>' +
+    '<a class="navbar-brand" ui-sref="dashboard">{{ configuration.title() }}</a>' +
 '</div>' +
 '<p class="navbar-text navbar-right">' +
     '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source</a>' +

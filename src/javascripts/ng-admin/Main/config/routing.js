@@ -11,8 +11,6 @@ function routing($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('main', {
         abstract: true,
-        controller: 'AppController',
-        controllerAs: 'appController',
         templateProvider: ['NgAdminConfiguration', function(configuration) {
             return configuration.layout() || layoutTemplate;
         }]

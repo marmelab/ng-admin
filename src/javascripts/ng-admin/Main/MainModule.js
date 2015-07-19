@@ -5,7 +5,6 @@ require('restangular');
 
 var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
-MainModule.controller('AppController', require('./component/controller/AppController'));
 MainModule.controller('DashboardController', require('./component/controller/DashboardController'));
 
 MainModule.provider('NgAdminConfiguration', require('./component/provider/NgAdminConfiguration'));
