@@ -1,19 +1,6 @@
-var Factory = require('admin-config/lib/Factory');
-var factory = new Factory();
-
-var config = factory.application('ng-admin backend demo')
-    .debug(false)
-    .baseApiUrl('http://localhost:3000/');
-
-function truncate(value) {
-    if (!value) {
-        return '';
-    }
-
-    return value.length > 50 ? value.substr(0, 50) + '...' : value;
-}
-
 var app = angular.module('myApp', ['ng-admin']);
+
+// map datasource and ng-admin REST flavors
 app.config(['RestangularProvider', function (RestangularProvider) {
     // use the custom query parameters function to format the API request correctly
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
@@ -42,8 +29,25 @@ app.config(['RestangularProvider', function (RestangularProvider) {
     });
 }]);
 
+var Factory = require('admin-config/lib/Factory');
+var factory = new Factory();
+
+// create the administration configuration
+var admin = factory.application('ng-admin backend demo')
+    .debug(false)
+    .baseApiUrl('http://localhost:3000/');
+
+function truncate(value) {
+    if (!value) {
+        return '';
+    }
+
+    return value.length > 50 ? value.substr(0, 50) + '...' : value;
+}
+
 // define all entities at the top to allow references between them
 var post = factory.entity('posts'); // the API endpoint for posts will be http://localhost:3000/posts/:id
+
 var comment = factory.entity('comments')
     .baseApiUrl('http://localhost:3000/') // The base API endpoint can be customized by entity
     .identifier(factory.field('id')); // you can optionally customize the identifier used in the api ('id' by default)
@@ -51,8 +55,8 @@ var comment = factory.entity('comments')
 var tag = factory.entity('tags')
     .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
-// set the application entities
-config
+// add the entities to the admin application
+admin
     .addEntity(post)
     .addEntity(tag)
     .addEntity(comment);
@@ -243,10 +247,10 @@ var customHeaderTemplate =
 '<p class="navbar-text navbar-right">' +
     '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source</a>' +
 '</p>';
-config.header(customHeaderTemplate);
+admin.header(customHeaderTemplate);
 
 // customize menu
-config.menu(factory.menu()
+admin.menu(factory.menu()
     .addChild(factory.menu(post).icon('<span class="glyphicon glyphicon-file"></span>')) // customize the entity menu icon
     .addChild(factory.menu(comment).icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>')) // you can even use utf-8 symbols!
     .addChild(factory.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
@@ -283,8 +287,7 @@ var customDashboardTemplate =
         '</div>' +
     '</div>' +
 '</div>';
-
-config.dashboard(factory.dashboard()
+admin.dashboard(factory.dashboard()
     .addCollection(factory.collection(post)
         .name('recent_posts')
         .title('Recent posts')
@@ -345,8 +348,10 @@ config.dashboard(factory.dashboard()
     .template(customDashboardTemplate)
 );
 
-app.value('NgAdminConfiguration', config);
+// add the admin configuration to angular's DI container, to make it availble from the view
+app.value('NgAdminConfiguration', admin);
 
+// custom directives
 app.directive('postLink', ['$location', function ($location) {
     return {
         restrict: 'E',
@@ -374,7 +379,6 @@ app.directive('sendEmail', ['$location', function ($location) {
 }]);
 
 // custom 'send post by email' page
-
 function sendPostController($stateParams, notification) {
     this.postId = $stateParams.id;
     // notification is the service used to display notifications on the top of the screen
