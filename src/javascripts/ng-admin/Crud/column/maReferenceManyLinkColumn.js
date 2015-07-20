@@ -3,7 +3,7 @@
 define(function (require) {
     'use strict';
 
-    function maReferenceManyLinkColumn($state, configuration) {
+    function maReferenceManyLinkColumn($state) {
         return {
             restrict: 'E',
             scope: {
@@ -15,11 +15,10 @@ define(function (require) {
                 scope.field = scope.field();
                 scope.values = scope.values();
                 scope.ids = scope.ids();
-                var referenceEntity = scope.field.targetEntity().name(),
-                    relatedEntity = configuration.getEntity(referenceEntity);
+                var relatedEntity = scope.field.targetEntity();
                 scope.gotoReference = function (referenceId) {
                     var route = relatedEntity.isReadOnly ? 'show' : 'edit';
-                    $state.go($state.get(route), { entity: referenceEntity, id: referenceId });
+                    $state.go(route, { entity: relatedEntity.name(), id: referenceId });
                 };
             },
             template:
@@ -29,7 +28,7 @@ define(function (require) {
         };
     }
 
-    maReferenceManyLinkColumn.$inject = ['$state', 'NgAdminConfiguration'];
+    maReferenceManyLinkColumn.$inject = ['$state'];
 
     return maReferenceManyLinkColumn;
 });

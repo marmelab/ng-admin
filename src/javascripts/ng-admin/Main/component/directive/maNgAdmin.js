@@ -1,4 +1,4 @@
-function maNgAdminDirective(NgAdminConfiguration) {
+function maNgAdminDirective(NgAdminConfiguration, $state) {
     'use strict';
 
     return {
@@ -7,12 +7,15 @@ function maNgAdminDirective(NgAdminConfiguration) {
         },
         restrict: 'E',
         link: function(scope) {
-            scope.configuration = NgAdminConfiguration;
+            if (!scope.configuration()) {
+                scope.configuration = NgAdminConfiguration;
+            }
+            $state.go('initialize', { configuration: scope.configuration })
         },
         template: `<div ui-view></div>`
     };
 }
 
-maNgAdminDirective.$inject = ['NgAdminConfiguration'];
+maNgAdminDirective.$inject = ['NgAdminConfiguration', '$state'];
 
 export default maNgAdminDirective;

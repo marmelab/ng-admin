@@ -7,12 +7,28 @@ function dataStoreProvider() {
     return factory.getDataStore;
 }
 
+var adminConfig;
+
 function routing($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('main', {
         abstract: true,
         templateProvider: ['NgAdminConfiguration', function(configuration) {
             return configuration.layout() || layoutTemplate;
+        }],
+        data: {
+            adminConfig: {}
+        }
+    });
+
+    $stateProvider.state('initialize', {
+        parent: 'main',
+        params: {
+            configuration: null
+        },
+        controller: ['$state', '$stateParams', function($state, $stateParams) {
+            $state.get($state.current.parent).data.adminConfig = $stateParams.configuration;
+            $state.go('dashboard');
         }]
     });
 
@@ -30,11 +46,15 @@ function routing($stateProvider, $urlRouterProvider) {
         }],
         resolve: {
             dataStore: dataStoreProvider(),
-            hasEntities: ['NgAdminConfiguration', function(configuration) {
-                return configuration.entities.length > 0;
+            adminConfig: ['$state', function($state) {
+                return $state.get('main').data.adminConfig;
             }],
-            collections: ['NgAdminConfiguration', function(configuration) {
-                return configuration.dashboard().collections();
+            hasEntities: ['adminConfig', function(adminConfig) {
+                console.log(adminConfig.entities);
+                return adminConfig.entities.length > 0;
+            }],
+            collections: ['adminConfig', function(adminConfig) {
+                return adminConfig.dashboard().collections();
             }],
             responses: ['$stateParams', '$q', 'collections', 'dataStore', 'ReadQueries', function($stateParams, $q, collections, dataStore, ReadQueries) {
                 var sortField = 'sortField' in $stateParams ? $stateParams.sortField : null;

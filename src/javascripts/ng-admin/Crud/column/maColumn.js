@@ -1,4 +1,4 @@
-function maColumn($state, $compile, configuration, FieldViewConfiguration) {
+function maColumn($state, $compile, FieldViewConfiguration) {
 
     function isDetailLink(field) {
         if (field.isDetailLink() === false) {
@@ -7,8 +7,7 @@ function maColumn($state, $compile, configuration, FieldViewConfiguration) {
         if (field.type() != 'reference' && field.type() != 'reference_many') {
             return true;
         }
-        var referenceEntity = field.targetEntity().name();
-        var relatedEntity = configuration.getEntity(referenceEntity);
+        var relatedEntity = field.targetEntity();
         if (!relatedEntity) return false;
         return relatedEntity.isReadOnly ? relatedEntity.showView().enabled : relatedEntity.editionView().enabled;
     }
@@ -44,12 +43,11 @@ function maColumn($state, $compile, configuration, FieldViewConfiguration) {
                 }, $state.params));
             };
             scope.gotoReference = function () {
-                var referenceEntity = scope.field.targetEntity().name();
-                var relatedEntity = configuration.getEntity(referenceEntity);
+                var relatedEntity = scope.field.targetEntity();
                 var referenceId = scope.entry.values[scope.field.name()];
                 var route = relatedEntity.isReadOnly ? 'show' : scope.field.detailLinkRoute();
                 $state.go($state.get(route), {
-                    entity: referenceEntity,
+                    entity: relatedEntity.name(),
                     id: referenceId
                 });
             };
@@ -57,6 +55,6 @@ function maColumn($state, $compile, configuration, FieldViewConfiguration) {
     };
 }
 
-maColumn.$inject = ['$state', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
+maColumn.$inject = ['$state', '$compile', 'FieldViewConfiguration'];
 
 module.exports = maColumn;
