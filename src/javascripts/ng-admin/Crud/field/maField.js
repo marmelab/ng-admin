@@ -11,8 +11,8 @@ define(function (require) {
                 return '<span ng-switch-when="' + field + '">' + fieldView.getWriteWidget() +'</span>';
             }).join('');
         var template =
-'<div id="row-{{ field.name() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">' +
-    '<label for="{{ field.name() }}" class="col-sm-2 control-label">' +
+'<div id="row-{{ field.label() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">' +
+    '<label for="{{ field.label() }}" class="col-sm-2 control-label">' +
         '{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;' +
     '</label>' +
     '<div ng-if="field.editable()" ng-class="getClassesForField(field, entry)" ng-switch="field.type()">' +
