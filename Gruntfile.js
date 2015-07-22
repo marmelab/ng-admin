@@ -71,7 +71,7 @@ module.exports = function (grunt) {
         },
         exec: {
             webpack: './node_modules/webpack/bin/webpack.js',
-            webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors'
+            webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors'
         }
     });
 
