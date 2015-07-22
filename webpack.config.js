@@ -8,6 +8,14 @@ function getEntrySources(sources) {
     return sources;
 }
 
+function getOutputName(extension) {
+    if (process.env.NODE_ENV === 'development') {
+        return 'build/[name].' + extension;
+    }
+
+    return 'build/[name].min.' + extension;
+}
+
 var ngAdminSources = [
     './src/javascripts/ng-admin.js',
     './src/sass/ng-admin.scss'
@@ -32,7 +40,7 @@ module.exports = {
     },
     output: {
         publicPath: "http://localhost:8080/",
-        filename: "build/[name].min.js"
+        filename: getOutputName('js')
     },
     module: {
         loaders: [
@@ -45,7 +53,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('build/[name].min.css', {
+        new ExtractTextPlugin(getOutputName('css'), {
             allChunks: true
         })
     ]
