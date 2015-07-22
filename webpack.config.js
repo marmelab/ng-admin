@@ -1,7 +1,8 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
+    if (process.env.NODE_ENV !== 'production' &&
+        process.env.NODE_ENV !== 'development') { // for live reload
         sources.push('webpack-dev-server/client?http://localhost:8080');
     }
 
