@@ -13,8 +13,8 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         files: [
             '../../node_modules/angular/angular.js',
-            '../../node_modules/angular-bootstrap/dist/ui-bootstrap.min.js',
-            '../../node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.min.js',
+            '../../node_modules/angular-bootstrap/ui-bootstrap.min.js',
+            '../../node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js',
             '../../node_modules/angular-mocks/angular-mocks.js',
             '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
             '../../node_modules/numeral/numeral.js',
