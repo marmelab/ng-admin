@@ -117,6 +117,9 @@
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
                     .filters(function(search) {
+                        if (!search) {
+                            return;
+                        }
                         return {
                             q: search
                         }
