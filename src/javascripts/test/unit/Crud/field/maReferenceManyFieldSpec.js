@@ -84,8 +84,8 @@ describe('ReferenceManyField', function() {
         ]));
     });
 
-    it('should get all choices loaded at initialization if refreshDelay is null', function() {
-        scope.field.remoteComplete(true, { refreshDelay: null });
+    it('should get all choices loaded at initialization if remote complete is null', function() {
+        scope.field.remoteComplete(false);
 
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
