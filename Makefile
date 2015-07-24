@@ -14,7 +14,7 @@ build: devel
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
 devel:
-	@NODE_ENV=development ./node_modules/webpack/bin/webpack.js -d --progress
+	./node_modules/webpack/bin/webpack.js -d --progress
 	@echo "Files build/ng-admin.css and build/ng-admin.js updated"
 
 

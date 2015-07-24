@@ -1,8 +1,10 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var prod = process.argv.indexOf('-p');
+var devel = process.argv.indexOf('-d');
+
 function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production' &&
-        process.env.NODE_ENV !== 'development') { // for live reload
+    if (prod === -1 && devel === -1) { // for live reload
         sources.push('webpack-dev-server/client?http://localhost:8080');
     }
 
@@ -10,7 +12,7 @@ function getEntrySources(sources) {
 }
 
 function getOutputName(extension) {
-    if (process.env.NODE_ENV === 'development') {
+    if (devel) {
         return 'build/[name].' + extension;
     }
 
