@@ -132,6 +132,7 @@
                     .targetEntity(comment)
                     .targetReferenceField('post_id')
                     .targetFields([
+                        nga.field('id').isDetailLink(true),
                         nga.field('created_at').label('Posted'),
                         nga.field('body').label('Comment')
                     ])
