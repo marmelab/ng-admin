@@ -117,12 +117,7 @@
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
                     .filters(function(search) {
-                        if (!search) {
-                            return;
-                        }
-                        return {
-                            q: search
-                        }
+                        return search ? { q: search } : null;
                     })
                     .remoteComplete(true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
