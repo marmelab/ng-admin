@@ -11,7 +11,7 @@ define(function(require) {
         return '<ma-date-field field="::field" value="values[field.name()]"></ma-date-field>';
     }
     function getWriteWidget() {
-        return '<div class="row"><ma-date-field field="::field" value="entry.values[field.name()]" class="col-sm-4"></ma-date-field></div>';
+        return '<ma-date-field field="::field" value="entry.values[field.name()]"></ma-date-field>';
     }
     return {
         getReadWidget:   getReadWidget,
