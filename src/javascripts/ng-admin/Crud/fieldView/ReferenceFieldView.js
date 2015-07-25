@@ -1,6 +1,6 @@
 module.exports = {
     getReadWidget: function () {
-        return '<ma-string-column value="::entry.listValues[field.name()]"></ma-string-column>';
+        return '<ma-column field="::field.targetField()" entry="::field.getEntry(entry.values[field.name()])" entity="::field.targetEntity()" datastore="::datastore()"></ma-column>';
     },
     getLinkWidget: function () {
         return '<a ng-click="gotoReference()">' + this.getReadWidget() + '</a>';
