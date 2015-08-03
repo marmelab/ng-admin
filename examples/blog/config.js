@@ -117,9 +117,7 @@
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
                     .filters(function(search) {
-                        return {
-                            q: search
-                        }
+                        return search ? { q: search } : null;
                     })
                     .remoteComplete(true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
@@ -132,6 +130,7 @@
                     .targetEntity(comment)
                     .targetReferenceField('post_id')
                     .targetFields([
+                        nga.field('id').isDetailLink(true),
                         nga.field('created_at').label('Posted'),
                         nga.field('body').label('Comment')
                     ])

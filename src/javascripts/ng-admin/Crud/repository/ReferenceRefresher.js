@@ -7,10 +7,15 @@ class ReferenceRefresher {
         var referenceFields = {};
         referenceFields[field.name()] = field;
 
-        return this.ReadQueries.getAllReferencedData(referenceFields, search)
+        var promise = this.ReadQueries.getAllReferencedData(referenceFields, search)
             .then(r => r[field.name()])
-            .then(results => this._transformRecords(field, results))
-            .then(formattedResults => this._removeDuplicates(formattedResults, currentValue));
+            .then(results => this._transformRecords(field, results));
+
+        if (field.type() === 'reference_many' || field.type() === 'choices') {
+            promise = promise.then(formattedResults => this._removeDuplicates(formattedResults, currentValue));
+        }
+
+        return promise;
     }
 
     getInitialChoices(field, values) {

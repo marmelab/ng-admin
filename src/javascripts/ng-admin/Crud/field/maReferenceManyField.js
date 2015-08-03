@@ -23,7 +23,7 @@ function maReferenceManyField(ReferenceRefresher) {
             }
 
             // if value is set, we should retrieve references label from server
-            if (scope.value) {
+            if (scope.value && scope.value.length) {
                 ReferenceRefresher.getInitialChoices(field, scope.value)
                     .then(options => {
                         scope.$broadcast('choices:update', { choices: options });

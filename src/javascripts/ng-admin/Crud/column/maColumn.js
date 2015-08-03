@@ -43,10 +43,10 @@ define(function (require) {
                         route = 'show';
                     }
                     $state.go($state.get(route),
-                    angular.extend({
+                    angular.extend({}, $state.params, {
                         entity: scope.entry.entityName,
                         id: scope.entry.identifierValue
-                    }, $state.params));
+                    }));
                 };
                 scope.gotoReference = function () {
                     var referenceEntity = scope.field.targetEntity().name();

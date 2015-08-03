@@ -3,9 +3,9 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $state, WriteQueries, notification, params, view, entry) {
+    var DeleteController = function ($scope, $window, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
-        this.$state = $state;
+        this.$window = $window;
         this.WriteQueries = WriteQueries;
         this.entityLabel = params.entity;
         this.entityId = params.id;
@@ -22,14 +22,11 @@ define(function () {
 
     DeleteController.prototype.deleteOne = function () {
         var notification = this.notification,
-            $state = this.$state, entityName = this.entity.name();
+            entityName = this.entity.name(),
+            $window = this.$window;
 
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
-
-            $state.go($state.get('list'), angular.extend({
-                entity: entityName,
-                id: this.entityId
-            }, $state.params));
+            this.back();
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
         }.bind(this), function (response) {
             // @TODO: share this method when splitting controllers
@@ -43,23 +40,17 @@ define(function () {
     };
 
     DeleteController.prototype.back = function () {
-        var $state = this.$state;
-
-        $state.go($state.get('edit'), angular.extend({
-            entity: this.entity.name(),
-            id: this.entityId
-        }, $state.params));
+        this.$window.history.back();
     };
 
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.WriteQueries = undefined;
-        this.$state = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$window', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
 
     return DeleteController;
 });
