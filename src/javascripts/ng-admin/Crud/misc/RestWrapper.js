@@ -18,7 +18,7 @@ define(function () {
      */
     RestWrapper.prototype.getOne = function(entityName, url, method) {
         var resource = this.Restangular.oneUrl(entityName, url),
-            operation = method ? resource.customOperation(method, null, {}, {}, null) : resource.customGET();
+            operation = method ? resource.customOperation(method, null, {}, {}, null) : resource.get();
 
         return operation.then(function (response) {
             return response.data;
@@ -36,7 +36,7 @@ define(function () {
      */
     RestWrapper.prototype.getList = function(params, entityName, url, method) {
         var resource = this.Restangular.allUrl(entityName, url),
-            operation = method ? resource.customOperation(method, null, {}, {}, params) : resource.customGET(params);
+            operation = method ? resource.customOperation(method, null, {}, {}, params) : resource.getList(params);
 
         return operation;
     };
