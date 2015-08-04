@@ -104,6 +104,8 @@ The REST standard suggests using the POST method to create a new resource, and P
 ```js
 bookEntity.createMethod('PUT');   // default is POST
 bookEntity.updateMethod('PATCH'); // default is PUT
+bookEntity.retrieveMethod('POST'); // default is GET
+bookEntity.deleteMethod('POST'); // default is DELETE
 ```
 
 ## Pagination
