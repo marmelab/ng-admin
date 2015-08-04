@@ -1,9 +1,10 @@
 /*global jasmine,angular,describe,it,expect,beforeEach,spyOn*/
 var EntryFormatter = require('../../../../ng-admin/Crud/misc/EntryFormatter');
-var $filter = function () {
-    return function (date, format) {
+var $filter = function (filter) {
+    return function (value, format) {
         return {
-            date: date,
+            filter: filter,
+            value: value,
             format: format
         };
     };
@@ -31,10 +32,12 @@ describe("Service: EntryFormatter.getFormatter formatter", function () {
         var formatter = entryFormatter.getFormatter([getField({
             type: 'number',
             name: 'number',
-            label: 'Number'
+            label: 'Number',
+            format: '0.000%'
         })]);
+        var number = 56;
 
-        expect(formatter({values: {number: 5}})).toEqual({Number: 5});
+        expect(formatter({ values: { number: number } })).toEqual({ Number: { filter: 'numeraljs',  value: 56, format: '0.000%' } });
     });
 
     it('formatter should format field of type text', function () {
@@ -77,7 +80,8 @@ describe("Service: EntryFormatter.getFormatter formatter", function () {
         var date = new Date();
 
         expect(formatter({values: {date: date}})).toEqual({Date: {
-            date: date,
+            filter: 'date',
+            value: date,
             format: 'yyyy/mm/dd'
         }});
     });

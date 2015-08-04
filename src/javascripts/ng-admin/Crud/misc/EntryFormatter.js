@@ -9,6 +9,11 @@ define(function () {
                 return $filter('date')(date, format);
             };
         };
+        this.formatNumber = function (format) {
+            return function (number) {
+                return $filter('numeraljs')(number, format);
+            };
+        };
     }
 
     EntryFormatter.prototype.formatField = function formatField(field) {
@@ -19,8 +24,6 @@ define(function () {
             case 'boolean':
             case 'choice':
             case 'choices':
-            case 'number':
-            case 'float':
             case 'string':
             case 'text':
             case 'wysiwyg':
@@ -32,6 +35,16 @@ define(function () {
                     return {
                         name: label,
                         value: entry.values[field.name()]
+                    };
+                };
+            case 'number':
+            case 'float':
+                var format = field.format();
+                var formatNumber = this.formatNumber(format);
+                return function (entry) {
+                    return {
+                        name: label,
+                        value: formatNumber(entry.values[field.name()])
                     };
                 };
             case 'date':
