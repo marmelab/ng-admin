@@ -761,6 +761,36 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
+* `remoteComplete([true|false], options = {})`
+Enable autocompletion by fetching remote results (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
+If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
+
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .remoteComplete(true) // populate choices from the response of GET /posts?title=XXX
+        ]);
+
+    Available options are:
+
+    * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
+    * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
+
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .remoteComplete(true, {
+                    refreshDelay: 300,
+                    // populate choices from the response of GET /posts?q=XXX
+                    searchQuery: function(search) { return { q: search }; }
+                })
+                .perPage(10) // limit the number of results to 10
+        ]);
+
 * `permanentFilters({ field1: value, field2: value, ...})`
 Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
 
@@ -773,30 +803,6 @@ Add filters to the referenced results list. This can be very useful to restrict 
                     published: true
                 });
         ]);
-
-    The parameter can be be either an object or a function with a single parameter: the current search string typed by the user in the autocompletion input.
-
-        comments.editionView().fields([
-            nga.field('id'),
-            nga.field('post_id', 'reference')
-                .targetEntity(post)
-                .targetField(nga.field('title'))
-                .permanentFilters(function(search) {
-                    // when the user types 'foo' in the autocompletion input
-                    // fetch the results as `GET /posts?title=foo%`
-                    return {
-                        title: search + '%'
-                    };
-                });
-        ]);
-
-* `remoteComplete([true|false], options = {})`
-Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
-If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
-
-Available options are:
-
-    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -831,8 +837,8 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It should be an object.
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -866,29 +872,38 @@ Define a function that returns parameters for filtering API calls. You can use i
                 })
         ]);
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
-
-        myView.fields([
-            nga.field('tags', 'reference_many')
-                .targetEntity(tag) // Select a target Entity
-                .targetField(nga.field('name')) // Select a label Field
-                .filters(function(search) {
-                    // will send `GET /tags?name=foo%&published=true` query
-                    return {
-                        name: search + '%',
-                        published: true
-                    };
-                });
-        ]);
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list.
 
 * `remoteComplete([true|false], options = {})`
-Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+Enable autocompletion by fetching remote results (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
 If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
 
-Available options are:
+        post.editionView().fields([
+            nga.field('id'),
+            nga.field('tags', 'reference_many')
+                .targetEntity(tag)
+                .targetField(nga.field('name'))
+                .remoteComplete(true) // populate choices from the response of GET /tags?name=XXX
+        ]);
 
-    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
+    Available options are:
+
+    * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
+    * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
+
+        post.editionView().fields([
+            nga.field('id'),
+            nga.field('tags', 'reference_many')
+                .targetEntity(tag)
+                .targetField(nga.field('name'))
+                .remoteComplete(true, {
+                    refreshDelay: 300,
+                    // populate choices from the response of GET /tags?q=XXX
+                    searchQuery: function(search) { return { q: search }; }
+                })
+                .perPage(10) // limit the number of results to 10
+        ]);
 
 ## Customizing the API Mapping
 

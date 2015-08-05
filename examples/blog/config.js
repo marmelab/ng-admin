@@ -116,10 +116,10 @@
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
-                    .permanentFilters(function(search) {
-                        return search ? { q: search } : null;
+                    .remoteComplete(true, {
+                        refreshDelay: 300 ,
+                        searchQuery: function(search) { return { q: search }; }
                     })
-                    .remoteComplete(true, { refreshDelay: 300 })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
@@ -179,7 +179,10 @@
                     .label('Post')
                     .targetEntity(post)
                     .targetField(nga.field('title'))
-                    .remoteComplete(true, { refreshDelay: 300 })
+                    .remoteComplete(true, {
+                        refreshDelay: 200,
+                        searchQuery: function(search) { return { q: search }; }
+                    })
             ])
             .listActions(['edit', 'delete']);
 
@@ -194,15 +197,15 @@
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
-                    .permanentFilters(function(search) {
-                        return search ? { q: search } : null; // Full-text search
-                    })
                     .targetEntity(post)
                     .targetField(nga.field('title'))
                     .sortField('title')
                     .sortDir('ASC')
                     .validation({ required: true })
-                    .remoteComplete(true, { refreshDelay: 0 })
+                    .remoteComplete(true, {
+                        refreshDelay: 200,
+                        searchQuery: function(search) { return { q: search }; }
+                    })
             ]);
 
         comment.editionView()
