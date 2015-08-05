@@ -42,7 +42,7 @@ define(function () {
         }
 
         let view = this.view,
-            datastore = this.datastore;
+            dataStore = this.dataStore;
 
         this.progression.start();
 
