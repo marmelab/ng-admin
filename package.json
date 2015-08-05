@@ -14,7 +14,7 @@
     "npm": "^2.10.0"
   },
   "devDependencies": {
-    "admin-config": "^0.2.5",
+    "admin-config": "^0.2.7",
     "angular": "~1.3.15",
     "angular-bootstrap": "^0.12.0",
     "angular-mocks": "1.3.14",
@@ -66,7 +66,7 @@
     "karma-ng-scenario": "~0.1.0",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-requirejs": "~0.2.2",
-    "karma-webpack": "^1.5.1",
+    "karma-webpack": "~1.5.1",
     "lodash": "^3.8.0",
     "mocha": "^2.1.0",
     "mocha-traceur": "^2.1.0",
