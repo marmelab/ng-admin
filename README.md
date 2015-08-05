@@ -348,24 +348,38 @@ Enable or disable lazy loading.
 * `filters()[field1, field2, ...])`
 Add filters to the list. Each field maps a property in the API endpoint result.
 
-        listView.filters([
+        customers.listView().filters([
             nga.field('first_name'),
             nga.field('last_name'),
             nga.field('age', 'number')
         ]);
 
-    Filters appear when the user clicks on the "Add filter" button at the top of the list. You can also set a filter field as "pinned", to be sure it's always displayed.
+    Filters appear when the user clicks on the "Add filter" button at the top of the list. Once the user fills the filter widgets, the list is immediately refreshed based on the filter values, with unerlying API requests looking like:
+
+        GET /customers?first_name=XXX&last_name=XXX&age=XXX
+
+    You can also set a filter field as "pinned", to make it always visible.
 
         listView.filters([
             nga.field('q').label('Search').pinned(true)
         ]);
 
-    Filter fields can be of any type, including `reference` and `template`. this allows to define custom filters with ease.
+    Filter fields can be of any type, including `reference` and `template`. This allows to define custom filters with ease.
 
         listView.filters([
             nga.field('q', 'template').label('')
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
         ]);
+
+    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](#general-field-settings)).
+
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add permanent filters to the results list.
+
+        posts.listView().permanentFilters({
+            published: true
+        });
+        // calls to the API will be GET /posts?published=true
 
 * `listActions(String|Array)`
 Add an action column with action buttons on each line. You can pass a list of button names among 'show', 'edit', and 'delete'.
@@ -747,15 +761,29 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
 
-        myView.fields([
+        comments.editionView().fields([
+            nga.field('id'),
             nga.field('post_id', 'reference')
-                .targetEntity(post) // Select a target Entity
-                .targetField(nga.field('title')) // Select a label Field
-                .filters(function(search) {
-                    // will send `GET /posts?title=foo%` query
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .permanentFilters({
+                    published: true
+                });
+        ]);
+
+    The parameter can be be either an object or a function with a single parameter: the current search string typed by the user in the autocompletion input.
+
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .permanentFilters(function(search) {
+                    // when the user types 'foo' in the autocompletion input
+                    // fetch the results as `GET /posts?title=foo%`
                     return {
                         title: search + '%'
                     };
