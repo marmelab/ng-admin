@@ -199,6 +199,8 @@
                     })
                     .targetEntity(post)
                     .targetField(nga.field('title'))
+                    .sortField('title')
+                    .sortDir('ASC')
                     .validation({ required: true })
                     .remoteComplete(true, { refreshDelay: 0 })
             ]);
