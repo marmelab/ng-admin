@@ -28,9 +28,11 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 
 ## Installation
 
-Retrieve the module from bower:
+Grab ng-admin from your favorite package manager, `npm` or `bower`:
 
 ```sh
+npm install ng-admin --save
+# or
 bower install ng-admin --save
 ```
 
