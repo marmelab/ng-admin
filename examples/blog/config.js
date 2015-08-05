@@ -116,7 +116,7 @@
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
-                    .filters(function(search) {
+                    .permanentFilters(function(search) {
                         return search ? { q: search } : null;
                     })
                     .remoteComplete(true, { refreshDelay: 300 })
@@ -194,14 +194,8 @@
                 nga.field('post_id', 'reference')
                     .label('Post')
                     .map(truncate)
-                    .filters(function(search) {
-                        if (!search) {
-                            return;
-                        }
-
-                        return {
-                            q: search // Full-text search
-                        };
+                    .permanentFilters(function(search) {
+                        return search ? { q: search } : null; // Full-text search
                     })
                     .targetEntity(post)
                     .targetField(nga.field('title'))
