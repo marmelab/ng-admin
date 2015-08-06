@@ -45,8 +45,8 @@ describe('directive: input-field', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         var input = element.children()[0];
-        expect(input.min).toEqual('-2');
-        expect(input.max).toEqual('2');
+        expect(input.getAttribute('min')).toEqual('-2');
+        expect(input.getAttribute('max')).toEqual('2');
     });
 
     it("should contain the bounded value", function () {

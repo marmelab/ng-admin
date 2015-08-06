@@ -23,7 +23,7 @@ define(function () {
                 var a = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
-                    a[name] = attributes[name];
+                    a.setAttribute(name, attributes[name]);
                 }
                 scope.toggle = function() {
                     this.value = !this.value;
