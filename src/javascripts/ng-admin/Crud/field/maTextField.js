@@ -22,7 +22,7 @@ define(function (require) {
                 var input = element.children()[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
-                    input[name] = attributes[name];
+                    input.setAttribute(name, attributes[name]);
                 }
             },
             template: 

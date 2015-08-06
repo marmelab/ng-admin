@@ -37,7 +37,7 @@ describe('directive: input-field', function () {
         scope.field = new Field().attributes({ autocomplete: 'off' });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.children()[0].autocomplete).toEqual('off');
+        expect(element.children()[0].getAttribute('autocomplete')).toEqual('off');
     });
 
     it("should use the field min and max attributes", function () {
@@ -45,8 +45,8 @@ describe('directive: input-field', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         var input = element.children()[0];
-        expect(input.min).toEqual('-2');
-        expect(input.max).toEqual('2');
+        expect(input.getAttribute('min')).toEqual('-2');
+        expect(input.getAttribute('max')).toEqual('2');
     });
 
     it("should contain the bounded value", function () {
