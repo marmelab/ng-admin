@@ -65,7 +65,6 @@
     "karma-webpack": "~1.5.1",
     "lodash": "^3.8.0",
     "mocha": "^2.1.0",
-    "mocha-traceur": "^2.1.0",
     "ng-annotate-loader": "0.0.2",
     "ng-annotate-webpack-plugin": "^0.1.2",
     "ng-file-upload": "^5.0.3",

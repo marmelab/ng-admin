@@ -61,14 +61,6 @@ module.exports = function (grunt) {
                 debug: true
             }
         },
-        mochaTest: {
-            test: {
-                options: {
-                    require: 'mocha-traceur'
-                },
-                src: ['src/javascripts/ng-admin/es6/tests/**/*.js']
-            }
-        },
         exec: {
             webpack: './node_modules/webpack/bin/webpack.js',
             webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors'
@@ -83,11 +75,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['mochaTest', 'karma', 'test:e2e']);
+    grunt.registerTask('test', ['karma', 'test:e2e']);
     grunt.registerTask('test:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
     grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build']);
 
-    grunt.registerTask('test:local', ['mochaTest', 'karma', 'test:local:e2e']);
+    grunt.registerTask('test:local', ['karma', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
 
     grunt.registerTask('default', ['json_server', 'connect:dev', 'exec:webpack_watch']);
