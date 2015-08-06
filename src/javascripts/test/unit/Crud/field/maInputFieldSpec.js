@@ -37,7 +37,7 @@ describe('directive: input-field', function () {
         scope.field = new Field().attributes({ autocomplete: 'off' });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.children()[0].autocomplete).toEqual('off');
+        expect(element.children()[0].getAttribute('autocomplete')).toEqual('off');
     });
 
     it("should use the field min and max attributes", function () {
