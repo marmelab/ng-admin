@@ -424,6 +424,55 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
                 .stripTags(true)
         ]);
 
+
+### batchDeleteView Settings
+
+* `singleApiCall(function(entityIds) {})`
+
+By default, the batch delete action make as many requests as you selected objects. If you want to delete all selected objects in a single request, you have to define a `singleApiCall` function. You can use it if you API support filter for multiple values on a DELETE request.
+
+        // Will call DELETE /posts?_filters=id1,id2,.._
+        post.batchDeleteView()
+            .singleApiCall(function (ids) {
+            return postIds.join(,);
+        });
+
+If your API does not support `_filters` parameter but `posts_filter` (for example), you will have to configure a Restangular interceptor : 
+
+        // Will call DELETE /posts?posts_filter=id1,id2,.._
+        RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+            if (operation == "remove") {
+                if (params._filters) {
+                    params.posts_filter = params._filters; 
+                    delete params._filters;
+                }
+            }
+            return { params: params };
+        });
+
+The most common use-case is to send an array of ids to server:   
+
+        // Will call  /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
+        post.batchDeleteView()
+            .singleApiCall(function (ids) {
+                return { 'post_id[]': postIds };
+            });
+
+With a Restangular interceptor as :
+
+          RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+              if (operation == "remove") {
+                  if (params._filters) {
+                      for (var filter in params._filters) {
+                          params[filter] = params._filters[filter];
+                      }
+                      delete params._filters;
+                  }
+              }
+              return { params: params };
+          });
+
+
 ## Fields
 
 A field is the representation of a property of an entity. 
@@ -744,16 +793,53 @@ Define the target field name used to retrieve the label of the referenced elemen
                 .targetField(nga.field('title')) // Select a label Field
         ]);
         
-* `singleApiCall(function(entityIds) {}`
+* `singleApiCall(function(entityIds) {})`
+
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
-		// Will call /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
+		// Will call /posts?_filters=id1,id2,.._
 		commentList.fields([
+            nga.field('post_id', 'reference')
+                .singleApiCall(function (postIds) {
+                    return postIds.join(,);
+                })
+        ]);
+
+If your API does not support `_filters` parameter but `posts_filter` (for example), you will have to configure a Restangular interceptor : 
+
+        RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+            if (operation == "getList") {
+                if (params._filters) {
+                    params.posts_filter = params._filters;             
+                    delete params._filters;
+                }
+            }
+            return { params: params };
+        });
+
+But the most common use-case is to send an array of ids to server:         
+
+        // Will call /posts?post_id[]=1&post_id[]=2&post_id[]=5...
+        commentList.fields([
             nga.field('post_id', 'reference')
                 .singleApiCall(function (postIds) {
                     return { 'post_id[]': postIds };
                 })
         ]);
+
+With a Restangular interceptor as :
+
+        RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+            if (operation == "getList") {
+                if (params._filters) {
+                    for (var filter in params._filters) {
+                        params[filter] = params._filters[filter];
+                    }
+                    delete params._filters;
+                }
+            }
+            return { params: params };
+        });
 
 * `sortField(String)`
 Set the default field for list sorting. Defaults to 'id'

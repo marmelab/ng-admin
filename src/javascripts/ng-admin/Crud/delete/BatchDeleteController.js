@@ -12,17 +12,14 @@ define(function () {
         this.view = view;
         this.entity = view.getEntity();
         this.entityIds = $state.params.ids;
-        this.selection = []; // fixme: query db to get selection
-        this.title = view.title();
-        this.description = view.description();
-        this.actions = view.actions();
-        this.loadingPage = false;
-        this.fields = view.fields();
+        this.confirmed = false;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
 
     BatchDeleteController.prototype.batchDelete = function () {
+        if (this.confirmed) return false;
+        this.confirmed = true;
         var notification = this.notification,
             $state = this.$state,
             entityName = this.entity.name();
