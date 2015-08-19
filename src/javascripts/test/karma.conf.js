@@ -24,7 +24,7 @@ module.exports = function (config) {
             'test/function.bind.shim.js',
             'test/unit/**/*.js'
         ],
-        plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-babel-preprocessor'],
+        plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
         preprocessors: {
             'ng-admin.js': 'webpack',
             'test/**/*.js': 'webpack'

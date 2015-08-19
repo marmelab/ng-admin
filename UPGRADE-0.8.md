@@ -96,3 +96,33 @@ nga.field('last_name')
         return value.toUpperCase();
     });
 ```
+
+## `ReferenceField.filters()` has been renamed to `ReferenceField.permanentFilters()`
+
+When displaying a reference widget in the edition view, you can filter the list of possible values displayed in the dropdown using the `filters()` function. In 0.8, this function has been renamed to `permanentFilters()`:
+
+``` diff
+nga.entity('comments').fields([
+    nga.field('id'),
+    nga.field('post_id', 'reference')
+-         .filters({ published: true })
++         .permanentFilters({ published: true })
+]);
+```
+
+Just like the previous `filters()` feature, `permanentFilters()` also accepts a function, receiving the string typed by the user in the autocomplete field:
+
+``` diff
+nga.entity('comments').fields([
+    nga.field('id'),
+    nga.field('post_id', 'reference')
+-       .filters(function(search) {
++       .permanentFilters(function(search) {
+            return search ? { q: search } : null;
+        });
+]);
+```
+
+`filters()` will remain available until the next version, although it logs a deprecation warning in the console.
+
+**Tip**: `permanentFilters()` now also works on the `listView`, which allows you to define a pre-filtered datagrid.

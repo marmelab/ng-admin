@@ -29,7 +29,7 @@ define(function (require) {
                         continue;
                     }
 
-                    input[name] = attributes[name];
+                    input.setAttribute(name, attributes[name]);
                 }
             },
             template:

@@ -28,9 +28,11 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 
 ## Installation
 
-Retrieve the module from bower:
+Grab ng-admin from your favorite package manager, `npm` or `bower`:
 
 ```sh
+npm install ng-admin --save
+# or
 bower install ng-admin --save
 ```
 
@@ -346,24 +348,38 @@ Enable or disable lazy loading.
 * `filters()[field1, field2, ...])`
 Add filters to the list. Each field maps a property in the API endpoint result.
 
-        listView.filters([
+        customers.listView().filters([
             nga.field('first_name'),
             nga.field('last_name'),
             nga.field('age', 'number')
         ]);
 
-    Filters appear when the user clicks on the "Add filter" button at the top of the list. You can also set a filter field as "pinned", to be sure it's always displayed.
+    Filters appear when the user clicks on the "Add filter" button at the top of the list. Once the user fills the filter widgets, the list is immediately refreshed based on the filter values, with unerlying API requests looking like:
+
+        GET /customers?first_name=XXX&last_name=XXX&age=XXX
+
+    You can also set a filter field as "pinned", to make it always visible.
 
         listView.filters([
             nga.field('q').label('Search').pinned(true)
         ]);
 
-    Filter fields can be of any type, including `reference` and `template`. this allows to define custom filters with ease.
+    Filter fields can be of any type, including `reference` and `template`. This allows to define custom filters with ease.
 
         listView.filters([
             nga.field('q', 'template').label('')
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
         ]);
+
+    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](#general-field-settings)).
+
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add permanent filters to the results list.
+
+        posts.listView().permanentFilters({
+            published: true
+        });
+        // calls to the API will be GET /posts?published=true
 
 * `listActions(String|Array)`
 Add an action column with action buttons on each line. You can pass a list of button names among 'show', 'edit', and 'delete'.
@@ -745,28 +761,48 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
-
-        myView.fields([
-            nga.field('post_id', 'reference')
-                .targetEntity(post) // Select a target Entity
-                .targetField(nga.field('title')) // Select a label Field
-                .filters(function(search) {
-                    // will send `GET /posts?title=foo%` query
-                    return {
-                        title: search + '%'
-                    };
-                });
-        ]);
-
 * `remoteComplete([true|false], options = {})`
-Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+Enable autocompletion by fetching remote results (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
 If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
 
-Available options are:
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .remoteComplete(true) // populate choices from the response of GET /posts?title=XXX
+        ]);
 
-    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
+    Available options are:
+
+    * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
+    * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
+
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .remoteComplete(true, {
+                    refreshDelay: 300,
+                    // populate choices from the response of GET /posts?q=XXX
+                    searchQuery: function(search) { return { q: search }; }
+                })
+                .perPage(10) // limit the number of results to 10
+        ]);
+
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
+
+        comments.editionView().fields([
+            nga.field('id'),
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .permanentFilters({
+                    published: true
+                });
+        ]);
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -801,8 +837,8 @@ Set the default field for list sorting. Defaults to 'id'
 * `sortDir(String)`
 Set the default direction for list sorting. Defaults to 'DESC'
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It should be an object.
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list.
 
 * `perPage(integer)`
 Define the maximum number of elements fetched and displayed in the list.
@@ -836,29 +872,38 @@ Define a function that returns parameters for filtering API calls. You can use i
                 })
         ]);
 
-* `filters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. It may be either an object or a function with a single parameter: the current search string.
-
-        myView.fields([
-            nga.field('tags', 'reference_many')
-                .targetEntity(tag) // Select a target Entity
-                .targetField(nga.field('name')) // Select a label Field
-                .filters(function(search) {
-                    // will send `GET /tags?name=foo%&published=true` query
-                    return {
-                        name: search + '%',
-                        published: true
-                    };
-                });
-        ]);
+* `permanentFilters({ field1: value, field2: value, ...})`
+Add filters to the referenced results list.
 
 * `remoteComplete([true|false], options = {})`
-Enable remote completion. When enabled, it fetches remote API references corresponding to your input to refresh the choices list.
+Enable autocompletion by fetching remote results (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
 If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
 
-Available options are:
+        post.editionView().fields([
+            nga.field('id'),
+            nga.field('tags', 'reference_many')
+                .targetEntity(tag)
+                .targetField(nga.field('name'))
+                .remoteComplete(true) // populate choices from the response of GET /tags?name=XXX
+        ]);
 
-    * **refreshDelay:** minimal delay between two API calls in milliseconds. By default: 500.
+    Available options are:
+
+    * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
+    * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
+
+        post.editionView().fields([
+            nga.field('id'),
+            nga.field('tags', 'reference_many')
+                .targetEntity(tag)
+                .targetField(nga.field('name'))
+                .remoteComplete(true, {
+                    refreshDelay: 300,
+                    // populate choices from the response of GET /tags?q=XXX
+                    searchQuery: function(search) { return { q: search }; }
+                })
+                .perPage(10) // limit the number of results to 10
+        ]);
 
 ## Customizing the API Mapping
 

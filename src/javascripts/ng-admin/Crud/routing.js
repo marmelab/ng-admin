@@ -137,11 +137,7 @@ function routing($stateProvider) {
                                     references[name].targetEntity().name(),
                                     references[name].targetEntity().identifier().name()
                                 );
-
-                                dataStore.setEntries(
-                                    references[name].targetEntity().uniqueId + '_values',
-                                    referencedEntries
-                                );
+                                referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                             }
 
                             return true;
@@ -208,11 +204,7 @@ function routing($stateProvider) {
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
                         );
-
-                        dataStore.setEntries(
-                            references[name].targetEntity().uniqueId + '_values',
-                            referencedEntries
-                        );
+                        referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
                     }
 
                     return true;
@@ -250,6 +242,7 @@ function routing($stateProvider) {
                     dataStore.fillReferencesValuesFromEntry(entry, view.getReferences(), true);
 
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
+
                     return true;
                 }]
             }
@@ -347,11 +340,7 @@ function routing($stateProvider) {
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
                         );
-
-                        dataStore.setEntries(
-                            references[name].targetEntity().uniqueId + '_values',
-                            referencedEntries
-                        );
+                        referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
                     }
 
                     return true;
