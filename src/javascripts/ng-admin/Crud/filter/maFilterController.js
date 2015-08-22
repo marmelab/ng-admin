@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 /**
  *
  * @param {$scope}        $scope
@@ -14,11 +16,11 @@ function maFilterController($scope, $state, $stateParams) {
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$scope.values = this.$scope.values() || {};
-    $scope.$watch('values', (newValues, oldValues) => {
+    $scope.$watch('values', _.debounce((newValues, oldValues) => {
         if (newValues != oldValues) {
-            this.filter(); // FIXME use debounce
+            this.filter();
         }
-    }, true)
+    }, 500), true);
     this.$scope.filters = this.$scope.filters;
     this.$scope.datastore = this.$scope.datastore();
     this.isFilterEmpty = isEmpty(this.$scope.values);
