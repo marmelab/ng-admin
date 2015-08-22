@@ -89,8 +89,14 @@ describe('List filter', function () {
     describe('text filter', function() {
         it('should filter globally', function () {
             // Filter globally for 'rabbit'
-            $$('.filters .filter:nth-child(1) input').sendKeys('rabbit');
-            $$('.grid tr td:nth-child(4)').then(function (tdElements) {
+            $$('.filters .filter:nth-child(1) input').sendKeys('rabbit')
+            .then(function() {
+                return browser.driver.sleep(600); // debounce delay
+            })
+            .then(function() {
+                return $$('.grid tr td:nth-child(4)');    
+            })
+            .then(function (tdElements) {
                 expect(tdElements.length).toBe(1);
                 expect(tdElements[0].getText()).toBe('White Rabbit: it was indeed: she was out of the gr...');
             });
@@ -105,8 +111,14 @@ describe('List filter', function () {
         });
 
         it('should not filter when empty', function () {
-            $$('.filters .filter:nth-child(1) input').clear();
-            $$('.grid tr td:nth-child(4)').then(function (tdElements) {
+            $$('.filters .filter:nth-child(1) input').clear()
+            .then(function() {
+                return browser.driver.sleep(600); // debounce delay
+            })
+            .then(function() {
+                return $$('.grid tr td:nth-child(4)');    
+            })
+            .then(function (tdElements) {
                 expect(tdElements.length).toBe(10);
             });
         });
@@ -120,6 +132,7 @@ describe('List filter', function () {
             element(by.css('.filters .ui-select-placeholder')).click();
             element(by.css('.filters .ui-select-search')).sendKeys('Perspi');
             element(by.css('#ui-select-choices-row-0-0')).click();
+            browser.driver.sleep(600); // debounce delay
             $$('.grid tr td:nth-child(4)').then(function (tdElements) {
                 expect(tdElements.length).toBe(2);
                 expect(tdElements[0].getText()).toBe('I\'d been the whiting,\' said the Hatter, it woke up...');
@@ -139,6 +152,7 @@ describe('List filter', function () {
         it('should reset page number', function () {
             // Filter globally for 'I'
             $$('.filters .filter:nth-child(1) input').sendKeys('I');
+            browser.driver.sleep(600); // debounce delay
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('1 - 10 on 11');
             });
@@ -149,6 +163,7 @@ describe('List filter', function () {
             // Filter globally for 'be'
             $$('.filters .filter:nth-child(1) input').clear();
             $$('.filters .filter:nth-child(1) input').sendKeys('be');
+            browser.driver.sleep(600); // debounce delay
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('1 - 5 on 5');
             });

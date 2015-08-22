@@ -68,7 +68,7 @@ function routing($stateProvider) {
                 filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
                 }],
-                filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
+                filterEntries: ['dataStore', 'view', 'filterData', 'Entry', function (dataStore, view, filterData, Entry) {
                     var filters = view.getFilterReferences(false);
                     var filterEntries;
 
