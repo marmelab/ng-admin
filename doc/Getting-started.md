@@ -397,9 +397,59 @@ Note that you can also delete users from the edition view (as well as from the l
 
 ## Making Lists Searchable With Filters
 
-One of the main tasks users achieve on list views is searching for specific entries. The current users list isn't very searchable... Let's add filters!
+One of the main tasks you have to achieve achieve on list views is searching for specific entries. The current post list isn't very searchable... Let's add filters!
 
+The `/posts` endpoint from JSONPlaceholder accepts query parameters to filter the results. For instance, to list posts where any of the fields (title or body) contains the string "foo", and where the id of the author is 1234, you can query the following route:
 
+```
+http://jsonplaceholder.typicode.com/posts?q=foo&userId=1234
+```
+
+In ng-admin, the listView can add such query parameters to the base endpoint, provided you add the corresponding *filters*. Modify the `post.listView()` definition by adding a call to `filters()`, as follows:
+
+```js
+post.listView()
+    .fields([
+        nga.field('title'),
+        nga.field('userId', 'reference')
+            .targetEntity(user)
+            .targetField(nga.field('username'))
+            .label('User')
+    ]).filters([
+        nga.field('q')
+            .label('Full-Text')
+            .pinned(true),
+        nga.field('userId', 'reference')
+            .targetEntity(user)
+            .targetField(nga.field('username'))
+            .label('User')
+    ]);
+```
+
+Just like `fields()`, `filters()` expects an array of field definitions. "q" is defined as a string field type (the default), and `userId` as a reference to the `user` entity.
+
+Browse to the posts list, and you will see the full-text filter dispalyed on the top of the list (always displayed because it's "pinned"), together with an "Add filter" button allowing to add a filter on the User. go ahead and use these filters. They update the list as you type, providing powerful search capabilities to the list view.
+
+![animation of the post filters]()
+
+**Note**: We've used the same `nga.field()` to configure columns in a list, form inputs in an edition form, and search widgets in a filter form. At that point, you may wonder: what is a *field* exactly? That's one of the strength of ng-admin: it provides a set of field types with predefined behavior for each view. A `date` type, for instance, will render in list views as a formatted date, in edition views and filters as a date widget. This allows you to reuse the same field definition across several views, and define custom types. See the [Custom types chapter](Custom-types.md) for more details.
+
+## Using Angular Directives With The Template Field Type
+
+The full-text search isn't looking very good. Usually, a full-text filter widget has no label, a placeholder simply saying "Search", and a magnifying glass icon. How can you turn the current full-text input into that UI?
+
+Fortunately, ng-admin fields can benefit from the power of Angular.Js directives. Using the 'template' field type, you can specify the HTML template to use for rendering the field. And you can use any directive already registered in that HTML. Update the `nga.field('q')` definition as follows:
+
+```js
+        nga.field('q', 'template')
+            .label('')
+            .pinned(true)
+            .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
+```
+
+Hit refresh, and here it is: a user-friendly search form.
+
+![animation of the user-friendly search filter]()
 
 ## Customizing the Sidebar Menu
 
