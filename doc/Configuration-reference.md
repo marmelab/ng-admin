@@ -2,7 +2,7 @@
 
 In ng-admin, you define all the components of an admin application using the configuration API. 
 
-* [NgAdminConfigurationProvider / nga](#ngadminconfigurationprovider-nga)
+* [NgAdminConfigurationProvider / nga](#ngadminconfigurationprovider--nga)
 * [Application Configuration](#application-configuration)
 * [Entity Configuration](#entity-configuration)
 * [View Configuration](#view-configuration)

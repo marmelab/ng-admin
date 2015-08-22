@@ -395,7 +395,11 @@ Note that you can also delete users from the edition view (as well as from the l
 
 ![link to the related user from the post list view]()
 
-## Adding Filters
+## Making Lists Searchable With Filters
+
+One of the main tasks users achieve on list views is searching for specific entries. The current users list isn't very searchable... Let's add filters!
+
+
 
 ## Customizing the Sidebar Menu
 

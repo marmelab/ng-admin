@@ -104,7 +104,7 @@ ng-admin manages dependencies between entities when you use some special field t
 * Use the `referenced_list` field type to display one-to-many relationships (e.g. the posts of an author)
 * Use the `reference_many` field type to edit one to many relationships (e.g. the posts of an author)
 
-See the Fields section of the [Configuration API Reference chapter](doc/Comfiguration-Reference.md) for more details.
+See the Fields section of the [Configuration API Reference chapter](doc/Configuration-reference.md) for more details.
 
 ## Menu Configuration
 
