@@ -70,7 +70,7 @@ See the [Getting Started](doc/Getting-started.md) dedicated chapter for a step-b
 
 ## Usage Example
 
-You can find a detailed configuration in the [blog demo configuration](examples/blog/config.js), where the entities are Posts, Commnts, and Tags. The remote REST API uses fake data, and is reset evey hour. 
+You can find a detailed configuration in the [blog demo configuration](examples/blog/config.js), where the entities are posts, comments, and tags. The remote REST API uses fake data, and is reset every hour. 
 
 ## Configuration Reference
 
@@ -136,7 +136,7 @@ See the [Theming](doc/Theming.md) dedicated chapter.
 
 ## Adding Custom Pages
 
-For each entity, ng-admin creates the necessary pages for Creating, Retieving, Updating, and Deleting (CRUD) this entity. When you need to achieve more specific actions on an entity, you have to add a custom page - for instance a page asking for an email address to send a message to. How can you route to a specific page and display it in the ng-admin layout?
+For each entity, ng-admin creates the necessary pages for Creating, Retrieving, Updating, and Deleting (CRUD) this entity. When you need to achieve more specific actions on an entity, you have to add a custom page - for instance a page asking for an email address to send a message to. How can you route to a specific page and display it in the ng-admin layout?
 
 See the [Adding Custom Pages](doc/Custom-pages.md) dedicated chapter.
 
@@ -148,7 +148,7 @@ See the [Adding Custom Types](doc/Custom-types.md) dedicated chapter.
 
 ## Getting Ready For Production
 
-To build the ng-admin soure with the dependencies you need, and to get hints about performance boosters, head to the [Getting Ready For Production](doc/production.md) dedicated chapter.
+To build the ng-admin source with the dependencies you need, and to get hints about performance boosters, head to the [Getting Ready For Production](doc/production.md) dedicated chapter.
 
 ## News
 
@@ -169,9 +169,9 @@ Please give as much context as possible, including and admin configuration snipp
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
 
-All contributions are welcome: please send us a Pull Request for any ne feature / bug fix in your fork that you consider worth giving back.
+All contributions are welcome: please send us a Pull Request for any new feature / bug fix in your fork that you consider worth giving back.
 
-Also, if yuo have some experience with ng-admin, please answer questions from newcomers in any of the support channels (see above).
+Also, if you have some experience with ng-admin, please answer questions from newcomers in any of the support channels (see above).
 
 ### Installing Dependencies
 
@@ -209,7 +209,7 @@ ng-admin has unit tests (powered by karma) and end to end tests (powered by prot
 make test
 ```
 
-**Tip:** Ff you are working on Karma tests, you can prevent from relaunching the whole process by disabling single-run:
+**Tip:** If you are working on Karma tests, you can prevent from relaunching the whole process by disabling single-run:
 
 ```
 KARMA_SINGLE_RUN=false grunt karma:unit
@@ -217,4 +217,4 @@ KARMA_SINGLE_RUN=false grunt karma:unit
 
 ## License
 
-ng-admin is licensed under the [MIT Licence](LICENSE), courtesy of [marmelab](http://marmelab.com).
+ng-admin is licensed under the [MIT Licence](LICENSE), and sponsored by [marmelab](http://marmelab.com).
