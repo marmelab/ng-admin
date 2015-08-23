@@ -415,17 +415,26 @@ Define a custom function to transform the value displayed in the admin back to t
                 return value.toUpperCase();
             });
 
-* `validation(object)`
-Tell how to validate the view
- - `required`: boolean
- - `validator`: function(value){}
- - `minlength`: number
- - `maxlength`: number
-
 * `attributes(object)`
 A list of attributes to be added to the corresponding field.
 
-        nga.field('title').attributes({ placeholder: 'fill me !'})
+        nga.field('title').attributes({ placeholder: 'fill me !' })
+
+* `validation(object)`
+Set field validation rules. Based on Angular's form falidation features.
+ - `required`: boolean
+ - `minlength`: number
+ - `maxlength`: number
+ - `pattern`: regular expression
+ - `validator`: function
+
+        nga.field('username')
+            .attributes({ placeholder: 'No space allowed, 5 chars min' })
+            .validation({ required: true, pattern: '[A-Za-z0-9\.\-_]{5,20}' }),
+        nga.field('website')
+            .validation({ validator: function(value) {
+                if (value.indexOf('http://') !== 0) throw new Error ('Invalid url in website');
+            } })
 
 * `cssClasses(String|Function)`
 A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values.

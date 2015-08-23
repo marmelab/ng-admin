@@ -286,6 +286,7 @@ The list of posts displays user ids, which is a pity since the `/users` endpoint
 ```js
 var post = nga.entity('posts');
 post.listView().fields([
+    nga.field('id'),
     nga.field('title'),
     nga.field('userId', 'reference')
         .targetEntity(user)
@@ -313,6 +314,36 @@ nga.field('userId', 'reference')
 This kind of syntax (where a call on a method object returns the object) is very common in ng-admin, you will see it a lot.
 
 There are many more types in addition to the `reference` type, each with their own abilities: `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, `reference_many`, and `template`. When you don't specify the field type, it uses the `string` type by default. All filed types are documented in the [Configuration API Reference](Configuration-reference.md).
+
+While talking about references, let's display the list of comments for a given post. The `post` entity doesn't have a detail view for now. Instead of an edition view, and for the sake of this example, you will create a showView. It's a non-editable detail view, good for read only entities.
+
+```js
+post.showView().fields([
+    nga.field('title'),
+    nga.field('body', 'text'),
+    nga.field('userId', 'reference')
+        .targetEntity(user)
+        .targetField(nga.field('username'))
+        .label('User'),
+    nga.field('comments', 'referenced_list')
+        .targetEntity(nga.entity('comments'))
+        .targetReferenceField('postId')
+        .targetFields([
+            nga.field('email'),
+            nga.field('name')
+        ])
+        .sortField('id')
+        .sortDir('DESC'),
+]);
+```
+
+The `referenced_list` field type displays a datagrid for one-to-many relationships. In this examples, by specifying how comments and posts are related (via the `postId` field in the referenced `comments`), ng-admin manages to fetch related entities.
+
+As a side note, you can see that it's possible to create a reference to a non-existent entity (`nga.entity('comments)` creates the related entity for the occasion).
+
+The new post show view is directly accessible from the listView, by clicking on the id of a post in the list. 
+
+![post show view with related comments]()
 
 ## Creating and Updating Entries
 
@@ -395,6 +426,41 @@ Note that you can also delete users from the edition view (as well as from the l
 
 ![link to the related user from the post list view]()
 
+## Form Validation And Custom Attributes
+
+The edition and creation views already have built-in validation based on the field types. Ng-admin uses [Angular's built-in validation features](https://docs.angularjs.org/guide/forms). Angular provides basic validation for most common HTML5 input types: (text, number, url, email, date), as well as some specialized directives (`required`, `pattern`, `minlength`, `maxlength`, `min`, `max`). In addition, ng-admin supports a `validator` function, which can throw an error and avoid form submission altogether.
+
+You can customize the validation rules for each field with the `validation()` method. Also, you can add custom attributes like CSS classes to form fields with the `attributes(` method. Let's add more validation rules to the user forms.
+
+```js
+user.creationView().fields([
+    nga.field('name')
+        .validation({ required: true, minlength: 3, maxlength: 100 }),
+    nga.field('username')
+        .attributes({ placeholder: 'No space allowed, 5 chars min' })
+        .validation({ required: true, pattern: '[A-Za-z0-9\.\-_]{5,20}' }),
+    nga.field('email', 'email')
+        .validation({ required: true }),
+    nga.field('address.street')
+        .label('Street'),
+    nga.field('address.city')
+        .label('City'),
+    nga.field('address.zipcode')
+        .label('Zipcode')
+        .validation({ pattern: '[A-Z\-0-9]{5,10}' }),
+    nga.field('phone'),
+    nga.field('website')
+        .validation({ validator: function(value) {
+            if (value.indexOf('http://') !== 0) throw new Error ('Invalid url in website');
+        } })
+]);
+user.editionView().fields(user.creationView().fields());
+```
+
+![customized validation in post edition view]()
+
+**Tip**: Fields can use custom directives (see the section about the template field type below), so you can even create complex validation rules using `$validators` and `$asyncValidators`.
+
 ## Making Lists Searchable With Filters
 
 One of the main tasks you have to achieve achieve on list views is searching for specific entries. The current post list isn't very searchable... Let's add filters!
@@ -451,6 +517,57 @@ Hit refresh, and here it is: a user-friendly search form.
 
 ![animation of the user-friendly search filter]()
 
+## Adding Polish
+
+The admin already offers a good way to interact with the REST endpoints, but it can be greatly improved in terms of usability. Let's add some polish here and there.
+
+The post show view still contains a 'delete' button. Assuming it's read only, end users should not be able to use this button. Let's make the `post` entity read-only.
+
+```js
+post.readOnly();
+```
+
+Also, let's modify the posts list view to remove the `id` field (it doesn't provide relevant information). Since end users still need a way to reach the posts show view from the list view, add a 'show' button on every line by using the `listActions()` method. 
+
+Add a glimpse of the post body in the list by adding a `body` column, but truncated to 50 characters max. How can you truncate a field ? Use the `map()` function, which accepts a function transforming the input before it's displayed. Oh, and this first column made of checkboxes (allowing selection for batch actions) doesn't make sense anymore for read-only posts. Remove it by adding `batchActions([])`.
+
+Here is how the list view configuration now looks like:
+
+```js
+post.listView()
+    .fields([
+        nga.field('title').isDetailLink(true),
+        nga.field('body', 'text')
+            .map(function truncate(value) {
+                if (!value) return '';
+                return value.length > 50 ? value.substr(0, 50) + '...' : value;
+            }),
+        nga.field('userId', 'reference')
+            .targetEntity(user)
+            .targetField(nga.field('username'))
+            .label('Author')
+    ])
+    .listActions(['show'])
+    .batchActions([])
+    .filters([
+        //...
+    ]);
+```
+
+Also, you may want to control the width of columns in the list view. Fortunately, ng-admin sets a unique class name for each `<th>` in the grid, so setting a fixed width is as easy as adding a CSS rule.
+
+```html
+<style type="text/css">
+.ng-admin-entity-posts .ng-admin-column-title {
+    width: 400px;
+}
+</style>
+```
+
+![updated post list view]
+
+You can do much more to customize the look and feel of an ng-admin application - including overriding directives templates, or customizing the view template for a given entity. Check the [Theming documentation](Themind.md) for details.
+
 ## Customizing the Sidebar Menu
 
 The sidebar menu automatically shows one item for each entity added to the admin app by default. That may or may not be what you want. The good news is this menu is entirely configurable. 
@@ -470,7 +587,7 @@ admin.menu(nga.menu()
 
 Using `admin.menu()`, you can add menu items for pages not handled by ng-admin, hide or reorder entity menus, update the name and icon of menu items, and even add submenus! Check the [Menus documentation](Menus.ms) for more details.
 
-## Customizing the Dashboard
+And if you feel like customizing the home page of the admin app, check out the [Dashboard documentation](Dashboard.md) for a how-to.
 
 ## Conclusion
 
