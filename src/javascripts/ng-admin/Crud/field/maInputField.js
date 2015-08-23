@@ -35,7 +35,7 @@ define(function (require) {
             template:
 `<input type="{{ type || 'text' }}" ng-attr-step="{{ step }}" ng-model="value"
     id="{{ name }}" name="{{ name }}" class="form-control"
-    'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength" />`
+    ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength" ng-pattern="v.pattern" />`
         };
     }
 
