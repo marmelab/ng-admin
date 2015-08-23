@@ -73,7 +73,7 @@ my-first-admin/
 
 Now open the `index.html` file in your browser:
 
-![empty admin app]()
+![empty admin app](images/empty_admin_app.png)
 
 The header title matches the title defined on the `admin` app. You're all good!
 
@@ -179,11 +179,11 @@ You define fields on views, not on entities, in order to be able to use a differ
 
 Time to refresh the browser page to see how this new script behaves:
 
-![Dashboard with unmapped user panel]()
+![Dashboard with unmapped user panel](images/dashboard_with_unmapped_user_panel.png)
 
 You now have a new menu item in the left sidebar matching the `user` entity (don't focus on the empty "dashboard" for now). Clicking on that menu reveals the famous users list view.
 
-![Unmapped user list view]()
+![Unmapped user list view](images/unmapped_user_list_view.png)
 
 The good news is that the 4 fields defined on the list view are there, as headers of a datagrid. The bad news is that the datagrid is empty. Why is that?
 
@@ -244,7 +244,7 @@ myApp.config(['RestangularProvider', function (RestangularProvider) {
 
 Add this script to the end of the `admin.js` file, reload the users list view in the browser, and you should now see rows appear in the datagrid.
 
-![Mapped user list view]()
+![Mapped user list view](images/mapped_user_list_view.png)
 
 If you want to know more about how to map any API with ng-admin, go to the [API Mapping documentation](API-mapping.md).
 
@@ -266,6 +266,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     var post = nga.entity('posts');
     post.listView().fields([
+        nga.field('id'),
         nga.field('title'),
         nga.field('userId')
     ]);
@@ -275,7 +276,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 }]);
 ```
 
-![Mapped post list view]()
+![Mapped post list view](images/mapped_post_list_view.png)
 
 The list is ordered by id desc by default - this usually displays the latest element first. You can click on a column header to sort the list by the corresponding field. You can also use the pagination control at the bottom of the list to see the next 30 items. Finally, you can export the entire list to a CSV files with the "Export" button.
 
@@ -296,7 +297,7 @@ post.listView().fields([
 admin.addEntity(post)
 ```
 
-![Mapped post list view with related user]()
+![Mapped post list view with related user](images/mapped_post_list_view_with_related_user.png)
 
 The second parameter passed to the `nga.field()` factory is the field *type*. Different types have different abilities. Here, the `reference` type allows to reference another entity. In other words, it materializes a relationship.
 
@@ -343,7 +344,7 @@ As a side note, you can see that it's possible to create a reference to a non-ex
 
 The new post show view is directly accessible from the listView, by clicking on the id of a post in the list. 
 
-![post show view with related comments]()
+![post show view with related comments](images/post_show_view_with_related_comments.png)
 
 ## Creating and Updating Entries
 
@@ -406,7 +407,7 @@ Finally, the fields of the edition view are the same as the ones from the creati
 
 Refresh the user list page, and you will see two differences: the first column now bears a hyperlink to the edition view, and a new "Create" button appeared at the top.
 
-![Mapped user list view with mutation]()
+![Mapped user list view with mutation](images/mapped_user_list_with_mutation.png)
 
 If you click on the "Create" button, or on a user name, a creation/edition form appears:
 
@@ -416,15 +417,13 @@ Go ahead, edit the data and save your changes. This sends a `PUT /users/:id` AJA
 
 As a side note, you can see that the form fields have a built-in validation. For instance, the `email` field only accepts a valid email address. That's one of the benefits of choosing the right field type.
 
-![Invalid email in the user edition view]()
+![Invalid email in the user edition view](images/user_edition_view.png)
 
 Note that you can also delete users from the edition view (as well as from the list view, if you select several rows by clicking the checkboxes in the leftmost column).
 
-![Batch delete in the user list view]()
+![Batch delete in the user list view](images/batch_delete_in_the_user_list_view.png)
 
 **Tip**: Since the `reference` field on the posts list references the `user` entity, the "User" column in the list view is now a hyperlink to the user edition form!
-
-![link to the related user from the post list view]()
 
 ## Form Validation And Custom Attributes
 
@@ -457,7 +456,7 @@ user.creationView().fields([
 user.editionView().fields(user.creationView().fields());
 ```
 
-![customized validation in post edition view]()
+![customized validation in post edition view](images/customized_validation_in_post_edition_view.png)
 
 **Tip**: Fields can use custom directives (see the section about the template field type below), so you can even create complex validation rules using `$validators` and `$asyncValidators`.
 
@@ -476,6 +475,7 @@ In ng-admin, the listView can add such query parameters to the base endpoint, pr
 ```js
 post.listView()
     .fields([
+        nga.field('id'),
         nga.field('title'),
         nga.field('userId', 'reference')
             .targetEntity(user)
@@ -494,9 +494,9 @@ post.listView()
 
 Just like `fields()`, `filters()` expects an array of field definitions. "q" is defined as a string field type (the default), and `userId` as a reference to the `user` entity.
 
-Browse to the posts list, and you will see the full-text filter dispalyed on the top of the list (always displayed because it's "pinned"), together with an "Add filter" button allowing to add a filter on the User. go ahead and use these filters. They update the list as you type, providing powerful search capabilities to the list view.
+Browse to the posts list, and you will see the full-text filter displayed on the top of the list (always displayed because it's "pinned"), together with an "Add filter" button allowing to add a filter on the User. go ahead and use these filters. They update the list as you type, providing powerful search capabilities to the list view.
 
-![animation of the post filters]()
+![filters in the post list](images/filters_on_the_post_list.png)
 
 **Note**: We've used the same `nga.field()` to configure columns in a list, form inputs in an edition form, and search widgets in a filter form. At that point, you may wonder: what is a *field* exactly? That's one of the strength of ng-admin: it provides a set of field types with predefined behavior for each view. A `date` type, for instance, will render in list views as a formatted date, in edition views and filters as a date widget. This allows you to reuse the same field definition across several views, and define custom types. See the [Custom types chapter](Custom-types.md) for more details.
 
@@ -515,7 +515,7 @@ Fortunately, ng-admin fields can benefit from the power of Angular.Js directives
 
 Hit refresh, and here it is: a user-friendly search form.
 
-![animation of the user-friendly search filter]()
+![user-friendly search filter](images//Users/francois/Pictures/Captures/user_friendly_search_filter.png)
 
 ## Adding Polish
 
@@ -564,7 +564,7 @@ Also, you may want to control the width of columns in the list view. Fortunately
 </style>
 ```
 
-![updated post list view]
+![updated post list view](images/updated_post_list_view.png)
 
 You can do much more to customize the look and feel of an ng-admin application - including overriding directives templates, or customizing the view template for a given entity. Check the [Theming documentation](Themind.md) for details.
 
@@ -581,7 +581,7 @@ admin.menu(nga.menu()
 );
 ```
 
-![customized sidebar menu]()
+![customized sidebar menu](images/customized_sidebar_menu.png)
 
 `nga.menu()` creates a Menu object. A Menu object represents a menu item, and it can have submenus. Calling `ng.menu()` with an entity parameter sets the menu name, link, and active function automatically. `admin.menu()`, which configures the application menu, expects a root menu object as parameter, and displays the children of this root menu in the sidebar.
 
