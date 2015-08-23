@@ -37,9 +37,8 @@ myEntity.listView().fields([
 Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, and the ability to decorate another provider, you can customize the templates of all the directives used by ng-admin. Here is an example of customization of the 'text' input field customization:
 
 ```js
-var app = angular.module('myApp', ['ng-admin']);
-
-app.config(function(NgAdminConfigurationProvider, $provide) {
+var myApp = angular.module('myApp', ['ng-admin']);
+myApp.config(function(NgAdminConfigurationProvider, $provide) {
         // Override textarea template
         $provide.decorator('maTextFieldDirective', ['$delegate', function ($delegate) {
             // You can modify directly the template
@@ -95,7 +94,6 @@ admin.dashboard(nga.dashboard()
     .template(mytemplate)
 })
 ```
-
 
 ## Customizing the Application Header
 

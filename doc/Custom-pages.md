@@ -7,7 +7,7 @@ For each entity, ng-admin creates the necessary pages for Creating, Retieving, U
 ng-admin uses [AngularUI Router](https://github.com/angular-ui/ui-router) to define routes, parameters, and templates for pages. In UI router terminology, a page is a "state".
 
 ```js
-app.config(function ($stateProvider) {
+myApp.config(function ($stateProvider) {
     $stateProvider.state('send-post', {
         parent: 'main',
         url: '/sendPost/:id',
@@ -56,7 +56,7 @@ var sendPostControllerTemplate =
 The 'sendPost' route already works - it can be accessed by typing its path in the URL bar. But the best way to link to a new page is by displaying a button to it. For that, create a custom directive:
 
 ```js
-app.directive('sendEmail', ['$location', function ($location) {
+myApp.directive('sendEmail', ['$location', function ($location) {
     return {
         restrict: 'E',
         scope: { post: '&' },

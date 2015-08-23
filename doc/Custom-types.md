@@ -18,7 +18,7 @@ myEntity.listView().fields([
 You can change the field class returned by `nga.field()` for a given type at configuration time. For instance, to change the `Field` class for the 'date' type:
 
 ```js
-app.config(['NgAdminConfigurationProvider', function(nga) {
+myApp.config(['NgAdminConfigurationProvider', function(nga) {
     nga.registerFieldType('date', require('path/to/MyCustomDateField'))
 }]);
 ```
@@ -26,7 +26,7 @@ app.config(['NgAdminConfigurationProvider', function(nga) {
 Use the same technique to add a new type.
 
 ```js
-app.config(['NgAdminConfigurationProvider', function(nga) {
+myApp.config(['NgAdminConfigurationProvider', function(nga) {
     nga.registerFieldType('tax_rate', require('path/to/TaxRateField'))
 }]);
 ```
@@ -63,7 +63,7 @@ As you can see, the mapping uses ng-admin directives (like `<ma-date-column>`). 
 `FieldView` objects, just like `Field` classes, are registered at configuration time, and can be easily overriden. 
 
 ```js
-app.config(['FieldViewConfigurationProvider', function(fvp) {
+myApp.config(['FieldViewConfigurationProvider', function(fvp) {
     fvp.registerFieldView('date', require('path/to/MyCustomDateFieldView'))
 }]);
 ```

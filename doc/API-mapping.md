@@ -52,7 +52,7 @@ Now if your API returns results in another format, for instance with all the val
 You can use Restangular element transformers to map that to the expected format:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addElementTransformer('books', function(element) {
         for (var key in element.values) {
             element[key] = element.values[key];
@@ -66,7 +66,7 @@ app.config(function(RestangularProvider) {
 Symetrically, if your API requires that you post and put data inside of a `values` field, use Restangular request interceptor:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if(operation == 'post' || operation == 'put') {
             element = { values: element };
@@ -115,7 +115,7 @@ http://your.api.domain/entityName?_page=2&_perPage=20
 For instance, to use `offset` and `limit` instead of `_page` and `_perPage` across the entire application, use the following code:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             params.offset = (params._page - 1) * params._perPage;
@@ -159,7 +159,7 @@ If your API doesn't return a `X-Total-Count` header, you can add a `totalCount` 
 Add the following response interceptor:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
         if (operation == "getList") {
             var contentRange = response.headers('Content-Range');
@@ -181,7 +181,7 @@ http://your.api.domain/entityName?_sortField=name&_sortDir=ASC
 Once again, you can change it with a response interceptor. For instance, to sort by `id desc` by default, and without changing the name of the sort query parameters, use:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             params._sortField = params._sortField || 'id';
@@ -213,7 +213,7 @@ Where the `_filters` value is the url encoded version of `{"q":"foo","tag":"bar"
 Just like other query params, you can transform it using a Restangular request interceptor. For instance, to pass all filters directly as query parameters:
 
 ```js
-app.config(function(RestangularProvider) {
+myApp.config(function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             if (params._filters) {
