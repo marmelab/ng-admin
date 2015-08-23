@@ -5,17 +5,28 @@ define(function (require) {
 
     function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
 
-        function isDetailLink(field) {
+        function getDetailLinkRouteName(field, entity) {
+            if (entity.isReadOnly) {
+                return entity.showView().enabled ? 'show' : false;
+            }
+            if (field.detailLinkRoute() == 'edit' && entity.editionView().enabled) {
+                return 'edit';
+            }
+            return entity.showView().enabled ? 'show' : false;
+        }
+
+        function isDetailLink(field, entity) {
             if (field.isDetailLink() === false) {
                 return false;
             }
-            if (field.type() != 'reference' && field.type() != 'reference_many') {
-                return true;
+            if (field.type() == 'reference' || field.type() == 'reference_many') {
+                var relatedEntity = Configuration().getEntity(field.targetEntity().name());
+                if (!relatedEntity) {
+                    return false;
+                }
+                return getDetailLinkRouteName(field, relatedEntity) !== false;
             }
-            var referenceEntity = field.targetEntity().name();
-            var relatedEntity = Configuration().getEntity(referenceEntity);
-            if (!relatedEntity) return false;
-            return relatedEntity.isReadOnly ? relatedEntity.showView().enabled : relatedEntity.editionView().enabled;
+            return getDetailLinkRouteName(field, entity) !== false;
         }
 
         return {
@@ -30,18 +41,16 @@ define(function (require) {
                 scope.datastore = scope.datastore();
                 scope.field = scope.field();
                 scope.entry = scope.entry();
+                scope.entity = scope.entity();
                 var type = scope.field.type();
-                if (isDetailLink(scope.field)) {
+                if (isDetailLink(scope.field, scope.entity)) {
                     element.append(FieldViewConfiguration[type].getLinkWidget());
                 } else {
                     element.append(FieldViewConfiguration[type].getReadWidget());
                 }
                 $compile(element.contents())(scope);
                 scope.gotoDetail = function () {
-                    var route = scope.field.detailLinkRoute();
-                    if (route == 'edit' && !scope.entity().editionView().enabled) {
-                        route = 'show';
-                    }
+                    var route = getDetailLinkRouteName(scope.field, scope.entity);
                     $state.go($state.get(route),
                     angular.extend({}, $state.params, {
                         entity: scope.entry.entityName,
@@ -52,7 +61,7 @@ define(function (require) {
                     var referenceEntity = scope.field.targetEntity().name();
                     var relatedEntity = Configuration().getEntity(referenceEntity);
                     var referenceId = scope.entry.values[scope.field.name()];
-                    var route = relatedEntity.isReadOnly ? 'show' : scope.field.detailLinkRoute();
+                    var route = getDetailLinkRouteName(scope.field, relatedEntity);
                     $state.go($state.get(route), {
                         entity: referenceEntity,
                         id: referenceId
