@@ -26,9 +26,9 @@ define(function (require) {
                 }
             },
             template: 
-'<textarea ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control"' + 
-    'ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength">' +
-'</textarea>'
+`<textarea ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control"
+    ng-required="v.required" ng-minlength="v.minlength" ng-maxlength="v.maxlength" ng-pattern="v.pattern">
+</textarea>`
         };
     }
 
