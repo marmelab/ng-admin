@@ -50,7 +50,7 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
     <script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
     <script type="text/javascript">
     var myApp = angular.module('myApp', ['ng-admin']);
-    myApp.config(function('NgAdminConfigurationProvider') {
+    myApp.config(['NgAdminConfigurationProvider', function(NgAdminConfigurationProvider) {
         var nga = NgAdminConfigurationProvider;
         // create an admin application
         var admin = nga.application('My First Admin');
