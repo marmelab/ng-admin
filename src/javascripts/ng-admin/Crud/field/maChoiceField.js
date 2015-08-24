@@ -27,10 +27,12 @@ function maChoiceField($compile) {
                     }
 
                     var choices = field.choices ? field.choices() : [];
+                    var attributes = field.attributes();
+                    scope.placeholder = (attributes && attributes.placeholder) || 'Filter values';
 
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
-                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="Filter values">{{ $select.selected.label }}</ui-select-match>
+                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="{{ placeholder }}">{{ $select.selected.label }}</ui-select-match>
                             <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices | filter: {label: $select.search} track by $index">
                                 {{ item.label }}
                             </ui-select-choices>
@@ -40,7 +42,6 @@ function maChoiceField($compile) {
                     element.html(template);
 
                     var select = element.children()[0];
-                    var attributes = field.attributes();
                     for (var name in attributes) {
                         select.setAttribute(name, attributes[name]);
                     }
