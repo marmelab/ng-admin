@@ -20,7 +20,8 @@ before_install:
   - gem update --system
   - gem install compass
   - "npm install -g grunt-cli"
-  - "make"
+before_script:
+  - "./node_modules/protractor/bin/webdriver-manager update"
 branches:
   only:
     - master
