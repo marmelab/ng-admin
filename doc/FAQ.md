@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-* [My API exposes X-Total-Count but ng-admin doesn't see it](#my-api-exposes-x-total-count-but-ng-admin-doesn-t-see-it)
+* [My API exposes X-Total-Count but ng-admin doesn't see it](#my-api-exposes-x-total-count-but-ng-admin-doesnt-see-it)
 * [My API requires Authentication. How Can I Set it up?](#my-api-requires-authentication-how-can-i-set-it-up)
 * [How Can I Display A Composite Field?](#how-can-i-display-a-composite-field)
 * [How Can I Map Twice The Same Field In A List?](#how-can-i-map-twice-the-same-field-in-a-list)
@@ -40,10 +40,10 @@ If your API sends users with a `firstName` and a `lastName`, you may want to com
 
 ```json
 {
-    id: 123,
-    firstName: 'Leo',
-    lastName: 'Tolstoi'
-    occupation: 'writer'
+    "id": 123,
+    "firstName": "Leo",
+    "lastName": "Tolstoi",
+    "occupation": "writer"
 }
 ```
 
