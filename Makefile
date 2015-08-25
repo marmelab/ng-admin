@@ -7,10 +7,15 @@ install:
 run:
 	@grunt
 
-build:
+build: devel
 	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress
 	@cp -Rf build examples/blog/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
+
+devel:
+	./node_modules/webpack/bin/webpack.js -d --progress
+	@echo "Files build/ng-admin.css and build/ng-admin.js updated"
+
 
 test:
 	@grunt test:local

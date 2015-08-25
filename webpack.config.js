@@ -1,11 +1,22 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var prod = process.argv.indexOf('-p');
+var devel = process.argv.indexOf('-d');
+
 function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
+    if (prod === -1 && devel === -1) { // for live reload
         sources.push('webpack-dev-server/client?http://localhost:8080');
     }
 
     return sources;
+}
+
+function getOutputName(extension) {
+    if (devel) {
+        return 'build/[name].' + extension;
+    }
+
+    return 'build/[name].min.' + extension;
 }
 
 var ngAdminSources = [
@@ -32,7 +43,7 @@ module.exports = {
     },
     output: {
         publicPath: "http://localhost:8080/",
-        filename: "build/[name].min.js"
+        filename: getOutputName('js')
     },
     module: {
         loaders: [
@@ -45,7 +56,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('build/[name].min.css', {
+        new ExtractTextPlugin(getOutputName('css'), {
             allChunks: true
         })
     ]
