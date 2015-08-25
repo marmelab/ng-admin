@@ -13,7 +13,7 @@ myEntity.listView().fields([
 ]);
 ```
 
-`nga.field()` is a factory method returning an instance of the `Field` class. Such instances are containers for your application configuration. For some types, the instance returned by `nga.field()` is a specialized subclass of `Field`, with methods specific to this type (like `format()` for the 'date' type). These methods are later used in the presentation layer to get the specific configuration for that type.
+`nga.field()` is a factory method returning an instance of [the `Field` class](https://github.com/marmelab/admin-config/blob/master/lib/Field/Field.js). Such instances are containers for your application configuration. For some types, the instance returned by `nga.field()` is a specialized subclass of `Field`, with methods specific to this type (like `format()` for [the `DateField` class](https://github.com/marmelab/admin-config/blob/master/lib/Field/DateField.js)). These methods are later used in the presentation layer to get the specific configuration for that type.
 
 You can change the field class returned by `nga.field()` for a given type at configuration time. For instance, to change the `Field` class for the 'date' type:
 
@@ -21,6 +21,30 @@ You can change the field class returned by `nga.field()` for a given type at con
 myApp.config(['NgAdminConfigurationProvider', function(nga) {
     nga.registerFieldType('date', require('path/to/MyCustomDateField'))
 }]);
+```
+
+You custom type should extend the `Field` type at least, or another existing type.
+
+```js
+// in path/to/MyCustomDateField.js
+// ES6 version
+import DateField from 'admin-config/lib/Field/DateField';
+export default class MyCustomDateField extends DateField {
+    formatSmall() {
+        return this.format('small');
+    }
+}
+
+// ES5 version
+var DateField = require('admin-config/lib/Field/DateField');
+function MyCustomDateField(name) {
+    DateField.call(this, name);
+}
+MyCustomDateField.prototype = new DateField();
+MyCustomDateField.prototype.formatSmall = function() {
+    return this.format('small');
+}
+module.exports = MyCustomDateField;
 ```
 
 Use the same technique to add a new type.
