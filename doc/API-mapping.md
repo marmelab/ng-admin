@@ -97,6 +97,19 @@ listView.fields([
 ])
 ```
 
+## Custom Headers, Authentication
+
+Does your API require an authentication header? Restangular has got you covered with [`setDefaultHeaders`](https://github.com/mgonto/restangular#setdefaultheaders):
+
+```js
+myApp.config(function(RestangularProvider) {
+    var login = 'admin',
+        password = '53cr3t',
+        token = window.btoa(login + ':' + password);
+    RestangularProvider.setDefaultHeaders({'Authorization': 'Basic ' + token});
+});
+```
+
 ## HTTP Method
 
 The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`.
