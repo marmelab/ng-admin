@@ -16,17 +16,19 @@
 
 <div class="row" id="edit-view" ng-class="::'ng-admin-entity-' + formController.entity.name()">
     <form class="col-lg-12 form-horizontal" name="formController.form" ng-submit="formController.submitEdition($event)">
-        <div ng-repeat="field in ::formController.fields track by $index"
-             ng-class="(field.type()==='fieldset')?'grid-form':''">
-            <div class="form-field form-group" ng-if="field.type()!=='fieldset' && field.type()!=='row'">
+        <div ng-repeat="field in ::formController.fields track by $index">
+
+            <div class="form-field form-group" ng-if="!field.isFieldset()">
                 <ma-field field="::field" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
             </div>
-            <fieldset ng-if="field.type()==='fieldset'">
+
+            <fieldset ng-if="field.isFieldset()">
                 <legend>{{::field.label()}}</legend>
                 <div ng-repeat="row in ::field.rows()"
-                     ng-attr-data-row-span="{{::row.span()}}">
+                     class="row-fluid" ng-class="::row.getClasses()">
                     <div ng-repeat="rowField in ::row.fields()"
-                         ng-attr-data-field-span="{{::rowField.attributes().fieldSpan || 1}}">
+                         class="form-group"
+                         ng-class="::row.editCssSpanClass(rowField)">
                         <ma-field field="::rowField" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
                     </div>
                 </div>
