@@ -21,6 +21,7 @@ Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://git
 * [Adding Custom Pages](doc/Custom-pages.md)
 * [Adding Custom Types](doc/Custom-types.md)
 * [Getting Ready For Production](doc/production.md)
+* [Frequently Asked Questions](doc/FAQ.md)
 * [News](#news)
 * [Support](#support)
 * [Contributing](#contributing)
