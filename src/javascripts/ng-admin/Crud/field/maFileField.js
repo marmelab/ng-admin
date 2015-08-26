@@ -52,7 +52,6 @@ define(function (require) {
                     }
 
                     scope.fileSelected = function(selectedFiles) {
-                        console.log(selectedFiles);
                         if (!selectedFiles || !selectedFiles.length) {
                             return;
                         }
