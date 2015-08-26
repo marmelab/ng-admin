@@ -1,9 +1,14 @@
 CHANGELOG
 =========
 
-v0.8.0 - to be released
------------------------
+v0.8.0 - 26 Aug. 2015
+---------------------
 
+* Add sourcemaps to the build process to ease debugging [\#619](https://github.com/marmelab/ng-admin/pull/619) ([fzaninotto](https://github.com/fzaninotto))
+* Add a Frequently Asked Question page [\#618](https://github.com/marmelab/ng-admin/pull/618) ([fzaninotto](https://github.com/fzaninotto))
+* Fix skeleton code in README [\#613](https://github.com/marmelab/ng-admin/pull/613) ([Benew](https://github.com/Benew))
+* Allow deselection to send null value in choice field [\#612](https://github.com/marmelab/ng-admin/pull/612) ([fzaninotto](https://github.com/fzaninotto))
+* Allow placeholder to be overridden on choice fields [\#611](https://github.com/marmelab/ng-admin/pull/611) ([fzaninotto](https://github.com/fzaninotto))
 * Improve documentation, add a "Getting Started" tutorial [\#607](https://github.com/marmelab/ng-admin/pull/607) ([fzaninotto](https://github.com/fzaninotto))
 * Add support for pattern validation [\#606](https://github.com/marmelab/ng-admin/pull/606) ([fzaninotto](https://github.com/fzaninotto))
 * Clarify and fix the detailLink logic [\#605](https://github.com/marmelab/ng-admin/pull/605) ([fzaninotto](https://github.com/fzaninotto))
