@@ -1,6 +1,6 @@
 # Configuration API Reference
 
-In ng-admin, you define all the components of an admin application using the configuration API. 
+In ng-admin, you define all the components of an admin application using the configuration API.
 
 * [NgAdminConfigurationProvider / nga](#ngadminconfigurationprovider--nga)
 * [Application Configuration](#application-configuration)
@@ -176,12 +176,12 @@ Defines the name of the entity, as displayed on screen
 A read-only entity doesn't allow access to the mutation views (editionView, creationView, deletionView). In addition, all links to the editionView are replaced by links to the showView.
 
         var tag = nga.entity('tags').readOnly();
-        
+
 * `baseApiUrl()`
 Defines the base API endpoint for all views of this entity
 
         var comment = nga.entity('comments').baseApiUrl('http://localhost:3001/');
-        
+
 * `url()`
 Defines the API endpoint for all views of this entity. It can be a string or a function.
 
@@ -345,7 +345,7 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
 
 ## Fields Configuration
 
-A field is the representation of a property of an entity. 
+A field is the representation of a property of an entity.
 
 * [General Field Settings](#general-field-settings)
 * `string` Field Type
@@ -456,7 +456,7 @@ Whether the field should always appear. Used in filters (see listView Settings).
 ### `wysiwyg` Field Type
 
 * `stripTags(boolean)`
-Enable removal of all HTML tags - only the text is kept. Useful for displaying rich text in a table, or before truncation. False by default. 
+Enable removal of all HTML tags - only the text is kept. Useful for displaying rich text in a table, or before truncation. False by default.
 
 * `sanitize(boolean)`
 Enable HTML sanitization of WYSIWYG Editor value (removal of script tags, etc). True by default.
@@ -486,7 +486,7 @@ Format for number to string conversion. Based on [Numeral.js](http://numeraljs.c
 ### `choice` and `choices` Field Types
 
 * `choices(array|function)`
-Define array of choices for `choice` type. 
+Define array of choices for `choice` type.
 
     When given an array, each choice must be an object litteral with both a value and a label.
 
@@ -524,9 +524,9 @@ Define array of choices for `choice` type.
 Give upload information for `file` field type
  - `url`: url for server side upload
  - `accept`: values allowed by the standard HTML file input accept attribute
- - `apifilename`: filename assigned by the server and returned by your API. 
- 
-If the uploaded file is renamed server-side, you can get the new filename from an api return.    
+ - `apifilename`: filename assigned by the server and returned by your API.
+
+If the uploaded file is renamed server-side, you can get the new filename from an api return.
 
     HTTP/1.1 200 OK
     Content-Type: application/json
@@ -536,7 +536,7 @@ you can configure file field as :
 
     nga.field('picture', 'file').uploadInformation({ 'url': 'your_url', 'apifilename': 'picture_name' })
 
-Some other properties are allowed, see https://github.com/danialfarid/angular-file-upload#upload-service for the complete list.
+Some other properties are allowed, see https://github.com/danialfarid/ng-file-upload#upload-service for the complete list.
 
 ### `reference` Field Type
 
@@ -555,7 +555,7 @@ Define the target field name used to retrieve the label of the referenced elemen
                 .targetEntity(post) // Select a target Entity
                 .targetField(nga.field('title')) // Select a label Field
         ]);
-        
+
 * `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
@@ -672,7 +672,7 @@ Define the field name used to link the referenced entity.
                .targetEntity(tag) // Targeted entity
                .targetField(nga.field('name')) // Label Field to display in the list
         ])
-        
+
 * `singleApiCall(function(entityIds) {}`
 Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
 
