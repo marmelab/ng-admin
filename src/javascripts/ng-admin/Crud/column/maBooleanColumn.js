@@ -10,9 +10,9 @@ define(function (require) {
                 value: '&',
             },
             link: function(scope) {
-                scope.isOk = !!scope.value();
+                scope.value = scope.value();
             },
-            template: '<span class="glyphicon" ng-class="{\'glyphicon-ok\': isOk, \'glyphicon-remove\': !isOk}"></span>'
+            template: '<span class="glyphicon" ng-class="{\'glyphicon-ok\': value === true, \'glyphicon-remove\': value === false }"></span>'
         };
     }
 

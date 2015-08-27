@@ -235,8 +235,18 @@
                     .label('Upper name')
                     .template('{{ entry.values.name.toUpperCase() }}')
             ])
+            .filters([
+                nga.field('published', 'boolean')
+            ])
             .batchActions([]) // disable checkbox column and batch delete
-            .listActions(['show']);
+            .listActions(['show', 'edit']);
+
+        tag.editionView()
+            .fields([
+                nga.field('name'),
+                nga.field('published', 'boolean')
+                    .choices([{ value: null, label: 'null' }, { value: true, label: 'yes'}, {value: false,label: 'no' }])
+            ])
 
         tag.showView()
             .fields([
