@@ -116,6 +116,7 @@
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))
+                    .attributes({ placeholder: 'Select some tags...' })
                     .remoteComplete(true, {
                         refreshDelay: 300 ,
                         searchQuery: function(search) { return { q: search }; }
