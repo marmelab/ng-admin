@@ -29,7 +29,7 @@
     "es6-promise": "^2.3.0",
     "exports-loader": "^0.6.2",
     "extract-text-webpack-plugin": "^0.8.0",
-    "fakerest": "^1.0.1",
+    "fakerest": "^1.0.5",
     "file-loader": "^0.8.1",
     "font-awesome": "^4.3.0",
     "grunt": "~0.4.4",
