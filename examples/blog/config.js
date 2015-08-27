@@ -41,6 +41,17 @@
             return { params: params };
         });
 
+        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+            if (operation === "getList") {
+                var headers = response.headers();
+                if (headers['content-range']) {
+                    response.totalCount = headers['content-range'].split('/').pop();
+                }
+            }
+
+            return data;
+        });
+
         var admin = nga.application('ng-admin backend demo') // application main title
             .debug(false) // debug disabled
             .baseApiUrl('http://localhost:3000/'); // main API endpoint

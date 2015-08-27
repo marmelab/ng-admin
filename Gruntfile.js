@@ -15,9 +15,17 @@ module.exports = function (grunt) {
                 dest: 'src/javascripts/test/fixtures/',
                 options: {
                     process: function(content) {
-                        return content.replace(/http\:\/\/localhost\:8080\//g, '/');
+                        return content.replace(/http\:\/\/localhost\:8000\//g, '/');
                     }
                 }
+            },
+            test_fakerest: {
+                src: 'node_modules/fakerest/dist/FakeRest.min.js',
+                dest: 'src/javascripts/test/fixtures/examples/blog/build/fakerest.js'
+            },
+            test_sinon_server: {
+                src: 'node_modules/sinon/pkg/sinon-server-1.14.1.js',
+                dest: 'src/javascripts/test/fixtures/examples/blog/build/sinon-server.js'
             }
         },
         connect: {
@@ -31,7 +39,7 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
-                    port: 8000,
+                    port: 8001,
                     base: 'src/javascripts/test/fixtures/examples/blog/',
                     keepalive: false,
                     livereload: false
@@ -77,10 +85,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', ['karma', 'test:e2e']);
     grunt.registerTask('test:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
-    grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build']);
+    grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build', 'copy:test_fakerest', 'copy:test_sinon_server']);
 
     grunt.registerTask('test:local', ['karma', 'test:local:e2e']);
-    grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
+    grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'connect:test', 'protractor']);
 
     grunt.registerTask('default', ['json_server', 'connect:dev', 'exec:webpack_watch']);
 };
