@@ -46,16 +46,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        json_server: {
-            stub: {
-                options: {
-                    port: 3000,
-                    db: 'examples/blog/stub-server.json',
-                    keepalive: false,
-                    logger: false
-                }
-            }
-        },
         karma: {
             unit: {
                 configFile: 'src/javascripts/test/karma.conf.js',
@@ -70,8 +60,7 @@ module.exports = function (grunt) {
             }
         },
         exec: {
-            webpack: './node_modules/webpack/bin/webpack.js',
-            webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --devtool cheap-module-inline-source-map'
+            webpack: './node_modules/webpack/bin/webpack.js'
         }
     });
 
@@ -79,16 +68,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-protractor-runner');
-    grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('test', ['karma', 'test:e2e']);
-    grunt.registerTask('test:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
+    grunt.registerTask('test:e2e', ['test:e2e:prepare', 'connect:test', 'protractor']);
     grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build', 'copy:test_fakerest', 'copy:test_sinon_server']);
 
     grunt.registerTask('test:local', ['karma', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'connect:test', 'protractor']);
-
-    grunt.registerTask('default', ['json_server', 'connect:dev', 'exec:webpack_watch']);
 };
