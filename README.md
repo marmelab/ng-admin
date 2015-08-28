@@ -190,17 +190,7 @@ To test your changes, run the example app, which is bundled with a sample REST a
 make run
 ```
 
-Then, connect to `http://localhost:8000/` to browse the admin app.
-
-### Rebuilding the Compiled JS and CSS Files
-
-Concatenate and minify the app with:
-
-```sh
-make build
-```
-
-All build files (stand-alone et lite versions) will then be updated and minified, ready for production.
+Then, connect to `http://localhost:8000/` to browse the admin app. This task uses webpack-dev-server, which means that the browser will reload the page as soon as one file in the source is updated. This makes the blog app our preferred live testing environment.
 
 ### Testing
 
@@ -215,6 +205,24 @@ make test
 ```
 KARMA_SINGLE_RUN=false grunt karma:unit
 ```
+
+### Releasing
+
+Before releasing a new version, concatenate and minify the JS and CSS sources into minified scripts with:
+
+```sh
+make build
+git add build
+git commit -m 'update built files'
+git push origin master
+git tag vx.x.x
+# publish to bower
+git push origin --tags
+# publish to npm
+npm publish
+```
+
+**Tip**: Don't commit built files in Pull Requests, it forces rebases on other PRs. The core team will take care of regularily updating these built files.
 
 ## License
 
