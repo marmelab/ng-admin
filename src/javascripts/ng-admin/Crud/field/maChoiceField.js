@@ -19,6 +19,12 @@ function maChoiceField($compile) {
                     var field = scope.field();
                     scope.name = field.name();
                     scope.v = field.validation();
+                    scope.$watch('value', function(newValue, oldValue) {
+                        if (newValue !== oldValue && newValue === undefined) {
+                            // fix for https://github.com/angular-ui/ui-select/issues/863
+                            scope.value = null;
+                        }
+                    });
 
                     var refreshAttributes = '';
                     if (field.type().indexOf('reference') === 0 && field.remoteComplete()) {

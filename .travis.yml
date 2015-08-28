@@ -6,7 +6,10 @@ addons:
   sauce_connect: true
   hosts:
     - ngadmin
-#sudo: false
+sudo: false
+cache:
+  directories:
+    - node_modules
 language: node_js
 node_js:
   - "0.12"
@@ -17,7 +20,8 @@ before_install:
   - gem update --system
   - gem install compass
   - "npm install -g grunt-cli"
-  - "make"
+before_script:
+  - "./node_modules/protractor/bin/webdriver-manager update"
 branches:
   only:
     - master

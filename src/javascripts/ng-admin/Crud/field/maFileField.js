@@ -8,7 +8,7 @@ define(function (require) {
      *
      * @example <ma-file-field field="field"></ma-file-field>
      */
-    function maFileField(Upload, $timeout) {
+    function maFileField(Upload) {
         return {
             scope: {
                 'field': '&',
@@ -23,9 +23,9 @@ define(function (require) {
                     }
 
                     scope.multiple = uploadInformation.hasOwnProperty('multiple') ? uploadInformation.multiple : false;
-                    scope.accept = "'*'";
+                    scope.accept = "*";
                     if (uploadInformation.hasOwnProperty('accept')) {
-                        scope.accept = typeof uploadInformation.accept === 'function' ? uploadInformation.accept : "'" + uploadInformation.accept + "'";
+                        scope.accept = uploadInformation.accept;
                     }
                     scope.apifilename = uploadInformation.hasOwnProperty('apifilename') ? uploadInformation.apifilename : false;
 
@@ -93,9 +93,7 @@ define(function (require) {
                     };
 
                     scope.selectFile = function () {
-                        $timeout(function() {
-                            input.click();
-                        }, 0);
+                        input.click();
                     };
                 }
             },
@@ -119,12 +117,12 @@ define(function (require) {
         '</div>' +
     '</div>' +
 '</div>' +
-'<input type="file" ngf-multiple="multiple" ngf-accept="{{ accept }}" ngf-select ngf-change="fileSelected($files)"' +
+'<input type="file" ngf-multiple="multiple" accept="{{ accept }}" ngf-select="fileSelected($files)"' +
         'id="{{ name }}" name="{{ name }}" ng-required="v.required" style="display:none" />'
         };
     }
 
-    maFileField.$inject = ['Upload', '$timeout'];
+    maFileField.$inject = ['Upload'];
 
     return maFileField;
 });
