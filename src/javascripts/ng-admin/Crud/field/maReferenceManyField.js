@@ -47,7 +47,7 @@ function maReferenceManyField(ReferenceRefresher) {
                 datastore="datastore()"
                 refresh="refresh($search)"
                 value="value">
-            </ma-choice-field>`
+            </ma-choices-field>`
     };
 }
 
