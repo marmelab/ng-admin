@@ -132,8 +132,6 @@
                     })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
-                nga.field('cover', 'file')
-                    .uploadInformation({ url: 'http://localhost:3333/upload', accept: 'image/*' }),
                 nga.field('views', 'number')
                     .cssClasses('col-sm-4'),
                 nga.field('average_note', 'float')
