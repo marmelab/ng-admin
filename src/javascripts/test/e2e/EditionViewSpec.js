@@ -91,12 +91,15 @@ describe('EditionView', function () {
 
     describe('DetailLink', function() {
         beforeEach(function() {
-            browser.baseUrl + '#/posts/edit/1';
+            browser.get(browser.baseUrl + '#/posts/edit/1');
         });
 
         it('should redirect to corresponding detail view even for referenced_list entity', function () {
-            $$('#row-comments td a').first().click();
-            browser.getLocationAbsUrl().then(function(url){
+            $$('#row-comments td a').first().click()
+            .then(function() {
+                return browser.getLocationAbsUrl();
+            })
+            .then(function(url){
                 expect(url).toContain('/comments/edit/');
             });
         });
