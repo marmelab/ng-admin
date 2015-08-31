@@ -357,7 +357,7 @@ A field is the representation of a property of an entity.
 * [`datetime` Field Type](#datetime-field-type)
 * [`number` Field Type](#number-field-type)
 * `float` Field Type
-* `boolean` Field Type
+* [`boolean` Field Type]
 * [`choice` and `choices` Field Types](#choice-and-choices-field-types)
 * `json` Field Type
 * [`file` Field Type](#file-field-type)
@@ -482,6 +482,28 @@ Format for number to string conversion. Based on [Numeral.js](http://numeraljs.c
 
         nga.field('cost', 'number').format('$0,0.00');
         // now 1234.5 will render as '$1,234.50'
+
+### `boolean` Field Type
+
+A field of type `boolean` can have 3 values: true, false, or null. That's why the form widget for such a field is a dropdown and not a checkbox.
+
+* `choices(array)`
+Array of choices used for the boolean values. By default: 
+
+        [
+            { value: null, label: 'undefined' },
+            { value: true, label: 'true' }, 
+            { value: false, label: 'false' }
+        ]
+
+    Override it with custom labels to fit your needs:
+
+        nga.fields('power_user', 'boolean')
+            .choices([
+                { value: null, label: 'not yet decided' },
+                { value: true, label: 'enabled' },
+                { value: false, label: 'disabled' }
+            ]);
 
 ### `choice` and `choices` Field Types
 

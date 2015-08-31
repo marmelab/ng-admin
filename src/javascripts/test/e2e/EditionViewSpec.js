@@ -67,14 +67,39 @@ describe('EditionView', function () {
         });
     });
 
+    describe('BooleanField', function() {
+        beforeEach(function() {
+            browser.get(browser.baseUrl + '#/tags/edit/5');
+        });
+
+        it('should render as a choice field', function () {
+            $$('.ng-admin-field-published .ui-select-container')
+            .then(function(uiSelect) {
+                expect(uiSelect.length).toBe(1)
+            })
+            .then(function() {
+                return $$('.ng-admin-field-published .btn').first().click();
+            })
+            .then(function() {
+                return $$('.ng-admin-field-published .ui-select-choices-row');
+            })
+            .then(function(choices) {
+                expect(choices.length).toBe(3)
+            });
+        });
+    })
+
     describe('DetailLink', function() {
         beforeEach(function() {
-            browser.baseUrl + '#/posts/edit/1';
+            browser.get(browser.baseUrl + '#/posts/edit/1');
         });
 
         it('should redirect to corresponding detail view even for referenced_list entity', function () {
-            $$('#row-comments td a').first().click();
-            browser.getLocationAbsUrl().then(function(url){
+            $$('#row-comments td a').first().click()
+            .then(function() {
+                return browser.getLocationAbsUrl();
+            })
+            .then(function(url){
                 expect(url).toContain('/comments/edit/');
             });
         });

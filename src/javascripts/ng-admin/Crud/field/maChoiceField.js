@@ -10,7 +10,8 @@ function maChoiceField($compile) {
             'value': '=',
             'entry':  '=?',
             'datastore': '&?',
-            'refresh': '&'
+            'refresh': '&',
+            'choices': '&?'
         },
         restrict: 'E',
         compile: function() {
@@ -32,7 +33,7 @@ function maChoiceField($compile) {
                         refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                     }
 
-                    var choices = field.choices ? field.choices() : [];
+                    var choices = scope.choices() ? scope.choices : (field.choices ? field.choices() : []);
                     var attributes = field.attributes();
                     scope.placeholder = (attributes && attributes.placeholder) || 'Filter values';
 
