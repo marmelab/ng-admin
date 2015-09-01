@@ -33,6 +33,7 @@
     "font-awesome": "^4.3.0",
     "grunt": "~0.4.4",
     "grunt-babel": "^4.0.0",
+    "grunt-cli": "^0.1.13",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compass": "~0.7.2",
