@@ -236,7 +236,9 @@
                     .template('{{ entry.values.name.toUpperCase() }}')
             ])
             .filters([
-                nga.field('published', 'boolean')
+                nga.field('published', 'template')
+                    .label('Not yet published')
+                    .defaultValue(false)
             ])
             .batchActions([]) // disable checkbox column and batch delete
             .listActions(['show', 'edit']);
