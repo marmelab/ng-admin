@@ -203,7 +203,7 @@ make test
 **Tip:** If you are working on Karma tests, you can prevent from relaunching the whole process by disabling single-run:
 
 ```
-KARMA_SINGLE_RUN=false grunt karma:unit
+KARMA_SINGLE_RUN=false ./node_modules/.bin/grunt karma:unit
 ```
 
 ### Releasing
