@@ -290,7 +290,22 @@ Add filters to the list. Each field maps a property in the API endpoint result.
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
         ]);
 
-    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](#general-field-settings)).
+    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](#general-field-settings)). You can also use `defaultValue()` on filter fields, so as to filter the list as soon as the filter is added. Combined with an empty template, this allows to create "tagged" lists:
+
+        var user_id = 123; // currently logged user
+        var d = new Date()
+        var yesterday = d.setDate(d.getDate() - 1);
+        listView.filters([
+            nga.field('flagged', 'template')
+                .defaultValue('true'), // adds ?flagged=true to the REST query
+            nga.field('author_id', 'template')
+                .label('Mine')
+                .defaultValue(user_id), // adds ?author_id=123 to the REST query
+            nga.field('created_at', 'template')
+                .label('Recent')
+                .defaultValue({ gt: yesterday }), // adds ?created_at={gt:2015-08-31} to the REST query
+        ]);
+
 
 * `permanentFilters({ field1: value, field2: value, ...})`
 Add permanent filters to the results list.
