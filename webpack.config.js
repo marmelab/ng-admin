@@ -13,7 +13,8 @@ var ngAdminSources = [
     './src/sass/ng-admin.scss'
 ];
 
-var vendorSources = [
+var ngAdminAndVendorSources = [
+    './src/javascripts/ng-admin.js',
     './src/javascripts/vendors.js',
     'font-awesome/scss/font-awesome.scss',
     'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
@@ -22,12 +23,13 @@ var vendorSources = [
     'textangular/src/textAngular.css',
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
-    'ui-select/dist/select.css'
+    'ui-select/dist/select.css',
+    './src/sass/ng-admin.scss'
 ];
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(vendorSources.concat(ngAdminSources)),
+        'ng-admin': getEntrySources(ngAdminAndVendorSources),
         'ng-admin-only': getEntrySources(ngAdminSources)
     },
     output: {
