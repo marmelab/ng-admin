@@ -27,7 +27,7 @@ var vendorSources = [
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(ngAdminSources.concat(vendorSources)),
+        'ng-admin': getEntrySources(vendorSources.concat(ngAdminSources)),
         'ng-admin-only': getEntrySources(ngAdminSources)
     },
     output: {
