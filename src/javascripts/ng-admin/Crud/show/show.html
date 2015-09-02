@@ -17,16 +17,37 @@
 
 
 <div class="row form-horizontal" id="show-view">
+    <div ng-repeat="field in ::showController.fields track by $index"
+         class="col-lg-12 form-group">
 
-    <div class="col-lg-12 form-group" ng-repeat="field in ::showController.fields track by $index">
+        <!-- non fieldset -->
+        <label class="col-sm-2 control-label" ng-if="!field.isFieldset()">{{ field.label() }}</label>
 
-        <label class="col-sm-2 control-label">{{ field.label() }}</label>
-
-        <div class="show-value" ng-class="::'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
+        <div ng-if="!field.isFieldset()" class="show-value" ng-class="::'ng-admin-field-' + field.name() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
 
             <ma-column field="::field" entry="::entry" entity="::entity" datastore="::showController.dataStore"></ma-column>
 
         </div>
+
+        <fieldset ng-if="field.isFieldset()">
+            <legend>{{::field.label()}}</legend>
+            <div ng-repeat="row in ::field.rows()"
+                 class="row-fluid"
+                 ng-class="row.getClasses()">
+                <div ng-repeat="rowField in ::row.fields()"
+                     class="form-group"
+                     ng-class="::row.cssSpanClass(rowField)">
+                    <label for="::{{ rowField.name() }}">{{ rowField.label() }}</label>
+                    <div class="form-control">
+                        <ma-column field="::rowField" entry="::entry"
+                                   entity="::entity"
+                                   datastore="::showController.dataStore">
+                        </ma-column>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
     </div>
 
 </div>

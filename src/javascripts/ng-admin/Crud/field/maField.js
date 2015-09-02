@@ -12,7 +12,7 @@ define(function (require) {
             }).join('');
         var template =
 '<div id="row-{{ field.name() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">' +
-    '<label for="{{ field.name() }}" class="col-sm-2 control-label">' +
+    '<label for="{{ field.name() }}" ng-class="field.labelCssClasses()">' +
         '{{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;' +
     '</label>' +
     '<div ng-if="field.editable()" ng-class="getClassesForField(field, entry)" ng-switch="field.type()">' +

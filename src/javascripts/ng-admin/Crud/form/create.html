@@ -15,8 +15,23 @@
 
 <div class="row" id="create-view" ng-class="::'ng-admin-entity-' + formController.entity.name()">
     <form class="col-lg-12 form-horizontal" name="formController.form" ng-submit="formController.submitCreation($event)">
-        <div class="form-field form-group" ng-repeat="field in ::formController.fields track by $index">
-            <ma-field field="::field" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
+        <div ng-repeat="field in ::formController.fields track by $index">
+
+            <div class="form-field form-group" ng-if="!field.isFieldset()">
+                <ma-field field="::field" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
+            </div>
+
+            <fieldset ng-if="field.isFieldset()">
+                <legend>{{::field.label()}}</legend>
+                <div ng-repeat="row in ::field.rows()"
+                     class="row-fluid" ng-class="::row.getClasses()">
+                    <div ng-repeat="rowField in ::row.fields()"
+                         class="form-group"
+                         ng-class="::row.editCssSpanClass(rowField)">
+                        <ma-field field="::rowField" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
+                    </div>
+                </div>
+            </fieldset>
         </div>
 
         <div class="form-group">
