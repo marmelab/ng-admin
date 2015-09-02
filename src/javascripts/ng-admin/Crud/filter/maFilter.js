@@ -32,11 +32,10 @@ function maFilterDirective(FieldViewConfiguration) {
         scope: {
             filters: '=',
             datastore: '&',
-            values: '&',
+            values: '=',
             removeFilter: '&'
         },
         link: function(scope) {
-            scope.values = scope.values();
             scope.datastore = scope.datastore();
             scope.removeFilter = scope.removeFilter();
             scope.shouldFilter = () => Object.keys(scope.filters).length;

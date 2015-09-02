@@ -151,20 +151,39 @@ describe('List filter', function () {
     describe('interaction with pagination', function() {
         it('should reset page number', function () {
             // Filter globally for 'I'
-            $$('.filters .filter:nth-child(1) input').sendKeys('I');
-            browser.driver.sleep(600); // debounce delay
-            $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            $$('.filters .filter:nth-child(1) input').sendKeys('I')
+            .then(function() {
+                return browser.driver.sleep(600); // debounce delay
+            })
+            .then(function() {
+                return $$('ma-datagrid-pagination .total');
+            })
+            .then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('1 - 10 on 11');
-            });
-            $$('ma-datagrid-pagination li:nth-child(3) a').click();
-            $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            })
+            .then(function() {
+                return $$('ma-datagrid-pagination li:nth-child(3) a').click();
+            })
+            .then(function() {
+                return $$('ma-datagrid-pagination .total');
+            })
+            .then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('11 - 11 on 11');
-            });
-            // Filter globally for 'be'
-            $$('.filters .filter:nth-child(1) input').clear();
-            $$('.filters .filter:nth-child(1) input').sendKeys('be');
-            browser.driver.sleep(600); // debounce delay
-            $$('ma-datagrid-pagination .total').then(function (totalElements) {
+            })
+            .then(function() {
+                return $$('.filters .filter:nth-child(1) input').clear();
+            })
+            .then(function() {
+                // Filter globally for 'be'
+                return $$('.filters .filter:nth-child(1) input').sendKeys('be');
+            })
+            .then(function() {
+                return browser.driver.sleep(600); // debounce delay
+            })
+            .then(function() {
+                return $$('ma-datagrid-pagination .total');
+            })
+            .then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('1 - 5 on 5');
             });
         });
