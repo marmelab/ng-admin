@@ -128,7 +128,7 @@
                 nga.field('average_note', 'float')
                     .cssClasses('col-sm-4'),
                 nga.field('comments', 'referenced_list') // display list of related comments
-                    .targetEntity(comment)
+                    .targetEntity(nga.entity('comments'))
                     .targetReferenceField('post_id')
                     .targetFields([
                         nga.field('id').isDetailLink(true),
