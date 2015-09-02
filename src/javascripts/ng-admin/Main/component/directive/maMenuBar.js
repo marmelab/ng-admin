@@ -45,8 +45,7 @@ function maMenuBar($location, $rootScope, $compile) {
                 // the menu will rerender anyway because of the listener on $locationChangeSuccess
                 // so the animation don't work in that case
                 openMenus = [];
-                $location.search({});
-                $location.path(menu.link());
+                $location.url(menu.link());
             };
             scope.isOpen = function(menu) {
                 return menu.isChildActive(scope.path) || openMenus.indexOf(menu) !== -1;
