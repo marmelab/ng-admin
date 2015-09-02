@@ -163,7 +163,7 @@ describe('List filter', function () {
             // Filter globally for 'be'
             $$('.filters .filter:nth-child(1) input').clear();
             $$('.filters .filter:nth-child(1) input').sendKeys('be');
-            browser.driver.sleep(700); // debounce delay
+            browser.driver.sleep(1000); // debounce delay
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
                 expect(totalElements[0].getText()).toBe('1 - 5 on 5');
             });
