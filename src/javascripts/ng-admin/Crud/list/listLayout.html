@@ -14,7 +14,7 @@
             <p class="lead" ng-if="::llCtrl.view.description()" compile="::llCtrl.view.description()">{{ ::llCtrl.view.description() }}</p>
         </div>
 
-        <ma-filter ng-if="llCtrl.hasFilters" filters="llCtrl.enabledFilters" values="::llCtrl.search" datastore="::llCtrl.dataStore" remove-filter="::llCtrl.removeFilter"></ma-filter>
+        <ma-filter ng-if="llCtrl.hasFilters" filters="llCtrl.enabledFilters" values="llCtrl.search" datastore="::llCtrl.dataStore" remove-filter="::llCtrl.removeFilter"></ma-filter>
 
     </div>
 </div>

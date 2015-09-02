@@ -10,11 +10,23 @@ var ListLayoutController = function ($scope, $stateParams, $state, $location, $t
     this.batchActions = view.batchActions();
     this.loadingPage = false;
     this.search = $location.search().search ? JSON.parse($location.search().search) : {};
-    $scope.$watch(() => this.search, _.debounce((newValues, oldValues) => {
-        if (newValues != oldValues) {
-            this.updateFilters();
-        }
-    }, 500), true);
+    // since search isn't a $stateParam of the listLayout state,
+    // the controller doesn't change when the search changes
+    // so we must update filter values manually when the location changes
+    $scope.$watch(
+        () => $location.search() && $location.search().search,
+        newValues => this.search = $location.search().search ? JSON.parse($location.search().search) : {}
+    );
+    // apply filters when filter values change
+    $scope.$watch(
+        () => this.search,
+        _.debounce((newValues, oldValues) => {
+            if (newValues != oldValues) {
+                this.updateFilters();
+            }
+        }, 500),
+        true
+    );
     this.filters = view.filters();
     this.enabledFilters = this.filters.filter(filter => {
         if (filter.pinned()) return true;
