@@ -11,7 +11,7 @@ class ReferenceRefresher {
             .then(r => r[field.name()])
             .then(results => this._transformRecords(field, results));
 
-        if (field.type() === 'reference_many' || field.type() === 'choices') {
+        if (field.type() === 'reference_many' || field.type() === 'choices' || ( field.shouldRemoveDuplicates && field.shouldRemoveDuplicates() ) ) {
             promise = promise.then(formattedResults => this._removeDuplicates(formattedResults, currentValue));
         }
 
