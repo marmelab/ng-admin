@@ -14,12 +14,21 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'Delete';
-
                 scope.gotoDelete = function () {
-                    $state.go($state.get('delete'), angular.extend({
-                        entity: scope.entity().name(),
-                        id: scope.entry().identifierValue
-                    }, $state.params));
+                    if ($state.params.entity == scope.entity().name()) {
+                        // link to the same entity, so preserve active filters
+                        $state.go($state.get('delete'), angular.extend({
+                            entity: scope.entity().name(),
+                            id: scope.entry().identifierValue
+                        }, $state.params));
+                    } else {
+                        // link to anoter entity, so forget filters
+                        $state.go($state.get('delete'), {
+                            entity: scope.entity().name(),
+                            id: scope.entry().identifierValue
+                        });
+                    }
+
                 };
             },
             template:

@@ -15,11 +15,19 @@ define(function () {
             link: function (scope) {
                 scope.label = scope.label || 'Edit';
                 scope.gotoEdit = function () {
-                    $state.go($state.get('edit'),
-                    angular.extend({
-                        entity: scope.entity().name(),
-                        id: scope.entry().identifierValue
-                    }, $state.params));
+                    if ($state.params.entity == scope.entity().name()) {
+                        // link to the same entity, so preserve active filters
+                        $state.go($state.get('edit'), angular.extend({
+                            entity: scope.entity().name(),
+                            id: scope.entry().identifierValue
+                        }, $state.params));
+                    } else {
+                        // link to anoter entity, so forget filters
+                        $state.go($state.get('edit'), {
+                            entity: scope.entity().name(),
+                            id: scope.entry().identifierValue
+                        });
+                    }
                 };
             },
             template:

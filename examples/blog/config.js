@@ -136,7 +136,8 @@
                         nga.field('body').label('Comment')
                     ])
                     .sortField('created_at')
-                    .sortDir('DESC'),
+                    .sortDir('DESC')
+                    .listActions(['edit']),
                 nga.field('', 'template').label('')
                     .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button></span>')
             ]);
