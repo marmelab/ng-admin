@@ -439,7 +439,7 @@ A list of attributes to be added to the corresponding field.
         nga.field('title').attributes({ placeholder: 'fill me !' })
 
 * `validation(object)`
-Set field validation rules. Based on Angular's form falidation features.
+Set field validation rules. Based on Angular's form validation features.
  - `required`: boolean
  - `minlength`: number
  - `maxlength`: number
