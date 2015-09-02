@@ -19,7 +19,8 @@ define(function (require) {
             if (field.isDetailLink() === false) {
                 return false;
             }
-            if (field.type() == 'reference' || field.type() == 'reference_many') {
+            if (field.type() == 'reference' || field.type() == 'reference_many' ||
+                field.type() == 'nested_reference') {
                 var relatedEntity = Configuration().getEntity(field.targetEntity().name());
                 if (!relatedEntity) {
                     return false;

@@ -17,6 +17,8 @@ function factories(fvp) {
     fvp.registerFieldView('template', require('../fieldView/TemplateFieldView'));
     fvp.registerFieldView('text', require('../fieldView/TextFieldView'));
     fvp.registerFieldView('wysiwyg', require('../fieldView/WysiwygFieldView'));
+    fvp.registerFieldView('nested_reference', require('../fieldView/NestedReferenceFieldView'));
+    fvp.registerFieldView('nested_referenced_list', require('../fieldView/NestedReferencedListFieldView'));
 }
 
 factories.$inject = ['FieldViewConfigurationProvider'];
