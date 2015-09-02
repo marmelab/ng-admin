@@ -37,6 +37,10 @@ NgAdminConfiguration.prototype.registerFieldType = function(name, type) {
     return this.adminDescription.registerFieldType(name, type);
 };
 
+NgAdminConfiguration.prototype.getFieldConstructor = function(name) {
+  return this.adminDescription.getFieldConstructor(name);
+};
+
 NgAdminConfiguration.prototype.menu = function(entity) {
     return this.adminDescription.menu(entity);
 };
