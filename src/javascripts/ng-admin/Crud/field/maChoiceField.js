@@ -27,6 +27,20 @@ function maChoiceField($compile) {
                         }
                     });
 
+                    scope.$watch('field()', function (field) {
+                        if(!field.choices) {
+                            return;
+                        }
+                        var choices;
+                        if (typeof field.choices === 'function') {
+                            choices = field.choices();
+                        }
+                        if(typeof choices === 'function') {
+                            choices = choices(scope.entry);
+                        }
+                        scope.choices = choices;
+                    });
+
                     var refreshAttributes = '';
                     if (field.type().indexOf('reference') === 0 && field.remoteComplete()) {
                         scope.refreshDelay = field.remoteCompleteOptions().refreshDelay;
