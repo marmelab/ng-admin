@@ -1,4 +1,4 @@
-{
+var apiData = {
   "posts": [
     {
       "id": 1,
@@ -307,4 +307,4 @@
       "published": 1
     }
   ]
-}
+};

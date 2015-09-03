@@ -20,27 +20,36 @@
             if (operation == "getList") {
                 // custom pagination params
                 if (params._page) {
-                    params._start = (params._page - 1) * params._perPage;
-                    params._end = params._page * params._perPage;
+                    var start = (params._page - 1) * params._perPage;
+                    var end = params._page * params._perPage - 1;
+                    params.range = "[" + start + "," + end + "]";
+                    delete params._page;
+                    delete params._perPage;
                 }
-                delete params._page;
-                delete params._perPage;
                 // custom sort params
                 if (params._sortField) {
-                    params._sort = params._sortField;
-                    params._order = params._sortDir;
+                    params.sort = '["' + params._sortField + '","' + params._sortDir + '"]';
                     delete params._sortField;
                     delete params._sortDir;
                 }
                 // custom filters
                 if (params._filters) {
-                    for (var filter in params._filters) {
-                        params[filter] = params._filters[filter];
-                    }
+                    params.filter = params._filters;
                     delete params._filters;
                 }
             }
             return { params: params };
+        });
+
+        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+            if (operation === "getList") {
+                var headers = response.headers();
+                if (headers['content-range']) {
+                    response.totalCount = headers['content-range'].split('/').pop();
+                }
+            }
+
+            return data;
         });
 
         var admin = nga.application('ng-admin backend demo') // application main title

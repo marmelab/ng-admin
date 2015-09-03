@@ -3,7 +3,6 @@ var mixins = require('../../../mock/mixins');
 var ReferenceField = require('admin-config/lib/Field/ReferenceField');
 var ReadQueries = require('admin-config/lib/Queries/ReadQueries');
 var ReferenceRefresher = require('../../../../ng-admin/Crud/repository/ReferenceRefresher');
-var sinon = require('sinon');
 
 describe('ReferenceRefresher', function() {
     var fakeEntity, fakeField;
@@ -30,27 +29,25 @@ describe('ReferenceRefresher', function() {
     describe('refresh', function() {
         it('should call remote API with given search parameter', function() {
             var readQueries = new ReadQueries();
-            var spy = sinon.stub(readQueries, 'getAllReferencedData', function() {
-                return mixins.buildPromise({ 'post': [] });
-            });
+            var spy = spyOn(readQueries, 'getAllReferencedData');
+            spy.and.returnValue(mixins.buildPromise({ 'post': [] }));
 
             var refresher = new ReferenceRefresher(readQueries);
             refresher.refresh(fakeField, null, 'foo');
 
-            expect(spy.calledOnce).toBeTruthy();
-            expect(spy.args[0][1]).toEqual('foo');
+            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(jasmine.any(Object), 'foo');
         });
 
         it('should format correctly returned results', function(done) {
             var readQueries = new ReadQueries();
-            sinon.stub(readQueries, 'getAllReferencedData', function() {
-                return mixins.buildPromise({
-                    post: [
-                        { id: 1, title: 'Discover some awesome stuff' },
-                        { id: 2, title: 'Another great post'}
-                    ]
-                });
-            });
+            var spy = spyOn(readQueries, 'getAllReferencedData');
+            spy.and.returnValue(mixins.buildPromise({
+                post: [
+                    { id: 1, title: 'Discover some awesome stuff' },
+                    { id: 2, title: 'Another great post'}
+                ]
+            }));
 
             var refresher = new ReferenceRefresher(readQueries);
             refresher.refresh(fakeField, null, 'foo').then(function(results) {
@@ -66,14 +63,13 @@ describe('ReferenceRefresher', function() {
             var refresher;
             beforeEach(function() {
                 var readQueries = new ReadQueries();
-                sinon.stub(readQueries, 'getAllReferencedData', function() {
-                    return mixins.buildPromise({
-                        post: [
-                            { id: 1, title: 'Discover some awesome stuff' },
-                            { id: 2, title: 'Another great post'}
-                        ]
-                    });
-                });
+                var spy = spyOn(readQueries, 'getAllReferencedData');
+                spy.and.returnValue(mixins.buildPromise({
+                    post: [
+                        { id: 1, title: 'Discover some awesome stuff' },
+                        { id: 2, title: 'Another great post'}
+                    ]
+                }));
 
                 refresher = new ReferenceRefresher(readQueries);
             });
@@ -104,14 +100,13 @@ describe('ReferenceRefresher', function() {
 
         it('should return value transformed by `maps` field functions', function(done) {
             var readQueries = new ReadQueries();
-            sinon.stub(readQueries, 'getAllReferencedData', function() {
-                return mixins.buildPromise({
-                    post: [
-                        { id: 1, title: 'Discover some awesome stuff' },
-                        { id: 2, title: 'Another great post'}
-                    ]
-                });
-            });
+            var spy = spyOn(readQueries, 'getAllReferencedData');
+            spy.and.returnValue(mixins.buildPromise({
+                post: [
+                    { id: 1, title: 'Discover some awesome stuff' },
+                    { id: 2, title: 'Another great post'}
+                ]
+            }));
 
             fakeField.getMappedValue = (v, e) => `${e.title} (#${e.id})`;
 
@@ -130,19 +125,18 @@ describe('ReferenceRefresher', function() {
         var readQueries, refresher;
         beforeEach(function() {
             readQueries = new ReadQueries();
-            sinon.stub(readQueries, 'getRecordsByIds', function() {
-                return mixins.buildPromise([
-                    { id: 1, title: 'Discover some awesome stuff' },
-                    { id: 2, title: 'Another great post'}
-                ]);
-            });
+            var spy = spyOn(readQueries, 'getRecordsByIds');
+            spy.and.returnValue(mixins.buildPromise([
+                { id: 1, title: 'Discover some awesome stuff' },
+                { id: 2, title: 'Another great post'}
+            ]));
 
             refresher = new ReferenceRefresher(readQueries);
         });
 
         it('should retrieve correct labels from given values, in correct choices expected format', function(done) {
             refresher.getInitialChoices(fakeField, [1, 2]).then(function(results) {
-                expect(readQueries.getRecordsByIds.called).toBeTruthy();
+                expect(readQueries.getRecordsByIds).toHaveBeenCalled();
                 expect(results).toEqual([
                     { value: 1, label: 'Discover some awesome stuff' },
                     { value: 2, label: 'Another great post' }

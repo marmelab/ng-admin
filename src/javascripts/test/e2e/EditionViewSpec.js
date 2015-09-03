@@ -22,10 +22,10 @@ describe('EditionView', function () {
                 return $$('button[type="submit"]').first().click();
             })
             .then(function() {
-                return browser.get(browser.baseUrl + '#/comments/list');     
+                return $$('#page-wrapper .btn-default').first().click();
             })
             .then(function() {
-                return browser.get(browser.baseUrl + '#/comments/edit/11');
+                return $$('.ng-admin-column-actions .btn-xs').first().click();
             })
             .then(function() {
                 return $$('.ng-admin-field-author_name input').first();
@@ -99,7 +99,7 @@ describe('EditionView', function () {
             .then(function() {
                 return browser.getLocationAbsUrl();
             })
-            .then(function(url){
+            .then(function(url) {
                 expect(url).toContain('/comments/edit/');
             });
         });

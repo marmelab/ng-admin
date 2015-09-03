@@ -2,7 +2,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 function getEntrySources(sources) {
     if (process.env.NODE_ENV !== 'production') { // for live reload
-        sources.push('webpack-dev-server/client?http://localhost:8080');
+        sources.push('webpack-dev-server/client?http://0.0.0.0:8000');
     }
 
     return sources;
@@ -33,7 +33,7 @@ module.exports = {
         'ng-admin-only': getEntrySources(ngAdminSources)
     },
     output: {
-        publicPath: "http://localhost:8080/",
+        publicPath: "http://localhost:8000/",
         filename: "build/[name].min.js"
     },
     module: {

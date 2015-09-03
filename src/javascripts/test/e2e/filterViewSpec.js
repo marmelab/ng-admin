@@ -5,7 +5,7 @@ describe('List filter', function () {
     var hasToLoad = true;
     beforeEach(function() {
         if (hasToLoad) {
-            browser.get(browser.baseUrl + '#/comments/list');    
+            browser.get(browser.baseUrl + '#/comments/list');
         }
         hasToLoad = true;
     });
@@ -22,7 +22,7 @@ describe('List filter', function () {
             return $$('ma-view-actions button').then(function(buttons) {
                 expect(buttons[0].getText()).toBe(' Add filter');
             });
-        });        
+        });
     });
 
     describe('filter button', function() {
@@ -94,7 +94,7 @@ describe('List filter', function () {
                 return browser.driver.sleep(600); // debounce delay
             })
             .then(function() {
-                return $$('.grid tr td:nth-child(4)');    
+                return $$('.grid tr td:nth-child(4)');
             })
             .then(function (tdElements) {
                 expect(tdElements.length).toBe(1);
@@ -116,7 +116,7 @@ describe('List filter', function () {
                 return browser.driver.sleep(600); // debounce delay
             })
             .then(function() {
-                return $$('.grid tr td:nth-child(4)');    
+                return $$('.grid tr td:nth-child(4)');
             })
             .then(function (tdElements) {
                 expect(tdElements.length).toBe(10);
@@ -184,7 +184,7 @@ describe('List filter', function () {
                 return $$('ma-datagrid-pagination .total');
             })
             .then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 5 on 5');
+                expect(totalElements[0].getText()).toBe('1 - 4 on 4');
             });
         });
     });

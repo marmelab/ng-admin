@@ -4,7 +4,7 @@ exports.config =  {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
     specs: ['e2e/*.js'],
-    baseUrl: 'http://' + (process.env.CI ? 'ngadmin' : 'localhost') + ':8000',
+    baseUrl: 'http://' + (process.env.CI ? 'ngadmin' : 'localhost') + ':8001',
     maxSessions: 1,
     multiCapabilities: [
         {
