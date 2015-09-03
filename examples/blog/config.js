@@ -66,6 +66,13 @@
         var tag = nga.entity('tags')
             .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
+        var subCategories = [
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+            { category: 'lifestyle', label: 'Travel', value: 'travel' },
+            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
+        ];
+
         // set the application entities
         admin
             .addEntity(post)
@@ -87,6 +94,13 @@
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
             ])
+            .filters([
+                nga.field('category', 'choice').choices([
+                    { label: 'Tech', value: 'tech' },
+                    { label: 'Lifestyle', value: 'lifestyle' }
+                ]).label('Category'),
+                nga.field('subcategory', 'choice').choices(subCategories).label('Subcategory')
+            ])
             .listActions(['show', 'edit', 'delete']);
 
         post.creationView()
@@ -98,13 +112,6 @@
                 nga.field('body', 'wysiwyg'), // overriding the type allows rich text editing for the body
                 nga.field('published_at', 'date') // Date field type translates to a datepicker
             ]);
-
-        var subCategories = [
-            { category: 'tech', label: 'Computers', value: 'computers' },
-            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
-            { category: 'lifestyle', label: 'Travel', value: 'travel' },
-            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
-        ];
 
         post.editionView()
             .title('Edit post "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
@@ -119,7 +126,7 @@
                 nga.field('subcategory', 'choice')
                     .choices(function(entry) { // choices also accepts a function to return a list of choices based on the current entry
                         return subCategories.filter(function (c) {
-                            return c.category === entry.values.category
+                            return c.category === entry.values.category;
                         });
                     }),
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
