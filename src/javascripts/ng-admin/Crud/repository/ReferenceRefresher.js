@@ -1,3 +1,5 @@
+import Entry from 'admin-config/lib/Entry'
+
 class ReferenceRefresher {
     constructor(ReadQueries) {
         this.ReadQueries = ReadQueries;
@@ -38,13 +40,19 @@ class ReferenceRefresher {
     }
 
     _transformRecords(field, records) {
-        var valueFieldName = field.targetEntity().identifier().name();
-        var labelFieldName = field.targetField().name();
-
-        return records.map(function(r) {
+        var targetEntity = field.targetEntity();
+        var targetField = field.targetField();
+        var valueFieldName = targetEntity.identifier().name();
+        var labelFieldName = targetField.name();
+        return Entry.createArrayFromRest(
+            records,
+            [targetField],
+            targetEntity.name(),
+            valueFieldName
+        ).map(function(r) {
             return {
-                value: r[valueFieldName],
-                label: field.getMappedValue(r[labelFieldName], r)
+                value: r.values[valueFieldName],
+                label: r.values[labelFieldName]
             };
         });
     }

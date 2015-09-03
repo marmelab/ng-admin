@@ -8,6 +8,7 @@ describe('ReferenceRefresher', function() {
     var fakeEntity, fakeField;
     beforeEach(function() {
         fakeEntity = {
+            name: () => 'fooEntity',
             identifier: () => {
                 return {
                     name: () => 'id'
@@ -19,9 +20,12 @@ describe('ReferenceRefresher', function() {
             name: () => 'post',
             targetEntity: () => fakeEntity,
             targetField: ()  => {
-                return { name: () => 'title' }
+                return {
+                    name: () => 'title',
+                    flattenable: () => false,
+                    getMappedValue: v => v
+                }
             },
-            getMappedValue: v => v,
             type: () => 'reference'
         };
     });
@@ -108,7 +112,18 @@ describe('ReferenceRefresher', function() {
                 ]
             }));
 
-            fakeField.getMappedValue = (v, e) => `${e.title} (#${e.id})`;
+            fakeField = {
+                name: () => 'post',
+                targetEntity: () => fakeEntity,
+                targetField: ()  => {
+                    return {
+                        name: () => 'title',
+                        flattenable: () => false,
+                        getMappedValue: (v, e) => `${e.title} (#${e.id})`
+                    }
+                },
+                type: () => 'reference'
+            };
 
             var refresher = new ReferenceRefresher(readQueries);
             refresher.refresh(fakeField, null).then(function(results) {
@@ -146,7 +161,18 @@ describe('ReferenceRefresher', function() {
         });
 
         it('should return mapped values for labels', function(done) {
-            fakeField.getMappedValue = (v, e) => `${e.title} (#${e.id})`;
+            fakeField = {
+                name: () => 'post',
+                targetEntity: () => fakeEntity,
+                targetField: ()  => {
+                    return {
+                        name: () => 'title',
+                        flattenable: () => false,
+                        getMappedValue: (v, e) => `${e.title} (#${e.id})`
+                    }
+                },
+                type: () => 'reference'
+            };
             refresher.getInitialChoices(fakeField, [1, 2]).then(function(results) {
                 expect(results).toEqual([
                     { value: 1, label: 'Discover some awesome stuff (#1)' },

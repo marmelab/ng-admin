@@ -1,10 +1,12 @@
-var listLayoutTemplate = require('./list/listLayout.html'),
-    listTemplate = require ('./list/list.html'),
-    showTemplate = require('./show/show.html'),
-    createTemplate = require('./form/create.html'),
-    editTemplate = require('./form/edit.html'),
-    deleteTemplate = require('./delete/delete.html'),
-    batchDeleteTemplate = require('./delete/batchDelete.html');
+import Entry from 'admin-config/lib/Entry';
+import DataStore from 'admin-config/lib/DataStore/DataStore';
+import listLayoutTemplate from './list/listLayout.html';
+import listTemplate from './list/list.html';
+import showTemplate from './show/show.html';
+import createTemplate from './form/create.html';
+import editTemplate from './form/edit.html';
+import deleteTemplate from './delete/delete.html';
+import batchDeleteTemplate from './delete/batchDelete.html';
 
 function templateProvider(viewName, defaultView) {
     return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
@@ -35,19 +37,6 @@ function viewProvider(viewName) {
     }];
 }
 
-function dataStoreProvider() {
-    return ['AdminDescription', function (AdminDescription) {
-        return AdminDescription.getDataStore();
-    }];
-}
-
-
-function entryConstructorProvider() {
-    return ['AdminDescription', function (AdminDescription) {
-        return AdminDescription.getEntryConstructor();
-    }];
-}
-
 function routing($stateProvider) {
 
     $stateProvider
@@ -62,13 +51,12 @@ function routing($stateProvider) {
             controllerAs: 'llCtrl',
             templateProvider: templateProvider('ListView', listLayoutTemplate),
             resolve: {
-                dataStore: dataStoreProvider(),
-                Entry: entryConstructorProvider(),
+                dataStore: () => new DataStore(),
                 view: viewProvider('ListView'),
                 filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
                 }],
-                filterEntries: ['dataStore', 'view', 'filterData', 'Entry', function (dataStore, view, filterData, Entry) {
+                filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
                     var filters = view.getFilterReferences(false);
                     var filterEntries;
 
@@ -105,8 +93,7 @@ function routing($stateProvider) {
                     controllerAs: 'listController',
                     template: listTemplate,
                     resolve: {
-                        dataStore: dataStoreProvider(),
-                        Entry: entryConstructorProvider(),
+                        dataStore: () => new DataStore(),
                         view: viewProvider('ListView'),
                         response: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                             var page = $stateParams.page,
@@ -125,7 +112,7 @@ function routing($stateProvider) {
                         optimizedReferencedData: ['ReadQueries', 'view', 'response', function (ReadQueries, view, response) {
                             return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), response.data);
                         }],
-                        referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                        referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                             var references = view.getReferences(),
                                 referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                                 referencedEntries;
@@ -177,8 +164,7 @@ function routing($stateProvider) {
                 sortDir: null
             },
             resolve: {
-                dataStore: dataStoreProvider(),
-                Entry: entryConstructorProvider(),
+                dataStore: () => new DataStore(),
                 view: viewProvider('ShowView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
@@ -192,7 +178,7 @@ function routing($stateProvider) {
                 optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                 }],
-                referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
                         referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                         referencedEntries;
@@ -216,7 +202,7 @@ function routing($stateProvider) {
 
                     return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                 }],
-                referencedListEntries: ['dataStore', 'Entry', 'view', 'referencedListData', function (dataStore, Entry, view, referencedListData) {
+                referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
                     var referencedLists = view.getReferencedLists();
                     var referencedList;
                     var referencedListEntries;
@@ -262,10 +248,9 @@ function routing($stateProvider) {
                 sortDir: null
             },
             resolve: {
-                dataStore: dataStoreProvider(),
+                dataStore: () => new DataStore(),
                 view: viewProvider('CreateView'),
-                Entry: entryConstructorProvider(),
-                entry: ['dataStore', 'Entry', 'view', function (dataStore, Entry, view) {
+                entry: ['dataStore', 'view', function (dataStore, view) {
                     var entry = Entry.createForFields(view.getFields(), view.entity.name());
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
 
@@ -274,7 +259,7 @@ function routing($stateProvider) {
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
-                choiceEntries: ['dataStore', 'Entry', 'view', 'choiceData', function (dataStore, Entry, view, filterData) {
+                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
                     var choices = view.getReferences(false);
                     var choiceEntries;
 
@@ -313,8 +298,7 @@ function routing($stateProvider) {
                 sortDir: null
             },
             resolve: {
-                dataStore: dataStoreProvider(),
-                Entry: entryConstructorProvider(),
+                dataStore: () => new DataStore(),
                 view: viewProvider('EditView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
@@ -328,7 +312,7 @@ function routing($stateProvider) {
                 optimizedReferencedData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
                     return ReadQueries.getOptimizedReferencedData(view.getOptimizedReferences(), [entry.values]);
                 }],
-                referencedEntries: ['dataStore', 'Entry', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, Entry, view, nonOptimizedReferencedData, optimizedReferencedData) {
+                referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
                         referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
                         referencedEntries;
@@ -352,7 +336,7 @@ function routing($stateProvider) {
 
                     return ReadQueries.getReferencedListData(referencedLists, sortField, sortDir, entry.identifierValue);
                 }],
-                referencedListEntries: ['dataStore', 'Entry', 'view', 'referencedListData', function (dataStore, Entry, view, referencedListData) {
+                referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
                     var referencedLists = view.getReferencedLists();
                     var referencedList;
                     var referencedListEntries;
@@ -383,7 +367,7 @@ function routing($stateProvider) {
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
-                choiceEntries: ['dataStore', 'Entry', 'view', 'choiceData', function (dataStore, Entry, view, filterData) {
+                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
                     var choices = view.getReferences(false);
                     var choiceEntries;
 
@@ -420,7 +404,7 @@ function routing($stateProvider) {
                 sortDir: null
             },
             resolve: {
-                dataStore: dataStoreProvider(),
+                dataStore: () => new DataStore(),
                 view: viewProvider('DeleteView'),
                 params: ['$stateParams', function ($stateParams) {
                     return $stateParams;
