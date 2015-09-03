@@ -15,7 +15,17 @@ define(function () {
                 scope.label = scope.label || 'Create';
 
                 scope.gotoCreate = function () {
-                    $state.go($state.get('create'), angular.extend({entity: scope.entity().name()}, $state.params));
+                    if ($state.params.entity == scope.entity().name()) {
+                        // link to the same entity, so preserve active filters
+                        $state.go($state.get('create'), angular.extend({
+                            entity: scope.entity().name(),
+                        }, $state.params));
+                    } else {
+                        // link to anoter entity, so forget filters
+                        $state.go($state.get('create'), {
+                            entity: scope.entity().name(),
+                        });
+                    }
                 };
             },
             template:
