@@ -174,7 +174,6 @@
                     .map(truncate),
                 nga.field('post_id', 'reference')
                     .label('Post')
-                    .map(truncate)
                     .targetEntity(post)
                     .targetField(nga.field('title').map(truncate))
             ])
@@ -207,9 +206,8 @@
                 nga.field('body', 'wysiwyg'),
                 nga.field('post_id', 'reference')
                     .label('Post')
-                    .map(truncate)
                     .targetEntity(post)
-                    .targetField(nga.field('title'))
+                    .targetField(nga.field('title').map(truncate))
                     .sortField('title')
                     .sortDir('ASC')
                     .validation({ required: true })
@@ -354,7 +352,6 @@
                         .isDetailLink(true),
                     nga.field('post_id', 'reference')
                         .label('Post')
-                        .map(truncate)
                         .targetEntity(post)
                         .targetField(nga.field('title').map(truncate))
                 ])
