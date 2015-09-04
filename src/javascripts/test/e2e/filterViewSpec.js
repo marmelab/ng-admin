@@ -148,6 +148,58 @@ describe('List filter', function () {
         });
     });
 
+    describe('filter choice conflict', function () {
+
+        beforeEach(function() {
+            if (hasToLoad) {
+                browser.get(browser.baseUrl + '#/posts/list');
+            }
+            hasToLoad = true;
+        });
+
+        var addFilter = function (name) {
+            return function () {
+                return element(by.css('ma-filter-button')).click()
+                .then(function () {
+                    return element(by.linkText(name)).click();
+                });
+            };
+        };
+
+        var removeFilter = function (name) {
+            return function () {
+                return element(by.css('.filter.' + name + ' .remove_filter')).click();
+            };
+        };
+
+        var getChoices = function (name) {
+            return function () {
+                return element(by.css('.filter.' + name)).click()
+                .then(function () {
+                    return element.all(by.css('.filter.' + name + ' .ui-select-choices-row')).getText();
+                });
+            };
+        };
+
+        it('should not mix filter choices when adding two filter and then deleting the first', function () {
+            addFilter('Category')()
+            .then(getChoices('category'))
+            .then(function(categoryChoices) {
+                return expect(categoryChoices).toEqual(['Tech', 'Lifestyle']);
+            })
+            .then(addFilter('Subcategory'))
+            .then(getChoices('subcategory'))
+            .then(function(subCategoryChoices) {
+                return expect(subCategoryChoices).toEqual(['Computers', 'Gadgets', 'Travel', 'Fitness']);
+            })
+            .then(removeFilter('category'))
+            .then(getChoices('subcategory'))
+            .then(function (subCategoryChoices) {
+                return expect(subCategoryChoices).toEqual(['Computers', 'Gadgets', 'Travel', 'Fitness']);
+            });
+        });
+    });
+
     describe('interaction with pagination', function() {
         it('should reset page number', function () {
             // Filter globally for 'I'
