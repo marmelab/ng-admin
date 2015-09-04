@@ -44,7 +44,9 @@ function maMenuBar($location, $rootScope, $compile) {
                 // no need to close the menus with animation using closeMenu(),
                 // the menu will rerender anyway because of the listener on $locationChangeSuccess
                 // so the animation don't work in that case
-                openMenus = [];
+                if (menu.autoClose()) {
+                    openMenus = [];
+                }
                 $location.url(menu.link());
             };
             scope.isOpen = function(menu) {
