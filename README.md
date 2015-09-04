@@ -7,7 +7,7 @@ Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-m
 
 [![Screencast](http://marmelab.com/ng-admin/images/screencast.png)](https://vimeo.com/118697682)
 
-Check out the [online demo](http://ng-admin.marmelab.com/) ([source](https://github.com/marmelab/ng-admin-demo)).
+Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)).
 
 * [Installation](#installation)
 * [Getting Started](doc/Getting-started.md)
