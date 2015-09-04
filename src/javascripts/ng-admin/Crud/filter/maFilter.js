@@ -11,7 +11,7 @@ function maFilterDirective(FieldViewConfiguration) {
     var template = `
 <div class="row">
     <form class="filters col-md-offset-6 col-md-6 form-horizontal" ng-if="shouldFilter()">
-        <div class="filter {{ field.name() }} form-group input-{{ field.type() }}" ng-repeat="field in filters track by $index">
+        <div class="filter {{ field.name() }} form-group input-{{ field.type() }}" ng-repeat="field in filters track by field.name()">
             <div class="col-sm-1 col-xs-1 remove_filter">
                 <a ng-if="!field.pinned()" ng-click="removeFilter(field)"><span class="glyphicon glyphicon-remove"></span></a>
             </div>
