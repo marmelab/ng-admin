@@ -46,12 +46,17 @@ admin.menu(nga.menu()
 );
 ```
 
-*Tip*: `admin.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `admin.menu().getChildByTitle()`
+By default parent menus will automatically close when none of their children are active. This can be deactivated with:
+```js
+nga.menu().autoClose(false);
+```
 
+This option is global and will affect all menu.
+
+*Tip*: `admin.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `admin.menu().getChildByTitle()`
 ```js
 admin.addEntity(post)
 admin.menu().getChildByTitle('Post')
     .title('Posts')
     .icon('<span class="glyphicon glyphicon-file"></span>');
 ```
-

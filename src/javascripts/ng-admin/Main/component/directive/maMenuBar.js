@@ -10,7 +10,10 @@ function maMenuBar($location, $rootScope, $compile) {
         link: function(scope, element) {
             scope.menu = scope.menu();
             scope.path = $location.path();
-            var openMenus = [];
+            // initialize openMenus
+            var openMenus = scope.menu.children().filter(function (menu) {
+                return menu.isChildActive(scope.path);
+            });
             // manually render on change to avoid checking menu.isActive at each dirty check
             var listener = $rootScope.$on('$locationChangeSuccess', function() {
                 scope.path = $location.path();
@@ -44,7 +47,9 @@ function maMenuBar($location, $rootScope, $compile) {
                 // no need to close the menus with animation using closeMenu(),
                 // the menu will rerender anyway because of the listener on $locationChangeSuccess
                 // so the animation don't work in that case
-                openMenus = [];
+                if (menu.autoClose()) {
+                    openMenus = [];
+                }
                 $location.url(menu.link());
             };
             scope.isOpen = function(menu) {
