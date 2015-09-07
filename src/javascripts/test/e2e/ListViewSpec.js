@@ -93,7 +93,7 @@ describe('ListView', function () {
             elements[0].click();
             expect(browser.getCurrentUrl()).toMatch(browser.baseUrl + '/#/comments/batch-delete/');
 
-            return $$('button');
+            return $$('#page-wrapper button');
         });
     }
 
