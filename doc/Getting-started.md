@@ -63,7 +63,7 @@ That's enough for the first step. You should now have the following file structu
 ```
 my-first-admin/
   index.html
-  config.js
+  admin.js
   node_modules/
     ng-admin/
       build/
@@ -572,7 +572,7 @@ You can do much more to customize the look and feel of an ng-admin application -
 
 The sidebar menu automatically shows one item for each entity added to the admin app by default. That may or may not be what you want. The good news is this menu is entirely configurable. 
 
-To demonstrate it, let's customize the icons for each entity. Add the following code at the end of the `config.js` script, just before the call to `nga.configure()`:
+To demonstrate it, let's customize the icons for each entity. Add the following code at the end of the `admin.js` script, just before the call to `nga.configure()`:
 
 ```js
 admin.menu(nga.menu()
