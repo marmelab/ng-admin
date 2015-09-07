@@ -274,9 +274,14 @@
         // customize header
         var customHeaderTemplate =
         '<div class="navbar-header">' +
+            '<button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">' +
+              '<span class="icon-bar"></span>' +
+              '<span class="icon-bar"></span>' +
+              '<span class="icon-bar"></span>' +
+            '</button>' +
             '<a class="navbar-brand" href="#" ng-click="appController.displayHome()">ng-admin backend demo</a>' +
         '</div>' +
-        '<p class="navbar-text navbar-right">' +
+        '<p class="navbar-text navbar-right hidden-xs">' +
             '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source</a>' +
         '</p>';
         admin.header(customHeaderTemplate);
