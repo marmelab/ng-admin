@@ -3,7 +3,7 @@ function factories(fvp) {
     fvp.registerFieldView('choice', require('../fieldView/ChoiceFieldView'));
     fvp.registerFieldView('choices', require('../fieldView/ChoicesFieldView'));
     fvp.registerFieldView('date', require('../fieldView/DateFieldView'));
-    fvp.registerFieldView('datetime', require('../fieldView/DateFieldView'));
+    fvp.registerFieldView('datetime', require('../fieldView/DateTimeFieldView'));
     fvp.registerFieldView('email', require('../fieldView/EmailFieldView'));
     fvp.registerFieldView('file', require('../fieldView/FileFieldView'));
     fvp.registerFieldView('float', require('../fieldView/FloatFieldView'));
