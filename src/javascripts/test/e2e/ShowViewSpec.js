@@ -28,9 +28,9 @@ describe('ShowView', function () {
             $$('.ng-admin-field-comments th').then(function (inputs) {
                 expect(inputs.length).toBe(4);
 
-                expect(inputs[0].getAttribute('class')).toBe('ng-admin-column-id');
-                expect(inputs[1].getAttribute('class')).toBe('ng-admin-column-created_at');
-                expect(inputs[2].getAttribute('class')).toBe('ng-admin-column-body');
+                expect(inputs[0].getAttribute('class')).toBe('ng-admin-column-id ng-admin-type-string');
+                expect(inputs[1].getAttribute('class')).toBe('ng-admin-column-created_at ng-admin-type-string');
+                expect(inputs[2].getAttribute('class')).toBe('ng-admin-column-body ng-admin-type-string');
             });
         });
     });
