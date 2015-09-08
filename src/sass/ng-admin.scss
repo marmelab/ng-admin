@@ -142,6 +142,11 @@ ma-view-actions {
 
 .grid {
 
+    .ng-admin-type-number, .ng-admin-type-float {
+        text-align: right;
+        padding-right: 1em;
+    }
+
     background-color: #fff;
 
     .label-default {
