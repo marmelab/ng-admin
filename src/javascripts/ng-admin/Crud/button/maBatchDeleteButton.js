@@ -28,7 +28,7 @@ define(function () {
             },
             template:
 `<span ng-click="gotoBatchDelete()">
-    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ ::label }}
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </span>`
 
         };
