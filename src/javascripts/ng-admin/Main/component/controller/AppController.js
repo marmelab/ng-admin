@@ -14,6 +14,7 @@ define(function () {
         var application = Configuration();
         this.$scope = $scope;
         this.$state = $state;
+        this.$scope.isCollapsed = true;
         this.menu = application.menu();
         this.applicationName = application.title();
         this.header = application.header();

@@ -2,6 +2,11 @@
     <nav id="header-nav" class="navbar navbar-default navbar-static-top" role="navigation">
         <span compile="::appController.header">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a href="#" ng-click="appController.displayHome()" class="navbar-brand">{{ ::appController.applicationName }}</a>
         </div>
         </span>

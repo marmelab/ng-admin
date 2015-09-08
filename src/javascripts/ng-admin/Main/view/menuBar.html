@@ -1,5 +1,5 @@
 <div class="navbar-default sidebar" role="navigation" compile="menu.template()">
-    <div class="sidebar-nav navbar-collapse">
+    <div class="sidebar-nav navbar-collapse collapse" collapse="$parent.isCollapsed">
         <ul class="nav" id="side-menu">
             <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
                 <a ng-click="menu.hasChild() ? toggleMenu(menu) : gotoLink(menu)" ng-class="::{'active': menu.isActive(path)}">
