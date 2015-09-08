@@ -83,21 +83,15 @@ function routing($stateProvider, $urlRouterProvider) {
                                 optimizedReferencedData = optimizedReference;
 
                                 var references = collection.getReferences(),
-                                    referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                                    referencedEntries;
+                                    referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData);
 
                                 for (var name in referencedData) {
-                                    referencedEntries = Entry.createArrayFromRest(
+                                    Entry.createArrayFromRest(
                                         referencedData[name],
                                         [references[name].targetField()],
                                         references[name].targetEntity().name(),
                                         references[name].targetEntity().identifier().name()
-                                    );
-
-                                    dataStore.setEntries(
-                                        references[name].targetEntity().uniqueId + '_values',
-                                        referencedEntries
-                                    );
+                                    ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                                 }
                             })
                             .then(() => {

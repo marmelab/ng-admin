@@ -114,17 +114,15 @@ function routing($stateProvider) {
                         }],
                         referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                             var references = view.getReferences(),
-                                referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                                referencedEntries;
+                                referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData);
 
                             for (var name in referencedData) {
-                                referencedEntries = Entry.createArrayFromRest(
+                                Entry.createArrayFromRest(
                                     referencedData[name],
                                     [references[name].targetField()],
                                     references[name].targetEntity().name(),
                                     references[name].targetEntity().identifier().name()
-                                );
-                                referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
+                                ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                             }
 
                             return true;
@@ -180,17 +178,15 @@ function routing($stateProvider) {
                 }],
                 referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
-                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                        referencedEntries;
+                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData);
 
                     for (var name in referencedData) {
-                        referencedEntries = Entry.createArrayFromRest(
+                        Entry.createArrayFromRest(
                             referencedData[name],
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
-                        );
-                        referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
                     }
 
                     return true;
@@ -211,17 +207,12 @@ function routing($stateProvider) {
                         referencedList = referencedLists[i];
                         referencedListEntries = referencedListData[i];
 
-                        referencedListEntries = Entry.createArrayFromRest(
+                        Entry.createArrayFromRest(
                             referencedListEntries,
                             referencedList.targetFields(),
                             referencedList.targetEntity().name(),
                             referencedList.targetEntity().identifier().name()
-                        );
-
-                        dataStore.setEntries(
-                            referencedList.targetEntity().uniqueId + '_list',
-                            referencedListEntries
-                        );
+                        ).map(entry => dataStore.addEntry(referencedList.targetEntity().uniqueId + '_list', entry));
                     }
                 }],
                 entryWithReferences: ['dataStore', 'view', 'entry', 'referencedEntries', function(dataStore, view, entry, referencedEntries) {
@@ -314,17 +305,15 @@ function routing($stateProvider) {
                 }],
                 referencedEntries: ['dataStore', 'view', 'nonOptimizedReferencedData', 'optimizedReferencedData', function (dataStore, view, nonOptimizedReferencedData, optimizedReferencedData) {
                     var references = view.getReferences(),
-                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                        referencedEntries;
+                        referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData);
 
                     for (var name in referencedData) {
-                        referencedEntries = Entry.createArrayFromRest(
+                        Entry.createArrayFromRest(
                             referencedData[name],
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
-                        );
-                        referencedEntries.map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
                     }
 
                     return true;
