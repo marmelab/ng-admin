@@ -20,7 +20,7 @@ Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https:
 * [Theming](doc/Theming.md)
 * [Adding Custom Pages](doc/Custom-pages.md)
 * [Adding Custom Types](doc/Custom-types.md)
-* [Getting Ready For Production](doc/production.md)
+* [Getting Ready For Production](doc/Production.md)
 * [Frequently Asked Questions](doc/FAQ.md)
 * [News](#news)
 * [Support](#support)
