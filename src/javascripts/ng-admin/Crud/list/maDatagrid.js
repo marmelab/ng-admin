@@ -25,7 +25,8 @@ define(function (require) {
             <th ng-if="selection">
                 <ma-datagrid-multi-selector toggle-select-all="toggleSelectAll()" selection="selection" entries="entries"/>
             </th>
-            <th ng-repeat="field in fields() track by $index" ng-class="'ng-admin-column-' + field.name()">
+            <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)"
+            class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
                 <a ng-click="datagrid.sort(field)">
                     <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
@@ -43,7 +44,7 @@ define(function (require) {
             <td ng-if="selection">
                 <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
-            <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)">
+            <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
                 <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
             </td>
             <td ng-if="datagrid.shouldDisplayActions" class="ng-admin-column-actions">

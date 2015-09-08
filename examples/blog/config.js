@@ -88,11 +88,14 @@
                 nga.field('id').label('id'), // The default displayed name is the camelCase field name. label() overrides id
                 nga.field('title'), // the default list field type is "string", and displays as a string
                 nga.field('published_at', 'date'),  // Date field type allows date formatting
-                nga.field('average_note', 'float'), // Float type also displays decimal digits
-                nga.field('views', 'number'),
+                nga.field('average_note', 'float') // Float type also displays decimal digits
+                    .cssClasses('hidden-xs'),
+                nga.field('views', 'number')
+                    .cssClasses('hidden-xs'),
                 nga.field('tags', 'reference_many') // a Reference is a particular type of field that references another entity
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
+                    .cssClasses('hidden-xs')
             ])
             .filters([
                 nga.field('category', 'choice').choices([
@@ -175,7 +178,8 @@
                 nga.field('created_at', 'date')
                     .label('Posted'),
                 nga.field('author.name')
-                    .label('Author'),
+                    .label('Author')
+                    .cssClasses('hidden-xs'),
                 nga.field('body', 'wysiwyg')
                     .stripTags(true)
                     .map(truncate),
@@ -183,6 +187,7 @@
                     .label('Post')
                     .targetEntity(post)
                     .targetField(nga.field('title').map(truncate))
+                    .cssClasses('hidden-xs')
             ])
             .filters([
                 nga.field('q', 'template')
@@ -249,6 +254,7 @@
                 nga.field('custom', 'template')
                     .label('Upper name')
                     .template('{{ entry.values.name.toUpperCase() }}')
+                    .cssClasses('hidden-xs')
             ])
             .filters([
                 nga.field('published', 'template')
