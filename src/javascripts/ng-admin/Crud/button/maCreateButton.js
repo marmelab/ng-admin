@@ -30,7 +30,7 @@ define(function () {
             },
             template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoCreate()">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;{{ ::label }}
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </a>`
         };
     }

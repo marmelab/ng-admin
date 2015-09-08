@@ -91,7 +91,7 @@ define(function () {
             template:
 `<span ng-if="has_export">
     <a class="btn btn-default" ng-click="exportToCsv()">
-        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;{{ ::label }}
+        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
     </a>
 </span>`
         };

@@ -1,12 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
-        <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
-            <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
-            <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
-            <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
-        </ma-view-actions>
-
         <div class="page-header">
+            <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
+                <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
+                <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
+                <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
+            </ma-view-actions>
             <h1 compile="::showController.title">
                 {{ ::showController.view.entity.name() | humanize:true | singularize }}  #{{ ::entry.identifierValue }} Detail
             </h1>

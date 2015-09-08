@@ -1,13 +1,14 @@
 <div class="row list-header">
     <div class="col-lg-12">
-        <ma-view-actions override="::llCtrl.actions" selection="selection" batch-buttons="::llCtrl.batchActions" entity="::llCtrl.entity" datastore="::llCtrl.dataStore" search="::llCtrl.search" filters="::llCtrl.filters" enabled-filters="llCtrl.enabledFilters" enable-filter="llCtrl.enableFilter">
-            <ma-filter-button filters="filters()" enabled-filters="enabledFilters" enable-filter="enableFilter()"></ma-filter-button>
-            <ma-view-batch-actions buttons="::batchButtons()" selection="selection" entity="::entity"></ma-view-batch-actions>
-            <ma-export-to-csv-button entity="::entity" search="::search" datastore="::datastore"></ma-export-to-csv-button>
-            <ma-create-button ng-if="::entity.creationView().enabled" entity="::entity"></ma-create-button>
-        </ma-view-actions>
-
         <div class="page-header">
+
+            <ma-view-actions override="::llCtrl.actions" selection="selection" batch-buttons="::llCtrl.batchActions" entity="::llCtrl.entity" datastore="::llCtrl.dataStore" search="::llCtrl.search" filters="::llCtrl.filters" enabled-filters="llCtrl.enabledFilters" enable-filter="llCtrl.enableFilter">
+                <ma-filter-button filters="filters()" enabled-filters="enabledFilters" enable-filter="enableFilter()"></ma-filter-button>
+                <ma-view-batch-actions buttons="::batchButtons()" selection="selection" entity="::entity"></ma-view-batch-actions>
+                <ma-export-to-csv-button entity="::entity" search="::search" datastore="::datastore"></ma-export-to-csv-button>
+                <ma-create-button ng-if="::entity.creationView().enabled" entity="::entity"></ma-create-button>
+            </ma-view-actions>
+
             <h1 compile="::llCtrl.view.title()">
                 {{ ::llCtrl.view.entity.name() | humanize | pluralize }} list
             </h1>
