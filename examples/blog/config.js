@@ -17,7 +17,7 @@
 
         // use the custom query parameters function to format the API request correctly
         RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
-            if (operation == "getList") {
+            if (operation === 'getList') {
                 // custom pagination params
                 if (params._page) {
                     var start = (params._page - 1) * params._perPage;
