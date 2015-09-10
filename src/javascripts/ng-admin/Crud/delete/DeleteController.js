@@ -3,7 +3,7 @@
 define(function () {
     'use strict';
 
-    var DeleteController = function ($scope, $window, $state, WriteQueries, notification, params, view, entry) {
+    var DeleteController = function ($scope, $window, $state, $q, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
@@ -18,7 +18,14 @@ define(function () {
         this.notification = notification;
         this.$scope.entry = entry;
         this.$scope.view = view;
+
         $scope.$on('$destroy', this.destroy.bind(this));
+
+        this.previousStateParametersDeferred = $q.defer();
+        $scope.$on('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
+            console.log(fromParams);
+            this.previousStateParametersDeferred.resolve(fromParams);
+        });
     };
 
     DeleteController.prototype.deleteOne = function () {
@@ -28,11 +35,18 @@ define(function () {
         return this.WriteQueries.deleteOne(this.view, this.entityId)
             .then(
                 function () {
-                    this.$state.go(this.$state.get('list'), angular.extend({
-                        entity: entityName
-                    }, this.$state.params));
+                    this.previousStateParametersDeferred.promise.then(function(previousStateParameters) {
+                        notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
 
-                    notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
+                        // if previous page was related to deleted entity, redirect to list
+                        if (previousStateParameters.entity === entityName && previousStateParameters.id === this.entityId) {
+                            return this.$state.go(this.$state.get('list'), angular.extend({
+                                entity: entityName
+                            }, this.$state.params));
+                        }
+
+                        this.back();
+                    }.bind(this));
                 }.bind(this),
                 function (response) {
                     // @TODO: share this method when splitting controllers
@@ -59,7 +73,7 @@ define(function () {
         this.entity = undefined;
     };
 
-    DeleteController.$inject = ['$scope', '$window', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
+    DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
 
     return DeleteController;
 });
