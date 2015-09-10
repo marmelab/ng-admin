@@ -23,7 +23,6 @@ define(function () {
 
         this.previousStateParametersDeferred = $q.defer();
         $scope.$on('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
-            console.log(fromParams);
             this.previousStateParametersDeferred.resolve(fromParams);
         });
     };
@@ -54,8 +53,6 @@ define(function () {
                     if (typeof body === 'object') {
                         body = JSON.stringify(body);
                     }
-
-                    this.back();
 
                     notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
                 }
