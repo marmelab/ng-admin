@@ -42,11 +42,16 @@ define(function (require) {
                 scope.field = scope.field();
                 scope.entry = scope.entry();
                 scope.entity = scope.entity();
-                var type = scope.field.type();
-                if (isDetailLink(scope.field, scope.entity)) {
-                    element.append(FieldViewConfiguration[type].getLinkWidget());
+                let customTemplate = scope.field.getTemplateValue(scope.entry);
+                if (customTemplate) {
+                    element.append(customTemplate);
                 } else {
-                    element.append(FieldViewConfiguration[type].getReadWidget());
+                    let type = scope.field.type();
+                    if (isDetailLink(scope.field, scope.entity)) {
+                        element.append(FieldViewConfiguration[type].getLinkWidget());
+                    } else {
+                        element.append(FieldViewConfiguration[type].getReadWidget());
+                    }
                 }
                 $compile(element.contents())(scope);
                 scope.gotoDetail = function () {
