@@ -143,7 +143,7 @@ Enable or disable debug (enabled by default)
         var app = nga.application().debug(false)
 
 * `header(string)`
-Customize the application header. See [the Theming doc](doc/Theming.md) for details.
+Customize the application header. See [the Theming doc](Theming.md) for details.
 
 * `menu(Menu)`
 Customize the sidebar menu. See [the Menu doc](Menus.md) for details.
