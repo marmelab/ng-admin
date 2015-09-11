@@ -22,7 +22,7 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
 
         this.previousStateParametersDeferred = $q.defer();
-        $scope.$on('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
+        $scope.$once('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
             this.previousStateParametersDeferred.resolve(fromParams);
         });
     };
@@ -33,21 +33,21 @@ define(function () {
 
         return this.WriteQueries.deleteOne(this.view, this.entityId)
             .then(
-                function () {
-                    this.previousStateParametersDeferred.promise.then(function(previousStateParameters) {
-                        notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
-
+                () => {
+                    this.previousStateParametersDeferred.promise.then(previousStateParameters => {
                         // if previous page was related to deleted entity, redirect to list
                         if (previousStateParameters.entity === entityName && previousStateParameters.id === this.entityId) {
-                            return this.$state.go(this.$state.get('list'), angular.extend({
+                            this.$state.go(this.$state.get('list'), angular.extend({
                                 entity: entityName
                             }, this.$state.params));
+                        } else {
+                            this.$window.history.back();
                         }
 
-                        this.back();
-                    }.bind(this));
-                }.bind(this),
-                function (response) {
+                        notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
+                    });
+                },
+                response => {
                     // @TODO: share this method when splitting controllers
                     var body = response.data;
                     if (typeof body === 'object') {
@@ -57,10 +57,6 @@ define(function () {
                     notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
                 }
             );
-    };
-
-    DeleteController.prototype.back = function () {
-        this.$window.history.back();
     };
 
     DeleteController.prototype.destroy = function () {
