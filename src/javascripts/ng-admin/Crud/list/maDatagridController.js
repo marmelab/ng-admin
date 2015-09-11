@@ -17,6 +17,7 @@ define(function () {
         this.$scope = $scope;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
+        this.datastore = this.$scope.datastore();
         this.filters = {};
         this.shouldDisplayActions = this.$scope.listActions() && this.$scope.listActions().length > 0;
 

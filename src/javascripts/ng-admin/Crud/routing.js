@@ -201,14 +201,14 @@ function routing($stateProvider) {
                 referencedListEntries: ['dataStore', 'view', 'referencedListData', function (dataStore, view, referencedListData) {
                     var referencedLists = view.getReferencedLists();
                     var referencedList;
-                    var referencedListEntries;
+                    var referencedListRestEntries;
 
                     for (var i in referencedLists) {
                         referencedList = referencedLists[i];
-                        referencedListEntries = referencedListData[i];
+                        referencedListRestEntries = referencedListData[i];
 
                         Entry.createArrayFromRest(
-                            referencedListEntries,
+                            referencedListRestEntries,
                             referencedList.targetFields(),
                             referencedList.targetEntity().name(),
                             referencedList.targetEntity().identifier().name()
@@ -220,6 +220,44 @@ function routing($stateProvider) {
 
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
 
+                    return true;
+                }],
+                nonOptimizedReferencedDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                    const referencedLists = view.getReferencedLists();
+                    var promises = {};
+                    Object.keys(referencedLists).map(name => {
+                        const nonOptimizedReferences = referencedLists[name].getNonOptimizedReferences();
+                        if (Object.keys(nonOptimizedReferences).length === 0) return;
+                        promises[name] = ReadQueries.getFilteredReferenceData(nonOptimizedReferences, referencedListData[name]);
+                    });
+                    return $q.all(promises)
+                }],
+                optimizedReferencedDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                    const referencedLists = view.getReferencedLists();
+                    var promises = {};
+                    Object.keys(referencedLists).map(name => {
+                        const optimizedReferences = referencedLists[name].getOptimizedReferences();
+                        if (Object.keys(optimizedReferences).length === 0) return;
+                        promises[name] = ReadQueries.getOptimizedReferencedData(optimizedReferences, referencedListData[name]);
+                    });
+                    return $q.all(promises)
+                }],
+                referencedEntriesForReferencedLists: ['dataStore', 'view', 'nonOptimizedReferencedDataForReferencedLists', 'optimizedReferencedDataForReferencedLists', function(dataStore, view, nonOptimizedReferencedDataForReferencedLists, optimizedReferencedDataForReferencedLists) {
+                    const referencedLists = view.getReferencedLists();
+                    const referencedData = angular.extend(nonOptimizedReferencedDataForReferencedLists, optimizedReferencedDataForReferencedLists);
+                    Object.keys(referencedLists).map(referencedListName => {
+                        var references = referencedLists[referencedListName].getReferences();
+                        for (var name in references) {
+                            if (!referencedData[referencedListName][name]) continue;
+                            Entry.createArrayFromRest(
+                                referencedData[referencedListName][name],
+                                [references[name].targetField()],
+                                references[name].targetEntity().name(),
+                                references[name].targetEntity().identifier().name()
+                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        }
+
+                    })
                     return true;
                 }]
             }
@@ -374,6 +412,44 @@ function routing($stateProvider) {
                         );
                     }
 
+                    return true;
+                }],
+                nonOptimizedReferencedDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                    const referencedLists = view.getReferencedLists();
+                    var promises = {};
+                    Object.keys(referencedLists).map(name => {
+                        const nonOptimizedReferences = referencedLists[name].getNonOptimizedReferences();
+                        if (Object.keys(nonOptimizedReferences).length === 0) return;
+                        promises[name] = ReadQueries.getFilteredReferenceData(nonOptimizedReferences, referencedListData[name]);
+                    });
+                    return $q.all(promises)
+                }],
+                optimizedReferencedDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                    const referencedLists = view.getReferencedLists();
+                    var promises = {};
+                    Object.keys(referencedLists).map(name => {
+                        const optimizedReferences = referencedLists[name].getOptimizedReferences();
+                        if (Object.keys(optimizedReferences).length === 0) return;
+                        promises[name] = ReadQueries.getOptimizedReferencedData(optimizedReferences, referencedListData[name]);
+                    });
+                    return $q.all(promises)
+                }],
+                referencedEntriesForReferencedLists: ['dataStore', 'view', 'nonOptimizedReferencedDataForReferencedLists', 'optimizedReferencedDataForReferencedLists', function(dataStore, view, nonOptimizedReferencedDataForReferencedLists, optimizedReferencedDataForReferencedLists) {
+                    const referencedLists = view.getReferencedLists();
+                    const referencedData = angular.extend(nonOptimizedReferencedDataForReferencedLists, optimizedReferencedDataForReferencedLists);
+                    Object.keys(referencedLists).map(referencedListName => {
+                        var references = referencedLists[referencedListName].getReferences();
+                        for (var name in references) {
+                            if (!referencedData[referencedListName][name]) continue;
+                            Entry.createArrayFromRest(
+                                referencedData[referencedListName][name],
+                                [references[name].targetField()],
+                                references[name].targetEntity().name(),
+                                references[name].targetEntity().identifier().name()
+                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        }
+
+                    })
                     return true;
                 }]
             }

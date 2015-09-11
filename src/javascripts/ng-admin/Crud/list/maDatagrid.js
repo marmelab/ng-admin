@@ -14,7 +14,8 @@ define(function (require) {
                 selection: '=',
                 fields: '&',
                 listActions: '&',
-                entity: '&'
+                entity: '&',
+                datastore: '&'
             },
             controllerAs: 'datagrid',
             controller: maDatagridController,
@@ -45,7 +46,7 @@ define(function (require) {
                 <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
             <td ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
-                <ma-column field="::field" entry="::entry" entity="::entity"></ma-column>
+                <ma-column field="::field" entry="::entry" entity="::entity" datastore="datagrid.datastore"></ma-column>
             </td>
             <td ng-if="datagrid.shouldDisplayActions" class="ng-admin-column-actions">
                 <ma-list-actions entry="::entry" entity="::entity" buttons="listActions()"></ma-list-actions>

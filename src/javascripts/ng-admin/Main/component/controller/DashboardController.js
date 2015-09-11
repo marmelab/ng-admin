@@ -10,11 +10,12 @@ define(function (require) {
      * @param {PanelBuilder} PanelBuilder
      * @constructor
      */
-    function DashboardController($scope, $state, collections, entries, hasEntities) {
+    function DashboardController($scope, $state, collections, entries, hasEntities, dataStore) {
         this.$state = $state;
         this.collections = collections;
         this.entries = entries;
         this.hasEntities = hasEntities;
+        this.datastore = dataStore;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     }
@@ -27,7 +28,7 @@ define(function (require) {
         this.$state = undefined;
     };
 
-    DashboardController.$inject = ['$scope', '$state', 'collections', 'entries', 'hasEntities'];
+    DashboardController.$inject = ['$scope', '$state', 'collections', 'entries', 'hasEntities', 'dataStore'];
 
     return DashboardController;
 });
