@@ -1,5 +1,3 @@
-var sinon = require('sinon');
-
 describe('DeleteController', function () {
     'use strict';
 
@@ -13,11 +11,13 @@ describe('DeleteController', function () {
         $window = _$window_;
         $q = _$q_;
         $state = {
-            go: sinon.spy(),
-            get: sinon.spy(),
+            go: jasmine.createSpy('$state.go'),
+            get: jasmine.createSpy('$state.get'),
             params: {}
         };
-        writeQueries = { deleteOne: () => {} };
+        writeQueries = {
+            deleteOne: jasmine.createSpy('writeQueries.deleteOne').and.callFake(() => $q.when())
+        };
         notification = humane;
         params = {
             id: 3,
@@ -34,12 +34,6 @@ describe('DeleteController', function () {
 
     describe('deleteOne', function() {
         describe('on success', function() {
-            let writeQueries;
-            beforeEach(inject(function($q) {
-                writeQueries = { deleteOne: sinon.stub() };
-                writeQueries.deleteOne.returns($q.when());
-            }));
-
             it('should delete given entity', function(done) {
                 // assume we are on post #3 deletion page
                 const entity = new Entity('post');
@@ -57,7 +51,7 @@ describe('DeleteController', function () {
                 }, view, entry);
 
                 deleteController.deleteOne(view, 3).then(function() {
-                    expect(writeQueries.deleteOne.calledOnce).toBeTruthy();
+                    expect(writeQueries.deleteOne).toHaveBeenCalled();
                     done();
                 }, done);
 
@@ -84,8 +78,8 @@ describe('DeleteController', function () {
                 }, view, entry);
 
                 deleteController.deleteOne(view, 3).then(function() {
-                    expect($state.get.firstCall.args[0]).toBe('list');
-                    expect($state.go.firstCall.args[1]).toEqual({
+                    expect($state.get.calls.argsFor(0)[0]).toBe('list');
+                    expect($state.go.calls.argsFor(0)[1]).toEqual({
                         entity: 'post'
                     });
                     done();
@@ -108,14 +102,14 @@ describe('DeleteController', function () {
                     getEntity: () => new Entity('comment')
                 };
 
-                let $window = { history: { back: sinon.spy() } };
+                let $window = { history: { back: jasmine.createSpy('$window.history.back') } };
                 let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, notification, {
                     id: commentId,
                     entity: 'comment'
                 }, view, entry);
 
                 deleteController.deleteOne(view, 3).then(function() {
-                    expect($window.history.back.calledOnce).toBe(true);
+                    expect($window.history.back).toHaveBeenCalled();
                     done();
                 }, done);
 
@@ -124,10 +118,6 @@ describe('DeleteController', function () {
                 $scope.$emit('$stateChangeSuccess', {}, {}, {}, fromStateParams);
 
                 $scope.$digest();
-            });
-
-            afterEach(function() {
-                sinon.restore();
             });
         });
     });
