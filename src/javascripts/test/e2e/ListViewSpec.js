@@ -1,4 +1,4 @@
-/*global describe,it,expect,$$,element,browser,by*/
+/*global describe,it,expect,$,$$,element,browser,by*/
 describe('ListView', function () {
     'use strict';
 
@@ -54,7 +54,23 @@ describe('ListView', function () {
             });
         });
 
-        it('should restore the list with filter when used from delete', function () {
+        it('should restore the list with filter after delete confirmation', function () {
+            browser.executeScript('window.scrollTo(810, 481)').then(function () {
+                return $$('ma-delete-button a');
+            }).then(function (elements) {
+                expect(elements[0].getText()).toBe(' Delete');
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(browser.baseUrl + '/#/comments/delete/2');
+                return $$('button.btn-danger');
+            }).then(function (elements) {
+                return elements[0].click();
+            }).then(function() {
+                expect(browser.getCurrentUrl()).toBe(listUrl);
+            });
+        });
+
+        it('should restore the list with filter after delete cancel', function () {
             browser.executeScript('window.scrollTo(810, 481)').then(function () {
                 return $$('ma-delete-button a');
             }).then(function (elements) {
