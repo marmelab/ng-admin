@@ -22,7 +22,7 @@ define(function () {
         $scope.$on('$destroy', this.destroy.bind(this));
 
         this.previousStateParametersDeferred = $q.defer();
-        $scope.$once('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
+        $scope.$on('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
             this.previousStateParametersDeferred.resolve(fromParams);
         });
     };
@@ -41,7 +41,7 @@ define(function () {
                                 entity: entityName
                             }, this.$state.params));
                         } else {
-                            this.$window.history.back();
+                            this.back();
                         }
 
                         notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
@@ -57,6 +57,10 @@ define(function () {
                     notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
                 }
             );
+    };
+
+    DeleteController.prototype.back = function() {
+        this.$window.history.back();
     };
 
     DeleteController.prototype.destroy = function () {
