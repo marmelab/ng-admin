@@ -34,7 +34,7 @@ describe('ListView', function () {
         var listUrl;
 
         beforeEach(function() {
-            listUrl = encodeURI(browser.baseUrl + '/#/comments/list?search={"post_id":"9"}&page=1');
+            listUrl = encodeURI(browser.baseUrl + '/#/comments/list?search={"post_id":"9"}');
             browser.get(listUrl);
         });
 
