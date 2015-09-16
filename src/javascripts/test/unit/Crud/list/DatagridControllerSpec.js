@@ -14,16 +14,13 @@ describe('controller: ma-datagrid', function () {
         ];
 
         dataGridController = new DataGridController({
-            listActions: function() {
-                return [];
-            },
-            entity: function () {
-                return new Entity('my_entity');
-            },
+            listActions: () => [],
+            entity: () => new Entity('my_entity'),
             entries: entries,
-            selection: []
+            selection: [],
+            datastore: () => { return {}; }
         }, {
-            search: function () {
+            search: () => {
                 return {};
             }
         }, {});
