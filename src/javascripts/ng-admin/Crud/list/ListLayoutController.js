@@ -14,8 +14,12 @@ var ListLayoutController = function ($scope, $stateParams, $state, $location, $t
     // the controller doesn't change when the search changes
     // so we must update filter values manually when the location changes
     $scope.$watch(
-        () => $location.search() && $location.search().search,
-        newValues => this.search = $location.search().search ? JSON.parse($location.search().search) : {}
+        () => $location.search() && $location.search().search ,
+        (newval, oldval) => {
+            if (newval === oldval) return;
+            this.search = $location.search().search ? JSON.parse($location.search().search) : {};
+            this.enabledFilters = this.getEnabledFilters();
+        }
     );
     // apply filters when filter values change
     $scope.$watch(
@@ -28,10 +32,7 @@ var ListLayoutController = function ($scope, $stateParams, $state, $location, $t
         true
     );
     this.filters = view.filters();
-    this.enabledFilters = this.filters.filter(filter => {
-        if (filter.pinned()) return true;
-        return this.search && (filter.name() in this.search)
-    });
+    this.enabledFilters = this.getEnabledFilters();
     this.hasFilters = Object.keys(this.filters).length > 0;
     this.focusedFilterId = null;
     this.enableFilter = this.enableFilter.bind(this);
@@ -58,6 +59,13 @@ ListLayoutController.prototype.enableFilter = function (filter) {
     }, 200, false);
 }
 
+ListLayoutController.prototype.getEnabledFilters = function () {
+    return this.filters.filter(filter => {
+        if (filter.pinned()) return true;
+        return this.search && (filter.name() in this.search)
+    });
+}
+
 ListLayoutController.prototype.updateFilters = function () {
     var values = {},
         filters = this.enabledFilters,
@@ -77,7 +85,6 @@ ListLayoutController.prototype.updateFilters = function () {
             values[fieldName] = this.search[fieldName];
         }
     }
-
     this.$stateParams.search = values;
     this.$stateParams.page = 1;
     this.$state.go('list', this.$stateParams);

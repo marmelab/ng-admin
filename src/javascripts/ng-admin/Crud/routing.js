@@ -79,10 +79,10 @@ function routing($stateProvider) {
             }
         })
         .state('list', {
-            url: '?{search:json}&page&sortField&sortDir',
+            url: '?{search:json}&{page:int}&sortField&sortDir',
             params: {
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
@@ -156,8 +156,8 @@ function routing($stateProvider) {
             params: {
                 entity: null,
                 id: null,
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
@@ -233,8 +233,8 @@ function routing($stateProvider) {
             controllerAs: 'formController',
             templateProvider: templateProvider('CreateView', createTemplate),
             params: {
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
@@ -283,8 +283,8 @@ function routing($stateProvider) {
             params: {
                 entity: null,
                 id: null,
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
@@ -387,8 +387,8 @@ function routing($stateProvider) {
             controllerAs: 'deleteController',
             templateProvider: templateProvider('DeleteView', deleteTemplate),
             params: {
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
@@ -417,8 +417,8 @@ function routing($stateProvider) {
             params: {
                 entity: null,
                 ids: [],
-                page: null,
-                search: null,
+                page: { value: 1, squash: true },
+                search: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
