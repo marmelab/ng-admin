@@ -96,6 +96,7 @@
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
                     .cssClasses('hidden-xs')
+                    .singleApiCall(ids => { return {'id': ids }})
             ])
             .filters([
                 nga.field('category', 'choice').choices([
@@ -188,6 +189,7 @@
                     .targetEntity(post)
                     .targetField(nga.field('title').map(truncate))
                     .cssClasses('hidden-xs')
+                    .singleApiCall(ids => { return {'id': ids }})
             ])
             .filters([
                 nga.field('q', 'template')
