@@ -17,8 +17,9 @@ function maReferencedListColumn(NgAdminConfiguration) {
 <ma-datagrid name="{{ field.datagridName() }}"
     entries="::entries"
     fields="::field.targetFields()"
-    list-actions="::field.listActions()" 
-    entity="::entity">
+    list-actions="::field.listActions()"
+    entity="::entity"
+    datastore="::datastore()">
 </ma-datagrid>`
     };
 }

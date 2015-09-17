@@ -3,27 +3,29 @@ function maDashboardPanel($state) {
         restrict: 'E',
         scope: {
             collection: '&',
-            entries: '&'
+            entries: '&',
+            datastore: '&'
         },
         link: function(scope) {
             scope.gotoList = function () {
                 $state.go($state.get('list'), { entity: scope.collection().entity.name() });
             };
         },
-        template: 
-        '<div class="panel-heading">' +
-            '<a ng-click="gotoList()">{{ collection().title() || collection().entity.label() }}</a>' +
-        '</div>' +
-        '<ma-datagrid name="{{ collection().name() }}"' +
-        '    entries="entries()"' +
-        '    fields="::collection().fields()"' +
-        '    entity="::collection().entity"' +
-        '    list-actions="::collection().listActions()">' +
-        '</ma-datagrid>'
+        template:
+`<div class="panel-heading">
+    <a ng-click="gotoList()">{{ collection().title() || collection().entity.label() }}</a>
+</div>
+<ma-datagrid name="{{ collection().name() }}"
+    entries="entries()"
+    fields="::collection().fields()"
+    entity="::collection().entity"
+    list-actions="::collection().listActions()"
+    datastore="datastore()">
+</ma-datagrid>`
     };
 }
 
 maDashboardPanel.$inject = ['$state'];
 
-module.exports = maDashboardPanel;
+export default maDashboardPanel;
 

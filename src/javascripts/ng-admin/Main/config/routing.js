@@ -65,7 +65,7 @@ function routing($stateProvider, $urlRouterProvider) {
                         collectionSortDir = sortDir;
                     }
                     promises[collectionName] = (function (collection, collectionSortField, collectionSortDir) {
-                        var rawEntries, nonOptimizedReferencedData, optimizedReferencedData;
+                        var rawEntries;
 
                         return ReadQueries
                             .getAll(collection, 1, {}, collectionSortField, collectionSortDir)
@@ -73,21 +73,12 @@ function routing($stateProvider, $urlRouterProvider) {
                                 rawEntries = response.data;
                                 return rawEntries;
                             })
-                            .then(rawEntries => ReadQueries.getFilteredReferenceData(collection.getNonOptimizedReferences(), rawEntries)
-                            )
-                            .then(nonOptimizedReference => {
-                                nonOptimizedReferencedData = nonOptimizedReference;
-                                return ReadQueries.getOptimizedReferencedData(collection.getOptimizedReferences(), rawEntries);
-                            })
-                            .then(optimizedReference => {
-                                optimizedReferencedData = optimizedReference;
-
-                                var references = collection.getReferences(),
-                                    referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData);
-
-                                for (var name in referencedData) {
+                            .then(rawEntries => ReadQueries.getReferenceData(collection.fields(), rawEntries))
+                            .then(referenceData => {
+                                const references = collection.getReferences();
+                                for (var name in referenceData) {
                                     Entry.createArrayFromRest(
-                                        referencedData[name],
+                                        referenceData[name],
                                         [references[name].targetField()],
                                         references[name].targetEntity().name(),
                                         references[name].targetEntity().identifier().name()

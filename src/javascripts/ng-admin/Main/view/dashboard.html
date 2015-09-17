@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-6">
         <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$odd">
-            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
     </div>
 </div>
