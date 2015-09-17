@@ -241,7 +241,7 @@ function routing($stateProvider) {
                 choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
                     const choices = view.getReferences(false);
                     for (var name in filterData) {
-                        choiceEntries = Entry.createArrayFromRest(
+                        Entry.createArrayFromRest(
                             filterData[name],
                             [choices[name].targetField()],
                             choices[name].targetEntity().name(),

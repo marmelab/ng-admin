@@ -311,22 +311,22 @@
         '<div class="row dashboard-content">' +
             '<div class="col-lg-12">' +
                 '<div class="panel panel-default">' +
-                    '<ma-dashboard-panel collection="dashboardController.collections.comments" entries="dashboardController.entries.comments"></ma-dashboard-panel>' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.comments" entries="dashboardController.entries.comments" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
                 '</div>' +
             '</div>' +
         '</div>' +
         '<div class="row dashboard-content">' +
             '<div class="col-lg-6">' +
                 '<div class="panel panel-green">' +
-                    '<ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts"></ma-dashboard-panel>' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
                 '</div>' +
                 '<div class="panel panel-green">' +
-                    '<ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts"></ma-dashboard-panel>' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
                 '</div>' +
             '</div>' +
             '<div class="col-lg-6">' +
                 '<div class="panel panel-yellow">' +
-                    '<ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags"></ma-dashboard-panel>' +
+                    '<ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
                 '</div>' +
             '</div>' +
         '</div>';
