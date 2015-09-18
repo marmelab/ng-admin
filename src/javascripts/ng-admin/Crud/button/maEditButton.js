@@ -15,11 +15,13 @@ function maEditButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-            var params = entityName == $state.params.entity ? $state.params : {};
-            params.entity = entityName;
-            params.id = scope.entry().identifierValue;
-            scope.gotoEdit = () => $state.go($state.get('edit'), params);
+            scope.gotoEdit = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                params.id = scope.entry().identifierValue;
+                $state.go($state.get('edit'), params);
+            }
             scope.label = scope.label || 'Edit';
         },
         template:

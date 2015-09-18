@@ -14,10 +14,12 @@ function maListButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-            var params = entityName == $state.params.entity ? $state.params : {};
-            params.entity = entityName;
-            scope.gotoList = () => $state.go($state.get('list'), params);
+            scope.gotoList = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                $state.go($state.get('list'), params);
+            }
             scope.label = scope.label || 'List';
         },
         template:

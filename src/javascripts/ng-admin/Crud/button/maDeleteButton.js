@@ -15,11 +15,13 @@ function maDeleteButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-            var params = entityName == $state.params.entity ? $state.params : {};
-            params.entity = entityName;
-            params.id = scope.entry().identifierValue;
-            scope.gotoDelete = () => $state.go($state.get('delete'), params);
+            scope.gotoDelete = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                params.id = scope.entry().identifierValue;
+                $state.go($state.get('delete'), params);
+            }
             scope.label = scope.label || 'Delete';
         },
         template:

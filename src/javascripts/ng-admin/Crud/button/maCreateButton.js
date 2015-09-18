@@ -15,11 +15,13 @@ function maCreateButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-            var params = entityName == $state.params.entity ? $state.params : {};
-            params.entity = entityName;
-            params.defaultValues = scope.defaultValues();
-            scope.gotoCreate = () => $state.go($state.get('create'), params);
+            scope.gotoCreate = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                params.defaultValues = scope.defaultValues();
+                $state.go($state.get('create'), params);
+            };
             scope.label = scope.label || 'Create';
         },
         template:
