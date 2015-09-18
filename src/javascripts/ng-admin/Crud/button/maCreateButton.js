@@ -8,22 +8,26 @@ define(function () {
             restrict: 'E',
             scope: {
                 entity: '&',
+                entityName: '@',
                 size: '@',
                 label: '@',
+                defaultValues: '&'
             },
-            link: function (scope) {
+            link: function (scope, element, attrs) {
                 scope.label = scope.label || 'Create';
-
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
                 scope.gotoCreate = function () {
-                    if ($state.params.entity == scope.entity().name()) {
+                    if ($state.params.entity == entityName) {
                         // link to the same entity, so preserve active filters
                         $state.go($state.get('create'), angular.extend({
-                            entity: scope.entity().name(),
+                            entity: entityName,
+                            defaultValues: scope.defaultValues()
                         }, $state.params));
                     } else {
                         // link to anoter entity, so forget filters
                         $state.go($state.get('create'), {
-                            entity: scope.entity().name(),
+                            entity: entityName,
+                            defaultValues: scope.defaultValues()
                         });
                     }
                 };
