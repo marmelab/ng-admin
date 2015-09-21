@@ -159,7 +159,7 @@
                     .sortDir('DESC')
                     .listActions(['edit']),
                 nga.field('', 'template').label('')
-                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button></span>')
+                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button><ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>')
             ]);
 
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list

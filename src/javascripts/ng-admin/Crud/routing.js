@@ -216,21 +216,23 @@ function routing($stateProvider) {
     $stateProvider
         .state('create', {
             parent: 'main',
-            url: '/:entity/create',
+            url: '/:entity/create?{defaultValues:json}',
             controller: 'FormController',
             controllerAs: 'formController',
             templateProvider: templateProvider('CreateView', createTemplate),
             params: {
                 page: { value: 1, squash: true },
                 search: { value: {}, squash: true },
+                defaultValues: { value: {}, squash: true },
                 sortField: null,
                 sortDir: null
             },
             resolve: {
                 dataStore: () => new DataStore(),
                 view: viewProvider('CreateView'),
-                entry: ['dataStore', 'view', function (dataStore, view) {
+                entry: ['$stateParams', 'dataStore', 'view', function ($stateParams, dataStore, view) {
                     var entry = Entry.createForFields(view.getFields(), view.entity.name());
+                    Object.keys($stateParams.defaultValues).forEach(key => entry.values[key] = $stateParams.defaultValues[key]);
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
 
                     return entry;

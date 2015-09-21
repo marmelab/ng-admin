@@ -1,45 +1,36 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    function maDeleteButtonDirective($state) {
-        return {
-            restrict: 'E',
-            scope: {
-                entity: '&',
-                entry: '&',
-                size: '@',
-                label: '@',
-            },
-            link: function (scope) {
-                scope.label = scope.label || 'Delete';
-                scope.gotoDelete = function () {
-                    if ($state.params.entity == scope.entity().name()) {
-                        // link to the same entity, so preserve active filters
-                        $state.go($state.get('delete'), angular.extend({
-                            entity: scope.entity().name(),
-                            id: scope.entry().identifierValue
-                        }, $state.params));
-                    } else {
-                        // link to anoter entity, so forget filters
-                        $state.go($state.get('delete'), {
-                            entity: scope.entity().name(),
-                            id: scope.entry().identifierValue
-                        });
-                    }
-
-                };
-            },
-            template:
+/**
+ * Link to delete
+ *
+ * Usage:
+ * <ma-delete-button entity="entity" entry="entry" size="xs"></ma-delete-button>
+ */
+function maDeleteButtonDirective($state) {
+    return {
+        restrict: 'E',
+        scope: {
+            entity: '&',
+            entityName: '@',
+            entry: '&',
+            size: '@',
+            label: '@',
+        },
+        link: function (scope, element, attrs) {
+            scope.gotoDelete = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                params.id = scope.entry().identifierValue;
+                $state.go($state.get('delete'), params);
+            }
+            scope.label = scope.label || 'Delete';
+        },
+        template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">
-    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
+<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </a>`
+    };
+}
 
-        };
-    }
+maDeleteButtonDirective.$inject = ['$state'];
 
-    maDeleteButtonDirective.$inject = ['$state'];
-
-    return maDeleteButtonDirective;
-});
+module.exports = maDeleteButtonDirective;

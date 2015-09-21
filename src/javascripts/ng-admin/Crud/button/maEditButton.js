@@ -1,43 +1,36 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    function maEditButtonDirective($state) {
-        return {
-            restrict: 'E',
-            scope: {
-                entity: '&',
-                entry: '&',
-                size: '@',
-                label: '@',
-            },
-            link: function (scope) {
-                scope.label = scope.label || 'Edit';
-                scope.gotoEdit = function () {
-                    if ($state.params.entity == scope.entity().name()) {
-                        // link to the same entity, so preserve active filters
-                        $state.go($state.get('edit'), angular.extend({
-                            entity: scope.entity().name(),
-                            id: scope.entry().identifierValue
-                        }, $state.params));
-                    } else {
-                        // link to anoter entity, so forget filters
-                        $state.go($state.get('edit'), {
-                            entity: scope.entity().name(),
-                            id: scope.entry().identifierValue
-                        });
-                    }
-                };
-            },
-            template:
+/**
+ * Link to edit
+ *
+ * Usage:
+ * <ma-edit-button entity="entity" entry="entry" size="xs"></ma-edit-button>
+ */
+function maEditButtonDirective($state) {
+    return {
+        restrict: 'E',
+        scope: {
+            entity: '&',
+            entityName: '@',
+            entry: '&',
+            size: '@',
+            label: '@',
+        },
+        link: function (scope, element, attrs) {
+            scope.gotoEdit = () => {
+                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                var params = entityName == $state.params.entity ? $state.params : {};
+                params.entity = entityName;
+                params.id = scope.entry().identifierValue;
+                $state.go($state.get('edit'), params);
+            }
+            scope.label = scope.label || 'Edit';
+        },
+        template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoEdit()">
-    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
+<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </a>`
-        };
-    }
+    };
+}
 
-    maEditButtonDirective.$inject = ['$state'];
+maEditButtonDirective.$inject = ['$state'];
 
-    return maEditButtonDirective;
-});
+module.exports = maEditButtonDirective;
