@@ -5,6 +5,7 @@ install:
 	./node_modules/protractor/bin/webdriver-manager update
 
 run:
+	@cp node_modules/sinon/pkg/sinon-server.js examples/blog/build
 	@./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --devtool cheap-module-inline-source-map --content-base examples/blog --port 8000
 
 build:
