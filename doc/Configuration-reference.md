@@ -419,7 +419,7 @@ Define a custom function to transform the value received from the API response t
 Define a custom function to transform the value displayed in the admin back to the one expected by the API. This function receives 2 parameters: the value to transform, and the corresponding entry. Used in edit view only. Use it in conjunction with `map()` to ease the conversion between the API response format and the format you want displayed on screen.
 
         //           API
-        //   map()  v  ^  tranform()
+        //   map()  v  ^  transform()
         //          Entry︎
         //
         // The API provides and expects last names in all caps, e.g. 'DOE'
