@@ -17,7 +17,7 @@ application
  |-entity[]
     |-name
     |-label
-    |-baseApiUrl
+    |-url
     |-readOnly
     |-creationView
     |-editionView
