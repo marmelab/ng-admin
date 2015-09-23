@@ -582,7 +582,7 @@ The `reference` type also defines `label`, `order`, `map`, `list` & `validation`
 * `targetEntity(Entity)`
 Define the referenced entity.
 
-* `targetLabel(string)`
+* `targetField(string)`
 Define the target field name used to retrieve the label of the referenced element.
 
         myView.fields([
