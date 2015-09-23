@@ -480,12 +480,20 @@ Enable HTML sanitization of WYSIWYG Editor value (removal of script tags, etc). 
 
 * `format(string ['yyyy-MM-dd' by default])`
 
+This method uses the Angular `date` filter. Thus, as explained in the [Angular documentation](https://docs.angularjs.org/api/ng/filter/date), input date should be in a normalized format:
+
+> Date to format either as Date object, milliseconds (string or number) or various ISO 8601 datetime string formats (e.g. yyyy-MM-ddTHH:mm:ss.sssZ and its shorter versions like yyyy-MM-ddTHH:mmZ, yyyy-MM-dd or yyyyMMddTHHmmssZ). If no timezone is specified in the string input, the time is considered to be in the local timezone.
+
 * `parse(function [remove hours, minutes and timezone by default])`
 Filter applied to modify date object returned by date picker if needed.
 
 ### `datetime` Field Type
 
 * `format(string ['yyyy-MM-dd HH:mm:ss' by default])`
+
+This method uses the Angular `date` filter. Thus, as explained in the [Angular documentation](https://docs.angularjs.org/api/ng/filter/date), input date should be in a normalized format:
+
+> Date to format either as Date object, milliseconds (string or number) or various ISO 8601 datetime string formats (e.g. yyyy-MM-ddTHH:mm:ss.sssZ and its shorter versions like yyyy-MM-ddTHH:mmZ, yyyy-MM-dd or yyyyMMddTHHmmssZ). If no timezone is specified in the string input, the time is considered to be in the local timezone.
 
 * `parse(function [no change by default])`
 Filter applied to modify date object returned by date picker if needed.
