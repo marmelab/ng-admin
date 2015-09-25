@@ -24,7 +24,7 @@ module.exports = function (grunt) {
                 dest: 'src/javascripts/test/fixtures/examples/blog/build/fakerest.js'
             },
             test_sinon_server: {
-                src: 'node_modules/sinon/pkg/sinon-server-1.16.1.js',
+                src: 'node_modules/sinon/pkg/sinon-server-1.14.1.js',
                 dest: 'src/javascripts/test/fixtures/examples/blog/build/sinon-server.js'
             }
         },
