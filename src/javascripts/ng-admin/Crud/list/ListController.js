@@ -1,4 +1,5 @@
 /*global define*/
+import Entry from 'admin-config/lib/Entry';
 
 define(function () {
     'use strict';
@@ -31,7 +32,7 @@ define(function () {
         } else {
             $scope.selection = null;
         }
-        
+
 
         $scope.$on('$destroy', this.destroy.bind(this));
     };
@@ -46,13 +47,29 @@ define(function () {
 
         this.progression.start();
 
+        const references = view.getReferences();
+        let data;
+
         this.ReadQueries
             .getAll(view, page, this.search, this.sortField, this.sortDir)
             .then(response => {
+                data = response.data;
+                return this.ReadQueries.getReferenceData(view.fields(), data);
+            })
+            .then((referenceData) => {
                 this.progression.done();
-                var references = view.getReferences();
 
-                view.mapEntries(response.data)
+                for (var name in referenceData) {
+                    Entry.createArrayFromRest(
+                        referenceData[name],
+                        [references[name].targetField()],
+                        references[name].targetEntity().name(),
+                        references[name].targetEntity().identifier().name()
+                    ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                }
+            })
+            .then(() => {
+                view.mapEntries(data)
                     .map(entry => {
                         dataStore.fillReferencesValuesFromEntry(entry, references, true);
                         dataStore.addEntry(this.entity.uniqueId, entry);
