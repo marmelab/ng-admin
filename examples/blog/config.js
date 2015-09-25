@@ -271,8 +271,9 @@
         tag.editionView()
             .fields([
                 nga.field('name'),
-                nga.field('published', 'boolean')
-                    .choices([{ value: null, label: 'null' }, { value: true, label: 'yes'}, {value: false,label: 'no' }])
+                nga.field('published', 'boolean').validation({
+                    required: true // as this boolean is required, ng-admin will use a checkbox instead of a dropdown
+                })
             ])
 
         tag.showView()
