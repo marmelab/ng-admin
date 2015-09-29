@@ -26,8 +26,7 @@ define(function (require) {
             <th ng-if="selection">
                 <ma-datagrid-multi-selector toggle-select-all="toggleSelectAll()" selection="selection" entries="entries"/>
             </th>
-            <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses(entry)"
-            class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
+            <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses()" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
                 <a ng-click="datagrid.sort(field)">
                     <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 

@@ -248,10 +248,12 @@
                 nga.field('id').label('ID'),
                 nga.field('name'),
                 nga.field('published', 'boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
-                    if (entry.values.published) {
-                        return 'bg-success text-center';
+                    if(entry){
+                        if (entry.values.published) {
+                            return 'bg-success text-center';
+                        }
+                        return 'bg-warning text-center';
                     }
-                    return 'bg-warning text-center';
                 }),
                 nga.field('custom', 'template')
                     .label('Upper name')
