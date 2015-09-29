@@ -455,11 +455,15 @@ Set field validation rules. Based on Angular's form validation features.
             } })
 
 * `cssClasses(String|Function)`
-A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values.
+A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values. The function will also be called without entry for table headers.
 
         nga.field('title')
             .cssClasses(function(entry) {
-                return entry.values.needsAttention ? 'bg-warning' : '';
+                if(entry) {
+                    return entry.values.needsAttention ? 'bg-warning' : '';
+                }
+
+                return 'my-custom-css-class-for-list-header';
             });
 
 * `defaultValue(*)`
@@ -511,11 +515,11 @@ Format for number to string conversion. Based on [Numeral.js](http://numeraljs.c
 A field of type `boolean` can have 3 values: true, false, or null. That's why the form widget for such a field is a dropdown and not a checkbox.
 
 * `choices(array)`
-Array of choices used for the boolean values. By default: 
+Array of choices used for the boolean values. By default:
 
         [
             { value: null, label: 'undefined' },
-            { value: true, label: 'true' }, 
+            { value: true, label: 'true' },
             { value: false, label: 'false' }
         ]
 
