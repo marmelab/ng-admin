@@ -49,10 +49,10 @@ Now if your API returns results in another format, for instance with all the val
 }
 ```
 
-You can use Restangular element transformers to map that to the expected format:
+You can use Restangular **element transformers** to map that to the expected format:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addElementTransformer('books', function(element) {
         for (var key in element.values) {
             element[key] = element.values[key];
@@ -60,20 +60,20 @@ myApp.config(function(RestangularProvider) {
 
         return element;
     });
-});
+}]);
 ```
 
-Symetrically, if your API requires that you post and put data inside of a `values` field, use Restangular request interceptor:
+Symetrically, if your API requires that you post and put data inside of a `values` field, use a Restangular **request interceptor**:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if(operation == 'post' || operation == 'put') {
             element = { values: element };
         }
         return { element: element };
     });
-}
+}]);
 ```
 
 **Tip**: If you want to define a field mapped to a deeply nested property, you don't need an interceptor. Just define the field with a name made by the path to the property using dots as separators:
@@ -102,12 +102,12 @@ listView.fields([
 Does your API require an authentication header? Restangular has got you covered with [`setDefaultHeaders`](https://github.com/mgonto/restangular#setdefaultheaders):
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     var login = 'admin',
         password = '53cr3t',
         token = window.btoa(login + ':' + password);
     RestangularProvider.setDefaultHeaders({'Authorization': 'Basic ' + token});
-});
+}]);
 ```
 
 ## HTTP Method
@@ -128,7 +128,7 @@ http://your.api.domain/entityName?_page=2&_perPage=20
 For instance, to use `offset` and `limit` instead of `_page` and `_perPage` across the entire application, use the following code:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             params.offset = (params._page - 1) * params._perPage;
@@ -138,7 +138,7 @@ myApp.config(function(RestangularProvider) {
         }
         return { params: params };
     });
-});
+}]);
 ```
 
 The default number of items per page is `30`. You can customize it with the `perPage()` method of the listView.
@@ -172,7 +172,7 @@ If your API doesn't return a `X-Total-Count` header, you can add a `totalCount` 
 Add the following response interceptor:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
         if (operation == "getList") {
             var contentRange = response.headers('Content-Range');
@@ -180,7 +180,7 @@ myApp.config(function(RestangularProvider) {
         }
         return data;
     });
-});
+}]);
 ```
 
 **Tip**: If you added the `X-Total-Count` header to your API but the pagination controls don't appear, maybe it's a [cross-origin resource sharing (CORS)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem. The admin application is probably hosted on another domain than the API, so you must explicitly allow the access to the header from the admin app domain. To do so, add a `Access-Control-Expose-Headers: x-total-count` header to the API response.
@@ -194,7 +194,7 @@ http://your.api.domain/entityName?_sortField=name&_sortDir=ASC
 Once again, you can change it with a response interceptor. For instance, to sort by `id desc` by default, and without changing the name of the sort query parameters, use:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             params._sortField = params._sortField || 'id';
@@ -202,7 +202,7 @@ myApp.config(function(RestangularProvider) {
         }
         return { params: params };
     });
-});
+}]);
 ```
 
 ## Filtering
@@ -226,7 +226,7 @@ Where the `_filters` value is the url encoded version of `{"q":"foo","tag":"bar"
 Just like other query params, you can transform it using a Restangular request interceptor. For instance, to pass all filters directly as query parameters:
 
 ```js
-myApp.config(function(RestangularProvider) {
+myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             if (params._filters) {
@@ -238,17 +238,55 @@ myApp.config(function(RestangularProvider) {
         }
         return { params: params };
     });
-});
+}]);
 ```
 
 Now, the API call URLs will look like:
 
 http://your.api.domain/entityName?q=foo&tag=bar
 
+## Nested Relationships Urls
+
+By default, ng-admin uses filters to fetch entities related to another one. For instance, to fetch all the `comments` related to the `post` entity #123, ng-admin calls the following url:
+
+```
+http://[baseApiUrl]/comments?filters={"post_id":123}
+```
+
+Some API servers only support a special type of URL for that case:
+
+```
+http://[baseApiUrl]/posts/123/comments
+```
+
+Restangular doesn't allow to modify the URL of an outgoing request (see [Restangular issue #603](https://github.com/mgonto/restangular/issues/603)), so in order to achieve that you must use an interceptor on the `$http` Angular service.
+
+```js
+myApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push(function() {
+        return {
+            request: function(config) {
+                // test for /comments?filters={post_id:XXX}
+                if (/\/comments$/.test(config.url) && config.params.filter && config.params.filter.post_id) {
+                    config.url = config.url.replace('comments', 'posts/' + config.params.filter.post_id + '/comments');
+                    delete config.params.filter.post_id;
+                }
+                return config;
+            },
+        };
+    });
+}]);
+```
+
 ## Identifier
 
 ng-admin assumes that the identifier name of your entities is `id`.
 You can change it with the `identifier()` method of the entity.
+
+```js
+var post = nga.entity('posts')
+    .identifier(nga.field('_id'));
+```
 
 ## Date
 

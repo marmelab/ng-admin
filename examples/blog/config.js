@@ -4,16 +4,8 @@
 
     var app = angular.module('myApp', ['ng-admin']);
 
-    app.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (NgAdminConfigurationProvider, RestangularProvider) {
-        var nga = NgAdminConfigurationProvider;
-
-        function truncate(value) {
-            if (!value) {
-                return '';
-            }
-
-            return value.length > 50 ? value.substr(0, 50) + '...' : value;
-        }
+    // API Mapping
+    app.config(['RestangularProvider', function (RestangularProvider) {
 
         // use the custom query parameters function to format the API request correctly
         RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
@@ -51,6 +43,19 @@
 
             return data;
         });
+    }]);
+
+    // Admin definition
+    app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvider) {
+        var nga = NgAdminConfigurationProvider;
+
+        function truncate(value) {
+            if (!value) {
+                return '';
+            }
+
+            return value.length > 50 ? value.substr(0, 50) + '...' : value;
+        }
 
         var admin = nga.application('ng-admin backend demo') // application main title
             .debug(false) // debug disabled
