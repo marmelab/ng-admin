@@ -46,6 +46,7 @@ CrudModule.directive('maDatagridPagination', require('./list/maDatagridPaginatio
 CrudModule.directive('maDatagridInfinitePagination', require('./list/maDatagridInfinitePagination'));
 CrudModule.directive('maDatagridItemSelector', require('./list/maDatagridItemSelector'));
 CrudModule.directive('maDatagridMultiSelector', require('./list/maDatagridMultiSelector'));
+CrudModule.directive('maFilterForm', require('./filter/maFilterForm'));
 CrudModule.directive('maFilter', require('./filter/maFilter'));
 CrudModule.directive('maFilterButton', require('./filter/maFilterButton'));
 
