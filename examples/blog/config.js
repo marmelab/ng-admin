@@ -267,6 +267,7 @@
             .filters([
                 nga.field('published')
                     .label('Not yet published')
+                    .template(' ')
                     .defaultValue(false)
             ])
             .batchActions([]) // disable checkbox column and batch delete
