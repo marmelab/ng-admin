@@ -72,20 +72,11 @@ describe('EditionView', function () {
             browser.get(browser.baseUrl + '#/tags/edit/5');
         });
 
-        it('should render as a choice field', function () {
-            $$('.ng-admin-field-published .ui-select-container')
-            .then(function(uiSelect) {
-                expect(uiSelect.length).toBe(1)
+        it('should render as a checkbox field', function () {
+            $$('.ng-admin-field-published input[type="checkbox"]')
+            .then(function(checkbox) {
+                expect(checkbox.length).toBe(1);
             })
-            .then(function() {
-                return $$('.ng-admin-field-published .btn').first().click();
-            })
-            .then(function() {
-                return $$('.ng-admin-field-published .ui-select-choices-row');
-            })
-            .then(function(choices) {
-                expect(choices.length).toBe(3)
-            });
         });
     })
 

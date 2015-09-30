@@ -440,7 +440,7 @@ A list of attributes to be added to the corresponding field.
 
 * `validation(object)`
 Set field validation rules. Based on Angular's form validation features.
- - `required`: boolean
+ - `required`: boolean *Required boolean fields will render as checkbox for edition*
  - `minlength`: number
  - `maxlength`: number
  - `pattern`: regular expression

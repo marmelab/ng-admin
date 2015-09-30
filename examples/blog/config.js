@@ -253,7 +253,7 @@
                 nga.field('id').label('ID'),
                 nga.field('name'),
                 nga.field('published', 'boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
-                    if(entry){
+                    if(entry && entry.values){
                         if (entry.values.published) {
                             return 'bg-success text-center';
                         }
@@ -276,8 +276,9 @@
         tag.editionView()
             .fields([
                 nga.field('name'),
-                nga.field('published', 'boolean')
-                    .choices([{ value: null, label: 'null' }, { value: true, label: 'yes'}, {value: false,label: 'no' }])
+                nga.field('published', 'boolean').validation({
+                    required: true // as this boolean is required, ng-admin will use a checkbox instead of a dropdown
+                })
             ])
 
         tag.showView()
