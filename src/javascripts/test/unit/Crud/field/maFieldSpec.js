@@ -29,7 +29,7 @@ describe('directive: ma-field', function () {
         scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.html().indexOf('DUMMY')).not.toBe(-1);
+        expect(element.html()).toContain('DUMMY');
     });
 
     it("should render the Field template instead of the WriteWidget when set", function () {
@@ -40,8 +40,8 @@ describe('directive: ma-field', function () {
         scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.html().indexOf('DUMMY')).toBe(-1);
-        expect(element.html().indexOf('YOPLA')).not.toBe(-1);
+        expect(element.html()).not.toContain('DUMMY');
+        expect(element.html()).toContain('YOPLA');
     });
 
 });
