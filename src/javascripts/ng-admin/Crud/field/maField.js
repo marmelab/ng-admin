@@ -47,7 +47,7 @@ function maField(FieldViewConfiguration, $compile) {
             };
 
             var fieldTemplate;
-            if (scope.field.editable) {
+            if (scope.field.editable()) {
                 fieldTemplate =
 `<div ng-class="getClassesForField(field, entry)">
     ${scope.field.getTemplateValue(scope.entry) || FieldViewConfiguration[scope.type].getWriteWidget()}
@@ -70,8 +70,7 @@ function maField(FieldViewConfiguration, $compile) {
     ${fieldTemplate}
 </div>`;
 
-            element.append(template);
-            $compile(element.contents())(scope);
+            element.append($compile(template)(scope));
         }
     };
 }
