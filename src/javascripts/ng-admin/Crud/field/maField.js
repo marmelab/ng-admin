@@ -70,7 +70,8 @@ function maField(FieldViewConfiguration, $compile) {
     ${fieldTemplate}
 </div>`;
 
-            element.append($compile(template)(scope));
+            element.append(template);
+            $compile(element.contents())(scope);
         }
     };
 }
