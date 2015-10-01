@@ -1,5 +1,5 @@
 module.exports = {
-    getReadWidget:   () => '<ma-boolean-column value="::value]"></ma-boolean-column>',
+    getReadWidget:   () => '<ma-boolean-column value="::value"></ma-boolean-column>',
     getLinkWidget:   () => '<a ng-click="gotoDetail()">' + module.exports.getReadWidget() + '</a>',
     getFilterWidget: () => `<ma-choice-field field="::field" value="value" choices="[{value: 'true', label: 'true' }, { value: 'false', label: 'false' }]"></ma-choice-field>`,
     getWriteWidget:  () => `<div class="row">
