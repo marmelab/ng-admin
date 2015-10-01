@@ -2,7 +2,7 @@
 
 ## All fields have `.template()`
 
-All field types now support the `template()` method, which makes it easy to customize the look and feel of a particular field, withut sacrificing the native features.
+All field types now support the `template()` method, which makes it easy to customize the look and feel of a particular field, without sacrificing the native features.
 
 For instance, if you want to customize the appearance of a `NumberField` according to its value:
 
