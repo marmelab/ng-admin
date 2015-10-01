@@ -163,7 +163,7 @@
                     .sortField('created_at')
                     .sortDir('DESC')
                     .listActions(['edit']),
-                nga.field('', 'template').label('')
+                nga.field('').label('')
                     .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button><ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>')
             ]);
 
@@ -171,8 +171,7 @@
             .fields([
                 nga.field('id'),
                 post.editionView().fields(), // reuse fields from another view in another order
-                nga.field('custom_action', 'template')
-                    .label('')
+                nga.field('custom_action').label('')
                     .template('<send-email post="entry"></send-email>')
             ]);
 
@@ -197,7 +196,7 @@
                     .singleApiCall(ids => { return {'id': ids }})
             ])
             .filters([
-                nga.field('q', 'template')
+                nga.field('q')
                     .label('')
                     .pinned(true)
                     .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
@@ -238,9 +237,9 @@
 
         comment.editionView()
             .fields(comment.creationView().fields())
-            .fields([nga.field(null, 'template')
-                .label('')
-                .template('<post-link entry="entry"></post-link>') // template() can take a function or a string
+            .fields([
+                nga.field('').label('')
+                    .template('<post-link entry="entry"></post-link>') // template() can take a function or a string
             ]);
 
         comment.deletionView()
@@ -260,14 +259,15 @@
                         return 'bg-warning text-center';
                     }
                 }),
-                nga.field('custom', 'template')
+                nga.field('custom')
                     .label('Upper name')
                     .template('{{ entry.values.name.toUpperCase() }}')
                     .cssClasses('hidden-xs')
             ])
             .filters([
-                nga.field('published', 'template')
+                nga.field('published')
                     .label('Not yet published')
+                    .template(' ')
                     .defaultValue(false)
             ])
             .batchActions([]) // disable checkbox column and batch delete

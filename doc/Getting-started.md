@@ -504,10 +504,10 @@ Browse to the posts list, and you will see the full-text filter displayed on the
 
 The full-text search isn't looking very good. Usually, a full-text filter widget has no label, a placeholder simply saying "Search", and a magnifying glass icon. How can you turn the current full-text input into that UI?
 
-Fortunately, ng-admin fields can benefit from the power of Angular.Js directives. Using the 'template' field type, you can specify the HTML template to use for rendering the field. And you can use any directive already registered in that HTML. Update the `nga.field('q')` definition as follows:
+Fortunately, ng-admin fields can benefit from the power of Angular.js directives. Using the `template()` field method, you can specify the HTML template to use for rendering the field. And you can use any directive already registered in that HTML. Update the `nga.field('q')` definition as follows:
 
 ```js
-        nga.field('q', 'template')
+        nga.field('q')
             .label('')
             .pinned(true)
             .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
@@ -653,7 +653,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         .listActions(['show'])
         .batchActions([])
         .filters([
-            nga.field('q', 'template')
+            nga.field('q')
                 .label('')
                 .pinned(true)
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),

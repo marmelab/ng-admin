@@ -48,6 +48,7 @@ application
            |-transform
            |-attributes
            |-cssClasses
+           |-template
            |-validation
            |-editable
 ```
@@ -283,10 +284,10 @@ Add filters to the list. Each field maps a property in the API endpoint result.
             nga.field('q').label('Search').pinned(true)
         ]);
 
-    Filter fields can be of any type, including `reference` and `template`. This allows to define custom filters with ease.
+    Filter fields can be of any type, including `reference`. This allows to define custom filters with ease.
 
         listView.filters([
-            nga.field('q', 'template').label('')
+            nga.field('q').label('')
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
         ]);
 
@@ -379,12 +380,11 @@ A field is the representation of a property of an entity.
 * [`reference` Field Type](#reference-field-type)
 * [`referenced_list` Field Type](#referenced_list-field-type)
 * [`reference_many` Field Type](#reference_many-field-type)
-* [`template` Field Type](#template-field-type)
 
 ### General Field Settings
 
 * `nga.field(name, type)`
-Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, `reference_many`, and `template`.
+Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, and `reference_many`.
 
 * `label(string label)`
 Define the label of the field. Defaults to the uppercased field name.
@@ -465,6 +465,25 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 
                 return 'my-custom-css-class-for-list-header';
             });
+
+* `template(String|Function)`
+All field types support the `template()` method, which makes it easy to customize the look and feel of a particular field, without sacrificing the native features.
+
+    For instance, if you want to customize the appearance of a `NumberField` according to its value:
+
+        listview.fields([
+            nga.field('amount', 'number')
+                .format('$0,000.00')
+                .template('<span ng-class="{ \'red\': value < 0 }"><ma-number-column field="::field" value="::entry.values[field.name()]"></ma-number-column></span>')
+        ]);
+
+    The template scope exposes the following variables:
+
+    - `value`, `field`, `entry`, `entity`, and `datastore` in `listView` and `showView`
+    - `value`, `field`, `values`, and `datastore` in filters
+    - `value`, `field`, `entry`, `entity`, `form`, and `datastore` in `editionView` and `creationView`
+
+    Most of the time, `template()` is used to customize the existing ng-admin directives (like `ma-number-column>` in the previous example), for instance by decorating them. If you want to learn about these native directives, explore the [column](../src/javascripts/ng-admin/crud/column), [field](../src/javascripts/ng-admin/crud/field), and [fieldView](../src/javascripts/ng-admin/crud/fieldView) directories in ng-admin source.
 
 * `defaultValue(*)`
 Define the default value of the field in the creation form.
@@ -765,8 +784,3 @@ If set to false, all references (in the limit of `perPage` parameter) would be r
                 })
                 .perPage(10) // limit the number of results to 10
         ]);
-
-### `template` Field Type
-
-* `template(*)`
-Define the template to be displayed for fields of type `template` (can be a string or a function).
