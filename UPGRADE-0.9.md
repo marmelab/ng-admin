@@ -16,4 +16,11 @@ listview.fields([
 
 This removes the need for [custom types](doc/Custom-types.md) in a vast majority of cases.
 
-The `template` field type is deprecated and will be removed in future versions.
+The `template` *field type* is deprecated and will be removed in future versions. Simply use the default field type together with the `template()` method instead:
+
+```js
+// before
+nga.field('name', 'template').template('{{ entry.values.name }}')
+// now
+nga.field('name').template('{{ entry.values.name }}')
+```
