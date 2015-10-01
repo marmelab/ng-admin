@@ -36,6 +36,7 @@ function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfi
             scope.datastore = scope.datastore();
             scope.field = scope.field();
             scope.entry = scope.entry();
+            scope.value = scope.entry.values[scope.field.name()];
             scope.entity = scope.entity();
             let customTemplate = scope.field.getTemplateValue(scope.entry);
             if (customTemplate) {

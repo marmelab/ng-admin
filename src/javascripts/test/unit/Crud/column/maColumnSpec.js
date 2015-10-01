@@ -6,12 +6,10 @@ describe('directive: ma-column', function () {
     var Field = require('admin-config/lib/Field/Field');
     angular.module('testapp_Column', [])
         .directive('maColumn', directive)
-        .service('FieldViewConfiguration', function() {
-            return { string: { getReadWidget: function() { return 'DUMMY'; } } }
-        })
-        .service('$state', function() { return {}; })
-        .service('$anchorScroll', function() { return {}; })
-        .service('NgAdminConfiguration', function() { return {}; });
+        .service('FieldViewConfiguration', () => ({ string: { getReadWidget: () => 'DUMMY' } }))
+        .service('$state', () => ({}))
+        .service('$anchorScroll', () => ({}))
+        .service('NgAdminConfiguration', () => ({}));
 
     var $compile,
         scope,
@@ -26,9 +24,7 @@ describe('directive: ma-column', function () {
 
     it("should render the ReadWidget from the fieldView Configuration for that type", function () {
         scope.field = new Field('foo');
-        scope.entity = {};
-        scope.entry = { values: [] };
-        scope.dataStore = {};
+        scope.entry = { values: { foo: null } };
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).toContain('DUMMY');
@@ -36,9 +32,7 @@ describe('directive: ma-column', function () {
 
     it("should render the Field template instead of the ReadWidget when set", function () {
         scope.field = new Field('foo').template('YOPLA');
-        scope.entity = {};
-        scope.entry = { values: [] };
-        scope.dataStore = {};
+        scope.entry = { values: { foo: null } };
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).not.toContain('DUMMY');

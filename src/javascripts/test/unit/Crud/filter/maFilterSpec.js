@@ -6,9 +6,7 @@ describe('directive: ma-filter', function () {
     var Field = require('admin-config/lib/Field/Field');
     angular.module('testapp_Filter', [])
         .directive('maFilter', directive)
-        .service('FieldViewConfiguration', function() {
-            return { string: { getFilterWidget: function() { return 'DUMMY'; } } }
-        });
+        .service('FieldViewConfiguration', () => ({ string: { getFilterWidget: () => 'DUMMY' } }));
 
     var $compile,
         scope,
@@ -23,9 +21,6 @@ describe('directive: ma-filter', function () {
 
     it("should render the FilterWidget from the fieldView Configuration for that type", function () {
         scope.field = new Field('foo');
-        scope.values = [];
-        scope.value = '';
-        scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).toContain('DUMMY');
@@ -33,9 +28,6 @@ describe('directive: ma-filter', function () {
 
     it("should render the Field template instead of the FilterWidget when set", function () {
         scope.field = new Field('foo').template('YOPLA');
-        scope.values = [];
-        scope.value = '';
-        scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).not.toContain('DUMMY');

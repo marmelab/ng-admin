@@ -32,9 +32,31 @@ myEntity.listView().fields([
 ]);
 ```
 
+## Customizing The Template For A Given Field
+
+All field types support the `template()` method, which makes it easy to customize the look and feel of a particular field, withut sacrificing the native features.
+
+For instance, if you want to customize the appearance of a `NumberField` according to its value:
+
+```js
+listview.fields([
+    nga.field('amount', 'number')
+        .format('$0,000.00')
+        .template('<span ng-class="{ \'red\': value < 0 }"><ma-number-column field="::field" value="::entry.values[field.name()]"></ma-number-column></span>')
+]);
+```
+
+The template scope exposes the following variables:
+
+* `value`, `field`, `entry`, `entity`, and `datastore` in `listView` and `showView`
+* `value`, `field`, `values`, and `datastore` in filters
+* `value`, `field`, `entry`, `entity`, `form`, and `datastore` in `editionView` and `creationView`
+
+Most of the time, `template()` is used to customize the existing ng-admin directives (like `ma-number-column>` in the previous example), for instance by decorating them. If you want to learn about these native directives, explore the [column](../src/javascripts/ng-admin/crud/column), [field](../src/javascripts/ng-admin/crud/field), and [fieldView](../src/javascripts/ng-admin/crud/fieldView) directories in ng-admin source.
+
 ## Customizing Directives Templates
 
-Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, and the ability to decorate another provider, you can customize the templates of all the directives used by ng-admin. Here is an example of customization of the 'text' input field customization:
+Using Angular's [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, and the ability to decorate another provider, you can customize the template of any directive used by ng-admin for your entire application. Here is an example of customization of the 'text' input field:
 
 ```js
 var myApp = angular.module('myApp', ['ng-admin']);

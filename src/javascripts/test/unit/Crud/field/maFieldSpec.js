@@ -6,9 +6,7 @@ describe('directive: ma-field', function () {
     var Field = require('admin-config/lib/Field/Field');
     angular.module('testapp_Field', [])
         .directive('maField', directive)
-        .service('FieldViewConfiguration', function() {
-            return { string: { getWriteWidget: function() { return 'DUMMY'; } } }
-        });
+        .service('FieldViewConfiguration', () => ({ string: { getWriteWidget: () => 'DUMMY' } }));
 
     var $compile,
         scope,
@@ -23,10 +21,7 @@ describe('directive: ma-field', function () {
 
     it("should render the WriteWidget from the fieldView Configuration for that type", function () {
         scope.field = new Field('foo');
-        scope.entity = {};
-        scope.entry = { values: [] };
         scope.form = { foo: {} };
-        scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).toContain('DUMMY');
@@ -34,10 +29,7 @@ describe('directive: ma-field', function () {
 
     it("should render the Field template instead of the WriteWidget when set", function () {
         scope.field = new Field('foo').template('YOPLA');
-        scope.entity = {};
-        scope.entry = { values: [] };
         scope.form = { foo: {} };
-        scope.dataStore = {};
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.html()).not.toContain('DUMMY');

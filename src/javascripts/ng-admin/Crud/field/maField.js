@@ -4,6 +4,7 @@ function maField(FieldViewConfiguration, $compile) {
         scope: {
             field: '&',
             entry: '=',
+            value: '=',
             entity: '&',
             form: '&',
             datastore: '&'

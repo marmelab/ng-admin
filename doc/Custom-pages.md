@@ -72,12 +72,12 @@ myApp.directive('sendEmail', ['$location', function ($location) {
 
 ## Including the Custom Directive in a Template Field
 
-Now the new directive is ready to be used inside a ng-admin field of type 'template':
+Now the new directive is ready to be used inside a ng-admin field using 'template()':
 
 ```js
 post.showView().fields([
     // ...
-    nga.field('custom_action', 'template')
+    nga.field('custom_action')
         .label('')
         .template('<send-email post="entry"></send-email>')
 ]);
