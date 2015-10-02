@@ -54,6 +54,7 @@ CrudModule.directive('maColumn', require('./column/maColumn'));
 CrudModule.directive('maBooleanColumn', require('./column/maBooleanColumn'));
 CrudModule.directive('maChoicesColumn', require('./column/maChoicesColumn'));
 CrudModule.directive('maDateColumn', require('./column/maDateColumn'));
+CrudModule.directive('maEmbeddedListColumn', require('./column/maEmbeddedListColumn'));
 CrudModule.directive('maJsonColumn', require('./column/maJsonColumn'));
 CrudModule.directive('maNumberColumn', require('./column/maNumberColumn'));
 CrudModule.directive('maReferenceColumn', require('./column/maReferenceColumn'));

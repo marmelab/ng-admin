@@ -170,7 +170,32 @@
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
             .fields([
                 nga.field('id'),
-                post.editionView().fields(), // reuse fields from another view in another order
+                post.creationView().fields(),
+                nga.field('category', 'choice')
+                    .choices([
+                        { label: 'Tech', value: 'tech' },
+                        { label: 'Lifestyle', value: 'lifestyle' }
+                    ]),
+                nga.field('subcategory', 'choice')
+                    .choices(subCategories),
+                nga.field('tags', 'reference_many') // ReferenceMany translates to a list of labels
+                    .targetEntity(tag)
+                    .targetField(nga.field('name')),
+                nga.field('pictures', 'json'),
+                nga.field('views', 'number'),
+                nga.field('average_note', 'float'),
+                nga.field('comments', 'embedded_list') // display list of related comments
+                    .targetEntity(nga.entity('comments'))
+                    .targetFields([
+                        nga.field('id').isDetailLink(true),
+                        nga.field('created_at').label('Posted'),
+                        nga.field('body').label('Comment')
+                    ])
+                    .sortField('id')
+                    .sortDir('DESC')
+                    .listActions(['edit']),
+                nga.field('').label('')
+                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button><ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>'),
                 nga.field('custom_action').label('')
                     .template('<send-email post="entry"></send-email>')
             ]);
