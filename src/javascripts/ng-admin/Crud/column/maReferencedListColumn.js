@@ -14,7 +14,7 @@ function maReferencedListColumn(NgAdminConfiguration) {
             }
         },
         template: `
-<ma-datagrid name="{{ field.datagridName() }}"
+<ma-datagrid ng-if="::entries.length > 0" name="{{ field.datagridName() }}"
     entries="::entries"
     fields="::field.targetFields()"
     list-actions="::field.listActions()"

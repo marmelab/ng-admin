@@ -270,6 +270,12 @@ div.bottom-loader {
                 }
             }
         }
+
+        .ng-admin-type-embedded_list, .ng-admin-type-referenced_list {
+            .table-condensed > thead > tr > th {
+                padding-top: 0;
+            }
+        }
     }
 
     .CodeMirror {
@@ -277,3 +283,4 @@ div.bottom-loader {
         border-radius: 4px;
     }
 }
+

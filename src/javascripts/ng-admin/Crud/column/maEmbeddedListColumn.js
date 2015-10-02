@@ -26,10 +26,22 @@ function maEmbeddedListColumn(NgAdminConfiguration) {
                 } else {
                     filterFunc = () => true;
                 }
-                const entries = Entry
-                    .createArrayFromRest(scope.value(), targetFields, targetEntityName, targetEntity.identifier().name())
-                    .sort((entry1, entry2) => sortDir * (entry1.values[sortField] - entry2.values[sortField]))
+                let entries = Entry
+                    .createArrayFromRest(scope.value() || [], targetFields, targetEntityName, targetEntity.identifier().name())
+                    .sort((entry1, entry2) => {
+                        // use < and > instead of substraction to sort strings properly
+                        if (entry1.values[sortField] > entry2.values[sortField]) return sortDir;
+                        if (entry1.values[sortField] < entry2.values[sortField]) return -1 * sortDir;
+                        return 0;
+                    })
                     .filter(filterFunc);
+                if (!targetEntityName) {
+                    let index = 0;
+                    entries = entries.map(e => {
+                        e._identifierValue = index++;
+                        return e;
+                    });
+                };
                 scope.field = field;
                 scope.targetFields = targetFields;
                 scope.entries = entries;
@@ -37,7 +49,7 @@ function maEmbeddedListColumn(NgAdminConfiguration) {
             }
         },
         template: `
-<ma-datagrid name="{{ field.datagridName() }}"
+<ma-datagrid ng-if="::entries.length > 0" name="{{ field.datagridName() }}"
     entries="::entries"
     fields="::targetFields"
     list-actions="::field.listActions()"

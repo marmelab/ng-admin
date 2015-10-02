@@ -35,12 +35,12 @@ var apiData = {
         }
       },
       "published_at": "2012-08-06",
-      "tags": [
-        1,
-        3
-      ],
+      "tags": [1, 3],
       "category": "tech",
-      "subcategory": "computers"
+      "subcategory": "computers",
+      "backlinks": [
+        { "date": "2012-08-09T00:00:00.000Z", "url": "http://example.com/bar/baz.html" },
+      ]
     },
     {
       "id": 2,
@@ -50,10 +50,8 @@ var apiData = {
       "views": 563,
       "average_note": 3.48121,
       "published_at": "2012-08-08",
-      "tags": [
-        3,
-        5
-      ]
+      "tags": [3, 5],
+      "backlinks": []
     },
     {
       "id": 3,
@@ -63,9 +61,12 @@ var apiData = {
       "views": 467,
       "average_note": 4.12319,
       "published_at": "2012-08-08",
-      "tags": [
-        1,
-        2
+      "tags": [1,2],
+      "backlinks": [
+        { "date": "2012-08-10T00:00:00.000Z", "url": "http://example.com/foo/bar.html" },
+        { "date": "2012-08-14T00:00:00.000Z", "url": "https://blog.johndoe.com/2012/08/12/foobar.html" },
+        { "date": "2012-08-22T00:00:00.000Z", "url": "https://foo.bar.com/lorem/ipsum" },
+        { "date": "2012-08-29T00:00:00.000Z", "url": "http://dicta.es/nam_doloremque" }
       ]
     },
     {
@@ -164,7 +165,10 @@ var apiData = {
       ],
       "category": "tech",
       "subcategory": "computers",
-      "pictures": null
+      "pictures": null,
+      "backlinks": [
+        { "date": "2012-10-29T00:00:00.000Z", "url": "http://dicta.es/similique_pariatur" }
+      ]
     },
     {
       "id": 12,
@@ -177,7 +181,11 @@ var apiData = {
       "tags": [],
       "category": "lifestyle",
       "subcategory": "fitness",
-      "pictures": null
+      "pictures": { "first": {}, "second": {} },
+      "backlinks": [
+        { "date": "2012-08-07T00:00:00.000Z", "url": "http://example.com/foo/bar.html" },
+        { "date": "2012-08-12T00:00:00.000Z", "url": "https://blog.johndoe.com/2012/08/12/foobar.html" }
+      ]
     }
   ],
   "comments": [
