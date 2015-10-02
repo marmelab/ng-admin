@@ -4,7 +4,8 @@ function maEmbeddedListColumn(NgAdminConfiguration) {
     return {
         scope: {
             'field': '&',
-            'value': '&'
+            'value': '&',
+            'datastore': '&'
         },
         restrict: 'E',
         link: {

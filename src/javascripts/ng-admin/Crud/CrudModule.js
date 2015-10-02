@@ -27,6 +27,7 @@ CrudModule.directive('maButtonField', require('./field/maButtonField'));
 CrudModule.directive('maChoiceField', require('./field/maChoiceField'));
 CrudModule.directive('maChoicesField', require('./field/maChoicesField'));
 CrudModule.directive('maDateField', require('./field/maDateField'));
+CrudModule.directive('maEmbeddedListField', require('./field/maEmbeddedListField'));
 CrudModule.directive('maInputField', require('./field/maInputField'));
 CrudModule.directive('maJsonField', require('./field/maJsonField'));
 CrudModule.directive('maFileField', require('./field/maFileField'));

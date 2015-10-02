@@ -152,19 +152,16 @@
                     .cssClasses('col-sm-4'),
                 nga.field('average_note', 'float')
                     .cssClasses('col-sm-4'),
-                nga.field('comments', 'referenced_list') // display list of related comments
+                nga.field('comments', 'embedded_list') // display list of related comments
                     .targetEntity(nga.entity('comments'))
-                    .targetReferenceField('post_id')
                     .targetFields([
-                        nga.field('id').isDetailLink(true),
+                        nga.field('id'),
+                        nga.field('author.name'),
                         nga.field('created_at').label('Posted'),
-                        nga.field('body').label('Comment')
+                        nga.field('body', 'text').label('Comment')
                     ])
                     .sortField('created_at')
                     .sortDir('DESC')
-                    .listActions(['edit']),
-                nga.field('').label('')
-                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button><ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>')
             ]);
 
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
@@ -188,6 +185,7 @@
                     .targetEntity(nga.entity('comments'))
                     .targetFields([
                         nga.field('id').isDetailLink(true),
+                        nga.field('author.name').label('Author'),
                         nga.field('created_at').label('Posted'),
                         nga.field('body').label('Comment')
                     ])
