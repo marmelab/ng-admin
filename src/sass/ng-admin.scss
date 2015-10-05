@@ -240,6 +240,29 @@ div.bottom-loader {
         width: 100%;
     }
 
+    .date_widget {
+        width: 10em;
+        @media (max-width: 768px) {
+            width: 100%
+        }
+    }
+
+    .datetime_widget {
+        width: 15em;
+        @media (max-width: 768px) {
+            width: 100%
+        }
+    }
+
+    .remove_button_container {
+        float: right;
+        @media (max-width: 992px) {
+            float: none;
+            display: block;
+            text-align: right;
+        }
+    }
+
     .ta-toolbar button {
         font-size: 12px;
         padding: 5px 8px;

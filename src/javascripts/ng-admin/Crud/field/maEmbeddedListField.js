@@ -47,9 +47,9 @@ function maEmbeddedListField() {
             }
         },
         template: `
-<div class="row">
+<div class="row"><div class="col-sm-12">
     <ng-form ng-repeat="entry in entries track by $index" class="subentry" name="subform_{{$index}}" ng-init="formName = 'subform_' + $index">
-        <div class="pull-right">
+        <div class="remove_button_container">
                 <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Remove</a>
         </div>
         <div class="form-field form-group" ng-repeat="field in ::fields track by $index">
@@ -62,7 +62,7 @@ function maEmbeddedListField() {
             <a class="btn btn-default btn-sm" ng-click="addNew()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Add new {{ field().name() }}</a>
         </div>
     </div>
-</div>`
+</div></div>`
     };
 }
 

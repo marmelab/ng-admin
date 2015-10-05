@@ -158,9 +158,9 @@
                     .cssClasses('col-sm-4'),
                 nga.field('backlinks', 'embedded_list') // display embedded list
                     .targetFields([
-                        nga.field('date', 'datetime')
-                            .template('<div class="row"><div class="col-lg-8"><ma-date-field field="::field" value="value"></ma-date-field></div></div>'),
+                        nga.field('date', 'datetime'),
                         nga.field('url')
+                            .cssClasses('col-lg-10')
                     ])
                     .sortField('date')
                     .sortDir('DESC'),
