@@ -132,7 +132,7 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
         if (operation == 'getList' && what == 'entityName') {
             params.offset = (params._page - 1) * params._perPage;
-            params.end = params._perPage;
+            params.limit = params._perPage;
             delete params._page;
             delete params._perPage;
         }
