@@ -15,7 +15,10 @@ define(function (require) {
                 fields: '&',
                 listActions: '&',
                 entity: '&',
-                datastore: '&'
+                datastore: '&',
+                sortField: '@',
+                sortDir: '@',
+                sort: '&'
             },
             controllerAs: 'datagrid',
             controller: maDatagridController,
@@ -27,7 +30,7 @@ define(function (require) {
                 <ma-datagrid-multi-selector toggle-select-all="toggleSelectAll()" selection="selection" entries="entries"/>
             </th>
             <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses()" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
-                <a ng-click="datagrid.sort(field)">
+                <a ng-click="datagrid.sortCallback(field)">
                     <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
 
                     {{ field.label() }}
