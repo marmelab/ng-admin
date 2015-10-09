@@ -150,7 +150,7 @@ See the [Adding Custom Types](doc/Custom-types.md) dedicated chapter.
 
 ## Getting Ready For Production
 
-To build the ng-admin source with the dependencies you need, and to get hints about performance boosters, head to the [Getting Ready For Production](doc/production.md) dedicated chapter.
+To build the ng-admin source with the dependencies you need, and to get hints about performance boosters, head to the [Getting Ready For Production](doc/Production.md) dedicated chapter.
 
 ## News
 
