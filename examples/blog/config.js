@@ -33,7 +33,7 @@
             return { params: params };
         });
 
-        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
             if (operation === "getList") {
                 var headers = response.headers();
                 if (headers['content-range']) {
@@ -101,7 +101,7 @@
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
                     .cssClasses('hidden-xs')
-                    .singleApiCall(ids => { return {'id': ids }})
+                    .singleApiCall(ids => { return {'id': ids }; })
             ])
             .filters([
                 nga.field('category', 'choice').choices([
@@ -193,13 +193,15 @@
                     .targetEntity(post)
                     .targetField(nga.field('title').map(truncate))
                     .cssClasses('hidden-xs')
-                    .singleApiCall(ids => { return {'id': ids }})
+                    .singleApiCall(ids => { return {'id': ids }; })
             ])
             .filters([
                 nga.field('q')
                     .label('')
                     .pinned(true)
-                    .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
+                    .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>')
+                    .transform(v => v && v.toUpperCase()) // transform the entered value before sending it as a query parameter
+                    .map(v => v && v.toLowerCase()), // map the query parameter to a displayed value in the filter form
                 nga.field('created_at', 'date')
                     .label('Posted')
                     .attributes({'placeholder': 'Filter by date'}),
@@ -279,7 +281,7 @@
                 nga.field('published', 'boolean').validation({
                     required: true // as this boolean is required, ng-admin will use a checkbox instead of a dropdown
                 })
-            ])
+            ]);
 
         tag.showView()
             .fields([
@@ -410,7 +412,7 @@
             template: '<p class="form-control-static"><a ng-click="displayPost()">View&nbsp;post</a></p>',
             link: function (scope) {
                 scope.displayPost = function () {
-                    $location.path('/posts/show/' + scope.entry().values.post_id);
+                    $location.path('/posts/show/' + scope.entry().values.post_id); // jshint ignore:line
                 };
             }
         };
