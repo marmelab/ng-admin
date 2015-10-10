@@ -51,22 +51,7 @@ function routing($stateProvider) {
             controllerAs: 'llCtrl',
             templateProvider: templateProvider('ListView', listLayoutTemplate),
             resolve: {
-                dataStore: () => new DataStore(),
                 view: viewProvider('ListView'),
-                filterData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getFilterReferences(false));
-                }],
-                filterEntries: ['dataStore', 'view', 'filterData', function (dataStore, view, filterData) {
-                    const filters = view.getFilterReferences(false);
-                    for (var name in filterData) {
-                        Entry.createArrayFromRest(
-                            filterData[name],
-                            [filters[name].targetField()],
-                            filters[name].targetEntity().name(),
-                            filters[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(filters[name].targetEntity().uniqueId + '_choices', entry));
-                    }
-                }]
             }
         })
         .state('list', {
@@ -237,20 +222,6 @@ function routing($stateProvider) {
 
                     return entry;
                 }],
-                choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getReferences(false));
-                }],
-                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
-                    const choices = view.getReferences(false);
-                    for (var name in filterData) {
-                        Entry.createArrayFromRest(
-                            filterData[name],
-                            [choices[name].targetField()],
-                            choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
-                    }
-                }]
             }
         });
 
@@ -278,20 +249,6 @@ function routing($stateProvider) {
                 entry: ['view', 'rawEntry', function(view, rawEntry) {
                     return view.mapEntry(rawEntry);
                 }],
-                referenceData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
-                    return ReadQueries.getReferenceData(view.fields(), [entry.values]);
-                }],
-                referenceEntries: ['dataStore', 'view', 'referenceData', function (dataStore, view, referenceData) {
-                    const references = view.getReferences();
-                    for (var name in referenceData) {
-                        Entry.createArrayFromRest(
-                            referenceData[name],
-                            [references[name].targetField()],
-                            references[name].targetEntity().name(),
-                            references[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
-                    }
-                }],
                 referencedListData: ['$stateParams', 'ReadQueries', 'view', 'entry', function ($stateParams, ReadQueries, view, entry) {
                     return ReadQueries.getReferencedListData(view.getReferencedLists(), $stateParams.sortField, $stateParams.sortDir, entry.identifierValue);
                 }],
@@ -306,23 +263,8 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry))
                     }
                 }],
-                entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function(dataStore, view, entry, referenceEntries) {
-                    dataStore.fillReferencesValuesFromEntry(entry, view.getReferences(), true);
+                addEntryToDataStore: ['dataStore', 'view', 'entry', function(dataStore, view, entry) {
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
-                }],
-                choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
-                    return ReadQueries.getAllReferencedData(view.getReferences(false));
-                }],
-                choiceEntries: ['dataStore', 'view', 'choiceData', function (dataStore, view, filterData) {
-                    const choices = view.getReferences(false);
-                    for (var name in filterData) {
-                        Entry.createArrayFromRest(
-                            filterData[name],
-                            [choices[name].targetField()],
-                            choices[name].targetEntity().name(),
-                            choices[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
-                    }
                 }],
                 referenceDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
                     const referencedLists = view.getReferencedLists();

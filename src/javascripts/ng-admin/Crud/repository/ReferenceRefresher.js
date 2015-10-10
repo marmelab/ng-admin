@@ -21,7 +21,13 @@ class ReferenceRefresher {
     }
 
     getInitialChoices(field, values) {
-        return this.ReadQueries.getRecordsByIds(field.targetEntity(), values)
+        let call;
+        if (field.hasSingleApiCall()) {
+            call = this.ReadQueries.getOptimizedRecordsByIds(field.targetEntity(), field.getSingleApiCall(values))
+        } else {
+            call = this.ReadQueries.getRecordsByIds(field.targetEntity(), values)
+        }
+        return call
             .then(results => this._removeDuplicates(results, values))
             .then(records => this._transformRecords(field, records));
     }

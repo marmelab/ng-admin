@@ -20,10 +20,12 @@ function maReferenceField(ReferenceRefresher) {
             }
 
             if (field.remoteComplete()) {
-                ReferenceRefresher.getInitialChoices(field, [scope.value])
-                    .then(options => {
-                        scope.$broadcast('choices:update', { choices: options });
-                    });
+                if (scope.value) {
+                    ReferenceRefresher.getInitialChoices(field, [scope.value])
+                        .then(options => {
+                            scope.$broadcast('choices:update', { choices: options });
+                        });
+                }
 
                 scope.refresh = refresh;
             } else {
@@ -42,4 +44,3 @@ function maReferenceField(ReferenceRefresher) {
 maReferenceField.$inject = ['ReferenceRefresher'];
 
 module.exports = maReferenceField;
-

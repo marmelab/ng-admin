@@ -119,7 +119,17 @@
                     .validation({ required: true, minlength: 3, maxlength: 100 }), // add validation rules for fields
                 nga.field('teaser', 'text'), // text field type translates to a textarea
                 nga.field('body', 'wysiwyg'), // overriding the type allows rich text editing for the body
-                nga.field('published_at', 'date') // Date field type translates to a datepicker
+                nga.field('published_at', 'date'), // Date field type translates to a datepicker
+                nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
+                    .targetEntity(tag)
+                    .targetField(nga.field('name'))
+                    .attributes({ placeholder: 'Select some tags...' })
+                    .remoteComplete(true, {
+                        refreshDelay: 300,
+                        searchQuery: function(search) { return { q: search }; }
+                    })
+                    .singleApiCall(ids => { return {'id': ids }})
+                    .cssClasses('col-sm-4'), // customize look and feel through CSS classes
             ]);
 
         post.editionView()
@@ -138,15 +148,6 @@
                             return c.category === entry.values.category;
                         });
                     }),
-                nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
-                    .targetEntity(tag)
-                    .targetField(nga.field('name'))
-                    .attributes({ placeholder: 'Select some tags...' })
-                    .remoteComplete(true, {
-                        refreshDelay: 300 ,
-                        searchQuery: function(search) { return { q: search }; }
-                    })
-                    .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
                     .cssClasses('col-sm-4'),
