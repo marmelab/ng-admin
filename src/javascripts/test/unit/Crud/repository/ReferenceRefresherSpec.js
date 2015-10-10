@@ -26,7 +26,8 @@ describe('ReferenceRefresher', function() {
                     getMappedValue: v => v
                 }
             },
-            type: () => 'reference'
+            type: () => 'reference',
+            hasSingleApiCall: () => false,
         };
     });
 
@@ -122,7 +123,8 @@ describe('ReferenceRefresher', function() {
                         getMappedValue: (v, e) => `${e.title} (#${e.id})`
                     }
                 },
-                type: () => 'reference'
+                type: () => 'reference',
+                hasSingleApiCall: () => false,
             };
 
             var refresher = new ReferenceRefresher(readQueries);
@@ -171,7 +173,8 @@ describe('ReferenceRefresher', function() {
                         getMappedValue: (v, e) => `${e.title} (#${e.id})`
                     }
                 },
-                type: () => 'reference'
+                type: () => 'reference',
+                hasSingleApiCall: () => false,
             };
             refresher.getInitialChoices(fakeField, [1, 2]).then(function(results) {
                 expect(results).toEqual([

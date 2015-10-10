@@ -1,12 +1,11 @@
 /* globals _ */
 
-var ListLayoutController = function ($scope, $stateParams, $state, $location, $timeout, view, dataStore) {
+var ListLayoutController = function ($scope, $stateParams, $state, $location, $timeout, view) {
     this.$scope = $scope;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$timeout = $timeout;
     this.view = view;
-    this.dataStore = dataStore;
     this.entity = view.getEntity();
     this.actions = view.actions();
     this.batchActions = view.batchActions();
@@ -113,9 +112,8 @@ ListLayoutController.prototype.destroy = function () {
     this.$state = undefined;
     this.$stateParams = undefined;
     this.$timeout = undefined;
-    this.dataStore = undefined;
 };
 
-ListLayoutController.$inject = ['$scope', '$stateParams', '$state', '$location', '$timeout', 'view', 'dataStore'];
+ListLayoutController.$inject = ['$scope', '$stateParams', '$state', '$location', '$timeout', 'view'];
 
 module.exports = ListLayoutController;
