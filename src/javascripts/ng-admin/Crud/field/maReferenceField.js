@@ -8,26 +8,37 @@ function maReferenceField(ReferenceRefresher) {
         },
         restrict: 'E',
         link: function(scope) {
-            var field = scope.field();
+            const field = scope.field();
+            const identifierName = field.targetEntity().identifier().name()
             scope.name = field.name();
             scope.v = field.validation();
 
-            function refresh(search) {
-                return ReferenceRefresher.refresh(field, scope.value, search)
-                    .then(formattedResults => {
-                        scope.$broadcast('choices:update', { choices: formattedResults });
-                    });
-            }
-
-            if (field.remoteComplete()) {
-                ReferenceRefresher.getInitialChoices(field, [scope.value])
-                    .then(options => {
-                        scope.$broadcast('choices:update', { choices: options });
-                    });
-
-                scope.refresh = refresh;
+            if (!field.remoteComplete()) {
+                // fetch choices from the datastore
+                let initialEntries = scope.datastore()
+                    .getEntries(field.targetEntity().uniqueId + '_choices');
+                const isCurrentValueInInitialEntries = initialEntries.filter(e => e.identifierValue === scope.value).length > 0;
+                if (scope.value && !isCurrentValueInInitialEntries) {
+                    initialEntries.push(scope.datastore()
+                        .getEntries(field.targetEntity().uniqueId + '_values')
+                        .filter(entry => entry.values[identifierName] == scope.value)
+                        .pop()
+                    );
+                }
+                const initialChoices = initialEntries.map(entry => ({
+                    value: entry.values[identifierName],
+                    label: entry.values[field.targetField().name()]
+                }));
+                scope.$broadcast('choices:update', { choices: initialChoices });
             } else {
-                refresh();
+                // ui-select doesn't allow to prepopulate autocomplete selects, see https://github.com/angular-ui/ui-select/issues/1197
+                // let ui-select fetch the options using the ReferenceRefresher
+                scope.refresh = function refresh(search) {
+                    return ReferenceRefresher.refresh(field, scope.value, search)
+                        .then(formattedResults => {
+                            scope.$broadcast('choices:update', { choices: formattedResults });
+                        });
+                };
             }
         },
         template: `<ma-choice-field
