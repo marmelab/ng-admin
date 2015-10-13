@@ -21,8 +21,8 @@ function maEmbeddedListField() {
                     const filters = field.permanentFilters();
                     const filterKeys = Object.keys(filters);
                     filterFunc = (entry) => {
-                        return filterKeys.reduce((isFiltered, key) => isFiltered && entry.values[key] == filters[key], true)
-                    }
+                        return filterKeys.reduce((isFiltered, key) => isFiltered && entry.values[key] === filters[key], true);
+                    };
                 } else {
                     filterFunc = () => true;
                 }
@@ -42,7 +42,7 @@ function maEmbeddedListField() {
                 };
                 scope.$watch('entries', (newEntries, oldEntries) => {
                     if (newEntries === oldEntries) return;
-                    scope.value = newEntries.map(e => e.transformToRest(targetFields))
+                    scope.value = newEntries.map(e => e.transformToRest(targetFields));
                 }, true);
             }
         },
@@ -69,4 +69,3 @@ function maEmbeddedListField() {
 maEmbeddedListField.$inject = [];
 
 module.exports = maEmbeddedListField;
-

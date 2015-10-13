@@ -28,7 +28,7 @@ describe('directive: ma-embedded-list-column', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.children()[0].nodeName).toBe('MA-DATAGRID');
-        const datagridScope = angular.element(element.children()[0]).scope();
+        const datagridScope = element.children().eq(0).scope();
         expect(datagridScope.entries.length).toBe(2);
         expect(datagridScope.entries[0].values).toEqual({ num: 1, name: 'foo', dummy: 0 });
         expect(datagridScope.entries[1].values).toEqual({ num: 2, name: 'bar', dummy: 1 });
