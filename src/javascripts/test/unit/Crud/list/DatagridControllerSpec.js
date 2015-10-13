@@ -18,12 +18,13 @@ describe('controller: ma-datagrid', function () {
             entity: () => new Entity('my_entity'),
             entries: entries,
             selection: [],
-            datastore: () => { return {}; }
+            datastore: () => { return {}; },
+            sort: () => null
         }, {
             search: () => {
                 return {};
             }
-        }, {});
+        }, {}, {}, { $observe: () => null });
     });
 
     describe('toggleSelect', function () {
