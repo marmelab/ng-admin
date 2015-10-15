@@ -379,6 +379,7 @@ A field is the representation of a property of an entity.
 * [`file` Field Type](#file-field-type)
 * [`reference` Field Type](#reference-field-type)
 * [`referenced_list` Field Type](#referenced_list-field-type)
+* [`embedded_list` Field Type](#embedded_list-field-type)
 * [`reference_many` Field Type](#reference_many-field-type)
 
 ### General Field Settings
@@ -608,42 +609,71 @@ Some other properties are allowed, see https://github.com/danialfarid/ng-file-up
 
 ### `reference` Field Type
 
-The `reference` type also defines `label`, `order`, `map`, `list` & `validation` options like the `Field` type.
+The `reference` type maps a foreign key to another entity. For instance, if the REST API behaves as follows:
+
+```
+GET /comments/123
+{
+    "id": 123,
+    "body": "Lorem ipsum sic dolor amet...",
+    "post_id": 456
+}
+
+GET /posts/456
+{
+    "id": "456",
+    "title": "Consectetur adipisicing elit",
+    "body": "Sed do eiusmod..."
+}
+```
+
+Then mapping the `post_id` property of the `comment` entity to a `reference` will tell ng-admin to fetch the related `post` entity, and to display the `targetField`.
+
+```js
+var post = nga.entity('posts');
+var comment = nga.entity('comments');
+comment.listView().fields([
+    nga.field('post_id', 'reference')
+        .targetEntity(post) // Select a target Entity
+        .targetField(nga.field('title')) // Select the field to be displayed
+]);
+```
+
+In a read context (`listView` and `showView`), `reference` fields render the targetField as text. In a write context (`creationView` and `editionView`), ` reference` fields render as a dropdown, allowing to select the related entity among a list using the ` targetField` as a representation. In that case, ng-admin fetches the possible values on the related entity, so a `reference` field makes 2 queries in a write context:
+
+```
+GET /posts/456         <= get the referenced entity itself
+GET /posts?_perPage=30 <= get the possible values for the referenced entity
+```
+
+The `reference` type specializes the `Field` type, so it supports the same `label`, `order`, `map`, `list` & `validation` options. Additional options are:
 
 * `targetEntity(Entity)`
 Define the referenced entity.
 
 * `targetField(string)`
-Define the target field name used to retrieve the label of the referenced element.
+Define the target field used to retrieve the label of the referenced element.
 
         myView.fields([
             nga.field('post_id', 'reference')
-                .label('Post title')
-                .map(truncate) // Allows to truncate values in the select
-                .targetEntity(post) // Select a target Entity
-                .targetField(nga.field('title')) // Select a label Field
+                .label('Post content')
+                .targetEntity(post)
+                .targetField(nga.field('body')) // display the body instead of the title
+                .map(truncate) // truncate the long body
         ]);
 
-* `singleApiCall(function(entityIds) {}`
-Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
-
-        // Will call /posts?post_id[]=1&post_id[]=2&post_id%[]=5...
-        commentList.fields([
-            nga.field('post_id', 'reference')
-                .singleApiCall(function (postIds) {
-                    return { 'post_id[]': postIds };
-                })
-        ]);
+* `perPage(integer)`
+Define the maximum number of related entities fetched and displayed in the dropdown of possible values in a write context. Defaults to 30.
 
 * `sortField(String)`
-Set the default field for list sorting. Defaults to 'id'
+Set the field used to sort the list displayed in the dropdown in a write context. Defaults to 'id'.
 
 * `sortDir(String)`
-Set the default direction for list sorting. Defaults to 'DESC'
+Set the direction used to sort the list displayed in the dropdown in a write context. Defaults to 'DESC'.
 
 * `remoteComplete([true|false], options = {})`
-Enable autocompletion by fetching remote results (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
-If set to false, all references (in the limit of `perPage` parameter) would be retrieved at view initialization.
+In write context, enable autocompletion by fetching remote results as the user types (disabled by default). When enabled, the `reference` widget fetches the results matching the string typed in the autocomplete input from the REST API.
+When set to false, all references (in the limit of `perPage` parameter) are retrieved at view initialization.
 
         comments.editionView().fields([
             nga.field('id'),
@@ -656,7 +686,7 @@ If set to false, all references (in the limit of `perPage` parameter) would be r
     Available options are:
 
     * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
-    * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
+    * `searchQuery`: a function returning the parameters to add to the query string based on the input string.
 
         comments.editionView().fields([
             nga.field('id'),
@@ -671,6 +701,54 @@ If set to false, all references (in the limit of `perPage` parameter) would be r
                 .perPage(10) // limit the number of results to 10
         ]);
 
+* `singleApiCall(function(entityIds) {}`
+Group queries for the related entities in a `listView`. If that option isn't defined, adding a `reference` field in a `listView` triggers a query to the API for the related entity *for each row*.
+
+        commentList.fields([
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+        ]);
+
+        // will trigger the following queries
+        GET /comments?_page=1
+        [
+          { "id": 1, "post_id": 123, ... },
+          { "id": 2, "post_id": 456, ... },
+          { "id": 3, "post_id": 789, ... },
+        ]
+        GET /posts/123
+        { "id": 123, ... }
+        GET /posts/456
+        { "id": 456, ... }
+        GET /posts/789
+        { "id": 789, ... }
+
+    On most configurations, multiplying the requests to the REST API like that will slow down the rendering of the list a great deal. To speed things up, you can group the calls to the related entities - provided the REST API supports filters for multiple values ("WHERE ... IN"). To do so, use `singleApiCall()` to format the request based on an array of ids.
+
+        commentList.fields([
+            nga.field('post_id', 'reference')
+                .targetEntity(post)
+                .targetField(nga.field('title'))
+                .singleApiCall(function (postIds) {
+                    return { 'post_id[]': postIds };
+                })
+        ]);
+
+        // will trigger the following queries
+        GET /comments?_page=1
+        [
+          { "id": 1, "post_id": 123, ... },
+          { "id": 2, "post_id": 456, ... },
+          { "id": 3, "post_id": 789, ... },
+        ]
+        GET /posts?post_id[]=123&post_id[]=234&post_id[]=456
+        [
+            { "id": 123, ... },
+            { "id": 456, ... },
+            { "id": 789, ... },
+        ]
+
 * `permanentFilters({ field1: value, field2: value, ...})`
 Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
 
@@ -680,16 +758,60 @@ Add filters to the referenced results list. This can be very useful to restrict 
                 .targetEntity(post)
                 .targetField(nga.field('title'))
                 .permanentFilters({
-                    published: true
+                    published: true // display only the published posts
                 });
         ]);
 
-* `perPage(integer)`
-Define the maximum number of elements fetched and displayed in the list.
-
 ### `referenced_list` Field Type
 
-The `referenced_list` type also defines `label`, `order`, `map`, `list` & `validation` options like the `Field` type.
+The `referenced_list` type maps a one-to-many relationship where the foreign key is located in another entity. For instance, if the REST API behaves as follows:
+
+```
+GET /posts/1
+{
+    "id": "1",
+    "title": "Consectetur adipisicing elit",
+    "body": "Sed do eiusmod..."
+}
+
+GET /comments/123
+{
+    "id": 123,
+    "body": "Lorem ipsum sic dolor amet...",
+    "post_id": 1
+}
+GET /comments/456
+{
+    "id": 123,
+    "body": "Lorem ipsum sic dolor amet...",
+    "post_id": 1
+}
+```
+
+Then mapping a `comments` property of the `post` entity to a `referenced_list` will tell ng-admin to fetch the related `comment` entities, and to display the result in a datagrid.
+
+```js
+var post = nga.entity('posts');
+var comment = nga.entity('comments');
+post.editionView().fields([
+    nga.field('comments', 'referenced_list') // Define a 1-N relationship with the comment entity
+        .targetEntity(comment) // Target the comment Entity
+        .targetReferenceField('post_id') // Each comment with post_id = post.id (the identifier) will be displayed
+        .targetFields([ // which comment fields to display in the datagrid
+            nga.field('id').label('ID'),
+            nga.field('body').label('Comment')
+        ])
+]);
+```
+
+`referenced_lists` fields render the same in all contexts: as a datagrid. However, they are only useful in `showView` and `editionView` (you can't display a datagrid in a datagrid, so this excludes the `listView`, and you can't fetch related entities to a non-existent entity, so this excludes the `creationView`). For that field, ng-admin fetches the related entities in a single query with a filter:
+
+```
+GET /posts/456 <= get the main entity
+GET /comments?_filters={post_id:456}&_page=1 <= get the values for the referenced entity
+```
+
+The `referenced_list` type specializes the `Field` type, so it supports the same `label`, `order`, `map`, `list` & `validation` options. Additional options are:
 
 * `targetEntity(Entity)`
 Define the referenced entity.
@@ -698,30 +820,43 @@ Define the referenced entity.
 Define the field name used to link the referenced entity.
 
 * `targetFields(Array(Field))`
-Define an array of fields that will be displayed in the list of the form.
+Define the list of fields of the target entity to be displayed in the datagrid.
 
         myEditionView.fields([
-            nga.field('comments', 'referenced_list') // Define a N-1 relationship with the comment entity
-                .label('Comments')
-                .targetEntity(comment) // Target the comment Entity
-                .targetReferenceField('post_id') // Each comment with post_id = post.id (the identifier) will be displayed
-                .targetFields([ // Display comment field to display
-                    nga.field('id').label('ID'),
-                    nga.field('body').label('Comment')
+            nga.field('comments', 'referenced_list')
+                .targetEntity(comment)
+                .targetReferenceField('post_id')
+                .targetFields([ // choose another set of fields
+                    nga.field('date', 'datetime'),
+                    nga.field('author'),
+                    nga.field('body')
                 ])
         ]);
 
+* `perPage(integer)`
+Define the maximum number of related entities fetched and displayed in the datagrid. Defaults to 30.
+
 * `sortField(String)`
-Set the default field for list sorting. Defaults to 'id'
+Set the field used to sort the datagrid. Defaults to 'id'.
 
 * `sortDir(String)`
-Set the default direction for list sorting. Defaults to 'DESC'
+Set the direction used to sort the datagrid. Defaults to 'DESC'.
 
 * `permanentFilters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list.
+Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in the datagrid:
 
-* `perPage(integer)`
-Define the maximum number of elements fetched and displayed in the list.
+        post.editionView().fields([
+            nga.field('comments', 'referenced_list')
+                .targetEntity(comment)
+                .targetReferenceField('post_id')
+                .targetFields([
+                    nga.field('id').label('ID'),
+                    nga.field('body').label('Comment')
+                ])
+                .permanentFilters({
+                    published: true // display only the published comments
+                })
+        ]);
 
 ### `reference_many` Field Type
 
