@@ -20,6 +20,17 @@ entity.listView().fields([
 
 A button linking to the related view for the given entity.
 
+Note that `<ma-create-button>` supports default values for the entity to create. This enables the creation of an with a prefilled relationship:
+
+```js
+post.editionView()
+    .fields([
+        ...
+        nga.field('').label('')
+            .template('<ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>')
+    ]);
+```
+
 * `<ma-filtered-list-button>`
 
 A button linking to an entity list view, prefiltered.
@@ -62,4 +73,3 @@ listView.listActions([
     '</ma-delete-button>'
 ]);
 ```
-
