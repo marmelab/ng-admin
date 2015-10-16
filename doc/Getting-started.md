@@ -314,7 +314,7 @@ nga.field('userId', 'reference')
 
 This kind of syntax (where a call on a method object returns the object) is very common in ng-admin, you will see it a lot.
 
-There are many more types in addition to the `reference` type, each with their own abilities: `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, `reference_many`, and `template`. When you don't specify the field type, it uses the `string` type by default. All filed types are documented in the [Configuration API Reference](Configuration-reference.md).
+There are many more types in addition to the `reference` type, each with their own abilities: `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, and `reference_many`. When you don't specify the field type, it uses the `string` type by default. All filed types are documented in the [Configuration API Reference](Configuration-reference.md).
 
 While talking about references, let's display the list of comments for a given post. The `post` entity doesn't have a detail view for now. Instead of an edition view, and for the sake of this example, you will create a showView. It's a non-editable detail view, good for read only entities.
 
@@ -458,7 +458,7 @@ user.editionView().fields(user.creationView().fields());
 
 ![customized validation in post edition view](images/customized_validation_in_post_edition_view.png)
 
-**Tip**: Fields can use custom directives (see the section about the template field type below), so you can even create complex validation rules using `$validators` and `$asyncValidators`.
+**Tip**: Fields can use custom directives (see the section about the template method type below), so you can even create complex validation rules using `$validators` and `$asyncValidators`.
 
 ## Making Lists Searchable With Filters
 
@@ -500,11 +500,11 @@ Browse to the posts list, and you will see the full-text filter displayed on the
 
 **Note**: We've used the same `nga.field()` to configure columns in a list, form inputs in an edition form, and search widgets in a filter form. At that point, you may wonder: what is a *field* exactly? That's one of the strength of ng-admin: it provides a set of field types with predefined behavior for each view. A `date` type, for instance, will render in list views as a formatted date, in edition views and filters as a date widget. This allows you to reuse the same field definition across several views, and define custom types. See the [Custom types chapter](Custom-types.md) for more details.
 
-## Using Angular Directives With The Template Field Type
+## Using Angular Directives With The Template Method
 
 The full-text search isn't looking very good. Usually, a full-text filter widget has no label, a placeholder simply saying "Search", and a magnifying glass icon. How can you turn the current full-text input into that UI?
 
-Fortunately, ng-admin fields can benefit from the power of Angular.js directives. Using the `template()` field method, you can specify the HTML template to use for rendering the field. And you can use any directive already registered in that HTML. Update the `nga.field('q')` definition as follows:
+Fortunately, every ng-admin field can benefit from the power of Angular.js directives. Using the `template()` field method, you can specify the HTML template to use for rendering the field. And you can use any directive already registered in that application. Update the `nga.field('q')` definition as follows:
 
 ```js
         nga.field('q')
