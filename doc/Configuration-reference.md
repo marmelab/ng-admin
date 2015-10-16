@@ -989,6 +989,27 @@ GET /comments/124
 }
 ```
 
+Then mapping a `comments` property of the `post` entity to a `reference_many` will tell ng-admin to fetch the related `comment` entities.
+
+```js
+var post = nga.entity('posts');
+var comment = nga.entity('comments');
+post.editionView().fields([
+    nga.field('comments', 'reference_many') // Define a 1-N relationship with the comment entity
+        .targetEntity(comment) // Target the comment Entity
+        .targetFieldField('body') // the field of the comment entity to use as representation
+]);
+```
+
+` reference_many` fields render as a list of labels in rerad context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
+
+```
+GET /posts/456 <= get the main entity
+{ "id": "456", "comments": [123, 124], ... }
+GET /comments/123
+GET /comments/124
+```
+
 The `reference_many` field type also defines `label`, `order`, `map` & `validation` options like the `Field` type.
 
 * `targetEntity(Entity)`
@@ -1006,7 +1027,7 @@ Define the field name used to link the referenced entity.
         ])
 
 * `singleApiCall(function(entityIds) {}`
-Define a function that returns parameters for filtering API calls. You can use it if you API support filter for multiple values.
+Define a function that returns parameters for filtering API calls. You can use it if you API supports filter for multiple values.
 
         // Will call /tags?tag_id[]=1&tag_id[]=2&tag_id%[]=5...
         postList.fields([
