@@ -609,14 +609,14 @@ Some other properties are allowed, see https://github.com/danialfarid/ng-file-up
 
 ### `reference` Field Type
 
-The `reference` type maps a foreign key to another entity. For instance, if the REST API behaves as follows:
+The `reference` type maps a many-to-one relationship where the entity contains a foreign key to another entity. For instance, if the REST API behaves as follows:
 
 ```
 GET /comments/123
 {
     "id": 123,
     "body": "Lorem ipsum sic dolor amet...",
-    "post_id": 456
+    "post_id": 456 // foreign key to post of id 456
 }
 
 GET /posts/456
@@ -639,9 +639,11 @@ comment.listView().fields([
 ]);
 ```
 
-In a read context (`listView` and `showView`), `reference` fields render the targetField as text. In a write context (`creationView` and `editionView`), ` reference` fields render as a dropdown, allowing to select the related entity among a list using the ` targetField` as a representation. In that case, ng-admin fetches the possible values on the related entity, so a `reference` field makes 2 queries in a write context:
+In a read context (`listView` and `showView`), `reference` fields render the targetField as text. In a write context (`creationView` and `editionView`), ` reference` fields render as a dropdown, allowing to select the related entity among a list using the ` targetField` as a representation. In that case, ng-admin fetches the possible values on the related entity, so a `reference` field makes an additional query in a write context:
 
 ```
+GET /comments/123      <= get the main entity
+{ "id": 123, "post_id": 456, ... },
 GET /posts/456         <= get the referenced entity itself
 GET /posts?_perPage=30 <= get the possible values for the referenced entity
 ```
@@ -713,16 +715,16 @@ Group queries for the related entities in a `listView`. If that option isn't def
         // will trigger the following queries
         GET /comments?_page=1
         [
-          { "id": 1, "post_id": 123, ... },
-          { "id": 2, "post_id": 456, ... },
-          { "id": 3, "post_id": 789, ... },
+          { "id": 123, "post_id": 456, ... },
+          { "id": 124, "post_id": 457, ... },
+          { "id": 125, "post_id": 458, ... },
         ]
-        GET /posts/123
-        { "id": 123, ... }
         GET /posts/456
         { "id": 456, ... }
-        GET /posts/789
-        { "id": 789, ... }
+        GET /posts/457
+        { "id": 457, ... }
+        GET /posts/458
+        { "id": 458, ... }
 
     On most configurations, multiplying the requests to the REST API like that will slow down the rendering of the list a great deal. To speed things up, you can group the calls to the related entities - provided the REST API supports filters for multiple values ("WHERE ... IN"). To do so, use `singleApiCall()` to format the request based on an array of ids.
 
@@ -738,19 +740,19 @@ Group queries for the related entities in a `listView`. If that option isn't def
         // will trigger the following queries
         GET /comments?_page=1
         [
-          { "id": 1, "post_id": 123, ... },
-          { "id": 2, "post_id": 456, ... },
-          { "id": 3, "post_id": 789, ... },
+          { "id": 123, "post_id": 456, ... },
+          { "id": 124, "post_id": 457, ... },
+          { "id": 125, "post_id": 458, ... },
         ]
-        GET /posts?post_id[]=123&post_id[]=234&post_id[]=456
+        GET /posts?post_id[]=456&post_id[]=457&post_id[]=458
         [
-            { "id": 123, ... },
             { "id": 456, ... },
-            { "id": 789, ... },
+            { "id": 457, ... },
+            { "id": 458, ... },
         ]
 
 * `permanentFilters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
+Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list. As such, it is only used in write context.
 
         comments.editionView().fields([
             nga.field('id'),
@@ -762,14 +764,24 @@ Add filters to the referenced results list. This can be very useful to restrict 
                 });
         ]);
 
+        // will trigger the following queries
+        GET /comments/123      <= get the main entity
+        { "id": 123, "post_id": 456, ... }
+        GET /posts/456         <= get the referenced entity itself
+        GET /posts?_filters={"published":true} <= get the possible values for the referenced entity
+        [
+            { "id": 456, ... },
+            { "id": 458, ... },
+        ]
+
 ### `referenced_list` Field Type
 
 The `referenced_list` type maps a one-to-many relationship where the foreign key is located in another entity. For instance, if the REST API behaves as follows:
 
 ```
-GET /posts/1
+GET /posts/456
 {
-    "id": "1",
+    "id": "456",
     "title": "Consectetur adipisicing elit",
     "body": "Sed do eiusmod..."
 }
@@ -777,14 +789,16 @@ GET /posts/1
 GET /comments/123
 {
     "id": 123,
+    "author": "Alice",
     "body": "Lorem ipsum sic dolor amet...",
-    "post_id": 1
+    "post_id": 456 // foreign key to post of id 456
 }
-GET /comments/456
+GET /comments/124
 {
-    "id": 123,
+    "id": 124,
+    "author": "Bob",
     "body": "Lorem ipsum sic dolor amet...",
-    "post_id": 1
+    "post_id": 456 // foreign key to post of id 456
 }
 ```
 
@@ -804,11 +818,11 @@ post.editionView().fields([
 ]);
 ```
 
-`referenced_lists` fields render the same in all contexts: as a datagrid. However, they are only useful in `showView` and `editionView` (you can't display a datagrid in a datagrid, so this excludes the `listView`, and you can't fetch related entities to a non-existent entity, so this excludes the `creationView`). For that field, ng-admin fetches the related entities in a single query with a filter:
+As such, a `referenced_lists` field is the opposite of a `reference` field. `referenced_lists` fields are not editable (because the relationship is the other entity's responsibility), so they render the same in all contexts: as a datagrid. However, they are only useful in `showView` and `editionView` (you can't display a datagrid in a datagrid, so this excludes the `listView`, and you can't fetch related entities to a non-existent entity, so this excludes the `creationView`). For that field, ng-admin fetches the related entities in a single query with a filter:
 
 ```
 GET /posts/456 <= get the main entity
-GET /comments?_filters={post_id:456}&_page=1 <= get the values for the referenced entity
+GET /comments?_filters={"post_id":456}&_page=1 <= get the values for the referenced entity
 ```
 
 The `referenced_list` type specializes the `Field` type, so it supports the same `label`, `order`, `map`, `list` & `validation` options. Additional options are:
@@ -827,7 +841,6 @@ Define the list of fields of the target entity to be displayed in the datagrid.
                 .targetEntity(comment)
                 .targetReferenceField('post_id')
                 .targetFields([ // choose another set of fields
-                    nga.field('date', 'datetime'),
                     nga.field('author'),
                     nga.field('body')
                 ])
@@ -843,7 +856,7 @@ Set the field used to sort the datagrid. Defaults to 'id'.
 Set the direction used to sort the datagrid. Defaults to 'DESC'.
 
 * `permanentFilters({ field1: value, field2: value, ...})`
-Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in the datagrid:
+Filter the list of referenced entities list. This can be very useful to restrict the list of possible values displayed in the datagrid:
 
         post.editionView().fields([
             nga.field('comments', 'referenced_list')
@@ -858,7 +871,123 @@ Add filters to the referenced results list. This can be very useful to restrict 
                 })
         ]);
 
+        // will trigger the following queries
+        GET /post/456      <= get the main entity
+        { "id": 456, ... }
+        GET /posts?_filters={"post_id":456,"published":true}&_page=1 <= get the possible values for the referenced entity
+        [
+            { "id": 123, "post_id": 456, ... },
+            { "id": 124, "post_id": 456, ... },
+        ]
+
+### `embedded_list` Field Type
+
+The `embedded_list` type maps a one-to-many relationship where the related entities are embedded in the main response. For instance, if the REST API behaves as follows:
+
+```
+GET /posts/1
+{
+    "id": "1",
+    "title": "Consectetur adipisicing elit",
+    "body": "Sed do eiusmod...",
+    "comments": [
+        {
+            "author": "Alice",
+            "body": "Lorem ipsum sic dolor amet...",
+        },
+        {
+            "author": "Bob",
+            "body": "Lorem ipsum sic dolor amet...",
+        }
+    ]
+}
+```
+
+Then mapping a `comments` property of the `post` entity to an `embedded_list` will tell ng-admin to use the embedded `comment` entities.
+
+```js
+post.showView().fields([
+    nga.field('comments', 'embedded_list') // Define a 1-N relationship with the (embedded) comment entity
+        .targetFields([ // which comment fields to display in the datagrid / form
+            nga.field('body')
+        ])
+]);
+```
+
+Ng-admin renders`embedded_list` fields as a datagrid in read context (`showView`), and as a list of embedded forms in write context (`creationView` and `editionView`). This won't issue any additional query to the REST API, since the related entities are already embedded.
+
+The `embedded_list` type specializes the `Field` type, so it supports the same `label`, `order`, `map`, `list` & `validation` options. Additional options are:
+
+* `targetFields(Array(Field))`
+Define the list of fields of the target entity to be displayed in the datagrid.
+
+        myEditionView.fields([
+            nga.field('comments', 'embedded_list')
+                .targetFields([ // choose another set of fields
+                    nga.field('author'),
+                    nga.field('body')
+                ])
+        ]);
+
+* `sortField(String)`
+Set the field used to sort the datagrid. Defaults to 'id'.
+
+* `sortDir(String)`
+Set the direction used to sort the datagrid. Defaults to 'DESC'.
+
+* `targetEntity(Entity)`
+Define the referenced entity (optional). When set, if the embedded entities have an identifier field, the `embedded_list` datagrid will be able to display links to the detail view of the entity. It is not used in write context.
+
+        var post = nga.entity('posts');
+        var comment = nga.entity('comments');
+        post.showView().fields([
+            nga.field('comments', 'embedded_list') // Define a 1-N relationship with the (embedded) comment entity
+                .targetEntity(comment)
+                .targetFields([ // which comment fields to display in the datagrid / form
+                    nga.field('id') // will have a link to comment edition view
+                    nga.field('body')
+                ])
+        ]);
+
+* `permanentFilters({ field1: value, field2: value, ...})`
+Filter the list of referenced entities list. This can be very useful to restrict the list of possible values displayed in the datagrid:
+
+        post.editionView().fields([
+            nga.field('comments', 'embedded_list')
+                .targetFields([
+                    nga.field('body')
+                ])
+                .permanentFilters({
+                    published: true // display only the published comments
+                })
+        ]);
+
 ### `reference_many` Field Type
+
+The `reference_many` type maps a one-to-many relationship where the identifiers of the related entities are embedded in the main response. For instance, if the REST API behaves as follows:
+
+```
+GET /posts/456
+{
+    "id": "456",
+    "title": "Consectetur adipisicing elit",
+    "body": "Sed do eiusmod...",
+    "comments": [123, 124]
+}
+
+GET /comments/123
+{
+    "id": 123,
+    "author": "Alice",
+    "body": "Lorem ipsum sic dolor amet...",
+}
+GET /comments/124
+{
+    "id": 124,
+    "author": "Bob",
+    "body": "Lorem ipsum sic dolor amet...",
+}
+```
 
 The `reference_many` field type also defines `label`, `order`, `map` & `validation` options like the `Field` type.
 
