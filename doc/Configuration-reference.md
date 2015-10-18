@@ -658,18 +658,18 @@ If set to false, all references (in the limit of `perPage` parameter) would be r
     * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
     * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
 
-        comments.editionView().fields([
-            nga.field('id'),
-            nga.field('post_id', 'reference')
-                .targetEntity(post)
-                .targetField(nga.field('title'))
-                .remoteComplete(true, {
-                    refreshDelay: 300,
-                    // populate choices from the response of GET /posts?q=XXX
-                    searchQuery: function(search) { return { q: search }; }
-                })
-                .perPage(10) // limit the number of results to 10
-        ]);
+            comments.editionView().fields([
+                nga.field('id'),
+                nga.field('post_id', 'reference')
+                    .targetEntity(post)
+                    .targetField(nga.field('title'))
+                    .remoteComplete(true, {
+                        refreshDelay: 300,
+                        // populate choices from the response of GET /posts?q=XXX
+                        searchQuery: function(search) { return { q: search }; }
+                    })
+                    .perPage(10) // limit the number of results to 10
+            ]);
 
 * `permanentFilters({ field1: value, field2: value, ...})`
 Add filters to the referenced results list. This can be very useful to restrict the list of possible values displayed in a dropdown list:
@@ -752,6 +752,8 @@ Define a function that returns parameters for filtering API calls. You can use i
                 })
         ]);
 
+    **Tip**: It also works for `creationView` and `editionView`
+
 * `permanentFilters({ field1: value, field2: value, ...})`
 Add filters to the referenced results list.
 
@@ -772,15 +774,15 @@ If set to false, all references (in the limit of `perPage` parameter) would be r
     * `refreshDelay`: minimal delay between two API calls in milliseconds. By default: 500.
     * `searchQuery`: a function returning the parameters to add to the query string basd on the input string.
 
-        post.editionView().fields([
-            nga.field('id'),
-            nga.field('tags', 'reference_many')
-                .targetEntity(tag)
-                .targetField(nga.field('name'))
-                .remoteComplete(true, {
-                    refreshDelay: 300,
-                    // populate choices from the response of GET /tags?q=XXX
-                    searchQuery: function(search) { return { q: search }; }
-                })
-                .perPage(10) // limit the number of results to 10
-        ]);
+            post.editionView().fields([
+                nga.field('id'),
+                nga.field('tags', 'reference_many')
+                    .targetEntity(tag)
+                    .targetField(nga.field('name'))
+                    .remoteComplete(true, {
+                        refreshDelay: 300,
+                        // populate choices from the response of GET /tags?q=XXX
+                        searchQuery: function(search) { return { q: search }; }
+                    })
+                    .perPage(10) // limit the number of results to 10
+            ]);
