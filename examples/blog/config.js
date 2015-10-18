@@ -146,6 +146,7 @@
                         refreshDelay: 300 ,
                         searchQuery: function(search) { return { q: search }; }
                     })
+                    .singleApiCall(ids => { return {'id': ids }; })
                     .cssClasses('col-sm-4'), // customize look and feel through CSS classes
                 nga.field('pictures', 'json'),
                 nga.field('views', 'number')
