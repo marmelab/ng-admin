@@ -10,7 +10,7 @@ function getEntrySources(sources) {
 
 var ngAdminSources = [
     './src/javascripts/ng-admin.js',
-    './src/sass/ng-admin.scss'
+    './src/sass/ng-admin.scss',
 ];
 
 var ngAdminAndVendorSources = [
@@ -25,7 +25,23 @@ var ngAdminAndVendorSources = [
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
     'ui-select/dist/select.css',
-    './src/sass/ng-admin.scss'
+    './src/sass/ng-admin.scss',
+];
+
+var vendorsJsSources = [
+    './src/javascripts/vendors.js',
+];
+
+var vendorsCssSources = [
+    'font-awesome/scss/font-awesome.scss',
+    'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+    'nprogress/nprogress.css',
+    'humane-js/themes/flatty.css',
+    'textangular/src/textAngular.css',
+    'codemirror/lib/codemirror.css',
+    'codemirror/addon/lint/lint.css',
+    'ui-select/dist/select.css',
+    './src/sass/ng-admin.scss',
 ];
 
 var vendorsJsSources = [

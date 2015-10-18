@@ -7,14 +7,6 @@
     restServer.init(apiData);
     restServer.toggleLogging(); // logging is off by default, enable it
 
-    // use sinon.js to monkey-patch XmlHttpRequest
-    sinon.FakeXMLHttpRequest.useFilters = true;
-    sinon.FakeXMLHttpRequest.addFilter(function (method, url) {
-        // Do not catch webpack sync, config.js transformation but catch /upload in test env
-        return url.indexOf('/socket.io/') !== -1 || url.indexOf('config.js') !== -1
-            || (!testEnv && url.indexOf('/upload') !== -1);
-    });
-
     var server = sinon.fakeServer.create();
     server.autoRespond = true;
     server.autoRespondAfter = 0; // answer immediately
@@ -28,4 +20,11 @@
             }
         });
     }
+
+    // use sinon.js to monkey-patch XmlHttpRequest
+    sinon.FakeXMLHttpRequest.useFilters = true;
+    sinon.FakeXMLHttpRequest.addFilter(function (method, url) {
+        // do not fake other urls than http://localhost:3000/*
+        return url.indexOf(restServer.baseUrl) === -1;
+    });
 }());
