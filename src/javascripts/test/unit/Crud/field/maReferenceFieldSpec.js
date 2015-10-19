@@ -21,12 +21,6 @@ describe('ReferenceField', function() {
     beforeEach(function() {
         angular.mock.module(function($provide) {
             $provide.service('ReferenceRefresher', function($q) {
-                this.getInitialChoices = jasmine.createSpy('getInitialChoices').and.callFake(function() {
-                    return mixins.buildPromise([
-                        { value: 2, label: 'bar' }
-                    ]);
-                });
-
                 this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
                     return mixins.buildPromise([
                         { value: 1, label: 'foo' },

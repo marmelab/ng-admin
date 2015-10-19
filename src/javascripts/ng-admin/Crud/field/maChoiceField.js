@@ -28,7 +28,7 @@ function maChoiceField($compile) {
                     });
 
                     var refreshAttributes = '';
-                    if (field.type().indexOf('reference') === 0 && field.remoteComplete()) {
+                    if (field.type().indexOf('reference') === 0 && field.remoteComplete()) { // FIXME wrong place to do that
                         scope.refreshDelay = field.remoteCompleteOptions().refreshDelay;
                         refreshAttributes = 'refresh-delay="refreshDelay" refresh="refresh({ $search: $select.search })"';
                     }
