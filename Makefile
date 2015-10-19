@@ -5,6 +5,7 @@ install:
 	./node_modules/protractor/bin/webdriver-manager update
 
 run:
+	@cp node_modules/angular/angular.min.js examples/blog/build/angular.min.js
 	@cp node_modules/sinon/pkg/sinon-server-1.14.1.js examples/blog/build/sinon-server.js
 	@./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --devtool cheap-module-inline-source-map --content-base examples/blog --port 8000
 
