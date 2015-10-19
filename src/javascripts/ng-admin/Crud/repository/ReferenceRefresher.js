@@ -20,12 +20,6 @@ class ReferenceRefresher {
         return promise;
     }
 
-    getInitialChoices(field, values) {
-        return this.ReadQueries.getRecordsByIds(field.targetEntity(), values)
-            .then(results => this._removeDuplicates(results, values))
-            .then(records => this._transformRecords(field, records));
-    }
-
     _removeDuplicates(results, currentValue) {
         // remove already assigned values: ui-select still return them if multiple
         if (!currentValue) {

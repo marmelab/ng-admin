@@ -47,7 +47,7 @@ function maReferenceManyField(ReferenceRefresher) {
 
                 // ui-select doesn't allow to prepopulate autocomplete selects, see https://github.com/angular-ui/ui-select/issues/1197
                 // let ui-select fetch the options using the ReferenceRefresher
-                scope.refresh = function refresh(search) {
+                scope.refresh = (search) => {
                     return ReferenceRefresher.refresh(field, scope.value, search)
                         .then(formattedResults => {
                             scope.$broadcast('choices:update', { choices: formattedResults });
