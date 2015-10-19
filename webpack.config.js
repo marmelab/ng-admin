@@ -14,6 +14,7 @@ var ngAdminSources = [
 ];
 
 var ngAdminAndVendorSources = [
+    'angular/angular.js',
     './src/javascripts/ng-admin.js',
     './src/javascripts/vendors.js',
     'font-awesome/scss/font-awesome.scss',
@@ -27,10 +28,28 @@ var ngAdminAndVendorSources = [
     './src/sass/ng-admin.scss'
 ];
 
+var vendorsJsSources = [
+    './src/javascripts/vendors.js'
+];
+
+var vendorsCssSources = [
+    'font-awesome/scss/font-awesome.scss',
+    'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+    'nprogress/nprogress.css',
+    'humane-js/themes/flatty.css',
+    'textangular/src/textAngular.css',
+    'codemirror/lib/codemirror.css',
+    'codemirror/addon/lint/lint.css',
+    'ui-select/dist/select.css',
+    './src/sass/ng-admin.scss'
+ ];
+
 module.exports = {
     entry: {
         'ng-admin': getEntrySources(ngAdminAndVendorSources),
-        'ng-admin-only': getEntrySources(ngAdminSources)
+        'ng-admin-only': getEntrySources(ngAdminSources),
+        'ng-admin-vendors-js': getEntrySources(vendorsJsSources),
+        'ng-admin-vendors-css': getEntrySources(vendorsCssSources)
     },
     output: process.env.NODE_ENV === 'test' ? {
         path: './src/javascripts/test/fixtures/examples/blog/',
@@ -38,6 +57,9 @@ module.exports = {
     } : {
         publicPath: "http://localhost:8000/",
         filename: "build/[name].min.js"
+    },
+    externals: {
+        'angular': 'angular'
     },
     module: {
         loaders: [
