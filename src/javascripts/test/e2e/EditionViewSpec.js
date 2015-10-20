@@ -72,10 +72,30 @@ describe('EditionView', function () {
             browser.get(browser.baseUrl + '#/tags/edit/5');
         });
 
-        it('should render as a checkbox field', function () {
+        it('should render as a checkbox field when required', function () {
             $$('.ng-admin-field-published input[type="checkbox"]')
+            .then(function(checkboxes) {
+                expect(checkboxes.length).toBe(1);
+                return checkboxes[0];
+            })
             .then(function(checkbox) {
-                expect(checkbox.length).toBe(1);
+                expect(checkbox.getAttribute('checked')).toBe('true');
+                return checkbox.click();
+            })
+            .then(function() {
+                return $$('button[type="submit"]').first().click();
+            })
+            .then(function() {
+                return $$('#page-wrapper .btn-default').first().click();
+            })
+            .then(function() {
+                return $$('.ng-admin-column-actions .btn-xs').get(1).click();
+            })
+            .then(function() {
+                return $$('.ng-admin-field-published input[type="checkbox"]').first();
+            })
+            .then(function(checkbox) {
+                expect(checkbox.getAttribute('checked')).toBe(null);
             })
         });
     })

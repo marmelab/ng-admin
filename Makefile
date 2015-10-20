@@ -15,3 +15,9 @@ build:
 
 test:
 	@./node_modules/.bin/grunt test:local
+
+test-unit:
+	@./node_modules/.bin/grunt karma
+
+test-e2e:
+	@./node_modules/.bin/grunt test:local:e2e
