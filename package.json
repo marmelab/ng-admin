@@ -76,6 +76,7 @@
     "node": ">=4.2.0"
   },
   "scripts": {
+    "postinstall": "webdriver-manager update",
     "test": "make test"
   }
 }

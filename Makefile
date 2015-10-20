@@ -2,7 +2,6 @@
 
 install:
 	npm install
-	./node_modules/protractor/bin/webdriver-manager update
 
 run: examples/blog/build
 	@cp node_modules/fakerest/dist/FakeRest.min.js examples/blog/build/fakerest.js
