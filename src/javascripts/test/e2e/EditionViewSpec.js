@@ -100,6 +100,25 @@ describe('EditionView', function () {
         });
     })
 
+    describe('EmbeddedListField', function() {
+        beforeEach(function() {
+            browser.get(browser.baseUrl + '#/posts/edit/1');
+        });
+
+        it('should render as a list of subforms', function () {
+            $$('.ng-admin-field-backlinks ng-form')
+            .then(function subFormsExist(subforms) {
+                expect(subforms.length).toBe(1);
+            })
+            .then(function getUrlInput() {
+                return $$('.ng-admin-field-backlinks ng-form input#url').first();
+            })
+            .then(function urlInputContainsUrl(input) {
+                expect(input.getAttribute('value')).toBe('http://example.com/bar/baz.html');
+            });
+        });
+    })
+
     describe('DetailLink', function() {
         beforeEach(function() {
             browser.get(browser.baseUrl + '#/posts/edit/1');

@@ -5,6 +5,10 @@
     var restServer = new FakeRest.Server('http://localhost:3000');
     var testEnv = window.location.pathname.indexOf('test.html') !== -1;
     restServer.init(apiData);
+    restServer.setDefaultQuery(function(resourceName) {
+        if (resourceName == 'posts') return { embed: ['comments'] }
+        return {};
+    });
     restServer.toggleLogging(); // logging is off by default, enable it
 
     // use sinon.js to monkey-patch XmlHttpRequest

@@ -5,6 +5,7 @@ function factories(fvp) {
     fvp.registerFieldView('date', require('../fieldView/DateFieldView'));
     fvp.registerFieldView('datetime', require('../fieldView/DateTimeFieldView'));
     fvp.registerFieldView('email', require('../fieldView/EmailFieldView'));
+    fvp.registerFieldView('embedded_list', require('../fieldView/EmbeddedListFieldView'));
     fvp.registerFieldView('file', require('../fieldView/FileFieldView'));
     fvp.registerFieldView('float', require('../fieldView/FloatFieldView'));
     fvp.registerFieldView('json', require('../fieldView/JsonFieldView'));

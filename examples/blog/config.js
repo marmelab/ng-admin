@@ -97,6 +97,10 @@
                     .cssClasses('hidden-xs'),
                 nga.field('views', 'number')
                     .cssClasses('hidden-xs'),
+                nga.field('backlinks', 'embedded_list') // display list of related comments
+                    .label('Links')
+                    .map(links => links ? links.length : '')
+                    .template('{{ value }}'),
                 nga.field('tags', 'reference_many') // a Reference is a particular type of field that references another entity
                     .targetEntity(tag) // the tag entity is defined later in this file
                     .targetField(nga.field('name')) // the field to be displayed in this list
@@ -153,6 +157,14 @@
                     .cssClasses('col-sm-4'),
                 nga.field('average_note', 'float')
                     .cssClasses('col-sm-4'),
+                nga.field('backlinks', 'embedded_list') // display embedded list
+                    .targetFields([
+                        nga.field('date', 'datetime'),
+                        nga.field('url')
+                            .cssClasses('col-lg-10')
+                    ])
+                    .sortField('date')
+                    .sortDir('DESC'),
                 nga.field('comments', 'referenced_list') // display list of related comments
                     .targetEntity(nga.entity('comments'))
                     .targetReferenceField('post_id')
@@ -171,7 +183,39 @@
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
             .fields([
                 nga.field('id'),
-                post.editionView().fields(), // reuse fields from another view in another order
+                nga.field('category', 'choice') // a choice field is rendered as a dropdown in the edition view
+                    .choices([ // List the choice as object literals
+                        { label: 'Tech', value: 'tech' },
+                        { label: 'Lifestyle', value: 'lifestyle' }
+                    ]),
+                nga.field('subcategory', 'choice')
+                    .choices(subCategories),
+                nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
+                    .targetEntity(tag)
+                    .targetField(nga.field('name')),
+                nga.field('pictures', 'json'),
+                nga.field('views', 'number'),
+                nga.field('average_note', 'float'),
+                nga.field('backlinks', 'embedded_list') // display embedded list
+                    .targetFields([
+                        nga.field('date', 'datetime'),
+                        nga.field('url')
+                    ])
+                    .sortField('date')
+                    .sortDir('DESC'),
+                nga.field('comments', 'referenced_list') // display list of related comments
+                    .targetEntity(nga.entity('comments'))
+                    .targetReferenceField('post_id')
+                    .targetFields([
+                        nga.field('id').isDetailLink(true),
+                        nga.field('created_at').label('Posted'),
+                        nga.field('body').label('Comment')
+                    ])
+                    .sortField('created_at')
+                    .sortDir('DESC')
+                    .listActions(['edit']),
+                nga.field('').label('')
+                    .template('<span class="pull-right"><ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }" size="sm"></ma-filtered-list-button><ma-create-button entity-name="comments" size="sm" label="Create related comment" default-values="{ post_id: entry.values.id }"></ma-create-button></span>'),
                 nga.field('custom_action').label('')
                     .template('<send-email post="entry"></send-email>')
             ]);
