@@ -1,4 +1,21 @@
 /*global angular*/
+
+/*
+ * This is an example ng-admin configuration for a blog administration composed
+ * of three entities: post, comment, and tag. Reading the code and the comments
+ * will help you understand how a typical ng-admin application works. You can
+ * browse the result online at http://ng-admin.marmelab.com.
+ *
+ * The remote REST API is simulated in the browser, using FakeRest
+ * (https://github.com/marmelab/FakeRest). Look at the JSON responses in the
+ * browser console to see the data used by ng-admin.
+ *
+ * For simplicity's sake, the entire configuration is written in a single file,
+ * but in a real world situation, you would probably split that configuration
+ * into one file per entity. For another example configuration on a larger set
+ * of entities, and using the best development practices, check out the
+ * Posters Galore demo (http://marmelab.com/ng-admin-demo/).
+ */
 (function () {
     "use strict";
 
@@ -85,6 +102,10 @@
             .addEntity(comment);
 
         // customize entities and views
+
+        /*****************************
+         * post entity customization *
+         *****************************/
         post.listView()
             .title('All posts') // default title is "[Entity_name] list"
             .description('List of posts with infinite pagination') // description appears under the title
@@ -220,7 +241,9 @@
                     .template('<send-email post="entry"></send-email>')
             ]);
 
-
+        /********************************
+         * comment entity customization *
+         ********************************/
         comment.listView()
             .title('Comments')
             .perPage(10) // limit the number of elements displayed per page. Default is 30.
@@ -292,7 +315,9 @@
         comment.deletionView()
             .title('Deletion confirmation'); // customize the deletion confirmation message
 
-
+        /****************************
+         * tag entity customization *
+         ****************************/
         tag.listView()
             .infinitePagination(false) // by default, the list view uses infinite pagination. Set to false to use regulat pagination
             .fields([

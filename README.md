@@ -71,8 +71,8 @@ See the [Getting Started](doc/Getting-started.md) dedicated chapter for a step-b
 
 ## Usage Examples
 
-* You can find a simple configuration in the [blog admin demo](http://ng-admin.marmelab.com/#/dashboard) ([source](examples/blog/config.js)), where the entities are posts, comments, and tags. The remote REST API uses fake data, and is reset every hour. 
-* The [Posters Galore demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)) is a more complete example of an e-commerce administration, with custom authentication, pages, directives and modules, all well organized via WebPack. The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
+* You can find a simple configuration in the [blog admin demo](http://ng-admin.marmelab.com/#/dashboard) ([source](examples/blog/config.js)), where the entities are posts, comments, and tags.  The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
+* The [Posters Galore demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)) is a more complete example of an e-commerce administration, with custom authentication, pages, directives and modules, all well organized via WebPack. The remote REST API is also simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
 
 ## Configuration Reference
 
@@ -100,13 +100,9 @@ See [Configuration API Reference](doc/Configuration-reference.md) dedicated chap
 
 ## Relationships
 
-ng-admin manages dependencies between entities when you use some special field types.
+Ng-admin supports relationships between entities in read and write views, and provides specialized field types for that: `reference`, `referenced_list`, `reference_many`, and `embedded_list`. The [Relationships Reference chapter](doc/Relationships.md) describes in more details which field type to use for which case.
 
-* Use the `reference` field type to display and edit many-to-one relationships (e.g. the author for a post)
-* Use the `referenced_list` field type to display one-to-many relationships (e.g. the posts of an author)
-* Use the `reference_many` field type to edit one to many relationships (e.g. the posts of an author)
-
-See the Fields section of the [Configuration API Reference chapter](doc/Configuration-reference.md) for more details.
+Also, the Fields section of the [Configuration API Reference chapter](doc/Configuration-reference.md) has a list of all settings for each of these field types.
 
 ## Menu Configuration
 
@@ -154,7 +150,7 @@ To build the ng-admin source with the dependencies you need, and to get hints ab
 
 ## News
 
-Follow the [marmelab blog](http://marmelab.com/blog/) for news about ng-admin (tutorials, plugins, new releases, etc). 
+Follow the [marmelab blog](http://marmelab.com/blog/) for news about ng-admin (tutorials, plugins, new releases, etc).
 
 You should also watch the [ng-admin release page on GitHub](https://github.com/marmelab/ng-admin/releases) for announcements on new releases, and complete changelog.
 

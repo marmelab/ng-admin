@@ -391,6 +391,29 @@ A field is the representation of a property of an entity.
 * `nga.field(name, type)`
 Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, and `reference_many`.
 
+    The name may use the *dot notation* to map a nested property. For instance, is the REST endpoint for comments answers as follow:
+
+        GET /comments/123
+        {
+            "id": 123,
+            "author": "Alice",
+            "body": "Lorem ipsum sic dolor amet...",
+            "post": {
+                "title": "Consectetur adipisicing elit",
+                "body": "Sed do eiusmod...",
+            }
+        }
+
+    Then you can reference the fields nested under the `post` property by prefixing them with "`post.`", as follows:
+
+        comment.listView().fields([
+            nga.field('id'),
+            nga.field('author'),
+            nga.field('body'),
+            nga.field('post.title'), // dot notation
+            nga.field('post.body'),  // dot notation
+        ])
+
 * `label(string label)`
 Define the label of the field. Defaults to the uppercased field name.
 
