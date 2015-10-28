@@ -39,7 +39,7 @@ post for comment  | `reference`       | `reference`
 
 When displaying a post:
 
-* Use the [`referenced_list` type](Configuration-reference.md#referenced_list-field-type) to show the comments related to a post in a `showView` or an `editionView`.
+* Use the [`referenced_list` type](reference/Field.md#referenced_list-field-type) to show the comments related to a post in a `showView` or an `editionView`.
 
         post.showView().fields([
             //...
@@ -63,7 +63,7 @@ When displaying a post:
 
 When displaying a comment:
 
-* Use the [`reference` type](Configuration-reference.md#reference-field-type) to show the post related to a comment in a `listView` or `showView`.
+* Use the [`reference` type](reference/Field.md#reference-field-type) to show the post related to a comment in a `listView` or `showView`.
 
         comment.listView().fields([
             // ...
@@ -77,7 +77,7 @@ When displaying a comment:
 
 ![reference in listView](images/reference_in_listView.png)
 
-* Use the [`reference` type](Configuration-reference.md#reference-field-type) to let users choose the related post in a `creationView` or an `editionView`.
+* Use the [`reference` type](reference/Field.md#reference-field-type) to let users choose the related post in a `creationView` or an `editionView`.
 
         comment.editionView().fields([
             // ...
@@ -126,7 +126,7 @@ array of FKeys in post | read context     | write context
 tags for post          | `reference_many` | `reference_many`
 post for tag           | N/A              | N/A
 
-* Use the [`reference_many` type](Configuration-reference.md#reference_many-field-type) to show the comments related to a post in a ` listView`, a `showView`, or an `editionView`.
+* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to show the comments related to a post in a ` listView`, a `showView`, or an `editionView`.
 
         post.listView().fields([
             // ...
@@ -138,7 +138,7 @@ post for tag           | N/A              | N/A
 
 ![reference_many in listView](images/reference_many_in_listView.png)
 
-* Use the [`reference_many` type](Configuration-reference.md#reference_many-field-type) to add or remove comments to a post in the post `editionView`.
+* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to add or remove comments to a post in the post `editionView`.
 
         post.editionView().fields([
             // ...
@@ -191,7 +191,7 @@ post for comment          | N/A              | N/A
 
 When displaying a post:
 
-* Use the [`embedded_list` type](Configuration-reference.md#embedded_list-field-type) to show the comments related to a post in a `showView`.
+* Use the [`embedded_list` type](reference/Field.md#embedded_list-field-type) to show the comments related to a post in a `showView`.
 
         post.showView().fields([
             // ...
@@ -204,7 +204,7 @@ When displaying a post:
 
 ![embedded_list in showView](images/embedded_list_in_showView.png)
 
-* Use the [`embedded_list` type](Configuration-reference.md#embedded_list-field-type) to add or remove comments to a post in the post `creationView` or `editionView`.
+* Use the [`embedded_list` type](reference/Field.md#embedded_list-field-type) to add or remove comments to a post in the post `creationView` or `editionView`.
 
         post.editionView().fields([
             // ...
