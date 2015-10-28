@@ -12,7 +12,7 @@ A field is the representation of a property of an entity.
 * [`datetime` Field Type](#datetime-field-type)
 * [`number` Field Type](#number-field-type)
 * `float` Field Type
-* [`boolean` Field Type]
+* `boolean` Field Type
 * [`choice` and `choices` Field Types](#choice-and-choices-field-types)
 * `json` Field Type
 * [`file` Field Type](#file-field-type)
