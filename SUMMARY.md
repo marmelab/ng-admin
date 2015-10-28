@@ -1,4 +1,3 @@
 # Summary
 
-* Getting Started
 
