@@ -35,3 +35,7 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
   </body>
 </html>
 ```
+
+You're good to go, now you can [get started](Getting-started.md) with a sample administration.
+
+**Tip**: The minified files `ng-admin.min.js` and `ng-admin.min.css` contain all dependencies bundled into a single, convenient file. This includes Angular.js, Restangular, and many other plugins. If `ng-admin.min.js` is ideal for beginners, once you start adding third-party scripts on your own, you may want to build a custom bundle from source. Check the [Getting Ready for Production](Production.md) chapter for directions.
