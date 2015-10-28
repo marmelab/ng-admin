@@ -13,7 +13,7 @@ Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https:
 * [Getting Started](doc/Getting-started.md)
 * [Usage Example](#usage-example)
 * [Configuration Reference](doc/Configuration-reference.md)
-* [Relationships](#relationships)
+* [Relationships](doc/Relationships.md)
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
 * [Customizing the API Mapping](doc/API-mapping.md)
