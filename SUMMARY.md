@@ -5,7 +5,7 @@
 * [Getting Started](doc/Getting-started.md)
 * [Usage Example](doc/Usage-example.md)
 * [Configuration Reference](doc/Configuration-reference.md)
-   * ngAdminConfigurationProvider
+   * [ngAdminConfigurationProvider](doc/reference/ngAdminConfigurationProvider.md)
 * [Relationships](doc/Relationships.md)
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
