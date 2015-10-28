@@ -35,3 +35,5 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 
 * `createMethod(string)` and `updateMethod(string)`
 Customize the HTTP method to be used for write queries, e.g. to use `PATCH` instead of `PUT`.
+
+* `listView()`, `creationView()`, `editionView()`, `showView()`, and `deletionView()` are getters for the entity's [Views](View.md). 
