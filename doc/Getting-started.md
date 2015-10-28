@@ -591,9 +591,9 @@ And if you feel like customizing the home page of the admin app, check out the [
 
 ## Conclusion
 
-That's it, you already have a working graphical user interface allowing complete CRUD operations based on the `/users` API endpoint! You've also learned the basics about ng-admin.
+That's it: you've just built a working GUI allowing complete CRUD operations, based on a REST API! You've also learned the basics about ng-admin.
 
-To continue, take a look at a more complete backend in the [usage examples](Usage-example.md), or dive in the [Configuration API reference](Configuration-reference.md).
+To continue, take a look at a more complete backend in the [usage examples](Usage-example.md), or learn the details about [API mapping](API-mapping.md).
 
 **Tip**: Here is the `admin.js` source at the end of this tutorial.
 
