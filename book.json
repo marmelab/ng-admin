@@ -1,13 +1,10 @@
 {
-  "gitbook": "2.4.3",
-  "plugins": ["prism", "-highlight", "github"],
-  "pluginsConfig": {
-    "edit-link": {
-      "base": "https://github.com/marmelab/ng-admin/tree/master",
-      "label": "Edit This Page"
-    },
-    "github": {
-      "url": "https://github.com/marmelab/ng-admin/"
-    }
-  }
+    "gitbook": "2.4.3",
+    "plugins": [
+        "prism",
+        "-highlight",
+        "github",
+        "edit-link"
+    ],
+    "pluginsConfig": {}
 }
