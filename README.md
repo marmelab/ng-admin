@@ -5,7 +5,7 @@ ng-admin [![Build Status](https://travis-ci.org/marmelab/ng-admin.svg?branch=mas
 
 Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-model relationships, dashboard, complex form widgets) in no time!
 
-[![Screencast](http://marmelab.com/ng-admin/images/screencast.png)](https://vimeo.com/118697682)
+[![Screencast](http://static.marmelab.com/ng-admin-09-video-thumbnail.png)](https://vimeo.com/143909685)
 
 Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)).
 
