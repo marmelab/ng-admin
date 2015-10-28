@@ -36,4 +36,23 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 * `createMethod(string)` and `updateMethod(string)`
 Customize the HTTP method to be used for write queries, e.g. to use `PATCH` instead of `PUT`.
 
-* `listView()`, `creationView()`, `editionView()`, `showView()`, and `deletionView()` are getters for the entity's [Views](View.md). 
+* `listView()`, `creationView()`, `editionView()`, `showView()`, and `deletionView()` are getters for the entity's [Views](View.md). Most of an entity's customization takes place in the views. See the [Views Configuration](View.md) chapter for details.
+ 
+        var post = nga.entity('post');
+        post.listView()
+            .fields([
+                nga.field('id'),
+                nga.field('title'),
+                nga.field('userId', 'reference')
+                    .targetEntity(user)
+                    .targetField(nga.field('username'))
+                    .label('User')
+            ]).filters([
+                nga.field('q')
+                    .label('Full-Text')
+                    .pinned(true),
+                nga.field('userId', 'reference')
+                    .targetEntity(user)
+                    .targetField(nga.field('username'))
+                    .label('User')
+            ]);
