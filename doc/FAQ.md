@@ -34,6 +34,8 @@ myApp.config(function(RestangularProvider) {
 
 If the login and password must be entered by the end user, it's up to you to ask for login and password in another page, store them in `localStorage`/`sessionStorage`, change the location to ng-admin's app, and grab the login and password from storage when ng-admin is initialized.
 
+You can find an example login page with fake authentication in the [Posters Galore demo](https://github.com/marmelab/ng-admin-demo/blob/gh-pages/login.html).
+
 ## How Can I Display A Composite Field?
 
 If your API sends users with a `firstName` and a `lastName`, you may want to compose these properties into a composite field.
