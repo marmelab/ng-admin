@@ -14,5 +14,4 @@
 * [Adding Custom Types](doc/Custom-types.md)
 * [Getting Ready For Production](doc/Production.md)
 * [Frequently Asked Questions](doc/FAQ.md)
-* [Gitter (live chat)](https:/gitter.im/marmelab/ng-admin)
 
