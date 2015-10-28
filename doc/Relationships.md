@@ -2,7 +2,12 @@
 
 Mapping a standalone REST endpoint is easy. The tricky part is when the response from a particular endpoint references another endpoint - like foreign keys in a relational database. How can you take advantage of these references in a ng-admin application?
 
-For a simple one-to-many relationship between post and comments, a REST API has three ways to implement the relationship: using foreign keys, using an array of foreign keys, or using embedded entities. Ng-admin offers field types for each of these cases. Let's see them in detail.
+For a simple one-to-many relationship between post and comments, a REST API has three ways to implement the relationship: 
+ - using foreign keys,
+ - using an array of foreign keys, or
+ - using embedded entities.
+
+Ng-admin offers field types for each of these cases. Let's see them in detail.
 
 ## Simple Foreign Key
 
