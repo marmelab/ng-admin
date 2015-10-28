@@ -9,23 +9,7 @@ Plug me to your RESTFul API to get a complete administration tool (CRUD, multi-m
 
 Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)).
 
-* [Installation](#installation)
-* [Getting Started](doc/Getting-started.md)
-* [Usage Example](#usage-example)
-* [Configuration Reference](#configuration-reference)
-* [Relationships](#relationships)
-* [Menu Configuration](doc/Menus.md)
-* [Dashboard Configuration](doc/Dashboard.md)
-* [Customizing the API Mapping](doc/API-mapping.md)
-* [Theming](doc/Theming.md)
-* [Adding Custom Pages](doc/Custom-pages.md)
-* [Adding Custom Types](doc/Custom-types.md)
-* [Getting Ready For Production](doc/Production.md)
-* [Frequently Asked Questions](doc/FAQ.md)
-* [News](#news)
-* [Support](#support)
-* [Contributing](#contributing)
-* [License](#license)
+The entire documentation is available online at [https://marmelab.gitbooks.io/ng-admin/content/](marmelab.gitbooks.io/ng-admin/).
 
 ## Installation
 
