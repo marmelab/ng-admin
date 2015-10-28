@@ -8,11 +8,11 @@
     ],
     "pluginsConfig": {
         "edit-link": {
-          "base": "https://github.com/rackt/redux/tree/master",
+          "base": "https://github.com/marmelab/ng-admin/tree/master",
           "label": "Edit This Page"
         },
         "github": {
-          "url": "https://github.com/rackt/redux/"
+          "url": "https://github.com/marmelab/ng-admin"
         }
     }
 }
