@@ -30,13 +30,13 @@ Enable or disable debug (enabled by default)
         var app = nga.application().debug(false)
 
 * `header(string)`
-Customize the application header. See [the Theming doc](Theming.md) for details.
+Customize the application header. See [the Theming doc](../Theming.md) for details.
 
 * `menu(Menu)`
-Customize the sidebar menu. See [the Menu doc](Menus.md) for details.
+Customize the sidebar menu. See [the Menu doc](../Menus.md) for details.
 
 * `dashboard(Dashboard)`
-Customize the dashboard, i.e. the admin home screen. See [the Dashboard doc](Dashboard.md) for details.
+Customize the dashboard, i.e. the admin home screen. See [the Dashboard doc](../Dashboard.md) for details.
 
 * `addEntity(Entity)`
-Add an entity to the application. See [Entity configuration](#entity-configuration).
+Add an entity to the application. See [Entity configuration](Entity.md).
