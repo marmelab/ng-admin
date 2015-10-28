@@ -53,4 +53,4 @@ myApp.config(['NgAdminConfigurationProvider', function(nga) {
 }]);
 ```
 
-See the [Custom types documentation](Custom-types.md) for more details.
+See the [Custom types documentation](../Custom-types.md) for more details.
