@@ -46,7 +46,7 @@ Customize the list of actions for this view. You can pass a list of button names
             '<ma-back-button></ma-back-button>';
         editionView.actions(template);
 
-    Check the [Reusable Directives documentation](Configuration-reference.md) to get a list of ng-admin directives that you can use as actions.
+    Check the [Reusable Directives documentation](../Reusable-directives.md) to get a list of ng-admin directives that you can use as actions.
 
 * `disable()`
 Disable this view. Useful e.g. to disable views that modify data and only leave the `listView` enabled
@@ -98,7 +98,7 @@ Add filters to the list. Each field maps a property in the API endpoint result.
                 .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Search" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
         ]);
 
-    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](#general-field-settings)). You can also use `defaultValue()` on filter fields, so as to filter the list as soon as the filter is added. Combined with an empty template, this allows to create "tagged" lists:
+    Note that you can use `map()` and `transform()` on filter fields (see [General Field Settings](Field.md#general-field-settings)). You can also use `defaultValue()` on filter fields, so as to filter the list as soon as the filter is added. Combined with an empty template, this allows to create "tagged" lists:
 
         var user_id = 123; // currently logged user
         var d = new Date()
@@ -134,7 +134,7 @@ Add an action column with action buttons on each line. You can pass a list of bu
                    '<my-custom-directive entry="entry"></my-custom-directive>';
         listView.listActions(template);
 
-    Check the [Reusable Directives documentation](Configuration-reference.md) to get a list of ng-admin directives that you can use as list actions.
+    Check the [Reusable Directives documentation](../Reusable-directives.md) to get a list of ng-admin directives that you can use as list actions.
 
 * `batchActions(String|Array)`
 Add your own batch action directives.
