@@ -9,7 +9,7 @@
    * [Application Configuration](doc/reference/Application.md)
    * [Entity Configuration](doc/reference/Entity.md)
    * [View Configuration](doc/reference/View.md)
-   * Field Configuration
+   * [Field Configuration](doc/reference/Field.md)
 * [Relationships](doc/Relationships.md)
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
