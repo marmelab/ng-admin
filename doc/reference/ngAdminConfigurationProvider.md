@@ -11,7 +11,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 });
 ```
 
-### Factory functions
+## Factory functions
 
 `NgAdminConfigurationProvider` is a helper that contains factory functions for all the classes you need.
 
@@ -30,7 +30,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 });
 ```
 
-### configure
+## configure
 
 `NgAdminConfigurationProvider` also provides the `configure()` method, which is the last method usually called in an admin configuration. It expects one parameter: an `Application` instance. It attaches the admin application to the DOM and runs it.
 
@@ -43,7 +43,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 }]);
 ```
 
-### registerFieldType
+## registerFieldType
 
 Lastly, the `field()` factory provided by `NgAdminConfigurationProvider` delegates instanciation of fields to third party objects. You can override the result of a call to `nga.field(type)`, or add a new type, by calling `registerFieldType()` first.
 
