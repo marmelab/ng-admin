@@ -8,7 +8,7 @@
    * [ngAdminConfigurationProvider](doc/reference/ngAdminConfigurationProvider.md)
    * [Application Configuration](doc/reference/Application.md)
    * [Entity Configuration](doc/reference/Entity.md)
-   * View Configuration
+   * [View Configuration](doc/reference/View.md)
 * [Relationships](doc/Relationships.md)
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
