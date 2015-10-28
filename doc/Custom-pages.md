@@ -49,7 +49,7 @@ var sendPostControllerTemplate =
     '</div>';
 ```
 
-![custom page]()
+![custom page](images/custom_page.png)
 
 ## Creating a Directive to Link To The New Page
 
