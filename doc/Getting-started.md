@@ -191,7 +191,7 @@ The good news is that the 3 fields defined on the list view are there, as header
 
 Let's look at the AJAX request made by the user list view. Open your browser developer tools (Alt+Cmd+I for Chrome), and look for the `users` request in the network tab:
 
-![Chrome Network Request]()
+![Chrome Network Request](images/empty_api_request.png)
 
 The actual request made by the browser is:
 
@@ -207,7 +207,7 @@ The `_page`, `_perPage`, `_sortDir`, and `_sortField` query parameters are added
 
 http://jsonplaceholder.typicode.com/users?_start=1&_end=30&_order=DESC&_sort=id
 
-But it's very easy to map the two flavors. Ng-admin relies on a powerful REST client called [Restangular](https://github.com/mgonto/restangular). To configure Restangular, you must write an *interceptor*, which is a simple function receiving the response from the web server and transforming it before it is passed to ng-admin. 
+But it's very easy to map the two flavors. Ng-admin relies on a powerful REST client called [Restangular](https://github.com/mgonto/restangular). To configure Restangular, you must write an *interceptor*, which is a simple function receiving the response from the web server and transforming it before it is passed to ng-admin.
 
 Here is the configuration script required to map the JSONPlaceholder REST flavor with ng-admin REST flavor:
 
@@ -342,7 +342,7 @@ The `referenced_list` field type displays a datagrid for one-to-many relationshi
 
 As a side note, you can see that it's possible to create a reference to a non-existent entity (`nga.entity('comments)` creates the related entity for the occasion).
 
-The new post show view is directly accessible from the listView, by clicking on the id of a post in the list. 
+The new post show view is directly accessible from the listView, by clicking on the id of a post in the list.
 
 ![post show view with related comments](images/post_show_view_with_related_comments.png)
 
@@ -527,7 +527,7 @@ The post show view still contains a 'delete' button. Assuming it's read only, en
 post.readOnly();
 ```
 
-Also, let's modify the posts list view to remove the `id` field (it doesn't provide relevant information). Since end users still need a way to reach the posts show view from the list view, add a 'show' button on every line by using the `listActions()` method. 
+Also, let's modify the posts list view to remove the `id` field (it doesn't provide relevant information). Since end users still need a way to reach the posts show view from the list view, add a 'show' button on every line by using the `listActions()` method.
 
 Add a glimpse of the post body in the list by adding a `body` column, but truncated to 50 characters max. How can you truncate a field ? Use the `map()` function, which accepts a function transforming the input before it's displayed. Oh, and this first column made of checkboxes (allowing selection for batch actions) doesn't make sense anymore for read-only posts. Remove it by adding `batchActions([])`.
 
@@ -570,7 +570,7 @@ You can do much more to customize the look and feel of an ng-admin application -
 
 ## Customizing the Sidebar Menu
 
-The sidebar menu automatically shows one item for each entity added to the admin app by default. That may or may not be what you want. The good news is this menu is entirely configurable. 
+The sidebar menu automatically shows one item for each entity added to the admin app by default. That may or may not be what you want. The good news is this menu is entirely configurable.
 
 To demonstrate it, let's customize the icons for each entity. Add the following code at the end of the `admin.js` script, just before the call to `nga.configure()`:
 
