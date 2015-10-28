@@ -6,7 +6,7 @@
 * [Usage Example](doc/Usage-example.md)
 * [Configuration Reference](doc/Configuration-reference.md)
    * [ngAdminConfigurationProvider](doc/reference/ngAdminConfigurationProvider.md)
-   * Application Configuration
+   * [Application Configuration](doc/reference/Application.md)
 * [Relationships](doc/Relationships.md)
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
