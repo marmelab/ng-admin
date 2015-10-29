@@ -4,15 +4,8 @@
         "prism",
         "-highlight",
         "github",
-        "edit-link"
+        "edit-link",
+        "ga"
     ],
-    "pluginsConfig": {
-        "edit-link": {
-          "base": "https://github.com/marmelab/ng-admin/tree/master",
-          "label": "Edit This Page"
-        },
-        "github": {
-          "url": "https://github.com/marmelab/ng-admin"
-        }
-    }
+    "pluginsConfig": {}
 }
