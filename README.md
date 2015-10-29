@@ -143,7 +143,7 @@ You should also watch the [ng-admin release page on GitHub](https://github.com/m
 Ng-admin is an open-source project, with a community getting larger every  day. You will get help by asking politely in any the following channels:
 
 * [StackOverflow](http://stackoverflow.com/questions/tagged/ng-admin)
-* [Gitter (live chat)](https://gitter.im/marmelab/ng-admin)
+* [Gitter (live chat)](https://gitter.im/marmelab/ng-admin) [![Join the chat at https://gitter.im/marmelab/ng-admin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/marmelab/ng-admin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Please give as much context as possible, including and admin configuration snippet, and the response from the API you're mapping.
 
