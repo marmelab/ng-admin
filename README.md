@@ -7,9 +7,8 @@ Plug me to your RESTFul API to get a complete administration interface (datagrid
 
 [![Screencast](http://static.marmelab.com/ng-admin-09-video-thumbnail.png)](https://vimeo.com/143909685)
 
-Check out the [online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo)).
-
-The entire **documentation** is available online at [marmelab.gitbooks.io/ng-admin/](https://marmelab.gitbooks.io/ng-admin/content/).
+* [Online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo))
+* [Documentation](http://ng-admin-book.marmelab.com/)
 
 ## Installation
 
