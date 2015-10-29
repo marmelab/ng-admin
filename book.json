@@ -4,13 +4,9 @@
         "prism",
         "-highlight",
         "github",
-        "edit-link",
-        "ga"
+        "edit-link"
     ],
     "pluginsConfig": {
-        "ga": {
-            "token": "UA-37931241-2"
-        },
         "edit-link": {
           "base": "https://github.com/marmelab/ng-admin/tree/master",
           "label": "Edit This Page"
