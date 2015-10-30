@@ -182,7 +182,7 @@ Add a function to be executed before the view renders.
      - `Entry`: the Entry constructor (required to transform an object from the REST response to an Entry)
      - `window`: the window object. If you need to fetch anything other than an entry and pass it to the view layer, it's the only way.
 
-        post.listView().prepare({ dataStore, view, Entry }) => {
+        post.listView().prepare({ datastore, view, Entry }) => {
           const posts = datastore.getEntries(view.getEntity().uniqueId);
           const authorIds = posts.map(post => post.values.authorId).join(',');
           return fetch('http://myapi.com/authors?id[]=' + authorIds)
