@@ -167,3 +167,30 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
             nga.field('body', 'wysiwyg')
                 .stripTags(true)
         ]);
+
+* `prepare(Function)`
+Add a function to be executed before the view renders.
+
+    This is the ideal place to prefetch related entities and manipulate the dataStore. The function can be asynchronous, in which case it should return a Promise.
+
+    The prepare function receives a context argument with the following properties:
+
+     - `query`: the query object (an object representation of the main request query string)
+     - `datastore`: where the Entries are stored. The dataStore is accessible during rendering
+     - `view`: the current View object
+     - `entry`: the current Entry instance (except in listView)
+     - `Entry`: the Entry constructor (required to transform an object from the REST response to an Entry)
+     - `window`: the window object. If you need to fetch anything other than an entry and pass it to the view layer, it's the only way.
+
+        post.listView().prepare({ dataStore, view, Entry }) => {
+          const posts = datastore.getEntries(view.getEntity().uniqueId);
+          const authorIds = posts.map(post => post.values.authorId).join(',');
+          return fetch('http://myapi.com/authors?id[]=' + authorIds)
+             .then(response => response.json())
+             .then(authors => Entry.createArrayFromRest(
+                 authors,
+                 [new Field('first_name'), new Field('last_name')],
+                 'author'
+             ))
+             .then(authorEntries => datastore.setEntries('authors', authorEntries));
+        })
