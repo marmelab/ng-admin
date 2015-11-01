@@ -123,14 +123,15 @@ function routing($stateProvider) {
                                 entries
                             );
 
-                            return true;
+                            return entries;
                         }],
-                        prepare: ['view', '$stateParams', 'dataStore', '$window', function(view, $stateParams, dataStore, $window) {
-                            return view.doPrepare({
+                        prepare: ['view', '$stateParams', 'dataStore', 'entries', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                            return view.prepare() && $injector.invoke(view.prepare(), view, {
                                 query: $stateParams,
                                 datastore: dataStore,
                                 view,
                                 Entry,
+                                entries,
                                 window: $window
                             });
                         }],
@@ -219,8 +220,8 @@ function routing($stateProvider) {
                     })
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
-                    return view.doPrepare({
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
                         view,
@@ -228,7 +229,6 @@ function routing($stateProvider) {
                         entry,
                         window: $window
                     });
-
                 }],
             }
         });
@@ -271,8 +271,8 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
                     }
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
-                    return view.doPrepare({
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
                         view,
@@ -280,7 +280,6 @@ function routing($stateProvider) {
                         entry,
                         window: $window
                     });
-
                 }],
             }
         });
@@ -379,8 +378,8 @@ function routing($stateProvider) {
                     })
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
-                    return view.doPrepare({
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
                         view,
@@ -388,7 +387,6 @@ function routing($stateProvider) {
                         entry,
                         window: $window
                     });
-
                 }],
             }
         });
@@ -419,7 +417,7 @@ function routing($stateProvider) {
                     return view.mapEntry(rawEntry);
                 }],
                 prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
-                    return view.doPrepare({
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
                         view,

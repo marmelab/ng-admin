@@ -240,19 +240,19 @@ Fetching data from the `link()` function of a directive has drawbacks:
 
 The alternative is to prepare the data before the page starts rendering, to store it in the `datastore`, and to pass the `datastore` to the custom directive.
 
-Fortunately, every view has a `prepare()` method, which expects a function as parameter. This function is executed before the view is rendered. It receives the current DataStore instance (already filled with all the entries required by the view). It's the ideal place to group fetches to a remote API, and store the results in the `datastore`:
+Fortunately, every view has a `prepare()` method, which expects a function as parameter. This function is executed before the view is rendered. It's the ideal place to group fetches to a remote API, and store the results in the `datastore`. The `prepare()` function uses the Angular Dependency Injection system, so you can require any service defined previously in the controller logic - like the current DataStore instance (already filled with all the entries required by the view).
 
 ```js
-product.listView().prepare({ datastore, view }) => {
+product.listView().prepare(['$http', 'datastore', 'view', function($http, datastore, view) {
     const fromCurrency = view.getField('price').currency();
     return $http.get(`http://myconverter.example.com?fromCurrency=${fromCurrency}&toCurrency=USD`)
         .then(response => {
             datastore.addEntry('conversionRate', response.value)
         });
-})
+}])
 ```
 
-The directives doesn't need `$http` anymore, but can use the `dataStore` instead:
+The directives doesn't need `$http` anymore, but can use the `datastore` instead:
 
 ```js
 function amountStringDirective($http) {
