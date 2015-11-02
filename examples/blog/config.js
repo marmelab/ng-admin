@@ -371,8 +371,10 @@
                 nga.field('name'),
                 nga.field('published', 'boolean').validation({
                     required: true // as this boolean is required, ng-admin will use a checkbox instead of a dropdown
-                })
-            ]);
+                }),
+                nga.field('image', 'file')
+                    .uploadInformation({ url: 'http://localhost:3333/upload' })
+            ])
 
         tag.showView()
             .fields([

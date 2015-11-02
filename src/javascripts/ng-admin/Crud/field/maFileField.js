@@ -12,7 +12,8 @@ define(function (require) {
         return {
             scope: {
                 'field': '&',
-                'value': '='
+                'value': '=',
+                'files': '=',
             },
             restrict: 'E',
             link: {
@@ -34,7 +35,10 @@ define(function (require) {
                     for (var file in files) {
                         scope.files[files[file]] = {
                             "name": files[file],
-                            "progress": 0
+                            "progress": 0,
+                            "success": null,
+                            "error": null,
+                            "new": false,
                         };
                     }
                 },
@@ -45,11 +49,14 @@ define(function (require) {
                     if (scope.value) {
                         scope.v.required = false;
                     }
+                    scope.buttonLabel = field.buttonLabel();
                     var input = element.find('input')[0];
                     var attributes = field.attributes();
                     for (var name in attributes) {
                         input.setAttribute(name, attributes[name]);
                     }
+
+                    scope.uploadInProgress = false;
 
                     scope.fileSelected = function(selectedFiles) {
                         if (!selectedFiles || !selectedFiles.length) {
@@ -58,36 +65,54 @@ define(function (require) {
 
                         var uploadParams;
 
+                        scope.uploadInProgress = true;
+                        var fileUploaded = 0;
+
                         scope.files = {};
                         for (var file in selectedFiles) {
                             uploadParams = angular.copy(scope.field().uploadInformation());
-                            uploadParams.file = selectedFiles[file];
+                            uploadParams.data = { file: selectedFiles[file] };
                             Upload
                                 .upload(uploadParams)
-                                .progress(function(evt) {
-                                    scope.files[evt.config.file.name] = {
-                                        "name": evt.config.file.name,
-                                        "progress": Math.min(100, parseInt(100.0 * evt.loaded / evt.total))
+                                .then((response) => {
+                                    const fileName = response.config.data.file.name;
+                                    scope.files[fileName] = {
+                                        "name": scope.apifilename && response.data[scope.apifilename] ? response.data[scope.apifilename] : fileName,
+                                        "progress": 0,
+                                        "success": response.data,
+                                        "new": true,
                                     };
-                                })
-                                .success(function(data, status, headers, config) {
-                                    scope.files[config.file.name] = {
-                                        "name": scope.apifilename ? data[scope.apifilename] : config.file.name,
-                                        "progress": 0
-                                    };
-                                    if (scope.apifilename) {
-                                        var apiNames = Object.keys(scope.files).map(function(fileindex) {
-                                            return scope.files[fileindex].name;
-                                        });
-                                        scope.value = apiNames.join(',');
-                                    } else {
-                                        scope.value = Object.keys(scope.files).join(',');
+                                    var names = Object.keys(scope.files).map(function(fileindex) {
+                                        return scope.files[fileindex].name;
+                                    });
+                                    console.log(scope.files);
+                                    scope.value = names.join(',');
+                                    ++fileUploaded;
+                                    if (fileUploaded === selectedFiles.length) {
+                                        scope.uploadInProgress = false;
                                     }
-                                })
-                                .error(function(data, status, headers, config) {
-                                    delete scope.files[config.file.name];
-
-                                    scope.value = Object.keys(scope.files).join(',');
+                                }, (response) => {
+                                    const fileName = response.config.data.file.name;
+                                    scope.files[fileName] = {
+                                        "name": fileName,
+                                        "progress": 0,
+                                        "error": response.data,
+                                        "new": true,
+                                    };
+                                    console.log(scope.files);
+                                    ++fileUploaded;
+                                    if (fileUploaded === selectedFiles.length) {
+                                        scope.uploadInProgress = false;
+                                    }
+                                }, (evt) => {
+                                    const name = evt.config.data.file.name;
+                                    const progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                                    scope.files[name] = {
+                                        name,
+                                        progress,
+                                        "new": true,
+                                    };
+                                    console.log(scope.files);
                                 });
                         }
                     };
@@ -100,8 +125,8 @@ define(function (require) {
             template:
 '<div class="row">' +
     '<div class="col-md-2">' +
-        '<a class="btn btn-default" ng-click="selectFile()">' +
-            '<span>Browse</span>' +
+        '<a class="btn btn-default" ng-click="selectFile()" ng-disabled="uploadInProgress">' +
+            '<span>{{ buttonLabel }}</span>' +
         '</a>' +
     '</div>' +
     '<div class="col-md-10">' +
@@ -113,7 +138,12 @@ define(function (require) {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<div class="col-md-9" style="padding-top: 6px;"><small><em>{{ file.name }}<em><small></div>' +
+            '<div class="col-md-9" style="padding-top: 6px;"><small><em>' +
+            '<span class="text-success" ng-show="file.success">{{ file.name }} successfully uploaded</span>' +
+            '<span class="text-danger" ng-show="file.error">{{ file.name }} upload error: "{{ file.error }}"</span>' +
+            '<span class="text-muted" ng-show="!file.success && !file.error && file.new">{{ file.name }}</span>' +
+            '<span class="text-muted" ng-show="!file.success && !file.error">{{ file.name }}</span>' +
+            '<em><small></div>' +
         '</div>' +
     '</div>' +
 '</div>' +
