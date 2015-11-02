@@ -98,4 +98,8 @@ CrudModule.factory('progression', function () {
     return require('nprogress');
 });
 
+CrudModule.run(['Restangular', 'NgAdminConfiguration', function(Restangular, NgAdminConfiguration) {
+    Restangular.setBaseUrl(NgAdminConfiguration().baseApiUrl());
+}]);
+
 module.exports = CrudModule;

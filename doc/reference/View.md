@@ -167,3 +167,32 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
             nga.field('body', 'wysiwyg')
                 .stripTags(true)
         ]);
+
+* `prepare(Function)`
+Add a function to be executed before the view renders.
+
+    This is the ideal place to prefetch related entities and manipulate the dataStore. The function can be asynchronous, in which case it should return a Promise.
+
+    The `prepare` function is invoked using Angular's dependency injection system, with a context offering the following services:
+
+     - `query`: the query object (an object representation of the main request query string)
+     - `datastore`: where the Entries are stored. The dataStore is accessible during rendering
+     - `view`: the current View object
+     - `entry`: the current Entry instance (except in listView)
+     - `entries`: the current list of Entry instances (only in listView)
+     - `Entry`: the Entry constructor (required to transform an object from the REST response to an Entry)
+
+    Of course, regular Angular services (like Restangular) are also available.
+
+        post.listView().prepare(['Restangular', 'datastore', 'entries', 'Entry', function(Restangular, datastore, entries, Entry) {
+            // gather all authorIds from listed posts
+            const authorIds = entries.map(post => post.values.authorId).join(',');
+            // fetch the related authors and populate the datastore
+            return Restangular.all('authors').getList( { 'id[]': authorIds })
+                .then(authors => Entry.createArrayFromRest(
+                    authors,
+                    [new Field('first_name'), new Field('last_name')],
+                    'author'
+                ))
+                .then(authorEntries => datastore.setEntries('authors', authorEntries));
+        }])

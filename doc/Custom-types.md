@@ -9,7 +9,7 @@ A ng-admin *type* has two components:
 - a Field class, used to configure the field
 - a FieldView class, used for rendering
 
-Let's see that through an example: the `number` type. 
+Let's see that through an example: the `number` type.
 
 When you define a field with `nga.field()`, the second argument is the field type ('string' by default). `nga.field()` is a factory method returning an specialized instance of [the `Field` class](https://github.com/marmelab/admin-config/blob/master/lib/Field/Field.js). For instance:
 
@@ -32,7 +32,7 @@ class NumberField extends Field {
     }
 
     /**
-     * Specify format pattern for number to string conversion. 
+     * Specify format pattern for number to string conversion.
      */
     format(value) {
         if (!arguments.length) return this._format;
@@ -197,6 +197,92 @@ myApp.directive('amountString', require('path/to/amountStringDirective.js'));
 // in AmountFieldView.js
 export default {
     getReadWidget:   () => '<amount-string field="::field" value="::entry.values[field.name()]"></amount-string>',
+    // ...
+};
+```
+
+## Fetching data
+
+Custom directives can fetch data, too. For instance, the `<amount-string>` directive can fetch the conversion rate to another currency, and display the amount in more than one currency. To fetch a remote API, use either the `Restangular` service, or `$http` if you prefer.
+
+```js
+function amountStringDirective($http) {
+    return {
+        restrict: 'E',
+        scope: {
+            value: '&',
+            field: '&'
+        },
+        link: function(scope) {
+            scope.fromCurrency = field().currency();
+            scope.conversionRate = 1;
+            scope.format = field().format();
+            $http.get(`http://myconverter.example.com?fromCurrency=${scope.fromCurrency}&toCurrency=USD`)
+                .then(response => {
+                    scope.conversionRate = response.value;
+                });
+        },
+        template: `<span>{{ fromCurrency }} {{ value() | numeraljs:format }}</span>
+                   (<span> USD {{ value() * conversionRate | numeraljs:format }}</span>)`
+    };
+}
+amountStringDirective.$inject = ['$http'];
+
+export default amountStringDirective;
+```
+
+## Fetching Data Before Rendering
+
+Fetching data from the `link()` function of a directive has drawbacks:
+
+- it triggers redraws of the page when the remote response arrives
+- in a `listView`, a custom directive will make a lot of queries (one per entry)
+
+The alternative is to prepare the data before the page starts rendering, to store it in the `datastore`, and to pass the `datastore` to the custom directive.
+
+Fortunately, every view has a `prepare()` method, which expects a function as parameter. This function is executed before the view is rendered. It's the ideal place to group fetches to a remote API, and store the results in the `datastore`. The `prepare()` function uses the Angular Dependency Injection system, so you can require any service defined previously in the controller logic - like the current DataStore instance (already filled with all the entries required by the view).
+
+```js
+product.listView().prepare(['$http', 'datastore', 'view', function($http, datastore, view) {
+    const fromCurrency = view.getField('price').currency();
+    return $http.get(`http://myconverter.example.com?fromCurrency=${fromCurrency}&toCurrency=USD`)
+        .then(response => {
+            datastore.addEntry('conversionRate', response.value)
+        });
+}])
+```
+
+The directives doesn't need `$http` anymore, but can use the `datastore` instead:
+
+```js
+function amountStringDirective($http) {
+    return {
+        restrict: 'E',
+        scope: {
+            value: '&',
+            field: '&',
+            datastore: '&'
+        },
+        link: function(scope) {
+            scope.fromCurrency = field().currency();
+            scope.conversionRate = 1;
+            scope.format = field().format();
+            scope.convertedValue = datastore.getFirstEntry('conversionRate') * scope.value();
+        },
+        template: `<span>{{ fromCurrency }} {{ value() | numeraljs:format }}</span>
+                   (<span> USD {{ convertedValue | numeraljs:format }}</span>)`
+    };
+}
+
+export default amountStringDirective;
+```
+
+The `datastore` just needs to be declared in the `fieldView`:
+
+```js
+// in AmountFieldView.js
+export default {
+    getReadWidget:   () => '<amount-string field="::field" datastore="::datastore" value="::entry.values[field.name()]"></amount-string>',
     // ...
 };
 ```

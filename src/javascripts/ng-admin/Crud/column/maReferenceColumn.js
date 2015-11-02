@@ -14,9 +14,7 @@ function maReferenceColumn() {
                 scope.targetField = scope.field.targetField();
                 const identifierName = scope.targetEntity.identifier().name()
                 scope.referencedEntry = scope.datastore()
-                    .getEntries(scope.targetEntity.uniqueId + '_values')
-                    .filter(entry => entry.values[identifierName] == value)
-                    .pop();
+                    .getFirstEntry(scope.targetEntity.uniqueId + '_values', entry => entry.values[identifierName] == value);
             }
         },
         template: '<ma-column field="::targetField" entry="::referencedEntry" entity="::targetEntity" datastore="::datastore()"></ma-column>'

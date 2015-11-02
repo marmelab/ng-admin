@@ -151,4 +151,16 @@ describe('ListView', function () {
             });
         });
     });
+
+    describe('prepare', function() {
+        it('should execute after the resolve and before the controller', function() {
+            browser.get('/#/tags/list')
+                .then(function() {
+                    return $$('td.ng-admin-column-nb_posts').first();
+                })
+                .then(function(element) {
+                    expect(element.getText()).toBe('2');
+                });
+        })
+    })
 });

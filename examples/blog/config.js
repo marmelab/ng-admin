@@ -324,7 +324,7 @@
                 nga.field('id').label('ID'),
                 nga.field('name'),
                 nga.field('published', 'boolean').cssClasses(function(entry) { // add custom CSS classes to inputs and columns
-                    if(entry && entry.values){
+                    if (entry && entry.values){
                         if (entry.values.published) {
                             return 'bg-success text-center';
                         }
@@ -334,7 +334,8 @@
                 nga.field('custom')
                     .label('Upper name')
                     .template('{{ entry.values.name.toUpperCase() }}')
-                    .cssClasses('hidden-xs')
+                    .cssClasses('hidden-xs'),
+                nga.field('nb_posts')
             ])
             .filters([
                 nga.field('published')
@@ -344,6 +345,26 @@
             ])
             .batchActions([]) // disable checkbox column and batch delete
             .listActions(['show', 'edit']);
+
+        // define custom controller logic for the tag listView
+        tag.listView().prepare(['Restangular', 'entries', function(Restangular, entries) {
+            // fetch the number of posts for each tag
+            return Restangular.allUrl('posts').getList()
+                .then(function(response) {
+                    const nbPostsByTag = {};
+                    response.data.forEach(function(post) {
+                        post.tags.forEach(function(tagId) {
+                            if (!nbPostsByTag[tagId]) {
+                                nbPostsByTag[tagId] = 0;
+                            }
+                            nbPostsByTag[tagId]++;
+                        });
+                    });
+                    entries.map(function(tag) {
+                        tag.values.nb_posts = nbPostsByTag[tag.identifierValue];
+                    });
+                });
+        }]);
 
         tag.editionView()
             .fields([

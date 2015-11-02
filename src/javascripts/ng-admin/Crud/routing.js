@@ -1,12 +1,12 @@
-import Entry from 'admin-config/lib/Entry';
-import DataStore from 'admin-config/lib/DataStore/DataStore';
-import listLayoutTemplate from './list/listLayout.html';
-import listTemplate from './list/list.html';
-import showTemplate from './show/show.html';
-import createTemplate from './form/create.html';
-import editTemplate from './form/edit.html';
-import deleteTemplate from './delete/delete.html';
-import batchDeleteTemplate from './delete/batchDelete.html';
+import DataStore  from 'admin-config/lib/DataStore/DataStore'
+import Entry  from 'admin-config/lib/Entry'
+import batchDeleteTemplate  from './delete/batchDelete.html'
+import deleteTemplate  from './delete/delete.html'
+import createTemplate  from './form/create.html'
+import editTemplate  from './form/edit.html'
+import listTemplate  from './list/list.html'
+import listLayoutTemplate  from './list/listLayout.html'
+import showTemplate  from './show/show.html'
 
 function templateProvider(viewName, defaultView) {
     return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
@@ -123,7 +123,17 @@ function routing($stateProvider) {
                                 entries
                             );
 
-                            return true;
+                            return entries;
+                        }],
+                        prepare: ['view', '$stateParams', 'dataStore', 'entries', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                            return view.prepare() && $injector.invoke(view.prepare(), view, {
+                                query: $stateParams,
+                                datastore: dataStore,
+                                view,
+                                Entry,
+                                entries,
+                                window: $window
+                            });
                         }],
                     }
                 }
@@ -209,7 +219,17 @@ function routing($stateProvider) {
                         }
                     })
                     return true;
-                }]
+                }],
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
+                        query: $stateParams,
+                        datastore: dataStore,
+                        view,
+                        Entry,
+                        entry,
+                        window: $window
+                    });
+                }],
             }
         });
 
@@ -250,7 +270,17 @@ function routing($stateProvider) {
                             choices[name].targetEntity().identifier().name()
                         ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
                     }
-                }]
+                }],
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
+                        query: $stateParams,
+                        datastore: dataStore,
+                        view,
+                        Entry,
+                        entry,
+                        window: $window
+                    });
+                }],
             }
         });
 
@@ -347,7 +377,17 @@ function routing($stateProvider) {
                         }
                     })
                     return true;
-                }]
+                }],
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
+                        query: $stateParams,
+                        datastore: dataStore,
+                        view,
+                        Entry,
+                        entry,
+                        window: $window
+                    });
+                }],
             }
         });
 
@@ -375,6 +415,17 @@ function routing($stateProvider) {
                 }],
                 entry: ['view', 'rawEntry', function(view, rawEntry) {
                     return view.mapEntry(rawEntry);
+                }],
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
+                    return view.prepare() && $injector.invoke(view.prepare(), view, {
+                        query: $stateParams,
+                        datastore: dataStore,
+                        view,
+                        Entry,
+                        entry,
+                        window: $window
+                    });
+
                 }],
             }
         });
