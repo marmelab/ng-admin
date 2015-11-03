@@ -1,4 +1,4 @@
-export default function DatagridMultiSelectorDirective() {
+export default function maDatagridMultiSelector() {
     return {
         restrict: 'E',
         scope: {
@@ -18,4 +18,4 @@ export default function DatagridMultiSelectorDirective() {
     };
 }
 
-DatagridMultiSelectorDirective.$inject = [];
+maDatagridMultiSelector.$inject = [];

@@ -1,4 +1,4 @@
-export default function maFilterButtonDirective() {
+export default function maFilterButton() {
     return {
         restrict: 'E',
         scope: {
@@ -26,4 +26,4 @@ export default function maFilterButtonDirective() {
     };
 }
 
-maFilterButtonDirective.$inject = [];
+maFilterButton.$inject = [];

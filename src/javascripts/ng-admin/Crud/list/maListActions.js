@@ -1,4 +1,4 @@
-export default function ListActionsDirective() {
+export default function maListActions() {
     return {
         restrict: 'E',
         transclude: true,
@@ -29,4 +29,4 @@ export default function ListActionsDirective() {
     };
 }
 
-ListActionsDirective.$inject = [];
+maListActions.$inject = [];

@@ -1,7 +1,7 @@
 import paginationView from './maDatagridPagination.html';
 import DatagridPaginationController from './maDatagridPaginationController';
 
-export default function DatagridPaginationDirective() {
+export default function maDatagridPagination() {
     return {
         restrict: 'E',
         scope: {
@@ -16,4 +16,4 @@ export default function DatagridPaginationDirective() {
     };
 }
 
-DatagridPaginationDirective.$inject = [];
+maDatagridPagination.$inject = [];

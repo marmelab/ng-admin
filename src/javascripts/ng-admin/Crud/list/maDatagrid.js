@@ -1,6 +1,6 @@
 import maDatagridController from './maDatagridController';
 
-export default function maDatagridDirective() {
+export default function maDatagrid() {
     return {
         restrict: 'E',
         scope: {
@@ -54,4 +54,4 @@ export default function maDatagridDirective() {
     };
 }
 
-maDatagridDirective.$inject = [];
+maDatagrid.$inject = [];

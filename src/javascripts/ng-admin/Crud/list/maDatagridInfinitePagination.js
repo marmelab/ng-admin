@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default function DatagridInfinitePaginationDirective($window, $document) {
+export default function maDatagridInfinitePagination($window, $document) {
 
     var windowElement = angular.element($window);
     var offset = 100,
@@ -35,4 +35,4 @@ export default function DatagridInfinitePaginationDirective($window, $document) 
     };
 }
 
-DatagridInfinitePaginationDirective.$inject = ['$window', '$document'];
+maDatagridInfinitePagination.$inject = ['$window', '$document'];

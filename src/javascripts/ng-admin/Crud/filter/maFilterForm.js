@@ -1,4 +1,4 @@
-export default function maFilterFormDirective() {
+export default function maFilterForm() {
     return {
         restrict: 'E',
         scope: {
@@ -31,4 +31,4 @@ export default function maFilterFormDirective() {
     };
 }
 
-maFilterFormDirective.$inject = [];
+maFilterForm.$inject = [];

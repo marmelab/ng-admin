@@ -1,4 +1,4 @@
-export default function DatagridItemSelectorDirective() {
+export default function maDatagridItemSelector() {
     return {
         restrict: 'E',
         scope: {
@@ -15,4 +15,4 @@ export default function DatagridItemSelectorDirective() {
     };
 }
 
-DatagridItemSelectorDirective.$inject = [];
+maDatagridItemSelector.$inject = [];
