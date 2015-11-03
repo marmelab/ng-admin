@@ -16,17 +16,21 @@ function entryConstructorProvider() {
 
 function routing($stateProvider, $urlRouterProvider) {
 
-    $stateProvider.state('main', {
+    $stateProvider.state('ng-admin', {
         abstract: true,
-        controller: 'AppController',
-        controllerAs: 'appController',
-        templateProvider: ['NgAdminConfiguration', function(Configuration) {
-            return Configuration().layout() || layoutTemplate;
-        }]
+        views: {
+            'ng-admin': {
+                controller: 'AppController',
+                controllerAs: 'appController',
+                templateProvider: ['NgAdminConfiguration', function(Configuration) {
+                    return Configuration().layout() || layoutTemplate;
+                }]
+            }
+        }
     });
 
     $stateProvider.state('dashboard', {
-        parent: 'main',
+        parent: 'ng-admin',
         url: '/dashboard?sortField&sortDir',
         params: {
             sortField: null,
@@ -112,7 +116,7 @@ function routing($stateProvider, $urlRouterProvider) {
     });
 
     $stateProvider.state('ma-404', {
-        parent: 'main',
+        parent: 'ng-admin',
         template: errorTemplate
     });
 

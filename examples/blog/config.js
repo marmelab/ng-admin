@@ -579,7 +579,7 @@
 
     app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('send-post', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/sendPost/:id',
             params: { id: null },
             controller: sendPostController,
@@ -590,15 +590,15 @@
 
     // custom page with menu item
     var customPageTemplate = '<div class="row"><div class="col-lg-12">' +
-            '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
             '<div class="page-header">' +
+                '<ma-view-actions><ma-back-button></ma-back-button></ma-view-actions>' +
                 '<h1>Stats</h1>' +
                 '<p class="lead">You can add custom pages, too</p>' +
             '</div>' +
         '</div></div>';
     app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('stats', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/stats',
             template: customPageTemplate
         });

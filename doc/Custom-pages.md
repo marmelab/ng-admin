@@ -9,7 +9,7 @@ ng-admin uses [AngularUI Router](https://github.com/angular-ui/ui-router) to def
 ```js
 myApp.config(function ($stateProvider) {
     $stateProvider.state('send-post', {
-        parent: 'main',
+        parent: 'ng-admin',
         url: '/sendPost/:id',
         params: { id: null },
         controller: sendPostController,
@@ -19,7 +19,7 @@ myApp.config(function ($stateProvider) {
 });
 ```
 
-Here the `controllerAs` property defines the name of the controller in the template. Also worth noting: `parent: 'main'` means that the "send-post" page will be displayed inside the main layout.
+Here the `controllerAs` property defines the name of the controller in the template. Also worth noting: `parent: 'ng-admin'` means that the "send-post" page will be displayed inside the main ng-admin layout.
 
 ## Page Controller and Template
 
