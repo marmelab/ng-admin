@@ -1,29 +1,23 @@
-/*global define*/
-
-define(function (require) {
-    'use strict';
-
-    function ListActionsDirective() {
-
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {
-                'buttons': '&',
-                'entry': '&',
-                'entity': '&'
-            },
-            link: function ($scope) {
-                $scope.buttons = $scope.buttons();
-                $scope.entry = $scope.entry();
-                $scope.entity = $scope.entity();
-                $scope.customTemplate = false;
-                if (typeof $scope.buttons === 'string') {
-                    $scope.customTemplate = $scope.buttons;
-                    $scope.buttons = null;
-                }
-            },
-            template:
+export default function ListActionsDirective() {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            'buttons': '&',
+            'entry': '&',
+            'entity': '&'
+        },
+        link: function ($scope) {
+            $scope.buttons = $scope.buttons();
+            $scope.entry = $scope.entry();
+            $scope.entity = $scope.entity();
+            $scope.customTemplate = false;
+            if (typeof $scope.buttons === 'string') {
+                $scope.customTemplate = $scope.buttons;
+                $scope.buttons = null;
+            }
+        },
+        template:
 `<span compile="customTemplate">
     <span ng-repeat="button in ::buttons" ng-switch="button">
         <ma-show-button ng-switch-when="show" entry="::entry" entity="::entity" size="xs"></ma-show-button>
@@ -32,8 +26,7 @@ define(function (require) {
         <span ng-switch-default><span compile="button"></span></span>
     </span>
 </span>`
-        };
-    }
+    };
+}
 
-    return ListActionsDirective;
-});
+ListActionsDirective.$inject = [];

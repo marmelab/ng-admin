@@ -3,7 +3,7 @@ function updateChoices(scope, choices) {
     scope.$root.$$phase || scope.$digest();
 }
 
-function maChoiceField($compile) {
+export default function maChoiceField($compile) {
     return {
         scope: {
             'field': '&',
@@ -66,6 +66,3 @@ function maChoiceField($compile) {
 }
 
 maChoiceField.$inject = ['$compile'];
-
-module.exports = maChoiceField;
-

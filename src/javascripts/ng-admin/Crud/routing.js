@@ -456,4 +456,4 @@ function routing($stateProvider) {
 
 routing.$inject = ['$stateProvider'];
 
-module.exports = routing;
+export default routing;

@@ -4,7 +4,7 @@
  * Usage:
  * <ma-show-button entity="entity" entry="entry" size="xs"></ma-show-button>
  */
-function maShowButtonDirective($state) {
+export default function maShowButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -32,5 +32,3 @@ function maShowButtonDirective($state) {
 }
 
 maShowButtonDirective.$inject = ['$state'];
-
-module.exports = maShowButtonDirective;

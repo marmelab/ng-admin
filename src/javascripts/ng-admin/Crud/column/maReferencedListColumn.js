@@ -1,4 +1,4 @@
-function maReferencedListColumn(NgAdminConfiguration) {
+export default function maReferencedListColumn(NgAdminConfiguration) {
     return {
         scope: {
             'field': '&',
@@ -25,6 +25,3 @@ function maReferencedListColumn(NgAdminConfiguration) {
 }
 
 maReferencedListColumn.$inject = ['NgAdminConfiguration'];
-
-module.exports = maReferencedListColumn;
-

@@ -1,4 +1,4 @@
-function maFilterFormDirective() {
+export default function maFilterFormDirective() {
     return {
         restrict: 'E',
         scope: {
@@ -7,7 +7,7 @@ function maFilterFormDirective() {
             values: '=',
             removeFilter: '&'
         },
-        link: function(scope, element) {
+        link: function(scope) {
             scope.datastore = scope.datastore();
             scope.removeFilter = scope.removeFilter();
             scope.shouldFilter = () => Object.keys(scope.filters).length;
@@ -32,5 +32,3 @@ function maFilterFormDirective() {
 }
 
 maFilterFormDirective.$inject = [];
-
-module.exports = maFilterFormDirective;

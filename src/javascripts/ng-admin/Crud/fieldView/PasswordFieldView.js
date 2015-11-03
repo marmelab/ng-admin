@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     getReadWidget:   () => 'error: cannot display password field as readable',
     getLinkWidget:   () => 'error: cannot display password field as linkable',
     getFilterWidget: () => 'error: cannot display password field as filter',

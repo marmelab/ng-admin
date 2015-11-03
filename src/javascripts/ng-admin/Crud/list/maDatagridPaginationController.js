@@ -1,11 +1,7 @@
-/*global define*/
+import angular from 'angular';
 
-define(function (require) {
-    'use strict';
-
-    var angular = require('angular');
-
-    function DatagridPaginationController($scope) {
+export default class DatagridPaginationController {
+    constructor($scope) {
         this.$scope = $scope;
         var perPage = parseInt(this.$scope.perPage, 10) || 1,
             totalItems = parseInt(this.$scope.totalItems, 10),
@@ -28,7 +24,7 @@ define(function (require) {
      * @param {int} max
      * @returns {Array}
      */
-    DatagridPaginationController.prototype.range = function (page) {
+    range(page) {
         var input = [],
             nbPages = this.nbPages;
 
@@ -60,25 +56,23 @@ define(function (require) {
         }
 
         return input;
-    };
+    }
 
     /**
      * Link to page number of the list
      *
      * @param {int} number
      */
-    DatagridPaginationController.prototype.setPage = function (number) {
+    setPage(number) {
         if (number <= 0 || number > this.nbPages) {
             return;
         }
         this.$scope.setPage()(number);
-    };
+    }
 
-    DatagridPaginationController.prototype.destroy = function() {
+    destroy() {
         this.$scope = undefined;
-    };
+    }
+}
 
-    DatagridPaginationController.$inject = ['$scope'];
-
-    return DatagridPaginationController;
-});
+DatagridPaginationController.$inject = ['$scope'];

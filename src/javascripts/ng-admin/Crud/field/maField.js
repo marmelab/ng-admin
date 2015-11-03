@@ -1,4 +1,4 @@
-function maField(FieldViewConfiguration, $compile) {
+export default function maField(FieldViewConfiguration, $compile) {
     return {
         restrict: 'E',
         scope: {
@@ -77,5 +77,3 @@ function maField(FieldViewConfiguration, $compile) {
 }
 
 maField.$inject = ['FieldViewConfiguration', '$compile'];
-
-module.exports = maField;

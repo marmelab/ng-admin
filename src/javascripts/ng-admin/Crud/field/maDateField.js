@@ -3,7 +3,7 @@
  *
  * @example <ma-date-field field="field" value="value"></ma-date-field>
  */
-function maDateField() {
+export default function maDateField() {
     return {
         scope: {
             'field': '&',
@@ -35,21 +35,18 @@ function maDateField() {
                 scope.isOpen = !scope.isOpen;
             };
         },
-        template: `
-            <div class="input-group datepicker">
-                <input
-                    type="text" ng-model="rawValue" id="{{ name }}" name="{{ name }}" class="form-control"
-                    datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ng-required="v.required" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                </span>
-            </div>
-        `
+        template:
+`<div class="input-group datepicker">
+    <input
+        type="text" ng-model="rawValue" id="{{ name }}" name="{{ name }}" class="form-control"
+        datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ng-required="v.required" />
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+    </span>
+</div>`
     };
 }
 
 maDateField.$inject = [];
-
-export default maDateField;

@@ -1,9 +1,5 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    function EntryFormatter($filter) {
+export default class EntryFormatter {
+    constructor($filter) {
         this.formatDate = function (format) {
             return function (date) {
                 return $filter('date')(date, format);
@@ -16,7 +12,7 @@ define(function () {
         };
     }
 
-    EntryFormatter.prototype.formatField = function formatField(field) {
+    formatField(field) {
         var label = field.label() || field.name();
         var type = field.type();
 
@@ -72,9 +68,9 @@ define(function () {
             case 'referenced_list':
                 return; //ignored
         }
-    };
+    }
 
-    EntryFormatter.prototype.getFormatter = function getFormatter(fields) {
+    getFormatter(fields) {
         var fieldsFormatters = fields.map(this.formatField.bind(this));
 
         return function formatEntry(entry) {
@@ -90,9 +86,7 @@ define(function () {
 
             return result;
         };
-    };
+    }
+}
 
-    EntryFormatter.$inject = ['$filter'];
-
-    return EntryFormatter;
-});
+EntryFormatter.$inject = ['$filter'];

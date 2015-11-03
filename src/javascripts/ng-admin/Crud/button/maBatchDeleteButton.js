@@ -1,4 +1,4 @@
-function maBatchDeleteButtonDirective($state) {
+export default function maBatchDeleteButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -29,5 +29,3 @@ function maBatchDeleteButtonDirective($state) {
 }
 
 maBatchDeleteButtonDirective.$inject = ['$state'];
-
-module.exports = maBatchDeleteButtonDirective;

@@ -1,28 +1,23 @@
-/*global define*/
+import maDatagridController from './maDatagridController';
 
-define(function (require) {
-    'use strict';
-
-    var maDatagridController = require('./maDatagridController');
-
-    function maDatagridDirective() {
-        return {
-            restrict: 'E',
-            scope: {
-                name: '@',
-                entries: '=',
-                selection: '=',
-                fields: '&',
-                listActions: '&',
-                entity: '&',
-                datastore: '&',
-                sortField: '@',
-                sortDir: '@',
-                sort: '&'
-            },
-            controllerAs: 'datagrid',
-            controller: maDatagridController,
-            template:
+export default function maDatagridDirective() {
+    return {
+        restrict: 'E',
+        scope: {
+            name: '@',
+            entries: '=',
+            selection: '=',
+            fields: '&',
+            listActions: '&',
+            entity: '&',
+            datastore: '&',
+            sortField: '@',
+            sortDir: '@',
+            sort: '&'
+        },
+        controllerAs: 'datagrid',
+        controller: maDatagridController,
+        template:
 `<table class="grid table table-condensed table-hover table-striped">
     <thead>
         <tr>
@@ -56,10 +51,7 @@ define(function (require) {
         </tr>
     </tbody>
 </table>`
-        };
-    }
+    };
+}
 
-    maDatagridDirective.$inject = [];
-
-    return maDatagridDirective;
-});
+maDatagridDirective.$inject = [];

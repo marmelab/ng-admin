@@ -4,7 +4,7 @@
  * Usage:
  * <ma-list-button entity="entity" size="xs"></ma-list-button>
  */
-function maListButtonDirective($state) {
+export default function maListButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -30,5 +30,3 @@ function maListButtonDirective($state) {
 }
 
 maListButtonDirective.$inject = ['$state'];
-
-module.exports = maListButtonDirective;

@@ -1,4 +1,4 @@
-function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
+export default function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
 
     function getDetailLinkRouteName(field, entity) {
         if (entity.isReadOnly) {
@@ -75,5 +75,3 @@ function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfi
 }
 
 maColumn.$inject = ['$state', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
-
-module.exports = maColumn;

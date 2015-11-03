@@ -1,4 +1,4 @@
-function factories(fvp) {
+export default function factories(fvp) {
     fvp.registerFieldView('boolean', require('../fieldView/BooleanFieldView'));
     fvp.registerFieldView('choice', require('../fieldView/ChoiceFieldView'));
     fvp.registerFieldView('choices', require('../fieldView/ChoicesFieldView'));
@@ -21,5 +21,3 @@ function factories(fvp) {
 }
 
 factories.$inject = ['FieldViewConfigurationProvider'];
-
-module.exports = factories;

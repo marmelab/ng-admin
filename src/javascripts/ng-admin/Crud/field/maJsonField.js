@@ -25,7 +25,7 @@ global.CodeMirror = codemirror;
  *
  * @example <ma-json-field field="field" value="value"></ma-json-field>
  */
-function maJsonField() {
+export default function maJsonField() {
     return {
         scope: {
             'field': '&',
@@ -63,5 +63,3 @@ function maJsonField() {
 }
 
 maJsonField.$inject = [];
-
-module.exports = maJsonField;

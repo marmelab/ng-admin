@@ -1,4 +1,4 @@
-var angular = require('angular');
+import angular from 'angular';
 
 require('angular-ui-router');
 require('restangular');

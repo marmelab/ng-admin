@@ -1,6 +1,6 @@
 import Entry from 'admin-config/lib/Entry';
 
-function maEmbeddedListField() {
+export default function maEmbeddedListField() {
     return {
         scope: {
             'field': '&',
@@ -67,5 +67,3 @@ function maEmbeddedListField() {
 }
 
 maEmbeddedListField.$inject = [];
-
-module.exports = maEmbeddedListField;

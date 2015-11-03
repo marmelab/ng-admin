@@ -1,4 +1,4 @@
-function maFilterDirective(FieldViewConfiguration, $compile) {
+export default function maFilterDirective(FieldViewConfiguration, $compile) {
     return {
         restrict: 'E',
         scope: {
@@ -16,5 +16,3 @@ function maFilterDirective(FieldViewConfiguration, $compile) {
 }
 
 maFilterDirective.$inject = ['FieldViewConfiguration', '$compile'];
-
-module.exports = maFilterDirective;

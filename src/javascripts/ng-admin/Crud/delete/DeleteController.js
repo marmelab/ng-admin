@@ -1,9 +1,5 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    var DeleteController = function ($scope, $window, $state, $q, WriteQueries, notification, params, view, entry) {
+export default class DeleteController {
+    constructor($scope, $window, $state, $q, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
@@ -25,9 +21,9 @@ define(function () {
         $scope.$on('$stateChangeSuccess', (event, to, toParams, from, fromParams) => {
             this.previousStateParametersDeferred.resolve(fromParams);
         });
-    };
+    }
 
-    DeleteController.prototype.deleteOne = function () {
+    deleteOne() {
         var notification = this.notification,
             entityName = this.entity.name();
 
@@ -57,20 +53,18 @@ define(function () {
                     notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
                 }
             );
-    };
+    }
 
-    DeleteController.prototype.back = function() {
+    back() {
         this.$window.history.back();
-    };
+    }
 
-    DeleteController.prototype.destroy = function () {
+    destroy () {
         this.$scope = undefined;
         this.WriteQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
-    };
+    }
+}
 
-    DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
-
-    return DeleteController;
-});
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
