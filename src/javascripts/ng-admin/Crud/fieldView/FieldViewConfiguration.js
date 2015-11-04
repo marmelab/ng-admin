@@ -1,21 +1,15 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    function FieldViewConfiguration() {
+export default class FieldViewConfiguration {
+    constructor() {
         this.fieldViews = {};
     }
 
-    FieldViewConfiguration.prototype.registerFieldView = function(type, FieldView) {
+    registerFieldView(type, FieldView) {
         this.fieldViews[type] = FieldView;
-    };
+    }
 
-    FieldViewConfiguration.prototype.$get = function () {
+    $get() {
         return this.fieldViews;
-    };
+    }
+}
 
-    FieldViewConfiguration.$inject = [];
-
-    return FieldViewConfiguration;
-});
+FieldViewConfiguration.$inject = [];

@@ -3,7 +3,7 @@
  *
  * @example <ma-choices-field entry="entry" field="field" value="value"></ma-choices-field>
  */
-function maChoicesField($compile) {
+export default function maChoicesField($compile) {
     'use strict';
 
     return {
@@ -63,5 +63,3 @@ function maChoicesField($compile) {
 }
 
 maChoicesField.$inject = ['$compile'];
-
-module.exports = maChoicesField;

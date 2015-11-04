@@ -1,12 +1,5 @@
-/*global define*/
-define(function () {
-    'use strict';
+export default function PromisesResolver(AdminDescription) {
+    return AdminDescription.getPromisesResolver();
+}
 
-    function PromisesResolver(AdminDescription) {
-        return AdminDescription.getPromisesResolver();
-    }
-
-    PromisesResolver.$inject = ['AdminDescription'];
-
-    return PromisesResolver;
-});
+PromisesResolver.$inject = ['AdminDescription'];

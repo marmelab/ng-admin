@@ -1,7 +1,7 @@
-var menuBarView = require('../../view/menuBar.html');
-var angular = require('angular');
+import menuBarView from '../../view/menuBar.html';
+import angular from 'angular';
 
-function maMenuBar($location, $rootScope, $compile) {
+export default function maMenuBar($location, $rootScope, $compile) {
     return {
         restrict: 'E',
         scope: {
@@ -91,5 +91,3 @@ function maMenuBar($location, $rootScope, $compile) {
 }
 
 maMenuBar.$inject = ['$location', '$rootScope', '$compile'];
-
-module.exports = maMenuBar;

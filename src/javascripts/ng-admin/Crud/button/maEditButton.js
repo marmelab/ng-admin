@@ -4,7 +4,7 @@
  * Usage:
  * <ma-edit-button entity="entity" entry="entry" size="xs"></ma-edit-button>
  */
-function maEditButtonDirective($state) {
+export default function maEditButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -32,5 +32,3 @@ function maEditButtonDirective($state) {
 }
 
 maEditButtonDirective.$inject = ['$state'];
-
-module.exports = maEditButtonDirective;

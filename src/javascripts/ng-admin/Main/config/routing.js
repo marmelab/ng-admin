@@ -1,6 +1,6 @@
-var layoutTemplate = require('../view/layout.html'),
-    dashboardTemplate = require('../view/dashboard.html'),
-    errorTemplate = require('../view/404.html');
+import layoutTemplate from '../view/layout.html';
+import dashboardTemplate from '../view/dashboard.html';
+import errorTemplate from '../view/404.html';
 
 function dataStoreProvider() {
     return ['AdminDescription', function (AdminDescription) {
@@ -127,4 +127,4 @@ function routing($stateProvider, $urlRouterProvider) {
 
 routing.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-module.exports = routing;
+export default routing;

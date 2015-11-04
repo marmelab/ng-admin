@@ -1,27 +1,19 @@
-/*global define*/
+import paginationView from './maDatagridPagination.html';
+import DatagridPaginationController from './maDatagridPaginationController';
 
-define(function (require) {
-    'use strict';
+export default function maDatagridPagination() {
+    return {
+        restrict: 'E',
+        scope: {
+            page: '@',
+            perPage: '@',
+            totalItems: '@',
+            setPage: '&'
+        },
+        template: paginationView,
+        controllerAs: 'paginationCtrl',
+        controller: DatagridPaginationController
+    };
+}
 
-    var paginationView = require('./maDatagridPagination.html'),
-        DatagridPaginationController = require('./maDatagridPaginationController');
-
-    function DatagridPaginationDirective() {
-        return {
-            restrict: 'E',
-            scope: {
-                page: '@',
-                perPage: '@',
-                totalItems: '@',
-                setPage: '&'
-            },
-            template: paginationView,
-            controllerAs: 'paginationCtrl',
-            controller: DatagridPaginationController
-        };
-    }
-
-    DatagridPaginationDirective.$inject = [];
-
-    return DatagridPaginationDirective;
-});
+maDatagridPagination.$inject = [];

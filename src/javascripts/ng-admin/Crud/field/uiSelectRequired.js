@@ -2,9 +2,7 @@
  * Directive created to fix a bug with ui-select and multiple required values.
  * @see https://github.com/angular-ui/ui-select/issues/258
  */
-function uiSelectRequired() {
-    'use strict';
-
+export default function uiSelectRequired() {
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -26,5 +24,3 @@ function uiSelectRequired() {
 }
 
 uiSelectRequired.$inject = [];
-
-module.exports = uiSelectRequired;

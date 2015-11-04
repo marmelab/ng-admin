@@ -1,4 +1,4 @@
-function maReferenceField(ReferenceRefresher) {
+export default function maReferenceField(ReferenceRefresher) {
     return {
         scope: {
             'field': '&',
@@ -51,6 +51,3 @@ function maReferenceField(ReferenceRefresher) {
 }
 
 maReferenceField.$inject = ['ReferenceRefresher'];
-
-module.exports = maReferenceField;
-

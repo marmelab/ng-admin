@@ -1,4 +1,4 @@
-function maReferenceColumn() {
+export default function maReferenceColumn() {
     return {
         restrict: 'E',
         scope: {
@@ -22,5 +22,3 @@ function maReferenceColumn() {
 }
 
 maReferenceColumn.$inject = [];
-
-export default maReferenceColumn;

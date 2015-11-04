@@ -4,7 +4,7 @@
  * Usage:
  * <ma-back-button entry="entry" size="xs"></ma-back-button>
  */
-function maBackButtonDirective($window) {
+export default function maBackButtonDirective($window) {
     return {
         restrict: 'E',
         scope: {
@@ -23,5 +23,3 @@ function maBackButtonDirective($window) {
 }
 
 maBackButtonDirective.$inject = ['$window'];
-
-module.exports = maBackButtonDirective;

@@ -1,16 +1,11 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    /**
-     *
-     * @param {$scope}               $scope
-     * @param {$state}            $state
-     * @param {NgAdmin} Configuration
-     * @constructor
-     */
-    var AppController = function ($scope, $state, Configuration) {
+/**
+ * @param {$scope}  $scope
+ * @param {$state}  $state
+ * @param {NgAdmin} Configuration
+ * @constructor
+ */
+export default class AppController {
+    constructor($scope, $state, Configuration) {
         var application = Configuration();
         this.$scope = $scope;
         this.$state = $state;
@@ -20,18 +15,16 @@ define(function () {
         this.header = application.header();
 
         $scope.$on('$destroy', this.destroy.bind(this));
-    };
+    }
 
-    AppController.prototype.displayHome = function () {
+    displayHome() {
         this.$state.go(this.$state.get('dashboard'));
-    };
+    }
 
-    AppController.prototype.destroy = function () {
+    destroy() {
         this.$scope = undefined;
         this.$state = undefined;
-    };
+    }
+}
 
-    AppController.$inject = ['$scope', '$state', 'NgAdminConfiguration'];
-
-    return AppController;
-});
+AppController.$inject = ['$scope', '$state', 'NgAdminConfiguration'];

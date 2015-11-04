@@ -4,7 +4,7 @@
  * Usage:
  * <ma-create-button entity="entity" default-values="{}" size="xs"></ma-create-button>
  */
-function maCreateButtonDirective($state) {
+export default function maCreateButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -32,5 +32,3 @@ function maCreateButtonDirective($state) {
 }
 
 maCreateButtonDirective.$inject = ['$state'];
-
-module.exports = maCreateButtonDirective;

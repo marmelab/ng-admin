@@ -4,7 +4,7 @@
  * Usage:
  * <ma-delete-button entity="entity" entry="entry" size="xs"></ma-delete-button>
  */
-function maDeleteButtonDirective($state) {
+export default function maDeleteButtonDirective($state) {
     return {
         restrict: 'E',
         scope: {
@@ -32,5 +32,3 @@ function maDeleteButtonDirective($state) {
 }
 
 maDeleteButtonDirective.$inject = ['$state'];
-
-module.exports = maDeleteButtonDirective;

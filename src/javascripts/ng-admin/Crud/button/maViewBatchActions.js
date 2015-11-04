@@ -1,4 +1,4 @@
-function maViewBatchActionsDirective($injector) {
+export default function maViewBatchActionsDirective($injector) {
     var $compile = $injector.get('$compile');
 
     return {
@@ -44,5 +44,3 @@ function maViewBatchActionsDirective($injector) {
 }
 
 maViewBatchActionsDirective.$inject = ['$injector'];
-
-module.exports = maViewBatchActionsDirective;

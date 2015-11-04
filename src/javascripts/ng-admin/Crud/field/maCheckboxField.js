@@ -3,7 +3,7 @@
  *
  * @example <ma-checkbox-field type="text" field="field" value="value"></ma-checkbox-field>
  */
-function maCheckboxField() {
+export default function maCheckboxField() {
     return {
         scope: {
             'field': '&',
@@ -26,5 +26,3 @@ function maCheckboxField() {
 }
 
 maCheckboxField.$inject = [];
-
-export default maCheckboxField;

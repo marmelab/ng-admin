@@ -1,14 +1,5 @@
-/*global define*/
+export default function http($httpProvider) {
+    $httpProvider.useApplyAsync(true);
+}
 
-define(function () {
-    'use strict';
-
-    function http($httpProvider) {
-
-        $httpProvider.useApplyAsync(true);
-    }
-
-    http.$inject = ['$httpProvider'];
-
-    return http;
-});
+http.$inject = ['$httpProvider'];

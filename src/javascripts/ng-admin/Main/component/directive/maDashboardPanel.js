@@ -1,4 +1,4 @@
-function maDashboardPanel($state) {
+export default function maDashboardPanel($state) {
     return {
         restrict: 'E',
         scope: {
@@ -26,6 +26,3 @@ function maDashboardPanel($state) {
 }
 
 maDashboardPanel.$inject = ['$state'];
-
-export default maDashboardPanel;
-

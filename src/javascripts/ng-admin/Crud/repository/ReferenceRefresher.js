@@ -1,6 +1,6 @@
 import Entry from 'admin-config/lib/Entry'
 
-class ReferenceRefresher {
+export default class ReferenceRefresher {
     constructor(ReadQueries) {
         this.ReadQueries = ReadQueries;
     }
@@ -53,5 +53,3 @@ class ReferenceRefresher {
 }
 
 ReferenceRefresher.$inject = ['ReadQueries'];
-
-export default ReferenceRefresher;

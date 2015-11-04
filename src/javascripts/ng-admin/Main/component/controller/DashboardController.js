@@ -1,16 +1,11 @@
-/*global define*/
-
-define(function (require) {
-    'use strict';
-
-    /**
-     *
-     * @param {$scope}       $scope
-     * @param {$state}    $state
-     * @param {PanelBuilder} PanelBuilder
-     * @constructor
-     */
-    function DashboardController($scope, $state, collections, entries, hasEntities, dataStore) {
+/**
+ * @param {$scope} $scope
+ * @param {$state} $state
+ * @param {PanelBuilder} PanelBuilder
+ * @constructor
+ */
+export default class DashboardController {
+    constructor($scope, $state, collections, entries, hasEntities, dataStore) {
         this.$state = $state;
         this.collections = collections;
         this.entries = entries;
@@ -20,15 +15,13 @@ define(function (require) {
         $scope.$on('$destroy', this.destroy.bind(this));
     }
 
-    DashboardController.prototype.gotoList = function(entityName) {
+    gotoList(entityName) {
         this.$state.go(this.$state.get('list'), { entity: entityName });
     }
 
-    DashboardController.prototype.destroy = function () {
+    destroy() {
         this.$state = undefined;
-    };
+    }
+}
 
-    DashboardController.$inject = ['$scope', '$state', 'collections', 'entries', 'hasEntities', 'dataStore'];
-
-    return DashboardController;
-});
+DashboardController.$inject = ['$scope', '$state', 'collections', 'entries', 'hasEntities', 'dataStore'];

@@ -1,10 +1,5 @@
-/*global define*/
-
-define(function () {
-    'use strict';
-
-    var BatchDeleteController = function ($scope, $state, WriteQueries, notification, view) {
-
+export default class BatchDeleteController {
+    constructor($scope, $state, WriteQueries, notification, view) {
         this.$scope = $scope;
         this.$state = $state;
         this.WriteQueries = WriteQueries;
@@ -20,9 +15,9 @@ define(function () {
         this.fields = view.fields();
 
         $scope.$on('$destroy', this.destroy.bind(this));
-    };
+    }
 
-    BatchDeleteController.prototype.batchDelete = function () {
+    batchDelete() {
         var notification = this.notification,
             $state = this.$state,
             entityName = this.entity.name();
@@ -41,22 +36,20 @@ define(function () {
 
             notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
         });
-    };
+    }
 
-    BatchDeleteController.prototype.back = function () {
+    back() {
 
         this.$state.go(this.$state.get('list'), angular.extend({
             entity: this.entity.name()
         }, this.$state.params));
-    };
+    }
 
-    BatchDeleteController.prototype.destroy = function () {
+    destroy() {
         this.$scope = undefined;
         this.$state = undefined;
         this.WriteQueries = undefined;
-    };
+    }
+}
 
-    BatchDeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'view'];
-
-    return BatchDeleteController;
-});
+BatchDeleteController.$inject = ['$scope', '$state', 'WriteQueries', 'notification', 'view'];

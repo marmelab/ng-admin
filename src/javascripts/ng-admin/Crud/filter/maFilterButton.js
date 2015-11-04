@@ -1,6 +1,4 @@
-function maFilterButtonDirective() {
-    'use strict';
-
+export default function maFilterButton() {
     return {
         restrict: 'E',
         scope: {
@@ -9,7 +7,7 @@ function maFilterButtonDirective() {
             enableFilter: '&'
         },
         link: function(scope) {
-            scope.notYetEnabledFilters = () => scope.filters().filter(filter => 
+            scope.notYetEnabledFilters = () => scope.filters().filter(filter =>
                 scope.enabledFilters.indexOf(filter) === -1
             );
             scope.hasFilters = () => scope.notYetEnabledFilters().length > 0;
@@ -28,6 +26,4 @@ function maFilterButtonDirective() {
     };
 }
 
-maFilterButtonDirective.$inject = [];
-
-module.exports = maFilterButtonDirective;
+maFilterButton.$inject = [];

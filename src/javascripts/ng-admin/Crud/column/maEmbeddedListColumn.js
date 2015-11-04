@@ -10,7 +10,7 @@ function sorter(sortField, sortDir) {
     };
 }
 
-function maEmbeddedListColumn(NgAdminConfiguration) {
+export default function maEmbeddedListColumn(NgAdminConfiguration) {
     const application = NgAdminConfiguration(); // jshint ignore:line
     return {
         scope: {
@@ -80,6 +80,3 @@ function maEmbeddedListColumn(NgAdminConfiguration) {
 }
 
 maEmbeddedListColumn.$inject = ['NgAdminConfiguration'];
-
-module.exports = maEmbeddedListColumn;
-

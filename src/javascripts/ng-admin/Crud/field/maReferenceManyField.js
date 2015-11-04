@@ -1,6 +1,4 @@
-function maReferenceManyField(ReferenceRefresher) {
-    'use strict';
-
+export default function maReferenceManyField(ReferenceRefresher) {
     return {
         scope: {
             'field': '&',
@@ -65,5 +63,3 @@ function maReferenceManyField(ReferenceRefresher) {
 }
 
 maReferenceManyField.$inject = ['ReferenceRefresher'];
-
-module.exports = maReferenceManyField;
