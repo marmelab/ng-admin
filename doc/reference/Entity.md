@@ -16,6 +16,11 @@ Defines the name of the entity, as displayed on screen
 
         var comment = nga.entity('comments').label('Discussions');
 
+* `identifier(Field)`
+Defines the field to be used as identifier. By default, entities use the field named `id`.
+
+        var post = nga.entity('posts').identifier(nga.field('_id'));
+
 * `readOnly()`
 A read-only entity doesn't allow access to the mutation views (editionView, creationView, deletionView). In addition, all links to the editionView are replaced by links to the showView.
 
@@ -37,7 +42,7 @@ Defines the API endpoint for all views of this entity. It can be a string or a f
 Customize the HTTP method to be used for write queries, e.g. to use `PATCH` instead of `PUT`.
 
 * `listView()`, `creationView()`, `editionView()`, `showView()`, and `deletionView()` are getters for the entity's [Views](View.md). Most of an entity's customization takes place in the views. See the [Views Configuration](View.md) chapter for details.
- 
+
         var post = nga.entity('post');
         post.listView()
             .fields([
