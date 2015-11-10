@@ -129,7 +129,7 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
                 return 'my-custom-css-class-for-list-header';
             });
 
-* `template(String|Function)`
+* `template(String|Function, templateIncludesLabel=false)`
 All field types support the `template()` method, which makes it easy to customize the look and feel of a particular field, without sacrificing the native features.
 
     For instance, if you want to customize the appearance of a `NumberField` according to its value:
@@ -146,7 +146,26 @@ All field types support the `template()` method, which makes it easy to customiz
     - `value`, `field`, `values`, and `datastore` in filters
     - `value`, `field`, `entry`, `entity`, `form`, and `datastore` in `editionView` and `creationView`
 
-    Most of the time, `template()` is used to customize the existing ng-admin directives (like `ma-number-column>` in the previous example), for instance by decorating them. If you want to learn about these native directives, explore the [column](../src/javascripts/ng-admin/crud/column), [field](../src/javascripts/ng-admin/crud/field), and [fieldView](../src/javascripts/ng-admin/crud/fieldView) directories in ng-admin source.
+    In `showView`, `editionView`, and `creationView`, the template zone covers only the field itself - not the label. To force the template to replace the entire line (including the label), pass `true` as second argument to the `template()` call. This can be very useful to conditionally hide a field according to a property of the entry:
+
+        post.editionView()
+            .fields([
+                nga.field('category', 'choice')
+                    .choices([
+                        { label: 'Tech', value: 'tech' },
+                        { label: 'Lifestyle', value: 'lifestyle' }
+                    ]),
+                nga.field('subcategory', 'choice')
+                    .choices(function(entry) {
+                        return subCategories.filter(function (c) {
+                            return c.category === entry.values.category;
+                        });
+                    })
+                    // display subcategory only if there is a category
+                    .template('<ma-field ng-if="entry.values.category" field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>', true),
+            ]);
+
+    Most of the time, `template()` is used to customize the existing ng-admin directives (like `<ma-number-column>` in the previous example), for instance by decorating them. If you want to learn about these native directives, explore the [column](../src/javascripts/ng-admin/crud/column), [field](../src/javascripts/ng-admin/crud/field), and [fieldView](../src/javascripts/ng-admin/crud/fieldView) directories in ng-admin source.
 
 * `defaultValue(*)`
 Define the default value of the field in the creation form.

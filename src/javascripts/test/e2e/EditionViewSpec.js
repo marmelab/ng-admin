@@ -2,10 +2,14 @@
 describe('EditionView', function () {
     'use strict';
 
+    beforeEach(function() {
+        browser.get(browser.baseUrl + '#/');
+    });
+
     describe('Fields mapping', function() {
 
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/comments/edit/11');
+            browser.setLocation('/comments/edit/11');
         });
 
         it('should map nested fields from the REST response', function () {
@@ -47,7 +51,7 @@ describe('EditionView', function () {
     describe('ChoiceField', function() {
 
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/posts/edit/1');
+            browser.setLocation('/posts/edit/1');
         });
 
         it('should render correctly choice fields', function () {
@@ -69,7 +73,7 @@ describe('EditionView', function () {
 
     describe('BooleanField', function() {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/tags/edit/5');
+            browser.setLocation('/tags/edit/5');
         });
 
         it('should render as a checkbox field when required', function () {
@@ -102,7 +106,7 @@ describe('EditionView', function () {
 
     describe('EmbeddedListField', function() {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/posts/edit/1');
+            browser.setLocation('/posts/edit/1');
         });
 
         it('should render as a list of subforms', function () {
@@ -121,7 +125,7 @@ describe('EditionView', function () {
 
     describe('DetailLink', function() {
         beforeEach(function() {
-            browser.get(browser.baseUrl + '#/posts/edit/1');
+            browser.setLocation('/posts/edit/1');
         });
 
         it('should redirect to corresponding detail view even for referenced_list entity', function () {
@@ -131,6 +135,28 @@ describe('EditionView', function () {
             })
             .then(function(url) {
                 expect(url).toContain('/comments/edit/');
+            });
+        });
+    });
+
+    describe('Field template', function() {
+        beforeEach(function() {
+            browser.setLocation('/posts/edit/1');
+        });
+
+        it('should execute the template when the entry changes', function() {
+            $$('.ng-admin-field-subcategory')
+            .then(function subcategoryFieldIsDisplayed(subcategoryField) {
+                expect(subcategoryField.length).toBe(1);
+            })
+            .then(function emptyMainCategory() {
+                return $$('.ng-admin-field-category a').first().click();
+            })
+            .then(function selectSubcategoryField() {
+                return $$('.ng-admin-field-subcategory');
+            })
+            .then(function subcategoryFieldIsHidden(subcategoryField) {
+                expect(subcategoryField.length).toBe(0);
             });
         });
     });
