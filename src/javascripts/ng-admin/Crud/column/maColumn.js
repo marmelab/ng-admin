@@ -41,7 +41,7 @@ export default function maColumn($state, $anchorScroll, $compile, Configuration,
                 : scope.entry.values[scope.field.name()];
             scope.entity = scope.entity();
             let customTemplate = scope.field.getTemplateValue(scope.entry);
-            if (customTemplate) {
+            if (customTemplate && !scope.field.templateIncludesLabel()) {
                 element.append(customTemplate);
             } else {
                 let type = scope.field.type();

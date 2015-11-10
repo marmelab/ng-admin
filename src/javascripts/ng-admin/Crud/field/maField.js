@@ -10,16 +10,18 @@ export default function maField(FieldViewConfiguration, $compile) {
             datastore: '&'
         },
         link: function(scope, element) {
-            scope.field = scope.field();
-            scope.type = scope.field.type();
+            const field = scope.field();
+            const type = field.type();
+            scope.field = field;
+            scope.type = type;
             scope.entity = scope.entity();
             scope.form = scope.form();
             scope.datastore = scope.datastore();
-            scope.getClassesForField = function(field, entry) {
-                return 'ng-admin-field-' + field.name().replace('.', '_') + ' ' + 'ng-admin-type-' + field.type() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
+            scope.getCssClasses = function(entry) {
+                return 'ng-admin-field-' + field.name().replace('.', '_') + ' ng-admin-type-' + type + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
             };
 
-            scope.getInputForField = function(field) {
+            scope.getInput = function() {
                 return scope.form[field.name()];
             };
 
@@ -30,28 +32,28 @@ export default function maField(FieldViewConfiguration, $compile) {
              * - No for non-altered input
              * - Yes otherwise
              */
-            scope.fieldHasValidation = function(field) {
-                var input = this.getInputForField(field);
+            scope.fieldHasValidation = function() {
+                var input = this.getInput();
                 return input && input.$dirty;
             };
 
-            scope.fieldIsValid = function(field) {
-                var input = this.getInputForField(field);
+            scope.fieldIsValid = function() {
+                var input = this.getInput();
                 return input && input.$valid;
             };
 
-            scope.getFieldValidationClass = function(field) {
-                if (this.fieldHasValidation(field)) {
-                    return this.fieldIsValid(field) ? 'has-success' : 'has-error';
+            scope.getFieldValidationClass = function() {
+                if (this.fieldHasValidation()) {
+                    return this.fieldIsValid() ? 'has-success' : 'has-error';
                 }
             };
 
             var fieldTemplate;
             if (scope.field.editable()) {
                 fieldTemplate =
-`<div ng-class="getClassesForField(field, entry)">
-    ${scope.field.getTemplateValue(scope.entry) || FieldViewConfiguration[scope.type].getWriteWidget()}
-    <span ng-show="fieldHasValidation(field)" class="glyphicon form-control-feedback" ng-class="fieldIsValid(field) ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
+`<div ng-class="getCssClasses(entry)">
+    ${(!field.templateIncludesLabel() && field.getTemplateValue(scope.entry)) || FieldViewConfiguration[type].getWriteWidget()}
+    <span ng-show="fieldHasValidation()" class="glyphicon form-control-feedback" ng-class="fieldIsValid() ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
 </div>`;
             } else {
                 fieldTemplate =
@@ -63,7 +65,7 @@ export default function maField(FieldViewConfiguration, $compile) {
             }
 
             const template =
-`<div id="row-{{ field.name() }}" class="has-feedback" ng-class="getFieldValidationClass(field)">
+`<div id="row-{{ field.name() }}" class="form-field form-group has-feedback" ng-class="getFieldValidationClass()">
     <label for="{{ field.name() }}" class="col-sm-2 control-label">
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>
