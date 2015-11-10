@@ -18,10 +18,10 @@ export default function maCreateButtonDirective($state) {
             scope.gotoCreate = () => {
                 var entityName;
                 if (attrs.force === "true"){
-                  entityName = attrs.entityName;
+                  entityName = attrs.entity;
                 }
                 else {
-                  entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+                  entityName = scope.entity() ? scope.entity().name() : attrs.entity;
                 }
                 var params = entityName === $state.params.entity ? $state.params : {};
                 params.entity = entityName;
