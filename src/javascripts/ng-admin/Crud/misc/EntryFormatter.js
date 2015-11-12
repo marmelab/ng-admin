@@ -26,11 +26,17 @@ export default class EntryFormatter {
             case 'email':
             case 'json':
             case 'file':
-            case 'template':
                 return function (entry) {
                     return {
                         name: label,
                         value: entry.values[field.name()]
+                    };
+                };
+            case 'template':
+                return function (entry) {
+                    return {
+                        name: label,
+                        value: field._template(entry)
                     };
                 };
             case 'number':
