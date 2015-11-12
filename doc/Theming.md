@@ -54,6 +54,27 @@ The template scope exposes the following variables:
 * `value`, `field`, `values`, and `datastore` in filters
 * `value`, `field`, `entry`, `entity`, `form`, and `datastore` in `editionView` and `creationView`
 
+In `showView`, `editionView`, and `creationView`, the template zone covers only the field itself - not the label. To force the template to replace the entire line (including the label), pass `true` as second argument to the `template()` call. This can be very useful to conditionally hide a field according to a property of the entry:
+
+```js
+post.editionView()
+    .fields([
+        nga.field('category', 'choice')
+            .choices([
+                { label: 'Tech', value: 'tech' },
+                { label: 'Lifestyle', value: 'lifestyle' }
+            ]),
+        nga.field('subcategory', 'choice')
+            .choices(function(entry) {
+                return subCategories.filter(function (c) {
+                    return c.category === entry.values.category;
+                });
+            })
+            // display subcategory only if there is a category
+            .template('<ma-field ng-if="entry.values.category" field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>', true),
+    ]);
+```
+
 Most of the time, `template()` is used to customize the existing ng-admin directives (like `ma-number-column>` in the previous example), for instance by decorating them. If you want to learn about these native directives, explore the [column](../src/javascripts/ng-admin/crud/column), [field](../src/javascripts/ng-admin/crud/field), and [fieldView](../src/javascripts/ng-admin/crud/fieldView) directories in ng-admin source.
 
 ## Customizing Directives Templates

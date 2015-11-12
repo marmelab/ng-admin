@@ -162,7 +162,8 @@
                         return subCategories.filter(function (c) {
                             return c.category === entry.values.category;
                         });
-                    }),
+                    })
+                    .template('<ma-field ng-if="entry.values.category" field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>', true),
                 nga.field('tags', 'reference_many') // ReferenceMany translates to a select multiple
                     .targetEntity(tag)
                     .targetField(nga.field('name'))

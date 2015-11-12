@@ -17,15 +17,8 @@
 
 <div class="row form-horizontal" id="show-view">
 
-    <div class="col-lg-12 form-group" ng-repeat="field in ::showController.fields track by $index">
-
-        <label class="col-sm-2 control-label">{{ field.label() }}</label>
-
-        <div class="show-value" ng-class="::'ng-admin-field-' + field.name() + ' ' + 'ng-admin-type-' + field.type() + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
-
-            <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.dataStore"></ma-column>
-
-        </div>
+    <div ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
+        <ma-show-item field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.dataStore"></ma-show-item>
     </div>
 
 </div>

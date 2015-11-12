@@ -77,6 +77,7 @@ CrudModule.directive('maBatchDeleteButton', require('./button/maBatchDeleteButto
 CrudModule.directive('maExportToCsvButton', require('./button/maExportToCsvButton'));
 CrudModule.directive('maViewBatchActions', require('./button/maViewBatchActions'));
 
+CrudModule.directive('maShowItem', require('./show/maShowItem'));
 CrudModule.directive('maViewActions', require('./misc/ViewActions'));
 CrudModule.directive('compile', require('./misc/Compile'));
 
