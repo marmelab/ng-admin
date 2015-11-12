@@ -220,7 +220,7 @@ function routing($stateProvider) {
                     })
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entry, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
@@ -271,7 +271,7 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
                     }
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entry, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
@@ -378,7 +378,7 @@ function routing($stateProvider) {
                     })
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entry, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
