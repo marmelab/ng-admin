@@ -1,6 +1,6 @@
 export default {
     getReadWidget:   () => '<ma-reference-column field="::field" value="::value" datastore="::datastore"></ma-reference-column>',
-    getLinkWidget:   () => '<a ng-click="gotoReference()">' + module.exports.getReadWidget() + '</a>',
+    getLinkWidget:   () => '<ma-reference-link-column entry="::entry" field="::field" value="::value" datastore="::datastore"></ma-reference-link-column>',
     getFilterWidget: () => '<ma-reference-field field="::field" value="value" datastore="::datastore"></ma-reference-field>',
     getWriteWidget:  () => '<ma-reference-field field="::field" value="value" datastore="::datastore"></ma-reference-field>'
 };

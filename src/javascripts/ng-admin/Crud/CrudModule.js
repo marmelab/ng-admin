@@ -60,6 +60,7 @@ CrudModule.directive('maJsonColumn', require('./column/maJsonColumn'));
 CrudModule.directive('maNumberColumn', require('./column/maNumberColumn'));
 CrudModule.directive('maReferenceColumn', require('./column/maReferenceColumn'));
 CrudModule.directive('maReferencedListColumn', require('./column/maReferencedListColumn'));
+CrudModule.directive('maReferenceLinkColumn', require('./column/maReferenceLinkColumn'));
 CrudModule.directive('maReferenceManyColumn', require('./column/maReferenceManyColumn'));
 CrudModule.directive('maReferenceManyLinkColumn', require('./column/maReferenceManyLinkColumn'));
 CrudModule.directive('maStringColumn', require('./column/maStringColumn'));

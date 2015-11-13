@@ -51,25 +51,13 @@ export default function maColumn($state, $anchorScroll, $compile, Configuration,
                     element.append(FieldViewConfiguration[type].getReadWidget());
                 }
             }
+            scope.detailState = getDetailLinkRouteName(scope.field, scope.entity);
+            scope.detailStateParams = {
+                entity: scope.entry.entityName,
+                id: scope.entry.identifierValue,
+                ...$state.params
+            };
             $compile(element.contents())(scope);
-            scope.gotoDetail = function () {
-                var route = getDetailLinkRouteName(scope.field, scope.entity);
-                $state.go($state.get(route),
-                angular.extend({}, $state.params, {
-                    entity: scope.entry.entityName,
-                    id: scope.entry.identifierValue
-                }));
-            };
-            scope.gotoReference = function () {
-                var referenceEntity = scope.field.targetEntity().name();
-                var relatedEntity = Configuration().getEntity(referenceEntity);
-                var referenceId = scope.entry.values[scope.field.name()];
-                var route = getDetailLinkRouteName(scope.field, relatedEntity);
-                $state.go($state.get(route), {
-                    entity: referenceEntity,
-                    id: referenceId
-                });
-            };
         }
     };
 }

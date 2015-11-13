@@ -15,17 +15,15 @@ export default function maShowButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            scope.gotoShow = () => {
-                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-                var params = entityName == $state.params.entity ? $state.params : {};
-                params.entity = entityName;
-                params.id = scope.entry().identifierValue;
-                $state.go($state.get('show'), params);
-            }
+            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+            var stateParams = entityName == $state.params.entity ? { ...$state.params } : {};
+            stateParams.entity = entityName;
+            stateParams.id = scope.entry().identifierValue;
+            scope.stateParams = stateParams;
             scope.label = scope.label || 'Show';
         },
         template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoShow()">
+` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ui-sref="show(stateParams)">
 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </a>`
     };
