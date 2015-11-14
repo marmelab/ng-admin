@@ -156,7 +156,7 @@
                     .choices([ // List the choice as object literals
                         { label: 'Tech', value: 'tech' },
                         { label: 'Lifestyle', value: 'lifestyle' }
-                    ]),
+                    ]).attributes({ position: 'down' }),
                 nga.field('subcategory', 'choice')
                     .choices(function(entry) { // choices also accepts a function to return a list of choices based on the current entry
                         return subCategories.filter(function (c) {
