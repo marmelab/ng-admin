@@ -18,6 +18,7 @@ export default class ListController {
         this.totalItems = totalItems;
         this.page = $stateParams.page || 1;
         this.infinitePagination = this.view.infinitePagination();
+        this.entryCssClasses = this.view.entryCssClasses();
         this.nextPageCallback = this.nextPage.bind(this);
         this.setPageCallback = this.setPage.bind(this);
         this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
