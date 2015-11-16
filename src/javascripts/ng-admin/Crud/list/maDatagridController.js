@@ -7,6 +7,7 @@ export default class DatagridController {
         this.datastore = this.$scope.datastore();
         this.filters = {};
         this.shouldDisplayActions = this.$scope.listActions() && this.$scope.listActions().length > 0;
+        $scope.getEntryCssClasses = this.getEntryCssClasses.bind(this);
         $scope.toggleSelect = this.toggleSelect.bind(this);
         $scope.toggleSelectAll = this.toggleSelectAll.bind(this);
         $scope.sortField = $attrs.sortField;
@@ -64,6 +65,16 @@ export default class DatagridController {
      */
     getSortName(field) {
         return this.$scope.name ? this.$scope.name + '.' + field.name() : field.name();
+    }
+
+    getEntryCssClasses(entry) {
+        var entryCssClasses = this.$scope.entryCssClasses;
+
+        if (entryCssClasses) {
+            return entryCssClasses(entry.values);
+        } else {
+            return '';
+        }
     }
 
     toggleSelect(entry) {
