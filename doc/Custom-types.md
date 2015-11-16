@@ -52,7 +52,7 @@ module.exports = {
     // displayed in listView and showView
     getReadWidget:   () => '<ma-number-column field="::field" value="::entry.values[field.name()]"></ma-number-column>',
     // displayed in listView and showView when isDetailLink is true
-    getLinkWidget:   () => '<a ng-click="gotoDetail()">' + module.exports.getReadWidget() + '</a>',
+    getLinkWidget:   () => '<a ui-sref="{{detailState}}(detailStateParams)">' + module.exports.getReadWidget() + '</a>',
     // displayed in the filter form in the listView
     getFilterWidget: () => '<ma-input-field type="number" field="::field" value="values[field.name()]"></ma-input-field>',
     // displayed in editionView and creationView
@@ -157,7 +157,7 @@ An `amount` field will render as text with the currency in read context, and as 
 ```js
 export default {
     getReadWidget:   () => '{{ field.currency() }}<ma-number-column field="::field" value="::entry.values[field.name()]"></ma-number-column>',
-    getLinkWidget:   () => '<a ng-click="gotoDetail()">' + module.exports.getReadWidget() + '</a>',
+    getLinkWidget:   () => '<a ui-sref="{{detailState}}(detailStateParams)">' + module.exports.getReadWidget() + '</a>',
     getFilterWidget: () => '<ma-input-field type="number" step="any" field="::field" value="values[field.name()]"></ma-input-field>',
     getWriteWidget:  () => '<div class="input-group"><span class="input-group-addon">{{ field.currency() }}</span><ma-input-field type="number" step="any" field="::field" value="entry.values[field.name()]"></ma-input-field></div>'
 };

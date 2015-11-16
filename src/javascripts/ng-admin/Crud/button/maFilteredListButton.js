@@ -28,12 +28,10 @@ export default function maFilteredListButtonDirective($state) {
         },
         link: function (scope) {
             scope.label = scope.label || ('See all related ' + scope.entityName);
-            scope.gotoList = function () {
-                $state.go($state.get('list'), { 'entity': scope.entityName, 'search': scope.filter()});
-            };
+            scope.stateParams = { 'entity': scope.entityName, 'search': scope.filter() };
         },
         template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">
+` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ui-sref="list(stateParams)">
     <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ ::label }}
 </a>`
     };

@@ -1,5 +1,5 @@
 /*global angular,inject,describe,it,expect,beforeEach,module*/
-describe('directive: ma-manu-bar', function () {
+describe('directive: ma-menu-bar', function () {
     'use strict';
 
     var directive = require('../../../../../ng-admin/Main/component/directive/maMenuBar'),
@@ -49,7 +49,8 @@ describe('directive: ma-manu-bar', function () {
         expect(element.isolateScope().isOpen(blogMenu)).toBe(false);
 
         element.isolateScope().toggleMenu(otherMenu);
-        element.isolateScope().gotoLink(tagMenu);
+        element.isolateScope().activateLink(tagMenu);
+        $location.url(tagMenu.link());
         scope.$digest();
         expect(element.isolateScope().isOpen(otherMenu)).toBe(true);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(false);
@@ -59,7 +60,8 @@ describe('directive: ma-manu-bar', function () {
         expect(element.isolateScope().isOpen(otherMenu)).toBe(true);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(true);
 
-        element.isolateScope().gotoLink(postMenu);
+        element.isolateScope().activateLink(postMenu);
+        $location.url(postMenu.link());
         scope.$digest();
         expect(element.isolateScope().isOpen(otherMenu)).toBe(false);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(true);
@@ -87,7 +89,8 @@ describe('directive: ma-manu-bar', function () {
         expect(element.isolateScope().isOpen(blogMenu)).toBe(false);
 
         element.isolateScope().toggleMenu(otherMenu);
-        element.isolateScope().gotoLink(tagMenu);
+        element.isolateScope().activateLink(tagMenu);
+        $location.url(tagMenu.link());
         scope.$digest();
         expect(element.isolateScope().isOpen(otherMenu)).toBe(true);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(false);
@@ -97,7 +100,8 @@ describe('directive: ma-manu-bar', function () {
         expect(element.isolateScope().isOpen(otherMenu)).toBe(true);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(true);
 
-        element.isolateScope().gotoLink(postMenu);
+        element.isolateScope().activateLink(postMenu);
+        $location.url(postMenu.link());
         scope.$digest();
         expect(element.isolateScope().isOpen(otherMenu)).toBe(true);
         expect(element.isolateScope().isOpen(blogMenu)).toBe(true);

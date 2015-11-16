@@ -15,17 +15,15 @@ export default function maDeleteButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
-            scope.gotoDelete = () => {
-                var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
-                var params = entityName == $state.params.entity ? $state.params : {};
-                params.entity = entityName;
-                params.id = scope.entry().identifierValue;
-                $state.go($state.get('delete'), params);
-            }
+            var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
+            var stateParams = entityName == $state.params.entity ? { ...$state.params } : {};
+            stateParams.entity = entityName;
+            stateParams.id = scope.entry().identifierValue;
+            scope.stateParams = stateParams;
             scope.label = scope.label || 'Delete';
         },
         template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">
+` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ui-sref="delete(stateParams)">
 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
 </a>`
     };

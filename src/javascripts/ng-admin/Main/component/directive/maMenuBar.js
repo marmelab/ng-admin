@@ -39,7 +39,7 @@ export default function maMenuBar($location, $rootScope, $compile) {
                 // we don't render() in that case because it would cut the animation
                 return;
             }
-            scope.gotoLink = function (menu) {
+            scope.activateLink = function (menu) {
                 if (!menu.link()) {
                     return;
                 }
@@ -50,7 +50,6 @@ export default function maMenuBar($location, $rootScope, $compile) {
                 if (menu.autoClose()) {
                     openMenus = [];
                 }
-                $location.url(menu.link());
             };
             scope.isOpen = function(menu) {
                 return menu.isChildActive(scope.path) || openMenus.indexOf(menu) !== -1;

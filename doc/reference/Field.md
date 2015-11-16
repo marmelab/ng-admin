@@ -122,7 +122,7 @@ A list of CSS classes to be added to the corresponding field. If you provide a f
 
         nga.field('title')
             .cssClasses(function(entry) {
-                if(entry) {
+                if (entry) {
                     return entry.values.needsAttention ? 'bg-warning' : '';
                 }
 
