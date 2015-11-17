@@ -126,12 +126,11 @@ describe('List filter', function () {
 
     describe('reference filter', function() {
         it('should filter on reference', function () {
-            element(by.css('ma-filter-button button')).click();
+            $$('ma-filter-button button').click();
             $$('ma-filter-button ul li:nth-child(2) a').click();
             // Filter on post_id '3' (Perspiciatis adipisci vero qui ipsam iure porro)
-            element(by.css('.filters .ui-select-placeholder')).click();
-            element(by.css('.filters .ui-select-search')).sendKeys('Perspi');
-            element(by.css('#ui-select-choices-row-0-0')).click();
+            $$('.filters .ui-select-placeholder').click();
+            $$('#ui-select-choices-row-0-2').click();
             browser.driver.sleep(600); // debounce delay
             $$('.grid tr td:nth-child(4)').then(function (tdElements) {
                 expect(tdElements.length).toBe(2);
