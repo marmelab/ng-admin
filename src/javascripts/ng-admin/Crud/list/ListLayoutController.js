@@ -23,13 +23,15 @@ export default class ListLayoutController {
         this.loadingPage = false;
         this.filters = view.filters();
         this.search = getCurrentSearchParam($location, this.filters);
+        this.path = $location.path();
         // since search isn't a $stateParam of the listLayout state,
         // the controller doesn't change when the search changes
         // so we must update filter values manually when the location changes
         $scope.$watch(
-            () => $location.search() && $location.search().search ,
+            () => $location.search() && $location.search().search,
             (newval, oldval) => {
                 if (newval === oldval) return;
+                if ($location.path() !== this.path) return; // already transitioned to another page
                 this.search = getCurrentSearchParam($location, this.filters);
                 this.enabledFilters = this.getEnabledFilters();
             }
