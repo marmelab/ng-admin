@@ -135,7 +135,10 @@
                 ]).label('Category'),
                 nga.field('subcategory', 'choice').choices(subCategories).label('Subcategory')
             ])
-            .listActions(['show', 'edit', 'delete']);
+            .listActions(['show', 'edit', 'delete'])
+            .entryCssClasses(function(entry) { // set row class according to entry
+                return (entry.views > 300) ? 'is-popular' : '';
+            });
 
         post.creationView()
             .fields([

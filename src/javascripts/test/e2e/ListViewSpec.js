@@ -161,6 +161,17 @@ describe('ListView', function () {
                 .then(function(element) {
                     expect(element.getText()).toBe('2');
                 });
-        })
-    })
+        });
+    });
+
+    describe('entryCssClasses', function() {
+        it('set the class to the entire row according to the entry', function() {
+            $$('tbody tr')
+            .then(function(rows) {
+                expect(rows[0].getAttribute('class')).toBe('ng-scope is-popular');
+                expect(rows[1].getAttribute('class')).toBe('ng-scope');
+            });
+        });
+    });
+
 });
