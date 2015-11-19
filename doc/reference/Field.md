@@ -12,7 +12,7 @@ A field is the representation of a property of an entity.
 * [`datetime` Field Type](#-datetime-field-type)
 * [`number` Field Type](#-number-field-type)
 * `float` Field Type
-* `boolean` Field Type
+* [`boolean` Field Type](#-boolean-field-type)
 * [`choice` and `choices` Field Types](#-choice-and-choices-field-types)
 * `json` Field Type
 * [`file` Field Type](#-file-field-type)
@@ -232,6 +232,22 @@ Array of choices used for the boolean values. By default:
                 { value: true, label: 'enabled' },
                 { value: false, label: 'disabled' }
             ]);
+
+* `filterChoices(array)`
+Array of choices used for the boolean proposed values in a filter. By default:
+
+        [
+            { value: true, label: 'true' },
+            { value: false, label: 'false' }
+        ]
+
+    Override it with custom labels to fit your needs:
+
+    nga.fields('power_user', 'boolean')
+        .filterChoices([
+            { value: true, label: 'enabled' },
+            { value: false, label: 'disabled' }
+        ]);
 
 ## `choice` and `choices` Field Types
 

@@ -95,7 +95,7 @@ export default class ListLayoutController {
                 continue;
             }
 
-            if ((field.type() === 'boolean' && this.search[fieldName]) || // for boolean false is the same as null
+            if ((field.type() === 'boolean' && fieldName in this.search) || // for boolean false is the same as null
                 (field.type() !== 'boolean' && this.search[fieldName] !== null)) {
                 values[fieldName] = field.getTransformedValue(this.search[fieldName]);
             }
