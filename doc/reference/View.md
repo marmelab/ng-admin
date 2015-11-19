@@ -196,3 +196,11 @@ Add a function to be executed before the view renders.
                 ))
                 .then(authorEntries => datastore.setEntries('authors', authorEntries));
         }])
+
+* `entryCssClasses(String|Function)`
+A list of CSS classes to be added to the rows of the datagrid. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values.
+
+        post.listView()
+            .entryCssClasses(function(entry) {
+                return (entry.views > 300) ? 'is-popular' : '';
+            });

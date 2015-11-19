@@ -110,9 +110,6 @@
             .title('All posts') // default title is "[Entity_name] list"
             .description('List of posts with infinite pagination') // description appears under the title
             .infinitePagination(true) // load pages as the user scrolls
-            .entryCssClasses(function(e) {
-                return (e.views > 300) ? "is-popular" : ""
-            })
             .fields([
                 nga.field('id').label('id'), // The default displayed name is the camelCase field name. label() overrides id
                 nga.field('title'), // the default list field type is "string", and displays as a string
@@ -138,7 +135,10 @@
                 ]).label('Category'),
                 nga.field('subcategory', 'choice').choices(subCategories).label('Subcategory')
             ])
-            .listActions(['show', 'edit', 'delete']);
+            .listActions(['show', 'edit', 'delete'])
+            .entryCssClasses(function(entry) { // set row class according to entry
+                return (entry.views > 300) ? 'is-popular' : '';
+            });
 
         post.creationView()
             .fields([
