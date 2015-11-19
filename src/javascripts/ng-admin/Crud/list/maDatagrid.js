@@ -10,6 +10,7 @@ export default function maDatagrid() {
             fields: '&',
             listActions: '&',
             entity: '&',
+            entryCssClasses: '=',
             datastore: '&',
             sortField: '@',
             sortDir: '@',
@@ -38,7 +39,7 @@ export default function maDatagrid() {
     </thead>
 
     <tbody>
-        <tr ng-repeat="entry in entries track by entry.identifierValue">
+        <tr ng-repeat="entry in entries track by entry.identifierValue" ng-class="getEntryCssClasses(entry)">
             <td ng-if="selection">
                 <ma-datagrid-item-selector toggle-select="toggleSelect(entry)" selection="selection" entry="entry"/>
             </td>
