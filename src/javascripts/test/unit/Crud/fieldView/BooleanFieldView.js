@@ -19,7 +19,7 @@ describe('BooleanFieldView', function() {
     describe('getFilterWidget', function() {
         it('should return choice field directive with true and false choices', function() {
             var widget = BooleanFieldView.getFilterWidget();
-            assert.match(widget, /<ma-choice-field .* choices="\[{value: \'true\', label: \'true\' }, { value: \'false\', label: \'false\' }]"/);
+            assert.match(widget, /<ma-choice-field .* choices="::field\.filterChoices\(\)"/);
         });
     });
 
