@@ -69,12 +69,14 @@ export default class DatagridController {
 
     getEntryCssClasses(entry) {
         var entryCssClasses = this.$scope.entryCssClasses;
-
-        if (entryCssClasses) {
-            return entryCssClasses(entry.values);
-        } else {
-            return '';
+        if (typeof entryCssClasses !== 'function') {
+            return;
         }
+        var getEntryCssClasses = entryCssClasses();
+        if (typeof getEntryCssClasses !== 'function') {
+            return;
+        }
+        return getEntryCssClasses(entry.values);
     }
 
     toggleSelect(entry) {

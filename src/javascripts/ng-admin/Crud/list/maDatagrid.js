@@ -10,7 +10,7 @@ export default function maDatagrid() {
             fields: '&',
             listActions: '&',
             entity: '&',
-            entryCssClasses: '=',
+            entryCssClasses: '&?',
             datastore: '&',
             sortField: '@',
             sortDir: '@',
