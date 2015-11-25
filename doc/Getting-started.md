@@ -47,7 +47,7 @@ var myApp = angular.module('myApp', ['ng-admin']);
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
     var admin = nga.application('My First Admin');
-    // more configuation here later
+    // more configuration here later
     // ...
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
@@ -155,7 +155,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         nga.field('email')
     ]);
     // add the user entity to the admin application
-    admin.addEntity(user)
+    admin.addEntity(user);
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
 }]);
@@ -270,7 +270,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         nga.field('title'),
         nga.field('userId')
     ]);
-    admin.addEntity(post)
+    admin.addEntity(post);
 
     nga.configure(admin);
 }]);
@@ -294,7 +294,7 @@ post.listView().fields([
         .targetField(nga.field('username'))
         .label('User')
 ]);
-admin.addEntity(post)
+admin.addEntity(post);
 ```
 
 ![Mapped post list view with related user](images/mapped_post_list_view_with_related_user.png)
@@ -307,7 +307,7 @@ The syntax of the reference definition may seem strange, let's take a closer loo
 nga.field('userId', 'reference')
     .targetEntity(user)
     .targetField(nga.field('username'))
-    .label('User')
+    .label('User');
 ```
 
 `nga.field()` returns an instance of the Field object. As the type is specified, it's a `ReferenceField` object. The `targetEntity()` method allows to set the endpoint to use to fetch the related entity. It expects an entity object, and returns the current reference field object. That way, you can chain the call to the `targetField()` method, which defines the field of the target entity that should be displayed instead of the user id. `targetField()` also returns the `ReferenceField` object, so the `label()` method can be called inline.
@@ -370,7 +370,7 @@ user.creationView().fields([
 ]);
 // use the same fields for the editionView as for the creationView
 user.editionView().fields(user.creationView().fields());
-admin.addEntity(user)
+admin.addEntity(user);
 ```
 
 The fields of the creation view map the structure of a typical user from the JSONPlaceholder response:
@@ -610,7 +610,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             nga.field('name').isDetailLink(true),
             nga.field('username'),
             nga.field('email')
-        ])
+        ]);
     user.creationView().fields([
         nga.field('name')
             .validation({ required: true, minlength: 3, maxlength: 100 }),
@@ -679,7 +679,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .sortField('id')
             .sortDir('DESC'),
     ]);
-    admin.addEntity(post)
+    admin.addEntity(post);
 
     admin.menu(nga.menu()
         .addChild(nga.menu(user).icon('<span class="glyphicon glyphicon-user"></span>'))
