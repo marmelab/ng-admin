@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 export default class DatagridPaginationController {
     constructor($scope) {
         this.$scope = $scope;

@@ -1,3 +1,4 @@
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 function getEntrySources(sources) {
@@ -8,23 +9,11 @@ function getEntrySources(sources) {
     return sources;
 }
 
-var ngAdminSources = [
-    './src/javascripts/ng-admin.js',
-    './src/sass/ng-admin.scss'
+var ngAdminJsSources = [
+    './src/javascripts/ng-admin.js'
 ];
 
-var ngAdminAndVendorSources = [
-    'angular/angular.js',
-    './src/javascripts/ng-admin.js',
-    './src/javascripts/vendors.js',
-    'font-awesome/scss/font-awesome.scss',
-    'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-    'nprogress/nprogress.css',
-    'humane-js/themes/flatty.css',
-    'textangular/src/textAngular.css',
-    'codemirror/lib/codemirror.css',
-    'codemirror/addon/lint/lint.css',
-    'ui-select/dist/select.css',
+var ngAdminCssSources = [
     './src/sass/ng-admin.scss'
 ];
 
@@ -40,14 +29,13 @@ var vendorsCssSources = [
     'textangular/src/textAngular.css',
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
-    'ui-select/dist/select.css',
-    './src/sass/ng-admin.scss'
+    'ui-select/dist/select.css'
  ];
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(ngAdminAndVendorSources),
-        'ng-admin-only': getEntrySources(ngAdminSources),
+        'ng-admin': getEntrySources(['angular'].concat(vendorsJsSources.concat(ngAdminJsSources).concat(vendorsCssSources).concat(ngAdminCssSources))),
+        'ng-admin-only': getEntrySources(ngAdminJsSources.concat(ngAdminCssSources)),
         'ng-admin-vendors-js': getEntrySources(vendorsJsSources),
         'ng-admin-vendors-css': getEntrySources(vendorsCssSources)
     },
@@ -57,9 +45,6 @@ module.exports = {
     } : {
         publicPath: "http://localhost:8000/",
         filename: "build/[name].min.js"
-    },
-    externals: {
-        'angular': 'angular'
     },
     module: {
         loaders: [
@@ -75,5 +60,5 @@ module.exports = {
         new ExtractTextPlugin('build/[name].min.css', {
             allChunks: true
         })
-    ]
+    ],
 };

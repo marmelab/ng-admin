@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 var CrudModule = angular.module('crud', [
     'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
 ]);
@@ -86,18 +84,17 @@ CrudModule.config(require('./routing'));
 CrudModule.config(require('./config/factories'));
 
 CrudModule.factory('Papa', function () {
-    return require('papaparse');
+    return global.Papa;
 });
 
 CrudModule.factory('notification', function () {
-    var humane = require('humane-js');
-    humane.timeout = 5000;
-    humane.clickToClose = true;
+    global.humane.timeout = 5000;
+    global.humane.clickToClose = true;
     return humane;
 });
 
 CrudModule.factory('progression', function () {
-    return require('nprogress');
+    return global.NProgress;
 });
 
 CrudModule.run(['Restangular', 'NgAdminConfiguration', function(Restangular, NgAdminConfiguration) {
