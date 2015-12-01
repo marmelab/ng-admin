@@ -515,7 +515,7 @@ post.editionView().fields([
 ]);
 ```
 
-As such, a `referenced_lists` field is the opposite of a `reference` field. `referenced_lists` fields are not editable (because the relationship is the other entity's responsibility), so they render the same in all contexts: as a datagrid. However, they are only useful in `showView` and `editionView` (you can't display a datagrid in a datagrid, so this excludes the `listView`, and you can't fetch related entities to a non-existent entity, so this excludes the `creationView`). For that field, ng-admin fetches the related entities in a single query with a filter:
+As such, a `referenced_list` field is the opposite of a `reference` field. `referenced_list` fields are not editable (because the relationship is the other entity's responsibility), so they render the same in all contexts: as a datagrid. However, they are only useful in `showView` and `editionView` (you can't display a datagrid in a datagrid, so this excludes the `listView`, and you can't fetch related entities to a non-existent entity, so this excludes the `creationView`). For that field, ng-admin fetches the related entities in a single query with a filter:
 
 ```
 GET /posts/456 <= get the main entity
@@ -694,7 +694,7 @@ var comment = nga.entity('comments');
 post.editionView().fields([
     nga.field('comments', 'reference_many') // Define a 1-N relationship with the comment entity
         .targetEntity(comment) // Target the comment Entity
-        .targetFieldField('body') // the field of the comment entity to use as representation
+        .targetField('body') // the field of the comment entity to use as representation
 ]);
 ```
 
