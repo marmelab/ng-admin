@@ -1,6 +1,6 @@
 # Adding Custom Pages
 
-For each entity, ng-admin creates the necessary pages for Creating, Retieving, Updating, and Deleting (CRUD) this entity. When you need to achieve more specific actions on an entity, you have to add a custom page - for instance a page asking for an email address to send a message to. How can you route to a specific page and display it in the ng-admin layout?
+For each entity, ng-admin creates the necessary pages for Creating, Retrieving, Updating, and Deleting (CRUD) this entity. When you need to achieve more specific actions on an entity, you have to add a custom page - for instance a page asking for an email address to send a message to. How can you route to a specific page and display it in the ng-admin layout?
 
 ## Adding a Route
 
