@@ -5,7 +5,7 @@
                 <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
             </ma-view-actions>
             <h1 compile="::deleteController.title">
-                Delete {{ ::deleteController.view.entity.name() | humanize:true | singularize }}  #{{ ::entry.identifierValue }}
+                Delete {{ ::deleteController.view.entity.label() | humanize:true | singularize }}  #{{ ::entry.identifierValue }}
             </h1>
             <p class="lead" ng-if="::deleteController.description" compile="::deleteController.description">{{ ::deleteController.description }}</p>
         </div>

@@ -10,7 +10,7 @@
             </ma-view-actions>
 
             <h1 compile="::llCtrl.view.title()">
-                {{ ::llCtrl.view.entity.name() | humanize | pluralize }} list
+                {{ ::llCtrl.view.entity.label() | humanize | pluralize }} list
             </h1>
             <p class="lead" ng-if="::llCtrl.view.description()" compile="::llCtrl.view.description()">{{ ::llCtrl.view.description() }}</p>
         </div>
