@@ -13,11 +13,10 @@ build:
 	@cp -Rf build examples/blog/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
-test:
-	@./node_modules/.bin/grunt test:local
-
 test-unit:
-	@./node_modules/.bin/grunt karma
+	@./node_modules/.bin/karma start src/javascripts/test/karma.conf.js --single-run
 
 test-e2e:
-	@./node_modules/.bin/grunt test:local:e2e
+	@./node_modules/.bin/grunt test:e2e
+
+test: test-unit test-e2e

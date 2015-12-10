@@ -46,12 +46,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        karma: {
-            unit: {
-                configFile: 'src/javascripts/test/karma.conf.js',
-                singleRun: process.env.KARMA_SINGLE_RUN !== 'false'
-            }
-        },
         protractor: {
             e2e: {
                 configFile: 'src/javascripts/test/protractor.conf.js',
@@ -68,13 +62,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-protractor-runner');
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['karma', 'test:e2e']);
     grunt.registerTask('test:e2e', ['test:e2e:prepare', 'connect:test', 'protractor']);
     grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build', 'copy:test_fakerest', 'copy:test_sinon_server']);
 
-    grunt.registerTask('test:local', ['karma', 'test:local:e2e']);
-    grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'connect:test', 'protractor']);
 };
