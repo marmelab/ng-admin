@@ -19,7 +19,8 @@ export default function maReferencedListColumn(NgAdminConfiguration) {
     fields="::field.targetFields()"
     list-actions="::field.listActions()"
     entity="::entity"
-    datastore="::datastore()">
+    datastore="::datastore()"
+    entry-css-classes="::field.entryCssClasses()">
 </ma-datagrid>`
     };
 }
