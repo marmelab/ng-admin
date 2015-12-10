@@ -31,7 +31,7 @@ Here is a snippet showing all required scripts:
 <script src="node_modules/angular-numeraljs/dist/angular-numeraljs.min.js"></script>
 <script src="node_modules/humane/humane.js"></script>
 <script src="node_modules/inflection/inflection.min.js"></script>
-<script src="node_modules/lodash/lodash.min.js"></script>
+<script src="node_modules/underscore/underscore-min.js"></script>
 <script src="node_modules/ng-file-upload/ng-file-upload-all.min.js"></script>
 <script src="node_modules/ngInflection/ngInflection.js"></script>
 <script src="node_modules/nprogress/nprogress.js"></script>
@@ -62,4 +62,3 @@ Here is a snippet showing all required scripts:
     Ng-admin library is already compatible with `ng-strict-di`, but you have to explicitly declare dependencies on your custom application code.
 
     See the [Angular documentation for production](https://docs.angularjs.org/guide/production) for more details about this tweak.
-
