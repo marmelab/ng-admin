@@ -44,7 +44,7 @@ export default function ViewActions($injector) {
     <ma-show-button ng-switch-when="show" entry="entry" entity="entity"></ma-show-button>
     <ma-edit-button ng-switch-when="edit" entry="entry" entity="entity"></ma-edit-button>
     <ma-delete-button ng-switch-when="delete" entry="entry" entity="entity"></ma-delete-button>
-    <ma-export-to-csv-button ng-switch-when="export" datastore="datastore" entity="entity" search="search"></ma-export-to-csv-button>
+    <ma-export-to-csv-button ng-switch-when="export" datastore="datastore" entity="entity"></ma-export-to-csv-button>
     <span ng-switch-default><span compile="button"></span></span>
 </span>`
     };
