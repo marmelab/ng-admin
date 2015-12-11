@@ -20,7 +20,7 @@ admin.dashboard(nga.dashboard()
 );
 ```
 
-The dashboard configuration defines the dashboard datasources, using `Collection` definitions. To create a collection for an entity, simply call `nga.collection(entity)`. 
+The dashboard configuration defines the dashboard datasources, using `Collection` definitions. To create a collection for an entity, simply call `nga.collection(entity)`.
 
 On each collection, you can define the same type of settings as in a `listView`: title, fields, number of rows (`perPage()`), sorting order (`sortField()` and `sortDir()`), and list actions. In addition, you can customize the position of the collection in the dashboard using the `order()` function:
 
@@ -116,12 +116,12 @@ Here is a copy of the default dashboard template, which you can use as a startin
 <div class="row dashboard-content">
     <div class="col-lg-6">
         <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$even">
-            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="panel panel-default" ng-repeat="collection in dashboardController.collections | orderElement" ng-if="$odd">
-            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="collection" entries="dashboardController.entries[collection.name()]" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
     </div>
 </div>
@@ -142,15 +142,15 @@ For instance, here is how you can setup a dashboard with a full-width panel for 
 <div class="row dashboard-content">
     <div class="col-lg-6">
         <div class="panel panel-green">
-            <ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
         <div class="panel panel-green">
-            <ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="panel panel-yellow">
-            <ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags"></ma-dashboard-panel>
+            <ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags" datastore="dashboardController.datastore"></ma-dashboard-panel>
         </div>
     </div>
 </div>
