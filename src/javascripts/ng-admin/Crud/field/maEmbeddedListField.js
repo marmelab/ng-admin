@@ -27,6 +27,7 @@ export default function maEmbeddedListField() {
                     filterFunc = () => true;
                 }
                 scope.fields = targetFields;
+                scope.targetEntity = targetEntity;
                 scope.entries = Entry
                     .createArrayFromRest(scope.value || [], targetFields, targetEntityName, targetEntity.identifier().name())
                     .sort((entry1, entry2) => {
@@ -53,7 +54,7 @@ export default function maEmbeddedListField() {
                 <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Remove</a>
         </div>
         <div class="form-field form-group" ng-repeat="field in ::fields track by $index">
-            <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formName" datastore="::datastore()"></ma-field>
+            <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="formName" datastore="::datastore()"></ma-field>
         </div>
         <hr/>
     </ng-form>
