@@ -272,6 +272,10 @@ div.bottom-loader {
         }
     }
 
+    .ng-admin-type-embedded_list .ng-admin-type-boolean ma-choice-field {
+        min-width: 12em;
+    }
+
     &#show-view {
         .label-default {
             margin-right: 5px;
