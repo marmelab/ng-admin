@@ -52,11 +52,15 @@ export default class FormController {
         this.WriteQueries
             .createOne(view, restEntry)
             .then(rawEntry => {
+                this.$scope.$emit('ng-admin.creation.success', {sentRestEntry: restEntry, newRestEntry: rawEntry});
                 this.progression.done();
                 this.notification.log('Element successfully created.', { addnCls: 'humane-flatty-success' });
                 var entry = view.mapEntry(rawEntry);
                 this.$state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue });
-            }, this.handleError.bind(this));
+            }, response => {
+                this.$scope.$emit('ng-admin.creation.error', {sentRestEntry: restEntry, response: response});
+                this.handleError(response);
+            });
     }
 
     submitEdition($event) {
@@ -69,10 +73,14 @@ export default class FormController {
         this.progression.start();
         this.WriteQueries
             .updateOne(view, restEntry, this.originEntityId)
-            .then(() => {
+            .then(updatedRestEntry => {
+                this.$scope.$emit('ng-admin.edition.success', {sentRestEntry: restEntry, updatedRestEntry: updatedRestEntry});
                 this.progression.done();
                 this.notification.log('Changes successfully saved.', { addnCls: 'humane-flatty-success' });
-            }, this.handleError.bind(this));
+            }, response => {
+                this.$scope.$emit('ng-admin.edition.error', {sentRestEntry: restEntry, response: response});
+                this.handleError(response);
+            });
     }
 
     /**
