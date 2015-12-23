@@ -131,7 +131,7 @@ array of FKeys in post | read context     | write context
 tags for post          | `reference_many` | `reference_many`
 post for tag           | N/A              | N/A
 
-* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to show the comments related to a post in a ` listView`, a `showView`, or an `editionView`.
+* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to show the tags related to a post in a ` listView`, a `showView`, or an `editionView`.
 
         post.listView().fields([
             // ...
@@ -143,7 +143,7 @@ post for tag           | N/A              | N/A
 
 ![reference_many in listView](images/reference_many_in_listView.png)
 
-* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to add or remove comments to a post in the post `editionView`.
+* Use the [`reference_many` type](reference/Field.md#reference_many-field-type) to add or remove tags to a post in the post `editionView`.
 
         post.editionView().fields([
             // ...
@@ -159,9 +159,9 @@ post for tag           | N/A              | N/A
 
 ![reference_many in an editionView](images/reference_many_in_editionView.png)
 
-When displaying a comment:
+When displaying a tag:
 
-* Ng-admin doesn't provide the ability to show the post related to a comment in a `listView` or `showView`.
+* Ng-admin doesn't provide the ability to show the post related to a tag in a `listView` or `showView`.
 * Ng-admin doesn't provide the ability to let the user choose the related post in a `creationView` or an `editionView`.
 
 **Note**: APIs often use arrays of foreign keys to render a many-to-many relationship (the other side of the relationship can also contain an array of foreign keys).
