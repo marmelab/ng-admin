@@ -59,8 +59,7 @@ export default function maExportToCsvButton ($stateParams, Papa, notification, A
                         var csv = Papa.unparse(results);
                         var fakeLink = document.createElement('a');
                         document.body.appendChild(fakeLink);
-
-                        fakeLink.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csv));
+                        fakeLink.setAttribute('href', 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csv));
                         fakeLink.setAttribute('download', scope.entity.name() + '.csv');
                         fakeLink.click();
                     }, function (error) {
