@@ -26,6 +26,7 @@
 
         // use the custom query parameters function to format the API request correctly
         RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+
             if (operation === 'getList') {
                 // custom pagination params
                 if (params._page) {
@@ -60,6 +61,7 @@
 
             return data;
         });
+
     }]);
 
     // Admin definition
@@ -88,6 +90,10 @@
         var tag = nga.entity('tags')
             .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
 
+        var settings = nga.entity('settings')
+            .singleton()
+            .baseApiUrl('http://localhost:3000/');
+
         var subCategories = [
             { category: 'tech', label: 'Computers', value: 'computers' },
             { category: 'tech', label: 'Gadgets', value: 'gadgets' },
@@ -99,7 +105,8 @@
         admin
             .addEntity(post)
             .addEntity(tag)
-            .addEntity(comment);
+            .addEntity(comment)
+            .addEntity(settings);
 
         // customize entities and views
 
@@ -384,6 +391,16 @@
                 nga.field('published', 'boolean')
             ]);
 
+        /*********************************
+         * settings entity customization *
+         *********************************/
+        settings.editionView()
+            .fields([
+                nga.field('theme'),
+                nga.field('ratelimit', 'float'), 
+            ]);
+        settings.showView().fields(settings.editionView().fields());
+
         // customize header
         var customHeaderTemplate =
         '<div class="navbar-header">' +
@@ -404,6 +421,7 @@
             .addChild(nga.menu(post).icon('<span class="glyphicon glyphicon-file"></span>')) // customize the entity menu icon
             .addChild(nga.menu(comment).icon('<strong style="font-size:1.3em;line-height:1em">✉</strong>')) // you can even use utf-8 symbols!
             .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
+            .addChild(nga.menu(settings).icon('<span class="glyphicon glyphicon-cog"></span>'))
             .addChild(nga.menu().title('Other')
                 .addChild(nga.menu().title('Stats').icon('').link('/stats'))
             )
