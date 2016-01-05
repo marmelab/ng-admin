@@ -3,7 +3,7 @@
   "version": "1.0.0-dev",
   "license": "MIT",
   "private": false,
-  "main": "build/ng-admin.min.js",
+  "main": "build/ng-admin.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/marmelab/ng-admin.git"
