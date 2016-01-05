@@ -183,6 +183,8 @@ Enable HTML sanitization of WYSIWYG Editor value (removal of script tags, etc). 
 
 ## `date` Field Type
 
+Only dates represented by a string (e.g "2015-12-08") are handled by the `date` field type. For an API returning timestamps, add an element interceptor to convert the value to a string.
+
 * `format(string ['yyyy-MM-dd' by default])`
 
 This method uses the Angular `date` filter. Thus, as explained in the [Angular documentation](https://docs.angularjs.org/api/ng/filter/date), input date should be in a normalized format:
@@ -193,6 +195,8 @@ This method uses the Angular `date` filter. Thus, as explained in the [Angular d
 Filter applied to modify date object returned by date picker if needed.
 
 ## `datetime` Field Type
+
+Only dates represented by a string (e.g "2015-12-08T23:00:00.000Z") are handled by the `datetime` field type. For an API returning timestamps, add an element interceptor to convert the value to a string.
 
 * `format(string ['yyyy-MM-dd HH:mm:ss' by default])`
 
