@@ -19,6 +19,7 @@ application
     |-label
     |-baseApiUrl
     |-readOnly
+    |-singleton
     |-creationView
     |-editionView
     |-deletionView

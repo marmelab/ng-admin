@@ -26,6 +26,11 @@ A read-only entity doesn't allow access to the mutation views (editionView, crea
 
         var tag = nga.entity('tags').readOnly();
 
+* `singleton()`
+A signleton entity represents a single instance that can be edited, but not created or destroyed. Enabling this removes access to listView, creationView and deletionView, while editionView and showView become accessible at /:entity rather than /:entity/:id.
+
+        var settings = nga.entity('settings').singleton();
+
 * `baseApiUrl()`
 Defines the base API endpoint for all views of this entity
 

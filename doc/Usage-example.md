@@ -1,6 +1,6 @@
 # Usage Examples
 
-* The [blog admin demo](http://ng-admin.marmelab.com/#/dashboard) ([source](examples/blog/config.js)) is a basic, single file configuration. The model is simple: posts, comments, and tags entities. The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
+* The [blog admin demo](http://ng-admin.marmelab.com/#/dashboard) ([source](examples/blog/config.js)) is a basic, single file configuration. The model is simple: posts, comments, tags and settings entities. The remote REST API is simulated in the browser, using [FakeRest](https://github.com/marmelab/FakeRest).
 
 [![blog demo](images/blog_demo.png)](http://ng-admin.marmelab.com/#/dashboard)
 
