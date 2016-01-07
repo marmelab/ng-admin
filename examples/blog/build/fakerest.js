@@ -1,1 +1,0 @@
-../../../node_modules/fakerest/dist/FakeRest.min.js
