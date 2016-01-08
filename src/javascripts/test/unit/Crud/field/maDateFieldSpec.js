@@ -44,7 +44,7 @@ describe('directive: date-field', function() {
         scope.value = date;
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.find('input').eq(0).attr('datepicker-popup')).toBe('yyyy-MM');
+        expect(element.find('input').eq(0).attr('uib-datepicker-popup')).toBe('yyyy-MM');
     });
 
     it("should add any supplied attribute", function () {
