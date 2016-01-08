@@ -25,7 +25,7 @@ export default function maViewBatchActionsDirective($injector) {
         },
         // the ng-class hidden is necessary to hide the inner blank space used for spacing buttons when the selection is not empty
         template:
-`<span ng-if="selection" ng-class="{hidden:!selection || selection.length==0}"> <span class="btn-group" dropdown is-open="isopen"><button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" dropdown-toggle >
+`<span ng-if="selection" ng-class="{hidden:!selection || selection.length==0}"> <span class="btn-group" uib-dropdown is-open="isopen"><button type="button" ng-if="selection.length" class="btn btn-default dropdown-toggle" uib-dropdown-toggle >
             {{ selection.length }} Selected <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">

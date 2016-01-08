@@ -13,8 +13,8 @@ export default function maFilterButton() {
             scope.hasFilters = () => scope.notYetEnabledFilters().length > 0;
         },
         template:
-`<span class="btn-group" dropdown is-open="isopen" ng-if="hasFilters()">
-    <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >
+`<span class="btn-group" uib-dropdown is-open="isopen" ng-if="hasFilters()">
+    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle >
         <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">Add filter </span><span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">

@@ -22,8 +22,7 @@ Here is a snippet showing all required scripts:
 <link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin-only.min.css" />
 
 <script src="node_modules/angular/angular.js"></script>
-<script src="node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="node_modules/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 <script src="node_modules/angular-resource/angular-resource.min.js"></script>
 <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="node_modules/angular-ui-codemirror/ui-codemirror.min.js"></script>
