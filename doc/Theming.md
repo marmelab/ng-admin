@@ -181,3 +181,32 @@ entity.errorMessage(function (response) {
     return 'Global error: ' + response.status + '(' + response.data + ')';
 });
 ```
+
+## Events
+
+Some events are available when creating or updating an entity :
+
+- `ng-admin.creation.success`
+- `ng-admin.creation.error`
+- `ng-admin.edition.success`
+- `ng-admin.edition.error`
+
+Example :
+
+```js
+angular.module('my_module', [])
+    .run(function($rootScope) {
+        $rootScope.$on('ng-admin.edition.error', function(event, args) {
+            if (angular.isUndefined(args.response.data.violations)) {
+                return;
+            }
+
+            var form = event.targetScope.formController.form;
+            angular.forEach(args.response.data.violations, function(violation) {
+                if (angular.isDefined(form[violation.propertyPath])) {
+                    form[violation.propertyPath].$valid = false;
+                }
+            });
+        });
+    });
+```
