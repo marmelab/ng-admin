@@ -20,9 +20,9 @@ export default function maListActions() {
         template:
 `<span compile="customTemplate">
     <span ng-repeat="button in ::buttons" ng-switch="button">
-        <ma-show-button ng-switch-when="show" entry="::entry" entity="::entity" size="xs"></ma-show-button>
-        <ma-edit-button ng-switch-when="edit" ng-if="::entity.editionView().enabled" entry="::entry" entity="::entity" size="xs"></ma-edit-button>
-        <ma-delete-button ng-switch-when="delete" ng-if="::entity.deletionView().enabled" entry="::entry" entity="::entity" size="xs"></ma-delete-button>
+        <ma-show-button ng-switch-when="show" entity="::entity" size="xs"></ma-show-button>
+        <ma-edit-button ng-switch-when="edit" ng-if="::entity.editionView().enabled" entity="::entity" size="xs"></ma-edit-button>
+        <ma-delete-button ng-switch-when="delete" ng-if="::entity.deletionView().enabled" entity="::entity" size="xs"></ma-delete-button>
         <span ng-switch-default><span compile="button"></span></span>
     </span>
 </span>`
