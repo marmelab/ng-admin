@@ -6,8 +6,7 @@ describe('directive: ma-datagrid-multi-selector', function () {
         Entry = require('admin-config/lib/Entry'),
         $compile,
         scope,
-        directiveUsage = '<ma-datagrid-multi-selector entries="entries" selection="selection"></ma-datagrid-multi-selector>'
-    ;
+        directiveUsage = '<ma-datagrid-multi-selector entries="entries" selection="selection"></ma-datagrid-multi-selector>';
 
     angular.module('testapp_DatagridMultiSelector', [])
         .directive('maDatagridMultiSelector', directive);

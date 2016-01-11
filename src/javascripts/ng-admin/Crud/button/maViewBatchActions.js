@@ -1,6 +1,4 @@
-export default function maViewBatchActionsDirective($injector) {
-    var $compile = $injector.get('$compile');
-
+export default function maViewBatchActionsDirective() {
     return {
         restrict: 'E',
         scope: {
@@ -43,4 +41,4 @@ export default function maViewBatchActionsDirective($injector) {
     };
 }
 
-maViewBatchActionsDirective.$inject = ['$injector'];
+maViewBatchActionsDirective.$inject = [];

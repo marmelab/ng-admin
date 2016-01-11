@@ -96,7 +96,7 @@ function routing($stateProvider, $urlRouterProvider) {
                     })(collection, collectionSortField, collectionSortDir);
                 }
 
-                return $q.all(promises)
+                return $q.all(promises);
             }],
             entries: ['responses', 'collections', function(responses, collections) {
                 var collectionName,

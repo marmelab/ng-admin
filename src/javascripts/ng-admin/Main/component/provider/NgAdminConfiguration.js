@@ -9,13 +9,13 @@ export default class NgAdminConfiguration {
         this.adminDescription = adminDescription;
     }
 
-    configure (config) {
+    configure(config) {
         this.config = config;
 
         this.$compileProvider.debugInfoEnabled(this.config.debug());
     }
 
-    $get () {
+    $get() {
         var config = this.config;
         return function () {
             return config;

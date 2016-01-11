@@ -8,7 +8,7 @@
  * @constructor
  */
 export default function WriteQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-    return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration())
+    return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration());
 }
 
 WriteQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];

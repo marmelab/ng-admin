@@ -59,7 +59,7 @@ export default class DeleteController {
         this.$window.history.back();
     }
 
-    destroy () {
+    destroy() {
         this.$scope = undefined;
         this.WriteQueries = undefined;
         this.view = undefined;

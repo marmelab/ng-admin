@@ -32,8 +32,12 @@ export default function maEmbeddedListField() {
                     .createArrayFromRest(scope.value || [], targetFields, targetEntityName, targetEntity.identifier().name())
                     .sort((entry1, entry2) => {
                         // use < and > instead of substraction to sort strings properly
-                        if (entry1.values[sortField] > entry2.values[sortField]) return sortDir;
-                        if (entry1.values[sortField] < entry2.values[sortField]) return -1 * sortDir;
+                        if (entry1.values[sortField] > entry2.values[sortField]) {
+                            return sortDir;
+                        }
+                        if (entry1.values[sortField] < entry2.values[sortField]) {
+                            return -1 * sortDir;
+                        }
                         return 0;
                     })
                     .filter(filterFunc);
@@ -42,7 +46,9 @@ export default function maEmbeddedListField() {
                     scope.entries = scope.entries.filter(e => e !== entry);
                 };
                 scope.$watch('entries', (newEntries, oldEntries) => {
-                    if (newEntries === oldEntries) return;
+                    if (newEntries === oldEntries) {
+                        return;
+                    }
                     scope.value = newEntries.map(e => e.transformToRest(targetFields));
                 }, true);
             }

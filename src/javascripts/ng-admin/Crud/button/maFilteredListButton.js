@@ -17,7 +17,7 @@
  *   .label('')
  *   .template('<ma-filtered-list-button entity-name="comments" filter="{ post_id: entry.values.id }"></ma-filtered-list-button>')
  */
-export default function maFilteredListButtonDirective($state) {
+export default function maFilteredListButtonDirective() {
     return {
         restrict: 'E',
         scope: {
@@ -37,4 +37,4 @@ export default function maFilteredListButtonDirective($state) {
     };
 }
 
-maFilteredListButtonDirective.$inject = ['$state'];
+maFilteredListButtonDirective.$inject = [];
