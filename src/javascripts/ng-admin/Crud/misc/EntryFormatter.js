@@ -41,8 +41,7 @@ export default class EntryFormatter {
                 };
             case 'number':
             case 'float':
-                var format = field.format();
-                var formatNumber = this.formatNumber(format);
+                var formatNumber = this.formatNumber(field.format());
                 return function (entry) {
                     return {
                         name: label,
@@ -82,11 +81,15 @@ export default class EntryFormatter {
         return function formatEntry(entry) {
             var result = {};
             fieldsFormatters.map(function (formatter) {
-                if (!formatter) return;
+                if (!formatter) {
+                    return;
+                }
                 return formatter(entry);
             })
             .forEach(function (field) {
-                if (!field) return;
+                if (!field) {
+                    return;
+                }
                 result[field.name] = field.value;
             });
 

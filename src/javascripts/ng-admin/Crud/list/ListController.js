@@ -62,7 +62,7 @@ export default class ListController {
                         [references[name].targetField()],
                         references[name].targetEntity().name(),
                         references[name].targetEntity().identifier().name()
-                    ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                    ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                 }
             })
             .then(() => {

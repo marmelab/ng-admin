@@ -12,7 +12,7 @@ export default function maReferenceColumn() {
                 scope.field = scope.field();
                 scope.targetEntity = scope.field.targetEntity();
                 scope.targetField = scope.field.targetField();
-                const identifierName = scope.targetEntity.identifier().name()
+                const identifierName = scope.targetEntity.identifier().name();
                 scope.referencedEntry = scope.datastore()
                     .getFirstEntry(scope.targetEntity.uniqueId + '_values', entry => entry.values[identifierName] == value);
             }

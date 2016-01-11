@@ -26,7 +26,7 @@ export default function Compile($injector) {
 
                     if (attrs.compileOnce == 'true') {
                         unbindWatcher();
-                    };
+                    }
                 }
             );
         }

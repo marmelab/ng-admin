@@ -8,7 +8,7 @@
  * @constructor
  */
 export default function ReadQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-    return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration())
+    return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration());
 }
 
 ReadQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];

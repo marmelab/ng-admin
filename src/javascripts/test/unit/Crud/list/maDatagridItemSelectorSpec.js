@@ -6,8 +6,7 @@ describe('directive: ma-datagrid-item-selector', function () {
         Entry = require('admin-config/lib/Entry'),
         $compile,
         scope,
-        directiveUsage = '<ma-datagrid-item-selector entry="entry" selection="selection"></ma-datagrid-item-selector>'
-    ;
+        directiveUsage = '<ma-datagrid-item-selector entry="entry" selection="selection"></ma-datagrid-item-selector>';
 
     angular.module('testapp_DatagridItemSelector', [])
         .directive('maDatagridItemSelector', directive);
@@ -56,5 +55,4 @@ describe('directive: ma-datagrid-item-selector', function () {
         scope.$digest();
         expect(element.children()[0].checked).toBe(false);
     });
-
 });

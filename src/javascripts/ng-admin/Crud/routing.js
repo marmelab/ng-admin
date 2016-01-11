@@ -1,21 +1,25 @@
-import DataStore  from 'admin-config/lib/DataStore/DataStore'
-import Entry  from 'admin-config/lib/Entry'
-import batchDeleteTemplate  from './delete/batchDelete.html'
-import deleteTemplate  from './delete/delete.html'
-import createTemplate  from './form/create.html'
-import editTemplate  from './form/edit.html'
-import listTemplate  from './list/list.html'
-import listLayoutTemplate  from './list/listLayout.html'
-import showTemplate  from './show/show.html'
+import DataStore  from 'admin-config/lib/DataStore/DataStore';
+import Entry  from 'admin-config/lib/Entry';
+import batchDeleteTemplate  from './delete/batchDelete.html';
+import deleteTemplate  from './delete/delete.html';
+import createTemplate  from './form/create.html';
+import editTemplate  from './form/edit.html';
+import listTemplate  from './list/list.html';
+import listLayoutTemplate  from './list/listLayout.html';
+import showTemplate  from './show/show.html';
 
 function templateProvider(viewName, defaultView) {
     return ['$stateParams', 'NgAdminConfiguration', function ($stateParams, Configuration) {
         var customTemplate;
         var view = Configuration().getViewByEntityAndType($stateParams.entity, viewName);
         customTemplate = view.template();
-        if (customTemplate) return customTemplate;
+        if (customTemplate) {
+            return customTemplate;
+        }
         customTemplate = Configuration().customTemplate()(viewName);
-        if (customTemplate) return customTemplate;
+        if (customTemplate) {
+            return customTemplate;
+        }
         return defaultView;
     }];
 }
@@ -175,7 +179,7 @@ function routing($stateProvider) {
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                     }
                 }],
                 referencedListData: ['$stateParams', 'ReadQueries', 'view', 'entry', function ($stateParams, ReadQueries, view, entry) {
@@ -189,7 +193,7 @@ function routing($stateProvider) {
                             referencedLists[name].targetFields(),
                             referencedLists[name].targetEntity().name(),
                             referencedLists[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry))
+                        ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry));
                     }
                 }],
                 entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function(dataStore, view, entry, referenceEntries) {
@@ -202,22 +206,24 @@ function routing($stateProvider) {
                     Object.keys(referencedLists).map(name => {
                         promises[name] = ReadQueries.getReferenceData(referencedLists[name].targetFields(), referencedListData[name]);
                     });
-                    return $q.all(promises)
+                    return $q.all(promises);
                 }],
                 referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function(dataStore, view, referenceDataForReferencedLists) {
                     const referencedLists = view.getReferencedLists();
                     Object.keys(referencedLists).map(referencedListName => {
                         const references = referencedLists[referencedListName].getReferences();
                         for (var name in references) {
-                            if (!referenceDataForReferencedLists[referencedListName][name]) continue;
+                            if (!referenceDataForReferencedLists[referencedListName][name]) {
+                                continue;
+                            }
                             Entry.createArrayFromRest(
                                 referenceDataForReferencedLists[referencedListName][name],
                                 [references[name].targetField()],
                                 references[name].targetEntity().name(),
                                 references[name].targetEntity().identifier().name()
-                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                         }
-                    })
+                    });
                     return true;
                 }],
                 prepare: ['view', '$stateParams', 'dataStore', 'entry', 'entryWithReferences', 'referencedListEntries', 'referenceEntriesForReferencedLists', '$window', '$injector', function(view, $stateParams, dataStore, entry, entryWithReferences, referencedListEntries, referenceEntriesForReferencedLists, $window, $injector) {
@@ -319,7 +325,7 @@ function routing($stateProvider) {
                             [references[name].targetField()],
                             references[name].targetEntity().name(),
                             references[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                     }
                 }],
                 referencedListData: ['$stateParams', 'ReadQueries', 'view', 'entry', function ($stateParams, ReadQueries, view, entry) {
@@ -333,7 +339,7 @@ function routing($stateProvider) {
                             referencedLists[name].targetFields(),
                             referencedLists[name].targetEntity().name(),
                             referencedLists[name].targetEntity().identifier().name()
-                        ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry))
+                        ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry));
                     }
                 }],
                 entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function(dataStore, view, entry, referenceEntries) {
@@ -360,22 +366,24 @@ function routing($stateProvider) {
                     Object.keys(referencedLists).map(name => {
                         promises[name] = ReadQueries.getReferenceData(referencedLists[name].targetFields(), referencedListData[name]);
                     });
-                    return $q.all(promises)
+                    return $q.all(promises);
                 }],
                 referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function(dataStore, view, referenceDataForReferencedLists) {
                     const referencedLists = view.getReferencedLists();
                     Object.keys(referencedLists).map(referencedListName => {
                         const references = referencedLists[referencedListName].getReferences();
                         for (var name in references) {
-                            if (!referenceDataForReferencedLists[referencedListName][name]) continue;
+                            if (!referenceDataForReferencedLists[referencedListName][name]) {
+                                continue;
+                            }
                             Entry.createArrayFromRest(
                                 referenceDataForReferencedLists[referencedListName][name],
                                 [references[name].targetField()],
                                 references[name].targetEntity().name(),
                                 references[name].targetEntity().identifier().name()
-                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry))
+                            ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                         }
-                    })
+                    });
                     return true;
                 }],
                 prepare: ['view', '$stateParams', 'dataStore', 'entry', 'referenceEntriesForReferencedLists', 'choiceEntries', 'entryWithReferences', '$window', '$injector', function(view, $stateParams, dataStore, entry, referenceEntriesForReferencedLists, choiceEntries, entryWithReferences, $window, $injector) {
@@ -416,7 +424,7 @@ function routing($stateProvider) {
                 entry: ['view', 'rawEntry', function(view, rawEntry) {
                     return view.mapEntry(rawEntry);
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', function(view, $stateParams, dataStore, entry, $window) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entry, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,

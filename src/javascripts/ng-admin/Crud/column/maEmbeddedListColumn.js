@@ -4,8 +4,12 @@ function sorter(sortField, sortDir) {
     return (entry1, entry2) => {
         // use < and > instead of substraction to sort strings properly
         const sortFactor = sortDir === 'DESC' ? -1 : 1;
-        if (entry1.values[sortField] > entry2.values[sortField]) return sortFactor;
-        if (entry1.values[sortField] < entry2.values[sortField]) return -1 * sortFactor;
+        if (entry1.values[sortField] > entry2.values[sortField]) {
+            return sortFactor;
+        }
+        if (entry1.values[sortField] < entry2.values[sortField]) {
+            return -1 * sortFactor;
+        }
         return 0;
     };
 }

@@ -26,8 +26,6 @@ export default function maExportToCsvButton ($stateParams, Papa, notification, A
 
             scope.exportToCsv = function () {
                 var rawEntries;
-                var nonOptimizedReferencedData;
-                var optimizedReferencedData;
 
                 ReadQueries.getAll(exportView, -1, $stateParams.search, $stateParams.sortField, $stateParams.sortDir)
                     .then(response => {

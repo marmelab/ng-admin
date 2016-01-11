@@ -38,7 +38,7 @@ export default function maMenuBar($location, $rootScope, $compile) {
                 }
                 // we don't render() in that case because it would cut the animation
                 return;
-            }
+            };
             scope.activateLink = function (menu) {
                 if (!menu.link()) {
                     return;

@@ -30,8 +30,12 @@ export default class ListLayoutController {
         $scope.$watch(
             () => $location.search() && $location.search().search,
             (newval, oldval) => {
-                if (newval === oldval) return;
-                if ($location.path() !== this.path) return; // already transitioned to another page
+                if (newval === oldval) {
+                    return;
+                }
+                if ($location.path() !== this.path) {
+                    return; // already transitioned to another page
+                }
                 this.search = getCurrentSearchParam($location, this.filters);
                 this.enabledFilters = this.getEnabledFilters();
             }
@@ -70,13 +74,17 @@ export default class ListLayoutController {
         this.focusedFilterId = filter.name();
         this.$timeout(() => {
             let el = window.document.getElementById(this.focusedFilterId);
-            if (el && el.focus) el.focus();
+            if (el && el.focus) {
+                el.focus();
+            }
         }, 200, false);
     }
 
     getEnabledFilters() {
         return this.filters.filter(filter => {
-            if (filter.pinned()) return true;
+            if (filter.pinned()) {
+                return true;
+            }
             return this.search && (filter.name() in this.search);
         });
     }
