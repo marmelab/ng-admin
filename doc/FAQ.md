@@ -4,10 +4,11 @@
 * [My API requires Authentication. How Can I Set it up?](#my-api-requires-authentication-how-can-i-set-it-up)
 * [How Can I Display A Composite Field?](#how-can-i-display-a-composite-field)
 * [How Can I Map Twice The Same Field In A List?](#how-can-i-map-twice-the-same-field-in-a-list)
+* [How Can I Handle Server-Side Validation?](#how-can-i-handle-server-side-validation?)
 
 ## My API exposes X-Total-Count but ng-admin doesn't see it
 
-If you added the `X-Total-Count` header to your API but the pagination controls don't appear, maybe it's a [cross-origin resource sharing (CORS)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem. 
+If you added the `X-Total-Count` header to your API but the pagination controls don't appear, maybe it's a [cross-origin resource sharing (CORS)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem.
 
 The admin application is probably hosted on another domain than the API, so you must explicitly allow the access to the header from the admin app domain. To do so, add a `Access-Control-Expose-Headers: x-total-count` header to the API response.
 
@@ -80,7 +81,7 @@ post.listView().fields([
         .targetField(nga.field('lastName'),
 ```
 
-This doesn't work, because ng-amin imposes a unicity constraint on field names. Since there a are two fields names `user_id`, it's a blocker. 
+This doesn't work, because ng-amin imposes a unicity constraint on field names. Since there a are two fields names `user_id`, it's a blocker.
 
 The solution is to duplicate the property in an `ElementTransformer`:
 
@@ -106,4 +107,40 @@ post.listView().fields([
         .label('Author last name')
         .targetEntity(user)
         .targetField(nga.field('lastName'),
+```
+
+## How Can I Handle Server-Side Validation?
+
+Some field validation can't be done on the client side, and require a roundtrip to the server. For instance, a `POST /comment` REST endpoint may return with an HTTP error code if the `post_id` pointed by the new comment doesn't exist.
+
+```
+POST /comment
+{
+    body: 'Commenting on a non-existent post',
+    post_id: 123
+}
+
+HTTP 1.1 400 Bad Request
+[
+    { propertyPath: 'post_id', message: 'Related post does not exist' }
+]
+```
+
+To catch these errors and display them, use the `editionView.onSubmitError()` and `creationView.onSubmitError()` hooks. They accept an angular injectable (a function listing its dependencies), and ng-admin can inject the error response, the form object, and many other useful services.
+
+```js
+comment.editionView().onSubmitError(['error', 'form', 'progression', 'notification', function(error, form, progression, notification) {
+    // mark fields based on errors from the response
+    error.violations.forEach(violation => {
+        if (form[violation.propertyPath]) {
+            form[violation.propertyPath].$valid = false;
+        }
+    });
+    // stop the progress bar
+    progression.done();
+    // add a notification
+    notification.log(`Some values are invalid, see details in the form`, { addnCls: 'humane-flatty-error' });
+    // cancel the default action (default error messages)
+    return false;
+}]);
 ```
