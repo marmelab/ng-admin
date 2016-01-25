@@ -54,8 +54,8 @@ export default function maColumn($state, $anchorScroll, $compile, Configuration,
             scope.detailState = getDetailLinkRouteName(scope.field, scope.entity);
             scope.detailStateParams = {
                 ...$state.params,
-                entity: scope.entry.entityName,
-                id: scope.entry.identifierValue,
+                entity: scope.entry === undefined ? '' : scope.entry.entityName,
+                id: scope.entry === undefined ? '' : scope.entry.identifierValue,
             };
             $compile(element.contents())(scope);
         }
