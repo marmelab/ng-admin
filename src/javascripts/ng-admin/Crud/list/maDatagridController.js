@@ -64,7 +64,11 @@ export default class DatagridController {
      * @returns {String}
      */
     getSortName(field) {
-        return this.$scope.name ? this.$scope.name + '.' + field.name() : field.name();
+        var sortFieldName = field.name();
+        if(field.sortField) {
+            sortFieldName = field.sortField();
+        }
+        return this.$scope.name ? this.$scope.name + '.' + sortFieldName : sortFieldName;
     }
 
     getEntryCssClasses(entry) {
