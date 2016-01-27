@@ -34,8 +34,12 @@ export default function maChoicesField($compile) {
                     var attributes = field.attributes();
                     scope.placeholder = (attributes && attributes.placeholder) || 'Filter values';
 
+                    scope.onRemove = function() {
+                        scope.refresh({ $search: this.$select.search })
+                     }
+
                     var template = `
-                        <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
+                        <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple on-remove="onRemove()" ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match placeholder="{{ placeholder }}">{{ $item.label }}</ui-select-match>
                             <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices ${itemsFilter}">
                                 {{ item.label }}
