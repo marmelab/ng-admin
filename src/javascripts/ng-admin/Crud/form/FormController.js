@@ -91,7 +91,7 @@ export default class FormController {
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
         const { progression, notification } = this;
-        this.progression.start();
+        progression.start();
         this.WriteQueries
             .updateOne(view, restEntry, this.originEntityId)
             .then(rawEntry => {
