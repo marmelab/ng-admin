@@ -117,6 +117,27 @@ Set field validation rules. Based on Angular's form validation features.
                 if (value.indexOf('http://') !== 0) throw new Error ('Invalid url in website');
             } })
 
+* `condition(property, value)`
+Set field condition. Field will only be visible if the given property is what
+you specify as a value.
+
+Value could be just `true` to show if the value of the property you are checking
+is there, or `'foobar'` if the properties value should be "foobar" for the field
+to be visible.
+
+        post.editionView()
+            .fields([
+                nga.field('kind', 'choice')
+                    .choices([
+                        { label: 'Regular', value: 'regular' },
+                        { label: 'Advanced', value: 'advanced' }
+                    ]),
+                nga.field('Advanced Field')
+                    // Only show if kind is equal to "advanced"
+                    .condition('kind', 'advanced')
+            ]);
+
+
 * `cssClasses(String|Function)`
 A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values. The function will also be called without entry for table headers.
 
