@@ -15,7 +15,7 @@
     sinon.FakeXMLHttpRequest.useFilters = true;
     sinon.FakeXMLHttpRequest.addFilter(function (method, url) {
         // Do not catch webpack sync, config.js transformation but catch /upload in test env
-        return url.indexOf('/socket.io/') !== -1 || url.indexOf('config.js') !== -1
+        return url.indexOf('/sockjs-node/') !== -1 || url.indexOf('config.js') !== -1
             || (!testEnv && url.indexOf('/upload') !== -1);
     });
 
