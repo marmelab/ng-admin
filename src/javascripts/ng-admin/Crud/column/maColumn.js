@@ -51,12 +51,16 @@ export default function maColumn($state, $anchorScroll, $compile, Configuration,
                     element.append(FieldViewConfiguration[type].getReadWidget());
                 }
             }
-            scope.detailState = getDetailLinkRouteName(scope.field, scope.entity);
-            scope.detailStateParams = {
-                ...$state.params,
-                entity: scope.entry.entityName,
-                id: scope.entry.identifierValue,
-            };
+            scope.detailState = false;
+            scope.detailStateParams = {};
+            if (typeof scope.entry !== 'undefined') {
+                scope.detailState = getDetailLinkRouteName(scope.field, scope.entity);
+                scope.detailStateParams = {
+                    ...$state.params,
+                    entity: scope.entry.entityName,
+                    id: scope.entry.identifierValue,
+                };
+            }
             $compile(element.contents())(scope);
         }
     };
