@@ -255,9 +255,11 @@ div.bottom-loader {
     }
 
     .remove_button_container {
-        float: right;
+        position: absolute;
+        right: 0;
+        z-index: 2;
         @media (max-width: 992px) {
-            float: none;
+            position: relative;
             display: block;
             text-align: right;
         }
@@ -321,4 +323,3 @@ div.bottom-loader {
         }
     }
 }
-
