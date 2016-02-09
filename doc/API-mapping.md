@@ -110,6 +110,8 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 ```
 
+*IE9 doesn't support the ```window.bota()``` method, use a polyfill to extend support. (https://github.com/davidchambers/Base64.js/)*
+
 ## HTTP Method
 
 The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`.
