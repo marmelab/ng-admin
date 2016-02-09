@@ -21,6 +21,22 @@ export default function maField(FieldViewConfiguration, $compile) {
                 return 'ng-admin-field-' + field.name().replace('.', '_') + ' ng-admin-type-' + type + ' ' + (field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7');
             };
 
+            scope.checkCondition = function() {
+              let condition = field.condition();
+              let property = condition.property;
+              let value = condition.value;
+
+              if (!value || !property) { return true; }
+              if (!scope.form[property]) { return true; }
+
+              let propValue = scope.form[property].$viewValue;
+              if (value === true) {
+                return !!propValue;
+              } else {
+                return propValue === value;
+              }
+            },
+
             scope.getInput = function() {
                 return scope.form[field.name()];
             };
@@ -65,7 +81,8 @@ export default function maField(FieldViewConfiguration, $compile) {
             }
 
             const template =
-`<div id="row-{{ field.name() }}" class="form-field form-group has-feedback" ng-class="getFieldValidationClass()">
+`
+<div ng-if="checkCondition()" id="row-{{ field.name() }}" class="form-field form-group has-feedback" ng-class="getFieldValidationClass()">
     <label for="{{ field.name() }}" class="col-sm-2 control-label">
         {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
     </label>
