@@ -81,9 +81,15 @@ Add filters to the list. Each field maps a property in the API endpoint result.
             nga.field('age', 'number')
         ]);
 
-    Filters appear when the user clicks on the "Add filter" button at the top of the list. Once the user fills the filter widgets, the list is immediately refreshed based on the filter values, with unerlying API requests looking like:
+    Filters appear when the user clicks on the "Add filter" button at the top of the list. Once the user fills the filter widgets, the list is immediately refreshed based on the filter values, with underlying API requests looking like:
 
-        GET /customers?first_name=XXX&last_name=XXX&age=XXX
+        GET /customers?_filters=%7B%22first_name%22%3A%22XXX%22%2C%22last_name%22%3A%22XXX%22%2C%22age%22%3A%22XXX%22%7D
+
+    Which is the urlencoded version for:
+
+        GET /customers?_filters={"first_name":"XXX","last_name":"XXX","age":"XXX"}
+
+    **Tip**: You can customize how filters translate to API request parameters. See the [API Mapping chapter](../API-mapping.md) for details.
 
     You can also set a filter field as "pinned", to make it always visible.
 
