@@ -256,10 +256,11 @@ div.bottom-loader {
 
     .remove_button_container {
         position: absolute;
-        right: 0;
+        right: -7em;
         z-index: 2;
         @media (max-width: 992px) {
             position: relative;
+            right: 0;
             display: block;
             text-align: right;
         }
