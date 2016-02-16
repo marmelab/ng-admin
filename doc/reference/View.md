@@ -174,6 +174,14 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
                 .stripTags(true)
         ]);
 
+* `exportOptions(Object)`
+Customize the CSV export format (quotes, delimiter, newline). The default options object is `{ quotes: false, delimiter: ",", newline: "\r\n" }`.
+
+        listView.exportOptions({
+            quotes: true,
+            delimiter: ';'
+        });
+
 * `prepare(Function)`
 Add a function to be executed before the view renders.
 

@@ -138,6 +138,24 @@
             .listActions(['show', 'edit', 'delete'])
             .entryCssClasses(function(entry) { // set row class according to entry
                 return (entry.views > 300) ? 'is-popular' : '';
+            })
+            .exportFields([
+                post.listView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
+                nga.field('category', 'choice') // a choice field is rendered as a dropdown in the edition view
+                    .choices([ // List the choice as object literals
+                        { label: 'Tech', value: 'tech' },
+                        { label: 'Lifestyle', value: 'lifestyle' }
+                    ]),
+                nga.field('subcategory', 'choice')
+                    .choices(function(entry) { // choices also accepts a function to return a list of choices based on the current entry
+                        return subCategories.filter(function (c) {
+                            return c.category === entry.values.category;
+                        });
+                    }),
+            ])
+            .exportOptions({
+                quotes: true,
+                delimiter: ';'
             });
 
         post.creationView()
