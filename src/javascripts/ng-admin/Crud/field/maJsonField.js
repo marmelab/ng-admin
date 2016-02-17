@@ -40,6 +40,7 @@ export default function maJsonField() {
             var input = element.children()[0];
             var attributes = field.attributes();
             for (var name in attributes) {
+                if (!attributes.hasOwnProperty(name)) continue;
                 input.setAttribute(name, attributes[name]);
             }
             scope.$watch('jsonValue', function(jsonValue) {

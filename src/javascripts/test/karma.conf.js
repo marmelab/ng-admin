@@ -22,6 +22,7 @@ module.exports = function (config) {
 
             'ng-admin.js',
             'test/function.bind.shim.js',
+            'test/before_all.js',
             'test/unit/**/*.js'
         ],
         plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],

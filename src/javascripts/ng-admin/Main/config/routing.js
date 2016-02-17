@@ -57,6 +57,7 @@ function routing($stateProvider, $urlRouterProvider) {
                     collectionName;
 
                 for (collectionName in collections) {
+                    if (!collections.hasOwnProperty(collectionName)) continue;
                     collection = collections[collectionName];
                     collectionSortField = collection.getSortFieldName();
                     collectionSortDir = collection.sortDir();
@@ -77,6 +78,7 @@ function routing($stateProvider, $urlRouterProvider) {
                             .then(referenceData => {
                                 const references = collection.getReferences();
                                 for (var name in referenceData) {
+                                    if (!referenceData.hasOwnProperty(name)) continue;
                                     Entry.createArrayFromRest(
                                         referenceData[name],
                                         [references[name].targetField()],
@@ -103,6 +105,7 @@ function routing($stateProvider, $urlRouterProvider) {
                     entries = {};
 
                 for (collectionName in responses) {
+                    if (!responses.hasOwnProperty(collectionName)) continue;
                     entries[collections[collectionName].name()] = responses[collectionName];
                 }
 

@@ -96,6 +96,7 @@ export default class ListLayoutController {
             field,
             i;
         for (i in filters) {
+            if (!filters.hasOwnProperty(i)) continue;
             field = filters[i];
             fieldName = field.name();
             if (this.search[fieldName] === '') {

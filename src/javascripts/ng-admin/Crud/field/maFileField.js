@@ -27,6 +27,7 @@ export default function maFileField(Upload) {
                 var files = scope.value ? scope.value.split(',') : [];
                 scope.files = {};
                 for (var file in files) {
+                    if (!files.hasOwnProperty(file)) continue;
                     scope.files[files[file]] = {
                         "name": files[file],
                         "progress": 0
@@ -43,6 +44,7 @@ export default function maFileField(Upload) {
                 var input = element.find('input')[0];
                 var attributes = field.attributes();
                 for (var name in attributes) {
+                    if (!attributes.hasOwnProperty(name)) continue;
                     input.setAttribute(name, attributes[name]);
                 }
 
@@ -55,6 +57,7 @@ export default function maFileField(Upload) {
 
                     scope.files = {};
                     for (var file in selectedFiles) {
+                        if (!selectedFiles.hasOwnProperty(file)) continue;
                         uploadParams = angular.copy(scope.field().uploadInformation());
                         uploadParams.file = selectedFiles[file];
                         Upload

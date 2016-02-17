@@ -19,6 +19,7 @@ export default function maInputField() {
             var input = element.children()[0];
             var attributes = field.attributes();
             for (var name in attributes) {
+                if (!attributes.hasOwnProperty(name)) continue;
                 if (name === 'step') { // allow to use `step` attribute instead of `scope.step`
                     scope.step = attributes[name];
                     continue;

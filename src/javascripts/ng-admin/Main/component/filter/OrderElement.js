@@ -4,6 +4,7 @@ export default function OrderElement() {
             objectKey;
 
         for (objectKey in input) {
+            if (!input.hasOwnProperty(objectKey)) continue;
             results.push(input[objectKey]);
         }
 
