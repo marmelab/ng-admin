@@ -258,7 +258,7 @@ Array of choices used for the boolean proposed values in a filter. By default:
 * `choices(array|function)`
 Define array of choices for `choice` type.
 
-    When given an array, each choice must be an object litteral with both a value and a label.
+    When given an array, each choice must be an object literal with both a value and a label.
 
         nga.field('currency', 'choice')
             .choices([
