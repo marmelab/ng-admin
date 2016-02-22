@@ -46,12 +46,26 @@ admin.menu(nga.menu()
 );
 ```
 
+If the default menu template doesn't suite you, you can override it with the `template()` method. This will allow you, for instance, to add external links to the menu bar:
+
+```js
+admin.menu(nga.menu()
+    // add custom menu
+    .addChild(nga.menu().template(`
+        <a href="http://example.com">
+            <span class="glyphicon glyphicon-list"></span>
+            Go to Example.com
+        </a>`
+    ))
+);
+```
+
 By default parent menus will automatically close when none of their children are active. This can be deactivated with:
 ```js
 nga.menu().autoClose(false);
 ```
 
-This option is global and will affect all menu.
+This option is global and will affect the entire menu sidebar.
 
 *Tip*: `admin.menu()` is both a setter and a getter. You can modify an existing menu in the admin configuration by using `admin.menu().getChildByTitle()`
 ```js
