@@ -38,13 +38,13 @@ describe('directive: ma-datagrid-pagination', function () {
                 expect(totalElement.innerText.trim()).toBe(expectedText);
             }
 
-            checkTotalText(-1, '1 - 10 on 37');     // Lower pages should be considered as page 1
-            checkTotalText( 0, '1 - 10 on 37');
-            checkTotalText( 1, '1 - 10 on 37');
-            checkTotalText( 2, '11 - 20 on 37');
-            checkTotalText( 3, '21 - 30 on 37');
-            checkTotalText( 4, '31 - 37 on 37');
-            checkTotalText( 8, '31 - 37 on 37');    // Higher pages should be considered as last page
+            checkTotalText(-1, '1 - 10 of 37');     // Lower pages should be considered as page 1
+            checkTotalText( 0, '1 - 10 of 37');
+            checkTotalText( 1, '1 - 10 of 37');
+            checkTotalText( 2, '11 - 20 of 37');
+            checkTotalText( 3, '21 - 30 of 37');
+            checkTotalText( 4, '31 - 37 of 37');
+            checkTotalText( 8, '31 - 37 of 37');    // Higher pages should be considered as last page
         });
     });
 
