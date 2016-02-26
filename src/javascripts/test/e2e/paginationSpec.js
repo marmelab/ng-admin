@@ -9,7 +9,7 @@ describe('Pagination', function () {
     describe('informations', function() {
         it('should display a pagination nav with content range', function () {
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 10 on 11');
+                expect(totalElements[0].getText()).toBe('1 - 10 of 11');
             });
         });
 
@@ -28,7 +28,7 @@ describe('Pagination', function () {
         it('should allow page navigation', function() {
             $$('ma-datagrid-pagination li:nth-child(3) a').click();
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('11 - 11 on 11');
+                expect(totalElements[0].getText()).toBe('11 - 11 of 11');
             });
             $$('ma-datagrid-pagination .pagination li').then(function (liElements) {
                 expect(liElements[2].getAttribute('class')).toBe('ng-scope active');

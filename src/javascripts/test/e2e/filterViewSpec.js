@@ -105,7 +105,7 @@ describe('List filter', function () {
 
         it('should update the pagination total', function () {
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 1 on 1');
+                expect(totalElements[0].getText()).toBe('1 - 1 of 1');
             });
             hasToLoad = false;
         });
@@ -142,7 +142,7 @@ describe('List filter', function () {
 
         it('should update the pagination total', function () {
             $$('ma-datagrid-pagination .total').then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 2 on 2');
+                expect(totalElements[0].getText()).toBe('1 - 2 of 2');
             });
         });
     });
@@ -210,7 +210,7 @@ describe('List filter', function () {
                 return $$('ma-datagrid-pagination .total');
             })
             .then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 10 on 11');
+                expect(totalElements[0].getText()).toBe('1 - 10 of 11');
             })
             .then(function() {
                 return $$('ma-datagrid-pagination li:nth-child(3) a').click();
@@ -219,7 +219,7 @@ describe('List filter', function () {
                 return $$('ma-datagrid-pagination .total');
             })
             .then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('11 - 11 on 11');
+                expect(totalElements[0].getText()).toBe('11 - 11 of 11');
             })
             .then(function() {
                 return $$('.filters .filter:nth-child(1) input').clear();
@@ -235,7 +235,7 @@ describe('List filter', function () {
                 return $$('ma-datagrid-pagination .total');
             })
             .then(function (totalElements) {
-                expect(totalElements[0].getText()).toBe('1 - 4 on 4');
+                expect(totalElements[0].getText()).toBe('1 - 4 of 4');
             });
         });
     });
