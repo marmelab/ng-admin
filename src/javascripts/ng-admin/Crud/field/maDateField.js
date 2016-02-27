@@ -27,6 +27,7 @@ export default function maDateField() {
             var input = element.find('input').eq(0);
             var attributes = field.attributes();
             for (var name in attributes) {
+                if (!attributes.hasOwnProperty(name)) continue;
                 input.attr(name, attributes[name]);
             }
             scope.toggleDatePicker = function ($event) {

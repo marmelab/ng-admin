@@ -57,6 +57,7 @@ export default class ListController {
                 this.progression.done();
 
                 for (var name in referenceData) {
+                    if (!referenceData.hasOwnProperty(name)) continue;
                     Entry.createArrayFromRest(
                         referenceData[name],
                         [references[name].targetField()],

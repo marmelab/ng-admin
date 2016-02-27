@@ -18,6 +18,7 @@ export default function maButtonField() {
             var a = element.children()[0];
             var attributes = field.attributes();
             for (var name in attributes) {
+                if (!attributes.hasOwnProperty(name)) continue;
                 a.setAttribute(name, attributes[name]);
             }
             scope.toggle = function() {

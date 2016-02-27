@@ -52,6 +52,7 @@ export default function maChoiceField($compile) {
 
                     var select = element.children()[0];
                     for (var name in attributes) {
+                        if (!attributes.hasOwnProperty(name)) continue;
                         select.setAttribute(name, attributes[name]);
                     }
 
