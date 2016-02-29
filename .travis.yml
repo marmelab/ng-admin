@@ -12,7 +12,7 @@ cache:
     - node_modules
 language: node_js
 node_js:
-  - "0.12"
+  - "4"
 before_install:
   - "export TZ=Europe/Paris" # Change timezone to test Date function more accurately
   - "export DISPLAY=:99.0"

@@ -77,7 +77,7 @@
     "webpack-dev-server": "^1.10.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.2.0"
   },
   "scripts": {
     "test": "make test"
