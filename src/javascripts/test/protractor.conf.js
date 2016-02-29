@@ -14,7 +14,7 @@ exports.config =  {
             name: 'ng-admin'
         }
     ],
-
+    directConnect: true,
     jasmineNodeOpts: {
         onComplete: null,
         isVerbose: true,
