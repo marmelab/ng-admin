@@ -5,7 +5,9 @@ describe('directive: ma-number-column', function () {
     var directive = require('../../../../ng-admin/Crud/column/maNumberColumn');
     var NumberField = require('admin-config/lib/Field/NumberField');
 
-    angular.module('testapp_NumberColumn', ['ngNumeraljs']).directive('maNumberColumn', directive);
+    angular.module('testapp_NumberColumn', ['ngNumeraljs'])
+        .filter('ngNumeraljs', require('../../../../../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js'))
+        .directive('maNumberColumn', directive);
 
     var $compile,
         scope,
