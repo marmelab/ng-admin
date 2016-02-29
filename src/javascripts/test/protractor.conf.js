@@ -14,7 +14,7 @@ exports.config =  {
             name: 'ng-admin'
         }
     ],
-    directConnect: true,
+    directConnect: !process.env.CI,
     jasmineNodeOpts: {
         onComplete: null,
         isVerbose: true,
