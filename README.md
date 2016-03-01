@@ -48,6 +48,10 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
 </html>
 ```
 
+### Angular version
+The current ng-admin (master) uses **Angular 1.4**. If you need still being compatible with **Angular 1.3** you must use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
+You must also be attentive if you use some additional angular plugins in your code, Angular 1.4 causing some BC Breaks. For example it's the case for [angular-cookies](https://code.angularjs.org/1.4.9/docs/api/ngCookies/service/$cookies).
+
 ## Getting Started
 
 See the [Getting Started](doc/Getting-started.md) dedicated chapter for a step-by-step tutorial aimed at beginners.
