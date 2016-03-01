@@ -34,7 +34,6 @@ module.exports = {
     },
     output: process.env.NODE_ENV === 'test' ? {
         path: './src/javascripts/test/fixtures/examples/blog/',
-        publicPath: "/",
         filename: "build/[name].min.js"
     } : {
         publicPath: "http://localhost:8000/",
