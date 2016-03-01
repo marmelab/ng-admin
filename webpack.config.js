@@ -32,7 +32,11 @@ module.exports = {
         'ng-admin': getEntrySources(ngAdminAndVendorSources),
         'ng-admin-only': getEntrySources(ngAdminSources)
     },
-    output: {
+    output: process.env.NODE_ENV === 'test' ? {
+        path: './src/javascripts/test/fixtures/examples/blog/',
+        publicPath: "/",
+        filename: "build/[name].min.js"
+    } : {
         publicPath: "http://localhost:8000/",
         filename: "build/[name].min.js"
     },
@@ -52,3 +56,5 @@ module.exports = {
         })
     ]
 };
+
+//NODE_ENV=test ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress

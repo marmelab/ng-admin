@@ -24,3 +24,12 @@ test-e2e:
 	@./node_modules/.bin/grunt test:e2e
 
 test: test-unit test-e2e
+
+prepare-test-e2e:
+	@echo "Preparing files for e2e tests"
+	@NODE_ENV=test ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe
+	@cp ./examples/blog/*.js ./src/javascripts/test/fixtures/examples/blog
+	@cp ./examples/blog/*.html ./src/javascripts/test/fixtures/examples/blog
+	@sed -i.bak 's|http://localhost:8000/|/|g' src/javascripts/test/fixtures/examples/blog/index.html
+	@cp ./examples/blog/build/fakerest.js ./src/javascripts/test/fixtures/examples/blog/build/
+	@cp ./examples/blog/build/sinon-server.js ./src/javascripts/test/fixtures/examples/blog/build/
