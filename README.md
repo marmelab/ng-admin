@@ -12,6 +12,8 @@ Plug me to your RESTFul API to get a complete administration interface (datagrid
 
 ## Installation
 
+The current ng-admin version (master) depends on Angular.js 1.4. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
+
 Grab ng-admin from your favorite package manager, `npm` or `bower`:
 
 ```sh
@@ -47,10 +49,6 @@ Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-vie
   </body>
 </html>
 ```
-
-### Angular version
-The current ng-admin (master) uses **Angular 1.4**. If you need still being compatible with **Angular 1.3** you must use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
-You must also be attentive if you use some additional angular plugins in your code, Angular 1.4 causing some BC Breaks. For example it's the case for [angular-cookies](https://code.angularjs.org/1.4.9/docs/api/ngCookies/service/$cookies).
 
 ## Getting Started
 

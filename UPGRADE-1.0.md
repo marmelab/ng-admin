@@ -1,5 +1,11 @@
 # Upgrade to 1.0
 
+## Angular 1.4
+
+Previous versions of ng-admin relied on Angular 1.3. Version 1.0 bumps the angular version requirement to 1.4.
+
+You must be careful if you use some additional angular plugins in your code, Angular 1.4 causing some BC Breaks. For example it's the case for [angular-cookies](https://code.angularjs.org/1.4.9/docs/api/ngCookies/service/$cookies).
+
 ## No more `gotoDetails() and `gotoReference()` in column scope
 
 If you wrote a custom FieldView, you probably based the Link widget on the ones bundled by ng-admin:
