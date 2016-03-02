@@ -32,7 +32,10 @@ module.exports = {
         'ng-admin': getEntrySources(ngAdminAndVendorSources),
         'ng-admin-only': getEntrySources(ngAdminSources)
     },
-    output: {
+    output: process.env.NODE_ENV === 'test' ? {
+        path: './src/javascripts/test/fixtures/examples/blog/',
+        filename: "build/[name].min.js"
+    } : {
         publicPath: "http://localhost:8000/",
         filename: "build/[name].min.js"
     },
