@@ -174,6 +174,25 @@ Set the fields for the CSV export function. By default, ng-admin uses the fields
                 .stripTags(true)
         ]);
 
+Be careful if you don't define explicitly your `exportFields` (and so the fields displayed in the datagrid will be used) you may have strange results with fields of type `template`!    
+For example, if you define:
+
+    nga.field('picture', 'template')
+        .template('<img src="{{ entry.values.picture }}" />')
+
+The exported value will be :
+
+    <img src="{{ entry.values.picture }}" />
+
+To fix that, you have to set your `.template` with a function :
+
+    nga.field('picture', 'template')
+        .template((entry) => `<img src="${entry.values.picture}" />`)
+
+In this case, the exported value will be :
+
+    <img src="http://mydomain.com/myPicture.png" />
+
 * `exportOptions(Object)`
 Customize the CSV export format (quotes, delimiter, newline). The default options object is `{ quotes: false, delimiter: ",", newline: "\r\n" }`.
 

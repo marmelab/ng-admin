@@ -36,7 +36,7 @@ export default class EntryFormatter {
                 return function (entry) {
                     return {
                         name: label,
-                        value: field._template(entry)
+                        value: field.getTemplateValue(entry)
                     };
                 };
             case 'number':
