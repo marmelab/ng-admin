@@ -55,9 +55,9 @@ describe('directive: date-field', function() {
     });
 
     it("should contain the bounded value", function () {
+        var now = '2015-04-05';
+        scope.value = new Date(now);
         scope.field = new DateField();
-        var now = '2015-03-05';
-        scope.value = now;
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.find('input').eq(0).val()).toBe(now);
