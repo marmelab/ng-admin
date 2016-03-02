@@ -1,4 +1,36 @@
 /*global browser*/
+var jsonServer = require('json-server');
+var path = require('path');
+
+var server = function() {
+    const server = jsonServer.create();
+
+    server.use(jsonServer.defaults({
+        static: path.join(__dirname, '/fixtures/examples/blog'),
+        logger: false
+    }));
+
+    server.listen(8001);
+
+    return server;
+}
+
+var beforeLaunch = function () {
+    global.server = server();
+};
+
+var onPrepare = function () {
+    browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
+}
+
+var afterLaunch = function () {
+    if (!global.server || !global.server.close) {
+        return;
+    }
+
+    global.server.close();
+};
+
 exports.config =  {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
@@ -23,7 +55,7 @@ exports.config =  {
         defaultTimeoutInterval: 360000
     },
 
-    onPrepare: function () {
-        browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
-    }
+    beforeLaunch: beforeLaunch,
+    onPrepare: onPrepare,
+    afterLaunch: afterLaunch,
 };

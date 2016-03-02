@@ -23,9 +23,7 @@ test-unit:
 	@./node_modules/.bin/karma start src/javascripts/test/karma.conf.js --single-run
 
 test-e2e: prepare-test-e2e
-	@make start-static-server
 	@./node_modules/.bin/protractor src/javascripts/test/protractor.conf.js
-	@make stop-static-server
 
 prepare-test-e2e:
 	@echo "Preparing files for e2e tests"
@@ -35,10 +33,3 @@ prepare-test-e2e:
 	@sed -i.bak 's|http://localhost:8000/|/|g' src/javascripts/test/fixtures/examples/blog/index.html
 	@cp node_modules/fakerest/dist/FakeRest.min.js src/javascripts/test/fixtures/examples/blog/build/fakerest.js
 	@cp node_modules/sinon/pkg/sinon-server-1.14.1.js src/javascripts/test/fixtures/examples/blog/build/sinon-server.js
-
-start-static-server: static-server.PID
-static-server.PID:
-	@echo "Starting static server"
-	@./node_modules/.bin/http-server src/javascripts/test/fixtures/examples/blog -p 8001 --silent & echo $$! > ./$@;
-stop-static-server: static-server.PID
-	@kill `cat $<` && rm $<

@@ -55,5 +55,3 @@ module.exports = {
         })
     ]
 };
-
-//NODE_ENV=test ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress
