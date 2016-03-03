@@ -14,16 +14,17 @@ export default function maReferenceField(ReferenceRefresher) {
             scope.v = field.validation();
 
             if (!field.remoteComplete()) {
-                // fetch choices from the datastore
+                // fetch choices from the datastore, populated during routing resolve
                 let initialEntries = scope.datastore()
                     .getEntries(field.targetEntity().uniqueId + '_choices');
-                const isCurrentValueInInitialEntries = initialEntries.filter(e => e.identifierValue === scope.value).length > 0;
-                if (scope.value && !isCurrentValueInInitialEntries) {
-                    initialEntries.push(scope.datastore()
-                        .getEntries(field.targetEntity().uniqueId + '_values')
-                        .filter(entry => entry.values[identifierName] == scope.value)
-                        .pop()
-                    );
+                if (scope.value) {
+                    const isCurrentValueInInitialEntries = initialEntries.filter(e => e.identifierValue === scope.value).length > 0;
+                    if (!isCurrentValueInInitialEntries) {
+                        initialEntries.unshift(scope.datastore()
+                            .getEntries(field.targetEntity().uniqueId + '_values')
+                            .find(entry => entry.values[identifierName] == scope.value)
+                        );
+                    }
                 }
                 const initialChoices = initialEntries.map(entry => ({
                     value: entry.values[identifierName],
@@ -35,6 +36,21 @@ export default function maReferenceField(ReferenceRefresher) {
                 // let ui-select fetch the options using the ReferenceRefresher
                 scope.refresh = function refresh(search) {
                     return ReferenceRefresher.refresh(field, scope.value, search)
+                        .then(function addCurrentChoice(results) {
+                            if (!search && scope.value) {
+                                const isCurrentValueInEntries = results.filter(e => e.value === scope.value).length > 0;
+                                if (!isCurrentValueInEntries) {
+                                    const currentEntry = scope.datastore()
+                                        .getEntries(field.targetEntity().uniqueId + '_values')
+                                        .find(entry => entry.values[identifierName] == scope.value);
+                                    results.unshift({
+                                        value: currentEntry.values[identifierName],
+                                        label: currentEntry.values[field.targetField().name()]
+                                    });
+                                }
+                            }
+                            return results;
+                        })
                         .then(formattedResults => {
                             scope.$broadcast('choices:update', { choices: formattedResults });
                         });
