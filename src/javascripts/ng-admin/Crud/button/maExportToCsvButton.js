@@ -20,6 +20,7 @@ export default function maExportToCsvButton ($stateParams, Papa, notification, A
                 }
                 exportView.fields(exportFields);
                 exportView.filters(listView.filters());
+                exportView.name(listView.name()); // to enable reuse of sortField
             }
             scope.has_export = exportView.fields().length > 0;
             var formatEntry = entryFormatter.getFormatter(exportView.fields());
