@@ -25,7 +25,7 @@ bower install ng-admin --save
 ### With a Module Bundler
 
 `ng-admin` is fully compatible with Webpack, and should also be compatible with all
-major module bundlers available. If you use one of them, you just have to add this line:
+available major module bundlers. If you use one of them, you just have to add this line:
 
 ``` js
 require('ng-admin');
@@ -41,6 +41,9 @@ require('ng-admin/sass/ng-admin.scss');
 require('ng-admin/build/ng-admin.css');
 ```
 
+Using a module bundler, you would also be able to generate the source map for all your JavaScript
+and stylesheets, helping you to hunt even the most pernicious bugs.
+
 ### Without a Module Bundler
 
 If you don't have a module bundler, don't worry: you can still embed `ng-admin` the old way:
@@ -53,7 +56,7 @@ If you don't have a module bundler, don't worry: you can still embed `ng-admin` 
 ## Bootstraping your Admin
 
 Just add a `<div ui-view>` into your HTML, add a `ng-app` attribute on your `body`, and configure the admin:
-
+ithu
 ``` html
 <!doctype html>
 <html lang="en">
