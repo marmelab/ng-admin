@@ -39,3 +39,25 @@ After editing an entity, ng-admin now redirects to the previous page (e.g. list 
 Similarly, after creating an entity, ng-admin now redirects to the show view if it's enabled, or to the list view if it's not.
 
 If you want to reverse to the pre-1.0 behavior, override `CreationView.onSubmitSuccess()` and `EditionView.onSubmitSuccess()` (cf [doc/reference/View](doc/reference/View.md)).
+
+## Better Integration with Module Bundlers
+
+We reviewed the way we publish ng-admin in order to ease integration with module bundlers. You can now just require `ng-admin` dependency directly into your JavaScript file:
+
+``` js
+require('ng-admin');
+```
+
+Furthermore, if your module bundler supports CSS and/or SASS, you can also embed styles using:
+
+``` js
+// SASS version
+require('ng-admin/sass/ng-admin.scss');
+
+// CSS version
+require('ng-admin/build/ng-admin.css');
+```
+
+## Removing `ng-admin-only` build
+
+We used to build two versions of `ng-admin`: a standalone one and a `only` one. The latter includes only files required to ng-admin. But it was a little buggy and requires a lot of dependencies. Including a functional version of this only version was so painful we decided to abandon it in profit of a better bundler integration (see previous paragraph).
