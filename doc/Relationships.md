@@ -202,9 +202,10 @@ When displaying a post:
             // ...
             nga.field('comments', 'embedded_list') // Define a 1-N relationship with the (embedded) comment entity
                 .targetFields([ // which comment fields to display in the datagrid / form
-                    nga.field('date', 'date').label('Posted')
-                    nga.field('body')
-                ])
+                    nga.field('date', 'date').label('Posted'),
+                    nga.field('body'),
+                ]),
+            // ...
         ]);
 
 ![embedded_list in showView](images/embedded_list_in_showView.png)
