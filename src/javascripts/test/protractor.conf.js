@@ -6,7 +6,7 @@ var server = function() {
     const server = jsonServer.create();
 
     server.use(jsonServer.defaults({
-        static: path.join(__dirname, '/fixtures/examples/blog'),
+        static: path.join(__dirname, '/../../../examples/blog'),
         logger: false
     }));
 
@@ -21,6 +21,16 @@ var beforeLaunch = function () {
 
 var onPrepare = function () {
     browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
+
+    // Disable animations so e2e tests run more quickly
+    const disableNgAnimate = () => {
+        angular.module('disableNgAnimate', []).run([
+            '$animate', function ($animate) {
+                $animate.enabled(false);
+            }
+        ]);
+    };
+    browser.addMockModule('disableNgAnimate', disableNgAnimate);
 }
 
 var afterLaunch = function () {
