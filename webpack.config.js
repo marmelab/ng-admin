@@ -1,14 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
-        sources.push('webpack-dev-server/client?http://0.0.0.0:8000');
-    }
-
-    return sources;
-}
-
 var ngAdminJsSources = [
     './src/javascripts/ng-admin.js'
 ];
@@ -34,16 +26,13 @@ var vendorsCssSources = [
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(['angular'].concat(vendorsJsSources.concat(ngAdminJsSources).concat(vendorsCssSources).concat(ngAdminCssSources))),
-        'ng-admin-only': getEntrySources(ngAdminJsSources.concat(ngAdminCssSources)),
-        'ng-admin-vendors-js': getEntrySources(vendorsJsSources),
-        'ng-admin-vendors-css': getEntrySources(vendorsCssSources)
+        'ng-admin': ['angular'].concat(vendorsJsSources.concat(ngAdminJsSources).concat(vendorsCssSources).concat(ngAdminCssSources)),
+        'ng-admin-only': ngAdminJsSources.concat(ngAdminCssSources),
+        'ng-admin-vendors-js': vendorsJsSources,
+        'ng-admin-vendors-css': vendorsCssSources
     },
-    output: process.env.NODE_ENV === 'test' ? {
-        path: './src/javascripts/test/fixtures/examples/blog/',
-        filename: "build/[name].min.js"
-    } : {
-        publicPath: "http://localhost:8000/",
+    output: {
+        publicPath: "/",
         filename: "build/[name].min.js"
     },
     module: {
