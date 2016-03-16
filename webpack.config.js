@@ -31,7 +31,10 @@ module.exports = {
         'ng-admin-vendors-js': vendorsJsSources,
         'ng-admin-vendors-css': vendorsCssSources
     },
-    output: {
+    output: process.env.NODE_ENV === 'test' ? {
+        path: './examples/blog/',
+        filename: "build/[name].min.js"
+    } : {
         publicPath: "/",
         filename: "build/[name].min.js"
     },

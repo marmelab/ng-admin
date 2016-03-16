@@ -27,7 +27,7 @@ test-e2e: prepare-test-e2e
 
 prepare-test-e2e:
 	@echo "Preparing files for e2e tests"
+	@NODE_ENV=test ./node_modules/.bin/webpack -p --optimize-minimize --optimize-occurence-order --optimize-dedupe
 	@cp node_modules/fakerest/dist/FakeRest.min.js examples/blog/build/fakerest.js
 	@cp node_modules/angular/angular.min.js examples/blog/build/angular.min.js
 	@cp node_modules/sinon/pkg/sinon-server-1.14.1.js examples/blog/build/sinon-server.js
-	@./node_modules/.bin/webpack -p --optimize-minimize --optimize-occurence-order --optimize-dedupe
