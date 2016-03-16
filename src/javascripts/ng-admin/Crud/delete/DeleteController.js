@@ -1,9 +1,10 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, WriteQueries, notification, params, view, entry) {
+    constructor($scope, $window, $state, $q, WriteQueries, Configuration, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
         this.WriteQueries = WriteQueries;
+        this.config = Configuration();
         this.entityLabel = params.entity;
         this.entityId = params.id;
         this.view = view;
@@ -42,17 +43,12 @@ export default class DeleteController {
 
                         notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
                     });
-                },
-                response => {
-                    // @TODO: share this method when splitting controllers
-                    var body = response.data;
-                    if (typeof body === 'object') {
-                        body = JSON.stringify(body);
-                    }
-
-                    notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
                 }
-            );
+            )
+            .catch(error => {
+                const errorMessage = this.config.getErrorMessageFor(this.view, error);
+                notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
+            });
     }
 
     back() {
@@ -67,4 +63,4 @@ export default class DeleteController {
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'NgAdminConfiguration', 'notification', 'params', 'view', 'entry'];
