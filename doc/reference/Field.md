@@ -24,7 +24,7 @@ A field is the representation of a property of an entity.
 ## General Field Settings
 
 * `nga.field(name, type)`
-Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `reference_list`, and `reference_many`.
+Create a new field of the given type. Default type is 'string', so you can omit it. Bundled types include `string`, `text`, `wysiwyg`, `password`, `email`, `date`, `datetime`, `number`, `float`, `boolean`, `choice`, `choices`, `json`, `file`, `reference`, `referenced_list`, `embedded_list` and `reference_many`.
 
     The name may use the *dot notation* to map a nested property. For instance, is the REST endpoint for comments answers as follow:
 
