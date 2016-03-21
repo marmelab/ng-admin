@@ -3,12 +3,10 @@ describe('directive: date-field', function() {
     'use strict';
 
     var dateDirective = require('../../../../ng-admin/Crud/field/maDateField');
-    var datepickerPopupDirective = require('../../../../ng-admin/Crud/field/datepickerPopup');
     var DateField = require('admin-config/lib/Field/DateField');
 
     angular.module('testapp_DateField', ['ui.bootstrap', 'ui.bootstrap.tpls'])
-        .directive('maDateField', dateDirective)
-        .directive('datepickerPopup', datepickerPopupDirective);
+        .directive('maDateField', dateDirective);
 
     var $compile,
         scope,
