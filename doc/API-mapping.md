@@ -112,11 +112,11 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 
 ## HTTP Method
 
-The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`.
+The REST standard suggests using the POST method to create a new resource, and PUT to update it. If your API uses a different verb for a given action (e.g. PATCH), then you can force the method to be used for a given entity with `createMethod()` and `updateMethod()`. The method name should be in lowercase.
 
 ```js
-bookEntity.createMethod('PUT');   // default is POST
-bookEntity.updateMethod('PATCH'); // default is PUT
+bookEntity.createMethod('put');   // default is 'post'
+bookEntity.updateMethod('patch'); // default is 'put'
 ```
 
 ## Pagination
@@ -291,3 +291,6 @@ var post = nga.entity('posts')
 ## Date
 
 The default date field format is `yyyy-MM-dd`. You can change it with the `format()` method in fields of type `date`.
+```js
+nga.field('publication_date', 'date').format('dd MM yyyy')
+```
