@@ -5,7 +5,7 @@ describe('DeleteController', function () {
         Entity = require('admin-config/lib/Entity/Entity'),
         humane = require('humane-js');
 
-    var $scope, $window, $state, $q, writeQueries, notification, params, view, entry;
+    var $scope, $window, $state, $q, writeQueries, Configuration, notification, params, view, entry;
     beforeEach(inject(function ($controller, $rootScope, _$window_, _$q_) {
         $scope = $rootScope.$new();
         $window = _$window_;
@@ -18,6 +18,11 @@ describe('DeleteController', function () {
         writeQueries = {
             deleteOne: jasmine.createSpy('writeQueries.deleteOne').and.callFake(() => $q.when())
         };
+        Configuration = () => ({
+            getErrorMessageFor: function (view, response) {
+                return 'An error occured: ' + response;
+            }
+        });
         notification = humane;
         params = {
             id: 3,
@@ -45,7 +50,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, Configuration, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry);
@@ -72,7 +77,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, Configuration, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry);
@@ -103,7 +108,7 @@ describe('DeleteController', function () {
                 };
 
                 let $window = { history: { back: jasmine.createSpy('$window.history.back') } };
-                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, writeQueries, Configuration, notification, {
                     id: commentId,
                     entity: 'comment'
                 }, view, entry);
