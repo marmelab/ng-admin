@@ -53,5 +53,12 @@ module.exports = {
         new ExtractTextPlugin('build/[name].min.css', {
             allChunks: true
         })
-    ]
+    ],
+    stats: {
+      children: false,
+      hash: false,
+      version: false,
+      warnings: false,
+      errorDetails: true,
+    },
 };
