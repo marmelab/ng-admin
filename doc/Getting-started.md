@@ -248,7 +248,7 @@ Add this script to the end of the `admin.js` file, reload the users list view in
 
 If you want to know more about how to map any API with ng-admin, go to the [API Mapping documentation](API-mapping.md).
 
-The definition of the interceptor is usually done only once per API. Now that your ng-admin app knows how to speak with the JSONPlaceholder REST backend, every new endpoint you add will work out of the box. You can check it by adding a list view for another enpoint, `/posts`, which exposes a list of posts:
+The definition of the interceptor is usually done only once per API. Now that your ng-admin app knows how to speak with the JSONPlaceholder REST backend, every new endpoint you add will work out of the box. You can check it by adding a list view for another endpoint, `/posts`, which exposes a list of posts:
 
 ```js
 var myApp = angular.module('myApp', ['ng-admin']);
