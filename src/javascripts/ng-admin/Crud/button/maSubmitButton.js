@@ -11,9 +11,9 @@ export default function maSubmitButtonDirective() {
             label: '@',
         },
         link: function (scope) {
-            scope.label = scope.label || 'Save';
+            scope.label = scope.label || 'SAVE';
         },
-        template: '<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ label }}</button>'
+        template: '<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}"></span></button>'
     };
 }
 

@@ -18,6 +18,8 @@ export default function maChoiceField($compile) {
             return {
                 pre: function(scope, element) {
                     var field = scope.field();
+                    var attributes = field.attributes();
+                    scope.placeholder = (attributes && attributes.placeholder) || 'FILTER_VALUES';
                     scope.name = field.name();
                     scope.v = field.validation();
                     scope.$watch('value', function(newValue, oldValue) {
@@ -36,12 +38,10 @@ export default function maChoiceField($compile) {
                     }
 
                     var choices = (typeof scope.choices == 'function' && scope.choices()) ? scope.choices() : (field.choices ? field.choices() : []);
-                    var attributes = field.attributes();
-                    scope.placeholder = (attributes && attributes.placeholder) || 'Filter values';
 
                     var template = `
                         <ui-select ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
-                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="{{ placeholder }}">{{ $select.selected.label }}</ui-select-match>
+                            <ui-select-match allow-clear="{{ !v.required }}" placeholder="{{ placeholder | translate }}">{{ $select.selected.label }}</ui-select-match>
                             <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices ${itemsFilter}  track by $index">
                                 {{ item.label }}
                             </ui-select-choices>

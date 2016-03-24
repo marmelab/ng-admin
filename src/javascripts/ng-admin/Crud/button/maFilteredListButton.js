@@ -27,12 +27,12 @@ export default function maFilteredListButtonDirective() {
             size: '@'
         },
         link: function (scope) {
-            scope.label = scope.label || ('See all related ' + scope.entityName);
+            scope.label = scope.label || 'SEE_RELATED';
             scope.stateParams = { 'entity': scope.entityName, 'search': scope.filter() };
         },
         template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ui-sref="list(stateParams)">
-    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ ::label }}
+    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}" translate-values="{ entityName: entityName }"></span>
 </a>`
     };
 }

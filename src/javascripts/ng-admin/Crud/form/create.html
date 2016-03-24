@@ -5,7 +5,7 @@
                 <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
             </ma-view-actions>
             <h1 compile="::formController.title">
-                Create new {{ ::formController.view.entity.label() | humanize:true | singularize }}
+                {{ 'CREATE_NEW' | translate }} {{ ::formController.view.entity.label() | humanize:true | singularize }}
             </h1>
             <p class="lead" ng-if="::formController.description" compile="::formController.description">{{ ::formController.description }}</p>
         </div>
@@ -20,7 +20,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <ma-submit-button label="Submit"></ma-submit-button>
+                <ma-submit-button label="SUBMIT"></ma-submit-button>
             </div>
         </div>
     </form>

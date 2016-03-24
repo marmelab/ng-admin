@@ -48,7 +48,6 @@ CrudModule.directive('maDatagridItemSelector', require('./list/maDatagridItemSel
 CrudModule.directive('maDatagridMultiSelector', require('./list/maDatagridMultiSelector'));
 CrudModule.directive('maFilterForm', require('./filter/maFilterForm'));
 CrudModule.directive('maFilter', require('./filter/maFilter'));
-CrudModule.directive('maFilterButton', require('./filter/maFilterButton'));
 
 CrudModule.directive('maColumn', require('./column/maColumn'));
 CrudModule.directive('maBooleanColumn', require('./column/maBooleanColumn'));
@@ -69,6 +68,7 @@ CrudModule.directive('maWysiwygColumn', require('./column/maWysiwygColumn'));
 CrudModule.directive('maBackButton', require('./button/maBackButton'));
 CrudModule.directive('maCreateButton', require('./button/maCreateButton'));
 CrudModule.directive('maEditButton', require('./button/maEditButton'));
+CrudModule.directive('maFilterButton', require('./button/maFilterButton'));
 CrudModule.directive('maFilteredListButton', require('./button/maFilteredListButton'));
 CrudModule.directive('maShowButton', require('./button/maShowButton'));
 CrudModule.directive('maListButton', require('./button/maListButton'));

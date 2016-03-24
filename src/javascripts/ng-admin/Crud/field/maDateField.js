@@ -39,7 +39,8 @@ export default function maDateField() {
 `<div class="input-group datepicker">
     <input
         type="text" ng-model="rawValue" id="{{ name }}" name="{{ name }}" class="form-control"
-        uib-datepicker-popup="{{ format }}" is-open="isOpen" close-text="Close" ng-required="v.required" />
+        uib-datepicker-popup="{{ format }}" is-open="isOpen" ng-required="v.required"
+        close-text="{{ 'CLOSE' | translate }}" clear-text="{{ 'CLEAR' | translate }}" current-text="{{ 'CURRENT' | translate }}"/>
     <span class="input-group-btn">
         <button type="button" class="btn btn-default" ng-click="toggleDatePicker($event)">
             <i class="glyphicon glyphicon-calendar"></i>

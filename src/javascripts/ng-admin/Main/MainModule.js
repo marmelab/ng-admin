@@ -3,7 +3,7 @@ import angular from 'angular';
 require('angular-ui-router');
 require('restangular');
 
-var MainModule = angular.module('main', ['ui.router', 'restangular']);
+var MainModule = angular.module('main', ['ui.router', 'restangular', 'pascalprecht.translate']);
 
 MainModule.controller('AppController', require('./component/controller/AppController'));
 MainModule.controller('DashboardController', require('./component/controller/DashboardController'));
@@ -18,6 +18,7 @@ MainModule.directive('maMenuBar', require('./component/directive/maMenuBar'));
 
 MainModule.config(require('./config/http'));
 MainModule.config(require('./config/routing'));
+MainModule.config(require('./config/translate'));
 
 MainModule.run(require('./run/ErrorHandler'));
 MainModule.run(require('./run/Loader'));
