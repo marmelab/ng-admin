@@ -171,6 +171,17 @@ myApp.config(['FieldViewConfigurationProvider', function(fvp) {
 }]);
 ```
 
+To use this field view, alter the field class and set its `_type` property:
+```js
+class AmountField extends NumberField {
+    constructor(name) {
+        super(name);
+        this._type = 'amount';
+        ...
+    }
+}
+```
+
 ## Using Custom Directives
 
 Optionally, you can write a custom directive, and use that directive in one of the widget definitions.
