@@ -87,6 +87,7 @@ import NumberField from 'admin-config/lib/Field/NumberField';
 class AmountField extends NumberField {
     constructor(name) {
         super(name);
+        this._type = 'amount';
         this._currency = '$';
     }
     currency(currency) {
@@ -169,17 +170,6 @@ You also need to *register* this new field view type in your application for ng-
 myApp.config(['FieldViewConfigurationProvider', function(fvp) {
     fvp.registerFieldView('amount', require('path/to/AmountFieldView'))
 }]);
-```
-
-To use this field view, alter the field class and set its `_type` property:
-```js
-class AmountField extends NumberField {
-    constructor(name) {
-        super(name);
-        this._type = 'amount';
-        ...
-    }
-}
 ```
 
 ## Using Custom Directives
