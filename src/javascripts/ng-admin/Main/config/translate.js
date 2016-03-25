@@ -27,7 +27,7 @@ export default function translate($translateProvider) {
       'SAVE_CHANGES': 'Save changes',
       'BATCH_DELETE_SUCCESS': 'Elements successfully deleted',
       'DELETE_SUCCESS': 'Element successfully deleted',
-      'ERROR_MESSAGE': 'Oops, an error occured (code: {{ status }})',
+      'ERROR_MESSAGE': 'Oops, an error occurred (code: {{ status }})',
       'INVALID_FORM': 'Invalid form',
       'CREATION_SUCCESS': 'Element successfully created',
       'EDITION_SUCCESS': 'Changes successfully saved',

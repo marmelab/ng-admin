@@ -15,6 +15,7 @@ describe('ReferenceField', function() {
         </ma-reference-field>`;
 
     angular.module('myTestingApp', ['ui.select', 'testapp_DataStore'])
+        .filter('translate', () => text => text)
         .directive('maChoiceField', choiceDirective)
         .directive('maReferenceField', referenceDirective);
 

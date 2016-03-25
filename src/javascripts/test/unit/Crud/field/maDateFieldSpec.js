@@ -6,6 +6,7 @@ describe('directive: date-field', function() {
     var DateField = require('admin-config/lib/Field/DateField');
 
     angular.module('testapp_DateField', ['ui.bootstrap', 'ui.bootstrap.tpls'])
+        .filter('translate', () => text => text)
         .directive('maDateField', dateDirective);
 
     var $compile,
