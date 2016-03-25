@@ -20,7 +20,7 @@ describe('List filter', function () {
         });
         it('should display a filter button for adding new filters', function() {
             return $$('ma-view-actions button').then(function(buttons) {
-                expect(buttons[0].getText()).toBe(' Add filter');
+                expect(buttons[0].getText()).toBe(' Add filter ');
             });
         });
     });
