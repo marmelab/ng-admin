@@ -1,21 +1,19 @@
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
-        sources.push('webpack-dev-server/client?http://0.0.0.0:8000');
-    }
+var ngAdminJsSources = [
+    './src/javascripts/ng-admin.js'
+];
 
-    return sources;
-}
-
-var ngAdminSources = [
-    './src/javascripts/ng-admin.js',
+var ngAdminCssSources = [
     './src/sass/ng-admin.scss'
 ];
 
-var ngAdminAndVendorSources = [
-    './src/javascripts/ng-admin.js',
-    './src/javascripts/vendors.js',
+var vendorsJsSources = [
+    './src/javascripts/vendors.js'
+];
+
+var vendorsCssSources = [
     'font-awesome/scss/font-awesome.scss',
     'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
     'nprogress/nprogress.css',
@@ -23,20 +21,21 @@ var ngAdminAndVendorSources = [
     'textangular/src/textAngular.css',
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
-    'ui-select/dist/select.css',
-    './src/sass/ng-admin.scss'
-];
+    'ui-select/dist/select.css'
+ ];
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(ngAdminAndVendorSources),
-        'ng-admin-only': getEntrySources(ngAdminSources)
+        'ng-admin': ['angular'].concat(vendorsJsSources.concat(ngAdminJsSources).concat(vendorsCssSources).concat(ngAdminCssSources)),
+        'ng-admin-only': ngAdminJsSources.concat(ngAdminCssSources),
+        'ng-admin-vendors-js': vendorsJsSources,
+        'ng-admin-vendors-css': vendorsCssSources
     },
     output: process.env.NODE_ENV === 'test' ? {
-        path: './src/javascripts/test/fixtures/examples/blog/',
+        path: './examples/blog/',
         filename: "build/[name].min.js"
     } : {
-        publicPath: "http://localhost:8000/",
+        publicPath: "/",
         filename: "build/[name].min.js"
     },
     module: {
@@ -53,5 +52,5 @@ module.exports = {
         new ExtractTextPlugin('build/[name].min.css', {
             allChunks: true
         })
-    ]
+    ],
 };

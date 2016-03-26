@@ -4,7 +4,6 @@ dist
 .sass-cache
 src/javascripts/bower_components
 src/javascripts/config.js
-src/javascripts/test/fixtures/examples/blog
 src/styles/*.css
 src/css
 examples/blog/build

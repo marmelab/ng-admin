@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 export default function maDatagridInfinitePagination($window, $document) {
 
     var windowElement = angular.element($window);

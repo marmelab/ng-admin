@@ -1,8 +1,3 @@
-import angular from 'angular';
-
-require('angular-ui-router');
-require('restangular');
-
 var MainModule = angular.module('main', ['ui.router', 'restangular']);
 
 MainModule.controller('AppController', require('./component/controller/AppController'));
