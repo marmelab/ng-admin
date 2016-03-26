@@ -24,6 +24,7 @@ describe('ReferenceManyField', function() {
     });
 
     angular.module('myApp', ['ui.select'])
+        .filter('translate', () => text => text)
         .directive('maChoicesField', choicesFieldDirective)
         .directive('maReferenceManyField', referenceManyFieldDirective);
 

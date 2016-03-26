@@ -1,8 +1,9 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, WriteQueries, Configuration, notification, params, view, entry) {
+    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
+        this.$translate = $translate;
         this.WriteQueries = WriteQueries;
         this.config = Configuration();
         this.entityLabel = params.entity;
@@ -25,29 +26,28 @@ export default class DeleteController {
     }
 
     deleteOne() {
-        var notification = this.notification,
-            entityName = this.entity.name();
+        const entityName = this.entity.name();
+        const { $translate, notification } = this;
 
         return this.WriteQueries.deleteOne(this.view, this.entityId)
-            .then(
-                () => {
-                    this.previousStateParametersDeferred.promise.then(previousStateParameters => {
-                        // if previous page was related to deleted entity, redirect to list
-                        if (previousStateParameters.entity === entityName && previousStateParameters.id === this.entityId) {
-                            this.$state.go(this.$state.get('list'), angular.extend({
-                                entity: entityName
-                            }, this.$state.params));
-                        } else {
-                            this.back();
-                        }
-
-                        notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
-                    });
+            .then(() => this.previousStateParametersDeferred.promise)
+            .then(previousStateParameters => {
+                // if previous page was related to deleted entity, redirect to list
+                if (previousStateParameters.entity === entityName && previousStateParameters.id === this.entityId) {
+                    this.$state.go(this.$state.get('list'), angular.extend({
+                        entity: entityName
+                    }, this.$state.params));
+                } else {
+                    this.back();
                 }
-            )
+                $translate('DELETE_SUCCESS').then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
+            })
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error);
-                notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
+                $translate(errorMessage, {
+                    status: error && error.status,
+                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
+                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -57,10 +57,13 @@ export default class DeleteController {
 
     destroy() {
         this.$scope = undefined;
+        this.$window = undefined;
+        this.$state = undefined;
+        this.$translate = undefined;
         this.WriteQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', 'WriteQueries', 'NgAdminConfiguration', 'notification', 'params', 'view', 'entry'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'notification', 'params', 'view', 'entry'];

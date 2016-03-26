@@ -96,7 +96,7 @@ export default function maFileField(Upload) {
 `<div class="row">
     <div class="col-md-2">
         <a class="btn btn-default" ng-click="selectFile()">
-            <span>Browse</span>
+            <span translate="BROWSE"></span>
         </a>
     </div>
     <div class="col-md-10">
@@ -104,7 +104,7 @@ export default function maFileField(Upload) {
             <div class="col-md-3" style="padding-top: 6px;">
                 <div class="progress" style="margin-bottom: 0;" ng-if="file.progress">
                     <div class="progress-bar" role="progressbar" aria-valuenow="{{ file.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ file.progress }}%;">
-                        <span class="sr-only">{{ file.progress }}% Complete</span>
+                        <span class="sr-only" translate="N_COMPLETE" translate-values="{ progress: file.progress }"></span>
                     </div>
                 </div>
             </div>

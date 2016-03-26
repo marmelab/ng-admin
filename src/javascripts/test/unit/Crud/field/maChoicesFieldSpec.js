@@ -9,7 +9,9 @@ describe('directive: choices-field', function() {
     var dataStoreModule = angular.module('testapp_DataStore', []);
     dataStoreModule.constant('DataStore', new DataStore());
 
-    angular.module('testapp_ChoicesField', ['ui.select', 'testapp_DataStore']).directive('maChoicesField', directive);
+    angular.module('testapp_ChoicesField', ['ui.select', 'testapp_DataStore'])
+        .filter('translate', () => text => text)
+        .directive('maChoicesField', directive);
 
     var $compile,
         scope,

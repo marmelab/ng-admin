@@ -6,7 +6,7 @@
                 <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
             </ma-view-actions>
             <h1 compile="::formController.title">
-                Edit {{ ::formController.entity.label() | humanize:true | singularize }}  #{{ ::entry.identifierValue }}
+                {{ 'EDIT' | translate }} {{ ::formController.entity.label() | humanize:true | singularize }}  #{{ ::entry.identifierValue }}
             </h1>
             <p class="lead" ng-if="::formController.description" compile="::formController.description">{{ ::formController.description }}</p>
         </div>
@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <ma-submit-button label="Save Changes"></ma-submit-button>
+                <ma-submit-button label="SAVE_CHANGES"></ma-submit-button>
             </div>
         </div>
     </form>

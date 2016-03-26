@@ -14,15 +14,15 @@ export default function maListButtonDirective($state) {
             label: '@',
         },
         link: function (scope, element, attrs) {
+            scope.label = scope.label || 'LIST';
             var entityName = scope.entity() ? scope.entity().name() : attrs.entityName;
             var stateParams = entityName == $state.params.entity ? { ...$state.params } : {};
             stateParams.entity = entityName;
             scope.stateParams = stateParams;
-            scope.label = scope.label || 'List';
         },
         template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ui-sref="list(stateParams)">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}"></span>
 </a>`
     };
 }

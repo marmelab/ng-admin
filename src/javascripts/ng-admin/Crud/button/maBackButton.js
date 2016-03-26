@@ -12,12 +12,12 @@ export default function maBackButtonDirective($window) {
             label: '@',
         },
         link: function (scope) {
-            scope.label = scope.label || 'Back';
+            scope.label = scope.label || 'BACK';
             scope.back = () => $window.history.back();
         },
         template:
 ` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">
-<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
+<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}"></span>
 </a>`
     };
 }

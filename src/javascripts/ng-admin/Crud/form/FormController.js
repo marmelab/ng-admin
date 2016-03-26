@@ -1,8 +1,9 @@
 export default class FormController {
-    constructor($scope, $state, $injector, WriteQueries, Configuration, progression, notification, view, dataStore) {
+    constructor($scope, $state, $injector, $translate, WriteQueries, Configuration, progression, notification, view, dataStore) {
         this.$scope = $scope;
         this.$state = $state;
         this.$injector = $injector;
+        this.$translate = $translate;
         this.WriteQueries = WriteQueries;
         this.dataStore = dataStore;
         this.progression = progression;
@@ -26,14 +27,14 @@ export default class FormController {
 
     validateEntry() {
         if (!this.form.$valid) {
-            this.notification.log('invalid form', { addnCls: 'humane-flatty-error' });
+            $translate('INVALID_FORM').then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             return false;
         }
 
         try {
             this.view.validate(this.$scope.entry);
-        } catch (e) {
-            this.notification.log(e, { addnCls: 'humane-flatty-error' });
+        } catch (error) {
+            this.notification.log(error, { addnCls: 'humane-flatty-error' });
             return false;
         }
 
@@ -50,7 +51,7 @@ export default class FormController {
         var route = !entity.editionView().enabled ? 'show' : 'edit';
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        const { progression, notification } = this;
+        const { progression, notification, $translate } = this;
         progression.start();
         this.WriteQueries
             .createOne(view, restEntry)
@@ -66,11 +67,11 @@ export default class FormController {
             .then(customHandlerReturnValue => {
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                notification.log('Element successfully created.', { addnCls: 'humane-flatty-success' });
+                $translate('CREATION_SUCCESS').then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
                 this.$state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue });
             })
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error);
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -78,7 +79,10 @@ export default class FormController {
                 );
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
+                $translate(errorMessage, {
+                    status: error && error.status,
+                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
+                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -90,7 +94,7 @@ export default class FormController {
         var view = this.view;
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        const { progression, notification } = this;
+        const { progression, notification, $translate } = this;
         progression.start();
         this.WriteQueries
             .updateOne(view, restEntry, this.originEntityId)
@@ -106,10 +110,10 @@ export default class FormController {
             .then(customHandlerReturnValue => {
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                notification.log('Changes successfully saved.', { addnCls: 'humane-flatty-success' });
+                $translate('EDITION_SUCCESS').then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error);
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -117,7 +121,10 @@ export default class FormController {
                 );
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
+                $translate(errorMessage, {
+                    status: error && error.status,
+                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
+                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -125,6 +132,7 @@ export default class FormController {
         this.$scope = undefined;
         this.$state = undefined;
         this.$injector = undefined;
+        this.$translate = undefined;
         this.WriteQueries = undefined;
         this.dataStore = undefined;
         this.view = undefined;
@@ -132,4 +140,4 @@ export default class FormController {
     }
 }
 
-FormController.$inject = ['$scope', '$state', '$injector', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+FormController.$inject = ['$scope', '$state', '$injector', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];

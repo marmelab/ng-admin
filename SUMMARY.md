@@ -9,6 +9,7 @@
 * [Menu Configuration](doc/Menus.md)
 * [Dashboard Configuration](doc/Dashboard.md)
 * [Theming](doc/Theming.md)
+* [Translation](doc/Translation.md)
 * [Adding Custom Pages](doc/Custom-pages.md)
 * [Adding Custom Types](doc/Custom-types.md)
 * [Configuration Reference](doc/Configuration-reference.md)
@@ -19,4 +20,3 @@
    * [Field Configuration](doc/reference/Field.md)
 * [Getting Ready For Production](doc/Production.md)
 * [Frequently Asked Questions](doc/FAQ.md)
-

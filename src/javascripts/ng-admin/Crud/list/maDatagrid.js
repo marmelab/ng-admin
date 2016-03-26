@@ -28,13 +28,10 @@ export default function maDatagrid() {
             <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses()" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
                 <a ng-click="datagrid.sortCallback(field)">
                     <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
-
                     {{ field.label() }}
                 </a>
             </th>
-            <th ng-if="datagrid.shouldDisplayActions" class="ng-admin-column-actions">
-                Actions
-            </th>
+            <th ng-if="datagrid.shouldDisplayActions" class="ng-admin-column-actions" translate="ACTIONS"></th>
         </tr>
     </thead>
 
