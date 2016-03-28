@@ -698,7 +698,7 @@ var comment = nga.entity('comments');
 post.editionView().fields([
     nga.field('comments', 'reference_many') // Define a 1-N relationship with the comment entity
         .targetEntity(comment) // Target the comment Entity
-        .targetField('body') // the field of the comment entity to use as representation
+        .targetField(nga.field('body')) // the field of the comment entity to use as representation
 ]);
 ```
 
