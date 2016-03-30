@@ -255,6 +255,10 @@ function routing($stateProvider) {
             },
             resolve: {
                 dataStore: () => new DataStore(),
+                previousState: ['$state', '$stateParams', ($state, $stateParams) => ({
+                    name: $state.current.name || 'edit',
+                    params: Object.keys($state.params).length > 0 ? $state.params : $stateParams,
+                })],
                 view: viewProvider('CreateView'),
                 entry: ['$stateParams', 'dataStore', 'view', function ($stateParams, dataStore, view) {
                     var entry = Entry.createForFields(view.getFields(), view.entity.name());
