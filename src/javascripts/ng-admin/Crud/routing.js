@@ -307,6 +307,10 @@ function routing($stateProvider) {
             },
             resolve: {
                 dataStore: () => new DataStore(),
+                previousState: ['$state', '$stateParams', ($state, $stateParams) => ({
+                    name: $state.current.name || 'edit',
+                    params: Object.keys($state.params).length > 0 ? $state.params : $stateParams,
+                })],
                 view: viewProvider('EditView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());

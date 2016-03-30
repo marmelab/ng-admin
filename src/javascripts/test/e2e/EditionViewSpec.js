@@ -3,17 +3,16 @@ describe('EditionView', function () {
     'use strict';
 
     beforeEach(function() {
-        browser.get(browser.baseUrl + '#/');
+        browser.get(browser.baseUrl);
     });
 
     describe('Fields mapping', function() {
 
-        beforeEach(function() {
-            browser.setLocation('/comments/edit/11');
-        });
-
         it('should map nested fields from the REST response', function () {
-            $$('.ng-admin-field-author_name input')
+            browser.setLocation('/comments/edit/11')
+            .then(function() {
+                return $$('.ng-admin-field-author_name input');
+            })
             .then(function (inputs) {
                 expect(inputs.length).toBe(1);
                 expect(inputs[0].getAttribute('value')).toBe('Logan Schowalter');
@@ -26,10 +25,7 @@ describe('EditionView', function () {
                 return $$('button[type="submit"]').first().click();
             })
             .then(function() {
-                return $$('#page-wrapper .btn-default').first().click();
-            })
-            .then(function() {
-                return $$('.ng-admin-column-actions .btn-xs').first().click();
+                return browser.setLocation('/comments/edit/11');
             })
             .then(function() {
                 return $$('.ng-admin-field-author_name input').first();
@@ -50,12 +46,11 @@ describe('EditionView', function () {
 
     describe('ChoiceField', function() {
 
-        beforeEach(function() {
-            browser.setLocation('/posts/edit/1');
-        });
-
         it('should render correctly choice fields', function () {
-            $$('.ng-admin-field-category .ui-select-container')
+            browser.setLocation('/posts/edit/1')
+            .then(function() {
+                return $$('.ng-admin-field-category .ui-select-container');
+            })
             .then(function(uiSelect) {
                 expect(uiSelect.length).toBe(1)
             })
@@ -72,12 +67,11 @@ describe('EditionView', function () {
     });
 
     describe('BooleanField', function() {
-        beforeEach(function() {
-            browser.setLocation('/tags/edit/5');
-        });
-
         it('should render as a checkbox field when required', function () {
-            $$('.ng-admin-field-published input[type="checkbox"]')
+            browser.setLocation('/tags/edit/5')
+            .then(function() {
+                return $$('.ng-admin-field-published input[type="checkbox"]');
+            })
             .then(function(checkboxes) {
                 expect(checkboxes.length).toBe(1);
                 return checkboxes[0];
@@ -90,10 +84,7 @@ describe('EditionView', function () {
                 return $$('button[type="submit"]').first().click();
             })
             .then(function() {
-                return $$('#page-wrapper .btn-default').first().click();
-            })
-            .then(function() {
-                return $$('.ng-admin-column-actions .btn-xs').get(1).click();
+                browser.setLocation('/tags/edit/5')
             })
             .then(function() {
                 return $$('.ng-admin-field-published input[type="checkbox"]').first();

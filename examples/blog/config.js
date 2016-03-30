@@ -226,6 +226,10 @@
         post.showView() // a showView displays one entry in full page - allows to display more data than in a a list
             .fields([
                 nga.field('id'),
+                nga.field('title'),
+                nga.field('teaser'),
+                nga.field('body', 'wysiwyg'),
+                nga.field('published_at', 'date'),
                 nga.field('category', 'choice') // a choice field is rendered as a dropdown in the edition view
                     .choices([ // List the choice as object literals
                         { label: 'Tech', value: 'tech' },

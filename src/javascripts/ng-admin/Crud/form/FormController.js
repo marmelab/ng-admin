@@ -1,9 +1,10 @@
 export default class FormController {
-    constructor($scope, $state, $injector, $translate, WriteQueries, Configuration, progression, notification, view, dataStore) {
+    constructor($scope, $state, $injector, $translate, previousState, WriteQueries, Configuration, progression, notification, view, dataStore) {
         this.$scope = $scope;
         this.$state = $state;
         this.$injector = $injector;
         this.$translate = $translate;
+        this.previousState = previousState;
         this.WriteQueries = WriteQueries;
         this.dataStore = dataStore;
         this.progression = progression;
@@ -46,12 +47,10 @@ export default class FormController {
         if (!this.validateEntry()) {
             return;
         }
-        var entity = this.entity;
-        var view = this.view;
-        var route = !entity.editionView().enabled ? 'show' : 'edit';
+        const { entity, view, $state, progression, notification, $translate } = this;
+        var route = entity.showView().enabled ? 'show' : 'list';
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        const { progression, notification, $translate } = this;
         progression.start();
         this.WriteQueries
             .createOne(view, restEntry)
@@ -66,9 +65,10 @@ export default class FormController {
             ))
             .then(customHandlerReturnValue => {
                 if (customHandlerReturnValue === false) return;
-                progression.done();
-                $translate('CREATION_SUCCESS').then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
-                this.$state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue });
+                $state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue })
+                    .then(() => progression.done())
+                    .then(() => $translate('CREATION_SUCCESS'))
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
@@ -91,10 +91,9 @@ export default class FormController {
         if (!this.validateEntry()) {
             return;
         }
-        var view = this.view;
+        const { view, $state, previousState, progression, notification, $translate } = this;
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        const { progression, notification, $translate } = this;
         progression.start();
         this.WriteQueries
             .updateOne(view, restEntry, this.originEntityId)
@@ -109,8 +108,10 @@ export default class FormController {
             ))
             .then(customHandlerReturnValue => {
                 if (customHandlerReturnValue === false) return;
-                progression.done();
-                $translate('EDITION_SUCCESS').then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
+                $state.go(previousState.name, previousState.params)
+                    .then(() => progression.done())
+                    .then(() => $translate('EDITION_SUCCESS'))
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
@@ -133,6 +134,7 @@ export default class FormController {
         this.$state = undefined;
         this.$injector = undefined;
         this.$translate = undefined;
+        this.previousState = undefined;
         this.WriteQueries = undefined;
         this.dataStore = undefined;
         this.view = undefined;
@@ -140,4 +142,4 @@ export default class FormController {
     }
 }
 
-FormController.$inject = ['$scope', '$state', '$injector', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+FormController.$inject = ['$scope', '$state', '$injector', '$translate', 'previousState', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];

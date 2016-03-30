@@ -31,3 +31,11 @@ export default {
 ```
 
 You should upgrade your existing FieldViewConfigurations to reflect that change.
+
+## Redirections After Edition / Creation
+
+After editing an entity, ng-admin now redirects to the previous page (e.g. list view) instead of staying on the edition view.
+
+Similarly, after creating an entity, ng-admin now redirects to the show view if it's enabled, or to the list view if it's not.
+
+If you want to reverse to the pre-1.0 behavior, override `CreationView.onSubmitSuccess()` and `EditionView.onSubmitSuccess()` (cf [doc/reference/View](doc/reference/View.md)).
