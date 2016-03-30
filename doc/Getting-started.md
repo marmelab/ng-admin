@@ -566,7 +566,7 @@ Also, you may want to control the width of columns in the list view. Fortunately
 
 ![updated post list view](images/updated_post_list_view.png)
 
-You can do much more to customize the look and feel of an ng-admin application - including overriding directives templates, or customizing the view template for a given entity. Check the [Theming documentation](Themind.md) for details.
+You can do much more to customize the look and feel of an ng-admin application - including overriding directives templates, or customizing the view template for a given entity. Check the [Theming documentation](Theming.md) for details.
 
 ## Customizing the Sidebar Menu
 
