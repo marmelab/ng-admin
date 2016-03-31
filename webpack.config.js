@@ -36,7 +36,7 @@ module.exports = {
         path: './src/javascripts/test/fixtures/examples/blog/',
         filename: "build/[name].min.js"
     } : {
-        publicPath: "http://localhost:8000/",
+        publicPath: "http://0.0.0.0:8000/",
         filename: "build/[name].min.js"
     },
     module: {
