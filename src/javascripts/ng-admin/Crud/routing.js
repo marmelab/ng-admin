@@ -317,7 +317,7 @@ function routing($stateProvider) {
                 })],
                 view: viewProvider('EditView'),
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
-                    return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
+                    return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl($stateParams.id));
                 }],
                 entry: ['view', 'rawEntry', function(view, rawEntry) {
                     return view.mapEntry(rawEntry);
