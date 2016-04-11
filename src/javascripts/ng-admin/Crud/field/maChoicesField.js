@@ -39,7 +39,7 @@ export default function maChoicesField($compile) {
                      }
 
                     var template = `
-                        <ui-select ${scope.v.required ? 'ui-select-required' : ''} multiple on-remove="onRemove()" ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
+                        <ui-select sortable="true" ${scope.v.required ? 'ui-select-required' : ''} multiple on-remove="onRemove()" ng-model="$parent.value" ng-required="v.required" id="{{ name }}" name="{{ name }}">
                             <ui-select-match placeholder="{{ placeholder | translate }}">{{ $item.label }}</ui-select-match>
                             <ui-select-choices ${refreshAttributes} repeat="item.value as item in choices ${itemsFilter}">
                                 {{ item.label }}
@@ -58,6 +58,15 @@ export default function maChoicesField($compile) {
                     $compile(element.contents())(scope);
                 },
                 post: function(scope) {
+                    scope.$on('uiSelectSort:change', function(e, data) {
+                        var values = [];
+                        for (var elem of data.array){
+                            values.push(elem.value);
+                        }
+                        scope.$parent.value = values;
+                        scope.$root.$$phase || scope.$digest();
+                    });
+
                     scope.$on('choices:update', function(e, data) {
                         scope.choices = data.choices;
                         scope.$root.$$phase || scope.$digest();
