@@ -28,7 +28,7 @@ export default class FormController {
 
     validateEntry() {
         if (!this.form.$valid) {
-            this.$translate('INVALID_FORM').then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+            this.$translate('INVALID_FORM').then(text => this.notification.log(text, { addnCls: 'humane-flatty-error' }));
             return false;
         }
 
