@@ -1,3 +1,18 @@
+$fa-font-path: '~font-awesome/fonts/';
+$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+
+@import '../../node_modules/font-awesome/scss/font-awesome.scss';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss';
+@import '~nprogress/nprogress.css';
+@import '~humane-js/themes/flatty.css';
+@import '~textangular/src/textAngular.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/addon/lint/lint.css';
+@import '~ui-select/dist/select.css';
+@import './sb-admin.scss';
+
+// require('ng-admin/build/ng-admin.min.css');
+
 @import "sb-admin";
 
 #nprogress div.spinner {
@@ -255,12 +270,9 @@ div.bottom-loader {
     }
 
     .remove_button_container {
-        position: absolute;
-        right: -7em;
-        z-index: 2;
+        float: right;
         @media (max-width: 992px) {
-            position: relative;
-            right: 0;
+            float: none;
             display: block;
             text-align: right;
         }
@@ -273,10 +285,6 @@ div.bottom-loader {
         &.active {
             z-index: 1;
         }
-    }
-
-    .ng-admin-type-embedded_list .ng-admin-type-boolean ma-choice-field {
-        min-width: 12em;
     }
 
     &#show-view {

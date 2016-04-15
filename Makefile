@@ -7,7 +7,7 @@ install:
 run: examples/blog/build
 	@cp node_modules/fakerest/dist/FakeRest.min.js examples/blog/build/fakerest.js
 	@cp node_modules/sinon/pkg/sinon-server-1.14.1.js examples/blog/build/sinon-server.js
-	@./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --devtool cheap-module-inline-source-map --content-base examples/blog --port 8000
+	@./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --inline --hot --devtool cheap-module-inline-source-map --content-base examples/blog --port 8000
 
 examples/blog/build:
 	@mkdir examples/blog/build

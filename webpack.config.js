@@ -1,36 +1,12 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
-        sources.push('webpack-dev-server/client?http://0.0.0.0:8000');
-    }
-
-    return sources;
-}
-
-var ngAdminSources = [
-    './src/javascripts/ng-admin.js',
-    './src/sass/ng-admin.scss'
-];
-
-var ngAdminAndVendorSources = [
-    './src/javascripts/ng-admin.js',
-    './src/javascripts/vendors.js',
-    'font-awesome/scss/font-awesome.scss',
-    'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-    'nprogress/nprogress.css',
-    'humane-js/themes/flatty.css',
-    'textangular/src/textAngular.css',
-    'codemirror/lib/codemirror.css',
-    'codemirror/addon/lint/lint.css',
-    'ui-select/dist/select.css',
-    './src/sass/ng-admin.scss'
-];
-
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(ngAdminAndVendorSources),
-        'ng-admin-only': getEntrySources(ngAdminSources)
+        'ng-admin': [
+            './src/javascripts/vendors.js',
+            './src/javascripts/ng-admin.js',
+            './src/sass/ng-admin.scss'
+        ],
     },
     output: process.env.NODE_ENV === 'test' ? {
         path: './src/javascripts/test/fixtures/examples/blog/',
@@ -43,11 +19,17 @@ module.exports = {
         loaders: [
             { test: /\.js/, loaders: ['babel'], exclude: /node_modules[\\\/](?!admin-config)/ },
             { test: /\.js/, loaders: ['ng-annotate'] },
+            { test: /\/angular\.min\.js$/, loader: 'exports?angular' },
             { test: /\.html$/, loader: 'html' },
             { test: /\.(woff2?|svg|ttf|eot)(\?.*)?$/, loader: 'url' },
             { test: /\.css$/, loader: ExtractTextPlugin.extract('css') },
             { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!sass') }
         ]
+    },
+    resolve: {
+        alias: {
+            angular: __dirname + '/node_modules/angular/angular.min.js',
+        },
     },
     plugins: [
         new ExtractTextPlugin('build/[name].min.css', {

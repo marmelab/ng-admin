@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha4",
   "license": "MIT",
   "private": false,
-  "main": "build/ng-admin.min.js",
+  "main": "src/javascripts/ng-admin.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/marmelab/ng-admin.git"
@@ -28,7 +28,7 @@
     "core-js": "^0.6.1",
     "css-loader": "^0.12.0",
     "es6-promise": "^2.3.0",
-    "exports-loader": "^0.6.2",
+    "exports-loader": "~0.6.3",
     "extract-text-webpack-plugin": "^0.8.0",
     "fakerest": "^1.1.4",
     "file-loader": "^0.8.1",
@@ -78,5 +78,8 @@
   },
   "scripts": {
     "test": "make test"
+  },
+  "dependencies": {
+    "ui-select": "angular-ui/ui-select#271bf6a03078587c5afdb05f61e826573a13d348"
   }
 }

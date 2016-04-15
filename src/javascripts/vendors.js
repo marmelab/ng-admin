@@ -2,6 +2,7 @@ global.rangy = require('../../node_modules/rangy/lib/rangy-core');
 global.rangy = require('../../node_modules/rangy/lib/rangy-selectionsaverestore');
 global.numeral = require('numeral');
 
+require('angular');
 require('angular-ui-router');
 require('../../node_modules/textangular/dist/textAngular-sanitize');
 require('angular-ui-codemirror');
