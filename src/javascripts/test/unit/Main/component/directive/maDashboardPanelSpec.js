@@ -9,6 +9,7 @@ describe('directive: ma-dashboard-panel', function () {
         directiveUsage = '<ma-dashboard-panel collection="collection" entries="entries"></ma-dashboard-panel>';
 
     angular.module('testapp_state', [])
+        .filter('translate', () => text => text)
         .service('$state', function($q) {
             this.expectedTransitions = [];
             this.transitionTo = function(stateName){

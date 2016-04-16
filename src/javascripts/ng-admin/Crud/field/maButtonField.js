@@ -28,7 +28,7 @@ export default function maButtonField() {
             };
         },
         template:
-        '<a class="btn btn-default" ng-click="toggle()" id="{{ name }}" ng-class="{active: isActive()}" >{{ label }}</a>'
+        '<a class="btn btn-default" ng-click="toggle()" id="{{ name }}" ng-class="{active: isActive()}" >{{ label | translate }}</a>'
     };
 }
 

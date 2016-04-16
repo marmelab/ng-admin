@@ -4,7 +4,7 @@ export default function maStringColumn() {
         scope: {
             value: '&'
         },
-        template: '<span>{{ value() }}</span>'
+        template: '<span>{{ value() | translate }}</span>'
     };
 }
 

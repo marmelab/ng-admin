@@ -5,7 +5,7 @@
                 <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
             </ma-view-actions>
             <h1 compile="::batchDeleteController.title">
-                {{ 'DELETE' | translate }} {{ ::batchDeleteController.entityIds.length }} {{ ::batchDeleteController.view.entity.name() | humanize | pluralize }}
+                {{ 'DELETE' | translate }} {{ ::batchDeleteController.entityIds.length }} {{ ::batchDeleteController.view.entity.name() | humanize | pluralize | translate }}
             </h1>
         </div>
     </div>
