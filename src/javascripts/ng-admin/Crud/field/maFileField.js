@@ -60,7 +60,9 @@ export default function maFileField(Upload) {
                         Upload
                             .upload(uploadParams)
                             .progress(function(evt) {
-                                scope.files[evt.config.file.name].progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                                scope.files[evt.config.file.name] = {
+                                    progress: Math.min(100, parseInt(100.0 * evt.loaded / evt.total))
+                                };
                             })
                             .success(function(data, status, headers, config) {
                                 scope.files[config.file.name] = {
