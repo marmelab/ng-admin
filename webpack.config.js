@@ -32,7 +32,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('build/[name].min.css', {
             allChunks: true
-        })
+        }) 
     ],
     stats: {
       children: false,
