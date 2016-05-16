@@ -92,7 +92,17 @@ export default class FormController {
             return;
         }
         const { view, $state, previousState, progression, notification, $translate } = this;
-        var restEntry = this.$scope.entry.transformToRest(view.fields());
+
+        var fields = view.fields();
+
+        var restEntry = this.$scope.entry.transformToRest(fields);
+
+        fields.forEach(function (field) {
+            if (!field._editable) {
+                delete restEntry[field._name];
+            }
+        });
+
         var entry = null;
         progression.start();
         this.WriteQueries
