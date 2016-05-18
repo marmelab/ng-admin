@@ -17,6 +17,9 @@ export default function maDateField() {
             scope.$watch('rawValue', function(rawValue) {
                 scope.value = field.parse()(rawValue);
             });
+            scope.$watch('value', function(rawValue) {
+                scope.rawValue = scope.value == null ? null : (scope.value instanceof Date ? scope.value : new Date(scope.value));
+            });
             scope.format = field.format();
             if (!scope.format) {
                 scope.format = field.type() === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
@@ -25,6 +28,7 @@ export default function maDateField() {
             scope.v = field.validation();
             scope.isOpen = false;
             var input = element.find('input').eq(0);
+
             var attributes = field.attributes();
             for (var name in attributes) {
                 input.attr(name, attributes[name]);
