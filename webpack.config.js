@@ -4,7 +4,7 @@ module.exports = {
     entry: {
         'ng-admin': [
             './src/javascripts/ng-admin.js',
-            './src/sass/ng-admin.scss'
+            './src/sass/ng-admin.scss',
         ],
     },
     output: process.env.NODE_ENV === 'test' ? {
