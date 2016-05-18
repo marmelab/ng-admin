@@ -28,7 +28,6 @@ export default function maDateField() {
             scope.v = field.validation();
             scope.isOpen = false;
             var input = element.find('input').eq(0);
-
             var attributes = field.attributes();
             for (var name in attributes) {
                 input.attr(name, attributes[name]);
