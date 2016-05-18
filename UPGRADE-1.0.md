@@ -55,7 +55,7 @@ Furthermore, if your module bundler supports CSS and/or SASS, you can also embed
 require('ng-admin/sass/ng-admin.scss');
 
 // CSS version
-require('ng-admin/build/ng-admin.css');
+require('ng-admin/build/ng-admin.min.css');
 ```
 
 ## Removing `ng-admin-only` build

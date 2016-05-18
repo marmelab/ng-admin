@@ -42,29 +42,17 @@ The `ng-admin.min.js` file is a ready-to-use version of ng-admin, packaging all 
 
 ### With a Module Bundler
 
-If you use a module bundler such as Webpack, you can use `ng-admin` using a simple `require`:
+If you use a module bundler such as Webpack, you can use `ng-admin` using two simple `require`:
 
 ``` js
 require('ng-admin');
+
+// SASS version
+require('ng-admin/sass/ng-admin.scss');
+
+// CSS version
+require('ng-admin/build/ng-admin.min.css');
 ```
-
-Including `ng-admin` this way would also ng-admin SASS files to generate styles. Hence, you would need
-a SASS loader in your workflow. For Webpack, you would simply need something like:
-
-``` js
-// webpack.config.js
-module.exports = {
-    // [...]
-    module: {
-        loaders: [
-            // [...]
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!sass') },
-        ]
-    },
-};
-```
-
-Please refer to your bundler documentation in order to find your SASS compiler configuration.
 
 ### Admin Initialization
 

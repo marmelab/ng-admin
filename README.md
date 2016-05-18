@@ -56,7 +56,7 @@ If you don't have a module bundler, don't worry: you can still embed `ng-admin` 
 ## Bootstraping your Admin
 
 Just add a `<div ui-view>` into your HTML, add a `ng-app` attribute on your `body`, and configure the admin:
-ithu
+
 ``` html
 <!doctype html>
 <html lang="en">
