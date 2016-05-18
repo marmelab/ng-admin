@@ -9,6 +9,8 @@ Let's use the REST API offered by [JSONPlaceholder](http://jsonplaceholder.typic
 
 ## Skeleton
 
+### Without a Module Bundler
+
 Ng-admin is a client-side library, used to build single-page admin applications. To begin, you have to embed the ng-admin JS and CSS scripts in an HTML page, and run it in a web browser. Here is the typical HTML skeleton:
 
 ```html
@@ -36,7 +38,35 @@ cd my-first-admin
 npm install ng-admin --save
 ```
 
-**Tip**: For now, you will be using a version of ng-admin that packages all dependencies into a single file, including angular.js itself. When you need to package ng-admin manually with other dependencies, you can use the standalone version (see [Getting Ready For Production](Production.md)).
+The `ng-admin.min.js` file is a ready-to-use version of ng-admin, packaging all dependencies required to run the application, including Angular.js.
+
+### With a Module Bundler
+
+If you use a module bundler such as Webpack, you can use `ng-admin` using a simple `require`:
+
+``` js
+require('ng-admin');
+```
+
+Including `ng-admin` this way would also ng-admin SASS files to generate styles. Hence, you would need
+a SASS loader in your workflow. For Webpack, you would simply need something like:
+
+``` js
+// webpack.config.js
+module.exports = {
+    // [...]
+    module: {
+        loaders: [
+            // [...]
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!sass') },
+        ]
+    },
+};
+```
+
+Please refer to your bundler documentation in order to find your SASS compiler configuration.
+
+### Admin Initialization
 
 Now it's time to initialize the `admin.js` file, which holds the configuration of the administration application. It's quite straightforward: just require the `ng-admin` angular module, create an (empty) `admin` *application*, and let ng-admin execute it.
 
