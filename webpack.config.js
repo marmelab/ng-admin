@@ -3,7 +3,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: {
         'ng-admin': [
-            './src/javascripts/vendors.js',
             './src/javascripts/ng-admin.js',
             './src/sass/ng-admin.scss'
         ],

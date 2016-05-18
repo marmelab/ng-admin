@@ -6,8 +6,9 @@ require('angular');
 require('angular-ui-router');
 require('../../node_modules/textangular/dist/textAngular-sanitize');
 require('angular-ui-codemirror');
+require('textangular/dist/textAngular-sanitize'),
+require('imports?define=>false!textangular');
 require('nginflection');
-require('textangular');
 require('ui-select');
 require('angular-translate');
 
