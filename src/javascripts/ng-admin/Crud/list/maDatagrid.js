@@ -12,8 +12,8 @@ export default function maDatagrid() {
             entity: '&',
             entryCssClasses: '&?',
             datastore: '&',
-            sortField: '@',
-            sortDir: '@',
+            sortField: '&',
+            sortDir: '&',
             sort: '&'
         },
         controllerAs: 'datagrid',
@@ -27,7 +27,7 @@ export default function maDatagrid() {
             </th>
             <th ng-repeat="field in fields() track by $index" ng-class="field.getCssClasses()" class="ng-admin-column-{{ ::field.name() }} ng-admin-type-{{ ::field.type() }}">
                 <a ng-click="datagrid.sortCallback(field)">
-                    <span class="glyphicon {{ datagrid.sortDir === 'DESC' ? 'glyphicon-chevron-down': 'glyphicon-chevron-up' }}" ng-if="datagrid.isSorting(field)"></span>
+                    <span class="glyphicon {{ sortDir() === 'DESC' ? 'glyphicon-chevron-up': 'glyphicon-chevron-down' }}" ng-if="datagrid.isSorting(field)"></span>
                     {{ field.label() | translate }}
                 </a>
             </th>

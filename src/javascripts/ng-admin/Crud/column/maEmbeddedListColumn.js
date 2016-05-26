@@ -76,8 +76,8 @@ export default function maEmbeddedListColumn(NgAdminConfiguration) {
     list-actions="::field.listActions()"
     entity="::entity"
     datastore="::datastore()"
-    sort-field="{{ sortField }}"
-    sort-dir="{{ sortDir }}"
+    sort-field="sortField"
+    sort-dir="sortDir"
     sort="::sort">
 </ma-datagrid>`
     };
