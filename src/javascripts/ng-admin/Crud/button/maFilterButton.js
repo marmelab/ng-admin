@@ -21,7 +21,7 @@ export default function maFilterButton() {
     </button>
     <ul class="dropdown-menu" role="menu">
         <li ng-repeat="filter in notYetEnabledFilters()" ng-switch="button">
-            <a ng-click="enableFilter()(filter)">{{ filter.label() }}</a>
+            <a ng-click="enableFilter()(filter)">{{ filter.label() | translate }}</a>
         </li>
     </ul>
 </span>`

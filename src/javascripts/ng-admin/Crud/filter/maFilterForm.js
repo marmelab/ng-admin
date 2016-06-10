@@ -20,7 +20,7 @@ export default function maFilterForm() {
                 <a ng-if="!field.pinned()" ng-click="removeFilter(field)"><span class="glyphicon glyphicon-remove"></span></a>
             </div>
             <label for="{{ field.name() }}" class="col-sm-4 col-xs-11 control-label">
-                {{ field.label() }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
+                {{ field.label() | translate }}<span ng-if="field.validation().required">&nbsp;*</span>&nbsp;
             </label>
             <div class="col-sm-7" ng-switch="field.type()" ng-class="field.getCssClasses(entry)">
                 <ma-filter field="::field" value="values[field.name()]" values="values" datastore="datastore"></ma-filter>

@@ -5,6 +5,7 @@ describe('directive: ma-field', function () {
     var directive = require('../../../../ng-admin/Crud/field/maField');
     var Field = require('admin-config/lib/Field/Field');
     angular.module('testapp_Field', [])
+        .filter('translate', () => text => text)
         .directive('maField', directive)
         .service('FieldViewConfiguration', () => ({ string: { getWriteWidget: () => 'DUMMY' } }));
 

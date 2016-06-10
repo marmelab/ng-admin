@@ -55,7 +55,7 @@ Disable this view. Useful e.g. to disable views that modify data and only leave 
 Defines the API endpoint for a view. It can be a string or a function.
 
         comment.listView().url(function(entityId) {
-            return '/comments/id/' + entityId; // Can be absolute or relative
+            return '/comments/id/' + encodeURIComponent(entityId); // Can be absolute or relative
         });
 
 ## listView Settings

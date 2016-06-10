@@ -81,7 +81,7 @@ post.listView().fields([
         .targetField(nga.field('lastName'),
 ```
 
-This doesn't work, because ng-amin imposes a unicity constraint on field names. Since there a are two fields names `user_id`, it's a blocker.
+This doesn't work, because ng-amin imposes a unicity constraint on field names. Since there are two fields named `user_id`, it's a blocker.
 
 The solution is to duplicate the property in an `ElementTransformer`:
 
