@@ -35,7 +35,8 @@ Defines the base API endpoint for all views of this entity
 Defines the API endpoint for all views of this entity. It can be a string or a function.
 
         var comment = nga.entity('comments').url(function(entityName, viewType, identifierValue, identifierName) {
-            return '/comments/' + entityName + '_' + viewType + '?' + identifierName + '=' + identifierValue; // Can be absolute or relative
+            var e = encodeURIComponent;
+            return '/comments/' + e(entityName) + '_' + e(viewType) + '?' + e(identifierName) + '=' + e(identifierValue); // Can be absolute or relative
         });
 
 * `createMethod(string)` and `updateMethod(string)`

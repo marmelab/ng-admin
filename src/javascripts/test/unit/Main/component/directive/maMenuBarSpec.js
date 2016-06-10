@@ -17,6 +17,7 @@ describe('directive: ma-menu-bar', function () {
         directiveUsage = '<ma-menu-bar menu="menu"></ma-nenu-bar>';
 
     angular.module('testapp_MenuBar', [])
+        .filter('translate', () => text => text)    
         .directive('maMenuBar', directive);
 
     beforeEach(angular.mock.module('testapp_MenuBar'));

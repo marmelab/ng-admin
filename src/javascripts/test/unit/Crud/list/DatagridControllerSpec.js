@@ -19,7 +19,9 @@ describe('controller: ma-datagrid', function () {
             entries: entries,
             selection: [],
             datastore: () => { return {}; },
-            sort: () => null
+            sort: () => null,
+            sortDir: () => null,
+            sortField: () => null,
         }, {
             search: () => {
                 return {};

@@ -1,5 +1,5 @@
 export default class DatagridController {
-    constructor($scope, $location, $stateParams, $anchorScroll, $attrs) {
+    constructor($scope, $location, $stateParams, $anchorScroll) {
         $scope.entity = $scope.entity();
         this.$scope = $scope;
         this.$location = $location;
@@ -10,12 +10,8 @@ export default class DatagridController {
         $scope.getEntryCssClasses = this.getEntryCssClasses.bind(this);
         $scope.toggleSelect = this.toggleSelect.bind(this);
         $scope.toggleSelectAll = this.toggleSelectAll.bind(this);
-        $scope.sortField = $attrs.sortField;
-        $scope.sortDir = $attrs.sortDir;
-        this.sortField = 'sortField' in $stateParams ? $stateParams.sortField : $attrs.sortField;
-        this.sortDir = 'sortDir' in $stateParams ? $stateParams.sortDir : $attrs.sortDir;
-        $attrs.$observe('sortDir', sortDir => this.sortDir = sortDir);
-        $attrs.$observe('sortField', sortField => this.sortField = sortField);
+        this.sortField = $scope.sortField();
+        this.sortDir = $scope.sortDir();
         this.sortCallback = $scope.sort() ? $scope.sort() : this.sort.bind(this);
     }
 
@@ -27,7 +23,7 @@ export default class DatagridController {
      * @returns {Boolean}
      */
     isSorting(field) {
-        return this.sortField === this.getSortName(field);
+        return this.$scope.sortField() === this.getSortName(field);
     }
 
     /**
@@ -103,4 +99,4 @@ export default class DatagridController {
     }
 }
 
-DatagridController.$inject = ['$scope', '$location', '$stateParams', '$anchorScroll', '$attrs'];
+DatagridController.$inject = ['$scope', '$location', '$stateParams', '$anchorScroll'];

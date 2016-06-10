@@ -12,6 +12,7 @@ describe('directive: ma-datagrid', function () {
             '</ma-datagrid>';
 
     angular.module('testapp_stateParams', [])
+        .filter('translate', () => text => text)    
         .service('$stateParams', function($q){ return {}; });
 
     angular.module('testapp_Datagrid', ['testapp_stateParams'])

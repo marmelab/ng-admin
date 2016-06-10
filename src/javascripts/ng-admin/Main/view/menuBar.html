@@ -4,18 +4,18 @@
             <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
                 <a ng-if="::menu.hasChild()" ng-click="toggleMenu(menu)" ng-class="::{'active': menu.isActive(path)}">
                     <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
-                    {{ menu.title() }}
+                    {{ menu.title() | translate }}
                     <span class="glyphicon arrow" ng-class="::{'glyphicon-menu-down': isOpen(menu), 'glyphicon-menu-right': !isOpen(menu) }"></span>
                 </a>
                 <a ng-if="::!menu.hasChild()" href="#{{ menu.link() }}" ng-click="activateLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                     <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
-                    {{ menu.title() }}
+                    {{ menu.title() | translate }}
                 </a>
                 <ul ng-if="::menu.hasChild()" class="nav nav-second-level collapsible" ng-class="::{'collapsed': !isOpen(menu) }">
                     <li ng-repeat="menu in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
                         <a href="#{{menu.link()}}" ng-click="activateLink(menu)" ng-class="::{'active': menu.isActive(path)}">
                             <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
-                            {{ menu.title() }}
+                            {{ menu.title() | translate }}
                         </a>
                     </li>
                 </ul>

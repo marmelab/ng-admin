@@ -11,7 +11,7 @@ A ng-admin *type* has two components:
 
 Let's see that through an example: the `number` type.
 
-When you define a field with `nga.field()`, the second argument is the field type ('string' by default). `nga.field()` is a factory method returning an specialized instance of [the `Field` class](https://github.com/marmelab/admin-config/blob/master/lib/Field/Field.js). For instance:
+When you define a field with `nga.field()`, the second argument is the field type ('string' by default). `nga.field()` is a factory method returning a specialized instance of [the `Field` class](https://github.com/marmelab/admin-config/blob/master/lib/Field/Field.js). For instance:
 
 ```js
 product.listView().fields([

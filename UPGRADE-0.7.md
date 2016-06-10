@@ -77,7 +77,7 @@ The `menuView()` syntax will still be supported in this version, but removed in 
 ## Passing Object Literal to `View.fields()` and Using `field.order` Are Deprecated
 
 Calling `view.fields()` as a getter (with no argument) used to return an object literal ; starting with 0.7, it now returns an array. 
-Symmetrically, passing an object litteral as argument to the setter methor `view.fields(fields)` is deprecated ; only arrays are now officially supported.
+Symmetrically, passing an object literal as argument to the setter methor `view.fields(fields)` is deprecated ; only arrays are now officially supported.
 
 Additionaly, the `order()` method, which served to order fields passed in object literal form, is also deprecated.
 

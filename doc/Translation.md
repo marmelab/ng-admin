@@ -57,7 +57,7 @@ myApp.config(['$translateProvider', function ($translateProvider) {
       'BACK': 'Retour',
       'DELETE': 'Supprimer',
       'CREATE': 'Ajouter',
-      'EDIT': 'Mofidier',
+      'EDIT': 'Modifier',
       'EXPORT': 'Exporter',
       'ADD_FILTER': 'Filtrer',
       'SEE_RELATED': 'Voir les {{ entityName }} liés',
@@ -90,7 +90,7 @@ myApp.config(['$translateProvider', function ($translateProvider) {
       'NO_PAGINATION': 'Aucun résultat',
       'PREVIOUS': '« Précédent',
       'NEXT': 'Suivant »',
-      'DETAIL': 'Detail',
+      'DETAIL': 'Détail',
       'STATE_CHANGE_ERROR': 'Erreur de routage: {{ message }}',
       'NOT_FOUND': 'Page non trouvée',
       'NOT_FOUND_DETAILS': 'La page demandée n\'existe pas. Revenez à la page précédente et essayez autre chose.',
@@ -98,5 +98,70 @@ myApp.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.preferredLanguage('fr');
 }]);
 ```
+
+All labels and titles are translatable too. By default, ng-admin will appy the translation filter on all of them. For example, if you have a `users` entity, ng-admin generate a `Users` title for the menu if you add one with:
+```js
+admin.menu(nga.menu()
+    .addChild(nga
+        .menu(admin.getEntity('users'))
+        .icon('<span class="fa fa-user"></span>')
+    )
+);
+```
+
+You can then supply a translation with the key `Users`. If you'd like that key to have the same case as the others, just call the `title` method with the desired key and supply a translation with the same key:
+```js
+admin.menu(nga.menu()
+    .addChild(nga
+        .menu(admin.getEntity('users'))
+        .icon('<span class="fa fa-user"></span>')
+        .title('USERS')
+    )
+);
+```
+
+The same principle can be applied to fields labels, choices labels and entities labels:
+```js
+nga.field('email'); // translation key will be 'Email'
+nga.field('email').label('EMAIL'); // translation key will be 'EMAIL'
+
+nga.field('role', 'choice')
+    .validation({ required: true })
+    .choices([
+        { label: 'ADMIN', value: 'admin' }, // translation key will be 'ADMIN'
+        { label: 'USER', value: 'user' }, // translation key will be 'USER'
+    ]);
+
+admin.addEntity(nga.entity('users')); // translation key will be 'Users' (for list view and menus) and 'user' (for creation and edition views)
+admin.addEntity(nga.entity('users').title('USERS')); // translation key will be 'USERS' (for list view and menus) and 'USER' (for creation and edition views)
+```
+
+If you need to translate the views titles and descriptions, just use the translate filter yourself in the template you supply. For example:
+
+```js
+// In your entity configuration file
+users.listView()
+    .title('"USER_LIST" | translate');
+
+users.creationView()
+    .title('{{ "USER_CREATE" | translate }}')
+
+users.editView()
+    .title('{{ "USER_EDIT" | translate }}{{ entry.values["email"] }}');
+
+users.deletionView()
+    .title('{{ "USER_DELETE" | translate }}{{ entry.values["email"] }}');
+
+// In your translations file
+myApp.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.translations('fr', {
+        USER_LIST: 'Liste des utilisateurs',
+        USER_CREATE: 'Création d\'un utilisateur: ',
+        USER_EDIT: 'Edition de l\'utilisateur: ',
+        USER_DELETE: 'Suppression de l\'utilisateur: ',
+    });
+}
+```
+
 
 To enable runtime language switch, or other options, refer to the [angular-translate documentation](http://angular-translate.github.io/docs/#/guide).
