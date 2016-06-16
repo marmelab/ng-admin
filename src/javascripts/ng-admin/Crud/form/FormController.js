@@ -71,7 +71,7 @@ export default class FormController {
             .then(() => $translate('CREATION_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -82,7 +82,9 @@ export default class FormController {
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+                })
+                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -114,7 +116,7 @@ export default class FormController {
                     .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -125,7 +127,9 @@ export default class FormController {
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+                })
+                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
