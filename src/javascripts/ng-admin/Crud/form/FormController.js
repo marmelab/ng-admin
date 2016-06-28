@@ -63,13 +63,13 @@ export default class FormController {
                 view,
                 { $event, entity, entry, route, controller: this, form: this.form, progression, notification }
             ))
-            .then(customHandlerReturnValue => {
-                if (customHandlerReturnValue === false) return;
+            .then(customHandlerReturnValue => (customHandlerReturnValue === false) ?
+                new Promise(resolve => resolve()) :
                 $state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue })
-                    .then(() => progression.done())
-                    .then(() => $translate('CREATION_SUCCESS'))
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
-            })
+            )
+            .then(() => progression.done())
+            .then(() => $translate('CREATION_SUCCESS'))
+            .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
