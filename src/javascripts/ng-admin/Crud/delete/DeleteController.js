@@ -39,10 +39,10 @@ export default class DeleteController {
                         entity: entityName
                     }, this.$state.params));
                 } else {
-                    return new Promise((resolve, reject) => { this.back(); resolve(); });
+                    return this.back();
                 }
             })
-            .then(() => progression.done())
+            // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {

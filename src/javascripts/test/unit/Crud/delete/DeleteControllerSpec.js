@@ -13,7 +13,7 @@ describe('DeleteController', function () {
     }));
 
     describe('deleteOne', function() {
-        var $translate = text => ({ then: () => text });
+        var $translate = text => text;
         var Configuration = () => ({
             getErrorMessageFor: () => '',
         });
@@ -26,8 +26,8 @@ describe('DeleteController', function () {
             deleteOne: jasmine.createSpy('writeQueries.deleteOne').and.callFake(() => $q.when())
         };
         var progression = {
-            start: () => {},
-            done: () => {},
+            start: () => true,
+            done: () => true,
         };
         var notification = humane;
         var params = {

@@ -25,7 +25,7 @@ export default class BatchDeleteController {
         progression.start();
         return this.WriteQueries.batchDelete(this.view, this.entityIds)
             .then(() => $state.go($state.get('list'), angular.extend({ entity: entityName }, $state.params)))
-            .then(() => progression.done())
+            // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('BATCH_DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
