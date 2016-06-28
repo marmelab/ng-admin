@@ -210,7 +210,7 @@ git push origin --tags
 npm publish
 ```
 
-**Tip**: Don't commit built files in Pull Requests, it forces rebases on other PRs. The core team will take care of regularily updating these built files.
+**Tip**: Don't commit built files in Pull Requests, it forces rebases on other PRs. The core team will take care of regularly updating these built files.
 
 ## License
 
