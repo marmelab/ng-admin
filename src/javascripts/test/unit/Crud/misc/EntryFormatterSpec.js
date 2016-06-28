@@ -70,6 +70,16 @@ describe("Service: EntryFormatter.getFormatter formatter", function () {
         expect(formatter({listValues: {reference: 'a reference'}})).toEqual({Reference: 'a reference'});
     });
 
+    it('formatter should format field of type reference_many', function () {
+        var formatter = entryFormatter.getFormatter([getField({
+            type: 'reference_many',
+            name: 'references',
+            label: 'References'
+        })]);
+
+        expect(formatter({listValues: {references: ['referenced_value1', 'referenced_value2']}})).toEqual({References: 'referenced_value1, referenced_value2'});
+    });
+
     it('formatter should format field of type date', function () {
         var formatter = entryFormatter.getFormatter([getField({
             type: 'date',

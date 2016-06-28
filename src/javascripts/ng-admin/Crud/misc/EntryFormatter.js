@@ -15,7 +15,6 @@ export default class EntryFormatter {
     formatField(field) {
         var label = field.label() || field.name();
         var type = field.type();
-
         switch (type) {
             case 'boolean':
             case 'choice':
@@ -69,7 +68,13 @@ export default class EntryFormatter {
                         value: entry.listValues[field.name()]
                     };
                 };
-            case 'referenced_many':
+            case 'reference_many':
+                return function (entry) {
+                    return {
+                        name: label,
+                        value: entry.listValues[field.name()].join(', ')
+                    };
+                };
             case 'referenced_list':
                 return; //ignored
         }
