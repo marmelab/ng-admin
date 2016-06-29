@@ -38,9 +38,8 @@ export default class DeleteController {
                     return this.$state.go(this.$state.get('list'), angular.extend({
                         entity: entityName
                     }, this.$state.params));
-                } else {
-                    return this.back();
                 }
+                return this.back();
             })
             // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('DELETE_SUCCESS'))
