@@ -17,19 +17,29 @@ export default function maDatagridInfinitePagination($window, $document) {
             var perPage = parseInt(scope.perPage, 10) || 1,
                 totalItems = parseInt(scope.totalItems, 10),
                 nbPages = Math.ceil(totalItems / perPage) || 1,
-                page = 1;
+                page = 1,
+                processing = false;
             function handler() {
-                if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
-                    if (page >= nbPages) {
-                        return;
+                if(processing) return;
+                processing = true;
+                var timer = setInterval(function(){
+                    if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
+                        if (page >= nbPages) {
+                            processing = false;
+                            return;
+                        }
+                        page++;
+                        scope.nextPage()(page);
+                    } else {
+                        processing = false;
+                        clearInterval(timer);
                     }
-                    page++;
-                    scope.nextPage()(page);
-                }
+                }, 250);
             }
-            windowElement.bind('scroll', handler);
+            handler();
+            windowElement.bind('scroll resize', handler);
             scope.$on('$destroy', function destroy() {
-                windowElement.unbind('scroll', handler);
+                windowElement.unbind('scroll resize', handler);
             });
         }
     };
