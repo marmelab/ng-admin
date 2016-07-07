@@ -27,7 +27,7 @@ export default function maJsonColumn($compile) {
                 <td ng-switch="guessType(val)">
                     <ma-json-column ng-switch-when="Object" value="::val"></ma-json-column>
                     <ma-json-column ng-switch-when="Array" value="::val"></ma-json-column>
-                    <span ng-switch-when="Literal">{{ val }}</span>
+                    <span ng-switch-when="Literal">{{ val }}</span>
                 </td>
             </tr>
         </tbody>
