@@ -7,7 +7,7 @@
                 <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
             </ma-view-actions>
             <h1 compile="::showController.title">
-                {{ ::showController.view.entity.label() | humanize | singularize | translate }}  #{{ ::entry.identifierValue }} {{ 'DETAIL' | translate }}
+                {{ ::showController.view.entity.label() | humanize | singularize | translate }}  #{{ ::entry.identifierValue }} {{ 'DETAIL' | translate }}
             </h1>
             <p class="lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</p>
         </div>

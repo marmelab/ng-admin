@@ -5,7 +5,7 @@
                 <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
             </ma-view-actions>
             <h1 compile="::formController.title">
-                {{ 'CREATE_NEW' | translate }} {{ ::formController.view.entity.label() | humanize:true | singularize | translate }}
+                {{ 'CREATE_NEW' | translate }} {{ ::formController.view.entity.label() | humanize:true | singularize | translate }}
             </h1>
             <p class="lead" ng-if="::formController.description" compile="::formController.description">{{ ::formController.description }}</p>
         </div>
