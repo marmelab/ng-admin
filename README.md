@@ -35,7 +35,7 @@ If your module bundler also supports SASS or CSS, you can also include styleshee
 
 ``` js
 // SASS version
-require('ng-admin/sass/ng-admin.scss');
+require('ng-admin/src/sass/ng-admin.scss');
 
 // CSS version (do not include minified version for better performances)
 require('ng-admin/build/ng-admin.css');

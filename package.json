@@ -35,7 +35,7 @@
       "restangular": "1.5.2",
       "textangular": "1.5.1",
       "ui-select": "angular-ui/ui-select.git#271bf6a03078587c5afdb05f61e826573a13d348)",
-      "underscore": "1.8.3",
+      "underscore": "1.8.3"
   },
   "devDependencies": {
     "angular-mocks": "1.4.10",
@@ -74,7 +74,7 @@
     "superagent": "0.18.2",
     "url-loader": "0.5.7",
     "webpack": "1.12.14",
-    "webpack-dev-server": "1.14.1",
+    "webpack-dev-server": "1.14.1"
   },
   "engines": {
     "node": ">=4.2.0"
