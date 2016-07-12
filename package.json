@@ -9,7 +9,7 @@
     "url": "git://github.com/marmelab/ng-admin.git"
   },
   "devDependencies": {
-    "admin-config": "^0.11.0",
+    "admin-config": "stevehalford/admin-config#field-descriptions",
     "angular": "~1.4.8",
     "angular-mocks": "~1.4.8",
     "angular-numeraljs": "^1.1.6",
