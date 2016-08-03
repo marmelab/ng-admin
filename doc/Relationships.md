@@ -223,6 +223,11 @@ When displaying a post:
 
 ![embedded_list in editionView](images/embedded_list_in_editionView.png)
 
+Caution: If you want to use [`Field.template()`](./Theming.md#customizing-the-template-for-a-given-field)
+to customise the view of an embedded field, be aware that the default "<ma-field>" template string takes
+different attribute values in embedded view to the regular view.
+See the [maEmbeddedListField source](../src/javascripts/ng-admin/crud/field/maEmbeddedListField.js).
+
 ## Embedded entity
 
 APIs may render a many-to-one relationship by embedding the related entry in the main entry:

@@ -59,7 +59,7 @@ export default function maEmbeddedListField() {
         <div class="remove_button_container">
             <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;<span translate="REMOVE"></span></a>
         </div>
-        <div class="form-field form-group" ng-repeat="field in ::fields track by $index">
+        <div ng-repeat="field in ::fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="formName" datastore="::datastore()"></ma-field>
         </div>
         <hr/>
