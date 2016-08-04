@@ -1,6 +1,7 @@
 node_modules
 dist
 .tmp
+.idea
 .sass-cache
 src/javascripts/bower_components
 src/javascripts/config.js
