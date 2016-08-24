@@ -173,6 +173,9 @@ Define the default value of the field in the creation form.
 * `pinned(boolean)`
 Whether the field should always appear. Used in filters (see listView Settings). Default to false.
 
+* `helpText(string)`
+Define help text to be shown under the field in `editionView` and `creationView`.
+
 ## `wysiwyg` Field Type
 
 * `stripTags(boolean)`

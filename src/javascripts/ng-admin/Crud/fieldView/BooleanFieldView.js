@@ -5,5 +5,6 @@ export default {
     getWriteWidget:  () => `<div class="row">
         <ma-choice-field class="col-sm-4 col-md-3" ng-if="!field.validation().required" field="::field" value="$parent.value"></ma-choice-field>
         <ma-checkbox-field class="col-sm-4 col-md-3" ng-if="!!field.validation().required" field="::field" value="$parent.value"></ma-checkbox-field>
+        <ma-help-text field="field"></ma-help-text>
     </div>`
 };
