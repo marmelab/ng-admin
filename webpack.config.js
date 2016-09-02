@@ -3,8 +3,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: {
         'ng-admin': [
-            './src/javascripts/ng-admin.js',
-            './src/sass/ng-admin.scss',
+            __dirname + '/src/javascripts/ng-admin.js',
+            __dirname + '/src/sass/ng-admin.scss',
         ],
     },
     output: process.env.NODE_ENV === 'test' ? {

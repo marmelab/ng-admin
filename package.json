@@ -8,6 +8,11 @@
     "type": "git",
     "url": "git://github.com/marmelab/ng-admin.git"
   },
+  "files": [
+      "*.md",
+      "build/",
+      "lib/"
+  ],
   "dependencies": {
     "angular": "~1.4.8"
   },
@@ -27,7 +32,6 @@
     "babel-loader": "^6.2.5",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-1": "^6.13.0",
     "babel-preset-stage-2": "^6.13.0",
     "bootstrap-sass": "^3.3.4",
     "chai": "^3.3.0",
@@ -83,6 +87,7 @@
     "node": ">=4.2.0"
   },
   "scripts": {
+    "prepublish": "make build",
     "test": "make test"
   }
 }

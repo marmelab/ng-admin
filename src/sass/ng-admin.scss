@@ -138,7 +138,7 @@ ma-view-actions {
             }
 
             .btn-default {
-              height: 34px;
+                height: 34px;
             }
         }
 
@@ -268,9 +268,12 @@ div.bottom-loader {
     }
 
     .remove_button_container {
-        float: right;
+        position: absolute;
+        right: -7em;
+        z-index: 2;
         @media (max-width: 992px) {
-            float: none;
+            position: relative;
+            right: 0;
             display: block;
             text-align: right;
         }
@@ -283,6 +286,10 @@ div.bottom-loader {
         &.active {
             z-index: 1;
         }
+    }
+
+    .ng-admin-type-embedded_list .ng-admin-type-boolean ma-choice-field {
+        min-width: 12em;
     }
 
     &#show-view {

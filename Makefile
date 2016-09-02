@@ -15,13 +15,13 @@ examples/blog/build:
 transpile:
 	@mkdir -p lib/
 	@rm -rf lib/*
-	@./node_modules/.bin/babel src/javascripts --out-dir lib/javascripts --compact false --source-maps > /dev/null
+	@./node_modules/.bin/babel src/javascripts -d lib/javascripts --source-maps > /dev/null
 	@cd src && cp --parents `find . -name *.html` ../lib # copy all HTML files keeping structure from src to lib
 	@cp -Rf ./src/sass/ lib/
 
 build:
 	@make transpile
-	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress --devtool source-map
+	@NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress --devtool --source-map
 	@cp -Rf build examples/blog/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
