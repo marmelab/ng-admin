@@ -46,7 +46,7 @@ and stylesheets, helping you to hunt even the most obscure bugs.
 
 ### Without a Module Bundler
 
-If you don't have a module bundler, don't worry: you can still embed `ng-admin` the old way:
+If you don't have a module bundler, don't worry: you can still include `ng-admin` with a `<script>` tag:
 
 ``` html
 <link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
