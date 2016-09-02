@@ -60,4 +60,4 @@ require('ng-admin/build/ng-admin.min.css');
 
 ## Removing `ng-admin-only` build
 
-We used to build two versions of `ng-admin`: a standalone one and a `only` one. The latter includes only files required to ng-admin. But it was a little buggy and requires a lot of dependencies. Including a functional version of this only version was so painful we decided to abandon it in profit of a better bundler integration (see previous paragraph).
+We used to build two versions of `ng-admin`: a standalone one and a `only` one. The latter includes only files required to ng-admin. But it was a little buggy and required a lot of dependencies. Including a functional version of this only version was so painful we decided to abandon it in profit of a better bundler integration (see previous paragraph).
