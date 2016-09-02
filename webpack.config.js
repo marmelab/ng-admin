@@ -16,8 +16,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js/, loaders: ['babel'], exclude: /node_modules[\\\/](?!admin-config)/ },
-            { test: /\.js/, loaders: ['ng-annotate'] },
+            { test: /\.js/, loaders: ['babel'], include: __dirname + '/src/javascripts' },
             { test: /\/angular\.min\.js$/, loader: 'exports?angular' },
             { test: /\.html$/, loader: 'html' },
             { test: /\.(woff2?|svg|ttf|eot)(\?.*)?$/, loader: 'url' },
