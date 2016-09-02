@@ -42,7 +42,7 @@ require('ng-admin/build/ng-admin.css');
 ```
 
 Using a module bundler, you would also be able to generate the source map for all your JavaScript
-and stylesheets, helping you to hunt even the most pernicious bugs.
+and stylesheets, helping you to hunt even the most obscure bugs.
 
 ### Without a Module Bundler
 
