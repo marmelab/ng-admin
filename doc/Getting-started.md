@@ -45,10 +45,13 @@ The `ng-admin.min.js` file is a ready-to-use version of ng-admin, packaging all 
 If you use a module bundler such as Webpack, you can use `ng-admin` using two simple `require`:
 
 ``` js
-require('ng-admin');
+var myApp = angular.module('myApp', [
+    require('ng-admin'),
+    // ...
+]);
 
 // SASS version
-require('ng-admin/sass/ng-admin.scss');
+require('ng-admin/lib/sass/ng-admin.scss');
 
 // CSS version
 require('ng-admin/build/ng-admin.min.css');

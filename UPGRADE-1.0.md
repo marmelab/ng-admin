@@ -45,14 +45,17 @@ If you want to reverse to the pre-1.0 behavior, override `CreationView.onSubmitS
 We reviewed the way we publish ng-admin in order to ease integration with module bundlers. You can now just require `ng-admin` dependency directly into your JavaScript file:
 
 ``` js
-require('ng-admin');
+const myApp = angular.module('myApp', [
+    require('ng-admin'),
+    // ...
+]);
 ```
 
 Furthermore, if your module bundler supports CSS and/or SASS, you can also embed styles using:
 
 ``` js
 // SASS version
-require('ng-admin/sass/ng-admin.scss');
+require('ng-admin/lib/sass/ng-admin.scss');
 
 // CSS version
 require('ng-admin/build/ng-admin.min.css');

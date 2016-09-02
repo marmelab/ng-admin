@@ -28,17 +28,36 @@ bower install ng-admin --save
 available major module bundlers. If you use one of them, you just have to add this line:
 
 ``` js
-require('ng-admin');
+const myApp = angular.module('myApp', [
+    require('ng-admin'),
+    // ...
+]);
+```
+
+**Important note:** as we include HTML templates using `require` to prevent the AJAX
+request implied by `templateUrl`, you will need to configure your module bundler
+to deal with HTML. It can be accomplished with Webpack using the HTML loader:
+
+``` js
+module.exports = {
+    // ...
+    module: {
+        loaders: [
+            // ...
+            { test: /\.html$/, loader: 'html' },
+        ]
+    },
+};
 ```
 
 If your module bundler also supports SASS or CSS, you can also include stylesheets using:
 
 ``` js
 // SASS version
-require('ng-admin/src/sass/ng-admin.scss');
+require('ng-admin/lib/sass/ng-admin.scss');
 
-// CSS version (do not include minified version for better performances)
-require('ng-admin/build/ng-admin.css');
+// CSS version
+require('ng-admin/build/ng-admin.min.css');
 ```
 
 Using a module bundler, you would also be able to generate the source map for all your JavaScript
