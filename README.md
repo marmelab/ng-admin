@@ -22,9 +22,61 @@ npm install ng-admin --save
 bower install ng-admin --save
 ```
 
-Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view>`, and configure the admin:
+### With a Module Bundler
 
-```html
+`ng-admin` is fully compatible with Webpack, and should also be compatible with all
+available major module bundlers. If you use one of them, you just have to add this line:
+
+``` js
+const myApp = angular.module('myApp', [
+    require('ng-admin'),
+    // ...
+]);
+```
+
+**Important note:** as we include HTML templates using `require` to prevent the AJAX
+request implied by `templateUrl`, you will need to configure your module bundler
+to deal with HTML. It can be accomplished with Webpack using the HTML loader:
+
+``` js
+module.exports = {
+    // ...
+    module: {
+        loaders: [
+            // ...
+            { test: /\.html$/, loader: 'html' },
+        ]
+    },
+};
+```
+
+If your module bundler also supports SASS or CSS, you can also include stylesheets using:
+
+``` js
+// SASS version
+require('ng-admin/lib/sass/ng-admin.scss');
+
+// CSS version
+require('ng-admin/build/ng-admin.min.css');
+```
+
+Using a module bundler, you would also be able to generate the source map for all your JavaScript
+and stylesheets, helping you to hunt even the most obscure bugs.
+
+### Without a Module Bundler
+
+If you don't have a module bundler, don't worry: you can still include `ng-admin` with a `<script>` tag:
+
+``` html
+<link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
+<script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
+```
+
+## Bootstraping your Admin
+
+Just add a `<div ui-view>` into your HTML, add a `ng-app` attribute on your `body`, and configure the admin:
+
+``` html
 <!doctype html>
 <html lang="en">
   <head>

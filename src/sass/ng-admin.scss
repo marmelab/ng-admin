@@ -1,3 +1,16 @@
+$fa-font-path: '~font-awesome/fonts/';
+$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+
+@import '../../node_modules/font-awesome/scss/font-awesome.scss';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss';
+@import '~nprogress/nprogress.css';
+@import '~humane-js/themes/flatty.css';
+@import '~textangular/src/textAngular.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/addon/lint/lint.css';
+@import '~ui-select/dist/select.css';
+@import './sb-admin.scss';
+
 @import "sb-admin";
 
 #nprogress div.spinner {
@@ -125,7 +138,7 @@ ma-view-actions {
             }
 
             .btn-default {
-              height: 34px;
+                height: 34px;
             }
         }
 

@@ -1,18 +1,28 @@
 require('es6-promise').polyfill(); // for IE
 
+require('./vendors');
 require('./ng-admin/Main/MainModule');
 require('./ng-admin/Crud/CrudModule');
 
 import Factory from 'admin-config/lib/Factory';
 
-var factory = angular.module('AdminDescriptionModule', []);
+const moduleName = 'ng-admin';
+const factory = angular.module('AdminDescriptionModule', []);
 factory.constant('AdminDescription', new Factory());
 
-var ngadmin = angular.module('ng-admin', ['ui.select', 'main', 'crud', 'AdminDescriptionModule']);
-ngadmin.config(function(NgAdminConfigurationProvider, AdminDescription) {
-    NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
-});
+const ngadmin = angular.module(moduleName, [
+    'ui.select',
+    'main',
+    'crud',
+    'AdminDescriptionModule'
+]);
 
-ngadmin.config(function(uiSelectConfig) {
+ngadmin.config(['NgAdminConfigurationProvider', 'AdminDescription', function(NgAdminConfigurationProvider, AdminDescription) {
+    NgAdminConfigurationProvider.setAdminDescription(AdminDescription);
+}]);
+
+ngadmin.config(['uiSelectConfig', function(uiSelectConfig) {
     uiSelectConfig.theme = 'bootstrap';
-});
+}]);
+
+export default moduleName;
