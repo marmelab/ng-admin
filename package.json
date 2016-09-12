@@ -11,7 +11,7 @@
   "files": [
       "*.md",
       "build/",
-      "lib/"
+      "src/"
   ],
   "dependencies": {
     "angular": "~1.4.8",
