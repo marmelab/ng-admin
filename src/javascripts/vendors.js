@@ -4,9 +4,6 @@ global.numeral = require('numeral');
 
 require('angular');
 require('angular-ui-router');
-require('angular-ui-codemirror');
-require('textangular/dist/textAngular-sanitize'),
-require('textangular');
 require('nginflection');
 require('ui-select');
 require('angular-translate');
