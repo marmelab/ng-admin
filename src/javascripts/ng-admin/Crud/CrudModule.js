@@ -1,7 +1,8 @@
 import angular from 'angular';
 
 require('textangular/dist/textAngular-sanitize');
-require('textangular');
+require('textangular/dist/textAngularSetup');
+require('textangular/dist/textAngular');
 
 require('angular-ui-codemirror');
 
