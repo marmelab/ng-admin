@@ -1,8 +1,9 @@
 $fa-font-path: '~font-awesome/fonts/';
-$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 
-@import '../../node_modules/font-awesome/scss/font-awesome.scss';
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss';
+@import '~font-awesome/scss/font-awesome';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
 @import '~nprogress/nprogress.css';
 @import '~humane-js/themes/flatty.css';
 @import '~textangular/src/textAngular.css';
@@ -10,8 +11,6 @@ $icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
 @import '~codemirror/addon/lint/lint.css';
 @import '~ui-select/dist/select.css';
 @import './sb-admin.scss';
-
-@import "sb-admin";
 
 #nprogress div.spinner {
     width: 18px;
