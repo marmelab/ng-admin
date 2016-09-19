@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha6",
   "license": "MIT",
   "private": false,
-  "main": "src/javascripts/ng-admin.js",
+  "main": "lib/javascripts/ng-admin.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/marmelab/ng-admin.git"
@@ -11,7 +11,7 @@
   "files": [
       "*.md",
       "build/",
-      "src/"
+      "lib/"
   ],
   "dependencies": {
     "angular": "~1.4.8",
