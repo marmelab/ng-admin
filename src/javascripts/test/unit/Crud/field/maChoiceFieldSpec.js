@@ -1,7 +1,5 @@
 /*global angular,inject,describe,it,expect,beforeEach*/
 describe('directive: choice-field', function () {
-    'use strict';
-
     var directive = require('../../../../ng-admin/Crud/field/maChoiceField');
     var ChoiceField = require('admin-config/lib/Field/ChoiceField');
 
@@ -104,8 +102,8 @@ describe('directive: choice-field', function () {
 
     it("should have the option with the bounded value selected", function () {
         scope.field = new ChoiceField().choices([
-            {label: 'foo', value: 'bar'},
-            {label: 'baz', value: 'bazValue'}
+            { label: 'foo', value: 'bar' },
+            { label: 'baz', value: 'bazValue' },
         ]);
 
         scope.value = 'bazValue';
@@ -118,5 +116,72 @@ describe('directive: choice-field', function () {
             label: 'baz',
             value: 'bazValue'
         }));
+    });
+
+    it('should refresh choices if related entity is changed', () => {
+        const subCategories = [
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+            { category: 'lifestyle', label: 'Travel', value: 'travel' },
+            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
+        ];
+
+        scope.field = new ChoiceField()
+            .choices(entry => subCategories.filter(
+                sc => sc.category === entry.values.category
+            ));
+
+        scope.entry = {
+            values: {
+                category: 'lifestyle',
+                subcategory: 'travel'
+            }
+        };
+
+        const element = $compile(directiveUsage)(scope);
+        scope.$digest();
+
+        // updating entry category should update subcategories
+        scope.entry.values.category = 'tech';
+        scope.$digest();
+
+        const uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+        ]));
+    });
+
+    it('should unset currently selected value if choices change', () => {
+        const subCategories = [
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+            { category: 'lifestyle', label: 'Travel', value: 'travel' },
+            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
+        ];
+
+        scope.field = new ChoiceField()
+            .choices(entry => subCategories.filter(
+                sc => sc.category === entry.values.category
+            ));
+
+        scope.value = 'travel';
+        scope.entry = {
+            values: {
+                category: 'lifestyle',
+                subcategory: 'travel'
+            }
+        };
+
+
+        const element = $compile(directiveUsage)(scope);
+        scope.$digest();
+
+        // updating entry category should update subcategories
+        scope.entry.values.category = 'tech';
+        scope.$digest();
+
+        const uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(uiSelect.selected).toBe(null);
     });
 });

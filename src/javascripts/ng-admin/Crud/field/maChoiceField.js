@@ -47,7 +47,19 @@ export default function maChoiceField($compile) {
                             </ui-select-choices>
                         </ui-select>`;
 
-                    scope.choices = typeof(choices) === 'function' ? choices(scope.entry) : choices;
+                    // as choices may be a function depending of another entry field, we need to watch the whole entry
+                    scope.$watch('entry', (newEntry, oldEntry) => {
+                        if (typeof(choices) !== 'function') {
+                            scope.choices = choices;
+                            return;
+                        }
+
+                        scope.choices = choices(newEntry);
+                        if (!angular.equals(scope.choices, choices(oldEntry))) {
+                            scope.value = null;
+                        }
+                    }, true);
+
                     element.html(template);
 
                     var select = element.children()[0];
