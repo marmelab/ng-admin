@@ -86,7 +86,6 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "prepublish": "make build",
     "test": "make test"
   }
 }
