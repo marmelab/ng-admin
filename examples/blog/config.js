@@ -74,7 +74,7 @@
             return value.length > 50 ? value.substr(0, 50) + '...' : value;
         }
 
-        var admin = nga.application('ng-admin backend demo') // application main title
+        var admin = nga.application('ng-admin blog demo') // application main title
             .debug(false) // debug disabled
             .baseApiUrl('http://localhost:3000/'); // main API endpoint
 
