@@ -50,7 +50,7 @@ function routing($stateProvider) {
             params: {
                 entity: null
             },
-            parent: 'main',
+            parent: 'ng-admin',
             controller: 'ListLayoutController',
             controllerAs: 'llCtrl',
             templateProvider: templateProvider('ListView', listLayoutTemplate),
@@ -146,7 +146,7 @@ function routing($stateProvider) {
 
     $stateProvider
         .state('show', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/:entity/show/:id?sortField&sortDir',
             controller: 'ShowController',
             controllerAs: 'showController',
@@ -241,7 +241,7 @@ function routing($stateProvider) {
 
     $stateProvider
         .state('create', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/:entity/create?{defaultValues:json}',
             controller: 'FormController',
             controllerAs: 'formController',
@@ -296,7 +296,7 @@ function routing($stateProvider) {
 
     $stateProvider
         .state('edit', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/:entity/edit/:id?sortField&sortDir',
             controller: 'FormController',
             controllerAs: 'formController',
@@ -409,7 +409,7 @@ function routing($stateProvider) {
 
     $stateProvider
         .state('delete', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/:entity/delete/:id',
             controller: 'DeleteController',
             controllerAs: 'deleteController',
@@ -448,7 +448,7 @@ function routing($stateProvider) {
 
     $stateProvider
         .state('batchDelete', {
-            parent: 'main',
+            parent: 'ng-admin',
             url: '/:entity/batch-delete/{ids:json}',
             controller: 'BatchDeleteController',
             controllerAs: 'batchDeleteController',
