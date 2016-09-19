@@ -14,12 +14,20 @@ export default function maDateField() {
             var field = scope.field();
             scope.name = field.name();
             scope.rawValue = scope.value == null ? null : (scope.value instanceof Date ? scope.value : new Date(scope.value));
+
             scope.$watch('rawValue', function(rawValue) {
                 scope.value = field.parse()(rawValue);
             });
-            scope.$watch('value', function(rawValue) {
-                scope.rawValue = scope.value == null ? null : (scope.value instanceof Date ? scope.value : new Date(scope.value));
+
+            scope.$watch('value', value => {
+                if (!value) {
+                    scope.rawValue = null;
+                    return;
+                }
+
+                scope.rawValue = scope.value instanceof Date ? scope.value : new Date(scope.value);
             });
+
             scope.format = field.format();
             if (!scope.format) {
                 scope.format = field.type() === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
