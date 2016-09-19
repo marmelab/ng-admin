@@ -40,5 +40,5 @@ module.exports = {
       version: false,
       warnings: false,
       errorDetails: true,
-    },
+    }
 };

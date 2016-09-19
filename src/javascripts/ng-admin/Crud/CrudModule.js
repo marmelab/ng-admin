@@ -1,7 +1,20 @@
 import angular from 'angular';
 
+require('textangular/dist/textAngular-sanitize');
+require('textangular/dist/textAngularSetup');
+require('textangular/dist/textAngular');
+
+require('angular-ui-codemirror');
+
 var CrudModule = angular.module('crud', [
-    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
+    'ui.router',
+    'ui.bootstrap',
+    'ui.codemirror',
+    'ngSanitize',
+    'textAngular',
+    'ngInflection',
+    'ngFileUpload',
+    'ngNumeraljs',
 ]);
 
 CrudModule.controller('ListLayoutController', require('./list/ListLayoutController'));
