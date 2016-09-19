@@ -119,4 +119,38 @@ describe('directive: choice-field', function () {
             value: 'bazValue'
         }));
     });
+
+    fit('should refresh choices if related entity is changed', () => {
+        const subCategories = [
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+            { category: 'lifestyle', label: 'Travel', value: 'travel' },
+            { category: 'lifestyle', label: 'Fitness', value: 'fitness' }
+        ];
+
+        scope.field = new ChoiceField()
+            .choices(entry => subCategories.filter(
+                sc => sc.category === entry.values.category
+            ));
+
+        scope.entry = {
+            values: {
+                category: 'lifestyle',
+                subcategory: 'travel'
+            }
+        };
+
+        const element = $compile(directiveUsage)(scope);
+        scope.$digest();
+
+        // updating entry category should update subcategories
+        scope.entry.values.category = 'tech';
+        scope.$digest();
+
+        const uiSelect = angular.element(element.children()[0]).controller('uiSelect');
+        expect(angular.toJson(uiSelect.items)).toEqual(JSON.stringify([
+            { category: 'tech', label: 'Computers', value: 'computers' },
+            { category: 'tech', label: 'Gadgets', value: 'gadgets' },
+        ]));
+    });
 });
