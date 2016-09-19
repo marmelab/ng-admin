@@ -1,6 +1,6 @@
 {
   "name": "ng-admin",
-  "version": "1.0.0-alpha5",
+  "version": "1.0.0-alpha6",
   "license": "MIT",
   "private": false,
   "main": "lib/javascripts/ng-admin.js",
