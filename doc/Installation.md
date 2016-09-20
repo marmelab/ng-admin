@@ -8,7 +8,7 @@ npm install ng-admin --save
 bower install ng-admin --save
 ```
 
-Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin"/>`, and configure the admin:
+Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin">`, and configure the admin:
 
 ```html
 <!doctype html>
