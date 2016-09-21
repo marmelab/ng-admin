@@ -72,7 +72,7 @@ If you don't have a module bundler, don't worry: you can still include `ng-admin
 <script src="node_modules/ng-admin/build/ng-admin.min.js"></script>
 ```
 
-## Bootstraping your Admin
+## Bootstrapping your Admin
 
 Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin">`, and configure the admin:
 
