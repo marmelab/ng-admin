@@ -42,7 +42,7 @@ export default function translate($translateProvider) {
       'NOT_FOUND_DETAILS': 'The page you are looking for cannot be found. Take a break before trying again.',
     });
     $translateProvider.preferredLanguage('en');
-    $translateProvider.useSanitizeValueStrategy('sanitize');
+    $translateProvider.useSanitizeValueStrategy(null);
 }
 
 translate.$inject = ['$translateProvider'];
