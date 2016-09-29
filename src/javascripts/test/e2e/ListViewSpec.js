@@ -174,4 +174,13 @@ describe('ListView', function () {
         });
     });
 
+    describe('translate', () => {
+        it('should not escape HTML characters', () => {
+            const title = $$('tbody tr:last-child .ng-admin-column-title').first();
+
+            // If this title is escaped, it will be:
+            // Accusantium qui nihil &amp; voluptatum quia voluptas maxime ab similique
+            expect(title.getText()).toBe('Accusantium qui nihil & voluptatum quia voluptas maxime ab similique');
+        });
+    });
 });
