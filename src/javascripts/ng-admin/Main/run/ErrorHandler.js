@@ -4,7 +4,7 @@ export default function errorHandler($rootScope, $state, $translate, notificatio
             $state.go('ma-404');
             event.preventDefault();
         } else {
-            $translate('STATE_CHANGE_ERROR', { message: error.message }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+            $translate('STATE_CHANGE_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             throw error;
         }
     });
