@@ -53,7 +53,7 @@ Create a new field of the given type. Default type is 'string', so you can omit 
 Define the label of the field. Defaults to the uppercased field name.
 
 * `editable(boolean)`
-Define if the field is editable in the edition form. Usefult to display a field without allowing edition (e.g for creation date).
+Define if the field is editable in the edition form. Useful to display a field without allowing edition (e.g for creation date).
 
 * `order(number|null)`
 Define the position of the field in the view.
