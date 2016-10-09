@@ -72,7 +72,7 @@ Set the default direction for list sorting. Defaults to 'DESC'
 * `infinitePagination(boolean)`
 Enable or disable lazy loading.
 
-* `filters()[field1, field2, ...])`
+* `filters([field1, field2, ...])`
 Add filters to the list. Each field maps a property in the API endpoint result.
 
         customers.listView().filters([
