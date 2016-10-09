@@ -16,7 +16,7 @@ This form is for reporting bugs in or adding enhancements to `ng-admin`.
 
 ### Steps to Reproduce
 
-If applicable, demonstrate your bug using a Plunkr live demo. You can fork this `ng-admin` plunkr: http://plnkr.co/edit/qrw9Y8rfUUmHM4rOJo1q?p=preview
+If applicable, demonstrate your bug using a Plunkr live demo. You can fork this `ng-admin` plunkr: http://plnkr.co/edit/xiRijR1CeETB2qoz8krp
 
 1. [First Step]
 2. [Second Step]
