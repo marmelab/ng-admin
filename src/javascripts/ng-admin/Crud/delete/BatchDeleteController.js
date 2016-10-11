@@ -29,12 +29,15 @@ export default class BatchDeleteController {
             .then(() => $translate('BATCH_DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 progression.done();
+
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+                })
+                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
