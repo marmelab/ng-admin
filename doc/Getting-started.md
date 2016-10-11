@@ -20,7 +20,7 @@ Ng-admin is a client-side library, used to build single-page admin applications.
         <link rel="stylesheet" href="node_modules/ng-admin/build/ng-admin.min.css">
     </head>
     <body ng-app="myApp">
-        <div ui-view></div>
+        <div ui-view="ng-admin"></div>
         <script src="node_modules/ng-admin/build/ng-admin.min.js" type="text/javascript"></script>
         <script src="admin.js" type="text/javascript"></script>
     </body>
