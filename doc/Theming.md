@@ -130,7 +130,7 @@ admin.customTemplate(function(viewName) {
 
 ## Customizing the Dashboard
 
-If you want to use a custom template dashboard, you must [define a custom dashboard configuration](doc/Dashboard.md). This will give you access to the `dashboard.template()` function:
+If you want to use a custom template dashboard, you must [define a custom dashboard configuration](Dashboard.md). This will give you access to the `dashboard.template()` function:
 
 ```js
 var myTemplate = require('text!./path/to/dashboard.html');
