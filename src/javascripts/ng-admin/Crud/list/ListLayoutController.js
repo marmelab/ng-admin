@@ -1,12 +1,23 @@
 /* globals _ */
-function getCurrentSearchParam(location, filters) {
-    let search = location.search().search ? JSON.parse(location.search().search) : {};
-    filters.map(filter => {
-        if (search[filter.name()]) {
-            search[filter.name()] = filter.getMappedValue(search[filter.name()]);
+export function getCurrentSearchParam(location, filters) {
+    const baseSearch = location.search().search ? JSON.parse(location.search().search) : {};
+
+    return filters
+    .reduce((search, filter) => {
+        if (typeof search[filter.name()] !== 'undefined') {
+            return {
+                ...search,
+                [filter.name()]: filter.getMappedValue(search[filter.name()])
+            }
         }
-    });
-    return search;
+        if (filter.pinned() && !search[filter.name()] && filter.defaultValue()) {
+            return {
+                ...search,
+                [filter.name()]: filter.defaultValue()
+            };
+        }
+        return search;
+    }, baseSearch);
 }
 
 export default class ListLayoutController {
