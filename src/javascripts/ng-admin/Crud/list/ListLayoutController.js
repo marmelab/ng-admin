@@ -1,24 +1,4 @@
 /* globals _ */
-export function getCurrentSearchParam(location, filters) {
-    const baseSearch = location.search().search ? JSON.parse(location.search().search) : {};
-
-    return filters
-    .reduce((search, filter) => {
-        if (typeof search[filter.name()] !== 'undefined') {
-            return {
-                ...search,
-                [filter.name()]: filter.getMappedValue(search[filter.name()])
-            }
-        }
-        if (filter.pinned() && !search[filter.name()] && filter.defaultValue()) {
-            return {
-                ...search,
-                [filter.name()]: filter.defaultValue()
-            };
-        }
-        return search;
-    }, baseSearch);
-}
 
 export default class ListLayoutController {
     constructor($scope, $stateParams, $state, $location, $timeout, view, dataStore) {
@@ -33,7 +13,7 @@ export default class ListLayoutController {
         this.batchActions = view.batchActions();
         this.loadingPage = false;
         this.filters = view.filters();
-        this.search = getCurrentSearchParam($location, this.filters);
+        this.search = ListLayoutController.getCurrentSearchParam($location, this.filters);
         this.path = $location.path();
         // since search isn't a $stateParam of the listLayout state,
         // the controller doesn't change when the search changes
@@ -47,7 +27,7 @@ export default class ListLayoutController {
                 if ($location.path() !== this.path) {
                     return; // already transitioned to another page
                 }
-                this.search = getCurrentSearchParam($location, this.filters);
+                this.search = ListLayoutController.getCurrentSearchParam($location, this.filters);
                 this.enabledFilters = this.getEnabledFilters();
             }
         );
@@ -74,6 +54,27 @@ export default class ListLayoutController {
         }
 
         $scope.$on('$destroy', this.destroy.bind(this));
+    }
+
+    static getCurrentSearchParam(location, filters) {
+        const baseSearch = location.search().search ? JSON.parse(location.search().search) : {};
+
+        return filters
+        .reduce((search, filter) => {
+            if (typeof search[filter.name()] !== 'undefined') {
+                return {
+                    ...search,
+                    [filter.name()]: filter.getMappedValue(search[filter.name()])
+                }
+            }
+            if (filter.pinned() && !search[filter.name()] && filter.defaultValue()) {
+                return {
+                    ...search,
+                    [filter.name()]: filter.getMappedValue(filter.defaultValue())
+                };
+            }
+            return search;
+        }, baseSearch);
     }
 
     enableFilter(filter) {

@@ -40,7 +40,7 @@ describe('ListLayoutController', function () {
             ];
 
             expect(getCurrentSearchParam(location, filters))
-            .toEqual({ name: 'mapped name for doe', firstname: 'default value for firstname' });
+            .toEqual({ name: 'mapped name for doe', firstname: 'mapped firstname for default value for firstname' });
         });
 
         it('should ignore pinned filter if location search has already a corresponding value', function () {
@@ -60,7 +60,7 @@ describe('ListLayoutController', function () {
                     pinned: function () { return true; },
                     name: function() { return 'firstname'; },
                     getMappedValue: function (value) { return `mapped firstname for ${value}`; },
-                    defaultValue: function (value) { return `default value for firstname`; }
+                    defaultValue: function (value) { return `mapped firstname for default value for firstname`; }
                 }
             ];
 
