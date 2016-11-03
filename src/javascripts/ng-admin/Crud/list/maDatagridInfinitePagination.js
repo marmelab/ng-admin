@@ -25,7 +25,7 @@ export default function maDatagridInfinitePagination($window, $document) {
                         return;
                     }
                     page++;
-                    if(loadedPages.includes(page)){
+                    if(page in loadedPages){
                         return;
                     }
                     loadedPages.push(page);
