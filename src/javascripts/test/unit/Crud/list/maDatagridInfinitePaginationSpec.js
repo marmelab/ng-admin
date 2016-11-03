@@ -50,6 +50,7 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         $compile = _$compile_;
         scope = _$rootScope_.$new();
         $window = _$window_;
+        $window.innerHeight = 759;
         $document = _$document_;
         initializeBodyHeightMock();
         initializeScope();
