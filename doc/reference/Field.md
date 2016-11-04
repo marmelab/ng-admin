@@ -53,7 +53,7 @@ Create a new field of the given type. Default type is 'string', so you can omit 
 Define the label of the field. Defaults to the uppercased field name.
 
 * `editable(boolean)`
-Define if the field is editable in the edition form. Usefult to display a field without allowing edition (e.g for creation date).
+Define if the field is editable in the edition form. Useful to display a field without allowing edition (e.g for creation date).
 
 * `order(number|null)`
 Define the position of the field in the view.
@@ -702,7 +702,7 @@ post.editionView().fields([
 ]);
 ```
 
-` reference_many` fields render as a list of labels in rerad context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
+` reference_many` fields render as a list of labels in read context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
 
 ```
 GET /posts/456 <= get the main entity

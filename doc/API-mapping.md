@@ -267,9 +267,9 @@ myApp.config(['$httpProvider', function($httpProvider) {
         return {
             request: function(config) {
                 // test for /comments?filters={post_id:XXX}
-                if (/\/comments$/.test(config.url) && config.params.filter && config.params.filter.post_id) {
-                    config.url = config.url.replace('comments', 'posts/' + config.params.filter.post_id + '/comments');
-                    delete config.params.filter.post_id;
+                if (/\/comments$/.test(config.url) && config.params.filters && config.params.filters.post_id) {
+                    config.url = config.url.replace('comments', 'posts/' + config.params.filters.post_id + '/comments');
+                    delete config.params.filters.post_id;
                 }
                 return config;
             },
