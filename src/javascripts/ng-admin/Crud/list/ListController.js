@@ -23,6 +23,7 @@ export default class ListController {
         this.setPageCallback = this.setPage.bind(this);
         this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
         this.sortDir = this.$stateParams.sortDir || this.view.sortDir();
+        this.queryPromises = [];
 
         if ($scope.selectionUpdater) {
             $scope.selection = $scope.selection || [];
@@ -47,7 +48,7 @@ export default class ListController {
         const references = view.getReferences();
         let data;
 
-        this.ReadQueries
+        let queryPromise = this.ReadQueries
             .getAll(view, page, this.search, this.sortField, this.sortDir)
             .then(response => {
                 data = response.data;
@@ -65,6 +66,9 @@ export default class ListController {
                     ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                 }
             })
+        this.queryPromises.push(queryPromise);
+        // make sure all preceding promises complete before loading data into store
+        Promise.all(this.queryPromises)
             .then(() => {
                 view.mapEntries(data)
                     .map(entry => {

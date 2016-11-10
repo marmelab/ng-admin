@@ -17,13 +17,18 @@ export default function maDatagridInfinitePagination($window, $document) {
             var perPage = parseInt(scope.perPage, 10) || 1,
                 totalItems = parseInt(scope.totalItems, 10),
                 nbPages = Math.ceil(totalItems / perPage) || 1,
-                page = 1;
+                page = 1,
+                loadedPages = [];
             function handler() {
                 if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
                     if (page >= nbPages) {
                         return;
                     }
                     page++;
+                    if(page in loadedPages){
+                        return;
+                    }
+                    loadedPages.push(page);
                     scope.nextPage()(page);
                 }
             }
