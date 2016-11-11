@@ -1,7 +1,6 @@
 export default function HttpErrorService($state, $translate, notification) {
     var service = {};
 
-    
     service.handleError = handleError;
     service.handle_403 = handle_403;
     service.handle_404 = handle_404;
