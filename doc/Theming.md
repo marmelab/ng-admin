@@ -184,9 +184,8 @@ entity.errorMessage(function (response) {
 ## Customizing HTTP Error Messages
 If you want to override, patch or extend the way HTTP error are handled by the ng-admin Http Error Service (../src/javascripts/ng-admin/Main/component/provider/HttpErrorService.js) then you may use an [Angular decorator](https://docs.angularjs.org/guide/decorators), as per the below example:
 ```js
-// Change HTTP 403 error notification to display them as information and not errors ('humane-flatty-info)
+// Change HTTP 403 error notification to display them as information and not errors ('humane-flatty-info' instead of 'humane-flatty-error')
 myApp.config([ '$provide', function($provide) {
-
   $provide.decorator('httpErrorService', ['$delegate', '$translate', 'notification', function $httpErrorDecorator($delegate, $translate, notification) {
       var handle_403 = $delegate.handle_403;
       
