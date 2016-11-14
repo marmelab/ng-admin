@@ -187,9 +187,9 @@ If you want to override, patch or extend the way HTTP error are handled by the n
 // Change HTTP 403 error notification to display them as information and not errors ('humane-flatty-info' instead of 'humane-flatty-error')
 myApp.config([ '$provide', function($provide) {
   $provide.decorator('httpErrorService', ['$delegate', '$translate', 'notification', function $httpErrorDecorator($delegate, $translate, notification) {
-      var handle_403 = $delegate.handle_403;
+      var handle_403_error = $delegate.handle_403_error;
       
-      $delegate.handle_403 = function handle_403(error) {
+      $delegate.handle_403_error = function handle_403_Error(error) {
         $translate('STATE_CHANGE_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-info' }));
         throw error;
       };
