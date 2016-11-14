@@ -187,9 +187,9 @@ If you want to override, patch or extend the way HTTP errors are handled by the 
 // Change HTTP 403 error notification to display them as information and not errors ('humane-flatty-info' instead of 'humane-flatty-error')
 myApp.config([ '$provide', function($provide) {
   $provide.decorator('httpErrorService', ['$delegate', '$translate', 'notification', function $httpErrorDecorator($delegate, $translate, notification) {
-      var handle_403_error = $delegate.handle_403_error;
+      const handle403Error = $delegate.handle403Error;
       
-      $delegate.handle_403_error = function handle_403_error(error) {
+      $delegate.handle403Error = function handle403Error(error) {
         $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-info' }));
         throw error;
       };
