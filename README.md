@@ -206,6 +206,10 @@ Ng-admin is an open-source project, with a community getting larger every  day. 
 
 Please give as much context as possible, including and admin configuration snippet, and the response from the API you're mapping.
 
+## Looking For a Material UI / React.js version?
+
+[marmelab/admin-on-rest](https://github.com/marmelab/admin-on-rest), by the same team, uses a different architecture but provides a similar service: an admin GUI for REST APIs, this time with React.js, Redux, react-router, and material UI.
+
 ## Contributing
 
 Your feedback about the usage of ng-admin in your specific context is valuable, don't hesitate to [open GitHub Issues](https://github.com/marmelab/ng-admin/issues) for any problem or question you may have.
