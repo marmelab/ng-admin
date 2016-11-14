@@ -1,25 +1,25 @@
-export default function httpErrorService( $state, $translate, notification) {
+export default function httpErrorService($state, $translate, notification) {
     
     return {
-    	handle_error: function(event, toState, toParams, fromState, fromParams, error){
+    	handleError: function(event, toState, toParams, fromState, fromParams, error){
             switch (error.status) {
             case 404:
-               this.handle_404_error();
+               this.handle404Error();
             case 403:
-               this.handle_403_error(error);
+               this.handle403Error(error);
             default:
-               this.handle_default_error(error);
+               this.handleDefaultError(error);
             }
     	},
-    	handle_404_error: function(event,error){
+    	handle404Error: function(event,error){
     		 $state.go('ma-404');
-             event.preventDefault();
+             evenE.preventDefault();
     	},
-    	handle_403_error: function(event,error){
+    	handle403Error: function(event,error){
     		 $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
     		 throw error;
     	},        
-    	handle_default_error: function(event,error){
+    	handleDefaultError: function(event,error){
     		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
              throw error;
     	}    	
