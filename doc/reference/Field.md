@@ -702,7 +702,7 @@ post.editionView().fields([
 ]);
 ```
 
-` reference_many` fields render as a list of labels in rerad context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
+` reference_many` fields render as a list of labels in read context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
 
 ```
 GET /posts/456 <= get the main entity
