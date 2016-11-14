@@ -4,4 +4,4 @@ export default function httpErrorHandler($rootScope, httpErrorService) {
     });
 }
 
-errorHandler.$inject = ['$rootScope', 'httpErrorService'];
+httpErrorHandler.$inject = ['$rootScope', 'httpErrorService'];
