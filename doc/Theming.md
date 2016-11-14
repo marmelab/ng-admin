@@ -189,8 +189,8 @@ myApp.config([ '$provide', function($provide) {
   $provide.decorator('httpErrorService', ['$delegate', '$translate', 'notification', function $httpErrorDecorator($delegate, $translate, notification) {
       var handle_403_error = $delegate.handle_403_error;
       
-      $delegate.handle_403_error = function handle_403_Error(error) {
-        $translate('STATE_CHANGE_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-info' }));
+      $delegate.handle_403_error = function handle_403_error(error) {
+        $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-info' }));
         throw error;
       };
 
