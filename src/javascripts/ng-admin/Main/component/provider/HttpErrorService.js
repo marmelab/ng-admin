@@ -16,13 +16,14 @@ export default function httpErrorService($state, $translate, notification) {
              evenE.preventDefault();
     	},
     	handle403Error: function(event,error){
-    		 $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+    		 $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(displayError);
     		 throw error;
     	},        
     	handleDefaultError: function(event,error){
-    		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+    		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(displayError);
              throw error;
-    	}    	
+    	},
+        displayError:text => notification.log(text, { addnCls: 'humane-flatty-error' });
     }
 }
 
