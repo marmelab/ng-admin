@@ -23,7 +23,7 @@ export default function httpErrorService($state, $translate, notification) {
     		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(displayError);
              throw error;
     	},
-        displayError:text => notification.log(text, { addnCls: 'humane-flatty-error' });
+        displayError:text => notification.log(text, { addnCls: 'humane-flatty-error' })
     }
 }
 
