@@ -13,18 +13,18 @@ export default function httpErrorService($state, $translate, notification) {
     	},
     	handle404Error: function(event,error){
     		 $state.go('ma-404');
-             evenE.preventDefault();
+             event.preventDefault();
     	},
-    	handle403Error: function(event,error){
-    		 $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(displayError);
+    	handle403Error: function(error){
+    		 $translate('STATE_FORBIDDEN_ERROR', { message: error.data.message }).then(this.displayError);
     		 throw error;
     	},        
-    	handleDefaultError: function(event,error){
-    		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(displayError);
+    	handleDefaultError: function(error){
+    		 $translate('STATE_CHANGE_ERROR', { message: error.message }).then(this.displayError);
              throw error;
     	},
         displayError:text => notification.log(text, { addnCls: 'humane-flatty-error' })
     }
 }
 
-httpErrorService.$inject = ['$state', '$translate', 'notification'];
+httpErrorService.$inject =['$state', '$translate', 'notification'];
