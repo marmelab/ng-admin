@@ -101,7 +101,7 @@ Furthermore, if your module bundler supports CSS and/or SASS, you can also embed
 
 ``` js
 // SASS version
-require('ng-admin/lib/sass/ng-admin.scss');
+require('ng-admin/lib/ng-admin.scss');
 
 // CSS version
 require('ng-admin/build/ng-admin.min.css');
