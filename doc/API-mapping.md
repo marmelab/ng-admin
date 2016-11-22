@@ -250,7 +250,7 @@ http://your.api.domain/entityName?q=foo&tag=bar
 By default, ng-admin uses filters to fetch entities related to another one. For instance, to fetch all the `comments` related to the `post` entity #123, ng-admin calls the following url:
 
 ```
-http://[baseApiUrl]/comments?filters={"post_id":123}
+http://[baseApiUrl]/comments?_filters={"post_id":123}
 ```
 
 Some API servers only support a special type of URL for that case:
@@ -266,10 +266,10 @@ myApp.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push(function() {
         return {
             request: function(config) {
-                // test for /comments?filters={post_id:XXX}
-                if (/\/comments$/.test(config.url) && config.params.filter && config.params.filter.post_id) {
-                    config.url = config.url.replace('comments', 'posts/' + config.params.filter.post_id + '/comments');
-                    delete config.params.filter.post_id;
+                // test for /comments?_filters={post_id:XXX}
+                if (/\/comments$/.test(config.url) && config.params._filters && config.params._filters.post_id) {
+                    config.url = config.url.replace('comments', 'posts/' + config.params._filters.post_id + '/comments');
+                    delete config.params._filters.post_id;
                 }
                 return config;
             },

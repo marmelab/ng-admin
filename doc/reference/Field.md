@@ -59,7 +59,7 @@ Define if the field is editable in the edition form. Usefult to display a field 
 Define the position of the field in the view.
 
 * `isDetailLink(boolean)`
-Tell if the value is a link in the list view. Default to true for the identifier and references field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.
+Tell if the value is a link in the list view. Defaults to true for the identifier and references field, false otherwise. The link points to the edition view, except for read-only entities, where it points to the show view.
 
 * `detailLinkRoute(string)`
 Define the route for a link in the list view, i.e. `isDetailLink` of the field is true. The default is `edit`, hence the link points to the edition view. The other option is `show` to point to the show view.
@@ -702,7 +702,7 @@ post.editionView().fields([
 ]);
 ```
 
-` reference_many` fields render as a list of labels in rerad context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
+` reference_many` fields render as a list of labels in read context (`listView` and `showView`), and as a select multiple in write context (`creationView` and `editionView`). For that field, ng-admin fetches the related entities one by one:
 
 ```
 GET /posts/456 <= get the main entity

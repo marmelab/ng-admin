@@ -37,6 +37,7 @@ exports.config =  {
 
     specs: ['e2e/*.js'],
     baseUrl: 'http://' + (process.env.CI ? 'ngadmin' : 'localhost') + ':8001',
+    chromeDriver: '../../../node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.24',
     maxSessions: 1,
     multiCapabilities: [
         {

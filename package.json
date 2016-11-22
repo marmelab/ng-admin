@@ -9,9 +9,9 @@
     "url": "git://github.com/marmelab/ng-admin.git"
   },
   "files": [
-      "*.md",
-      "build/",
-      "lib/"
+    "*.md",
+    "build/",
+    "lib/"
   ],
   "dependencies": {
     "angular": "~1.4.8",
@@ -73,7 +73,7 @@
     "ngtemplate-loader": "^1.3.0",
     "node-sass": "^3.9.3",
     "phantomjs-prebuilt": "~2.1.4",
-    "protractor": "~3.1.1",
+    "protractor": "~4.0.11",
     "sass-loader": "^4.0.2",
     "sinon": "~1.14.1",
     "style-loader": "^0.13.1",
