@@ -12,4 +12,4 @@ require('angular-numeraljs');
 require('angular-ui-bootstrap/dist/ui-bootstrap-tpls');
 require('ng-file-upload');
 
-global._ = require('underscore');
+global._ = require('lodash');
