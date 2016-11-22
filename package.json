@@ -39,7 +39,7 @@
     "restangular": "~1.5.2",
     "textangular": "1.4.3",
     "ui-select": "0.18.1",
-    "underscore": "^1.8.3"
+    "lodash": "4.17.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.8",
