@@ -1,7 +1,7 @@
 describe('Http error Service', function(){
   
-    var rootScope, stateProvider;
-    var error = {};
+  var rootScope, stateProvider;
+  var error = {};
 
   // Mock Ui Router - required for $state dependency
   beforeEach(angular.mock.module('ui.router'));
@@ -39,6 +39,7 @@ describe('Http error Service', function(){
    
      spyOn(httpErrorService, 'handleError').and.callThrough();
      spyOn(httpErrorService, 'handle403Error').and.callThrough();
+     spyOn(httpErrorService, 'displayError').and.callThrough();
      error.status = 403;
      error.data = {};
      error.data.message = 'Forbidden';
@@ -48,6 +49,7 @@ describe('Http error Service', function(){
 
     expect(httpErrorService.handleError).toHaveBeenCalled();
     expect(httpErrorService.handle403Error).toHaveBeenCalled();
+    expect(httpErrorService.displayError).toHaveBeenCalled();
   }));
   
   it('should use my httpErrorService handle HTTP 404 error', inject(function ($state) {
@@ -67,14 +69,14 @@ describe('Http error Service', function(){
     expect(httpErrorService.handleError).toHaveBeenCalled();
     expect(httpErrorService.handle404Error).toHaveBeenCalled();
     expect($state.go).toHaveBeenCalledWith('ma-404');
-		expect(event.preventDefault).toHaveBeenCalled
+    expect(event.preventDefault).toHaveBeenCalled();
     }));
 
   it('should use my httpErrorService handle HTTP errors other than 403/404', inject(function ($state) {
    
      spyOn(httpErrorService, 'handleError').and.callThrough();
      spyOn(httpErrorService, 'handleDefaultError').and.callThrough();
-     spyOn(httpErrorService, 'displayError');
+     spyOn(httpErrorService, 'displayError').and.callThrough();
      error.status = 500;
      error.data = {};
      error.data.message = '500 Error';
@@ -84,5 +86,6 @@ describe('Http error Service', function(){
 
     expect(httpErrorService.handleError).toHaveBeenCalled();
     expect(httpErrorService.handleDefaultError).toHaveBeenCalled();
+    expect(httpErrorService.displayError).toHaveBeenCalled();
   }));
 });
