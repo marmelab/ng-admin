@@ -4,11 +4,14 @@ export default function httpErrorService($state, $translate, notification) {
     	handleError: function(event, toState, toParams, fromState, fromParams, error){
             switch (error.status) {
             case 404:
-               this.handle404Error();
+               this.handle404Error(event, error);
+               break;
             case 403:
                this.handle403Error(error);
+               break;
             default:
                this.handleDefaultError(error);
+               break;
             }
     	},
     	handle404Error: function(event,error){
