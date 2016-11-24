@@ -25,7 +25,7 @@ function httpErrorService($state, $translate, notification) {
         },
 
         handleDefaultError: function(error) {
-            $translate('STATE_CHANGE_ERROR', { message: error.message }).then(this.displayError);
+            $translate('STATE_CHANGE_ERROR', { message: error.data.message }).then(this.displayError);
              throw error;
          },
 
