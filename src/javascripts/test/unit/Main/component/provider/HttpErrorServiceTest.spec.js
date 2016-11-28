@@ -61,7 +61,9 @@ describe('Http Error Service', () => {
     it('should display generic translated error notification if neither 404 nor 403', () => {
         const error = {
             status: 500,
-            message: 'Unknown error',
+            data: {
+              message: 'Unknown error',
+            }
         };
 
         try {
