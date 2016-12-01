@@ -11,5 +11,3 @@ require('angular-translate');
 require('angular-numeraljs');
 require('angular-ui-bootstrap/dist/ui-bootstrap-tpls');
 require('ng-file-upload');
-
-global._ = require('lodash');
