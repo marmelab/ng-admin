@@ -205,6 +205,8 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 ```
 
+(If a column is not sortable by your backend, e.g. a computed column, you can disable sorting per-column using [`Field.sortable(false)`](reference/Field.md#general-field-settings).)
+
 ## Filtering
 
 All filter fields are added as a serialized object passed as the value of the `_filters` query parameter. For instance, the following `filterView()` configuration:
