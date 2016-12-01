@@ -57,4 +57,15 @@ describe('ShowView', function () {
         });
     });
 
+    describe('Show singleton', function () {
+        beforeEach(function () {
+            browser.setLocation('/settings/show');
+        });
+
+        it('should load', function () {
+            $$('div.page-header').then(function (header) {
+                expect(header.length).toBe(1);
+            });
+        });
+    });
 });

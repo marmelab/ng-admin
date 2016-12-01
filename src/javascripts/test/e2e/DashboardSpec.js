@@ -13,10 +13,11 @@ describe('Dashboard', function () {
 
     it('should display a navigation menu linking to all entities', function () {
         $$('.nav li').then(function (items) {
-            expect(items.length).toBe(5);
+            expect(items.length).toBe(6);
             expect(items[0].getText()).toBe('Posts');
             expect(items[1].getText()).toBe('✉ Comments');
             expect(items[2].getText()).toBe('Tags');
+            expect(items[3].getText()).toBe('Settings');
         });
     });
 

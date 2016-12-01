@@ -153,7 +153,7 @@ function routing($stateProvider) {
             templateProvider: templateProvider('ShowView', showTemplate),
             params: {
                 entity: null,
-                id: null,
+                id: {value: null, squash: true},
                 page: { value: 1, squash: true },
                 search: { value: {}, squash: true },
                 sortField: null,
@@ -294,6 +294,7 @@ function routing($stateProvider) {
             }
         });
 
+
     $stateProvider
         .state('edit', {
             parent: 'ng-admin',
@@ -303,7 +304,7 @@ function routing($stateProvider) {
             templateProvider: templateProvider('EditView', editTemplate),
             params: {
                 entity: null,
-                id: null,
+                id: {value: null, squash: true},
                 page: { value: 1, squash: true },
                 search: { value: {}, squash: true },
                 sortField: null,

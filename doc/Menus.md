@@ -2,13 +2,14 @@
 
 By default, ng-admin creates a sidebar menu with one entry per entity. If you want to customize this sidebar (labels, icons, order, adding submenus, etc), you have to define menus manually.
 
-The sidebar menu is built based on a `Menu` object, constructed with `nga.menu()`. A menu can have child menus. A menu can be constructed based on an entity. Here is the code to create a basic menu for the entities `post`, `comment`, and `tag`:
+The sidebar menu is built based on a `Menu` object, constructed with `nga.menu()`. A menu can have child menus. A menu can be constructed based on an entity. Here is the code to create a basic menu for the entities `post`, `comment`, `tag`, and `settings`:
 
 ```js
 admin.menu(nga.menu()
   .addChild(nga.menu(post))
   .addChild(nga.menu(comment))
   .addChild(nga.menu(tag))
+  .addChild(nga.menu(settings))
 );
 ```
 
@@ -19,6 +20,7 @@ admin.menu(nga.menu()
   .addChild(nga.menu(post))
   .addChild(nga.menu(comment).title('Comments'))
   .addChild(nga.menu(tag).icon('<span class="glyphicon glyphicon-tags"></span>'))
+  .addChild(nga.menu(settings).icon('<span class="glyphicon glyphicon-cog"></span>'))
 );
 ```
 

@@ -151,4 +151,16 @@ describe('EditionView', function () {
             });
         });
     });
+
+    describe('Edit Singleton', function () {
+        beforeEach(function() {
+            browser.setLocation('/settings/edit');
+        });
+
+        it('should load', function () {
+            $$('input').then(function (inputs) {
+                expect(inputs.length).toBe(3);
+            });
+        });
+    });
 });

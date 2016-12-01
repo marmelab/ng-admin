@@ -1,4 +1,10 @@
 var apiData = {
+  // FakeRest doesn't allow signleton, so do a single list and modify the
+  // Restangular config to show it properly
+  "settings": {
+    'theme': 'blue',
+    'ratelimit': 1.0,
+  },
   "posts": [
     {
       "id": 1,
