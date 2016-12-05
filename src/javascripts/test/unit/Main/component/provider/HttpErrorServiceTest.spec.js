@@ -16,7 +16,7 @@ describe('Http Error Service', () => {
         .service('notification', () => ({
             log: jasmine.createSpy('notification.log'),
         }))
-        .service('HttpErrorService', HttpErrorService);
+        .provider('HttpErrorService', HttpErrorService);
 
     beforeEach(angular.mock.module('test_httpErrorService'));
 
