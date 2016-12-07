@@ -87,6 +87,6 @@
   },
   "scripts": {
     "test": "make test",
-    "postinstall": "./node_modules/protractor/bin/webdriver-manager update  --versions.chrome=2.24"
+    "postinstall": "node _postinstall.js"
   }
 }
