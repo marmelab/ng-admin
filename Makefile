@@ -2,7 +2,6 @@
 
 install:
 	npm install
-	./node_modules/protractor/bin/webdriver-manager update  --versions.chrome=2.24
 
 run: examples/blog/build
 	cp node_modules/fakerest/dist/FakeRest.min.js examples/blog/build/fakerest.js
@@ -17,7 +16,7 @@ transpile:
 	rm -rf lib/*
 	./node_modules/.bin/babel src/javascripts -d lib/javascripts --source-maps > /dev/null
 	cd src && rsync -R `find . -name *.html` ../lib # copy all HTML files keeping structure from src to lib
-	cp -Rf ./src/sass/ lib/
+	cp -Rf ./src/sass/ lib/sass/
 
 build:
 	make transpile
