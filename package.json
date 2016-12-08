@@ -68,6 +68,8 @@
     "karma-ng-scenario": "~0.1.0",
     "karma-phantomjs-launcher": "~1.0.0",
     "karma-webpack": "~1.7.0",
+    "lodash": "^4.17.2",
+    "lodash.debounce": "4.0.8",
     "mocha": "^2.1.0",
     "ng-annotate-loader": "0.0.2",
     "ngtemplate-loader": "^1.3.0",
