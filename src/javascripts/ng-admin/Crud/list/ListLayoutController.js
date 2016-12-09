@@ -2,6 +2,7 @@
 
 export default class ListLayoutController {
     constructor($scope, $stateParams, $state, $location, $timeout, view, dataStore) {
+        var debounce = require('lodash.debounce');
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
@@ -34,7 +35,7 @@ export default class ListLayoutController {
         // apply filters when filter values change
         $scope.$watch(
             () => this.search,
-            _.debounce((newValues, oldValues) => {
+            debounce((newValues, oldValues) => {
                 if (newValues != oldValues) {
                     this.updateFilters();
                 }
