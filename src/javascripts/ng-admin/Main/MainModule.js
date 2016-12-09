@@ -20,5 +20,5 @@ MainModule.config(require('./config/http'));
 MainModule.config(require('./config/routing'));
 MainModule.config(require('./config/translate'));
 
-MainModule.run(require('./run/ErrorHandler'));
+MainModule.run(require('./run/HttpErrorHandler'));
 MainModule.run(require('./run/Loader'));
