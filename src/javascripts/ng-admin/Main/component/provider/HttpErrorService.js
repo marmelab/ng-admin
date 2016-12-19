@@ -1,4 +1,4 @@
-const httpErrorService = ($state, $translate, notification) => ({
+const HttpErrorService = ($state, $translate, notification) => ({
     handleError: function(event, toState, toParams, fromState, fromParams, error) {
         switch (error.status) {
             case 404:
@@ -31,6 +31,6 @@ const httpErrorService = ($state, $translate, notification) => ({
     displayError: text => notification.log(text, { addnCls: 'humane-flatty-error' }),
 });
 
-httpErrorService.$inject = ['$state', '$translate', 'notification'];
+HttpErrorService.$inject = ['$state', '$translate', 'notification'];
 
-export default { $get: httpErrorService };
+export default { $get: HttpErrorService };

@@ -3,10 +3,10 @@ const HttpErrorService = require('../../../../../ng-admin/Main/component/provide
 describe('Http Error Service', () => {
     let $state;
     let $translate;
-    let httpErrorService;
+    let HttpErrorService;
     let notification;
 
-    angular.module('test_httpErrorService', [])
+    angular.module('test_HttpErrorService', [])
         .service('$state', () => ({
             go: jasmine.createSpy('$state.go'),
         }))
@@ -18,12 +18,12 @@ describe('Http Error Service', () => {
         }))
         .provider('HttpErrorService', HttpErrorService);
 
-    beforeEach(angular.mock.module('test_httpErrorService'));
+    beforeEach(angular.mock.module('test_HttpErrorService'));
 
     beforeEach(inject(function (_$state_, _$translate_, _HttpErrorService_, _notification_) {
         $state = _$state_;
         $translate = _$translate_;
-        httpErrorService = _HttpErrorService_;
+        HttpErrorService = _HttpErrorService_;
         notification = _notification_;
     }));
 
@@ -33,7 +33,7 @@ describe('Http Error Service', () => {
         };
 
         const error = { status: 404 };
-        httpErrorService.handleError(event, '', '', '', '', error);
+        HttpErrorService.handleError(event, '', '', '', '', error);
 
         expect(event.preventDefault).toHaveBeenCalled();
         expect($state.go).toHaveBeenCalledWith('ma-404');
@@ -48,7 +48,7 @@ describe('Http Error Service', () => {
         };
 
         try {
-            httpErrorService.handleError('', '', '', '', '', error);
+            HttpErrorService.handleError('', '', '', '', '', error);
             expect(true).toBe(false);
         } catch (e) {
             // should throw an exception in case of 403
@@ -67,7 +67,7 @@ describe('Http Error Service', () => {
         };
 
         try {
-            httpErrorService.handleError('', '', '', '', '', error);
+            HttpErrorService.handleError('', '', '', '', '', error);
             expect(true).toBe(false);
         } catch (e) {
             // should throw an exception in case of 500
