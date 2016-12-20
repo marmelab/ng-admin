@@ -1,4 +1,4 @@
-const HttpErrorService = require('../../../../../ng-admin/Main/component/provider/HttpErrorService');
+const HttpErrorServiceProvider = require('../../../../../ng-admin/Main/component/provider/HttpErrorService');
 
 describe('Http Error Service', () => {
     let $state;
@@ -16,7 +16,7 @@ describe('Http Error Service', () => {
         .service('notification', () => ({
             log: jasmine.createSpy('notification.log'),
         }))
-        .provider('HttpErrorService', HttpErrorService);
+        .provider('HttpErrorService', HttpErrorServiceProvider);
 
     beforeEach(angular.mock.module('test_HttpErrorService'));
 
