@@ -8,6 +8,7 @@ var MainModule = angular.module('main', ['ui.router', 'restangular', 'pascalprec
 MainModule.controller('AppController', require('./component/controller/AppController'));
 MainModule.controller('DashboardController', require('./component/controller/DashboardController'));
 MainModule.provider('NgAdminConfiguration', require('./component/provider/NgAdminConfiguration'));
+MainModule.provider('HttpErrorService', require('./component/provider/HttpErrorService'));
 
 MainModule.filter('orderElement', require('./component/filter/OrderElement'));
 MainModule.filter('stripTags', require('./component/filter/StripTags'));
@@ -19,5 +20,5 @@ MainModule.config(require('./config/http'));
 MainModule.config(require('./config/routing'));
 MainModule.config(require('./config/translate'));
 
-MainModule.run(require('./run/ErrorHandler'));
+MainModule.run(require('./run/HttpErrorHandler'));
 MainModule.run(require('./run/Loader'));
