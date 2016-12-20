@@ -181,3 +181,21 @@ entity.errorMessage(function (response) {
     return 'Global error: ' + response.status + '(' + response.data + ')';
 });
 ```
+## Customizing HTTP Error Messages
+If you want to override, patch or extend the way HTTP errors are handled by the ng-admin [Http Error Service](../src/javascripts/ng-admin/Main/component/provider/HttpErrorService.js) then you may use an [Angular decorator](https://docs.angularjs.org/guide/decorators), as per the below example:
+```js
+// Change HTTP 403 error notification to display them as information and not errors ('humane-flatty-info' instead of 'humane-flatty-error')
+myApp.config([ '$provide', function($provide) {
+  $provide.decorator('httpErrorService', ['$delegate', '$translate', 'notification', function $httpErrorDecorator($delegate, $translate, notification) {
+      const handle403Error = $delegate.handle403Error;
+      
+      $delegate.handle403Error = function handle403Error(error) {
+        $translate('STATE_FORBIDDEN_ERROR', { message: error.data }).then(text => notification.log(text, { addnCls: 'humane-flatty-info' }));
+        throw error;
+      };
+
+      return $delegate;
+    }
+  ]);
+}]);
+```
