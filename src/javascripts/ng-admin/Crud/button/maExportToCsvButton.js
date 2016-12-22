@@ -58,9 +58,16 @@ export default function maExportToCsvButton ($stateParams, Papa, notification, A
                         var fakeLink = document.createElement('a');
                         document.body.appendChild(fakeLink);
 
-                        fakeLink.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csv));
-                        fakeLink.setAttribute('download', scope.entity.name() + '.csv');
-                        fakeLink.click();
+                        const blobName = `${scope.entity.name()}.csv`;
+
+                        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // Manage IE11+ & Edge
+                            var blob = new Blob([csv], { type: 'text/csv' });
+                            window.navigator.msSaveOrOpenBlob(blob, blobName);
+                        } else {
+                            fakeLink.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csv));
+                            fakeLink.setAttribute('download', blobName);
+                            fakeLink.click();
+                        }
                     }, function (error) {
                         notification.log(error.message, {addnCls: 'humane-flatty-error'});
                     });
