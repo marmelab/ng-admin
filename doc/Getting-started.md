@@ -460,7 +460,7 @@ user.editionView().fields(user.creationView().fields());
 
 ## Making Lists Searchable With Filters
 
-One of the main tasks you have to achieve achieve on list views is searching for specific entries. The current post list isn't very searchable... Let's add filters!
+One of the main tasks you have to achieve on list views is searching for specific entries. The current post list isn't very searchable... Let's add filters!
 
 The `/posts` endpoint from JSONPlaceholder accepts query parameters to filter the results. For instance, to list posts where any of the fields (title or body) contains the string "foo", and where the id of the author is 1234, you can query the following route:
 
