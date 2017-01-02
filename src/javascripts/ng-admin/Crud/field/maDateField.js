@@ -15,12 +15,16 @@ export default function maDateField() {
             scope.name = field.name();
             scope.rawValue = scope.value == null ? null : (scope.value instanceof Date ? scope.value : new Date(scope.value));
 
-            scope.$watch('rawValue', function(rawValue) {
-                scope.value = field.parse()(rawValue);
+            scope.$watch('rawValue', function(newValue) {
+                scope.value = field.parse()(newValue);
             });
 
-            scope.$watch('value', value => {
-                if (!value) {
+            scope.$watch('value', (newValue, oldValue) => {
+                if (newValue === oldValue) {
+                    return;
+                }
+
+                if (!newValue) {
                     scope.rawValue = null;
                     return;
                 }
