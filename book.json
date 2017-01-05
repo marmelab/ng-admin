@@ -1,11 +1,6 @@
 {
-    "gitbook": "2.x.x",
-    "plugins": [
-        "prism",
-        "-highlight",
-        "github",
-        "edit-link"
-    ],
+    "gitbook": "3.2.2",
+    "plugins": ["edit-link", "prism", "-highlight", "github", "anchorjs"],
     "pluginsConfig": {
         "edit-link": {
           "base": "https://github.com/marmelab/ng-admin/tree/master",
