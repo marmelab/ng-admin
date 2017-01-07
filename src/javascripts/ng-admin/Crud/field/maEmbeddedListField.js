@@ -47,9 +47,6 @@ export default function maEmbeddedListField() {
                 scope.remove = entry => {
                     scope.entries = scope.entries.filter(e => e !== entry);
                 };
-                scope.getForm = function (formName) {
-                    return scope.$parent.form[formName] || scope[formName];
-                }
                 scope.$watch('entries', (newEntries, oldEntries) => {
                     if (newEntries === oldEntries) {
                         return;
@@ -66,7 +63,7 @@ export default function maEmbeddedListField() {
                         <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;<span translate="REMOVE"></span></a>
                     </div>
                     <div class="form-field form-group" ng-repeat="field in ::fields track by $index">
-                        <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="getForm(formName)" datastore="::datastore()"></ma-field>
+                        <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="$parent[formName]" datastore="::datastore()"></ma-field>
                     </div>
                     <hr/>
                 </ng-form>
