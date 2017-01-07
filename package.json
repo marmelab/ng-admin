@@ -8,11 +8,6 @@
     "type": "git",
     "url": "git://github.com/marmelab/ng-admin.git"
   },
-  "files": [
-    "*.md",
-    "build/",
-    "lib/"
-  ],
   "dependencies": {
     "admin-config": "~0.12.1",
     "angular": "~1.4.8",
