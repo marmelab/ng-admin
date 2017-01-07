@@ -87,7 +87,6 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "test": "make test",
-    "postinstall": "node _postinstall.js"
+    "test": "make test"
   }
 }
