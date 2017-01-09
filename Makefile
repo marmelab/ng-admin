@@ -2,6 +2,7 @@
 
 install:
 	npm install
+	node _postinstall.js
 
 run: examples/blog/build
 	cp node_modules/fakerest/dist/FakeRest.min.js examples/blog/build/fakerest.js
