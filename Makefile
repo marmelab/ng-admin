@@ -24,7 +24,10 @@ build:
 	cp -Rf build examples/blog/
 	@echo "Files build/ng-admin.min.css and build/ng-admin.min.js updated (with minification)"
 
-test: test-unit test-e2e
+test: check-only-in-tests test-unit test-e2e
+
+check-only-in-tests:
+	bash ./scripts/check-only-in-tests.sh
 
 test-unit:
 	./node_modules/.bin/karma start src/javascripts/test/karma.conf.js --single-run
