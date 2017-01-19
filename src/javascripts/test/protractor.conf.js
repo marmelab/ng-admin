@@ -1,6 +1,7 @@
 /*global browser*/
 var jsonServer = require('json-server');
 var path = require('path');
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 
 var server = function() {
     const server = jsonServer.create();
@@ -21,6 +22,14 @@ var beforeLaunch = function () {
 
 var onPrepare = function () {
     browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
+    jasmine.getEnv().addReporter(new SpecReporter({
+        spec: {
+            displayStacktrace: true
+        },
+        summary: {
+            displayDuration: false
+        }
+    }));
 }
 
 var afterLaunch = function () {
@@ -53,7 +62,8 @@ exports.config =  {
         isVerbose: true,
         showColors: true,
         includeStackTrace: true,
-        defaultTimeoutInterval: 360000
+        defaultTimeoutInterval: 360000,
+        print: () => {}, // Disable default reporter
     },
 
     beforeLaunch: beforeLaunch,

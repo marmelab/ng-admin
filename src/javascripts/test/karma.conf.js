@@ -23,7 +23,18 @@ module.exports = function (config) {
             'test/function.bind.shim.js',
             'test/unit/**/*.js'
         ],
-        plugins: ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
+        mochaReporter: {
+            showDiff: true,
+            ignoreSkipped: true,
+        },
+        reporters: ['mocha'],
+        plugins: [
+            'karma-webpack',
+            'karma-jasmine',
+            'karma-chrome-launcher',
+            'karma-phantomjs-launcher',
+            'karma-mocha-reporter',
+        ],
         preprocessors: {
             'ng-admin.js': 'webpack',
             'test/**/*.js': 'webpack'
