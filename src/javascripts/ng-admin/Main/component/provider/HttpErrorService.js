@@ -1,5 +1,5 @@
 const HttpErrorService = ($state, $translate, notification) => ({
-    handleError: function(event, toState, toParams, fromState, fromParams, error) {
+    handleError: function(error, event, toState, toParams, fromState, fromParams) {
         switch (error.status) {
             case 404:
                this.handle404Error(event, error);
