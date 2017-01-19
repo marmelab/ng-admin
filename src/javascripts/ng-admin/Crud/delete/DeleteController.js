@@ -46,14 +46,12 @@ export default class DeleteController {
             .then(() => $translate('DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                const errorMessage = this.HttpErrorService.handleError(this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE');
+                // this is kept for backward compatibility with the entity.errorMessage() method 
+                const msg = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
+                error.data.message = msg;
+                
+                this.HttpErrorService.handleError(error);
                 progression.done();
-                //$translate(errorMessage, {
-                //    status: error && error.status,
-                //    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                //})
-                //    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
-                //   .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
