@@ -72,7 +72,11 @@ export default class FormController {
             .then(() => $translate('CREATION_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
+                // this is kept for backward compatibility with the entity.errorMessage() method 
+                const msg = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
+                error.data.message = msg;
+                
+                const errorMessage = this.HttpErrorService.handleError(error);
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -80,12 +84,6 @@ export default class FormController {
                 );
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                $translate(errorMessage, {
-                    status: error && error.status,
-                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                })
-                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -117,7 +115,11 @@ export default class FormController {
                     .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
             .catch(error => {
-                const errorMessage = this.HttpErrorService.handleError(this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE');
+                // this is kept for backward compatibility with the entity.errorMessage() method 
+                const msg = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
+                error.data.message = msg;
+                
+                const errorMessage = this.HttpErrorService.handleError(error);
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
@@ -125,12 +127,6 @@ export default class FormController {
                 );
                 if (customHandlerReturnValue === false) return;
                 progression.done();
-                //$translate(errorMessage, {
-                //    status: error && error.status,
-                //    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                //})
-                //    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
-                //    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -144,7 +140,7 @@ export default class FormController {
         this.dataStore = undefined;
         this.view = undefined;
         this.entity = undefined;
-        this.HttpErrorService = undefined;
+        this.HttpErrorService = HttpErrorService;
     }
 }
 
