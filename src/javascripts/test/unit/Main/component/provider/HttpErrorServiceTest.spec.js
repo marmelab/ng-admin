@@ -48,7 +48,7 @@ describe('Http Error Service', () => {
         };
 
         try {
-            HttpErrorService.handleError(error'', '', '', '', '');
+            HttpErrorService.handleError(error, '', '', '', '', '');
             expect(true).toBe(false);
         } catch (e) {
             // should throw an exception in case of 403
