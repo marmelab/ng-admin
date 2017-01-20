@@ -19,6 +19,7 @@ MainModule.directive('maMenuBar', require('./component/directive/maMenuBar'));
 MainModule.config(require('./config/http'));
 MainModule.config(require('./config/routing'));
 MainModule.config(require('./config/translate'));
+MainModule.config(require('./config/location'));
 
 MainModule.run(require('./run/HttpErrorHandler'));
 MainModule.run(require('./run/Loader'));
