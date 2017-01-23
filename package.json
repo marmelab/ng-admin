@@ -42,7 +42,7 @@
     "ui-select": "0.18.1"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.8",
+    "angular-mocks": "~1.6.1",
     "babel": "^6.5.2",
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
