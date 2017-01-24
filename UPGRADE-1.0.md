@@ -1,5 +1,36 @@
 # Upgrade to 1.0
 
+## Angular 1.6
+Ng-admin is now ready for Angular 1.6 for security reasons and we strongly recommend you to migrate too.
+
+To do so you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5) then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
+
+There are the major changes we've faced:
+
+- The [default hash-prefix changed from `#/` to `#!/`](https://docs.angularjs.org/guide/migration#commit-aa077e8).
+For ng-admin we choose to keep the old prefix in order to avoid major changes in production or tests.
+You can do it too by adding a configuration block:
+
+```js
+$locationProvider.hashPrefix('');
+```
+
+- $http no longer support its `.success` and `.error` functions.
+
+```diff
+-$http.success(successFn).error(errorFn);
++$http.then(successFn, errorFn);
+```
+
+- No more arrow functions on services and controllers.
+
+```diff
+-app.service(() => {
++app.service(function () {
+    /* service code */
+});
+```
+
 ## [BC Break] ng-admin now attaches to a named view
 
 Ng-admin used to attach to the following element in your main `index.html`:
