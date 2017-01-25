@@ -1,9 +1,9 @@
 # Upgrade to 1.0
 
 ## Angular 1.6
-ng-admin is now ready for Angular 1.6 for security reasons and we strongly recommend you to migrate too.
+ng-admin is now ready for Angular 1.6 instead of 1.4, mainly for security reasons. We advice you to update your application too.
 
-To do so you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5) then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
+To do so, you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5), then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
 
 Here are the major changes we've faced:
 
@@ -15,14 +15,14 @@ You can do it too by adding a configuration block:
 $locationProvider.hashPrefix('');
 ```
 
-- $http doesn't support its `.success` and `.error` functions.
+- `$http` doesn't support its `.success` and `.error` functions anymore.
 
 ```diff
 -$http.success(successFn).error(errorFn);
 +$http.then(successFn, errorFn);
 ```
 
-- No more arrow functiins in services and cintrollers.
+No more arrow functions on services and controllers.
 
 ```diff
 -app.service(() => {
