@@ -7,7 +7,7 @@ To do so you can follow the Angular Migration Guide [from 1.4 to 1.5](https://do
 
 Here are the major changes we've faced:
 
-- The [default hash-prefix changed from `#/` to `#!/`](https://docs.angularjs.org/guide/migration#commit-aa077e8).
+The [default hash-prefix changed from `#/` to `#!/`](https://docs.angularjs.org/guide/migration#commit-aa077e8).
 For ng-admin we choose to keep the old prefix in order to avoid major changes in production or tests.
 You can do it too by adding a configuration block:
 
