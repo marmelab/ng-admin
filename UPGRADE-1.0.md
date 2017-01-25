@@ -15,7 +15,7 @@ You can do it too by adding a configuration block:
 $locationProvider.hashPrefix('');
 ```
 
-- $http no longer support its `.success` and `.error` functions.
+- $http doesn't support its `.success` and `.error` functions.
 
 ```diff
 -$http.success(successFn).error(errorFn);
