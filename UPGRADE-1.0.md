@@ -22,7 +22,7 @@ $locationProvider.hashPrefix('');
 +$http.then(successFn, errorFn);
 ```
 
-- No more arrow functions on services and controllers.
+- No more arrow functiins in services and cintrollers.
 
 ```diff
 -app.service(() => {
