@@ -5,7 +5,7 @@ Ng-admin is now ready for Angular 1.6 for security reasons and we strongly recom
 
 To do so you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5) then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
 
-There are the major changes we've faced:
+Here are the major changes we've faced:
 
 - The [default hash-prefix changed from `#/` to `#!/`](https://docs.angularjs.org/guide/migration#commit-aa077e8).
 For ng-admin we choose to keep the old prefix in order to avoid major changes in production or tests.
