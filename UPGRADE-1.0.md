@@ -1,7 +1,7 @@
 # Upgrade to 1.0
 
 ## Angular 1.6
-Ng-admin is now ready for Angular 1.6 for security reasons and we strongly recommend you to migrate too.
+ng-admin is now ready for Angular 1.6 for security reasons and we strongly recommend you to migrate too.
 
 To do so you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5) then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
 
