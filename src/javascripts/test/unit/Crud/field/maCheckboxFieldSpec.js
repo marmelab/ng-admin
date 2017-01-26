@@ -36,9 +36,9 @@ describe('directive: checkbox-field', function () {
         scope.value = true;
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-        expect(element.find('input').attr('checked')).toBeTruthy();
+        expect(element[0].querySelector(':checked')).toBeTruthy();
         scope.value = false;
         scope.$digest();
-        expect(element.find('input').attr('checked')).toBeFalsy();
+        expect(element[0].querySelector(':checked')).toBeFalsy();
     });
 });
