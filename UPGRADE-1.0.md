@@ -1,9 +1,12 @@
 # Upgrade to 1.0
 
 ## Angular 1.6
-ng-admin is now ready for Angular 1.6 instead of 1.4, mainly for security reasons. We advice you to update your application too.
 
-To do so, you can follow the Angular Migration Guide [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5), then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
+Previous versions of ng-admin relied on Angular 1.3. Ng-admin 1.0 now requires at least Angular 1.4, and is compatible with Angular 1.5 and 1.6. Most of the dependencies (like `node-sass` and `ui-bootstrap`) were upgraded, too.
+
+You must be careful if you use some additional angular plugins in your code, Angular 1.4 causing some BC Breaks. For example it's the case for [angular-cookies](https://code.angularjs.org/1.4.9/docs/api/ngCookies/service/$cookies).
+
+To upgrade your own application, you can follow the Angular Migration Guide [from 1.3 to 1.4](https://docs.angularjs.org/guide/migration#migrating-from-1-3-to-1-4), then [from 1.4 to 1.5](https://docs.angularjs.org/guide/migration#migrating-from-1-4-to-1-5), then [from 1.5 to 1.6](https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6).
 
 Here are the major changes we've faced:
 
@@ -76,12 +79,6 @@ myApp.config(function ($stateProvider) {
     });
 });
 ```
-
-## Angular 1.4
-
-Previous versions of ng-admin relied on Angular 1.3. Version 1.0 bumps the angular version requirement to 1.4.
-
-You must be careful if you use some additional angular plugins in your code, Angular 1.4 causing some BC Breaks. For example it's the case for [angular-cookies](https://code.angularjs.org/1.4.9/docs/api/ngCookies/service/$cookies).
 
 ## No more `gotoDetails() and `gotoReference()` in column scope
 
