@@ -3,8 +3,7 @@
 /*
  * This is an example ng-admin configuration for a blog administration composed
  * of three entities: post, comment, and tag. Reading the code and the comments
- * will help you understand how a typical ng-admin application works. You can
- * browse the result online at http://ng-admin.marmelab.com.
+ * will help you understand how a typical ng-admin application works.
  *
  * The remote REST API is simulated in the browser, using FakeRest
  * (https://github.com/marmelab/FakeRest). Look at the JSON responses in the
