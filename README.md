@@ -12,14 +12,14 @@ Plug me to your RESTFul API to get a complete administration interface (datagrid
 
 ## Installation
 
-The current ng-admin version (master) depends on Angular.js 1.4. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
+The current ng-admin version (master) depends on Angular.js 1.6. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
 
-Grab ng-admin from your favorite package manager, `npm` or `bower`:
+Grab ng-admin from your favorite package manager:
 
 ```sh
 npm install ng-admin --save
 # or
-bower install ng-admin --save
+yarn install ng-admin
 ```
 
 ### With a Module Bundler
@@ -260,7 +260,7 @@ git add build
 git commit -m 'update built files'
 git push origin master
 git tag vx.x.x
-# publish to bower
+# create a new tag
 git push origin --tags
 # publish to npm
 npm publish
