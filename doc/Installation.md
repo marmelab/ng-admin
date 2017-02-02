@@ -1,11 +1,11 @@
 # Installation
 
-Grab ng-admin from your favorite package manager, `npm` or `bower`:
+Grab ng-admin from your favorite package manager:
 
 ```sh
 npm install ng-admin --save
 # or
-bower install ng-admin --save
+yarn install ng-admin
 ```
 
 Add the `ng-admin.min.css` and `ng-admin.min.js` to the HTML, add a `<div ui-view="ng-admin">`, and configure the admin:
