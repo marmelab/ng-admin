@@ -181,6 +181,8 @@ entity.errorMessage(function (response) {
     return 'Global error: ' + response.status + '(' + response.data + ')';
 });
 ```
+If you do not customize the error message using that method, it will be globally handled by the [Http Error Service](../src/javascripts/ng-admin/Main/component/provider/HttpErrorService.js).
+
 ## Customizing HTTP Error Messages
 
 If you want to override, patch or extend the way HTTP errors are handled by the ng-admin [Http Error Service](../src/javascripts/ng-admin/Main/component/provider/HttpErrorService.js) then you may use an [Angular decorator](https://docs.angularjs.org/guide/decorators), as per the below example:
