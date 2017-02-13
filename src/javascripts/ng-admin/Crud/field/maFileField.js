@@ -108,7 +108,7 @@ export default function maFileField(Upload) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-9" style="padding-top: 6px;"><small><em>{{ file.name }}<em><small></div>
+            <div class="col-md-9" style="padding-top: 6px;"><small><em>{{ file.name }}</em></small></div>
         </div>
     </div>
 </div>
