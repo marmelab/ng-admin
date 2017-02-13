@@ -73,7 +73,7 @@ describe('Http Error Service', () => {
             // should throw an exception in case of 500
         }
 
-        expect($translate).toHaveBeenCalledWith('STATE_CHANGE_ERROR', { message: 'Unknown error' });
+        expect($translate).toHaveBeenCalledWith('GLOBAL_ERROR', { message: 'Unknown error' });
         expect(notification.log).toHaveBeenCalledWith('translated', { addnCls: 'humane-flatty-error' });
     });
 });
