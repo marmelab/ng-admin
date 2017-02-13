@@ -215,3 +215,4 @@ Bind the decorator to your application:
 ```js
 myApp.decorator('HttpErrorService',require('HttpErrorDecorator'));
 ```
+The decorator can also be used to globally customize CRUD error messages
