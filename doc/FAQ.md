@@ -94,7 +94,7 @@ myApp.config(function(RestangularProvider) {
 });
 ```
 
-Now you can have two fields with the same falue but different names:
+Now you can have two fields with the same value but different names:
 
 ```js
 post.listView().fields([
