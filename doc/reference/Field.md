@@ -17,9 +17,9 @@ A field is the representation of a property of an entity.
 * `json` Field Type
 * [`file` Field Type](#file-field-type)
 * [`reference` Field Type](#reference-field-type)
-* [`referenced_list` Field Type](#referenced-list-field-type)
-* [`embedded_list` Field Type](#embedded-list-field-type)
-* [`reference_many` Field Type](#reference-many-field-type)
+* [`referenced_list` Field Type](#referencedlist-field-type)
+* [`embedded_list` Field Type](#embeddedlist-field-type)
+* [`reference_many` Field Type](#referencemany-field-type)
 
 ## General Field Settings
 
