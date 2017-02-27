@@ -5,21 +5,21 @@ A field is the representation of a property of an entity.
 * [General Field Settings](#general-field-settings)
 * `string` Field Type
 * `text` Field Type
-* [`wysiwyg` Field Type](#-wysiwyg-field-type)
+* [`wysiwyg` Field Type](#wysiwyg-field-type)
 * `password` Field Type
 * `email` Field Type
-* [`date` Field Type](#-date-field-type)
-* [`datetime` Field Type](#-datetime-field-type)
-* [`number` Field Type](#-number-field-type)
+* [`date` Field Type](#date-field-type)
+* [`datetime` Field Type](#datetime-field-type)
+* [`number` Field Type](#number-field-type)
 * `float` Field Type
-* [`boolean` Field Type](#-boolean-field-type)
-* [`choice` and `choices` Field Types](#-choice-and-choices-field-types)
+* [`boolean` Field Type](#boolean-field-type)
+* [`choice` and `choices` Field Types](#choice-and-choices-field-types)
 * `json` Field Type
-* [`file` Field Type](#-file-field-type)
-* [`reference` Field Type](#-reference-field-type)
-* [`referenced_list` Field Type](#-referenced-list-field-type)
-* [`embedded_list` Field Type](#-embedded-list-field-type)
-* [`reference_many` Field Type](#-reference-many-field-type)
+* [`file` Field Type](#file-field-type)
+* [`reference` Field Type](#reference-field-type)
+* [`referenced_list` Field Type](#referencedlist-field-type)
+* [`embedded_list` Field Type](#embeddedlist-field-type)
+* [`reference_many` Field Type](#referencemany-field-type)
 
 ## General Field Settings
 
