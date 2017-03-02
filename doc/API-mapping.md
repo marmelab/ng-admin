@@ -52,15 +52,9 @@ Now if your API returns results in another format, for instance with all the val
 You can use Restangular **element transformers** to map that to the expected format:
 
 ```js
-myApp.config(['RestangularProvider', function(RestangularProvider) {
-    RestangularProvider.addElementTransformer('books', function(element) {
-        for (var key in element.values) {
-            element[key] = element.values[key];
-        }
-
-        return element;
-    });
-}]);
+    RestangularProvider.addResponseInterceptor((data,operation) => {
+      return data.values;
+    })
 ```
 
 Symetrically, if your API requires that you post and put data inside of a `values` field, use a Restangular **request interceptor**:
