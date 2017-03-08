@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+v1.0.1 - 08 Feb. 2017
+---------------------
+
+- Fix DateField infinite watches loop [\#1318](https://github.com/marmelab/ng-admin/pull/1318) ([Kmaschta](https://github.com/Kmaschta))
+- Fix typos and links on the documentation [\#1310](https://github.com/marmelab/ng-admin/pull/1310) [\#1312](https://github.com/marmelab/ng-admin/pull/1312) ([escapedcat](https://github.com/escapedcat))
+- Source-map are now published on NPM [\#1307](https://github.com/marmelab/ng-admin/pull/1307) ([beevelop](https://github.com/beevelop))
+- Close HTML tags on FileField [\#1306](https://github.com/marmelab/ng-admin/pull/1306) ([beevelop](https://github.com/beevelop))
+- Remove bower from the documentation [\#1303](https://github.com/marmelab/ng-admin/pull/1303) ([Kmaschta](https://github.com/Kmaschta))
+
 v1.0.0 - 27 Jan. 2017
 ---------------------
 
