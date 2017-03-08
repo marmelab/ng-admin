@@ -20,6 +20,7 @@ transpile:
 	cp -Rf ./src/sass/ lib/sass/
 
 build:
+	rm -rf build/*
 	make transpile
 	NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress --devtool source-map
 	cp -Rf build examples/blog/
@@ -32,6 +33,9 @@ check-only-in-tests:
 
 test-unit:
 	./node_modules/.bin/karma start src/javascripts/test/karma.conf.js --single-run
+
+test-unit-watch:
+	./node_modules/.bin/karma start src/javascripts/test/karma.conf.js --watch
 
 test-e2e: prepare-test-e2e
 	./node_modules/.bin/protractor src/javascripts/test/protractor.conf.js

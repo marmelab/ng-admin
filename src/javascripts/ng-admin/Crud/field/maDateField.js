@@ -1,3 +1,11 @@
+const valueToRawValue = (value) => {
+    if (value instanceof Date) {
+        return value;
+    }
+
+    return new Date(value);
+};
+
 /**
  * Edition field for a date - a text input with a datepicker.
  *
@@ -13,23 +21,34 @@ export default function maDateField() {
         link: function(scope, element) {
             var field = scope.field();
             scope.name = field.name();
-            scope.rawValue = scope.value == null ? null : (scope.value instanceof Date ? scope.value : new Date(scope.value));
+            scope.rawValue = scope.value == null ? null : valueToRawValue(scope.value);
 
-            scope.$watch('rawValue', function(newValue) {
-                scope.value = field.parse()(newValue);
+            scope.$watch('rawValue', function(newRawValue) {
+                const newValue = field.parse()(newRawValue);
+
+                if (!angular.equals(scope.value, newValue)) {
+                    scope.value = newValue;
+                }
             });
 
             scope.$watch('value', (newValue, oldValue) => {
-                if (newValue === oldValue) {
+                if (angular.equals(newValue, oldValue)) {
                     return;
                 }
 
                 if (!newValue) {
-                    scope.rawValue = null;
+                    if (scope.rawValue !== null) {
+                        scope.rawValue = null;
+                    }
+
                     return;
                 }
 
-                scope.rawValue = scope.value instanceof Date ? scope.value : new Date(scope.value);
+                const newRawValue = valueToRawValue(scope.value);
+
+                if (!angular.equals(scope.rawValue, newRawValue)) {
+                    scope.rawValue = newRawValue;
+                }
             });
 
             scope.format = field.format();
