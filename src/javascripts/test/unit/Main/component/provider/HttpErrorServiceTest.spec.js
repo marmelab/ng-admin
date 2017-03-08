@@ -33,7 +33,7 @@ describe('Http Error Service', () => {
         };
 
         const error = { status: 404 };
-        HttpErrorService.handleError(error, event, '', '', '', '');
+        HttpErrorService.handleError(event, '', '', '', '', error);
 
         expect(event.preventDefault).toHaveBeenCalled();
         expect($state.go).toHaveBeenCalledWith('ma-404');
@@ -48,7 +48,7 @@ describe('Http Error Service', () => {
         };
 
         try {
-            HttpErrorService.handleError(error, '', '', '', '', '');
+            HttpErrorService.handleError('', '', '', '', '', error);
             expect(true).toBe(false);
         } catch (e) {
             // should throw an exception in case of 403
@@ -67,13 +67,13 @@ describe('Http Error Service', () => {
         };
 
         try {
-            HttpErrorService.handleError(error, '', '', '', '', '');
+            HttpErrorService.handleError('', '', '', '', '', error);
             expect(true).toBe(false);
         } catch (e) {
             // should throw an exception in case of 500
         }
 
-        expect($translate).toHaveBeenCalledWith('GLOBAL_ERROR', { message: 'Unknown error' });
+        expect($translate).toHaveBeenCalledWith('STATE_CHANGE_ERROR', { message: 'Unknown error' });
         expect(notification.log).toHaveBeenCalledWith('translated', { addnCls: 'humane-flatty-error' });
     });
 });

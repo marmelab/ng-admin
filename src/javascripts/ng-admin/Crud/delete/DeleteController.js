@@ -1,5 +1,5 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry, HttpErrorService) {
+    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
@@ -17,7 +17,6 @@ export default class DeleteController {
         this.notification = notification;
         this.$scope.entry = entry;
         this.$scope.view = view;
-        this.HttpErrorService = HttpErrorService;
 
         $scope.$on('$destroy', this.destroy.bind(this));
 
@@ -46,12 +45,14 @@ export default class DeleteController {
             .then(() => $translate('DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                // this is kept for backward compatibility with the entity.errorMessage() method 
-                const msg = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
-                error.data.message = msg;
-                
-                this.HttpErrorService.handleError(error);
+                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 progression.done();
+                $translate(errorMessage, {
+                    status: error && error.status,
+                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
+                })
+                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
             });
     }
 
@@ -69,8 +70,7 @@ export default class DeleteController {
         this.entity = undefined;
         this.progression = undefined;
         this.notification = undefined;
-        this.HttpErrorService = undefined;
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry', 'HttpErrorService'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry'];

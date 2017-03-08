@@ -39,7 +39,6 @@ export default function translate($translateProvider) {
       'DETAIL': 'Detail',
       'STATE_CHANGE_ERROR': 'State change error: {{ message }}',
       'STATE_FORBIDDEN_ERROR': 'A server 403 error occured: {{ message }}',
-      'GLOBAL_ERROR': 'Global error: {{ message }}',
       'NOT_FOUND': 'Not Found',
       'NOT_FOUND_DETAILS': 'The page you are looking for cannot be found. Take a break before trying again.',
     });

@@ -1,14 +1,14 @@
 const HttpErrorService = ($state, $translate, notification) => ({
-    handleError: function(error, event, toState, toParams, fromState, fromParams) {
+    handleError: function(event, toState, toParams, fromState, fromParams, error) {
         switch (error.status) {
             case 404:
-               this.handle404Error(event);
+               this.handle404Error(event, error);
                break;
             case 403:
                this.handle403Error(error);
                break;
             default:
-               this.handleDefaultError(error, event);
+               this.handleDefaultError(error);
                break;
         }
     },
@@ -24,11 +24,7 @@ const HttpErrorService = ($state, $translate, notification) => ({
     },
 
     handleDefaultError: function(error) {
-        if (event) {
-            $translate('STATE_CHANGE_ERROR', { message: error.data.message }).then(this.displayError);
-        } else {
-            $translate('GLOBAL_ERROR', { message: error.data.message }).then(this.displayError);
-        }
+        $translate('STATE_CHANGE_ERROR', { message: error.data.message }).then(this.displayError);
          throw error;
      },
 
