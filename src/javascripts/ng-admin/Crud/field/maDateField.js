@@ -29,7 +29,7 @@ export default function maDateField() {
                     return;
                 }
 
-                scope.rawValue = scope.value instanceof Date ? scope.value : new Date(scope.value);
+                scope.rawValue = scope.value instanceof Date ? scope.value : new Date(new Date(scope.value).getTime() + (new Date().getTimezoneOffset() * 60000));
             });
 
             scope.format = field.format();
