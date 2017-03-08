@@ -75,4 +75,18 @@ describe('directive: date-field', function() {
 
         expect(element.find('input').eq(0).val()).toBe('2010-01-01');
     });
+
+    it('should update value when updating the rawValue directly', () => {
+        const now = new Date('2016-09-18');
+        scope.value = now;
+        scope.field = new DateField();
+
+        const element = $compile(directiveUsage)(scope);
+        const isolatedScope = element.isolateScope();
+
+        isolatedScope.rawValue = new Date('2010-01-01');
+        isolatedScope.$digest();
+
+        expect(isolatedScope.value).toBe('2010-01-01');
+    });
 });
