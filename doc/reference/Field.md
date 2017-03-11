@@ -234,7 +234,7 @@ Array of choices used for the boolean values. By default:
 
     Override it with custom labels to fit your needs:
 
-        nga.fields('power_user', 'boolean')
+        nga.field('power_user', 'boolean')
             .choices([
                 { value: null, label: 'not yet decided' },
                 { value: true, label: 'enabled' },
@@ -251,7 +251,7 @@ Array of choices used for the boolean proposed values in a filter. By default:
 
     Override it with custom labels to fit your needs:
 
-    nga.fields('power_user', 'boolean')
+    nga.field('power_user', 'boolean')
         .filterChoices([
             { value: true, label: 'enabled' },
             { value: false, label: 'disabled' }
