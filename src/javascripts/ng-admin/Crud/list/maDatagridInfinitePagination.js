@@ -18,20 +18,20 @@ export default function maDatagridInfinitePagination($window, $document) {
             nextPage: '&'
         },
         link(scope) {
+            scope.processing = false;
             const perPage = parseInt(scope.perPage, 10) || 1;
             const totalItems = parseInt(scope.totalItems, 10);
             const nbPages = Math.ceil(totalItems / perPage) || 1;
             const loadedPages = [];
             let page = 1;
-            let processing = false;
             let interval;
 
             const handler = (wheelEvent) => {
-                if (!isDownScrolling(wheelEvent) || processing || !!interval) {
+                if (!isDownScrolling(wheelEvent) || scope.processing || !!interval) {
                     return;
                 }
 
-                processing = true;
+                scope.processing = true;
 
                 interval = setInterval(() => {
                     if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
@@ -48,7 +48,7 @@ export default function maDatagridInfinitePagination($window, $document) {
                         loadedPages.push(page);
                         scope.nextPage()(page);
                     } else {
-                        processing = false;
+                        scope.processing = false;
 
                         if (interval) {
                             clearInterval(interval);
@@ -58,7 +58,7 @@ export default function maDatagridInfinitePagination($window, $document) {
                 }, 100);
             };
 
-            // Trigger the scroll at least one
+            // Trigger the scroll at least once
             // In this case, we'll avoid that a pagination of a few element (< 10)
             // will never trigger the pagination
             handler();

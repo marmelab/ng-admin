@@ -1,44 +1,65 @@
 /*global angular,inject,describe,it,jasmine,expect,beforeEach,module*/
-describe('directive: ma-datagrid-infinite-pagination', function () {
-    var directive = require('../../../../ng-admin/Crud/list/maDatagridInfinitePagination'),
-        $compile,
-        scope,
-        $window,
-        $document,
-        element,
-        bodyHeightMock,
-        pageSize = 2000,
-        directiveUsage = '<ma-datagrid-infinite-pagination next-page="nextPage" total-items="{{ totalItems }}" per-page="{{ itemsPerPage }}"></ma-datagrid-infinite-pagination>';
+const directive = require('../../../../ng-admin/Crud/list/maDatagridInfinitePagination');
 
-    function initializeBodyHeightMock(){
-        if(!angular.element($document[0].querySelector('#mock')).length){
+describe('directive: ma-datagrid-infinite-pagination', function () {
+    let $compile;
+    let $scope;
+    let $window;
+    let $document;
+    let element;
+    let bodyHeightMock;
+    let handler;
+    let pageSize = 2000;
+    let directiveUsage = `<ma-datagrid-infinite-pagination
+        next-page="nextPage"
+        total-items="{{ totalItems }}"
+        per-page="{{ itemsPerPage }}"
+    ></ma-datagrid-infinite-pagination>`;
+
+    function waitForProcessing(scope, callback) {
+        const interval = setInterval(() => {
+            if (!scope.processing) {
+                clearInterval(interval);
+                callback(null, true);
+            }
+        }, 100);
+    }
+
+    function initializeBodyHeightMock() {
+        if(!angular.element($document[0].querySelector('#mock')).length) {
             bodyHeightMock = angular.element(`<div id="mock" style="height:${pageSize}px"></div>`)[0];
             angular.element($document[0].body).append(bodyHeightMock);
-        }else{
+        } else {
             simulateLoadOnBodyHeight(1);
         }
     }
 
-    function simulateLoadOnBodyHeight(page){
+    function simulateLoadOnBodyHeight(page) {
         angular.element($document[0].querySelector('#mock')).css('height',(pageSize*page) + 'px');
     }
 
-    function simulateScrollToPage(page){
-        $window.scrollY = pageSize * (page-1) + 1500;
-        angular.element($window).triggerHandler('scroll');
+    function simulateScrollToPage(page, scope, callback) {
+        const scrollSize = pageSize * (page - 1) + 1500;
+        $window.scrollY = scrollSize;
+        handler({ deltaY: scrollSize });
+
+        if (scope && callback) {
+            waitForProcessing(scope, callback);
+        }
     }
 
-    function initializeScope(){
-        scope.nextPage = jasmine.createSpy('nextPage').and.callFake(function(page) {
+    function initializeScope(scope) {
+        scope.nextPage = jasmine.createSpy('nextPage').and.callFake(() => (page) => {
             simulateLoadOnBodyHeight(page);
         });
         scope.totalItems = 100;
         scope.itemsPerPage = 10;
     }
 
-    function initializeElement(){
-        element = $compile(directiveUsage)(scope);
-        scope.$digest();
+    function initializeElement() {
+        initializeScope($scope);
+        element = $compile(directiveUsage)($scope);
+        $scope.$digest();
     }
 
     angular.module('testapp_DatagridInfinitePagination', [])
@@ -48,45 +69,82 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
 
     beforeEach(inject(function (_$compile_, _$rootScope_, _$window_, _$document_) {
         $compile = _$compile_;
-        scope = _$rootScope_.$new();
+        $scope = _$rootScope_.$new();
         $window = _$window_;
         $window.innerHeight = 759;
+        spyOn($window, 'addEventListener').and.callFake((evt, callback) => {
+            handler = callback;
+        });
         $document = _$document_;
         initializeBodyHeightMock();
-        initializeScope();
         initializeElement();
     }));
 
-    it('should trigger next-page when scrolling', function () {
-        simulateScrollToPage(2);
-        expect(scope.nextPage).toHaveBeenCalled();
+    it('should trigger next-page when scrolling', function (done) {
+        const isolatedScope = element.isolateScope();
+        initializeScope(isolatedScope);
+
+        waitForProcessing(isolatedScope, () => {
+            simulateScrollToPage(2, isolatedScope, () => {
+                expect(isolatedScope.nextPage).toHaveBeenCalled();
+                done();
+            });
+        });
     });
 
-    it('should trigger next-page twice when scrolling twice', function(){
-        simulateScrollToPage(2);
-        simulateScrollToPage(3);
-        expect(scope.nextPage.calls.count()).toEqual(2);
+    it('should trigger next-page twice when scrolling twice', function(done) {
+        const isolatedScope = element.isolateScope();
+        initializeScope(isolatedScope);
+
+        waitForProcessing(isolatedScope, () => {
+            simulateScrollToPage(2, isolatedScope, () => {
+                simulateScrollToPage(3, isolatedScope, () => {
+                    expect(isolatedScope.nextPage.calls.count()).toEqual(3);
+                    done();
+                });
+            });
+        });
     });
 
-    it('should trigger next-page with right page number', function(){
-        simulateScrollToPage(2);
-        simulateScrollToPage(3);
-        expect(scope.nextPage.calls.argsFor(0)).toEqual([2]);
-        expect(scope.nextPage.calls.argsFor(1)).toEqual([3]);
+    it('should trigger next-page with right page number', function(done) {
+        const isolatedScope = element.isolateScope();
+        initializeScope(isolatedScope);
+
+        const argsForCall = [];
+
+        isolatedScope.nextPage = jasmine.createSpy('nextPage').and.callFake(() => (page) => {
+            simulateLoadOnBodyHeight(page);
+            argsForCall.push(page);
+        });
+
+        waitForProcessing(isolatedScope, () => {
+            simulateScrollToPage(2, isolatedScope, () => {
+                simulateScrollToPage(3, isolatedScope, () => {
+                    expect(argsForCall[0]).toEqual(2);
+                    expect(argsForCall[1]).toEqual(3);
+                    done();
+                });
+            });
+        });
     });
 
-    it('should not trigger next-page if not scrolling', function () {
-        expect(scope.nextPage).not.toHaveBeenCalled();
+    it('should not trigger next-page when scrolling up', function(done) {
+        const isolatedScope = element.isolateScope();
+        initializeScope(isolatedScope);
+
+        waitForProcessing(isolatedScope, () => {
+            simulateScrollToPage(2, isolatedScope, () => {
+                simulateScrollToPage(3, isolatedScope, () => {
+                    simulateScrollToPage(2, isolatedScope, () => {
+                        expect(isolatedScope.nextPage.calls.count()).toEqual(3);
+                        done();
+                    });
+                });
+            });
+        });
     });
 
-    it('should not trigger next-page when scrolling up', function(){
-        simulateScrollToPage(2);
-        simulateScrollToPage(3);
-        simulateScrollToPage(2);
-        expect(scope.nextPage.calls.count()).toEqual(2);
-    });
-
-    afterEach(function(){
-        scope.$destroy();
+    afterEach(function() {
+        $scope.$destroy();
     });
 });
