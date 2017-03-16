@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-const isDownScrolling = wheelEvent => {
+const isScrollingDown = wheelEvent => {
     if (!wheelEvent) return true;
 
     return wheelEvent.deltaY > 0;
@@ -27,7 +27,7 @@ export default function maDatagridInfinitePagination($window, $document) {
             let interval;
 
             const handler = (wheelEvent) => {
-                if (!isDownScrolling(wheelEvent) || scope.processing || !!interval) {
+                if (!isScrollingDown(wheelEvent) || scope.processing || !!interval) {
                     return;
                 }
 
@@ -59,8 +59,8 @@ export default function maDatagridInfinitePagination($window, $document) {
             };
 
             // Trigger the scroll at least once
-            // In this case, we'll avoid that a pagination of a few element (< 10)
-            // will never trigger the pagination
+            // This way, it loads at least one screen of data to enable further scrolling
+            // @see https://github.com/marmelab/ng-admin/issues/681
             handler();
 
             $window.addEventListener('wheel', handler);
