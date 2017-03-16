@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+v1.0.2 - 16 Mar. 2017
+---------------------
+
+- Increase the infinite scroll performance [\#1322](https://github.com/marmelab/ng-admin/pull/1322) ([Kmaschta](https://github.com/Kmaschta))
+- Fix misleading typo on the documentation [\#1320](https://github.com/marmelab/ng-admin/pull/1320) ([matheo](https://github.com/matheo))
+
 v1.0.1 - 08 Feb. 2017
 ---------------------
 
