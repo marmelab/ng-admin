@@ -27,6 +27,7 @@ export default class ListLayoutController {
                 if ($location.path() !== this.path) {
                     return; // already transitioned to another page
                 }
+                this.search = ListLayoutController.getCurrentSearchParam($location, this.filters);
                 this.enabledFilters = this.getEnabledFilters();
             }
         );
