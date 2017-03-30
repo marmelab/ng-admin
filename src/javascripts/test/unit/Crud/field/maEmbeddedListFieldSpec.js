@@ -49,7 +49,7 @@ describe('directive: ma-embedded-list-field', function () {
     });
 
     describe('Add Button', () => {
-        fit('should display lower-cased label', () => {
+        it('should display lower-cased label', () => {
             scope.field = new EmbeddedListField('dummy_field')
                 .label('Awesome Entity');
 
