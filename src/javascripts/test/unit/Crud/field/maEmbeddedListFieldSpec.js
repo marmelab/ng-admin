@@ -45,7 +45,7 @@ describe('directive: ma-embedded-list-field', function () {
         expect(element.find('a').eq(1).text().trim()).toBe('REMOVE');
         expect(element.find('input').eq(2).scope().value).toBe(2);
         expect(element.find('input').eq(3).scope().value).toBe('bar');
-        expect(element.find('a').eq(2).text().trim()).toBe('ADD_NEW');
+        expect(element.find('a').eq(2).text().trim()).toBe('ADD_NEW dummy');
     });
 
     describe('Add Button', () => {
