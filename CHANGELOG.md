@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+v1.0.3 - 3 Apr. 2017
+---------------------
+
+- Fix filter value not being updated based on search url parameter
+[\#1333](https://github.com/marmelab/ng-admin/pull/1333)
+([fzaninotto](https://github.com/fzaninotto))
+- Fix not being able to type into date fields
+[\#1334](https://github.com/marmelab/ng-admin/pull/1334)
+([floo51](https://github.com/floo51))
+
 v1.0.2 - 16 Mar. 2017
 ---------------------
 
