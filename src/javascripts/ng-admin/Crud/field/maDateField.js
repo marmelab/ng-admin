@@ -24,6 +24,11 @@ export default function maDateField() {
             scope.rawValue = scope.value == null ? null : valueToRawValue(scope.value);
 
             scope.$watch('rawValue', function(newRawValue) {
+                if(newRawValue === undefined){
+                    // ui bootstrap datepicker set value to undefined
+                    // when the value is invalid and null if empty
+                    return;
+                }
                 const newValue = field.parse()(newRawValue);
 
                 if (!angular.equals(scope.value, newValue)) {
