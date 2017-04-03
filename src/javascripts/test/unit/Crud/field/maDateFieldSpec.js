@@ -89,4 +89,21 @@ describe('directive: date-field', function() {
 
         expect(isolatedScope.value).toBe('2010-01-01');
     });
+
+    it('should not update value if input is invalid', () => {
+        const now = '2016-09-18';
+        scope.value = now;
+        scope.field = new DateField();
+
+        const element = $compile(directiveUsage)(scope);
+        const isolatedScope = element.isolateScope();
+
+        element.find('input').val('2016-09-1').triggerHandler('input');
+        isolatedScope.$digest();
+        expect(isolatedScope.value).toBe('2016-09-18');
+
+        element.find('input').val('2016-09-19').triggerHandler('input');
+        isolatedScope.$digest();
+        expect(isolatedScope.value).toBe('2016-09-19');
+    })
 });
