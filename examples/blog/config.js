@@ -84,8 +84,7 @@
             .baseApiUrl('http://localhost:3000/') // The base API endpoint can be customized by entity
             .identifier(nga.field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
-        var tag = nga.entity('tags')
-            .readOnly(); // a readOnly entity has disabled creation, edition, and deletion views
+        var tag = nga.entity('tags');
 
         var subCategories = [
             { category: 'tech', label: 'Computers', value: 'computers' },
