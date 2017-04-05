@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.0.5 - 5 Apr. 2017
+---------------------
+
+- Fix view disabling not working on initialized views
+[\#1334](https://github.com/marmelab/ng-admin/pull/1336)
+([floo51](https://github.com/floo51))
 
 v1.0.3 - 3 Apr. 2017
 ---------------------
