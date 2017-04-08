@@ -47,6 +47,7 @@ export default class DeleteController {
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 progression.done();
+
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
