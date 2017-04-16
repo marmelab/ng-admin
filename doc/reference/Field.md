@@ -113,13 +113,15 @@ Set field validation rules. Based on Angular's form validation features.
  - `pattern`: regular expression
  - `validator`: function
 
-        nga.field('username')
-            .attributes({ placeholder: 'No space allowed, 5 chars min' })
-            .validation({ required: true, pattern: '[A-Za-z0-9\.\-_]{5,20}' }),
-        nga.field('website')
-            .validation({ validator: function(value) {
-                if (value.indexOf('http://') !== 0) throw new Error ('Invalid url in website');
-            } })
+```javascript
+nga.field('username')
+    .attributes({ placeholder: 'No space allowed, 5 chars min' })
+    .validation({ required: true, pattern: '[A-Za-z0-9\.\-_]{5,20}' }),
+nga.field('website')
+    .validation({ validator: function(value) {
+        if (value.indexOf('http://') !== 0) throw new Error ('Invalid url in website');
+    } });
+```
 
 * `cssClasses(String|Function)`
 A list of CSS classes to be added to the corresponding field. If you provide a function, it will receive the current entry as first argument, to allow dynamic classes according to values. The function will also be called without entry for table headers.
