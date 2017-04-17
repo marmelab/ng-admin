@@ -59,7 +59,7 @@ export default function maField(FieldViewConfiguration, $compile) {
                 fieldTemplate =
 `<div ng-class="field.getCssClasses(entry)||'col-sm-10'">
     <p class="form-control-static">
-        <ma-column field="::field" entry="::entry" entity="::entity" datastore="::datastore"></ma-column>
+        <ma-column field="::field" entity="::entity" datastore="::datastore"></ma-column>
     </p>
 </div>`;
             }

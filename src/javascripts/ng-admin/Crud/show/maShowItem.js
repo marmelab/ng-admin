@@ -25,7 +25,7 @@ export default function maShowItem() {
     <label class="col-sm-2 control-label">{{ field.label() | translate }}</label>
     <div class="show-value" ng-class="(field.getCssClasses(entry) || 'col-sm-10 col-md-8 col-lg-7')">
         <div ng-class="::'ng-admin-field-' + field.name() + ' ' + 'ng-admin-type-' + field.type()">
-            <ma-column field="::field" entry="::entry" entity="::entity" datastore="::datastore"></ma-column>
+            <ma-column field="::field" entity="::entity" datastore="::datastore"></ma-column>
         </div>
     </div>
 </div>`
