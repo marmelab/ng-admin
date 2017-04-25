@@ -19,7 +19,7 @@ describe('DeleteController', function () {
         });
         var $state = {
             go: jasmine.createSpy('$state.go'),
-            get: jasmine.createSpy('$state.get'),
+            get: jasmine.createSpy('$state.get').and.callFake(state => state),
             params: {}
         };
         var writeQueries = {

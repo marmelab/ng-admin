@@ -1,5 +1,5 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry) {
+    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry, HttpErrorService) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
@@ -17,6 +17,7 @@ export default class DeleteController {
         this.notification = notification;
         this.$scope.entry = entry;
         this.$scope.view = view;
+        this.HttpErrorService = HttpErrorService;
 
         $scope.$on('$destroy', this.destroy.bind(this));
 
@@ -26,33 +27,42 @@ export default class DeleteController {
         });
     }
 
-    deleteOne() {
+    deleteOne($event) {
         const entityName = this.entity.name();
         const { $translate, notification, progression } = this;
         progression.start();
-        return this.WriteQueries.deleteOne(this.view, this.entityId)
-            .then(() => this.previousStateParametersDeferred.promise)
-            .then(previousStateParameters => {
-                // if previous page was related to deleted entity, redirect to list
-                if (previousStateParameters.entity === entityName && previousStateParameters.id === this.entityId) {
-                    return this.$state.go(this.$state.get('list'), angular.extend({
-                        entity: entityName
-                    }, this.$state.params));
+
+        return this.previousStateParametersDeferred.promise
+            .then((previousStateParameters) => {
+                const fromState = 'delete';
+                const fromParams = previousStateParameters;
+                let toState;
+                let toParams;
+
+                // if previous page was related to deleted entity,
+                // redirect to list
+                if (fromParams.entity === entityName &&
+                    fromParams.id === this.entityId) {
+                        toState = this.$state.get('list');
+                        toParams = {
+                            entity: entityName,
+                            ...this.$state.params,
+                        };
                 }
-                return this.back();
-            })
-            // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
-            .then(() => $translate('DELETE_SUCCESS'))
-            .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
-            .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
-                progression.done();
-                $translate(errorMessage, {
-                    status: error && error.status,
-                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                })
-                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+
+                return this.WriteQueries.deleteOne(this.view, this.entityId)
+                    .then(() => {
+                        if(toState){
+                            return this.$state.go(toState, toParams);
+                        }
+                        return this.back();
+                    })
+                    .then(() => $translate('DELETE_SUCCESS'))
+                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                    .catch(error => {
+                        progression.done();
+                        this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
+                    });
             });
     }
 
@@ -73,4 +83,4 @@ export default class DeleteController {
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry', 'HttpErrorService'];
