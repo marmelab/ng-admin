@@ -46,7 +46,7 @@ export default class FormController {
     submitCreation($event) {
         $event.preventDefault();
         if (!this.validateEntry()) {
-            return;
+            return Promise.reject();
         }
         const { entity, view, $state, progression, notification, $translate } = this;
         var route = entity.showView().enabled ? 'show' : 'list';
@@ -60,34 +60,41 @@ export default class FormController {
             id: entry ? entry.identifierValue : null,
         });
         progression.start();
-        this.WriteQueries
-            .createOne(view, restEntry)
-            .then(rawEntry => {
-                entry = view.mapEntry(rawEntry);
-                return entry;
-            })
-            .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
-                view.onSubmitSuccess(),
-                view,
-                { $event, entity, entry, route, controller: this, form: this.form, progression, notification }
-            ))
-            .then(customHandlerReturnValue => (customHandlerReturnValue === false) ?
-                new Promise(resolve => resolve()) :
-                $state.go(toState, toParams())
-            )
-            .then(() => progression.done())
-            .then(() => $translate('CREATION_SUCCESS'))
-            .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
-            .catch(error => {
-                const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
-                    view.onSubmitError(),
+
+        return new Promise((resolve, reject) => {
+            return this.WriteQueries
+                .createOne(view, restEntry)
+                .then(rawEntry => {
+                    entry = view.mapEntry(rawEntry);
+                    return entry;
+                })
+                .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
+                    view.onSubmitSuccess(),
                     view,
-                    { $event, error, errorMessage, entity, entry, route, controller: this, form: this.form, progression, notification }
-                );
-                if (customHandlerReturnValue === false) return;
-                progression.done();
-                this.HttpErrorService.handleError($event, toState, toParams(), fromState, fromParams, error);
-            });
+                    { $event, entity, entry, route, controller: this, form: this.form, progression, notification }
+                ))
+                .then(customHandlerReturnValue => (customHandlerReturnValue === false) ?
+                    new Promise(innerResolve => innerResolve()) :
+                    $state.go(toState, toParams())
+                )
+                .then(() => progression.done())
+                .then(() => $translate('CREATION_SUCCESS'))
+                .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                .then(() => {
+                    resolve();
+                })
+                .catch(error => {
+                    const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
+                        view.onSubmitError(),
+                        view,
+                        { $event, error, entity, entry, route, controller: this, form: this.form, progression, notification }
+                    );
+                    if (customHandlerReturnValue === false) return;
+                    progression.done();
+                    this.HttpErrorService.handleError($event, toState, toParams(), fromState, fromParams, error);
+                    reject();
+                });
+        });
     }
 
     submitEdition($event) {
@@ -103,34 +110,41 @@ export default class FormController {
         let entry = null;
         const toParams = previousState.params;
         progression.start();
-        this.WriteQueries
-            .updateOne(view, restEntry, this.originEntityId)
-            .then(rawEntry => {
-                entry = view.mapEntry(rawEntry);
-                return entry;
-            })
-            .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
-                view.onSubmitSuccess(),
-                view,
-                { $event, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
-            ))
-            .then(customHandlerReturnValue => {
-                if (customHandlerReturnValue === false) return;
-                $state.go(toState, toParams)
-                    .then(() => progression.done())
-                    .then(() => $translate('EDITION_SUCCESS'))
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
-            })
-            .catch(error => {
-                const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
-                    view.onSubmitError(),
+        return new Promise((resolve, reject) => {
+            return this.WriteQueries
+                .updateOne(view, restEntry, this.originEntityId)
+                .then(rawEntry => {
+                    entry = view.mapEntry(rawEntry);
+                    return entry;
+                })
+                .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
+                    view.onSubmitSuccess(),
                     view,
-                    { $event, error, errorMessage, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
-                );
-                if (customHandlerReturnValue === false) return;
-                progression.done();
-                this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
-            });
+                    { $event, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                ))
+                .then(customHandlerReturnValue => {
+                    if (customHandlerReturnValue === false) return;
+                    $state.go(toState, toParams)
+                        .then(() => progression.done())
+                        .then(() => $translate('EDITION_SUCCESS'))
+                        .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
+                })
+                .then(() => {
+                    resolve();
+                })
+                .catch(error => {
+                    const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
+                        view.onSubmitError(),
+                        view,
+                        { $event, error, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                    );
+                    if (customHandlerReturnValue === false) return;
+                    progression.done();
+                    this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
+                    reject();
+                });
+        });
+
     }
 
     destroy() {

@@ -28,42 +28,48 @@ export default class DeleteController {
     }
 
     deleteOne($event) {
-        const entityName = this.entity.name();
-        const { $translate, notification, progression } = this;
-        progression.start();
+        return new Promise((resolve, reject) => {
+            const entityName = this.entity.name();
+            const { $translate, notification, progression } = this;
+            progression.start();
 
-        return this.previousStateParametersDeferred.promise
-            .then((previousStateParameters) => {
-                const fromState = 'delete';
-                const fromParams = previousStateParameters;
-                let toState;
-                let toParams;
+            this.previousStateParametersDeferred.promise
+                .then((previousStateParameters) => {
+                    const fromState = 'delete';
+                    const fromParams = previousStateParameters;
+                    let toState;
+                    let toParams;
 
-                // if previous page was related to deleted entity,
-                // redirect to list
-                if (fromParams.entity === entityName &&
-                    fromParams.id === this.entityId) {
-                        toState = this.$state.get('list');
-                        toParams = {
-                            entity: entityName,
-                            ...this.$state.params,
-                        };
-                }
+                    // if previous page was related to deleted entity,
+                    // redirect to list
+                    if (fromParams.entity === entityName &&
+                        fromParams.id === this.entityId) {
+                            toState = this.$state.get('list');
+                            toParams = {
+                                entity: entityName,
+                                ...this.$state.params,
+                            };
+                    }
 
-                return this.WriteQueries.deleteOne(this.view, this.entityId)
-                    .then(() => {
-                        if(toState){
-                            return this.$state.go(toState, toParams);
-                        }
-                        return this.back();
-                    })
-                    .then(() => $translate('DELETE_SUCCESS'))
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
-                    .catch(error => {
-                        progression.done();
-                        this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
-                    });
-            });
+                    return this.WriteQueries.deleteOne(this.view, this.entityId)
+                        .then(() => {
+                            if(toState){
+                                return this.$state.go(toState, toParams);
+                            }
+                            return this.back();
+                        })
+                        .then(() => $translate('DELETE_SUCCESS'))
+                        .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                        .then(() => {
+                            resolve();
+                        })
+                        .catch(error => {
+                            progression.done();
+                            this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
+                            reject();
+                        });
+                });
+        });
     }
 
     back() {
