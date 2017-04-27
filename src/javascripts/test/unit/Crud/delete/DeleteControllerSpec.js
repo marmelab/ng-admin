@@ -19,7 +19,7 @@ describe('DeleteController', function () {
         });
         var $state = {
             go: jasmine.createSpy('$state.go'),
-            get: jasmine.createSpy('$state.get'),
+            get: jasmine.createSpy('$state.get').and.callFake(state => state),
             params: {}
         };
         var writeQueries = {
@@ -41,6 +41,9 @@ describe('DeleteController', function () {
             getEntity: () => new Entity('post')
         };
         var entry = {};
+        const HttpErrorService = {
+            handleError: jasmine.createSpy('HttpErrorService.handleError')
+        };
         describe('on success', function() {
             it('should delete given entity', function(done) {
                 // assume we are on post #3 deletion page
@@ -56,7 +59,7 @@ describe('DeleteController', function () {
                 let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: deletedId,
                     entity: 'post'
-                }, view, entry);
+                }, view, entry, HttpErrorService);
 
                 deleteController.deleteOne(view, 3).then(function() {
                     expect(writeQueries.deleteOne).toHaveBeenCalled();
@@ -83,7 +86,7 @@ describe('DeleteController', function () {
                 let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: deletedId,
                     entity: 'post'
-                }, view, entry);
+                }, view, entry, HttpErrorService);
 
                 deleteController.deleteOne(view, 3).then(function() {
                     expect($state.get.calls.argsFor(0)[0]).toBe('list');
@@ -114,7 +117,7 @@ describe('DeleteController', function () {
                 let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: commentId,
                     entity: 'comment'
-                }, view, entry);
+                }, view, entry, HttpErrorService);
 
                 deleteController.deleteOne(view, 3).then(function() {
                     expect($window.history.back).toHaveBeenCalled();
@@ -122,6 +125,43 @@ describe('DeleteController', function () {
                 }, done);
 
                 // assume we come from post #3 page
+                const fromStateParams = { entity: 'post', id: 3 };
+                $scope.$emit('$stateChangeSuccess', {}, {}, {}, fromStateParams);
+
+                $scope.$digest();
+            });
+        });
+        describe('on error', function() {
+            writeQueries = {
+                deleteOne: jasmine.createSpy('writeQueries.deleteOne')
+                    .and.callFake(() => Promise.reject("Here's a bad bad bad error"))
+            };
+            it('should call HttpErrorService handler', (done) => {
+                // assume we are on post #3 deletion page
+                const entity = new Entity('post');
+                const deletedId = 3;
+                const view = {
+                    title: () => 'Deleting a post',
+                    description: () => 'Remove a post',
+                    actions: () => [],
+                    getEntity: () => entity
+                };
+
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
+                    id: deletedId,
+                    entity: 'post'
+                }, view, entry, HttpErrorService);
+
+                deleteController.deleteOne(view, 3)
+                    .then(() => {
+                        assert.fail();
+                        done();
+                    })
+                    .catch(() => {
+                        expect(HttpErrorService.handleError.calls.argsFor(0)[5]).toBe("Here's a bad bad bad error")
+                        done();
+                    });
+
                 const fromStateParams = { entity: 'post', id: 3 };
                 $scope.$emit('$stateChangeSuccess', {}, {}, {}, fromStateParams);
 

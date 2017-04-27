@@ -1,5 +1,5 @@
 export default class BatchDeleteController {
-    constructor($scope, $state, $translate, WriteQueries, progression, notification, view) {
+    constructor($scope, $state, $translate, WriteQueries, progression, notification, view, HttpErrorService) {
         this.$scope = $scope;
         this.$state = $state;
         this.$translate = $translate;
@@ -15,29 +15,30 @@ export default class BatchDeleteController {
         this.actions = view.actions();
         this.loadingPage = false;
         this.fields = view.fields();
+        this.HttpErrorService = HttpErrorService;
 
         $scope.$on('$destroy', this.destroy.bind(this));
     }
 
-    batchDelete() {
+    batchDelete($event) {
         const entityName = this.entity.name();
         const { $translate, $state, progression, notification } = this;
+        const fromState = $state.current.name;
+        const fromParams = $state.current.params;
+        const toState = $state.get('list');
+        const toParams = {
+            entity: entityName,
+            ...$state.params,
+        };
         progression.start();
         return this.WriteQueries.batchDelete(this.view, this.entityIds)
-            .then(() => $state.go($state.get('list'), angular.extend({ entity: entityName }, $state.params)))
+            .then(() => $state.go(toState, toParams))
             // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('BATCH_DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
-                const errorMessage = this.config.getErrorMessageFor(this.view, error) || 'ERROR_MESSAGE';
                 progression.done();
-
-                $translate(errorMessage, {
-                    status: error && error.status,
-                    details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
-                })
-                    .catch(angular.identity) // See https://github.com/angular-translate/angular-translate/issues/1516
-                    .then(text => notification.log(text, { addnCls: 'humane-flatty-error' }));
+                this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
             });
     }
 
@@ -57,4 +58,4 @@ export default class BatchDeleteController {
     }
 }
 
-BatchDeleteController.$inject = ['$scope', '$state', '$translate', 'WriteQueries', 'progression', 'notification', 'view'];
+BatchDeleteController.$inject = ['$scope', '$state', '$translate', 'WriteQueries', 'progression', 'notification', 'view', 'HttpErrorService'];
