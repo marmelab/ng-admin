@@ -27,6 +27,7 @@ export default function maEmbeddedListField() {
                     filterFunc = () => true;
                 }
                 scope.fields = targetFields;
+                scope.formName = [];
                 scope.targetEntity = targetEntity;
                 scope.entries = Entry
                     .createArrayFromRest(scope.value || [], targetFields, targetEntityName, targetEntity.identifier().name())
@@ -45,6 +46,9 @@ export default function maEmbeddedListField() {
                 scope.remove = entry => {
                     scope.entries = scope.entries.filter(e => e !== entry);
                 };
+                scope.init = ($index) => {
+                    scope.formName[$index] = scope.$parent.form?scope.$parent.form['subform_' + $index] : "";
+                }
                 scope.$watch('entries', (newEntries, oldEntries) => {
                     if (newEntries === oldEntries) {
                         return;
@@ -55,21 +59,24 @@ export default function maEmbeddedListField() {
         },
         template: `
 <div class="row"><div class="col-sm-12">
-    <ng-form ng-repeat="entry in entries track by $index" class="subentry" name="subform_{{$index}}" ng-init="formName = 'subform_' + $index">
-        <div class="remove_button_container">
-            <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;<span translate="REMOVE"></span></a>
+    <ng-form ng-repeat="entry in entries track by $index" class="subentry" name="subform_{{$index}}" >
+        <div ng-init="init($index)">
+            <div class="remove_button_container">
+                <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;<span translate="REMOVE"></span></a>
+            </div>
+            <div class="form-field form-group" ng-init="tmpFormName = formName[$parent.$index]" ng-repeat="field in ::fields track by $index">
+                <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="::tmpFormName" datastore="::datastore()"></ma-field>
+            </div>
+            <hr/>
         </div>
-        <div class="form-field form-group" ng-repeat="field in ::fields track by $index">
-            <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::targetEntity" form="formName" datastore="::datastore()"></ma-field>
-        </div>
-        <hr/>
     </ng-form>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <a class="btn btn-default btn-sm" ng-click="addNew()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;<span translate="ADD_NEW" translate-values="{ name: field().label().toLowerCase() }"></span></a>
         </div>
     </div>
-</div></div>`
+</div>
+</div>`
     };
 }
 
