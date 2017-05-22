@@ -34,9 +34,11 @@ The title of the view. ng-admin sees it as a template, and compiles it with the 
 A text displayed below the title. Like the `title` ng-admin sees it as a template and it can be customized in the same way.
 
 * `actions(String|Array)`
-Customize the list of actions for this view. You can pass a list of button names among 'back', 'list', 'show', create', 'edit', 'delete', 'batch', and 'export':
+Customize the list of actions for this view. You can pass a list of button names among 'back', 'list', 'filter', 'show', 'create', 'edit', 'delete', 'batch', and 'export':
 
         editionView.actions(['show', 'list', 'delete']);
+        // By default, it is:
+        editionView.actions(['filter', 'create', 'export']);
 
     Alternately, if you pass a string, it is compiled just like an Angular template, with access to the current `entry` in the scope. This allows to easily add custom actions, or customize the buttons appearance:
 
