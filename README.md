@@ -19,7 +19,7 @@ Grab ng-admin from your favorite package manager:
 ```sh
 npm install ng-admin --save
 # or
-yarn install ng-admin
+yarn add ng-admin
 ```
 
 ### With a Module Bundler
