@@ -73,13 +73,13 @@ export default class FormController {
                     view,
                     { $event, entity, entry, route, controller: this, form: this.form, progression, notification }
                 ))
-                .then(customHandlerReturnValue => (customHandlerReturnValue === false) ?
-                    new Promise(innerResolve => innerResolve()) :
-                    $state.go(toState, toParams())
-                )
-                .then(() => progression.done())
-                .then(() => $translate('CREATION_SUCCESS'))
-                .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                .then(customHandlerReturnValue => {
+                    if (customHandlerReturnValue === false) return new Promise(innerResolve => innerResolve());
+                    $translate('CREATION_SUCCESS')
+                        .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                        .then(() => progression.done());
+                    return $state.go(toState, toParams())
+                })
                 .then(() => {
                     resolve();
                 })
