@@ -1,8 +1,9 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry, HttpErrorService) {
+    constructor($scope, $window, $state, $injector, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry, HttpErrorService) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
+        this.$injector = $injector;
         this.$translate = $translate;
         this.WriteQueries = WriteQueries;
         this.config = Configuration();
@@ -30,7 +31,7 @@ export default class DeleteController {
     deleteOne($event) {
         return new Promise((resolve, reject) => {
             const entityName = this.entity.name();
-            const { $translate, notification, progression } = this;
+            const { $translate, notification, progression, entry, view } = this;
             progression.start();
 
             this.previousStateParametersDeferred.promise
@@ -49,21 +50,35 @@ export default class DeleteController {
                                 entity: entityName,
                                 ...this.$state.params,
                             };
+
                     }
 
                     return this.WriteQueries.deleteOne(this.view, this.entityId)
-                        .then(() => {
+                        .then(() => view.onSubmitSuccess() && this.$injector.invoke(
+                            view.onSubmitSuccess(),
+                            view,
+                            { $event, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                        ))
+                        .then(customHandlerReturnValue => {
+                            if (customHandlerReturnValue === false) return new Promise(innerResolve => innerResolve());	
+                            $translate('DELETE_SUCCESS')
+                                .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
+                                .then(() => progression.done());
                             if(toState){
                                 return this.$state.go(toState, toParams);
                             }
                             return this.back();
                         })
-                        .then(() => $translate('DELETE_SUCCESS'))
-                        .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
                         .then(() => {
                             resolve();
                         })
                         .catch(error => {
+                            const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
+                                view.onSubmitError(),
+                                view,
+                                { $event, error, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                            );
+                            if (customHandlerReturnValue === false) return;
                             progression.done();
                             this.HttpErrorService.handleError($event, toState, toParams, fromState, fromParams, error);
                             reject();
@@ -89,4 +104,4 @@ export default class DeleteController {
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry', 'HttpErrorService'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$injector', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry', 'HttpErrorService'];
