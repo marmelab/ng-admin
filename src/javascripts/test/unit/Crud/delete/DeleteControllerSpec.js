@@ -5,12 +5,11 @@ describe('DeleteController', function () {
         Entity = require('admin-config/lib/Entity/Entity'),
         humane = require('humane-js');
 
-    var $scope, $window, $q, $injector;
-    beforeEach(inject(function ($controller, $rootScope, _$window_, _$q_, _$injector_) {
+    var $scope, $window, $q;
+    beforeEach(inject(function ($controller, $rootScope, _$window_, _$q_) {
         $scope = $rootScope.$new();
         $window = _$window_;
         $q = _$q_;
-        $injector = _$injector_;
     }));
 
     describe('deleteOne', function() {
@@ -57,7 +56,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $injector, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry, HttpErrorService);
@@ -84,7 +83,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $injector, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry, HttpErrorService);
@@ -115,7 +114,7 @@ describe('DeleteController', function () {
                 };
 
                 let $window = { history: { back: jasmine.createSpy('$window.history.back') } };
-                let deleteController = new DeleteController($scope, $window, $state, $injector, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: commentId,
                     entity: 'comment'
                 }, view, entry, HttpErrorService);
@@ -148,7 +147,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $injector, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry, HttpErrorService);
