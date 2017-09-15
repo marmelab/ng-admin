@@ -19,7 +19,7 @@ export default function translate($translateProvider) {
       'CLEAR': 'Clear',
       'CURRENT': 'Current',
       'REMOVE': 'Remove',
-      'ADD_NEW': 'Add new {{ name }}',
+      'ADD_NEW': 'Add new {{ name | singularize }}',
       'BROWSE': 'Browse',
       'N_COMPLETE': '{{ progress }}% Complete',
       'CREATE_NEW': 'Create new',
