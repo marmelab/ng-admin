@@ -53,6 +53,10 @@ export default class ListLayoutController {
             $scope.selection = [];
         }
 
+        if(this.hasFilters){
+            this.updateFilters();
+        }
+
         $scope.$on('$destroy', this.destroy.bind(this));
     }
 
