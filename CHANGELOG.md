@@ -1,11 +1,19 @@
 CHANGELOG
 =========
+v1.0.7 - 2 Oct. 2017
+---------------------
+
+- Fix pinned filters not filtering with its initially selected value [\#1366](https://github.com/marmelab/ng-admin/pull/1366) ([floo51](https://github.com/floo51))
+
+v1.0.6 - 27 Apr. 2017
+---------------------
+
+- Use http error service handlers inside view events [\#1339](https://github.com/marmelab/ng-admin/pull/1339) ([floo51](https://github.com/floo51))
+
 v1.0.5 - 5 Apr. 2017
 ---------------------
 
-- Fix view disabling not working on initialized views
-[\#1334](https://github.com/marmelab/ng-admin/pull/1336)
-([floo51](https://github.com/floo51))
+- Fix view disabling not working on initialized views [\#1334](https://github.com/marmelab/ng-admin/pull/1336) ([floo51](https://github.com/floo51))
 
 v1.0.3 - 3 Apr. 2017
 ---------------------
