@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 /*global angular,inject,describe,it,jasmine,expect,beforeEach,module*/
 const directive = require('../../../../ng-admin/Crud/list/maDatagridInfinitePagination');
 
@@ -25,13 +27,19 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         }, 100);
     }
 
+    function removeBodyHeightMock(){
+        angular.element($document[0].querySelector('#mock')).remove();
+    }
+
+    function addBodyHeightMock(){
+        bodyHeightMock = angular.element(`<div id="mock" style="height:${pageSize}px"></div>`)[0];
+        angular.element($document[0].body).append(bodyHeightMock);
+    }
+
     function initializeBodyHeightMock() {
-        if(!angular.element($document[0].querySelector('#mock')).length) {
-            bodyHeightMock = angular.element(`<div id="mock" style="height:${pageSize}px"></div>`)[0];
-            angular.element($document[0].body).append(bodyHeightMock);
-        } else {
-            simulateLoadOnBodyHeight(1);
-        }
+        removeBodyHeightMock();
+        addBodyHeightMock();
+        simulateLoadOnBodyHeight(1);
     }
 
     function simulateLoadOnBodyHeight(page) {
@@ -42,10 +50,7 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         const scrollSize = pageSize * (page - 1) + 1500;
         $window.scrollY = scrollSize;
         handler({ deltaY: scrollSize });
-
-        if (scope && callback) {
-            waitForProcessing(scope, callback);
-        }
+        callback();
     }
 
     function initializeScope(scope) {
@@ -75,6 +80,7 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         spyOn($window, 'addEventListener').and.callFake((evt, callback) => {
             handler = callback;
         });
+        spyOn(lodash, 'debounce').and.callFake(func => func);
         $document = _$document_;
         initializeBodyHeightMock();
         initializeElement();
@@ -86,8 +92,10 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
 
         waitForProcessing(isolatedScope, () => {
             simulateScrollToPage(2, isolatedScope, () => {
-                expect(isolatedScope.nextPage).toHaveBeenCalled();
-                done();
+                waitForProcessing(isolatedScope, () => {
+                    expect(isolatedScope.nextPage).toHaveBeenCalled();
+                    done();
+                });
             });
         });
     });
@@ -99,7 +107,7 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         waitForProcessing(isolatedScope, () => {
             simulateScrollToPage(2, isolatedScope, () => {
                 simulateScrollToPage(3, isolatedScope, () => {
-                    expect(isolatedScope.nextPage.calls.count()).toEqual(3);
+                    expect(isolatedScope.nextPage.calls.count()).toEqual(2);
                     done();
                 });
             });

@@ -1,4 +1,5 @@
 import angular from 'angular';
+import lodash from 'lodash';
 
 const isScrollingDown = wheelEvent => {
     if (!wheelEvent) return true;
@@ -26,7 +27,7 @@ export default function maDatagridInfinitePagination($window, $document) {
             let page = 1;
             let interval;
 
-            const handler = (wheelEvent) => {
+            const handler = lodash.debounce((wheelEvent) => {
                 if (!isScrollingDown(wheelEvent) || scope.processing || !!interval) {
                     return;
                 }
@@ -56,7 +57,7 @@ export default function maDatagridInfinitePagination($window, $document) {
                         }
                     }
                 }, 100);
-            };
+            }, 500, { maxWait: 1000 });
 
             // Trigger the scroll at least once
             // This way, it loads at least one screen of data to enable further scrolling
