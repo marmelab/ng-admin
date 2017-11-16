@@ -1,5 +1,5 @@
 import angular from 'angular';
-import debounce from 'lodash.debounce';
+import lodash from 'lodash';
 
 const isScrollingDown = wheelEvent => {
     if (!wheelEvent) return true;
@@ -27,7 +27,7 @@ export default function maDatagridInfinitePagination($window, $document) {
             let page = 1;
             let interval;
 
-            const handler = debounce((wheelEvent) => {
+            const handler = lodash.debounce((wheelEvent) => {
                 if (!isScrollingDown(wheelEvent) || scope.processing || !!interval) {
                     return;
                 }
