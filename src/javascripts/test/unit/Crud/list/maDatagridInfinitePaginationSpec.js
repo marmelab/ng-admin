@@ -128,8 +128,8 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         waitForProcessing(isolatedScope, () => {
             simulateScrollToPage(2, isolatedScope, () => {
                 simulateScrollToPage(3, isolatedScope, () => {
-                    expect(argsForCall[0]).toEqual(2);
-                    expect(argsForCall[1]).toEqual(3);
+                    expect(argsForCall[0]).toEqual(3);
+                    expect(argsForCall[1]).toEqual(4);
                     done();
                 });
             });
@@ -144,7 +144,7 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
             simulateScrollToPage(2, isolatedScope, () => {
                 simulateScrollToPage(3, isolatedScope, () => {
                     simulateScrollToPage(2, isolatedScope, () => {
-                        expect(isolatedScope.nextPage.calls.count()).toEqual(3);
+                        expect(isolatedScope.nextPage.calls.count()).toEqual(2);
                         done();
                     });
                 });
