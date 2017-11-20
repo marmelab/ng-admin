@@ -1,6 +1,42 @@
 /*global describe,it,expect,beforeEach*/
+import ListLayoutController, {getCurrentSearchParam} from '../../../../ng-admin/Crud/list/ListLayoutController'
+
 describe('ListLayoutController', function () {
-    var getCurrentSearchParam = require('../../../../ng-admin/Crud/list/ListLayoutController').getCurrentSearchParam;
+    describe('constructor', () => {
+        it('should update filters if initialized with any', () => {
+            spyOn(ListLayoutController.prototype, 'updateFilters');
+            spyOn(ListLayoutController, 'getCurrentSearchParam')
+                .and.returnValue({});
+
+            const $scope = {
+                $watch: () => {},
+                $on: () => {},
+            };
+
+            const $location = {
+                path: () => '/my_entity',
+                search: () => '',
+            };
+
+            const view = {
+                getEntity: () => 'my_entity',
+                batchActions: () => [],
+                actions: () => [],
+                filters: () => [{
+                    my_column: 17,
+                    pinned: () => true,
+                }],
+            };
+
+            const listLayoutController = new ListLayoutController(
+                $scope, null, null, $location, null, view, null
+            );
+
+            expect(ListLayoutController.prototype.updateFilters)
+                .toHaveBeenCalled();
+        });
+    });
+
 
     describe('getCurrentSearchParam', function () {
         it('should return search url parameter mapped by filter', function () {

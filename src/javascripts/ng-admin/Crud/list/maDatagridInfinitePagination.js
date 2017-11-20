@@ -1,4 +1,5 @@
 import angular from 'angular';
+import lodash from 'lodash';
 
 const isScrollingDown = wheelEvent => {
     if (!wheelEvent) return true;
@@ -24,52 +25,49 @@ export default function maDatagridInfinitePagination($window, $document) {
             const nbPages = Math.ceil(totalItems / perPage) || 1;
             const loadedPages = [];
             let page = 1;
-            let interval;
 
-            const handler = (wheelEvent) => {
-                if (!isScrollingDown(wheelEvent) || scope.processing || !!interval) {
+            const loadNextPage = lodash.debounce(() => {
+                if (page >= nbPages) {
+                    return;
+                }
+
+                page++;
+
+                if (page in loadedPages) {
                     return;
                 }
 
                 scope.processing = true;
 
-                interval = setInterval(() => {
-                    if (body.offsetHeight - $window.innerHeight - $window.scrollY < offset) {
-                        if (page >= nbPages) {
-                            return;
-                        }
+                loadedPages.push(page);
+                scope.nextPage()(page);
+                scope.processing = false;
+            }, 500, { maxWait: 1000 });
 
-                        page++;
+            const isNearBottom = () =>
+                body.offsetHeight - $window.innerHeight - $window.scrollY < offset;
 
-                        if (page in loadedPages) {
-                            return;
-                        }
+            const shouldLoadNextPage = (wheelEvent) =>
+                isScrollingDown(wheelEvent) &&
+                !scope.processing &&
+                isNearBottom()
+            ;
 
-                        loadedPages.push(page);
-                        scope.nextPage()(page);
-                    } else {
-                        scope.processing = false;
-
-                        if (interval) {
-                            clearInterval(interval);
-                            interval = null;
-                        }
-                    }
-                }, 100);
+            const handler = (wheelEvent) => {
+                if(!shouldLoadNextPage(wheelEvent)){
+                    return;
+                }
+                loadNextPage();
             };
 
             // Trigger the scroll at least once
             // This way, it loads at least one screen of data to enable further scrolling
             // @see https://github.com/marmelab/ng-admin/issues/681
-            handler();
+            loadNextPage();
 
             $window.addEventListener('wheel', handler);
             scope.$on('$destroy', () => {
                 $window.removeEventListener('wheel', handler);
-
-                if (interval) {
-                    clearInterval(interval);
-                }
             });
         }
     };
