@@ -54,7 +54,7 @@ export default class ListLayoutController {
         }
 
         if(this.hasFilters){
-            this.updateFilters();
+            this.updateFilters(true);
         }
 
         $scope.$on('$destroy', this.destroy.bind(this));
@@ -105,7 +105,7 @@ export default class ListLayoutController {
         });
     }
 
-    updateFilters() {
+    updateFilters(initial) {
         var values = {},
             filters = this.enabledFilters,
             fieldName,
@@ -124,9 +124,11 @@ export default class ListLayoutController {
                 values[fieldName] = field.getTransformedValue(this.search[fieldName]);
             }
         }
-        this.$stateParams.search = values;
-        this.$stateParams.page = 1;
-        this.$state.go('list', this.$stateParams);
+        if (initial !== true || !angular.equals(this.search, values)) {
+            this.$stateParams.search = values;
+            this.$stateParams.page = 1;
+            this.$state.go('list', this.$stateParams);
+        }
     }
 
     removeFilter(filter) {
