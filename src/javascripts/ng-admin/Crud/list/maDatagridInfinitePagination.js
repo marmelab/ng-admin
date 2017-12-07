@@ -8,7 +8,6 @@ const isScrollingDown = wheelEvent => {
 };
 
 export default function maDatagridInfinitePagination($window, $document) {
-    const offset = 100;
     const body = $document[0].body;
 
     return {
@@ -16,9 +15,14 @@ export default function maDatagridInfinitePagination($window, $document) {
         scope: {
             perPage: '@',
             totalItems: '@',
-            nextPage: '&'
+            nextPage: '&',
+            options: '=',
         },
         link(scope) {
+            let offset = 400;
+            if(scope.options && scope.options.offset){
+                offset = scope.options.offset
+            }
             scope.processing = false;
             const perPage = parseInt(scope.perPage, 10) || 1;
             const totalItems = parseInt(scope.totalItems, 10);
