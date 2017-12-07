@@ -28,5 +28,6 @@
 <ma-datagrid-infinite-pagination ng-if="::listController.infinitePagination"
             per-page="{{ ::listController.view.perPage() }}"
             total-items="{{ ::listController.totalItems }}"
-            next-page="::listController.nextPageCallback">
+            next-page="::listController.nextPageCallback"
+            options="::listController.infinitePagination">
 </ma-datagrid-infinite-pagination>
