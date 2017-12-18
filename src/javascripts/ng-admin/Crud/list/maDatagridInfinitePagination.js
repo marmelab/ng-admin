@@ -57,6 +57,20 @@ export default function maDatagridInfinitePagination($window, $document) {
                 isNearBottom()
             ;
 
+            const shouldPreloadNextPage = () => {
+                if (page >= nbPages) {
+                    return false;
+                }
+
+                const list = document.getElementsByClassName("list-view");
+                if(!list.length){
+                    return false;
+                }
+
+                const { bottom } = list[0].getBoundingClientRect();
+                return bottom < $window.innerHeight;
+            };
+
             const handler = (wheelEvent) => {
                 if(!shouldLoadNextPage(wheelEvent)){
                     return;
@@ -64,14 +78,22 @@ export default function maDatagridInfinitePagination($window, $document) {
                 loadNextPage();
             };
 
-            // Trigger the scroll at least once
-            // This way, it loads at least one screen of data to enable further scrolling
-            // @see https://github.com/marmelab/ng-admin/issues/681
-            loadNextPage();
+            // Trigger the load only if necessary (as many times as needed)
+            // Necessary = the bottom of the table doesn't reach the end of the page
+            const shouldPreloadInterval = setInterval(() => {
+                if(shouldPreloadNextPage()){
+                    loadNextPage();
+                    return;
+                }
+                clearInterval(shouldPreloadInterval);
+            }, 100);
 
             $window.addEventListener('wheel', handler);
             scope.$on('$destroy', () => {
                 $window.removeEventListener('wheel', handler);
+                if(shouldPreloadInterval){
+                    clearInterval(shouldPreloadInterval);
+                }
             });
         }
     };

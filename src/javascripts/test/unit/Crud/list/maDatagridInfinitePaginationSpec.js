@@ -128,8 +128,8 @@ describe('directive: ma-datagrid-infinite-pagination', function () {
         waitForProcessing(isolatedScope, () => {
             simulateScrollToPage(2, isolatedScope, () => {
                 simulateScrollToPage(3, isolatedScope, () => {
-                    expect(argsForCall[0]).toEqual(3);
-                    expect(argsForCall[1]).toEqual(4);
+                    expect(argsForCall[0]).toEqual(2);
+                    expect(argsForCall[1]).toEqual(3);
                     done();
                 });
             });
