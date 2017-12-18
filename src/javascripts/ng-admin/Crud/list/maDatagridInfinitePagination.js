@@ -58,10 +58,15 @@ export default function maDatagridInfinitePagination($window, $document) {
             ;
 
             const shouldPreloadNextPage = () => {
+                if (page >= nbPages) {
+                    return false;
+                }
+
                 const list = document.getElementsByClassName("list-view");
                 if(!list.length){
-                    return;
+                    return false;
                 }
+
                 const { bottom } = list[0].getBoundingClientRect();
                 return bottom < $window.innerHeight;
             };
@@ -86,6 +91,9 @@ export default function maDatagridInfinitePagination($window, $document) {
             $window.addEventListener('wheel', handler);
             scope.$on('$destroy', () => {
                 $window.removeEventListener('wheel', handler);
+                if(shouldPreloadInterval){
+                    clearInterval(shouldPreloadInterval);
+                }
             });
         }
     };
