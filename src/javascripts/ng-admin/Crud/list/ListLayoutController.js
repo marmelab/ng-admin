@@ -71,12 +71,6 @@ export default class ListLayoutController {
                     [filter.name()]: filter.getMappedValue(search[filter.name()])
                 }
             }
-            if (filter.pinned() && !search[filter.name()] && filter.defaultValue()) {
-                return {
-                    ...search,
-                    [filter.name()]: filter.getMappedValue(filter.defaultValue())
-                };
-            }
             return search;
         }, baseSearch);
     }
