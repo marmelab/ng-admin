@@ -47,6 +47,7 @@ export default class ListController {
 
         const references = view.getReferences();
         let data;
+        const toAddToDatastore = [];
 
         let queryPromise = this.ReadQueries
             .getAll(view, page, this.search, this.sortField, this.sortDir)
@@ -63,20 +64,30 @@ export default class ListController {
                         [references[name].targetField()],
                         references[name].targetEntity().name(),
                         references[name].targetEntity().identifier().name()
-                    ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
+                    ).map(entry => {
+                        toAddToDatastore.push([
+                            references[name].targetEntity().uniqueId + '_values',
+                            entry
+                        ])
+                    });
                 }
-            })
+            });
         this.queryPromises.push(queryPromise);
         // make sure all preceding promises complete before loading data into store
         Promise.all(this.queryPromises)
             .then(() => {
-                view.mapEntries(data)
-                    .map(entry => {
-                        dataStore.fillReferencesValuesFromEntry(entry, references, true);
-                        dataStore.addEntry(this.entity.uniqueId, entry);
+                this.$scope.$apply(() => {
+                    toAddToDatastore.map((args) => {
+                        this.dataStore.addEntry(...args);
                     });
 
-                this.loadingPage = false;
+                    view.mapEntries(data)
+                        .map(entry => {
+                            this.dataStore.fillReferencesValuesFromEntry(entry, references, true);
+                            this.dataStore.addEntry(this.entity.uniqueId, entry);
+                        });
+                    this.loadingPage = false;
+                });
             });
     }
 
