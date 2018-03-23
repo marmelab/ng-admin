@@ -78,7 +78,7 @@ export default class DatagridController {
     toggleSelect(entry) {
         var selection = this.$scope.selection.slice();
 
-        var index = selection.indexOf(entry);
+        var index = selection.map(e => e.identifierValue).indexOf(entry.identifierValue);
 
         if (index === -1) {
             this.$scope.selection = selection.concat(entry);
