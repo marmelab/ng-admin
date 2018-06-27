@@ -10,6 +10,8 @@ Plug me to your RESTFul API to get a complete administration interface (datagrid
 * [Online demo](http://marmelab.com/ng-admin-demo/) ([source](https://github.com/marmelab/ng-admin-demo))
 * [Documentation](http://ng-admin-book.marmelab.com/)
 
+**This project is now in maintenance mode. We've rebuilt it from scratch with React.js (the new project is called [react-admin](https://github.com/marmelab/react-admin)), and we're putting all our efforts on the React version.**
+
 ## Installation
 
 The current ng-admin version (master) depends on Angular.js 1.6. If you need compatibility with Angular 1.3, use [ng-admin 0.9](https://github.com/marmelab/ng-admin/releases/tag/v0.9.1).
