@@ -2,7 +2,7 @@
     <div class="sidebar-nav navbar-collapse collapse" uib-collapse="$parent.isCollapsed">
         <ul class="nav" id="side-menu">
             <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
-                <a ng-if="::menu.hasChild()" ng-click="toggleMenu(menu)" ng-class="::{'active': menu.isActive(path)}">
+                <a ng-if="::menu.hasChild()" ng-click="toggleMenu(menu)" ng-class="::{'active': menu.isChildActive(path)}">
                     <span compile="::menu.icon()"><span class="glyphicon glyphicon-list"></span></span>
                     {{ menu.title() | translate }}
                     <span class="glyphicon arrow" ng-class="::{'glyphicon-menu-down': isOpen(menu), 'glyphicon-menu-right': !isOpen(menu) }"></span>
