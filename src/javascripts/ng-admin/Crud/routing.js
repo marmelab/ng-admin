@@ -147,7 +147,7 @@ function routing($stateProvider) {
     $stateProvider
         .state('show', {
             parent: 'ng-admin',
-            url: '/:entity/show/:id?sortField&sortDir',
+            url: '/:entity/show/:id?{search:json}&{page:int}&sortField&sortDir',
             controller: 'ShowController',
             controllerAs: 'showController',
             templateProvider: templateProvider('ShowView', showTemplate),
@@ -242,7 +242,7 @@ function routing($stateProvider) {
     $stateProvider
         .state('create', {
             parent: 'ng-admin',
-            url: '/:entity/create?{defaultValues:json}',
+            url: '/:entity/create?{defaultValues:json}&{search:json}&{page:int}&sortField&sortDir',
             controller: 'FormController',
             controllerAs: 'formController',
             templateProvider: templateProvider('CreateView', createTemplate),
@@ -297,7 +297,7 @@ function routing($stateProvider) {
     $stateProvider
         .state('edit', {
             parent: 'ng-admin',
-            url: '/:entity/edit/:id?sortField&sortDir',
+            url: '/:entity/edit/:id?{search:json}&{page:int}&sortField&sortDir',
             controller: 'FormController',
             controllerAs: 'formController',
             templateProvider: templateProvider('EditView', editTemplate),
@@ -410,7 +410,7 @@ function routing($stateProvider) {
     $stateProvider
         .state('delete', {
             parent: 'ng-admin',
-            url: '/:entity/delete/:id',
+            url: '/:entity/delete/:id?{search:json}&{page:int}&sortField&sortDir',
             controller: 'DeleteController',
             controllerAs: 'deleteController',
             templateProvider: templateProvider('DeleteView', deleteTemplate),
