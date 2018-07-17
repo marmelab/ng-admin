@@ -32,6 +32,11 @@ export default function maReferenceField(ReferenceRefresher) {
                 }));
                 scope.$broadcast('choices:update', { choices: initialChoices });
             } else {
+                if (!!field._getPermanentFilters) {
+                    scope.$watch('entry.values', function(newValue, oldValue){
+                        field._getPermanentFilters(newValue);
+                    }, true);
+                }
                 // ui-select doesn't allow to prepopulate autocomplete selects, see https://github.com/angular-ui/ui-select/issues/1197
                 // let ui-select fetch the options using the ReferenceRefresher
                 scope.refresh = function refresh(search) {

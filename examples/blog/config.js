@@ -327,6 +327,9 @@
                         refreshDelay: 200,
                         searchQuery: function(search) { return { q: search }; }
                     })
+                    .permanentFilters(function(entry) {
+                        return {author: entry['author.name']};
+                    })
             ]);
 
         comment.editionView()
