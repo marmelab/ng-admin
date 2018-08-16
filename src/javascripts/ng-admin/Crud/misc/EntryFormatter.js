@@ -75,6 +75,13 @@ export default class EntryFormatter {
                         value: entry.listValues[field.name()].join(', ')
                     };
                 };
+            case 'embedded_list':
+                return function (entry) {
+                    return {
+                        name: label,
+                        value: entry.values[field.name()].map((obj => obj[field.targetFields()[0].name()]))
+                    };
+                };
             case 'referenced_list':
                 return; //ignored
         }
