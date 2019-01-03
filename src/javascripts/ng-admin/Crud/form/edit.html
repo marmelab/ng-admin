@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <ma-submit-button label="SAVE_CHANGES"></ma-submit-button>
+                <ma-submit-button label="SAVE_CHANGES" is-disabled="formController.form.$pristine"></ma-submit-button>
             </div>
         </div>
     </form>

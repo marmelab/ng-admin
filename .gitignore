@@ -11,3 +11,4 @@ src/css
 src/javascripts/config.js
 src/javascripts/test/fixtures/examples/blog
 src/styles/*.css
+package-lock.json
