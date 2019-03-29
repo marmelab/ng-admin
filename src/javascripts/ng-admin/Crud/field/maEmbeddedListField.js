@@ -43,7 +43,9 @@ export default function maEmbeddedListField() {
                     .filter(filterFunc);
                 scope.addNew = () => scope.entries.push(Entry.createForFields(targetFields));
                 scope.remove = entry => {
-                    scope.entries = scope.entries.filter(e => e !== entry);
+                    if (confirm('Do you want to remove this field?')) {
+                        scope.entries = scope.entries.filter(e => e !== entry);
+                    }
                 };
                 scope.$watch('entries', (newEntries, oldEntries) => {
                     if (newEntries === oldEntries) {
