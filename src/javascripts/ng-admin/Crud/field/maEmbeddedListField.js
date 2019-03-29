@@ -43,7 +43,9 @@ export default function maEmbeddedListField() {
                     .filter(filterFunc);
                 scope.addNew = () => scope.entries.push(Entry.createForFields(targetFields));
                 scope.remove = entry => {
-                    scope.entries = scope.entries.filter(e => e !== entry);
+                    if (confirm('Do you want to remove this field?')) {
+                        scope.entries = scope.entries.filter(e => e !== entry);
+                    }
                 };
                 scope.$watch('entries', (newEntries, oldEntries) => {
                     if (newEntries === oldEntries) {
@@ -55,7 +57,7 @@ export default function maEmbeddedListField() {
         },
         template: `
 <div class="row"><div class="col-sm-12">
-    <ng-form ng-repeat="entry in entries track by $index" class="subentry" name="subform_{{$index}}" ng-init="formName = 'subform_' + $index">
+    <ng-form ng-repeat="entry in entries track by $index" class="subentry" name="formName" ng-init="formName = 'subform_' + $index">
         <div class="remove_button_container">
             <a class="btn btn-default btn-sm" ng-click="remove(entry)"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;<span translate="REMOVE"></span></a>
         </div>

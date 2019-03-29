@@ -9,11 +9,12 @@ export default function maSubmitButtonDirective() {
         restrict: 'E',
         scope: {
             label: '@',
+            isDisabled: '<?'
         },
         link: function (scope) {
             scope.label = scope.label || 'SAVE';
         },
-        template: '<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}"></span></button>'
+        template: '<button type="submit" class="btn btn-primary" ng-disabled="isDisabled"><span class="glyphicon glyphicon-ok"></span>&nbsp;<span class="hidden-xs" translate="{{ ::label }}"></span></button>'
     };
 }
 
