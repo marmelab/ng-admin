@@ -267,6 +267,20 @@ function routing($stateProvider) {
 
                     return entry;
                 }],
+                referenceData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
+                    return ReadQueries.getReferenceData(view.fields(), [entry.values]);
+                }],
+                referenceEntries: ['dataStore', 'view', 'referenceData', function (dataStore, view, referenceData) {
+                    const references = view.getReferences();
+                    for (var name in referenceData) {
+                        Entry.createArrayFromRest(
+                            referenceData[name],
+                            [references[name].targetField()],
+                            references[name].targetEntity().name(),
+                            references[name].targetEntity().identifier().name()
+                        ).map(entry => dataStore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
+                    }
+                }],
                 choiceData: ['ReadQueries', 'view', function (ReadQueries, view) {
                     return ReadQueries.getAllReferencedData(view.getReferences(false));
                 }],
