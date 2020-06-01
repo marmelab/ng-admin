@@ -91,6 +91,7 @@
     "node": ">=4.2.0"
   },
   "scripts": {
+    "prepack": "make build",
     "test": "make test"
   },
   "contributors": [
@@ -155,6 +156,7 @@
     "Fedor Belov (https://github.com/fedotxxl)",
     "Tal Avissar (https://github.com/talaviss)",
     "yannis despotopoulos (https://github.com/dealboy)",
-    "James Rivett-Carnac <james.rivettcarnac@gmail.com> (https://github.com/yarbelk)"
+    "James Rivett-Carnac <james.rivettcarnac@gmail.com> (https://github.com/yarbelk)",
+    "Viet Ta <taquocviet1991@gmail.com> (https://github.com/envil)"
   ]
 }
