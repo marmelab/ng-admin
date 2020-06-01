@@ -91,7 +91,6 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "prepack": "make build",
     "test": "make test"
   },
   "contributors": [
